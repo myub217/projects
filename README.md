@@ -1,21 +1,101 @@
-# React + TypeScript + Vite
+# JP Visual & Docs - Applicationlub
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+บริการที่ครอบคลุมด้านเอกสาร วีซ่า การเงิน โปรไฟล์ และระบบธุรกิจครบวงจร
 
-While this project uses React, Vite supports many popular JS frameworks. [See all the supported frameworks](https://vitejs.dev/guide/#scaffolding-your-first-vite-project).
+---
 
-## Deploy Your Own
+## 🌐 เว็บไซต์
 
-Deploy your own Vite project with Vercel.
+- **Production URL**:  
+  🔗 [https://applicationlubmobile.vercel.app/](https://applicationlubmobile.vercel.app/)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/vercel/tree/main/examples/vite-react&template=vite-react)
+- **GitHub Repository**:  
+  🔗 [https://github.com/myub217/projects](https://github.com/myub217/projects)
 
-_Live Example: https://vite-react-example.vercel.app_
+---
 
-### Deploying From Your Terminal
+## 🚀 สร้างด้วยเทคโนโลยี
 
-You can deploy your new Vite project with a single command from your terminal using [Vercel CLI](https://vercel.com/download):
+- ⚡️ [Vite](https://vitejs.dev/) – ตัวเร่ง build frontend
+- ⚛️ [React + TypeScript](https://react.dev/) – พัฒนา UI ที่มีโครงสร้างชัดเจน
+- 🎨 [Tailwind CSS](https://tailwindcss.com/) – ระบบจัดการสไตล์แบบ Utility-first
+- ☁️ [Vercel](https://vercel.com/) – สำหรับ Deploy และ Hosting
+- 📦 [pnpm](https://pnpm.io/) – ระบบจัดการแพ็กเกจที่รวดเร็ว
 
-```shell
-$ vercel
-```
+---
+
+## 🧱 โครงสร้างโปรเจกต์
+
+├── index.html
+├── package.json
+├── postcss.config.js
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── pages/
+│   ├── styles/
+│   └── main.tsx
+├── tailwind.config.ts
+├── tsconfig.json
+├── vite.config.ts
+└── README.md
+
+
+---
+
+⚙️ การใช้งานเบื้องต้น
+
+1. ติดตั้ง dependencies
+
+pnpm install
+
+2. รัน dev server
+
+pnpm run dev
+
+3. สร้างไฟล์ production
+
+pnpm run build
+
+4. พรีวิวแบบ production
+
+pnpm run preview
+
+
+---
+
+🧠 ผู้พัฒนา
+
+Phus (myub217)
+📧 myub25217@gmail.com
+🌐 JP Visual & Docs
+
+
+---
+
+📄 รายละเอียดการ Deploy บน Vercel
+
+Framework: React + Vite
+
+Memory: 1 GB
+
+Function CPU: 0.6 vCPU
+
+Protection: Standard
+
+Status: ✅ Active
+
+Created: 2025-06-09
+
+Source Branch: main
+
+Initial Commit: "Initial commit โดย Phus"
+
+
+
+---
+
+> © 2025 JP Visual & Docs — All rights reserved.
