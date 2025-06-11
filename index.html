@@ -1,22 +1,36 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="synthwave">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>My React App</title>
-    <meta name="description" content="React app with Vite, TailwindCSS and DaisyUI" />
-    <link rel="icon" href="/favicon.ico" />
-    <!-- Font: Inter (Google Fonts) -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Tailwind CSS -->
-    <link rel="stylesheet" href="/src/index.css" />
-    <!-- You can add any other global styles or meta tags here -->
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JP Visual & Docs</title>
+
+  <!-- Google Fonts: Kanit และ Orbitron -->
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;700&family=Orbitron:wght@400;600&display=swap" rel="stylesheet" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="/src/assets/jp-logo.png" />
+
+  <!-- CSS จาก Vite -->
+  <link rel="stylesheet" href="/src/index.css" />
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน โดย JP Visual & Docs" />
+  <meta name="author" content="JP Visual & Docs" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="JP Visual & Docs" />
+  <meta property="og:description" content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน" />
+  <meta property="og:image" content="/src/assets/repository-open-graph-template.png" />
+  <meta property="og:type" content="website" />
+
+  <!-- Theme color for mobile browsers -->
+  <meta name="theme-color" content="#1A237E" />
+</head>
+<body class="bg-base-100 text-base-content font-kanit">
+  <div id="root"></div>
+
+  <!-- สคริปต์ React และ Vite จะ Inject ที่นี่ -->
+  <script type="module" src="/src/main.tsx"></script>
+</body>
 </html>

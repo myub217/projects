@@ -10,64 +10,89 @@ interface Review {
 const reviews: Review[] = [
   {
     id: 1,
-    name: "Alice",
-    message: "This app transformed my business! Highly recommend it.",
+    name: "คุณสมชาย",
+    message: "บริการดีมาก ทีมงานให้คำปรึกษาอย่างมืออาชีพ ประทับใจสุด ๆ",
     avatar: "https://i.pravatar.cc/150?img=32",
   },
   {
     id: 2,
-    name: "Bob",
-    message: "Smooth and reliable, great UI and performance.",
+    name: "คุณนิดา",
+    message: "เอกสารครบถ้วน รวดเร็ว ใช้งานง่ายมากค่ะ",
     avatar: "https://i.pravatar.cc/150?img=12",
   },
   {
     id: 3,
-    name: "Charlie",
-    message: "Excellent support and beautiful design.",
+    name: "คุณธนา",
+    message: "ช่วยให้ผมยื่นกู้ผ่านภายในเวลาไม่นาน ขอบคุณมากครับ",
     avatar: "https://i.pravatar.cc/150?img=5",
   },
   {
     id: 4,
-    name: "Diana",
-    message: "Easy to use and packed with features. Love it!",
+    name: "คุณปิ่น",
+    message: "ชอบดีไซน์และระบบหลังบ้าน ใช้งานง่ายมากค่ะ",
     avatar: "https://i.pravatar.cc/150?img=45",
   },
   {
     id: 5,
-    name: "Evan",
-    message: "Helped us launch our MVP in no time.",
+    name: "คุณเอก",
+    message: "ทีมงานตอบไวและใส่ใจทุกรายละเอียด แนะนำเลยครับ",
     avatar: "https://i.pravatar.cc/150?img=23",
   },
 ];
 
 const ReviewsSection: React.FC = () => {
   return (
-    <section id="reviews" className="py-16 bg-base-200">
-      <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-extrabold text-center mb-12 text-pink-400 drop-shadow-neon">
-          What Our Clients Say
+    <section
+      id="reviews"
+      className="py-16 bg-base-200"
+      aria-labelledby="reviews-title"
+      role="region"
+    >
+      <div className="container max-w-7xl mx-auto px-6">
+        <h2
+          id="reviews-title"
+          className="text-4xl font-extrabold text-center mb-12 text-pink-400 drop-shadow-neon"
+        >
+          ความคิดเห็นจากลูกค้า
         </h2>
+
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {reviews.map(({ id, name, message, avatar }) => (
-            <div
+            <article
               key={id}
-              className="card bg-base-100 rounded-lg p-6 shadow-neon hover:shadow-pink-600 transition-shadow duration-300"
+              tabIndex={0}
+              className="card bg-base-100 rounded-xl p-6 shadow-lg hover:shadow-pink-600 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-pink-300"
+              aria-label={`รีวิวโดย ${name}`}
+              role="article"
             >
               <div className="flex items-center gap-4 mb-4">
-                <img
-                  src={avatar}
-                  alt={name}
-                  loading="lazy"
-                  className="w-14 h-14 rounded-full border-2 border-pink-400 shadow-neon"
-                />
-                <h3 className="text-lg font-semibold text-pink-400 neon-text">
+                {avatar ? (
+                  <img
+                    src={avatar}
+                    alt={`รูปโปรไฟล์ของ ${name}`}
+                    loading="lazy"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "/fallback-avatar.png";
+                    }}
+                    className="w-14 h-14 rounded-full border-2 border-pink-400 shadow-md object-cover"
+                  />
+                ) : (
+                  <div
+                    aria-hidden="true"
+                    className="w-14 h-14 flex items-center justify-center rounded-full bg-pink-100 text-pink-600 text-xl font-bold border-2 border-pink-400 shadow-md select-none"
+                  >
+                    {name.charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <h3 className="text-lg font-semibold text-pink-400">
                   {name}
                 </h3>
               </div>
-              <p className="text-base-content/90 leading-relaxed italic">
+
+              <blockquote className="text-base-content text-sm leading-relaxed italic">
                 “{message}”
-              </p>
-            </div>
+              </blockquote>
+            </article>
           ))}
         </div>
       </div>

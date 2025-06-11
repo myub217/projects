@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import ServicesSection from "./components/ServicesSection";
@@ -10,18 +11,32 @@ import ScrollToTop from "./components/ScrollToTop";
 import ThemeToggle from "./components/ThemeToggle";
 
 const App: React.FC = () => {
-  const [theme, setTheme] = useState<string>(() => {
+  // ฟังก์ชันอ่านค่า theme จาก localStorage หรือ fallback เป็น light
+  const getInitialTheme = (): "light" | "dark" => {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("theme") || "light";
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "light" || savedTheme === "dark") {
+        return savedTheme;
+      }
     }
     return "light";
-  });
+  };
+
+  const [theme, setTheme] = useState<"light" | "dark">(getInitialTheme);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      document.documentElement.setAttribute("data-theme", theme);
-      localStorage.setItem("theme", theme);
+    if (typeof window === "undefined") return;
+
+    // เปลี่ยน attribute และ class ตาม theme
+    document.documentElement.setAttribute("data-theme", theme);
+
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
     }
+
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
   const toggleTheme = () => {
@@ -29,7 +44,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-base-100 text-base-content transition-colors duration-500">
+    <div className="min-h-screen flex flex-col bg-base-100 text-base-content transition-colors duration-500 font-kanit">
       <Header>
         <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
       </Header>
@@ -46,7 +61,6 @@ const App: React.FC = () => {
       </main>
 
       <Footer />
-
       <ScrollToTop theme={theme} />
     </div>
   );

@@ -48,8 +48,12 @@ const reviews: Review[] = [
 
 const ReviewsSection: React.FC = () => {
   return (
-    <section id="reviews" className="py-16 bg-base-200">
-      <div className="container mx-auto px-4">
+    <section
+      id="reviews"
+      className="py-16 bg-base-200"
+      aria-label="รีวิวจากลูกค้า"
+    >
+      <div className="container max-w-7xl mx-auto px-6">
         <h2 className="text-4xl font-extrabold text-center mb-6 text-pink-400 neon-text">
           รีวิวจากลูกค้า
         </h2>
@@ -58,25 +62,32 @@ const ReviewsSection: React.FC = () => {
         </p>
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
           {reviews.map(({ id, name, role, comment, avatar }) => (
-            <div
+            <article
               key={id}
               className="card bg-base-100 shadow-neon p-6 hover:shadow-pink-600 transition-shadow duration-300 rounded-lg"
             >
               <div className="flex items-center space-x-4 mb-5">
                 <img
                   src={avatar}
-                  alt={name}
-                  className="w-14 h-14 rounded-full border-2 border-pink-400 shadow-neon"
+                  alt={`รูปโปรไฟล์ของ ${name}`}
+                  className="w-14 h-14 rounded-full border-2 border-pink-400 shadow-neon object-cover"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div>
-                  <h4 className="font-extrabold text-lg text-pink-400 neon-text">
+                  <h4
+                    tabIndex={0}
+                    className="font-extrabold text-lg text-pink-400 neon-text cursor-default hover:underline focus:underline focus:outline-none"
+                  >
                     {name}
                   </h4>
                   <p className="text-sm text-pink-300 italic">{role}</p>
                 </div>
               </div>
-              <p className="text-base-content/90 italic">&ldquo;{comment}&rdquo;</p>
-            </div>
+              <blockquote className="text-base-content/90 italic">
+                &ldquo;{comment}&rdquo;
+              </blockquote>
+            </article>
           ))}
         </div>
       </div>

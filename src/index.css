@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ===== Custom Fonts (ต้องลงใน tailwind.config.ts ด้วย) ===== */
+@layer base {
+  body {
+    @apply font-kanit bg-white text-black dark:bg-gray-900 dark:text-white transition-colors duration-300;
+  }
+}
+
+/* ===== Custom Scrollbar Styling ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== Selection Highlighting ===== */
+::selection {
+  background-color: #1a237e; /* navy blue */
+  color: #ffffff;
+}
+
+.dark ::selection {
+  background-color: #90caf9; /* light blue */
+  color: #000000;
+}
