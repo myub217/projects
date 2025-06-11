@@ -1,24 +1,22 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
-
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "noEmit": true,
-    "jsx": "react-jsx",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "target": "ES2020",                      // คอมไพล์เป็น ES2020 เพื่อรองรับฟีเจอร์ใหม่ๆ
+    "useDefineForClassFields": true,         // ใช้ define สำหรับ class fields ตามมาตรฐานใหม่
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],// ไลบรารีสำหรับ type definitions (JS + Browser APIs)
+    "module": "ESNext",                      // ใช้โมดูล ESNext (เหมาะกับ bundler สมัยใหม่)
+    "moduleResolution": "bundler",           // ตั้งค่า module resolution สำหรับ bundler เช่น Vite
+    "allowImportingTsExtensions": true,      // อนุญาต import ไฟล์ .ts/.tsx พร้อมนามสกุล
+    "isolatedModules": true,                  // บังคับให้แต่ละไฟล์เป็นโมดูลแยกต่างหาก (จำเป็นกับ React + Vite)
+    "moduleDetection": "force",               // บังคับตรวจสอบโมดูลเสมอ (ช่วยป้องกันปัญหา import)
+    "noEmit": true,                           // ไม่สร้างไฟล์ .js จริง (ใช้สำหรับ type-check เท่านั้น)
+    "jsx": "react-jsx",                       // ตั้งค่า JSX สำหรับ React 17+ (ไม่มีต้อง import React)
+    
+    /* Strict type-checking options */
+    "strict": true,                          // เปิดใช้งาน strict mode ทุกตัว
+    "noUnusedLocals": true,                  // เตือนเมื่อมีตัวแปรที่ประกาศไว้แต่ไม่ถูกใช้
+    "noUnusedParameters": true,              // เตือนเมื่อมีพารามิเตอร์ที่ไม่ถูกใช้ในฟังก์ชัน
+    "noFallthroughCasesInSwitch": true,      // เตือนกรณี switch ไม่มี break case
+    "skipLibCheck": true                     // ข้ามตรวจสอบไทป์ของไฟล์ไลบรารี (ช่วยลดเวลา build)
   },
-  "include": ["src"]
+  "include": ["src"]                         // ตรวจสอบไฟล์ในโฟลเดอร์ src เท่านั้น
 }
