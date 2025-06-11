@@ -1,21 +1,26 @@
 import React from "react";
-import { FaSun, FaMoon } from "react-icons/fa";
 
-interface ThemeToggleProps {
+interface ScrollToTopProps {
   theme: string;
-  toggleTheme: () => void;
+  // toggleTheme: () => void;  // ลบออกไปเลย
 }
 
-const ThemeToggle: React.FC<ThemeToggleProps> = ({ theme, toggleTheme }) => {
+const ScrollToTop: React.FC<ScrollToTopProps> = ({ theme }) => {
+  const handleClick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <button
-      onClick={toggleTheme}
-      className="btn btn-sm btn-ghost"
-      aria-label="Toggle Theme"
+      onClick={handleClick}
+      className={`btn fixed bottom-4 right-4 ${
+        theme === "dark" ? "btn-warning" : "btn-primary"
+      }`}
+      aria-label="Scroll to top"
     >
-      {theme === "dark" ? <FaSun className="text-warning" /> : <FaMoon className="text-accent" />}
+      ↑ Top
     </button>
   );
 };
 
-export default ThemeToggle;
+export default ScrollToTop;

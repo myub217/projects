@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 import ServicesSection from "./components/ServicesSection";
 import ReviewsSection from "./components/ReviewsSection";
 import Portfolio from "./components/Portfolio";
 import JoinButtons from "./components/JoinButtons";
+import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import ThemeToggle from "./components/ThemeToggle";
 
@@ -47,7 +47,7 @@ const App: React.FC = () => {
 
       <Footer />
 
-      <ScrollToTop />
+      <ScrollToTop theme={theme} />
     </div>
   );
 };
