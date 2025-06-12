@@ -21,14 +21,17 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ theme, toggleTheme }) => {
       title="สลับโหมดธีมระหว่างสว่างและมืด"
       className={`
         flex items-center gap-2 px-3 py-1 rounded-md border
-        transition-colors duration-300 select-none
-        focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1
+        transition-colors duration-300 ease-in-out select-none
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1
         ${buttonClass}
       `}
     >
-      <span className="text-lg" aria-hidden="true">
+      {/* ไอคอนแสดงโหมดธีม */}
+      <span aria-hidden="true" className="text-lg">
         {isDark ? "🌙" : "🌞"}
       </span>
+
+      {/* ข้อความแสดงสถานะโหมดธีม */}
       <span className="font-medium">
         {isDark ? "โหมดมืด" : "โหมดสว่าง"}
       </span>

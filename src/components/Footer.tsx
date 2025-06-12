@@ -11,17 +11,23 @@ const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-neutral text-neutral-content px-6 py-12 border-t border-neutral-focus text-sm">
+    <footer
+      className="bg-neutral text-neutral-content px-6 py-12 border-t border-neutral-focus text-sm"
+      role="contentinfo"
+    >
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
-        {/* Left: Logo & Description */}
-        <div className="flex items-start gap-4">
+        {/* Left side: Logo and Description */}
+        <section aria-labelledby="footer-about" className="flex items-start gap-4">
           <img
             src={jpLogo}
             alt="โลโก้ JP Visual & Docs"
             className="h-14 w-auto object-contain"
+            loading="lazy"
+            width={56}
+            height={56}
           />
           <div>
-            <h2 className="text-xl font-bold text-primary">
+            <h2 id="footer-about" className="text-xl font-bold text-primary">
               JP Visual & Docs
             </h2>
             <p className="mt-2 text-sm leading-relaxed opacity-90">
@@ -35,14 +41,15 @@ const Footer: React.FC = () => {
               © {currentYear} JP Visual & Docs — Since 2023
             </p>
           </div>
-        </div>
+        </section>
 
-        {/* Right: Navigation & Contact */}
-        <div className="flex flex-col md:items-end gap-4">
-          {/* Nav Links */}
+        {/* Right side: Navigation & Contact */}
+        <section aria-labelledby="footer-nav-contact" className="flex flex-col md:items-end gap-4">
+          {/* Navigation */}
           <nav
-            className="flex flex-wrap gap-4 text-neutral-content/80"
             aria-label="ลิงก์เมนูเว็บไซต์"
+            className="flex flex-wrap gap-4 text-neutral-content/80"
+            id="footer-nav-contact"
           >
             <a
               href="/services"
@@ -70,62 +77,81 @@ const Footer: React.FC = () => {
             </a>
           </nav>
 
-          {/* Social Links */}
-          <div className="flex gap-4 text-xl mt-4">
+          {/* Social Media Links */}
+          <div className="flex gap-4 text-xl mt-4" role="list" aria-label="ช่องทางโซเชียลมีเดีย">
             <a
               href="https://line.me/ti/p/yourlineid"
-              aria-label="LINE Official"
+              aria-label="ติดต่อผ่าน LINE"
               title="ติดต่อผ่าน LINE"
               className="hover:text-primary hover:scale-110 transition-transform"
               target="_blank"
               rel="noopener noreferrer"
+              role="listitem"
             >
               <FaLine />
               <span className="sr-only">LINE</span>
             </a>
             <a
               href="https://www.tiktok.com/@yourtiktok"
-              aria-label="TikTok"
+              aria-label="ชมวิดีโอบน TikTok"
               title="ชมวิดีโอบน TikTok"
               className="hover:text-primary hover:scale-110 transition-transform"
               target="_blank"
               rel="noopener noreferrer"
+              role="listitem"
             >
               <FaTiktok />
               <span className="sr-only">TikTok</span>
             </a>
             <a
               href="https://facebook.com/yourpage"
-              aria-label="Facebook"
+              aria-label="ติดตามบน Facebook"
               title="ติดตามบน Facebook"
               className="hover:text-primary hover:scale-110 transition-transform"
               target="_blank"
               rel="noopener noreferrer"
+              role="listitem"
             >
               <FaFacebook />
               <span className="sr-only">Facebook</span>
             </a>
             <a
               href="mailto:contact@jpdocs.co"
-              aria-label="Email"
+              aria-label="ส่งอีเมลหาเรา"
               title="ส่งอีเมลหาเรา"
               className="hover:text-primary hover:scale-110 transition-transform"
+              role="listitem"
             >
               <FaEnvelope />
               <span className="sr-only">Email</span>
             </a>
           </div>
 
-          {/* Contact Info */}
-          <div className="mt-4 text-xs text-right text-neutral-content/60 leading-relaxed">
-            LINE: @jpdocs | Email: contact@jpdocs.co
+          {/* Contact info */}
+          <address className="mt-4 text-xs text-right text-neutral-content/60 leading-relaxed not-italic">
+            LINE:{" "}
+            <a
+              href="https://line.me/ti/p/yourlineid"
+              className="underline hover:text-primary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              @jpdocs
+            </a>{" "}
+            | Email:{" "}
+            <a
+              href="mailto:contact@jpdocs.co"
+              className="underline hover:text-primary"
+            >
+              contact@jpdocs.co
+            </a>
             <br />
             บริการทั่วประเทศ ครอบคลุมทุกกลุ่มอาชีพ ทั้งบุคคลธรรมดาและนิติบุคคล
-          </div>
-        </div>
+          </address>
+        </section>
       </div>
 
-      {/* Bottom Message */}
+      {/* Footer Bottom */}
       <div className="border-t border-neutral-focus mt-10 pt-4 text-center text-xs text-neutral-content/50">
         พัฒนา ออกแบบ และดูแลโดยทีมงาน JP Visual & Docs — พาร์ทเนอร์ดิจิทัลสำหรับธุรกิจไทย
       </div>

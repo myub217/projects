@@ -1,10 +1,8 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
-  // ใช้ dark mode แบบ class (สลับ class "dark" ใน html หรือ body)
-  darkMode: 'class',
+  darkMode: 'class', // เปิดใช้งาน dark mode แบบ class toggling
 
-  // กำหนดไฟล์ที่ Tailwind จะตรวจสอบ class เพื่อลดขนาดไฟล์ CSS (purge)
   content: [
     './index.html',
     './src/**/*.{js,ts,jsx,tsx}',
@@ -80,19 +78,21 @@ const config: Config = {
     },
   },
 
-  variants: {
-    extend: {
-      backgroundColor: ['dark', 'hover', 'focus'],
-      textColor: ['dark', 'hover', 'focus'],
-      borderColor: ['dark', 'focus'],
-      boxShadow: ['dark', 'focus'],
-    },
-  },
+  // TailwindCSS v3+ ไม่มี variants แยกแบบนี้แล้ว ถ้าต้องการขยาย ให้ใช้ plugins หรือ extend theme ในส่วนอื่น
+  // ดังนั้นลบส่วน variants ทิ้งได้เลย เพื่อความสะอาด
+  // variants: {
+  //   extend: {
+  //     backgroundColor: ['dark', 'hover', 'focus'],
+  //     textColor: ['dark', 'hover', 'focus'],
+  //     borderColor: ['dark', 'focus'],
+  //     boxShadow: ['dark', 'focus'],
+  //   },
+  // },
 
   plugins: [
-    require('@tailwindcss/typography'),    // ปรับปรุงสไตล์บทความ/ข้อความยาว
-    require('@tailwindcss/forms'),         // ปรับปรุงสไตล์ฟอร์ม
-    require('@tailwindcss/aspect-ratio'),  // ควบคุมอัตราส่วนภาพหรือ iframe
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/aspect-ratio'),
   ],
 };
 
