@@ -1,103 +1,175 @@
-Applicationlubmobile
+✅ คู่มือการใช้งานและแก้ไขโปรเจกต์ React + Vite (JP Visual & Docs)
 
-โปรเจกต์นี้เป็นเว็บแอปพลิเคชันที่พัฒนาด้วย React, Vite, TailwindCSS และ DaisyUI โดยออกแบบให้มีโครงสร้างโค้ดที่ชัดเจนและทันสมัย รองรับธีมสีและ UI ที่สวยงาม พร้อมส่วนประกอบหลัก เช่น Hero, Services, Footer
+🔧 โครงสร้างโปรเจกต์หลัก (ระดับ 1)
+
+ไฟล์/โฟลเดอร์	หน้าที่
+
+index.html	HTML Template หลัก (SEO/OG/Image/Meta อยู่ที่นี่)
+vite.config.ts	ตั้งค่า Vite เช่น plugin, PWA, alias
+tailwind.config.ts	ตั้งค่า Tailwind เช่น theme, plugin
+postcss.config.cjs	PostCSS สำหรับ Tailwind
+tsconfig.*.json	ตั้งค่า TypeScript ในแต่ละบริบท
+src/	โค้ดแอปทั้งหมด อยู่ที่นี่
+public/	ไฟล์สาธารณะ เช่น favicon, manifest.json
+dist/	ผลลัพธ์ที่ได้จาก vite build
+fix_project.sh	สคริปต์ช่วยแก้ไขบางจุด (ต้องตรวจสอบว่าทำอะไร)
+
+
 
 ---
 
-## โครงสร้างโปรเจกต์ (Project Structure)
+🧩 โฟลเดอร์ src/ รายละเอียดและหน้าที่
 
-/public               # ไฟล์สาธารณะ เช่น favicon, robots.txt /src ├── assets          # รูปภาพและไฟล์สื่ออื่น ๆ ├── components      # คอมโพเนนต์ UI หลัก เช่น Hero, Services, Footer ├── context         # โค้ดสำหรับ React Context API (ถ้ามี) ├── hooks           # Custom hooks (ถ้ามี) ├── styles          # ไฟล์ CSS หรือ Tailwind config เพิ่มเติม ├── utils           # ฟังก์ชันช่วยเหลือต่าง ๆ ├── App.tsx         # คอมโพเนนต์หลักของแอป ├── main.tsx        # จุดเริ่มต้นแอป (entry point) ├── index.css       # ไฟล์ CSS หลัก (Tailwind base) └── vite-env.d.ts   # TypeScript declarations สำหรับ Vite /tailwind.config.ts   # การตั้งค่า TailwindCSS /vite.config.ts       # การตั้งค่า Vite /package.json         # รายการ dependencies และสคริปต์ /README.md            # ไฟล์นี้
+โฟลเดอร์ / ไฟล์	หน้าที่
+
+App.tsx	โครงสร้าง SPA หลักของเว็บ
+main.tsx	Entry point ของแอป
+index.css	สไตล์ Tailwind/Custom ทั่วไป
+assets/	รูปภาพ โลโก้ ไอคอน
+components/	UI Components ที่นำไปใช้ในหน้า
+components/skeletons/	Skeleton Loader แต่ละจุด
+context/ThemeContext.tsx	Context สำหรับ Dark/Light Mode
+components/index.js	Export รวม components
+
+
 
 ---
 
-## วิธีใช้งาน (Getting Started)
+🎯 แพ็กเกจหลักที่ใช้งาน (และควรคงไว้)
 
-### ติดตั้ง dependencies
+กลุ่ม	แพ็กเกจ	หน้าที่
 
-```bash
+Core	react, react-dom	React Core
+Tailwind	tailwindcss, @tailwindcss/*	CSS Framework + Plugin
+UI	daisyui, lucide-react, react-icons	UI Components + Icons
+Motion	framer-motion	Animation / Page transitions
+SEO	react-helmet-async	SEO/Meta tag รองรับ async
+Loader	react-loading-skeleton	Loading UI
+Scroll	react-scroll	ลิงก์เลื่อนหน้า (SPA)
+Dev	vite, typescript, eslint, pnpm	ระบบพัฒนา
+
+
+
+---
+
+🛠️ ข้อเสนอแนะสิ่งที่ควรเอาออก / เพิ่ม
+
+❌ สิ่งที่ควรเอาออก (หากไม่ใช้งานจริง)
+
+รายการ	เหตุผล
+
+fix_project1.sh	หากไม่มีการใช้งานจริงหรือล้าสมัย
+tailwind.config.js	ถ้าใช้ tailwind.config.ts แล้วไม่จำเป็นต้องมีทั้งสอง
+vite-env.d.ts	ตรวจสอบว่าใช้งานหรือไม่ บางโปรเจกต์ไม่จำเป็น
+make-icons.py	ถ้าไม่ได้ build icons หรือสร้าง favicon ด้วย Python แล้วไม่จำเป็น
+.tsbuildinfo	สร้างโดย TypeScript อัตโนมัติ ไม่จำเป็นต้องเก็บไว้ใน git
+
+
+✅ สิ่งที่ควรเพิ่ม / ตรวจสอบ
+
+รายการ	เหตุผล
+
+manifest.webmanifest (ใน public/)	เพื่อรองรับ PWA อย่างสมบูรณ์
+favicon.ico / favicon.svg	เพื่อให้ทุกเบราว์เซอร์แสดง favicon ถูกต้อง
+robots.txt / sitemap.xml	รองรับ SEO (สร้างได้ง่าย ๆ ด้วยสคริปต์หรือมือ)
+README.md (เขียนเพิ่ม)	อธิบายโปรเจกต์ให้คนอื่นอ่านรู้เรื่อง
+.env / .env.example	แยก config เช่น API_KEY ออกไปจากโค้ด
+404.html (ใน public/)	สำหรับ SPA รองรับ fallback หน้า
+
+
+
+---
+
+🚀 วิธีการใช้งานและพัฒนา
+
+✅ คำสั่งที่ควรรู้
+
+# ติดตั้ง dependency
 pnpm install
-# หรือใช้ npm install / yarn install ตามที่คุณใช้งาน
 
-รันแอปในโหมดพัฒนา (Development mode)
-
+# รันโหมดพัฒนา
 pnpm dev
 
-เปิดเบราว์เซอร์แล้วเข้า http://localhost:5173
-
-สร้างไฟล์สำหรับโปรดักชัน (Build for production)
-
+# สร้าง build สำหรับ production
 pnpm build
 
+# เปิดดู build
+pnpm preview
+
 
 ---
 
-เทคโนโลยีหลักที่ใช้
+🌗 Dark Mode Toggle
 
-React 19 — ไลบรารีสำหรับสร้าง UI แบบ component-based
+> ใช้ผ่าน ThemeContext.tsx + ปุ่ม toggle ใน ThemeToggle.tsx
+ค่า theme จะถูกเก็บใน localStorage และมีการใช้ class dark บน <html>
 
-Vite — บันเดิลเลอร์และ dev server ที่เร็วและทันสมัย
-
-TailwindCSS 3.x — CSS utility-first framework ช่วยเขียนสไตล์ได้รวดเร็วและยืดหยุ่น
-
-DaisyUI — ปลั๊กอินสำหรับ Tailwind ที่เพิ่ม component UI สำเร็จรูป เช่น ปุ่ม, การ์ด, ฟุตเตอร์
-
-TypeScript — ช่วยเพิ่มความปลอดภัยด้วยการพิมพ์ชนิดข้อมูลแบบ static
 
 
 
 ---
 
-ส่วนประกอบสำคัญ (Key Components)
+🔍 SEO & OG Tag
 
-Hero.tsx — ส่วนแนะนำหน้าหลัก
+ใช้ react-helmet-async สำหรับใส่ <meta>, <title>, OG image
 
-Services.tsx — แสดงรายการบริการพร้อมรูปภาพตัวอย่าง
-
-Footer.tsx — ส่วนท้ายเว็บ มีโลโก้และลิงก์โซเชียลมีเดีย
-
-App.tsx — รวม layout หลักและจัดวางส่วนประกอบต่าง ๆ
+ให้ตั้งค่าไว้ใน index.html และ App.tsx
 
 
-
----
-
-การปรับแต่งธีม
-
-ธีมของโปรเจกต์นี้ใช้ DaisyUI แบบ synthwave สามารถแก้ไขได้ที่ไฟล์ tailwind.config.ts
-
-daisyui: {
-  themes: ["synthwave"],
-},
+<Helmet>
+  <title>JP Visual & Docs</title>
+  <meta name="description" content="บริการครบวงจรเกี่ยวกับการเงิน เอกสาร และระบบ" />
+  <meta property="og:image" content="/repository-open-graph-template.png" />
+</Helmet>
 
 
 ---
 
-รูปภาพและ Assets
+📲 Progressive Web App (PWA)
 
-เก็บไว้ในโฟลเดอร์ /src/assets เช่น
-
-service-visa.webp — ภาพแทนบริการต่าง ๆ
-
-vite.svg — โลโก้ Vite
+> ตรวจสอบว่าใน vite.config.ts มี plugin PWA แล้วหรือยัง เช่น:
 
 
 
----
+import { VitePWA } from 'vite-plugin-pwa'
 
-ข้อมูลลิขสิทธิ์
-
-© 2025 Applicationlubmobile — All rights reserved.
-
-
----
-
-ติดต่อและข้อมูลเพิ่มเติม
-
-คุณสามารถติดต่อหรือขอคำแนะนำเพิ่มเติมได้ที่อีเมล: example@applicationlubmobile.com
+plugins: [
+  react(),
+  VitePWA({
+    manifest: {
+      name: 'JP Visual & Docs',
+      icons: [/* ... */],
+    },
+    registerType: 'autoUpdate',
+  })
+]
 
 
 ---
 
-สรุป
+📁 ตัวอย่างโฟลเดอร์ที่ดีสำหรับโปรเจกต์นี้
 
-โปรเจกต์นี้ออกแบบมาเพื่อความง่ายและความทันสมัย พร้อมโครงสร้างที่เหมาะสมสำหรับการพัฒนาและขยายในอนาคต ใช้งาน Tailwind และ DaisyUI ช่วยให้ออกแบบ UI ได้รวดเร็วและสวยงาม
+src/
+├── components/
+│   ├── Hero.tsx
+│   ├── ServicesSection.tsx
+│   ├── ...
+│   └── skeletons/
+├── pages/        ← (เพิ่มถ้าแยกหน้าในอนาคต)
+├── assets/
+├── context/
+├── App.tsx
+├── main.tsx
+
+
+---
+
+📚 ข้อเสนอแนะเพิ่มเติม
+
+เพิ่ม i18n (แปลภาษา) ถ้ามีแผนทำเว็บหลายภาษา
+
+ใช้ React Router v6+ ถ้าจะมีหลายหน้าแทน SPA
+
+ใช้ zustand หรือ redux หาก state เริ่มซับซ้อนขึ้น
+
+ใช้ commit lint + husky เพื่อควบคุมคุณภาพ git commit

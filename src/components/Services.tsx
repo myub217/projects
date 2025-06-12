@@ -1,4 +1,6 @@
+import React from "react";
 import serviceImage from "../assets/service-visa.webp";
+import fallbackImage from "../assets/fallback-image.png"; // import fallback image
 
 interface Service {
   title: string;
@@ -58,9 +60,11 @@ const services: Service[] = [
 ];
 
 export default function ServicesSection() {
-  // ฟังก์ชันจัดการกรณีโหลดรูปไม่สำเร็จ
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src = "/fallback-image.png"; // เปลี่ยนเป็น path รูป fallback ของคุณ
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    e.currentTarget.onerror = null; // ป้องกัน loop ถ้ารูป fallback ก็ error
+    e.currentTarget.src = fallbackImage;
   };
 
   return (
@@ -72,15 +76,18 @@ export default function ServicesSection() {
     >
       <h2 className="text-4xl font-bold mb-8 text-primary">บริการของเรา</h2>
       <div
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 px-4 max-w-6xl mx-auto"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 px-6 max-w-7xl mx-auto"
         role="list"
       >
-        {services.map(({ title, description, image }, index) => (
+        {services.map(({ title, description, image }) => (
           <article
-            key={index}
+            key={title}
             role="listitem"
             tabIndex={0}
-            className="bg-gray-100 shadow-md rounded-lg hover:shadow-xl focus:shadow-xl transition-shadow duration-300 animate-fade-in cursor-pointer outline-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="bg-gray-100 shadow-md rounded-lg transition-shadow duration-300
+              hover:shadow-xl focus:shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500
+              animate-fade-in cursor-default focus:cursor-pointer"
+            aria-describedby={`${title.replace(/\s+/g, "-")}-desc`}
           >
             <figure className="overflow-hidden rounded-t-lg">
               <img
@@ -91,9 +98,14 @@ export default function ServicesSection() {
                 onError={handleImageError}
               />
             </figure>
-            <div className="px-6 py-4">
+            <div className="px-6 py-4 text-left">
               <h3 className="text-lg text-accent font-semibold">{title}</h3>
-              <p className="text-sm text-gray-700 mt-2">{description}</p>
+              <p
+                className="text-sm text-gray-700 mt-2"
+                id={`${title.replace(/\s+/g, "-")}-desc`}
+              >
+                {description}
+              </p>
             </div>
           </article>
         ))}

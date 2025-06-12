@@ -1,43 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-interface ScrollToTopProps {
+type ScrollToTopProps = {
   theme: "light" | "dark";
-}
+};
 
 const ScrollToTop: React.FC<ScrollToTopProps> = ({ theme }) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => {
-      setVisible(window.scrollY > 300); // แสดงปุ่มเมื่อเลื่อนลงเกิน 300px
+    const toggleVisibility = () => {
+      setVisible(window.scrollY > 300);
     };
 
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
-  const handleClick = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
-
-  if (!visible) return null; // ซ่อนปุ่มถ้าไม่ visible
 
   return (
     <button
-      onClick={handleClick}
-      title="เลื่อนขึ้นด้านบน"
-      aria-label="เลื่อนขึ้นด้านบน"
-      className={`btn fixed bottom-4 right-4 z-50 p-3 rounded-full shadow-lg
-        focus:outline-none focus:ring-2 focus:ring-offset-2
-        transition-opacity duration-300
-        ${
-          theme === "dark"
-            ? "btn-warning focus:ring-warning-focus"
-            : "btn-primary focus:ring-primary-focus"
-        }`}
+      onClick={scrollToTop}
+      className={`fixed bottom-6 right-6 z-50 p-3 rounded-full shadow-lg transition-opacity duration-300 ${
+        visible ? "opacity-100" : "opacity-0 pointer-events-none"
+      } ${theme === "dark" ? "bg-indigo-700 text-white" : "bg-white text-gray-800 border"}`}
+      aria-label="เลื่อนไปด้านบน"
     >
-      {/* ใช้ไอคอน Unicode */}
-      <span aria-hidden="true" className="text-xl select-none">⬆️</span>
+      ⬆️
     </button>
   );
 };

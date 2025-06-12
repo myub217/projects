@@ -1,127 +1,144 @@
 import React from "react";
-import serviceImg from "../assets/service-visa.webp";
+import fallbackImage from "../assets/fallback-image.png";
 
 interface Service {
-  id: number;
   title: string;
   description: string;
   image: string;
-  alt: string;
 }
 
 const services: Service[] = [
   {
-    id: 1,
-    title: "บริการขอวีซ่าทุกประเภท",
+    title: "วางแผนยื่นกู้สินเชื่อแบบตรงจุด",
     description:
-      "ให้คำปรึกษาและดำเนินการขอวีซ่าท่องเที่ยว, วีซ่านักเรียน, วีซ่าธุรกิจ, วีซ่าถาวร สำหรับทุกประเทศ เช่น อเมริกา ออสเตรเลีย แคนาดา อังกฤษ ยุโรป และเอเชีย",
-    image: serviceImg,
-    alt: "บริการขอวีซ่าท่องเที่ยวและธุรกิจ",
+      "• วิเคราะห์โปรไฟล์ลูกค้าอย่างละเอียดเพื่อเข้ากับเงื่อนไขธนาคารแต่ละแห่ง\n" +
+      "• วางแผนจัดชุดเอกสารครบถ้วนเหมาะสมกับเป้าหมายสินเชื่อ เช่น สินเชื่อบุคคล, SME, รีไฟแนนซ์\n" +
+      "• ราคาเริ่มต้นตั้งแต่ 4,000 – 300,000 บาท\n" +
+      "• เหมาะสำหรับเจ้าของธุรกิจ, ฟรีแลนซ์, ผู้มีโปรไฟล์ไม่สมบูรณ์ ต้องการคำแนะนำอย่างมืออาชีพ",
+    image: "https://i.imgur.com/IuTnf7S.png",
   },
   {
-    id: 2,
-    title: "ประกันการเดินทาง",
+    title: "ดูแลเอกสารยื่นวีซ่าทุกประเภท",
     description:
-      "จัดหาประกันภัยการเดินทางระหว่างประเทศ ครอบคลุมค่ารักษา ค่าชดเชย และเหตุสุดวิสัย พร้อมเอกสารประกอบการขอวีซ่า",
-    image: serviceImg,
-    alt: "บริการประกันการเดินทาง",
+      "• ตรวจสอบและจัดชุดเอกสารวีซ่าให้ครบถ้วนตามข้อกำหนดประเทศปลายทาง\n" +
+      "• คำนวณและจัดเตรียมข้อมูลทางการเงินอย่างสมจริง เพื่อเพิ่มโอกาสผ่านวีซ่า\n" +
+      "• รองรับงานด่วนและวีซ่ารอบพิเศษ\n" +
+      "• ราคาเริ่มต้น 4,000 บาท\n" +
+      "• เหมาะสำหรับผู้ยื่นขอวีซ่าท่องเที่ยว, ธุรกิจ, คู่สมรส",
+    image: "https://i.imgur.com/IuTnf7S.png",
   },
   {
-    id: 3,
-    title: "ที่ปรึกษาด้านกฎหมายและการเงิน",
+    title: "SLIBBANK – สลิปโอนเงิน/รับเงิน (ตรวจสอบได้)",
     description:
-      "วิเคราะห์โปรไฟล์ ตรวจสอบเอกสาร ประเมินความเสี่ยง และให้คำปรึกษาเรื่องบัญชี ธุรกิจ และกฎหมายที่เกี่ยวข้องกับการยื่นวีซ่า",
-    image: serviceImg,
-    alt: "ที่ปรึกษาด้านเอกสารและการเงิน",
+      "• สลิปโอนเงิน/รับเงินสมจริง ตรวจสอบได้ ไม่มีข้อมูลมั่ว\n" +
+      "• ปรับแต่งชื่อบัญชี, เวลา, โลโก้, ยอดเงิน ตามความต้องการ\n" +
+      "• ใช้เป็นหลักฐานยื่นเอกสาร โปรไฟล์ หรือแสดงรายการทางการเงิน\n" +
+      "• ราคา 100 บาท/ใบ, แพ็ก 10 ใบ 500 บาท\n" +
+      "• เหมาะสำหรับผู้ต้องการสร้างภาพลักษณ์การเงินที่น่าเชื่อถือ",
+    image: "https://i.imgur.com/ybpCoKs.png",
   },
   {
-    id: 4,
-    title: "บริการจองตั๋วและที่พัก",
+    title: "บริการเอกสาร: แก้ไข / สร้างใหม่ / จัดหา",
     description:
-      "จองตั๋วเครื่องบิน โรงแรม โฮสเทล และที่พักระยะยาว ราคาพิเศษ พร้อมยื่นเอกสารประกอบการขอวีซ่า",
-    image: serviceImg,
-    alt: "บริการจองตั๋วเครื่องบินและโรงแรม",
+      "• รับแก้ไขเอกสาร PDF, Word, ภาพถ่าย หรือฟอร์มออนไลน์\n" +
+      "• สร้างเอกสารใหม่สมจริง ใช้งานได้จริง\n" +
+      "• จัดหาเอกสารตามความต้องการ เช่น เอกสารราชการ รายการเดินบัญชี ฯลฯ\n" +
+      "• ราคาเริ่มต้นแก้ไข 400 บาท, สร้างใหม่ 600 บาท\n" +
+      "• เหมาะสำหรับผู้ยื่นกู้, ยื่นวีซ่า หรือยืนยันสถานะต่าง ๆ",
+    image: "https://i.imgur.com/ybpCoKs.png",
   },
   {
-    id: 5,
-    title: "แปลเอกสารและรับรอง",
+    title: "ผลิตชิ้นงานจริง (บัตรแข็ง/บัตรพลาสติก)",
     description:
-      "บริการแปลเอกสารราชการ, สัญญา, หนังสือรับรอง พร้อมรับรองโดยผู้แปลมืออาชีพหรือศูนย์แปลที่ได้รับอนุญาต",
-    image: serviceImg,
-    alt: "แปลเอกสารราชการและรับรอง",
+      "• ผลิตบัตรแข็งคุณภาพสูง พร้อมพิมพ์ลายน้ำ, QR Code, และ Hologram\n" +
+      "• จัดส่งถึงมืออย่างปลอดภัย พร้อมซองเก็บรักษา\n" +
+      "• ราคาเริ่มต้น 4,000 บาท\n" +
+      "• เหมาะสำหรับการยื่นงานยืนยันตน หรือแสดงเครดิตที่น่าเชื่อถือ",
+    image: "https://i.imgur.com/ybpCoKs.png",
   },
   {
-    id: 6,
-    title: "วางแผนการเดินทาง",
+    title: "ออกแบบโลโก้ / แบนเนอร์ / ปกเพจ",
     description:
-      "จัดทำแผนการเดินทางที่เหมาะสม พร้อมตารางเที่ยว บริการจองรถ/ทัวร์ และคำแนะนำพิเศษตามประเทศปลายทาง",
-    image: serviceImg,
-    alt: "บริการวางแผนการเดินทางส่วนตัว",
+      "• ออกแบบกราฟิกเน้นความเป็นเอกลักษณ์และตัวตนของแบรนด์ลูกค้า\n" +
+      "• ส่งมอบไฟล์ครบชุด PNG, JPG, SVG และ Mockup\n" +
+      "• ราคาเริ่มต้น 300 บาท\n" +
+      "• เหมาะสำหรับธุรกิจใหม่ ปรับภาพลักษณ์เพจ หรือสร้าง Branding",
+    image: "https://i.imgur.com/awWPh8v.png",
   },
   {
-    id: 7,
-    title: "ต่ออายุ/ยื่นขอวีซ่าใหม่",
+    title: "ดูแลการตลาดครบวงจร + ระบบหลังบ้าน",
     description:
-      "บริการยื่นขอวีซ่าใหม่หรือต่ออายุ พร้อมจัดเตรียมเอกสารและให้คำปรึกษาเพื่อเพิ่มโอกาสผ่านสูงสุด",
-    image: serviceImg,
-    alt: "บริการต่ออายุวีซ่า",
+      "• วางแผนคอนเทนต์และสร้าง Branding ให้โดดเด่น\n" +
+      "• ยิงโฆษณาและออกแบบภาพโปรโมตเพื่อเพิ่มยอดขาย\n" +
+      "• ติดตั้งระบบแชทอัตโนมัติ, Bot Line และระบบตอบแชทรวดเร็ว\n" +
+      "• รายงานผลแบบมืออาชีพ พร้อม Dashboard สรุปข้อมูล\n" +
+      "• ราคาเริ่มต้นตั้งแต่ 5,000 – 500,000 บาท\n" +
+      "• เหมาะสำหรับธุรกิจที่ต้องการเติบโตอย่างรวดเร็ว ขยายตลาด และเพิ่มความน่าเชื่อถือ",
+    image: "https://i.imgur.com/Fy1c2vn.png",
   },
   {
-    id: 8,
-    title: "บริการหลังการยื่น",
+    title: "โครงการ “ให้น้องได้พักผ่อน” – AI Matching",
     description:
-      "ติดตามผลวีซ่า ประสานงานกับสถานทูต จัดเตรียมคำตอบสัมภาษณ์ และช่วยเหลือกรณีวีซ่าถูกปฏิเสธ",
-    image: serviceImg,
-    alt: "บริการหลังการยื่นวีซ่า",
+      "• ระบบจับคู่ลูกค้าและงานอัตโนมัติด้วย AI\n" +
+      "• จัดการลูกค้า แชท และคิวงานผ่าน LINE / Telegram สะดวกและรวดเร็ว\n" +
+      "• เหมาะสำหรับฟรีแลนซ์ที่ไม่ต้องการตอบแชทเอง\n" +
+      "• ราคาเริ่มต้น 4,000 บาท\n" +
+      "• เหมาะสำหรับคนทำงานสายเอกสาร รับจ้างทั่วไป และบริการหลังบ้าน",
+    image: "https://i.imgur.com/5zMJP5e.png",
   },
 ];
 
-const Services: React.FC = () => {
+export default function ServicesSection() {
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    e.currentTarget.onerror = null;
+    e.currentTarget.src = fallbackImage;
+  };
+
   return (
     <section
       id="services"
-      aria-labelledby="services-title"
-      className="py-16 bg-base-200"
+      aria-label="บริการของ JP Visual & Docs"
+      className="py-12 bg-white text-center"
       role="region"
     >
-      <div className="container mx-auto px-4">
-        <h2
-          id="services-title"
-          className="text-4xl font-bold text-center mb-12 text-primary"
-        >
-          บริการของเรา
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {services.map(({ id, title, description, image, alt }) => (
-            <article
-              key={id}
-              className="card bg-base-100 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fade-in"
-              tabIndex={0}
-            >
-              <figure className="overflow-hidden rounded-t-lg">
-                <img
-                  src={image}
-                  alt={alt}
-                  className="w-full h-40 object-cover rounded-t-lg transform transition-transform duration-300 hover:scale-105"
-                  loading="lazy"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      "/src/assets/fallback-image.png";
-                  }}
-                />
-              </figure>
-              <div className="card-body px-6 py-4">
-                <h3 className="card-title text-accent text-lg font-semibold">
-                  {title}
-                </h3>
-                <p className="text-sm text-secondary">{description}</p>
-              </div>
-            </article>
-          ))}
-        </div>
+      <h2 className="text-4xl font-bold mb-8 text-primary">บริการของเรา</h2>
+      <div
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 px-6 max-w-7xl mx-auto"
+        role="list"
+      >
+        {services.map(({ title, description, image }) => (
+          <article
+            key={title}
+            role="listitem"
+            tabIndex={0}
+            className="bg-gray-100 shadow-md rounded-lg transition-shadow duration-300
+              hover:shadow-xl focus:shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500
+              animate-fade-in cursor-default focus:cursor-pointer"
+            aria-describedby={`${title.replace(/\s+/g, "-")}-desc`}
+          >
+            <figure className="overflow-hidden rounded-t-lg">
+              <img
+                src={image}
+                alt={`ภาพประกอบบริการ: ${title}`}
+                loading="lazy"
+                className="h-40 w-full object-cover rounded-t-lg transform transition-transform duration-300 hover:scale-105"
+                onError={handleImageError}
+              />
+            </figure>
+            <div className="px-6 py-4 text-left whitespace-pre-line">
+              <h3 className="text-lg text-accent font-semibold">{title}</h3>
+              <p
+                className="text-sm text-gray-700 mt-2"
+                id={`${title.replace(/\s+/g, "-")}-desc`}
+              >
+                {description}
+              </p>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );
-};
-
-export default Services;
+}

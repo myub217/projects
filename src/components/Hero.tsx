@@ -1,61 +1,71 @@
 import React from "react";
-import jpLogo from "../assets/jp-logo.png"; // ปรับ path ตามจริง
+import jpLogo from "../assets/jp-logo.png"; // ปรับ path ให้ตรง
 
 const Hero: React.FC = () => {
-  const ctaLink = "https://lin.ee/xxxxx"; // TODO: เปลี่ยนเป็นลิงก์จริง
-  const logoAlt = "โลโก้ของ JP Visual & Docs - บริการด้านเอกสารและธุรกิจ";
+  // TODO: เปลี่ยนลิงก์ LINE ให้เป็นลิงก์จริงของคุณ
+  const ctaLink = "https://lin.ee/xxxxx";
+  const logoAlt = "โลโก้ JP Visual & Docs - บริการยื่นกู้ วีซ่า เอกสาร โปรไฟล์ และระบบธุรกิจครบวงจร";
 
   return (
     <section
       id="hero"
-      className="hero min-h-screen bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 flex items-center"
+      role="region"
       aria-labelledby="hero-title"
       aria-describedby="hero-description"
-      role="region"
+      className="min-h-screen flex items-center bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 dark:from-black dark:via-gray-900 dark:to-gray-800 transition-colors duration-700"
     >
-      <div className="hero-content flex flex-col-reverse lg:flex-row-reverse container mx-auto px-6 py-16 gap-8 items-center">
-        {/* โลโก้ JP */}
-        <div className="flex justify-center">
+      <div className="container mx-auto px-6 py-20 flex flex-col-reverse lg:flex-row-reverse items-center gap-12 animate-fade-in">
+        {/* โลโก้ */}
+        <div className="flex justify-center lg:w-1/2" aria-hidden="true">
           <img
             src={jpLogo}
             alt={logoAlt}
             loading="lazy"
             decoding="async"
-            width={192}
-            height={192}
-            className="w-32 sm:w-48 lg:w-56 rounded shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out"
+            width={224}
+            height={224}
+            className="w-32 sm:w-48 lg:w-56 rounded-3xl shadow-glow hover:scale-105 transition-transform duration-400 ease-in-out"
           />
         </div>
 
-        {/* เนื้อหาหลัก */}
-        <div className="text-center lg:text-left max-w-2xl text-white">
-          {/* หัวข้อ */}
+        {/* เนื้อหา */}
+        <div className="text-center lg:text-left lg:w-1/2">
+          {/* หัวเรื่อง */}
           <h1
             id="hero-title"
-            className="text-4xl sm:text-5xl font-extrabold mb-6 leading-tight drop-shadow-lg tracking-wide"
+            className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white drop-shadow-xl mb-6 tracking-wide font-kanit"
           >
             JP Visual & Docs
           </h1>
 
-          {/* คำบรรยาย */}
+          {/* คำอธิบายสั้น */}
           <p
             id="hero-description"
-            className="mb-8 text-base sm:text-lg text-gray-300 leading-relaxed whitespace-pre-line"
+            className="text-gray-300 dark:text-gray-400 text-base sm:text-lg leading-relaxed whitespace-pre-line mb-6 font-light"
           >
-            บริการยื่นกู้ วีซ่า เอกสาร และระบบสนับสนุนธุรกิจแบบครบวงจร
-            {"\n"}เราดูแลทุกขั้นตอน พร้อมให้คำปรึกษาฟรีโดยทีมงานมืออาชีพ
+            เราให้บริการครบวงจรด้านยื่นกู้ วีซ่า เอกสารธุรกิจ โปรไฟล์บริษัท และระบบหลังบ้าน
+            {"\n"}ด้วยทีมงานมืออาชีพ พร้อมดูแลทุกขั้นตอนและให้คำปรึกษาแบบส่วนตัว
+            {"\n"}เพื่อช่วยให้คุณประสบความสำเร็จและมั่นใจในทุกการตัดสินใจ
           </p>
 
-          {/* CTA */}
+          {/* รายละเอียดจุดเด่น */}
+          <ul className="text-sm sm:text-base text-gray-200 dark:text-gray-400 mb-10 space-y-2 list-disc list-inside font-light max-w-md mx-auto lg:mx-0">
+            <li>✅ บริการยื่นกู้ส่วนบุคคลและธุรกิจ SME ด้วยการวิเคราะห์การเงินอย่างละเอียด</li>
+            <li>✅ ให้คำปรึกษาด้านวีซ่า เอกสารแปล และจัดเตรียมเอกสารครบถ้วน</li>
+            <li>✅ ออกแบบและพัฒนาระบบหลังบ้าน เช่น CRM, ใบเสนอราคา และโปรไฟล์บริษัท</li>
+            <li>✅ บริการด่วน พร้อมตอบกลับผ่าน LINE ทุกวัน</li>
+          </ul>
+
+          {/* ปุ่ม CTA */}
           <div className="flex justify-center lg:justify-start">
             <a
               href={ctaLink}
               target="_blank"
               rel="noopener noreferrer nofollow"
-              className="btn btn-accent btn-lg hover:scale-105 transition-transform duration-300 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-offset-2 rounded"
-              aria-label="ติดต่อเราผ่าน LINE"
+              className="inline-flex items-center gap-3 px-7 py-3 rounded-xl bg-accent text-white font-semibold text-lg shadow-md hover:scale-105 transition-transform duration-300 focus:outline-none focus:ring-4 focus:ring-accent/50 focus:ring-offset-2"
+              aria-label="ติดต่อเราผ่าน LINE เพื่อขอคำปรึกษาฟรี"
             >
-              ติดต่อเรา
+              📲 ติดต่อผ่าน LINE
             </a>
           </div>
         </div>

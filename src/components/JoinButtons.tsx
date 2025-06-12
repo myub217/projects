@@ -1,49 +1,75 @@
 import React from "react";
+import { PhoneCall, UserPlus, Info } from "lucide-react";
 
 const JoinButtons: React.FC = () => {
-  const handleApplyClick = () => {
-    alert("ฟังก์ชันสมัครเลย ถูกเรียกใช้งาน");
-  };
+  // เปลี่ยนลิงก์ให้ตรงกับธุรกิจของคุณ
+  const applyUrl = "https://your-apply-form-link.com";
+  const contactLineUrl = "https://lin.ee/yourlineid"; // ลิงก์แชท LINE Official
+  const moreInfoUrl = "https://your-website.com/services";
 
-  const handleContactClick = () => {
-    alert("ฟังก์ชันติดต่อเรา ถูกเรียกใช้งาน");
-  };
-
-  const handleMoreClick = () => {
-    alert("ฟังก์ชันดูเพิ่มเติม ถูกเรียกใช้งาน");
+  // ฟังก์ชันเปิดลิงก์ในแท็บใหม่อย่างปลอดภัย
+  const openLink = (url: string) => {
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   return (
-    <section className="py-10 text-center bg-base-100">
+    <section
+      className="py-12 px-4 bg-base-100 dark:bg-gray-900 transition-colors duration-300"
+      aria-labelledby="join-buttons-title"
+    >
+      <h2 id="join-buttons-title" className="sr-only">
+        กลุ่มปุ่มเข้าร่วมและติดต่อ JP Visual & Docs
+      </h2>
+
       <div
         role="group"
-        aria-label="กลุ่มปุ่มสำหรับสมัคร ติดต่อ และดูเพิ่มเติม"
-        className="join flex flex-col sm:flex-row justify-center items-center gap-4 max-w-md mx-auto sm:max-w-none px-4"
+        aria-label="กลุ่มปุ่มสำหรับสมัคร ติดต่อ และดูข้อมูลเพิ่มเติมเกี่ยวกับบริการของ JP Visual & Docs"
+        className="join flex flex-col sm:flex-row justify-center items-center gap-6 max-w-2xl mx-auto"
       >
+        {/* สมัครเลย */}
         <button
-          className="btn btn-primary join-item w-full sm:w-auto focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-offset-2"
-          aria-label="สมัครเลย"
           type="button"
-          onClick={handleApplyClick}
+          onClick={() => openLink(applyUrl)}
+          className="btn btn-success join-item w-full sm:w-auto text-white shadow-lg hover:scale-105 transition-transform duration-300 focus:outline-none focus:ring-4 focus:ring-green-400 focus:ring-offset-2 rounded-lg flex items-center justify-center gap-2"
+          aria-label="สมัครเลย เริ่มต้นสมัครบริการกับ JP Visual & Docs"
+          aria-describedby="apply-desc"
         >
+          <UserPlus className="w-5 h-5" aria-hidden="true" />
           สมัครเลย
         </button>
+        <span id="apply-desc" className="sr-only">
+          เริ่มต้นสมัครบริการยื่นกู้ วีซ่า เอกสาร และระบบธุรกิจกับเรา
+        </span>
+
+        {/* ติดต่อเรา */}
         <button
-          className="btn btn-secondary join-item w-full sm:w-auto focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-offset-2"
-          aria-label="ติดต่อเรา"
           type="button"
-          onClick={handleContactClick}
+          onClick={() => openLink(contactLineUrl)}
+          className="btn btn-primary join-item w-full sm:w-auto shadow-lg hover:scale-105 transition-transform duration-300 focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 rounded-lg flex items-center justify-center gap-2"
+          aria-label="ติดต่อเรา เพื่อสอบถามข้อมูลและขอคำปรึกษา"
+          aria-describedby="contact-desc"
         >
+          <PhoneCall className="w-5 h-5" aria-hidden="true" />
           ติดต่อเรา
         </button>
+        <span id="contact-desc" className="sr-only">
+          ติดต่อทีมงาน JP Visual & Docs เพื่อสอบถามข้อมูลและรับคำปรึกษาฟรี
+        </span>
+
+        {/* ดูเพิ่มเติม */}
         <button
-          className="btn btn-accent join-item w-full sm:w-auto focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-offset-2"
-          aria-label="ดูเพิ่มเติม"
           type="button"
-          onClick={handleMoreClick}
+          onClick={() => openLink(moreInfoUrl)}
+          className="btn btn-accent join-item w-full sm:w-auto shadow-lg hover:scale-105 transition-transform duration-300 focus:outline-none focus:ring-4 focus:ring-pink-400 focus:ring-offset-2 rounded-lg flex items-center justify-center gap-2"
+          aria-label="ดูเพิ่มเติม เพื่อดูรายละเอียดและบริการอื่นๆ ของเรา"
+          aria-describedby="more-desc"
         >
+          <Info className="w-5 h-5" aria-hidden="true" />
           ดูเพิ่มเติม
         </button>
+        <span id="more-desc" className="sr-only">
+          ดูข้อมูลเพิ่มเติมเกี่ยวกับบริการยื่นกู้ วีซ่า เอกสาร โปรไฟล์ และระบบธุรกิจ
+        </span>
       </div>
     </section>
   );

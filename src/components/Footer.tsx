@@ -1,98 +1,133 @@
 import React from "react";
-import { FaTwitter, FaYoutube, FaFacebook } from "react-icons/fa";
-import viteLogo from "../assets/vite.svg";
+import {
+  FaFacebook,
+  FaLine,
+  FaTiktok,
+  FaEnvelope,
+} from "react-icons/fa";
+import jpLogo from "../assets/jp-logo.png";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-neutral text-neutral-content px-6 py-10 border-t border-neutral-focus text-sm">
+    <footer className="bg-neutral text-neutral-content px-6 py-12 border-t border-neutral-focus text-sm">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
-        {/* Left: Brand Info */}
+        {/* Left: Logo & Description */}
         <div className="flex items-start gap-4">
           <img
-            src={viteLogo}
+            src={jpLogo}
             alt="โลโก้ JP Visual & Docs"
-            className="h-12 w-auto object-contain"
+            className="h-14 w-auto object-contain"
           />
           <div>
-            <h2 className="text-lg font-bold text-primary">JP Visual & Docs</h2>
-            <p className="opacity-70 mt-1">&copy; {currentYear} — Since 2023</p>
-            <p className="text-xs text-neutral-content/60 mt-1">
-              Empowering digital experiences across platforms.
+            <h2 className="text-xl font-bold text-primary">
+              JP Visual & Docs
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed opacity-90">
+              ผู้เชี่ยวชาญด้านเอกสารธุรกิจ วีซ่า โปรไฟล์การเงิน และระบบหลังบ้าน
+              <br />
+              ครบวงจร: วางแผน | ยื่นกู้ | ออกแบบ | ทำการตลาด | ดูแลระบบออนไลน์
+              <br />
+              เสริมความมั่นคงให้ธุรกิจของคุณอย่างยั่งยืน
+            </p>
+            <p className="mt-3 text-neutral-content/60 text-xs">
+              © {currentYear} JP Visual & Docs — Since 2023
             </p>
           </div>
         </div>
 
-        {/* Right: Navigation + Social */}
+        {/* Right: Navigation & Contact */}
         <div className="flex flex-col md:items-end gap-4">
-          {/* Navigation */}
+          {/* Nav Links */}
           <nav
             className="flex flex-wrap gap-4 text-neutral-content/80"
-            aria-label="ลิงก์ในส่วนท้าย"
+            aria-label="ลิงก์เมนูเว็บไซต์"
           >
             <a
-              href="/terms"
-              className="hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
-              title="เงื่อนไขการให้บริการ"
+              href="/services"
+              className="hover:text-primary hover:underline transition"
             >
-              Terms
+              บริการทั้งหมด
             </a>
             <a
-              href="/privacy"
-              className="hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
-              title="นโยบายความเป็นส่วนตัว"
+              href="/portfolio"
+              className="hover:text-primary hover:underline transition"
             >
-              Privacy
+              ตัวอย่างผลงาน
             </a>
             <a
               href="/contact"
-              className="hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
-              title="ติดต่อเรา"
+              className="hover:text-primary hover:underline transition"
             >
-              Contact
+              ติดต่อเรา
+            </a>
+            <a
+              href="/terms"
+              className="hover:text-primary hover:underline transition"
+            >
+              เงื่อนไขบริการ
             </a>
           </nav>
 
-          {/* Social Icons */}
-          <div className="flex gap-4 text-xl mt-2">
+          {/* Social Links */}
+          <div className="flex gap-4 text-xl mt-4">
             <a
-              href="https://twitter.com/yourprofile"
-              aria-label="ติดตามบน Twitter"
-              title="Twitter"
-              className="hover:text-primary transform hover:scale-110 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
+              href="https://line.me/ti/p/yourlineid"
+              aria-label="LINE Official"
+              title="ติดต่อผ่าน LINE"
+              className="hover:text-primary hover:scale-110 transition-transform"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaTwitter />
+              <FaLine />
+              <span className="sr-only">LINE</span>
             </a>
             <a
-              href="https://youtube.com/yourchannel"
-              aria-label="ชมช่อง YouTube"
-              title="YouTube"
-              className="hover:text-primary transform hover:scale-110 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
+              href="https://www.tiktok.com/@yourtiktok"
+              aria-label="TikTok"
+              title="ชมวิดีโอบน TikTok"
+              className="hover:text-primary hover:scale-110 transition-transform"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaYoutube />
+              <FaTiktok />
+              <span className="sr-only">TikTok</span>
             </a>
             <a
               href="https://facebook.com/yourpage"
-              aria-label="ติดตามบน Facebook"
-              title="Facebook"
-              className="hover:text-primary transform hover:scale-110 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
+              aria-label="Facebook"
+              title="ติดตามบน Facebook"
+              className="hover:text-primary hover:scale-110 transition-transform"
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaFacebook />
+              <span className="sr-only">Facebook</span>
             </a>
+            <a
+              href="mailto:contact@jpdocs.co"
+              aria-label="Email"
+              title="ส่งอีเมลหาเรา"
+              className="hover:text-primary hover:scale-110 transition-transform"
+            >
+              <FaEnvelope />
+              <span className="sr-only">Email</span>
+            </a>
+          </div>
+
+          {/* Contact Info */}
+          <div className="mt-4 text-xs text-right text-neutral-content/60 leading-relaxed">
+            LINE: @jpdocs | Email: contact@jpdocs.co
+            <br />
+            บริการทั่วประเทศ ครอบคลุมทุกกลุ่มอาชีพ ทั้งบุคคลธรรมดาและนิติบุคคล
           </div>
         </div>
       </div>
 
-      {/* Optional: Divider Line & Footer Note */}
-      <div className="border-t border-neutral-focus mt-8 pt-4 text-xs text-center text-neutral-content/50">
-        พัฒนาโดยทีม JP Visual & Docs เพื่อประสบการณ์ดิจิทัลที่ดีที่สุด
+      {/* Bottom Message */}
+      <div className="border-t border-neutral-focus mt-10 pt-4 text-center text-xs text-neutral-content/50">
+        พัฒนา ออกแบบ และดูแลโดยทีมงาน JP Visual & Docs — พาร์ทเนอร์ดิจิทัลสำหรับธุรกิจไทย
       </div>
     </footer>
   );
