@@ -1,93 +1,56 @@
-import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
-
-// Components
+import React, { useState, useEffect } from "react";
+import About from "./components/About";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
-import ServicesSection from "./components/ServicesSection";
-import ReviewsSection from "./components/ReviewsSection";
+import Services from "./components/Services";
 import Portfolio from "./components/Portfolio";
+import ReviewsSection from "./components/ReviewsSection";
 import JoinButtons from "./components/JoinButtons";
 import Footer from "./components/Footer";
-import ScrollToTop from "./components/ScrollToTop";
 import ThemeToggle from "./components/ThemeToggle";
 
-const getInitialTheme = (): "light" | "dark" => {
-  if (typeof window === "undefined") return "light";
-  try {
-    const saved = localStorage.getItem("theme");
-    if (saved === "light" || saved === "dark") return saved;
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
-  } catch {}
-  return "light";
-};
-
 const App: React.FC = () => {
-  const [theme, setTheme] = useState<"light" | "dark">(getInitialTheme);
+  // สถานะธีมในแอป
+  const [theme, setTheme] = useState<"light" | "dark">("light");
 
+  // โหลดค่า theme จาก localStorage หรือระบบเมื่อเริ่มต้นแอป
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const onChange = (e: MediaQueryListEvent) => {
-      if (!localStorage.getItem("theme")) {
-        setTheme(e.matches ? "dark" : "light");
-      }
-    };
-    mediaQuery.addEventListener("change", onChange);
-    return () => mediaQuery.removeEventListener("change", onChange);
+    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+    if (savedTheme) {
+      setTheme(savedTheme);
+      document.documentElement.classList.toggle("dark", savedTheme === "dark");
+    } else {
+      // เช็ค system preference
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      setTheme(prefersDark ? "dark" : "light");
+      document.documentElement.classList.toggle("dark", prefersDark);
+    }
   }, []);
 
-  useEffect(() => {
-    const root = document.documentElement;
-    root.setAttribute("data-theme", theme);
-    root.classList.toggle("dark", theme === "dark");
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  const toggleTheme = () => setTheme(prev => (prev === "light" ? "dark" : "light"));
+  // ฟังก์ชันสลับธีม
+  const toggleTheme = () => {
+    setTheme((prev) => {
+      const newTheme = prev === "light" ? "dark" : "light";
+      localStorage.setItem("theme", newTheme);
+      document.documentElement.classList.toggle("dark", newTheme === "dark");
+      return newTheme;
+    });
+  };
 
   return (
-    <>
-      <Helmet>
-        <html lang="th" />
-        <title>JP Visual & Docs - บริการยื่นกู้ วีซ่า เอกสาร การเงิน</title>
-        <meta
-          name="description"
-          content="บริการครบวงจรสำหรับการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ และระบบหลังบ้าน"
-        />
-        <meta name="theme-color" content={theme === "dark" ? "#1E1E1E" : "#ffffff"} />
-
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="JP Visual & Docs - บริการครบวงจร" />
-        <meta
-          property="og:description"
-          content="บริการครบวงจรสำหรับการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ และระบบหลังบ้าน"
-        />
-        <meta property="og:image" content="/og-image.jpg" />
-        <meta property="og:url" content="https://applicationlub.vercel.app" />
-
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="JP Visual & Docs - บริการครบวงจร" />
-        <meta name="twitter:description" content="บริการครบวงจรสำหรับการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ และระบบหลังบ้าน" />
-        <meta name="twitter:image" content="/og-image.jpg" />
-      </Helmet>
-
-      <div className="min-h-screen flex flex-col font-kanit bg-base-100 text-base-content transition-colors duration-500">
-        <Header>
-          <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
-        </Header>
-
-        <main className="flex-grow w-full max-w-screen-xl mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-10 space-y-16">
-          <Hero />
-          <ServicesSection />
-          <ReviewsSection />
-          <Portfolio />
-          <JoinButtons />
-        </main>
-
-        <Footer />
-        <ScrollToTop theme={theme} />
-      </div>
-    </>
+    <div className="min-h-screen bg-base-100 text-base-content">
+      <Header />
+      <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+      <main>
+        <Hero />
+        <About />
+        <Services />
+        <Portfolio />
+        <ReviewsSection />
+        <JoinButtons />
+      </main>
+      <Footer />
+    </div>
   );
 };
 

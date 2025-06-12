@@ -61,7 +61,7 @@ const Hero: React.FC = () => {
             <a
               href={ctaLink}
               target="_blank"
-              rel="noopener noreferrer nofollow"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-3 px-7 py-3 rounded-xl bg-accent text-white font-semibold text-lg shadow-md hover:scale-105 transition-transform duration-300 focus:outline-none focus:ring-4 focus:ring-accent/50 focus:ring-offset-2"
               aria-label="ติดต่อเราผ่าน LINE เพื่อขอคำปรึกษาฟรี"
             >

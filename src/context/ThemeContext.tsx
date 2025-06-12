@@ -14,18 +14,14 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ theme, toggleTheme }) => {
       role="switch"
       aria-checked={!isLight}
       onClick={toggleTheme}
-      aria-label={`สลับเป็นโหมด ${isLight ? "มืด" : "สว่าง"}`}
+      aria-label={`สลับเป็นโหมด${isLight ? "มืด" : "สว่าง"}`}
       title="สลับโหมดธีม"
-      className="
-        p-2 rounded 
+      className={`flex items-center justify-center p-2 rounded-full transition-colors duration-300
         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
-        transition-colors duration-300
-        bg-gray-200 dark:bg-gray-700
-        hover:bg-gray-300 dark:hover:bg-gray-600
-        "
+        ${isLight ? "bg-gray-200 hover:bg-gray-300" : "bg-gray-700 hover:bg-gray-600"}`}
     >
       {isLight ? (
-        // ไอคอนดวงอาทิตย์ (Sun icon) สำหรับโหมดสว่าง
+        // Sun icon (โหมดสว่าง)
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6 text-yellow-500"
@@ -33,6 +29,7 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ theme, toggleTheme }) => {
           viewBox="0 0 24 24"
           stroke="currentColor"
           strokeWidth={2}
+          aria-hidden="true"
         >
           <path
             strokeLinecap="round"
@@ -41,7 +38,7 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ theme, toggleTheme }) => {
           />
         </svg>
       ) : (
-        // ไอคอนพระจันทร์ (Moon icon) สำหรับโหมดมืด
+        // Moon icon (โหมดมืด)
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6 text-gray-300"
@@ -49,6 +46,7 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ theme, toggleTheme }) => {
           viewBox="0 0 24 24"
           stroke="currentColor"
           strokeWidth={2}
+          aria-hidden="true"
         >
           <path
             strokeLinecap="round"

@@ -75,14 +75,13 @@ const ReviewsSection: React.FC = () => {
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {reviews.map(({ id, name, message, avatar }) => (
-            <article
+            <button
               key={id}
               tabIndex={0}
-              role="article"
-              aria-label={`รีวิวโดย ${name}`}
-              className="card bg-base-100 rounded-xl p-6 shadow-lg hover:shadow-pink-600 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-pink-300 cursor-pointer"
+              aria-label={`ดูรีวิวจาก ${name}`}
               onKeyDown={(e) => onKeyDownHandler(e, name)}
               onClick={() => alert(`คุณคลิกดูรีวิวจากคุณ ${name}`)}
+              className="text-left card bg-base-100 rounded-xl p-6 shadow-lg hover:shadow-pink-600 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-pink-300 cursor-pointer"
             >
               <figure className="flex items-center gap-4 mb-4">
                 {avatar ? (
@@ -114,7 +113,7 @@ const ReviewsSection: React.FC = () => {
               <blockquote className="text-base-content text-sm leading-relaxed italic">
                 “{message}”
               </blockquote>
-            </article>
+            </button>
           ))}
         </div>
       </div>

@@ -1,11 +1,11 @@
 import React from "react";
 import serviceImage from "../assets/service-visa.webp";
-import fallbackImage from "../assets/fallback-image.png"; // import fallback image
+import fallbackImage from "../assets/fallback-image.png";
 
 interface Service {
   title: string;
   description: string;
-  image: string;
+  image: string; // ถ้าใช้ TypeScript แบบ image imports จาก Vite/Webpack อาจเปลี่ยนเป็น: string | StaticImageData
 }
 
 const services: Service[] = [
@@ -63,7 +63,7 @@ export default function ServicesSection() {
   const handleImageError = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
-    e.currentTarget.onerror = null; // ป้องกัน loop ถ้ารูป fallback ก็ error
+    e.currentTarget.onerror = null;
     e.currentTarget.src = fallbackImage;
   };
 
@@ -79,36 +79,39 @@ export default function ServicesSection() {
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 px-6 max-w-7xl mx-auto"
         role="list"
       >
-        {services.map(({ title, description, image }) => (
-          <article
-            key={title}
-            role="listitem"
-            tabIndex={0}
-            className="bg-gray-100 shadow-md rounded-lg transition-shadow duration-300
-              hover:shadow-xl focus:shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500
-              animate-fade-in cursor-default focus:cursor-pointer"
-            aria-describedby={`${title.replace(/\s+/g, "-")}-desc`}
-          >
-            <figure className="overflow-hidden rounded-t-lg">
-              <img
-                src={image}
-                alt={`บริการ: ${title}`}
-                loading="lazy"
-                className="h-40 w-full object-cover rounded-t-lg transform transition-transform duration-300 hover:scale-105"
-                onError={handleImageError}
-              />
-            </figure>
-            <div className="px-6 py-4 text-left">
-              <h3 className="text-lg text-accent font-semibold">{title}</h3>
-              <p
-                className="text-sm text-gray-700 mt-2"
-                id={`${title.replace(/\s+/g, "-")}-desc`}
-              >
-                {description}
-              </p>
-            </div>
-          </article>
-        ))}
+        {services.map(({ title, description, image }, index) => {
+          const safeId = `service-${index}`;
+          return (
+            <article
+              key={safeId}
+              role="listitem"
+              tabIndex={0}
+              className="bg-gray-100 shadow-md rounded-lg transition-shadow duration-300
+                hover:shadow-xl focus:shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500
+                animate-fade-in cursor-default focus:cursor-pointer"
+              aria-describedby={`${safeId}-desc`}
+            >
+              <figure className="overflow-hidden rounded-t-lg">
+                <img
+                  src={image}
+                  alt={`บริการ: ${title}`}
+                  loading="lazy"
+                  className="h-40 w-full object-cover rounded-t-lg transform transition-transform duration-300 hover:scale-105"
+                  onError={handleImageError}
+                />
+              </figure>
+              <div className="px-6 py-4 text-left">
+                <h3 className="text-lg text-accent font-semibold">{title}</h3>
+                <p
+                  className="text-sm text-gray-700 mt-2"
+                  id={`${safeId}-desc`}
+                >
+                  {description}
+                </p>
+              </div>
+            </article>
+          );
+        })}
       </div>
     </section>
   );

@@ -36,10 +36,10 @@ const JoinButtons: React.FC = () => {
         >
           <UserPlus className="w-5 h-5" aria-hidden="true" />
           สมัครเลย
+          <span id="apply-desc" className="sr-only">
+            เริ่มต้นสมัครบริการยื่นกู้ วีซ่า เอกสาร และระบบธุรกิจกับเรา
+          </span>
         </button>
-        <span id="apply-desc" className="sr-only">
-          เริ่มต้นสมัครบริการยื่นกู้ วีซ่า เอกสาร และระบบธุรกิจกับเรา
-        </span>
 
         {/* ติดต่อเรา */}
         <button
@@ -51,10 +51,10 @@ const JoinButtons: React.FC = () => {
         >
           <PhoneCall className="w-5 h-5" aria-hidden="true" />
           ติดต่อเรา
+          <span id="contact-desc" className="sr-only">
+            ติดต่อทีมงาน JP Visual & Docs เพื่อสอบถามข้อมูลและรับคำปรึกษาฟรี
+          </span>
         </button>
-        <span id="contact-desc" className="sr-only">
-          ติดต่อทีมงาน JP Visual & Docs เพื่อสอบถามข้อมูลและรับคำปรึกษาฟรี
-        </span>
 
         {/* ดูเพิ่มเติม */}
         <button
@@ -66,10 +66,10 @@ const JoinButtons: React.FC = () => {
         >
           <Info className="w-5 h-5" aria-hidden="true" />
           ดูเพิ่มเติม
+          <span id="more-desc" className="sr-only">
+            ดูข้อมูลเพิ่มเติมเกี่ยวกับบริการยื่นกู้ วีซ่า เอกสาร โปรไฟล์ และระบบธุรกิจ
+          </span>
         </button>
-        <span id="more-desc" className="sr-only">
-          ดูข้อมูลเพิ่มเติมเกี่ยวกับบริการยื่นกู้ วีซ่า เอกสาร โปรไฟล์ และระบบธุรกิจ
-        </span>
       </div>
     </section>
   );

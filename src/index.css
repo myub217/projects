@@ -11,11 +11,23 @@ html {
 /* ===== Base Style (Fonts + Theme Colors) ===== */
 @layer base {
   body {
-    @apply font-kanit bg-white text-black dark:bg-gray-900 dark:text-white transition-colors duration-300;
+    @apply font-kanit bg-white text-black transition-colors duration-300;
+
+    /* กำหนดสีพื้นหลังและข้อความสำหรับ dark mode */
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  /* dark mode body */
+  .dark body {
+    @apply bg-gray-900 text-white;
+    background-color: #121212; /* จาก tailwind config dark color */
+    color: #ffffff;
   }
 }
 
 /* ===== Scrollbar Styling ===== */
+/* สำหรับ Webkit Browsers (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -42,6 +54,16 @@ html {
 
 .dark ::-webkit-scrollbar-thumb:hover {
   background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* สำหรับ Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.dark * {
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }
 
 /* ===== Text Selection Highlight ===== */

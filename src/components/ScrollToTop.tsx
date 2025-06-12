@@ -25,13 +25,28 @@ const ScrollToTop: React.FC<ScrollToTopProps> = ({ theme }) => {
 
   return (
     <button
+      type="button"
       onClick={scrollToTop}
-      className={`fixed bottom-6 right-6 z-50 p-3 rounded-full shadow-lg transition-opacity duration-300 ${
+      title="กลับขึ้นด้านบน"
+      aria-label="เลื่อนขึ้นด้านบน"
+      className={`fixed bottom-6 right-6 z-50 p-3 rounded-full shadow-lg transition-opacity duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
         visible ? "opacity-100" : "opacity-0 pointer-events-none"
-      } ${theme === "dark" ? "bg-indigo-700 text-white" : "bg-white text-gray-800 border"}`}
-      aria-label="เลื่อนไปด้านบน"
+      } ${
+        theme === "dark"
+          ? "bg-indigo-700 text-white focus:ring-indigo-300"
+          : "bg-white text-gray-800 border focus:ring-gray-400"
+      }`}
     >
-      ⬆️
+      <svg
+        className="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+      </svg>
     </button>
   );
 };

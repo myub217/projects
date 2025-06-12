@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import logo from "../assets/jp-logo.png"; // เปลี่ยนเป็นโลโก้จริง
+import React, { useState, useEffect, ReactNode } from "react";
+import logo from "../assets/jp-logo.png"; // ปรับ path ให้ถูกต้องตามไฟล์จริง
 
-type HeaderProps = {
-  children?: React.ReactNode;
-};
+interface HeaderProps {
+  children?: ReactNode;
+}
 
 const Header: React.FC<HeaderProps> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -19,9 +19,9 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
   }, [menuOpen]);
 
   useEffect(() => {
-    const sections = ["hero", "services", "portfolio", "contact"];
+    const sections = ["hero", "about", "services", "portfolio", "contact"];
     const onScroll = () => {
-      const scrollY = window.scrollY + 160;
+      const scrollY = window.scrollY + 160; // เลื่อนดูพิกัดบนหน้าจอ
       for (const id of sections) {
         const el = document.getElementById(id);
         if (el && el.offsetTop <= scrollY && scrollY < el.offsetTop + el.offsetHeight) {
@@ -33,11 +33,12 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    onScroll(); // เรียกตอน mount เพื่อกำหนดสถานะ activeSection เริ่มต้น
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const navLinks = [
+    { href: "#about", label: "เกี่ยวกับเรา" },
     { href: "#services", label: "บริการของเรา" },
     { href: "#portfolio", label: "ผลงานที่ผ่านมา" },
     { href: "#contact", label: "ติดต่อเรา" },
@@ -62,10 +63,7 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
         </a>
 
         {/* เมนู Desktop */}
-        <nav
-          className="hidden md:flex items-center space-x-6 text-sm font-medium"
-          aria-label="เมนูหลัก"
-        >
+        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium" aria-label="เมนูหลัก">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.slice(1);
             return (
@@ -93,11 +91,11 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
           aria-controls="mobile-menu"
           className="md:hidden p-2 focus:outline-none focus-visible:ring-2 ring-primary rounded"
         >
-          <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             {menuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              <path d="M6 18L18 6M6 6l12 12" />
             ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              <path d="M4 6h16M4 12h16M4 18h16" />
             )}
           </svg>
         </button>

@@ -1,4 +1,4 @@
-import React, { KeyboardEvent } from "react";
+import React from "react";
 
 interface Review {
   id: number;
@@ -52,8 +52,10 @@ const reviews: Review[] = [
 ];
 
 const ReviewsSection: React.FC = () => {
-  const handleNameKeyDown = (e: KeyboardEvent<HTMLHeadingElement>) => {
-    if (e.key === "Enter" || e.key === " ") {
+  const handleNameKeyDown = (
+    e: React.KeyboardEvent<HTMLHeadingElement>
+  ) => {
+    if ((e.key === "Enter" || e.key === " ") && e.currentTarget.tagName === "H4") {
       e.preventDefault();
       alert("ดูรายละเอียดของรีวิวนี้");
     }
@@ -77,10 +79,8 @@ const ReviewsSection: React.FC = () => {
           เราเชื่อว่าความพึงพอใจของลูกค้าคือหัวใจของการทำงาน
           และทุกเสียงตอบรับคือแรงผลักดันให้เราพัฒนาบริการให้ดียิ่งขึ้น
         </p>
-        <div
-          role="list"
-          className="grid gap-8 sm:grid-cols-2 md:grid-cols-3"
-        >
+
+        <div role="list" className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
           {reviews.map(({ id, name, role, comment, avatar }) => (
             <article
               key={id}
@@ -95,8 +95,9 @@ const ReviewsSection: React.FC = () => {
                   loading="lazy"
                   decoding="async"
                   onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).src =
-                      "https://via.placeholder.com/100?text=No+Avatar";
+                    const img = e.currentTarget as HTMLImageElement;
+                    img.src = "https://via.placeholder.com/100?text=No+Avatar";
+                    img.alt = `ไม่มีรูปโปรไฟล์ของ ${name}`;
                   }}
                 />
                 <figcaption>
@@ -124,6 +125,7 @@ const ReviewsSection: React.FC = () => {
         <div className="mt-12 text-center">
           <a
             href="#contact"
+            title="ติดต่อเรา"
             className="inline-block px-6 py-3 text-sm font-semibold rounded-lg border border-pink-400 text-pink-400 hover:bg-pink-400 hover:text-white transition-all"
           >
             ติดต่อเราเพื่อเริ่มโปรเจกต์ของคุณ
