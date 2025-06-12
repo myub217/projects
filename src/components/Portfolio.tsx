@@ -41,65 +41,102 @@ const Portfolio: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const modalRef = useRef<HTMLDivElement>(null);
+  const lastFocusedElement = useRef<HTMLElement | null>(null);
 
   // ปิด modal และ reset state
   const closeModal = () => {
     setModalOpen(false);
     setSelectedWork(null);
     setCurrentImageIndex(0);
+    // คืน focus ไปยัง element เดิมที่เปิด modal
+    if (lastFocusedElement.current) {
+      lastFocusedElement.current.focus();
+    }
   };
 
-  // จัดการกด ESC เพื่อปิด modal
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        closeModal();
-      }
-      if (modalOpen && (e.key === "ArrowRight" || e.key === "ArrowLeft")) {
-        e.preventDefault();
-        if (!selectedWork) return;
-        if (e.key === "ArrowRight") {
-          setCurrentImageIndex((i) =>
-            i + 1 < selectedWork.images.length ? i + 1 : 0
-          );
-        }
-        if (e.key === "ArrowLeft") {
-          setCurrentImageIndex((i) =>
-            i - 1 >= 0 ? i - 1 : selectedWork.images.length - 1
-          );
-        }
-      }
-    };
-    if (modalOpen) {
-      document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", onKeyDown);
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [modalOpen, selectedWork]);
-
-  // Focus trap แบบง่าย
-  useEffect(() => {
-    if (modalOpen && modalRef.current) {
-      const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      if (focusableElements.length > 0) {
-        focusableElements[0].focus();
-      }
-    }
-  }, [modalOpen]);
-
-  // เปิด modal พร้อมเลือกผลงาน
+  // เปิด modal พร้อมเลือกผลงาน และจดจำ element ที่ focus ก่อนหน้า
   const openModal = (work: WorkItem) => {
+    lastFocusedElement.current = document.activeElement as HTMLElement;
     setSelectedWork(work);
     setCurrentImageIndex(0);
     setModalOpen(true);
   };
+
+  // จัดการกด ESC และ arrow key ภายใน modal
+  useEffect(() => {
+    if (!modalOpen) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeModal();
+      }
+
+      if (!selectedWork) return;
+
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        setCurrentImageIndex((i) =>
+          i + 1 < selectedWork.images.length ? i + 1 : 0
+        );
+      }
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        setCurrentImageIndex((i) =>
+          i - 1 >= 0 ? i - 1 : selectedWork.images.length - 1
+        );
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    document.body.style.overflow = "hidden"; // ป้องกัน scroll หน้า background
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = ""; // คืนค่า overflow
+    };
+  }, [modalOpen, selectedWork]);
+
+  // Focus trap แบบง่าย (วน focus ใน modal)
+  useEffect(() => {
+    if (!modalOpen || !modalRef.current) return;
+
+    const focusableSelectors =
+      'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable]';
+    const focusableElements = Array.from(
+      modalRef.current.querySelectorAll<HTMLElement>(focusableSelectors)
+    );
+
+    if (focusableElements.length === 0) return;
+
+    const firstEl = focusableElements[0];
+    const lastEl = focusableElements[focusableElements.length - 1];
+
+    const trapFocus = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+
+      if (e.shiftKey) {
+        // shift + tab
+        if (document.activeElement === firstEl) {
+          e.preventDefault();
+          lastEl.focus();
+        }
+      } else {
+        // tab
+        if (document.activeElement === lastEl) {
+          e.preventDefault();
+          firstEl.focus();
+        }
+      }
+    };
+
+    firstEl.focus();
+    window.addEventListener("keydown", trapFocus);
+
+    return () => {
+      window.removeEventListener("keydown", trapFocus);
+    };
+  }, [modalOpen]);
 
   // ปุ่ม carousel ภาพถัดไป
   const nextImage = () => {

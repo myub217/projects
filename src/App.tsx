@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 import About from "./components/About";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
@@ -7,51 +7,63 @@ import Portfolio from "./components/Portfolio";
 import ReviewsSection from "./components/ReviewsSection";
 import JoinButtons from "./components/JoinButtons";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
+import LineButton from "./components/LineButton";
+import { AppConfig } from "./Config/Config";
 
-const App: React.FC = () => {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+type Theme = "light" | "dark";
 
-  // อัพเดต class บน <html> ตามธีม
-  const updateDocumentClass = useCallback((currentTheme: "light" | "dark") => {
-    if (currentTheme === "dark") {
-      document.documentElement.classList.add("dark");
+const useTheme = (defaultTheme: Theme = "light") => {
+  const [theme, setTheme] = React.useState<Theme>(defaultTheme);
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem("theme") as Theme | null;
+
+    const applyTheme = (t: Theme) => {
+      html.classList.toggle("dark", t === "dark");
+      setTheme(t);
+    };
+
+    if (savedTheme === "light" || savedTheme === "dark") {
+      applyTheme(savedTheme);
     } else {
-      document.documentElement.classList.remove("dark");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      applyTheme(prefersDark ? "dark" : "light");
     }
+
+    setMounted(true);
   }, []);
 
-  // โหลดธีมจาก localStorage หรือจาก prefers-color-scheme
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
-
-      if (savedTheme) {
-        setTheme(savedTheme);
-        updateDocumentClass(savedTheme);
-      } else {
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        const defaultTheme = prefersDark ? "dark" : "light";
-        setTheme(defaultTheme);
-        updateDocumentClass(defaultTheme);
-      }
-    }
-  }, [updateDocumentClass]);
-
-  // ฟังก์ชันสลับธีม และเก็บใน localStorage
-  const toggleTheme = useCallback(() => {
-    setTheme((prevTheme) => {
-      const newTheme = prevTheme === "light" ? "dark" : "light";
-      localStorage.setItem("theme", newTheme);
-      updateDocumentClass(newTheme);
-      return newTheme;
+  const toggleTheme = () => {
+    setTheme((prev) => {
+      const next = prev === "light" ? "dark" : "light";
+      localStorage.setItem("theme", next);
+      document.documentElement.classList.toggle("dark", next === "dark");
+      return next;
     });
-  }, [updateDocumentClass]);
+  };
+
+  return { theme, toggleTheme, mounted };
+};
+
+const App: React.FC = () => {
+  const { theme, toggleTheme, mounted } = useTheme(AppConfig.defaultTheme);
+
+  if (!mounted) {
+    // ป้องกัน flash effect ขณะโหลด theme
+    return null;
+  }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
-      {/* ส่ง theme และ toggleTheme ไปให้ Header */}
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 ease-in-out relative">
+      {/* ส่วนหัว */}
       <Header theme={theme} toggleTheme={toggleTheme} />
 
+      {/* เนื้อหาหลัก */}
       <main>
         <Hero />
         <About />
@@ -61,7 +73,14 @@ const App: React.FC = () => {
         <JoinButtons />
       </main>
 
+      {/* ส่วนท้าย */}
       <Footer />
+
+      {/* ปุ่ม Scroll To Top */}
+      <ScrollToTop theme={theme} />
+
+      {/* ปุ่มติดต่อ LINE */}
+      <LineButton lineUrl="https://line.me/R/ti/p/@yourlineid" />
     </div>
   );
 };

@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 
+const sections = ["about", "services", "contact"];
+
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
   const menuRef = useRef<HTMLUListElement>(null);
 
   const handleSecretClick = () => {
@@ -10,8 +13,10 @@ const Navbar: React.FC = () => {
     );
   };
 
-  // ปิดเมนูเมื่อคลิกข้างนอก (สำหรับมือถือ)
+  // ปิดเมนูเมื่อคลิกข้างนอก (มือถือ)
   useEffect(() => {
+    if (!isMenuOpen) return;
+
     const handleClickOutside = (event: MouseEvent) => {
       if (
         menuRef.current &&
@@ -21,13 +26,45 @@ const Navbar: React.FC = () => {
         setIsMenuOpen(false);
       }
     };
-    if (isMenuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
+
+    document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMenuOpen]);
 
-  // สลับเมนูมือถือ
+  // Auto-close เมนูเมื่อ scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isMenuOpen) setIsMenuOpen(false);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isMenuOpen]);
+
+  // Scroll spy: ตรวจสอบ section ที่อยู่ใน viewport
+  useEffect(() => {
+    const handleScrollSpy = () => {
+      const scrollPos = window.scrollY + window.innerHeight / 3;
+
+      let currentSection: string | null = null;
+
+      for (const sectionId of sections) {
+        const elem = document.getElementById(sectionId);
+        if (elem) {
+          const top = elem.offsetTop;
+          if (scrollPos >= top) {
+            currentSection = sectionId;
+          }
+        }
+      }
+      setActiveSection(currentSection);
+    };
+
+    window.addEventListener("scroll", handleScrollSpy, { passive: true });
+    handleScrollSpy(); // เรียกครั้งแรกตอน mount
+
+    return () => window.removeEventListener("scroll", handleScrollSpy);
+  }, []);
+
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   return (
@@ -37,23 +74,20 @@ const Navbar: React.FC = () => {
       aria-label="เมนูหลัก JP Visual & Docs"
     >
       <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
-        {/* โลโก้ / ชื่อแบรนด์ */}
-        <div
-          className="text-xl font-extrabold text-red-500 tracking-wide select-none"
-          tabIndex={-1}
-        >
+        {/* โลโก้ */}
+        <div className="text-xl font-extrabold text-red-500 tracking-wide select-none">
           JP Visual & Docs
         </div>
 
         {/* ปุ่มเปิดเมนูมือถือ */}
         <button
           id="menu-toggle-button"
+          type="button"
           aria-controls="primary-navigation"
           aria-expanded={isMenuOpen}
           onClick={toggleMenu}
           className="sm:hidden text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 rounded"
           aria-label={isMenuOpen ? "ปิดเมนู" : "เปิดเมนู"}
-          type="button"
         >
           <svg
             className="w-6 h-6"
@@ -63,7 +97,6 @@ const Navbar: React.FC = () => {
             strokeLinecap="round"
             strokeLinejoin="round"
             viewBox="0 0 24 24"
-            aria-hidden="true"
           >
             {isMenuOpen ? (
               <path d="M6 18L18 6M6 6l12 12" />
@@ -73,19 +106,27 @@ const Navbar: React.FC = () => {
           </svg>
         </button>
 
-        {/* เมนูลิงก์ */}
+        {/* เมนู */}
         <ul
           id="primary-navigation"
           ref={menuRef}
-          className={`flex flex-col sm:flex-row sm:space-x-6 text-sm font-medium bg-gray-950 sm:bg-transparent absolute sm:static top-full left-0 w-full sm:w-auto transition-transform transform origin-top duration-300 ease-in-out overflow-hidden
-          ${isMenuOpen ? "scale-y-100" : "scale-y-0 sm:scale-y-100"}
+          className={`flex flex-col sm:flex-row sm:space-x-6 text-sm font-medium bg-gray-950 sm:bg-transparent absolute sm:static top-full left-0 w-full sm:w-auto overflow-hidden transition-all duration-300 ease-in-out transform origin-top
+            ${
+              isMenuOpen
+                ? "scale-y-100 opacity-100 pointer-events-auto"
+                : "scale-y-0 opacity-0 pointer-events-none sm:scale-y-100 sm:opacity-100 sm:pointer-events-auto"
+            }
           `}
-          style={{ transformOrigin: "top" }}
+          aria-hidden={!isMenuOpen && window.innerWidth < 640}
         >
           <li>
             <a
               href="#about"
-              className="block px-6 py-3 hover:text-red-400 focus:text-red-400 transition outline-none focus:outline-red-400"
+              className={`block px-6 py-3 transition outline-none focus:outline-red-400 ${
+                activeSection === "about"
+                  ? "text-red-400 font-semibold"
+                  : "hover:text-red-400 focus:text-red-400"
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               เกี่ยวกับเรา
@@ -94,7 +135,11 @@ const Navbar: React.FC = () => {
           <li>
             <a
               href="#services"
-              className="block px-6 py-3 hover:text-red-400 focus:text-red-400 transition outline-none focus:outline-red-400"
+              className={`block px-6 py-3 transition outline-none focus:outline-red-400 ${
+                activeSection === "services"
+                  ? "text-red-400 font-semibold"
+                  : "hover:text-red-400 focus:text-red-400"
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               บริการ
@@ -103,7 +148,11 @@ const Navbar: React.FC = () => {
           <li>
             <a
               href="#contact"
-              className="block px-6 py-3 hover:text-red-400 focus:text-red-400 transition outline-none focus:outline-red-400"
+              className={`block px-6 py-3 transition outline-none focus:outline-red-400 ${
+                activeSection === "contact"
+                  ? "text-red-400 font-semibold"
+                  : "hover:text-red-400 focus:text-red-400"
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               ติดต่อ
@@ -111,13 +160,13 @@ const Navbar: React.FC = () => {
           </li>
           <li>
             <button
+              type="button"
               onClick={() => {
                 handleSecretClick();
                 setIsMenuOpen(false);
               }}
               className="block w-full text-left px-6 py-3 text-red-400 hover:text-red-600 focus:text-red-600 font-bold transition cursor-pointer outline-none focus:outline-2 focus:outline-offset-2 focus:outline-red-600 rounded"
               aria-label="ห้องลับเจ้าป่า กดเพื่อดูข้อมูลลับ"
-              type="button"
             >
               ห้องลับเจ้าป่า
             </button>

@@ -1,75 +1,32 @@
 <!DOCTYPE html>
-<html lang="th" class="scroll-smooth">
+<html lang="th" data-theme="light">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>JP Visual & Docs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- ป้องกัน FOUC: ตั้งธีมก่อนโหลด React -->
-    <script>
-      (function () {
-        try {
-          const theme = localStorage.getItem("theme");
-          const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    <!-- ✅ SEO Meta -->
+    <title>JP Visual & Docs - ยื่นกู้ วีซ่า เอกสาร และระบบธุรกิจครบวงจร</title>
+    <meta name="description" content="บริการครบวงจร: ยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน โลโก้ การตลาด พร้อมให้คำปรึกษาและตัวอย่างผลงานจริง" />
 
-          if (theme === "dark" || (!theme && prefersDark)) {
-            document.documentElement.classList.add("dark");
-            document.documentElement.setAttribute("data-theme", "dark");
-          } else {
-            document.documentElement.classList.remove("dark");
-            document.documentElement.setAttribute("data-theme", "light");
-          }
-        } catch (e) {
-          document.documentElement.classList.remove("dark");
-          document.documentElement.setAttribute("data-theme", "light");
-        }
-      })();
-    </script>
-
-    <!-- Preconnect ฟอนต์ -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <!-- Google Fonts: Kanit & Orbitron -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;700&family=Orbitron:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Favicon -->
-    <link rel="icon" href="/jp-logo.png" type="image/png" />
-
-    <!-- TailwindCSS (Vite will replace with actual CSS) -->
-    <link rel="stylesheet" href="/src/index.css" />
-
-    <!-- SEO Meta -->
-    <meta
-      name="description"
-      content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน โดย JP Visual & Docs"
-    />
-    <meta name="author" content="JP Visual & Docs" />
-
-    <!-- Open Graph -->
+    <!-- ✅ OG / Social Sharing -->
     <meta property="og:title" content="JP Visual & Docs" />
-    <meta
-      property="og:description"
-      content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน"
-    />
-    <meta property="og:image" content="/repository-open-graph-template.png" />
+    <meta property="og:description" content="บริการยื่นกู้ วีซ่า เอกสาร และระบบหลังบ้านธุรกิจ" />
+    <meta property="og:image" content="/assets/repository-open-graph-template.png" />
     <meta property="og:url" content="https://applicationlub.vercel.app/" />
-    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- PWA/Meta -->
-    <meta name="theme-color" content="#1A237E" />
+    <!-- ✅ Favicon & App Icon -->
+    <link rel="icon" type="image/png" href="/assets/icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" href="/assets/icons/icon-512x512.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
-  </head>
 
-  <body
-    class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-kanit transition-colors duration-500"
-  >
-    <div id="root"></div>
+    <!-- ✅ Font (Optional) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
 
-    <!-- React/Vite Entry -->
+    <!-- ✅ Vite Inject -->
     <script type="module" src="/src/main.tsx"></script>
+  </head>
+  <body class="bg-base-100 text-base-content transition-colors duration-300">
+    <div id="root"></div>
   </body>
 </html>
