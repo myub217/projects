@@ -21,7 +21,7 @@ const JoinButtons: React.FC<JoinButtonsProps> = ({
   contactLineUrl = "https://lin.ee/yourlineid",
   moreInfoUrl = "https://your-website.com/services",
 }) => {
-  // ฟังก์ชันช่วยเปิดลิงก์อย่างปลอดภัย
+  // ฟังก์ชันช่วยเปิดลิงก์อย่างปลอดภัยในแท็บใหม่
   const openLink = (url: string) => {
     if (isValidUrl(url)) {
       window.open(url, "_blank", "noopener,noreferrer");
@@ -43,7 +43,7 @@ const JoinButtons: React.FC<JoinButtonsProps> = ({
       <div
         role="group"
         aria-label="กลุ่มปุ่มสำหรับสมัคร ติดต่อ และดูข้อมูลเพิ่มเติมเกี่ยวกับบริการของ JP Visual & Docs"
-        className="join flex flex-col sm:flex-row justify-center items-center gap-6 max-w-3xl mx-auto"
+        className="flex flex-col sm:flex-row justify-center items-center gap-6 max-w-3xl mx-auto"
       >
         {/* สมัครเลย */}
         <button

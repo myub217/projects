@@ -1,76 +1,66 @@
-import React from "react";
-import fallbackImage from "../assets/fallback-image.png";
+import React, { useState, KeyboardEvent } from "react";
 
-interface DocPreviewProps {
-  imageSrc?: string;    // URL หรือ import รูปภาพ
-  docLink: string;      // URL ลิงก์เอกสาร
-  fileName: string;     // ชื่อไฟล์พร้อมนามสกุล
-  maxWidth?: string;    // ควบคุมความกว้าง เช่น "max-w-sm", "max-w-md"
-  height?: string;      // ควบคุมความสูงรูป เช่น "h-48", "h-64"
-  bgColor?: string;     // สีพื้นหลัง เช่น "bg-gray-800"
-  textColor?: string;   // สีตัวหนังสือ เช่น "text-gray-200"
-  className?: string;   // คลาส CSS เพิ่มเติม
-  onClick?: () => void; // callback เมื่อคลิกบน container (optional)
+interface DocumentCardProps {
+  fileName: string;
+  docLink: string;
+  imageSrc?: string;
+  fallbackImage: string;
+  altText: string;
+  maxWidth?: string;
+  bgColor?: string;
+  textColor?: string;
+  className?: string;
+  onClick?: () => void;
 }
 
-const DocPreview: React.FC<DocPreviewProps> = ({
-  imageSrc,
-  docLink,
+const DocumentCard: React.FC<DocumentCardProps> = ({
   fileName,
-  maxWidth = "max-w-sm",
-  height = "h-48",
-  bgColor = "bg-gray-800",
-  textColor = "text-gray-200",
+  docLink,
+  imageSrc,
+  fallbackImage,
+  altText,
+  maxWidth = "max-w-xs",
+  bgColor = "bg-white",
+  textColor = "text-gray-900",
   className = "",
   onClick,
 }) => {
-  // ฟังก์ชันเปลี่ยนรูปเป็น fallback กรณีโหลดภาพล้มเหลว
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src = fallbackImage;
+  const [imgSrc, setImgSrc] = useState(imageSrc || fallbackImage);
+
+  const handleImageError = () => {
+    if (imgSrc !== fallbackImage) {
+      setImgSrc(fallbackImage);
+    }
   };
 
-  // ป้องกันการคลิก container ซ้ำซ้อน (ไม่ให้ trigger onClick และลิงก์พร้อมกัน)
-  const handleContainerClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleContainerClick = ( ) => {
     if (onClick) {
-      // หากคลิกบนลิงก์จะไม่เรียก onClick
-      if ((e.target as HTMLElement).closest("a")) {
-        return;
-      }
       onClick();
     }
   };
 
-  // รองรับ keyboard สำหรับ accessibility (Enter / Space เพื่อ trigger onClick)
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (onClick && (e.key === "Enter" || e.key === " ")) {
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (!onClick) return;
+    if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       onClick();
     }
   };
 
-  const altText = fileName || "Document preview image";
-  const ariaLabel = fileName ? `เปิดเอกสาร ${fileName} ในแท็บใหม่` : "เปิดเอกสารในแท็บใหม่";
-
   return (
     <div
-      className={`${maxWidth} border rounded-lg shadow-lg overflow-hidden ${bgColor} ${textColor} ${className}`}
+      className={`${maxWidth} border rounded-lg shadow-lg overflow-hidden ${bgColor} ${textColor} ${className} relative cursor-pointer`}
       onClick={handleContainerClick}
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
       onKeyDown={handleKeyDown}
       aria-label={onClick ? `คลิกเพื่อดำเนินการกับเอกสาร ${fileName}` : undefined}
     >
-      <a
-        href={docLink}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block"
-        aria-label={ariaLabel}
-      >
+      <a href={docLink} target="_blank" rel="noopener noreferrer" className="block">
         <img
-          src={imageSrc || fallbackImage}
+          src={imgSrc}
           alt={altText}
-          className={`w-full object-cover hover:scale-105 transition-transform duration-300 ${height}`}
+          className="w-full object-contain"
           onError={handleImageError}
           loading="lazy"
           decoding="async"
@@ -84,7 +74,6 @@ const DocPreview: React.FC<DocPreviewProps> = ({
           rel="noopener noreferrer"
           className="text-red-500 font-semibold hover:underline break-words"
           title={`ดาวน์โหลดหรือเปิดไฟล์ ${fileName}`}
-          aria-label={`ดาวน์โหลดหรือเปิดไฟล์ ${fileName}`}
         >
           {fileName}
         </a>
@@ -93,4 +82,4 @@ const DocPreview: React.FC<DocPreviewProps> = ({
   );
 };
 
-export default DocPreview;
+export default DocumentCard;

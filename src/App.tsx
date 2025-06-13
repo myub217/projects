@@ -1,86 +1,65 @@
-import React from "react";
-import About from "./components/About";
-import Header from "./components/Header";
+import React, { useEffect, useState } from "react";
+import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import Services from "./components/Services";
-import Portfolio from "./components/Portfolio";
-import ReviewsSection from "./components/ReviewsSection";
-import JoinButtons from "./components/JoinButtons";
+import About from "./components/About";
+import ServicesSection from "./components/ServicesSection";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
-import LineButton from "./components/LineButton";
-import { AppConfig } from "./Config/Config";
-
-type Theme = "light" | "dark";
-
-const useTheme = (defaultTheme: Theme = "light") => {
-  const [theme, setTheme] = React.useState<Theme>(defaultTheme);
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const html = document.documentElement;
-    const savedTheme = localStorage.getItem("theme") as Theme | null;
-
-    const applyTheme = (t: Theme) => {
-      html.classList.toggle("dark", t === "dark");
-      setTheme(t);
-    };
-
-    if (savedTheme === "light" || savedTheme === "dark") {
-      applyTheme(savedTheme);
-    } else {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      applyTheme(prefersDark ? "dark" : "light");
-    }
-
-    setMounted(true);
-  }, []);
-
-  const toggleTheme = () => {
-    setTheme((prev) => {
-      const next = prev === "light" ? "dark" : "light";
-      localStorage.setItem("theme", next);
-      document.documentElement.classList.toggle("dark", next === "dark");
-      return next;
-    });
-  };
-
-  return { theme, toggleTheme, mounted };
-};
+import ThemeToggle from "./components/ThemeToggle";
 
 const App: React.FC = () => {
-  const { theme, toggleTheme, mounted } = useTheme(AppConfig.defaultTheme);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
 
-  if (!mounted) {
-    // ป้องกัน flash effect ขณะโหลด theme
-    return null;
-  }
+  // โหลดธีมจาก localStorage หรือระบบ OS
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const initialTheme = savedTheme ?? (prefersDark ? "dark" : "light");
+
+    setTheme(initialTheme);
+    if (initialTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
+  // ฟังก์ชัน toggle ธีม
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+
+    if (newTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 ease-in-out relative">
-      {/* ส่วนหัว */}
-      <Header theme={theme} toggleTheme={toggleTheme} />
-
-      {/* เนื้อหาหลัก */}
-      <main>
+    <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 scroll-smooth min-h-screen flex flex-col">
+      <Navbar />
+      <main className="flex-grow">
         <Hero />
-        <About />
-        <Services />
-        <Portfolio />
-        <ReviewsSection />
-        <JoinButtons />
+        <section id="about" className="py-16 px-4 max-w-7xl mx-auto">
+          <About />
+        </section>
+        <section id="services" className="py-16 px-4 max-w-7xl mx-auto">
+          <ServicesSection />
+        </section>
+        <section id="contact" className="py-16 px-4 max-w-7xl mx-auto">
+          <Footer />
+        </section>
       </main>
 
-      {/* ส่วนท้าย */}
-      <Footer />
+      {/* ปุ่มสลับธีม */}
+      <div className="fixed bottom-4 right-4 z-50">
+        <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+      </div>
 
-      {/* ปุ่ม Scroll To Top */}
-      <ScrollToTop theme={theme} />
-
-      {/* ปุ่มติดต่อ LINE */}
-      <LineButton lineUrl="https://line.me/R/ti/p/@yourlineid" />
+<ScrollToTop lineUrl="https://line.me/ti/p/your_line_id" />/
     </div>
   );
 };

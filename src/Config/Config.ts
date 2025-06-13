@@ -1,82 +1,79 @@
-// ประเภทธีมของเว็บไซต์
-export type ThemeType = 'light' | 'dark';
+// src/Config/Config.ts
 
-// ข้อมูลสำหรับ SEO / Social Sharing
-export interface MetaInfo {
+export interface Service {
+  id: number | string;
   title: string;
   description: string;
-  url: string;
-  ogImage: string;
-  favicon?: string; // Optional: สำหรับ favicon หรือ app icon
+  image: string;
+  link?: string; // ถ้าไม่มีลิงก์ก็ไม่ต้องใส่ก็ได้
 }
 
-// เมนูหลักใน Navbar
-export interface NavLink {
-  name: string;
-  href: string;
-}
-
-// ลิงก์โซเชียลมีเดีย
-export interface SocialLink {
-  platform: 'line' | 'facebook' | 'instagram' | 'tiktok' | 'other';
-  url: string;
-  label?: string; // ใช้แสดงแทน platform ถ้าต้องการ
-}
-
-// รายการบริการ
-export interface ServiceItem {
-  title: string;
-  slug: string; // ใช้ใน anchor เช่น #loan
-  shortDescription?: string;
-}
-
-// การตั้งค่าหลักของแอป
-export interface AppConfigType {
-  siteName: string;
-  defaultTheme: ThemeType;
-  primaryColor: string;
-  meta: MetaInfo;
-  navLinks: NavLink[];
-  socialLinks?: SocialLink[];
-  services?: ServiceItem[];
-}
-
-// ค่าตั้งค่าเริ่มต้นของแอป
-export const AppConfig: AppConfigType = {
-  siteName: 'JP Visual & Docs',
-  defaultTheme: 'light',
-  primaryColor: 'blue',
-
-  meta: {
-    title: 'JP Visual & Docs | ยื่นกู้ วีซ่า เอกสาร',
-    description: 'บริการยื่นกู้ วีซ่า เอกสาร โปรไฟล์ ระบบหลังบ้าน การตลาดและการเงินแบบครบวงจร โดยทีมงานมืออาชีพ',
-    url: 'https://applicationlub.vercel.app/',
-    ogImage: '/assets/og-image.jpg',
-    favicon: '/assets/logo.svg',
+const services: Service[] = [
+  {
+    id: 1,
+    title: "ยื่นกู้",
+    description:
+      "บริการยื่นกู้ครบวงจร พร้อมคำปรึกษาและช่วยเตรียมเอกสารอย่างมืออาชีพ\nให้คุณมั่นใจได้ในทุกขั้นตอน",
+    image: "/images/services/loan.jpg",
+    link: "/services/loan",
   },
+  {
+    id: 2,
+    title: "วีซ่า",
+    description:
+      "ยื่นขอวีซ่า พร้อมดูแลเอกสารและคำแนะนำเฉพาะบุคคล\nให้คุณเดินทางได้อย่างไร้กังวล",
+    image: "/images/services/visa.jpg",
+    link: "/services/visa",
+  },
+  {
+    id: 3,
+    title: "เอกสารการเงิน",
+    description:
+      "จัดเตรียมเอกสารการเงินและรายงานต่าง ๆ สำหรับการยื่นขออนุมัติต่าง ๆ\nครบถ้วนตามมาตรฐานสากล",
+    image: "/images/services/financial-docs.jpg",
+    link: "/services/financial-docs",
+  },
+  {
+    id: 4,
+    title: "โปรไฟล์",
+    description:
+      "สร้างและจัดการโปรไฟล์ธุรกิจหรือบุคคล เพื่อการนำเสนอที่น่าเชื่อถือ\nและมีประสิทธิภาพสูงสุด",
+    image: "/images/services/profile.jpg",
+    link: "/services/profile",
+  },
+  {
+    id: 5,
+    title: "ระบบหลังบ้าน",
+    description:
+      "ออกแบบและพัฒนาระบบหลังบ้านที่รองรับการทำงานอย่างมีประสิทธิภาพ\nและง่ายต่อการบริหารจัดการ",
+    image: "/images/services/backend.jpg",
+    link: "/services/backend",
+  },
+  {
+    id: 6,
+    title: "ทีมงานมืออาชีพ",
+    description:
+      "ทีมงานผู้เชี่ยวชาญที่พร้อมให้คำปรึกษาและช่วยเหลือในทุกขั้นตอน\nเพื่อให้คุณได้รับบริการที่ดีที่สุด",
+    image: "/images/services/pro-team.jpg",
+  },
+  {
+    id: 7,
+    title: "ปรึกษาฟรี",
+    description:
+      "ให้คำปรึกษาฟรีเกี่ยวกับการยื่นกู้ วีซ่า และเอกสารต่าง ๆ\nเพื่อวางแผนการดำเนินงานอย่างมีประสิทธิภาพ",
+    image: "/images/services/consulting.jpg",
+  },
+  {
+    id: 8,
+    title: "บริการพิเศษ",
+    description:
+      "บริการเสริมและดูแลหลังการยื่นเอกสารเพื่อความสบายใจของคุณ\nพร้อมทีมงานดูแลตลอดเวลา",
+    image: "/images/services/special.jpg",
+  },
+];
 
-  navLinks: [
-    { name: 'บริการ', href: '#services' },
-    { name: 'รีวิว', href: '#reviews' },
-    { name: 'ตัวอย่างผลงาน', href: '#portfolio' },
-    { name: 'ติดต่อเรา', href: '#contact' },
-  ],
-
-  socialLinks: [
-    { platform: 'line', url: 'https://lin.ee/xxx', label: 'LINE' },
-    { platform: 'facebook', url: 'https://facebook.com/yourpage' },
-    { platform: 'instagram', url: 'https://instagram.com/yourpage' },
-    { platform: 'tiktok', url: 'https://tiktok.com/@yourpage' },
-  ],
-
-  services: [
-    { title: 'ยื่นกู้', slug: 'loan' },
-    { title: 'วีซ่า', slug: 'visa' },
-    { title: 'แปลเอกสาร', slug: 'translation' },
-    { title: 'แนะนำการเงิน', slug: 'finance' },
-    { title: 'ทำโปรไฟล์', slug: 'profile' },
-    { title: 'ระบบหลังบ้าน', slug: 'backend' },
-    { title: 'ออกแบบโลโก้', slug: 'logo' },
-    { title: 'ระบบการตลาด', slug: 'marketing' },
-  ],
+const config = {
+  services,
 };
+
+export default config;

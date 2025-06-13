@@ -2,7 +2,4 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ตัวอย่างเพิ่มสไตล์ global ถ้าต้องการ */
-body {
-  @apply bg-base-100 text-base-content font-sans;
-}
+/* custom styles ถ้าต้องการ */

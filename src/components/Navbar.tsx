@@ -13,7 +13,6 @@ const Navbar: React.FC = () => {
     );
   };
 
-  // ปิดเมนูเมื่อคลิกข้างนอก (มือถือ)
   useEffect(() => {
     if (!isMenuOpen) return;
 
@@ -31,7 +30,6 @@ const Navbar: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMenuOpen]);
 
-  // Auto-close เมนูเมื่อ scroll
   useEffect(() => {
     const handleScroll = () => {
       if (isMenuOpen) setIsMenuOpen(false);
@@ -40,27 +38,22 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isMenuOpen]);
 
-  // Scroll spy: ตรวจสอบ section ที่อยู่ใน viewport
   useEffect(() => {
     const handleScrollSpy = () => {
       const scrollPos = window.scrollY + window.innerHeight / 3;
+      let current: string | null = null;
 
-      let currentSection: string | null = null;
-
-      for (const sectionId of sections) {
-        const elem = document.getElementById(sectionId);
-        if (elem) {
-          const top = elem.offsetTop;
-          if (scrollPos >= top) {
-            currentSection = sectionId;
-          }
+      for (const section of sections) {
+        const el = document.getElementById(section);
+        if (el && scrollPos >= el.offsetTop) {
+          current = section;
         }
       }
-      setActiveSection(currentSection);
+      setActiveSection(current);
     };
 
     window.addEventListener("scroll", handleScrollSpy, { passive: true });
-    handleScrollSpy(); // เรียกครั้งแรกตอน mount
+    handleScrollSpy();
 
     return () => window.removeEventListener("scroll", handleScrollSpy);
   }, []);
@@ -74,12 +67,10 @@ const Navbar: React.FC = () => {
       aria-label="เมนูหลัก JP Visual & Docs"
     >
       <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
-        {/* โลโก้ */}
         <div className="text-xl font-extrabold text-red-500 tracking-wide select-none">
           JP Visual & Docs
         </div>
 
-        {/* ปุ่มเปิดเมนูมือถือ */}
         <button
           id="menu-toggle-button"
           type="button"
@@ -106,7 +97,6 @@ const Navbar: React.FC = () => {
           </svg>
         </button>
 
-        {/* เมนู */}
         <ul
           id="primary-navigation"
           ref={menuRef}

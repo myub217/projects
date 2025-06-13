@@ -1,63 +1,59 @@
-import React from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
-interface ThemeToggleProps {
-  theme: "light" | "dark";
+type Theme = "light" | "dark";
+
+interface ThemeContextType {
+  theme: Theme;
   toggleTheme: () => void;
 }
 
-const ThemeToggle: React.FC<ThemeToggleProps> = ({ theme, toggleTheme }) => {
-  const isLight = theme === "light";
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-  return (
-    <button
-      type="button"
-      role="switch"
-      aria-checked={!isLight}
-      onClick={toggleTheme}
-      aria-label={`สลับเป็นโหมด${isLight ? "มืด" : "สว่าง"}`}
-      title={`สลับโหมดธีมเป็นโหมด${isLight ? "มืด" : "สว่าง"}`}
-      className={`flex items-center justify-center p-2 rounded-full transition-colors duration-300
-        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
-        ${isLight ? "bg-gray-200 hover:bg-gray-300" : "bg-gray-700 hover:bg-gray-600"}`}
-      tabIndex={0}
-    >
-      {isLight ? (
-        // ไอคอนดวงอาทิตย์ (โหมดสว่าง)
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 text-yellow-500"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 3v1m0 16v1m8.485-8.485h1M3 12H2m15.364 6.364l.707.707M6.343 6.343l-.707-.707m12.728 0l-.707-.707M6.343 17.657l-.707.707M12 7a5 5 0 100 10 5 5 0 000-10z"
-          />
-        </svg>
-      ) : (
-        // ไอคอนพระจันทร์ (โหมดมืด)
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 text-gray-300"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"
-          />
-        </svg>
-      )}
-    </button>
-  );
+/**
+ * ThemeProvider - บริบทสำหรับจัดการโหมดธีม (แสง/มืด)
+ * - อ่านค่าเริ่มต้นจาก localStorage หรือ prefers-color-scheme
+ * - อัพเดต class "dark" บน <html> อัตโนมัติ
+ */
+export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const getInitialTheme = (): Theme => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      const storedTheme = localStorage.getItem("theme") as Theme | null;
+      if (storedTheme === "light" || storedTheme === "dark") {
+        return storedTheme;
+      }
+      // ตรวจสอบ prefers-color-scheme หากไม่มีค่าใน localStorage
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      return prefersDark ? "dark" : "light";
+    }
+    // ค่าเริ่มต้น fallback
+    return "light";
+  };
+
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(prev => (prev === "light" ? "dark" : "light"));
+
+  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
 };
 
-export default ThemeToggle;
+/**
+ * useTheme - Hook สำหรับเข้าถึง context ธีม
+ * ต้องใช้ภายใน ThemeProvider เท่านั้น
+ */
+export const useTheme = (): ThemeContextType => {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error("useTheme ต้องใช้ภายใน ThemeProvider เท่านั้น");
+  }
+  return context;
+};

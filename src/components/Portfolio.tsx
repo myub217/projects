@@ -43,18 +43,13 @@ const Portfolio: React.FC = () => {
   const modalRef = useRef<HTMLDivElement>(null);
   const lastFocusedElement = useRef<HTMLElement | null>(null);
 
-  // ปิด modal และ reset state
   const closeModal = () => {
     setModalOpen(false);
     setSelectedWork(null);
     setCurrentImageIndex(0);
-    // คืน focus ไปยัง element เดิมที่เปิด modal
-    if (lastFocusedElement.current) {
-      lastFocusedElement.current.focus();
-    }
+    if (lastFocusedElement.current) lastFocusedElement.current.focus();
   };
 
-  // เปิด modal พร้อมเลือกผลงาน และจดจำ element ที่ focus ก่อนหน้า
   const openModal = (work: WorkItem) => {
     lastFocusedElement.current = document.activeElement as HTMLElement;
     setSelectedWork(work);
@@ -62,7 +57,7 @@ const Portfolio: React.FC = () => {
     setModalOpen(true);
   };
 
-  // จัดการกด ESC และ arrow key ภายใน modal
+  // ปุ่ม ESC และลูกศรใน modal
   useEffect(() => {
     if (!modalOpen) return;
 
@@ -80,6 +75,7 @@ const Portfolio: React.FC = () => {
           i + 1 < selectedWork.images.length ? i + 1 : 0
         );
       }
+
       if (e.key === "ArrowLeft") {
         e.preventDefault();
         setCurrentImageIndex((i) =>
@@ -89,15 +85,15 @@ const Portfolio: React.FC = () => {
     };
 
     window.addEventListener("keydown", onKeyDown);
-    document.body.style.overflow = "hidden"; // ป้องกัน scroll หน้า background
+    document.body.style.overflow = "hidden";
 
     return () => {
       window.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = ""; // คืนค่า overflow
+      document.body.style.overflow = "";
     };
   }, [modalOpen, selectedWork]);
 
-  // Focus trap แบบง่าย (วน focus ใน modal)
+  // Focus trap ใน modal
   useEffect(() => {
     if (!modalOpen || !modalRef.current) return;
 
@@ -116,13 +112,11 @@ const Portfolio: React.FC = () => {
       if (e.key !== "Tab") return;
 
       if (e.shiftKey) {
-        // shift + tab
         if (document.activeElement === firstEl) {
           e.preventDefault();
           lastEl.focus();
         }
       } else {
-        // tab
         if (document.activeElement === lastEl) {
           e.preventDefault();
           firstEl.focus();
@@ -138,7 +132,6 @@ const Portfolio: React.FC = () => {
     };
   }, [modalOpen]);
 
-  // ปุ่ม carousel ภาพถัดไป
   const nextImage = () => {
     if (!selectedWork) return;
     setCurrentImageIndex((i) =>
@@ -146,7 +139,6 @@ const Portfolio: React.FC = () => {
     );
   };
 
-  // ปุ่ม carousel ภาพก่อนหน้า
   const prevImage = () => {
     if (!selectedWork) return;
     setCurrentImageIndex((i) =>
@@ -172,9 +164,7 @@ const Portfolio: React.FC = () => {
             tabIndex={0}
             onClick={() => openModal(work)}
             onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                openModal(work);
-              }
+              if (e.key === "Enter" || e.key === " ") openModal(work);
             }}
             aria-label={`เปิดดูรายละเอียดผลงาน: ${work.title}`}
             className="cursor-pointer rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-transform transform hover:scale-[1.03] bg-white dark:bg-gray-900"
@@ -209,10 +199,10 @@ const Portfolio: React.FC = () => {
         >
           <div
             ref={modalRef}
+            role="document"
             className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* ปุ่มปิด */}
             <button
               onClick={closeModal}
               aria-label="ปิดหน้าต่างแสดงตัวอย่าง"
@@ -221,21 +211,21 @@ const Portfolio: React.FC = () => {
               &times;
             </button>
 
-            {/* ภาพและ carousel */}
+            {/* Carousel */}
             <div className="relative flex-1 flex items-center justify-center bg-black">
               {selectedWork.images.length > 1 && (
                 <>
                   <button
                     onClick={prevImage}
                     aria-label="ภาพก่อนหน้า"
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-80 focus:outline-none"
+                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-80"
                   >
                     &#8249;
                   </button>
                   <button
                     onClick={nextImage}
                     aria-label="ภาพถัดไป"
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-80 focus:outline-none"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-80"
                   >
                     &#8250;
                   </button>
@@ -264,7 +254,8 @@ const Portfolio: React.FC = () => {
               </p>
               {selectedWork.images.length > 1 && (
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 text-center">
-                  ภาพที่ {currentImageIndex + 1} จาก {selectedWork.images.length}
+                  ภาพที่ {currentImageIndex + 1} จาก{" "}
+                  {selectedWork.images.length}
                 </p>
               )}
             </div>
