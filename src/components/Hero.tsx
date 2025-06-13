@@ -5,49 +5,32 @@ const Hero: React.FC = () => {
   return (
     <section
       id="hero"
+      className="relative min-h-screen flex items-center justify-center px-6 py-20 overflow-hidden bg-gradient-to-br from-blue-900 via-indigo-800 to-purple-900 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-1000"
       aria-label="ยินดีต้อนรับสู่ JP Visual & Docs"
-      className="relative min-h-screen flex items-center px-6 bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 transition-colors duration-1000 overflow-hidden"
     >
-      {/* Animated Background Glow */}
-      <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 opacity-30 bg-[length:200%_200%] animate-gradient rounded-xl blur-3xl pointer-events-none"></div>
+      {/* Animated Glow Background */}
+      <div className="absolute top-[-10%] left-[-20%] w-[300px] h-[300px] bg-pink-400 opacity-30 blur-3xl rounded-full animate-pulse" />
+      <div className="absolute bottom-[-10%] right-[-20%] w-[300px] h-[300px] bg-indigo-400 opacity-20 blur-3xl rounded-full animate-pulse" />
 
-      <div className="container mx-auto max-w-7xl flex flex-col-reverse lg:flex-row items-center gap-12 relative z-10">
-        {/* ข้อความหลัก */}
-        <div className="lg:w-1/2 max-w-xl text-center lg:text-left space-y-6">
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-white drop-shadow-lg leading-tight">
-            <span className="block animate-fade-up" style={{ animationDelay: "0.1s" }}>
-              ยินดีต้อนรับสู่
-            </span>
-            <span className="block text-indigo-400 animate-fade-up" style={{ animationDelay: "0.3s" }}>
-              JP Visual & Docs
-            </span>
+      <div className="relative z-10 w-full max-w-7xl flex flex-col-reverse lg:flex-row items-center gap-12">
+        {/* TEXT */}
+        <div className="lg:w-1/2 text-center lg:text-left space-y-6">
+          <h1 className="text-5xl sm:text-6xl font-extrabold text-white leading-tight drop-shadow-xl animate-fade-up">
+            JP Visual & Docs
           </h1>
-
-          <p
-            className="text-lg text-blue-100 dark:text-gray-300 leading-relaxed animate-fade-up"
-            style={{ animationDelay: "0.5s" }}
-          >
-            บริการเอกสารครบวงจร ยื่นกู้ วีซ่า โปรไฟล์ การเงิน และระบบหลังบ้าน
-            พร้อมดูแลคุณทุกขั้นตอน
+          <p className="text-lg sm:text-xl text-blue-100 dark:text-gray-300 leading-relaxed animate-fade-up">
+            บริการเอกสาร ยื่นกู้ วีซ่า โปรไฟล์ ระบบหลังบ้าน และการตลาดแบบครบวงจร
+          </p>
+          <p className="text-base text-indigo-200 dark:text-indigo-400 animate-fade-up">
+            เราช่วยคุณจัดการเรื่องเอกสาร การเงิน และเทคโนโลยีอย่างมืออาชีพ
+            ครบ จบในที่เดียว
           </p>
 
-          <p
-            className="text-base text-indigo-200 dark:text-indigo-400 leading-relaxed max-w-md animate-fade-up"
-            style={{ animationDelay: "0.6s" }}
-          >
-            เราช่วยคุณจัดการเอกสารสำคัญและขั้นตอนที่ซับซ้อนอย่างมืออาชีพ
-            ให้คุณมั่นใจได้ว่าทุกเรื่องจะผ่านไปอย่างราบรื่นและรวดเร็ว
-          </p>
-
-          {/* ปุ่ม call to action */}
-          <div
-            className="flex flex-wrap justify-center lg:justify-start gap-4 mt-6 animate-fade-up"
-            style={{ animationDelay: "0.7s" }}
-          >
+          {/* CTA */}
+          <div className="flex flex-wrap justify-center lg:justify-start gap-4 mt-6 animate-fade-up">
             <a
               href="#services"
-              className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold px-6 py-3 rounded-xl shadow-lg transition"
-              aria-label="ดูบริการทั้งหมด"
+              className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold px-6 py-3 rounded-full shadow-lg transition"
             >
               ดูบริการทั้งหมด
             </a>
@@ -55,35 +38,27 @@ const Hero: React.FC = () => {
               href="https://lin.ee/XJZ7H4u"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 border border-indigo-500 text-indigo-300 hover:text-white hover:bg-indigo-600 font-semibold px-6 py-3 rounded-xl transition"
-              aria-label="ปรึกษาฟรีผ่าน LINE"
+              className="flex items-center gap-2 border border-green-400 text-green-300 hover:bg-green-600 hover:text-white font-semibold px-6 py-3 rounded-full transition"
             >
-              {/* LINE icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 fill-current"
+                className="h-5 w-5 fill-current"
                 viewBox="0 0 24 24"
-                aria-hidden="true"
-                focusable="false"
               >
                 <path d="M21.618 3.46a.5.5 0 0 0-.692-.455L4.977 11.045a.5.5 0 0 0 .042.92l4.083 1.84 2.03 3.615a.5.5 0 0 0 .854.051l7.288-9.832a.5.5 0 0 0-.661-.81L8.783 16.24 6.995 13.08l12.616-7.622a.5.5 0 0 0 .007-.001z" />
               </svg>
-              ปรึกษาฟรีผ่าน LINE
+              LINE: @462FQTFC
             </a>
             <a
               href="tel:+66912345678"
-              className="flex items-center gap-2 bg-white text-indigo-700 font-semibold px-6 py-3 rounded-xl shadow hover:bg-indigo-50 transition"
-              aria-label="โทรหาเรา"
+              className="flex items-center gap-2 bg-white text-indigo-700 font-semibold px-6 py-3 rounded-full shadow hover:bg-indigo-50 transition"
             >
-              {/* Phone icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 stroke-current"
+                className="h-5 w-5 stroke-current"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={2}
-                aria-hidden="true"
-                focusable="false"
               >
                 <path
                   strokeLinecap="round"
@@ -91,21 +66,24 @@ const Hero: React.FC = () => {
                   d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.494a1 1 0 01-.216 1.09L8.764 11.21a11.042 11.042 0 005.516 5.516l1.942-1.942a1 1 0 011.09-.216l4.494 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C8.82 21 3 15.18 3 8V5z"
                 />
               </svg>
-              โทรหาเรา
+              โทร: 091-234-5678
             </a>
           </div>
         </div>
 
-        {/* โลโก้ */}
-        <div className="flex flex-col items-center justify-center lg:w-1/2">
-          <img
-            src={jpLogo}
-            alt="โลโก้ JP Visual & Docs"
-            loading="lazy"
-            width={280}
-            height={280}
-            className="w-40 sm:w-56 lg:w-64 rounded-3xl shadow-[0_0_30px_8px_rgba(99,102,241,0.7)] hover:scale-110 transition-transform duration-500 ease-in-out"
-          />
+        {/* LOGO */}
+        <div className="lg:w-1/2 flex justify-center items-center">
+          <div className="relative group">
+            <img
+              src={jpLogo}
+              alt="โลโก้ JP Visual & Docs"
+              className="w-40 sm:w-52 lg:w-64 rounded-3xl shadow-[0_0_60px_rgba(99,102,241,0.6)] group-hover:scale-110 transition-transform duration-700 ease-in-out"
+              loading="lazy"
+              width={300}
+              height={300}
+            />
+            <div className="absolute inset-0 rounded-3xl ring-2 ring-indigo-400 opacity-30 blur-md animate-ping group-hover:opacity-50" />
+          </div>
         </div>
       </div>
     </section>

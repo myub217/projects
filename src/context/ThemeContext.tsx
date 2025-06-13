@@ -9,26 +9,19 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-/**
- * ThemeProvider - บริบทสำหรับจัดการโหมดธีม (แสง/มืด)
- * - อ่านค่าเริ่มต้นจาก localStorage หรือ prefers-color-scheme
- * - อัพเดต class "dark" บน <html> อัตโนมัติ
- */
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const getInitialTheme = (): Theme => {
-    if (typeof window !== "undefined" && window.localStorage) {
-      const storedTheme = localStorage.getItem("theme") as Theme | null;
-      if (storedTheme === "light" || storedTheme === "dark") {
-        return storedTheme;
-      }
-      // ตรวจสอบ prefers-color-scheme หากไม่มีค่าใน localStorage
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      return prefersDark ? "dark" : "light";
+const getInitialTheme = (): Theme => {
+  if (typeof window !== "undefined" && window.localStorage) {
+    const storedTheme = localStorage.getItem("theme") as Theme | null;
+    if (storedTheme === "light" || storedTheme === "dark") {
+      return storedTheme;
     }
-    // ค่าเริ่มต้น fallback
-    return "light";
-  };
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return prefersDark ? "dark" : "light";
+  }
+  return "light";
+};
 
+const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
 
   useEffect(() => {
@@ -43,17 +36,19 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const toggleTheme = () => setTheme(prev => (prev === "light" ? "dark" : "light"));
 
-  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
 };
 
-/**
- * useTheme - Hook สำหรับเข้าถึง context ธีม
- * ต้องใช้ภายใน ThemeProvider เท่านั้น
- */
-export const useTheme = (): ThemeContextType => {
+const useTheme = (): ThemeContextType => {
   const context = useContext(ThemeContext);
   if (!context) {
     throw new Error("useTheme ต้องใช้ภายใน ThemeProvider เท่านั้น");
   }
   return context;
 };
+
+export { ThemeProvider, useTheme };
