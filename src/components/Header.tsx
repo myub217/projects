@@ -1,103 +1,127 @@
-import jpLogo from "../assets/jp-logo.png"; // ปรับ path ให้ถูกต้อง
+import { useState } from "react";
+import { FaLine, FaFacebookF, FaBars, FaTimes } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const LINE_LINK = "https://line.me/ti/p/@462FQTFC";
-const FACEBOOK_LINK = "https://www.facebook.com/yourpage";
+const FACEBOOK_LINK = "https://facebook.com/yourpage";
 
 export default function Header() {
-  return (
-    <header
-      className="py-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700"
-      role="banner"
-      aria-label="Header of JP Visual & Docs"
-    >
-      <div className="max-w-6xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* โลโก้ + ชื่อเว็บ */}
-        <div className="flex items-center space-x-3 cursor-default">
-          <a href="/" aria-label="หน้าแรก JP Visual & Docs" tabIndex={0}>
-            <img
-              src={jpLogo}
-              alt="โลโก้ JP Visual & Docs เจ้าป่า"
-              className="h-10 w-10 object-contain"
-              loading="lazy"
-              draggable={false}
-            />
-          </a>
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 leading-tight select-none">
-              JP Visual & Docs
-            </h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400 -mt-1 select-none">
-              เจ้าป่า
-            </p>
-          </div>
-        </div>
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const toggleMenu = () => setMobileOpen(!mobileOpen);
 
-        {/* เมนูนำทาง */}
-        <nav
-          className="hidden md:block"
-          aria-label="เมนูนำทางหลักของเว็บไซต์"
-        >
-          <ul className="flex gap-8 text-gray-700 dark:text-gray-300 font-medium">
-            <li>
+  const navItems = [
+    { to: "/services", label: "บริการ" },
+    { to: "/portfolio", label: "ผลงาน" },
+    { to: "/contact", label: "ติดต่อ" },
+    { to: "/secret-room", label: "ห้องลับ" },
+  ];
+
+  return (
+    <header className="sticky top-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-200 dark:border-gray-700">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+        {/* โลโก้ JP */}
+        <Link to="/" className="flex items-center gap-3">
+          <motion.div
+            whileHover={{ scale: 1.05, rotate: 1 }}
+            className="w-11 h-11 bg-gradient-to-br from-indigo-900 to-blue-500 text-white font-bold text-lg rounded-xl shadow-md flex items-center justify-center"
+          >
+            JP
+          </motion.div>
+          <div className="text-left leading-tight">
+            <h1 className="text-xl font-extrabold tracking-wide text-gray-900 dark:text-white">
+              Visual & Docs
+            </h1>
+            <p className="text-xs text-gray-500 dark:text-gray-400">เจ้าป่า</p>
+          </div>
+        </Link>
+
+        {/* Desktop Menu */}
+        <nav className="hidden md:flex items-center space-x-8 font-medium text-gray-700 dark:text-gray-300">
+          {navItems.map(({ to, label }) => (
+            <Link
+              key={to}
+              to={to}
+              className="relative group hover:text-red-500 transition"
+            >
+              {label}
+              <span className="absolute left-0 -bottom-0.5 h-0.5 w-full bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+            </Link>
+          ))}
+        </nav>
+
+        {/* Contact + Mobile */}
+        <div className="flex items-center gap-3">
+          <div className="hidden md:flex gap-2">
+            <a
+              href={LINE_LINK}
+              target="_blank"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold bg-green-500 hover:bg-green-600 text-white transition"
+            >
+              <FaLine />
+              LINE
+            </a>
+            <a
+              href={FACEBOOK_LINK}
+              target="_blank"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white transition"
+            >
+              <FaFacebookF />
+              Facebook
+            </a>
+          </div>
+
+          <button
+            onClick={toggleMenu}
+            className="md:hidden text-gray-700 dark:text-gray-300 p-2 focus:outline-none"
+          >
+            {mobileOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <nav
+        className={`md:hidden overflow-hidden transition-all duration-300 ${
+          mobileOpen ? "max-h-96" : "max-h-0"
+        }`}
+      >
+        <div className="px-6 pb-4 text-gray-800 dark:text-gray-200">
+          <ul className="space-y-3 text-base font-medium">
+            {navItems.map(({ to, label }) => (
+              <li key={to}>
+                <Link
+                  to={to}
+                  className="block py-2 px-3 rounded-md hover:bg-red-100 dark:hover:bg-red-900"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {label}
+                </Link>
+              </li>
+            ))}
+            <li className="border-t border-gray-200 dark:border-gray-700 pt-3">
               <a
-                href="/services"
-                className="hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+                href={LINE_LINK}
+                target="_blank"
+                className="flex items-center gap-2 text-green-600 dark:text-green-400"
               >
-                บริการทั้งหมด
+                <FaLine />
+                @462FQTFC
               </a>
             </li>
             <li>
               <a
-                href="/portfolio"
-                className="hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+                href={FACEBOOK_LINK}
+                target="_blank"
+                className="flex items-center gap-2 text-blue-600 dark:text-blue-400"
               >
-                ตัวอย่างผลงาน
-              </a>
-            </li>
-            <li>
-              <a
-                href="/contact"
-                className="hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-              >
-                ติดต่อเรา
-              </a>
-            </li>
-            <li>
-              <a
-                href="/secret-room"
-                className="hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-              >
-                ห้องลับเจ้าป่า
+                <FaFacebookF />
+                JP Visual & Docs
               </a>
             </li>
           </ul>
-        </nav>
-      </div>
-
-      {/* ข้อความติดต่อ */}
-      <p className="text-center mt-4 text-sm text-gray-700 dark:text-gray-300 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        ติดต่อเราได้ที่ LINE ID:&nbsp;
-        <a
-          href={LINE_LINK}
-          className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="ติดต่อผ่านไลน์ JP Visual & Docs"
-        >
-          @462FQTFC
-        </a>
-        <br />
-        หรือเยี่ยมชม Facebook Page:&nbsp;
-        <a
-          href={FACEBOOK_LINK}
-          className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="เยี่ยมชม Facebook Page JP Visual & Docs"
-        >
-          JP Visual & Docs
-        </a>
-      </p>
+        </div>
+      </nav>
     </header>
   );
 }

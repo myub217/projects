@@ -1,16 +1,17 @@
-import type { Config } from 'tailwindcss'
-
-const config: Config = {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+export default {
+  content: ["./index.html", "./src/**/*.{ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["'Inter'", "sans-serif"],
+      },
+    },
   },
   plugins: [
-    require('daisyui'),
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/line-clamp"),
+    require("@tailwindcss/aspect-ratio"),
+    require("daisyui"),
   ],
-  daisyui: {
-    themes: ['light', 'dark'], // หรือ custom theme ก็ใส่ที่นี่
-  },
-}
-
-export default config
+};

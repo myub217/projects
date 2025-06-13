@@ -62,12 +62,12 @@ const Navbar: React.FC = () => {
 
   return (
     <nav
-      className="bg-gray-950 text-white py-4 shadow-lg fixed top-0 left-0 w-full z-50"
+      className="fixed top-0 left-0 w-full z-50 bg-white/10 backdrop-blur-md shadow-md border-b border-white/20"
       role="navigation"
       aria-label="เมนูหลัก JP Visual & Docs"
     >
-      <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
-        <div className="text-xl font-extrabold text-red-500 tracking-wide select-none">
+      <div className="max-w-6xl mx-auto px-6 flex justify-between items-center h-16">
+        <div className="text-2xl font-extrabold text-red-500 tracking-widest select-none drop-shadow-md">
           JP Visual & Docs
         </div>
 
@@ -77,14 +77,14 @@ const Navbar: React.FC = () => {
           aria-controls="primary-navigation"
           aria-expanded={isMenuOpen}
           onClick={toggleMenu}
-          className="sm:hidden text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 rounded"
+          className="sm:hidden text-red-500 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 rounded transition"
           aria-label={isMenuOpen ? "ปิดเมนู" : "เปิดเมนู"}
         >
           <svg
-            className="w-6 h-6"
+            className="w-7 h-7"
             fill="none"
             stroke="currentColor"
-            strokeWidth={2}
+            strokeWidth={2.5}
             strokeLinecap="round"
             strokeLinejoin="round"
             viewBox="0 0 24 24"
@@ -100,22 +100,24 @@ const Navbar: React.FC = () => {
         <ul
           id="primary-navigation"
           ref={menuRef}
-          className={`flex flex-col sm:flex-row sm:space-x-6 text-sm font-medium bg-gray-950 sm:bg-transparent absolute sm:static top-full left-0 w-full sm:w-auto overflow-hidden transition-all duration-300 ease-in-out transform origin-top
+          className={`flex flex-col sm:flex-row sm:space-x-8 text-sm font-semibold bg-white/20 backdrop-blur-md rounded-md sm:bg-transparent sm:backdrop-blur-0 sm:rounded-none absolute sm:static top-full left-0 w-full sm:w-auto overflow-hidden transition-transform duration-300 ease-in-out origin-top
             ${
               isMenuOpen
                 ? "scale-y-100 opacity-100 pointer-events-auto"
                 : "scale-y-0 opacity-0 pointer-events-none sm:scale-y-100 sm:opacity-100 sm:pointer-events-auto"
             }
-          `}
-          aria-hidden={!isMenuOpen && window.innerWidth < 640}
+            shadow-lg sm:shadow-none
+            `}
+          aria-hidden={!isMenuOpen && window.innerWidth < 640 ? "true" : undefined}
         >
           <li>
             <a
               href="#about"
-              className={`block px-6 py-3 transition outline-none focus:outline-red-400 ${
+              aria-current={activeSection === "about" ? "page" : undefined}
+              className={`block px-6 py-3 transition-colors duration-200 rounded-md outline-none focus:outline-red-400 ${
                 activeSection === "about"
-                  ? "text-red-400 font-semibold"
-                  : "hover:text-red-400 focus:text-red-400"
+                  ? "text-red-500 bg-white/30"
+                  : "text-gray-100 hover:text-red-500 hover:bg-white/20 focus:text-red-500 focus:bg-white/20"
               }`}
               onClick={() => setIsMenuOpen(false)}
             >
@@ -125,10 +127,11 @@ const Navbar: React.FC = () => {
           <li>
             <a
               href="#services"
-              className={`block px-6 py-3 transition outline-none focus:outline-red-400 ${
+              aria-current={activeSection === "services" ? "page" : undefined}
+              className={`block px-6 py-3 transition-colors duration-200 rounded-md outline-none focus:outline-red-400 ${
                 activeSection === "services"
-                  ? "text-red-400 font-semibold"
-                  : "hover:text-red-400 focus:text-red-400"
+                  ? "text-red-500 bg-white/30"
+                  : "text-gray-100 hover:text-red-500 hover:bg-white/20 focus:text-red-500 focus:bg-white/20"
               }`}
               onClick={() => setIsMenuOpen(false)}
             >
@@ -137,15 +140,27 @@ const Navbar: React.FC = () => {
           </li>
           <li>
             <a
-              href="#contact"
-              className={`block px-6 py-3 transition outline-none focus:outline-red-400 ${
+              href="https://lin.ee/XJZ7H4u"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center px-6 py-3 transition-colors duration-200 rounded-md outline-none focus:outline-red-400 ${
                 activeSection === "contact"
-                  ? "text-red-400 font-semibold"
-                  : "hover:text-red-400 focus:text-red-400"
+                  ? "text-red-500 bg-white/30"
+                  : "text-gray-100 hover:text-red-500 hover:bg-white/20 focus:text-red-500 focus:bg-white/20"
               }`}
               onClick={() => setIsMenuOpen(false)}
+              aria-current={activeSection === "contact" ? "page" : undefined}
             >
               ติดต่อ
+              <svg
+                className="ml-1 w-4 h-4 fill-red-500"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm1 14.586-4-4 1.414-1.414L13 13.757l3.586-3.586L18 11.586Z" />
+              </svg>
             </a>
           </li>
           <li>
@@ -155,8 +170,9 @@ const Navbar: React.FC = () => {
                 handleSecretClick();
                 setIsMenuOpen(false);
               }}
-              className="block w-full text-left px-6 py-3 text-red-400 hover:text-red-600 focus:text-red-600 font-bold transition cursor-pointer outline-none focus:outline-2 focus:outline-offset-2 focus:outline-red-600 rounded"
+              className="block w-full text-left px-6 py-3 text-red-400 hover:text-red-600 focus:text-red-600 font-bold transition-colors rounded-md cursor-pointer outline-none focus:outline-2 focus:outline-offset-2 focus:outline-red-600"
               aria-label="ห้องลับเจ้าป่า กดเพื่อดูข้อมูลลับ"
+              title="ห้องลับเจ้าป่า — กดเพื่อดูข้อมูลลับ"
             >
               ห้องลับเจ้าป่า
             </button>
