@@ -13,15 +13,12 @@ import { FaFacebookSquare, FaLine } from "react-icons/fa";
 
 const GA_MEASUREMENT_ID = "G-XXXXXXXXXX"; // TODO: แก้เป็นจริงก่อน deploy
 
-// Hook สำหรับโหลด Google Analytics script
+// Hook สำหรับโหลด Google Analytics script (แบบปลอดภัย และเช็คซ้ำ)
 function useGoogleAnalytics(id: string) {
   useEffect(() => {
-    if (
-      typeof window === "undefined" ||
-      !id ||
-      document.getElementById("ga-script")
-    )
-      return;
+    if (!id) return;
+    if (typeof window === "undefined") return;
+    if (document.getElementById("ga-script")) return;
 
     // โหลด GA script
     const script1 = document.createElement("script");
@@ -39,15 +36,23 @@ function useGoogleAnalytics(id: string) {
       gtag('config', '${id}', { anonymize_ip: true });
     `;
     document.head.appendChild(script2);
+
+    return () => {
+      // Clean up scripts ถ้าต้องการ (optional)
+      document.head.removeChild(script1);
+      document.head.removeChild(script2);
+    };
   }, [id]);
 }
 
 // Component สำหรับปุ่มแชร์ Social Media
 const SocialShare: React.FC = () => {
+  // กำหนดลิงก์สำหรับแชร์ (รองรับ SSR)
   const shareUrl =
     typeof window !== "undefined"
       ? encodeURIComponent(window.location.href)
       : encodeURIComponent("https://applicationlubmobile.vercel.app");
+
   const shareText = encodeURIComponent(
     "บริการยื่นกู้ วีซ่า เอกสาร JP Visual & Docs"
   );
@@ -57,6 +62,7 @@ const SocialShare: React.FC = () => {
       aria-label="แชร์ลิงก์เว็บไซต์บนโซเชียลมีเดีย"
       className="flex justify-center space-x-10 my-10"
     >
+      {/* Facebook Share */}
       <a
         href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${shareText}`}
         target="_blank"
@@ -70,6 +76,7 @@ const SocialShare: React.FC = () => {
         </span>
       </a>
 
+      {/* LINE Share */}
       <a
         href={`https://line.me/R/msg/text/?${shareText}%0A${shareUrl}`}
         target="_blank"
@@ -87,12 +94,13 @@ const SocialShare: React.FC = () => {
 };
 
 const App: React.FC = () => {
+  // เก็บสถานะธีมแบบ light/dark
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
   // โหลด Google Analytics
   useGoogleAnalytics(GA_MEASUREMENT_ID);
 
-  // โหลดธีมจาก localStorage หรือ system preference ตอนเริ่มต้น
+  // โหลดธีมจาก localStorage หรือ system preference ตอนเริ่มต้น (ก่อน render)
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -102,7 +110,6 @@ const App: React.FC = () => {
     const initialTheme = savedTheme || (prefersDark ? "dark" : "light");
     setTheme(initialTheme);
 
-    // ควบคุม class dark บน <html>
     if (initialTheme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
@@ -126,11 +133,13 @@ const App: React.FC = () => {
 
   return (
     <div
-      className="bg-gradient-to-br from-white via-gray-100 to-gray-200
-      dark:from-gray-900 dark:via-gray-800 dark:to-gray-900
-      text-gray-900 dark:text-gray-100
-      min-h-screen flex flex-col font-sans scroll-smooth
-      transition-colors duration-500"
+      className={`
+        bg-gradient-to-br from-white via-gray-100 to-gray-200
+        dark:from-gray-900 dark:via-gray-800 dark:to-gray-900
+        text-gray-900 dark:text-gray-100
+        min-h-screen flex flex-col font-sans scroll-smooth
+        transition-colors duration-500
+      `}
     >
       <Helmet>
         <title>JP Visual & Docs | บริการยื่นกู้ วีซ่า เอกสาร</title>
@@ -198,7 +207,7 @@ const App: React.FC = () => {
         />
       </noscript>
 
-      {/* Header */}
+      {/* Header พร้อมปุ่ม toggle ธีม */}
       <Header toggleTheme={toggleTheme} currentTheme={theme} />
 
       {/* Main content */}
