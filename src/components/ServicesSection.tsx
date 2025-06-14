@@ -1,6 +1,6 @@
-// src/components/ServicesSection.tsx
 import React from "react";
 import { Link } from "react-router-dom";
+import { LucideArrowRight, LucideLineChart } from "lucide-react";
 
 interface Service {
   id: number;
@@ -91,68 +91,64 @@ const services: Service[] = [
 
 const ServicesSection: React.FC = () => {
   return (
-    <section
-      id="services"
-      className="max-w-6xl mx-auto px-6 py-16"
-      aria-label="บริการของเรา"
-    >
-      {/* หัวข้อหลัก */}
-      <h2 className="text-4xl font-extrabold text-center mb-6 text-red-600">
-        บริการของเรา
-      </h2>
-      <p className="text-center text-gray-600 dark:text-gray-400 mb-10">
-        ครอบคลุมตั้งแต่เอกสาร การเงิน การตลาด ระบบหลังบ้าน จนถึง AI
-      </p>
+    <section id="services" className="max-w-7xl mx-auto px-6 py-20">
+      {/* Header */}
+      <div className="text-center mb-14">
+        <h2 className="text-5xl font-black tracking-tight text-red-600 dark:text-red-500">
+          บริการครบวงจร
+        </h2>
+        <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
+          ครอบคลุมทุกมิติของความสำเร็จ: เอกสาร ● การเงิน ● การตลาด ● ระบบหลังบ้าน ● AI
+        </p>
+      </div>
 
-      {/* Grid บริการ */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+      {/* Grid Cards */}
+      <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
         {services.map((service) => (
           <div
             key={service.id}
-            className="bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-xl transition"
+            className="rounded-2xl bg-white dark:bg-gray-900 shadow-lg hover:shadow-2xl transition-all overflow-hidden flex flex-col"
           >
             <img
               src={service.image}
-              alt={`บริการ: ${service.title}`}
-              className="w-full h-48 object-cover"
-              loading="lazy"
-              draggable={false}
+              alt={service.title}
+              className="h-48 w-full object-cover"
               onError={(e) => {
                 (e.currentTarget as HTMLImageElement).src =
                   "/images/services/ccom.png";
               }}
             />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+            <div className="p-6 flex flex-col flex-grow">
+              <h3 className="text-xl font-bold text-gray-800 dark:text-white">
                 {service.title}
               </h3>
-              <p className="mt-2 text-gray-700 dark:text-gray-300">
+              <p className="text-sm text-gray-600 dark:text-gray-300 mt-1 flex-grow">
                 {service.description}
               </p>
-              <p className="mt-1 font-bold text-red-600">{service.price}</p>
-              {service.duration && (
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                  ระยะเวลา: {service.duration}
-                </p>
-              )}
-
-              {/* ปุ่มลิงก์เพิ่มเติม */}
-              <div className="mt-4 space-x-3">
+              <div className="mt-3">
+                <p className="text-red-600 font-semibold">{service.price}</p>
+                {service.duration && (
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    ระยะเวลา: {service.duration}
+                  </p>
+                )}
+              </div>
+              <div className="mt-4 flex flex-wrap gap-3">
                 {service.link && (
                   <Link
                     to={service.link}
-                    className="inline-block text-red-600 hover:underline"
+                    className="text-sm text-red-600 hover:text-red-700 font-medium flex items-center gap-1"
                   >
-                    ดูรายละเอียดเพิ่มเติม &rarr;
+                    ดูเพิ่มเติม <LucideArrowRight size={16} />
                   </Link>
                 )}
                 <a
                   href="https://lin.ee/XJZ7H4u"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block text-green-600 hover:underline"
+                  className="text-sm text-green-600 hover:text-green-700 font-medium flex items-center gap-1"
                 >
-                  ติดต่อผ่าน LINE
+                  แอด LINE <LucideLineChart size={16} />
                 </a>
               </div>
             </div>
@@ -160,14 +156,14 @@ const ServicesSection: React.FC = () => {
         ))}
       </div>
 
-      {/* CTA ส่วนล่าง */}
-      <div className="text-center mt-16">
-        <p className="text-gray-700 dark:text-gray-300 mb-2">
-          สนใจบริการ? แอดไลน์เพื่อปรึกษาฟรี!
+      {/* CTA */}
+      <div className="mt-24 text-center">
+        <p className="text-xl text-gray-800 dark:text-gray-200 font-medium mb-4">
+          อย่าปล่อยให้โอกาสผ่านไป — ปรึกษาเราฟรี ไม่มีค่าใช้จ่าย
         </p>
         <a
           href="https://lin.ee/XJZ7H4u"
-          className="inline-block bg-red-600 text-white px-6 py-2 rounded-full font-medium shadow hover:bg-red-700 transition"
+          className="inline-block bg-red-600 hover:bg-red-700 text-white text-base font-bold px-8 py-3 rounded-full shadow-lg transition-all"
           target="_blank"
           rel="noopener noreferrer"
         >

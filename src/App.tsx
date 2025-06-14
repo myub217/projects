@@ -1,4 +1,5 @@
-import React, { useLayoutEffect, useState } from "react";
+// src/App.tsx
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
@@ -8,223 +9,255 @@ import PortfolioSection from "./components/PortfolioSection";
 import ReviewsSection from "./components/ReviewsSection";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
-import ThemeToggle from "./components/ThemeToggle";
-import { motion } from "framer-motion";
-import { FaFacebookSquare, FaLine } from "react-icons/fa"; // ✅ ใช้ react-icons
+import { FaFacebookSquare, FaLine } from "react-icons/fa";
 
-const GA_MEASUREMENT_ID = "G-XXXXXXXXXX"; // ✅ ใส่รหัสจริงของคุณ
+const GA_MEASUREMENT_ID = "G-XXXXXXXXXX"; // TODO: แก้เป็นจริงก่อน deploy
 
-function useGoogleAnalytics() {
-  React.useEffect(() => {
-    if ((window as any).gtag) return;
+// Hook สำหรับโหลด Google Analytics script
+function useGoogleAnalytics(id: string) {
+  useEffect(() => {
+    if (
+      typeof window === "undefined" ||
+      !id ||
+      document.getElementById("ga-script")
+    )
+      return;
 
+    // โหลด GA script
     const script1 = document.createElement("script");
+    script1.id = "ga-script";
     script1.async = true;
-    script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+    script1.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
     document.head.appendChild(script1);
 
+    // สคริปต์ config
     const script2 = document.createElement("script");
     script2.innerHTML = `
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', '${GA_MEASUREMENT_ID}');
+      gtag('config', '${id}', { anonymize_ip: true });
     `;
     document.head.appendChild(script2);
-  }, []);
+  }, [id]);
 }
 
-const ContactForm: React.FC = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setSuccess(false);
-
-    if (!name.trim() || !email.trim() || !message.trim()) {
-      setError("กรุณากรอกทุกช่องให้ครบถ้วน");
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError("กรุณากรอกอีเมลให้ถูกต้อง");
-      return;
-    }
-
-    console.log({ name, email, message });
-    setSuccess(true);
-    setName("");
-    setEmail("");
-    setMessage("");
-  };
-
-  return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-lg mx-auto bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-md"
-      aria-label="ฟอร์มติดต่อเรา"
-    >
-      <h3 className="text-xl font-semibold mb-4 text-center text-gray-900 dark:text-gray-100">
-        ส่งข้อความถึงเรา
-      </h3>
-      {error && <p className="text-red-600 mb-2">{error}</p>}
-      {success && <p className="text-green-600 mb-2">ส่งข้อความสำเร็จ ขอบคุณครับ!</p>}
-      <label className="block mb-2 text-gray-700 dark:text-gray-200">
-        ชื่อ
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full mt-1 p-2 rounded border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          required
-        />
-      </label>
-      <label className="block mb-2 text-gray-700 dark:text-gray-200">
-        อีเมล
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full mt-1 p-2 rounded border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          required
-        />
-      </label>
-      <label className="block mb-4 text-gray-700 dark:text-gray-200">
-        ข้อความ
-        <textarea
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          rows={4}
-          className="w-full mt-1 p-2 rounded border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          required
-        ></textarea>
-      </label>
-      <button
-        type="submit"
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded transition"
-      >
-        ส่งข้อความ
-      </button>
-    </form>
-  );
-};
-
+// Component สำหรับปุ่มแชร์ Social Media
 const SocialShare: React.FC = () => {
   const shareUrl =
     typeof window !== "undefined"
       ? encodeURIComponent(window.location.href)
-      : encodeURIComponent("https://yourdomain.com");
-  const shareText = encodeURIComponent("บริการยื่นกู้ วีซ่า เอกสาร JP Visual & Docs");
+      : encodeURIComponent("https://applicationlubmobile.vercel.app");
+  const shareText = encodeURIComponent(
+    "บริการยื่นกู้ วีซ่า เอกสาร JP Visual & Docs"
+  );
 
   return (
-    <div className="flex justify-center space-x-6 my-6">
+    <section
+      aria-label="แชร์ลิงก์เว็บไซต์บนโซเชียลมีเดีย"
+      className="flex justify-center space-x-10 my-10"
+    >
       <a
         href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${shareText}`}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="แชร์บน Facebook"
-        className="flex items-center space-x-2 text-blue-600 hover:text-blue-800 text-lg"
+        className="flex items-center space-x-2 text-blue-600 hover:text-blue-800 transition-colors font-semibold text-lg"
       >
-        <FaFacebookSquare />
-        <span>Facebook</span>
+        <FaFacebookSquare className="w-7 h-7" />
+        <span className="underline decoration-blue-400 decoration-2 hover:decoration-blue-600">
+          Facebook
+        </span>
       </a>
 
       <a
-        href={`https://social-plugins.line.me/lineit/share?url=${shareUrl}`}
+        href={`https://line.me/R/msg/text/?${shareText}%0A${shareUrl}`}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="แชร์บน LINE"
-        className="flex items-center space-x-2 text-green-500 hover:text-green-700 text-lg"
+        className="flex items-center space-x-2 text-green-600 hover:text-green-800 transition-colors font-semibold text-lg"
       >
-        <FaLine />
-        <span>LINE</span>
+        <FaLine className="w-7 h-7" />
+        <span className="underline decoration-green-400 decoration-2 hover:decoration-green-600">
+          LINE
+        </span>
       </a>
-    </div>
+    </section>
   );
 };
 
 const App: React.FC = () => {
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
-  useGoogleAnalytics();
+  // โหลด Google Analytics
+  useGoogleAnalytics(GA_MEASUREMENT_ID);
 
+  // โหลดธีมจาก localStorage หรือ system preference ตอนเริ่มต้น
   useLayoutEffect(() => {
+    if (typeof window === "undefined") return;
+
     const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const initialTheme = savedTheme ?? (prefersDark ? "dark" : "light");
 
+    const initialTheme = savedTheme || (prefersDark ? "dark" : "light");
     setTheme(initialTheme);
-    document.documentElement.classList.toggle("dark", initialTheme === "dark");
+
+    // ควบคุม class dark บน <html>
+    if (initialTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
   }, []);
 
+  // สลับธีมและเก็บค่าใน localStorage
   const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-    document.documentElement.classList.toggle("dark", newTheme === "dark");
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+
+    if (nextTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+
+    localStorage.setItem("theme", nextTheme);
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 scroll-smooth min-h-screen flex flex-col">
+    <div
+      className="bg-gradient-to-br from-white via-gray-100 to-gray-200
+      dark:from-gray-900 dark:via-gray-800 dark:to-gray-900
+      text-gray-900 dark:text-gray-100
+      min-h-screen flex flex-col font-sans scroll-smooth
+      transition-colors duration-500"
+    >
       <Helmet>
         <title>JP Visual & Docs | บริการยื่นกู้ วีซ่า เอกสาร</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"
           content="บริการครบวงจร ยื่นกู้ วีซ่า เอกสาร โปรไฟล์ พร้อมความลับที่ปลอดภัย มืออาชีพจริงใจ"
         />
-        <meta property="og:title" content="JP Visual & Docs" />
-        <meta property="og:description" content="ยื่นกู้ วีซ่า เอกสาร – อย่างมืออาชีพ และปลอดภัย" />
+        <meta
+          name="keywords"
+          content="JP Visual & Docs, ยื่นกู้, วีซ่า, เอกสาร, โปรไฟล์, ระบบหลังบ้าน"
+        />
+        <meta name="author" content="JP Visual & Docs" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:title"
+          content="JP Visual & Docs | ยื่นกู้ วีซ่า เอกสารครบวงจร"
+        />
+        <meta
+          property="og:description"
+          content="ดูแลทุกขั้นตอนของการยื่นกู้ วีซ่า เอกสาร การเงิน พร้อมระบบหลังบ้านแบบมืออาชีพ"
+        />
         <meta property="og:image" content="/og-image.png" />
-        <meta property="og:url" content="https://yourdomain.com" />
-        <meta name="theme-color" content={theme === "dark" ? "#111827" : "#ffffff"} />
+        <meta
+          property="og:url"
+          content="https://applicationlubmobile.vercel.app"
+        />
+        <meta property="og:locale" content="th_TH" />
+        <meta property="og:site_name" content="JP Visual & Docs" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="JP Visual & Docs | ยื่นกู้ วีซ่า เอกสารครบวงจร"
+        />
+        <meta
+          name="twitter:description"
+          content="บริการครบวงจร ยื่นกู้ วีซ่า เอกสาร การเงิน พร้อมระบบหลังบ้านแบบมืออาชีพ"
+        />
+        <meta name="twitter:image" content="/og-image.png" />
+
+        {/* Theme color */}
+        <meta
+          name="theme-color"
+          content={theme === "dark" ? "#111827" : "#ffffff"}
+        />
+
+        {/* SEO & PWA */}
+        <link rel="canonical" href="https://applicationlubmobile.vercel.app" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="manifest" href="/manifest.json" />
       </Helmet>
 
-      <Header />
+      {/* Google Tag Manager fallback for no-JS */}
+      <noscript>
+        <iframe
+          src={`https://www.googletagmanager.com/ns.html?id=${GA_MEASUREMENT_ID}`}
+          height="0"
+          width="0"
+          style={{ display: "none", visibility: "hidden" }}
+          title="google-tag-manager"
+        />
+      </noscript>
 
-      <main role="main" className="flex-grow">
+      {/* Header */}
+      <Header toggleTheme={toggleTheme} currentTheme={theme} />
+
+      {/* Main content */}
+      <main
+        role="main"
+        className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
         <Hero />
 
-        <section id="about" className="bg-gray-50 dark:bg-gray-800 py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <section
+          id="about"
+          className="bg-white dark:bg-gray-900 rounded-xl shadow-lg py-16 px-8 my-12 transition-colors duration-500"
+        >
           <About />
         </section>
 
-        <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <section
+          id="services"
+          className="py-16 px-4 sm:px-6 lg:px-8 my-12"
+          aria-label="บริการ"
+        >
           <ServicesSection />
         </section>
 
-        <section id="portfolio" className="bg-gray-50 dark:bg-gray-800 py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <section
+          id="portfolio"
+          className="bg-white dark:bg-gray-900 rounded-xl shadow-lg py-16 px-8 my-12 transition-colors duration-500"
+          aria-label="ผลงาน"
+        >
           <PortfolioSection />
         </section>
 
-        <section id="reviews" className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <section
+          id="reviews"
+          className="py-16 px-4 sm:px-6 lg:px-8 my-12"
+          aria-label="รีวิวจากลูกค้า"
+        >
           <ReviewsSection />
         </section>
 
-        <section id="contact-form" className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <ContactForm />
-          </motion.div>
-        </section>
-
+        {/* ปุ่มแชร์ Social */}
         <SocialShare />
 
-        <section className="bg-gray-50 dark:bg-gray-800 py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <p className="text-center text-lg text-gray-500">👀 ห้องลับจะมาเร็ว ๆ นี้...</p>
+        {/* ห้องลับ Coming Soon */}
+        <section
+          className="bg-white dark:bg-gray-900 rounded-xl shadow-inner py-10 px-6 my-12 transition-colors duration-500"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <p className="text-center text-lg text-gray-400 dark:text-gray-500 italic">
+            👀 ห้องลับจะมาเร็ว ๆ นี้...
+          </p>
         </section>
       </main>
 
+      {/* Footer */}
       <Footer />
 
-      <div className="fixed bottom-4 right-4 z-50">
-        <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
-      </div>
-
+      {/* ปุ่ม ScrollToTop */}
       <ScrollToTop lineUrl="https://line.me/ti/p/@462FQTFC" />
     </div>
   );

@@ -32,9 +32,7 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ theme, toggleTheme }) => {
       </span>
 
       {/* ข้อความแสดงสถานะโหมดธีม */}
-      <span className="font-medium">
-        {isDark ? "โหมดมืด" : "โหมดสว่าง"}
-      </span>
+      <span className="font-medium">{isDark ? "โหมดมืด" : "โหมดสว่าง"}</span>
     </button>
   );
 };

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="th" data-theme="light">
+<html lang="th" data-theme="light" class="">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- เพิ่มเพื่อรองรับ IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- รองรับ IE -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- ✅ SEO Meta -->
+    <!-- SEO Meta Tags -->
     <title>JP Visual & Docs - ยื่นกู้ วีซ่า เอกสาร และระบบธุรกิจครบวงจร</title>
     <meta
       name="description"
@@ -15,7 +15,7 @@
     <meta name="author" content="JP Visual & Docs" />
     <meta name="theme-color" content="#1A237E" />
 
-    <!-- ✅ OG / Social Sharing -->
+    <!-- Open Graph / Social Sharing -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="th_TH" />
     <meta property="og:title" content="JP Visual & Docs" />
@@ -28,25 +28,40 @@
     <meta property="og:site_name" content="JP Visual & Docs" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- ✅ Favicon & App Icon -->
+    <!-- Favicon & App Icons -->
     <link rel="icon" type="image/png" href="/assets/icons/icon-192x192.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/icon-512x512.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
 
-    <!-- ✅ Preconnect for Google Fonts (performance optimization) -->
+    <!-- Preconnect for Google Fonts (performance optimization) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- ✅ Font -->
+    <!-- Google Fonts - Inter (รองรับภาษาไทยด้วย) -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap&subset=thai"
       rel="stylesheet"
     />
 
-    <!-- ✅ Vite Mount -->
+    <!-- Vite React Entry -->
     <script type="module" src="/src/main.tsx"></script>
   </head>
-  <body class="font-sans bg-base-100 text-base-content transition-colors duration-300">
+
+  <body
+    class="font-sans bg-base-100 text-base-content transition-colors duration-300"
+  >
+    <!-- React Root -->
     <div id="root"></div>
+
+    <!--
+      ** วิธีสลับ Dark Mode **
+      - ใส่ class "dark" ที่ <html> หรือ <body> เช่น
+        document.documentElement.classList.add('dark')
+        หรือ
+        document.documentElement.classList.remove('dark')
+
+      - หรือใช้ DaisyUI theme change ผ่าน attribute data-theme เช่น
+        <html data-theme="dark"> หรือ <html data-theme="light">
+    -->
   </body>
 </html>
