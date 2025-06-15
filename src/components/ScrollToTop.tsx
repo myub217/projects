@@ -1,55 +1,42 @@
-import React, { useState, useEffect, useCallback, KeyboardEvent } from "react";
+import React, { useEffect, useState } from "react";
 import { FaArrowUp } from "react-icons/fa";
+import { AnimatePresence, motion } from "framer-motion";
 
 const ScrollToTop: React.FC = () => {
-  const [visible, setVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
-  const toggleVisible = useCallback(() => {
-    setVisible(window.pageYOffset > 300);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsVisible(window.scrollY > 300);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToTop = useCallback(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
-
-  const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      scrollToTop();
+  const scrollToTop = () => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
-  useEffect(() => {
-    window.addEventListener("scroll", toggleVisible);
-    toggleVisible(); // เช็คสถานะตอนโหลดหน้า
-    return () => window.removeEventListener("scroll", toggleVisible);
-  }, [toggleVisible]);
-
   return (
-    <>
-      {visible && (
-        <button
-          type="button"
+    <AnimatePresence>
+      {isVisible && (
+        <motion.button
+          key="scroll-to-top"
           onClick={scrollToTop}
-          onKeyDown={handleKeyDown}
-          aria-label="เลื่อนกลับขึ้นบน"
-          title="เลื่อนกลับขึ้นบน"
-          tabIndex={0}
-          aria-live="polite"
-          className="
-            fixed bottom-8 right-8
-            bg-blue-600 text-white rounded-full p-4 shadow-lg
-            hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500
-            transition duration-300 ease-in-out
-            text-2xl leading-none select-none
-            z-50
-            flex items-center justify-center
-          "
+          className="fixed bottom-6 right-6 z-[9999] btn btn-circle btn-primary shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-white"
+          aria-label="เลื่อนกลับขึ้นด้านบน"
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.5 }}
+          transition={{ duration: 0.3 }}
         >
-          <FaArrowUp />
-        </button>
+          <FaArrowUp className="w-4 h-4" />
+        </motion.button>
       )}
-    </>
+    </AnimatePresence>
   );
 };
 

@@ -1,68 +1,46 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 interface Review {
   id: number;
   name: string;
-  serviceUsed: string;
-  message: string;
+  avatarUrl: string;
+  role?: string;
+  content: string;
 }
 
 const reviews: Review[] = [
   {
     id: 1,
-    name: "สมชาย",
-    serviceUsed: "ยื่นกู้",
-    message:
-      "ไม่คิดว่าจะมีทีมที่เข้าใจการยื่นกู้ได้ดีขนาดนี้! ตั้งแต่วันแรกที่ติดต่อมา ทีมงานให้คำปรึกษาชัดเจน ใส่ใจ และช่วยให้ผมผ่านได้จริง ๆ ประทับใจมากครับ",
+    name: "คุณสมชาย พงษ์ศรี",
+    avatarUrl: "/assets/avatars/user1.jpg",
+    role: "เจ้าของธุรกิจ",
+    content:
+      "บริการดีมาก ทีมงานมืออาชีพ เข้าใจความต้องการ และส่งงานตรงเวลา แนะนำอย่างยิ่ง!",
   },
   {
     id: 2,
-    name: "นิดา",
-    serviceUsed: "ขอวีซ่า",
-    message:
-      "รู้สึกโชคดีมากที่เจอทีมนี้ค่ะ ทุกอย่างถูกจัดเตรียมให้พร้อม เอกสารครบถ้วน รวดเร็ว ไม่ต้องวิ่งเต้นเองเลย เหมือนได้ผู้ช่วยมืออาชีพจริง ๆ",
+    name: "นางสาวสุนิสา ศรีวัฒน์",
+    avatarUrl: "/assets/avatars/user2.jpg",
+    role: "ผู้จัดการฝ่ายการตลาด",
+    content:
+      "เว็บไซต์ที่ได้รับช่วยเพิ่มยอดขายและภาพลักษณ์ของบริษัทอย่างชัดเจน ขอบคุณทีม JP Visual & Docs ครับ!",
   },
   {
     id: 3,
-    name: "ธนา",
-    serviceUsed: "ที่ปรึกษาการเงิน",
-    message:
-      "ผมเคยคิดว่าการขอสินเชื่อยุ่งยาก แต่ทีม JP Visual & Docs ทำให้มันง่ายขึ้นมาก ไม่ใช่แค่ผ่าน แต่ยังได้คำแนะนำดี ๆ ที่ใช้ต่อยอดได้ในอนาคตอีกด้วย",
+    name: "คุณอาทิตย์ มณีโชติ",
+    avatarUrl: "/assets/avatars/user3.jpg",
+    role: "เจ้าของร้านอาหาร",
+    content:
+      "การออกแบบน่าประทับใจมาก เว็บไซต์ใช้งานง่าย ลูกค้าชอบมากขึ้นจริง ๆ ครับ",
   },
   {
     id: 4,
-    name: "ปิ่น",
-    serviceUsed: "ระบบหลังบ้าน",
-    message:
-      "ว้าว! ประทับใจตั้งแต่การให้บริการครั้งแรกค่ะ เว็บไซต์ดูดี ระบบใช้งานง่าย และทีมงานตอบคำถามไวมาก ไม่รู้สึกโดดเดี่ยวเลยตลอดกระบวนการ",
-  },
-  {
-    id: 5,
-    name: "เอก",
-    serviceUsed: "จัดการเอกสาร",
-    message:
-      "ผมเคยใช้บริการจากหลายที่ แต่ที่นี่ต่างออกไปจริง ๆ ทีมงานใส่ใจทุกรายละเอียด เหมือนมีพาร์ตเนอร์ช่วยวางแผนและดูแลทุกขั้นตอน",
-  },
-  {
-    id: 6,
-    name: "พร",
-    serviceUsed: "ยื่นกู้ + เอกสาร",
-    message:
-      "ช่วยชีวิตเลยค่ะ! ตอนแรกไม่มีความรู้เลยเรื่องเอกสาร แต่น้อง ๆ ทีมนี้ให้คำแนะนำดีมาก ทำให้ผ่านได้แบบไม่มีปัญหา บริการรวดเร็วทันใจจริง ๆ",
-  },
-  {
-    id: 7,
-    name: "วิทย์",
-    serviceUsed: "โปรไฟล์ธุรกิจ",
-    message:
-      "ผมชอบความตรงไปตรงมาของทีมนี้มากครับ ไม่ขายฝัน แต่ทำได้จริง พอเห็นผลลัพธ์แล้วต้องบอกว่า 'คุ้มค่าทุกบาท' ที่จ่ายไป",
-  },
-  {
-    id: 8,
-    name: "อร",
-    serviceUsed: "ขอวีซ่า + ปรึกษาการเงิน",
-    message:
-      "ดีใจมากที่ตัดสินใจเลือกที่นี่ ทุกขั้นตอนชัดเจน โปร่งใส ทีมงานติดตามงานให้อย่างต่อเนื่อง จนรู้สึกว่าเราเป็นคนสำคัญจริง ๆ",
+    name: "นางสาวพรทิพย์ ศิริรักษ์",
+    avatarUrl: "/assets/avatars/user4.jpg",
+    role: "ฟรีแลนซ์",
+    content:
+      "ทีมงานตอบสนองรวดเร็วและมีไอเดียสร้างสรรค์มาก ๆ รู้สึกประทับใจและจะใช้บริการอีกแน่นอนค่ะ",
   },
 ];
 
@@ -70,67 +48,46 @@ const ReviewsSection: React.FC = () => {
   return (
     <section
       id="reviews"
-      className="py-20 bg-slate-50 dark:bg-gray-800 text-slate-800 dark:text-gray-100"
       aria-labelledby="reviews-title"
-      role="region"
+      className="max-w-7xl mx-auto px-4 py-16"
     >
-      <div className="max-w-7xl mx-auto px-6">
-        <h2
-          id="reviews-title"
-          className="text-4xl md:text-5xl font-extrabold text-center mb-6 text-blue-900 dark:text-blue-200"
-        >
-          ความคิดเห็นจากลูกค้าจริง
-        </h2>
-        <p
-          id="reviews-desc"
-          className="text-center mb-12 text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed"
-        >
-          เราให้บริการด้านเอกสาร วีซ่า การเงิน และโปรไฟล์ครบวงจร โดยทีมงานมืออาชีพ
-          <br />
-          นี่คือเสียงสะท้อนจากลูกค้าที่ไว้วางใจใช้บริการของเรา
-        </p>
+      <h2
+        id="reviews-title"
+        className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white"
+      >
+        รีวิวจากลูกค้า
+      </h2>
 
-        <div
-          role="list"
-          aria-describedby="reviews-desc"
-          className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-        >
-          {reviews.map(({ id, name, serviceUsed, message }) => (
-            <article
-              key={id}
-              role="listitem"
-              className="bg-white dark:bg-gray-900 border border-slate-200 dark:border-slate-700 
-                        rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 
-                        focus-within:ring-2 focus-within:ring-blue-500"
-              tabIndex={0}
-              aria-label={`รีวิวจากคุณ ${name}`}
-            >
-              <figure className="flex items-center gap-4 mb-4">
-                <div
-                  aria-hidden="true"
-                  className="w-14 h-14 flex items-center justify-center rounded-full 
-                             bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-white 
-                             text-xl font-bold border border-blue-300 dark:border-blue-600 
-                             shadow-sm select-none"
-                >
-                  {name.charAt(0)}
-                </div>
-                <figcaption>
-                  <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-300">
-                    {name}
-                  </h3>
-                  <p className="text-sm text-blue-600 dark:text-blue-400">
-                    ใช้บริการ: {serviceUsed}
-                  </p>
-                </figcaption>
-              </figure>
-
-              <blockquote className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed italic">
-                “{message}”
-              </blockquote>
-            </article>
-          ))}
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {reviews.map(({ id, name, avatarUrl, role, content }) => (
+          <motion.blockquote
+            key={id}
+            className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 flex flex-col"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: id * 0.1 }}
+          >
+            <div className="flex items-center mb-4">
+              <img
+                src={avatarUrl}
+                alt={`รูปโปรไฟล์ของ ${name}`}
+                className="w-12 h-12 rounded-full object-cover mr-4 border-2 border-primary"
+                loading="lazy"
+                decoding="async"
+              />
+              <div>
+                <p className="font-semibold text-gray-900 dark:text-white">{name}</p>
+                {role && (
+                  <p className="text-sm text-primary dark:text-secondary">{role}</p>
+                )}
+              </div>
+            </div>
+            <p className="text-gray-700 dark:text-gray-300 flex-grow leading-relaxed">
+              “{content}”
+            </p>
+          </motion.blockquote>
+        ))}
       </div>
     </section>
   );

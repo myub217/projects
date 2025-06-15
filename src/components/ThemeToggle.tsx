@@ -1,4 +1,5 @@
 import React from "react";
+import { FaSun, FaMoon } from "react-icons/fa";
 
 type ThemeToggleProps = {
   theme: "light" | "dark";
@@ -8,31 +9,24 @@ type ThemeToggleProps = {
 const ThemeToggle: React.FC<ThemeToggleProps> = ({ theme, toggleTheme }) => {
   const isDark = theme === "dark";
 
-  const buttonClass = isDark
-    ? "bg-indigo-700 text-white border-indigo-600 hover:bg-indigo-800"
-    : "bg-white text-gray-800 border-gray-300 hover:bg-gray-100";
-
   return (
     <button
       type="button"
       onClick={toggleTheme}
       aria-label="สลับโหมดธีมระหว่างสว่างและมืด"
       aria-pressed={isDark}
-      title="สลับโหมดธีมระหว่างสว่างและมืด"
+      title={`โหมด${isDark ? "มืด" : "สว่าง"}`}
       className={`
-        flex items-center gap-2 px-3 py-1 rounded-md border
-        transition-colors duration-300 ease-in-out select-none
-        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1
-        ${buttonClass}
+        btn btn-sm btn-outline transition-colors duration-300 ease-in-out
+        ${isDark ? "btn-primary" : "btn-neutral"}
       `}
     >
-      {/* ไอคอนแสดงโหมดธีม */}
       <span aria-hidden="true" className="text-lg">
-        {isDark ? "🌙" : "🌞"}
+        {isDark ? <FaMoon /> : <FaSun />}
       </span>
-
-      {/* ข้อความแสดงสถานะโหมดธีม */}
-      <span className="font-medium">{isDark ? "โหมดมืด" : "โหมดสว่าง"}</span>
+      <span className="font-medium">
+        {isDark ? "โหมดมืด" : "โหมดสว่าง"}
+      </span>
     </button>
   );
 };

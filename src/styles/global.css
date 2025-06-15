@@ -1,3 +1,63 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  @keyframes fadeSlideUp {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 rounded-md
+           text-white font-semibold
+           cursor-pointer
+           flex items-center justify-center gap-2
+           select-none
+           ring-offset-white dark:ring-offset-gray-900
+           shadow-md
+           transition-colors duration-200 ease-in-out
+           focus:outline-none focus:ring-4 focus:ring-primary-dark/50 focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:select-none;
+
+    /* เปลี่ยนเป็น gradient โทนสีน้ำเงินม่วงเข้ม */
+    background-image: linear-gradient(45deg, #3b82f6, #6366f1); /* Blue-500 to Indigo-500 */
+    will-change: transform, box-shadow;
+    animation: fadeSlideUp 0.3s ease forwards;
+    transition-property: background-color, color, transform, box-shadow;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    @apply scale-105 shadow-lg cursor-pointer;
+    /* สลับ gradient ระหว่าง hover */
+    background-image: linear-gradient(45deg, #6366f1, #3b82f6); /* Indigo-500 to Blue-500 */
+  }
+
+  .btn-primary:active {
+    @apply scale-95 shadow-inner;
+  }
+
+  .btn-primary:focus-visible {
+    @apply shadow-lg ring-4 ring-primary-dark/70;
+    outline-offset: 2px;
+    outline-width: 3px;
+    box-shadow: 0 0 0 4px rgb(99 102 241 / 0.4); /* Indigo 500 with opacity */
+  }
+
+  .btn-primary svg {
+    @apply w-5 h-5;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .btn-primary:hover svg {
+    transform: rotate(15deg) scale(1.15);
+  }
+}

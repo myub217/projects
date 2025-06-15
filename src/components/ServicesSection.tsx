@@ -1,7 +1,4 @@
-// src/components/ServicesSection.tsx
 import React from "react";
-import { Link } from "react-router-dom";
-import { ArrowRight, LineChart } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface Service {
@@ -9,192 +6,139 @@ interface Service {
   title: string;
   description: string;
   price: string;
-  duration?: string;
   image: string;
-  link?: string;
 }
 
 const services: Service[] = [
   {
     id: 1,
-    title: "ยื่นกู้",
-    description: "บริการยื่นกู้ดอกเบี้ยต่ำ พร้อมเอกสารครบถ้วนและรวดเร็ว",
-    price: "เริ่มต้น 5,000 บาท",
-    duration: "3-7 วันทำการ",
-    image: "/images/services/loan.png",
-    link: "/loan",
+    title: "ที่ปรึกษายื่นกู้สินเชื่อ",
+    description:
+      "เราจะดูแลในเรื่องการหาสินเชื่อให้สอดคล้องกับโปรไฟล์ลูกค้า ไม่ให้ลูกค้าไปยื่นเองโดยไม่มีความรู้ วางแผนให้ทุกอย่างอย่างมืออาชีพ รวบรวมรายละเอียดครบถ้วน วิเคราะห์เงื่อนไขของธนาคารอย่างละเอียด เพื่อเพิ่มโอกาสในการอนุมัติสินเชื่ออย่างมั่นใจ",
+    price: "4,000 - 300,000 บาท",
+    image: "/images/services/service1.png",
   },
   {
     id: 2,
-    title: "ขอวีซ่า",
-    description: "ขอวีซ่าระยะยาวและสั้น พร้อมคำปรึกษาแบบมืออาชีพ",
-    price: "เริ่มต้น 3,000 บาท",
-    duration: "7-14 วันทำการ",
-    image: "/images/services/visa.png",
-    link: "/visa",
+    title: "รับดูแลเอกสารยื่นวีซ่า",
+    description:
+      "เราออกแบบบริการเพื่อสาวสายทำงานตรงโดยเฉพาะ ดูแลทุกขั้นตอนของเอกสาร ตรวจสอบและแต่งเติมให้ครบตามเงื่อนไขของประเทศปลายทาง เน้นให้ผ่านจริง โดยเข้าใจธุรกิจและฐานลูกค้าเป็นอย่างดี",
+    price: "4,000 บาทขึ้นไป",
+    image: "/images/services/service2.png",
   },
   {
     id: 3,
-    title: "SLIBBANK",
-    description: "บริการทางเลือกใหม่เพื่อเข้าถึงแหล่งเงินทุนออนไลน์",
-    price: "เริ่มต้น 4,000 บาท",
-    duration: "5-7 วันทำการ",
-    image: "/images/services/financial-docs.png",
+    title: "แก้ไข สร้างใหม่ สลิป / เอกสาร",
+    description:
+      "แก้ไขได้ทุกจุดในสลิป ใช้ font และ background ล่าสุด มีโปรโมชั่น 10 ใบ 500 บาท สะสมไว้ใช้วันหลังได้จนกว่าจะหมด เหมาะสำหรับผู้ต้องการความยืดหยุ่นในการใช้งาน",
+    price: "100 บาท/ใบ",
+    image: "/images/services/service3.png",
   },
   {
     id: 4,
-    title: "เอกสารราชการ & แปล",
-    description: "บริการจัดเตรียมเอกสารราชการ แปลภาษา และรับรองครบวงจร",
-    price: "เริ่มต้น 2,500 บาท",
-    duration: "1-5 วันทำการ",
-    image: "/images/services/consulting.jpg",
+    title: "แก้ไข-สร้างใหม่-จัดหาเอกสาร",
+    description:
+      "บริการแก้ไข ≤ 4 รายการเริ่ม 400 บาท / สร้างใหม่เริ่ม 600 บาท / จัดหาเอกสารรูปแบบต่าง ๆ ตามความต้องการของลูกค้า ครอบคลุมการใช้งานหลายกรณี",
+    price: "เริ่มต้น 400 - 600 บาท",
+    image: "/images/services/service4.png",
   },
   {
     id: 5,
-    title: "ผลิตบัตรต่าง ๆ",
-    description: "ออกแบบ-ผลิต บัตรพนักงาน บัตรสมาชิก ฯลฯ",
-    price: "เริ่มต้น 1,500 บาท",
-    duration: "3-5 วันทำการ",
-    image: "/images/services/backend.jpg",
+    title: "ชิ้นงานจริงบัตรแข็ง/อ่อน",
+    description:
+      "ดูตัวอย่างชิ้นงานจริงได้ (มีลายน้ำรูปแมวป้องกัน) จัดส่งปลอดภัยทางรถทัวร์ Grab หรือ Uber เท่านั้น ไม่รับมือ หลีกเลี่ยงความเสี่ยง",
+    price: "เริ่มต้น 4,500 บาท",
+    image: "/images/services/service5.png",
   },
   {
     id: 6,
-    title: "โลโก้ & เอกสารโปรไฟล์",
-    description: "ออกแบบโลโก้ และโปรไฟล์นำเสนอธุรกิจหรือบุคคล",
-    price: "เริ่มต้น 3,500 บาท",
-    duration: "5-7 วันทำการ",
-    image: "/images/services/profile.jpg",
+    title: "ดูแลการตลาดครบวงจร",
+    description:
+      "ควบคุมภาพลักษณ์ ออกแบบธุรกิจให้ดูน่าเชื่อถือในแต่ละสายอาชีพ วิเคราะห์กลุ่มเป้าหมาย สร้างคอนเทนต์เฉพาะทาง พร้อมวางแผนกลยุทธ์ล่วงหน้า 3 เดือน เหมาะทั้งสายขาว ดำ และเทา",
+    price: "5,000 - 500,000 บาท",
+    image: "/images/services/service6.png",
   },
   {
     id: 7,
-    title: "ระบบการตลาด & หน้าเพจ",
-    description: "ออกแบบระบบเพจ โปรโมทสินค้า ยิงแอด พร้อมระบบจัดการ",
-    price: "เริ่มต้น 12,000 บาท",
-    duration: "1-2 สัปดาห์",
-    image: "/images/services/special.jpg",
+    title: "ออกแบบโลโก้/แบนเนอร์/ทีม",
+    description:
+      "ชิ้นงานคุณภาพส่งมอบทั้ง JPG และ PNG (โปร่งใส) พร้อมใช้งานในทุกแพลตฟอร์ม เหมาะสำหรับสร้างแบรนด์ใหม่หรือรีแบรนด์",
+    price: "เริ่มต้น 300 บาท",
+    image: "/images/services/service7.png",
   },
   {
     id: 8,
-    title: "AI Matching & ระบบหลังบ้าน",
-    description: "ระบบหลังบ้านอัจฉริยะเชื่อมโยงข้อมูลและจับคู่แบบ AI",
-    price: "เริ่มต้น 18,000 บาท",
-    duration: "2-4 สัปดาห์",
-    image: "/images/services/pro-team.jpg",
+    title: "ระบบหลังบ้านธุรกิจ",
+    description:
+      "สร้างระบบครบวงจร เช่น Line OA, กลุ่ม Telegram, ระบบแจ้งเตือนอัตโนมัติ และ Bot รับลูกค้า คุณสามารถนอนพัก ลูกค้าเดินเข้ามาเอง",
+    price: "เริ่มต้น 4,000 บาท",
+    image: "/images/services/service8.png",
   },
   {
     id: 9,
-    title: "บริการลับๆ เฉพาะทาง",
-    description: "สอบถามรายละเอียดเฉพาะทางแบบส่วนตัวผ่าน LINE เท่านั้น",
-    price: "สอบถามราคา",
-    duration: "ตามข้อตกลง",
-    image: "/images/services/ccom.png",
+    title: "โครงการให้น้องได้พักผ่อน",
+    description:
+      "AI จะคัดกรองกลุ่มลูกค้าเฉพาะ เช่น friend, thaionly ดึงเข้าสู่ระบบ Line OA และ Telegram พร้อมระบบตอบกลับอัตโนมัติ คุณเลือกงานได้ตามใจ ระบบทำงานแทนคุณ",
+    price: "เริ่มต้น 5,000 บาท",
+    image: "/images/services/service9.png",
+  },
+  {
+    id: 10,
+    title: "สร้างภาพลักษณ์ / ทำลายภาพลักษณ์",
+    description:
+      "บริการเฉพาะทางระดับลึก บางสิ่งคุณทำเองไม่ได้ เราทำให้ได้โดยไม่ผิดกฎหมาย (ยกเว้นการทำร้ายร่างกาย) ใช้ได้ทั้งการยกระดับและลบภาพในอดีต",
+    price: "เริ่มต้น 5,000 บาท",
+    image: "/images/services/service10.png",
   },
 ];
 
 const ServicesSection: React.FC = () => {
   return (
-    <section
-      id="services"
-      className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-20 relative"
+    <motion.section
+      aria-labelledby="services-title"
+      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      transition={{ staggerChildren: 0.15 }}
     >
-      <div className="text-center mb-16">
-        <h2 className="text-5xl sm:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-orange-400 to-yellow-300">
-          บริการครบวงจร
-        </h2>
-        <p className="mt-4 text-lg sm:text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
-          ครอบคลุมทุกมิติของความสำเร็จ: เอกสาร ● การเงิน ● การตลาด ● ระบบหลังบ้าน ● AI
-        </p>
-      </div>
+      <motion.h2
+        id="services-title"
+        className="text-3xl font-bold text-center mb-12 text-base-content"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        บริการของเรา
+      </motion.h2>
 
-      <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((service) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {services.map(({ id, title, description, price, image }) => (
           <motion.div
-            key={service.id}
-            className="group rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-1.5 hover:scale-[1.01] transition-all duration-500 bg-white dark:bg-gray-900 flex flex-col"
+            key={id}
+            className="bg-base-100 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: id * 0.1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: service.id * 0.05 }}
           >
-            <div className="relative h-48 overflow-hidden">
-              <img
-                loading="lazy"
-                src={service.image}
-                alt={`บริการ ${service.title} | JP Visual & Docs`}
-                aria-label={`บริการ ${service.title}`}
-                className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src =
-                    "/images/services/ccom.png";
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
-              <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-all duration-300" />
-            </div>
-
-            <div className="p-6 flex flex-col flex-grow">
-              <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-1">
-                {service.title}
+            <img
+              src={image}
+              alt={`ภาพประกอบบริการ ${title}`}
+              className="w-full h-48 object-cover"
+              loading="lazy"
+            />
+            <div className="p-5">
+              <h3 className="text-xl font-semibold text-base-content mb-2">
+                {title}
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300 flex-grow leading-relaxed">
-                {service.description}
-              </p>
-              <div className="mt-3 space-y-1">
-                <p className="text-base font-semibold text-red-600 dark:text-red-400">
-                  {service.price}
-                </p>
-                {service.duration && (
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    ระยะเวลา: {service.duration}
-                  </p>
-                )}
-              </div>
-
-              <div className="mt-4 flex flex-wrap gap-4 items-center">
-                {service.link ? (
-                  <Link
-                    to={service.link}
-                    className="text-sm text-red-600 hover:text-red-700 dark:hover:text-red-400 font-medium flex items-center gap-1"
-                    aria-label={`ดูรายละเอียดเพิ่มเติมสำหรับ ${service.title}`}
-                  >
-                    ดูเพิ่มเติม <ArrowRight size={16} />
-                  </Link>
-                ) : (
-                  <span className="text-sm text-gray-400 italic">
-                    สอบถามบริการนี้ผ่าน LINE
-                  </span>
-                )}
-                <a
-                  href="https://lin.ee/XJZ7H4u"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`แอด LINE สำหรับบริการ ${service.title}`}
-                  className="text-sm text-green-600 hover:text-green-700 dark:hover:text-green-400 font-medium flex items-center gap-1"
-                >
-                  แอด LINE <LineChart size={16} />
-                </a>
-              </div>
+              <p className="text-sm text-base-content/70 mb-2">{description}</p>
+              <p className="text-sm font-medium text-primary">ราคา: {price}</p>
             </div>
           </motion.div>
         ))}
       </div>
-
-      <div className="mt-24 text-center">
-        <p className="text-xl sm:text-2xl text-gray-800 dark:text-gray-200 font-medium mb-6">
-          อย่าปล่อยให้โอกาสผ่านไป — ปรึกษาเราฟรี ไม่มีค่าใช้จ่าย
-        </p>
-        <a
-          href="https://lin.ee/XJZ7H4u"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="แอด LINE JP Visual & Docs"
-          className="inline-flex items-center gap-2 bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 text-white text-base font-bold px-8 py-3 rounded-full shadow-xl hover:shadow-2xl active:scale-95 transition-all"
-        >
-          แอด LINE @462FQTFC
-          <LineChart size={18} />
-        </a>
-      </div>
-    </section>
+    </motion.section>
   );
 };
 

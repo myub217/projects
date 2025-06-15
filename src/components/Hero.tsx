@@ -1,65 +1,58 @@
 import React from "react";
-import Logo from "./Logo";
-import JoinButtons from "./JoinButtons";
+import { motion } from "framer-motion";
+import jpLogo from "../assets/jp-logo.png";
 
 const Hero: React.FC = () => {
   return (
-    <section
+    <header
       id="hero"
       role="banner"
-      aria-label="JP Visual & Docs - บริการเอกสารครบวงจร"
-      className="
-        relative min-h-screen flex items-center justify-center px-6 py-24
-        bg-gradient-to-br from-blue-900 via-indigo-800 to-purple-900
-        dark:from-gray-900 dark:via-gray-800 dark:to-black
-        text-white overflow-hidden transition-colors duration-1000
-        selection:bg-indigo-500 selection:text-white
-      "
+      aria-labelledby="hero-heading"
+      className="relative min-h-screen flex items-center justify-center bg-gradient-to-tr from-blue-950 via-indigo-900 to-blue-800 dark:from-gray-950 dark:via-gray-900 dark:to-gray-800 px-4 sm:px-8"
     >
-      {/* ฉากหลังแสง */}
-      <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-pink-500 opacity-20 blur-[150px] rounded-full animate-pulse" />
-        <div className="absolute bottom-0 right-0 w-[450px] h-[450px] bg-indigo-400 opacity-20 blur-[120px] rounded-full animate-ping" />
-      </div>
+      <motion.div
+        className="text-center max-w-3xl mx-auto"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        tabIndex={-1} // ให้ keyboard focus ได้
+      >
+        <motion.img
+          src={jpLogo}
+          alt="โลโก้ JP Visual & Docs"
+          className="w-24 h-24 mx-auto mb-6 rounded-full shadow-xl border-4 border-white dark:border-gray-700"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
+          loading="lazy"
+          decoding="async"
+          fetchPriority="low"
+        />
 
-      {/* เนื้อหา */}
-      <div className="relative z-10 max-w-7xl w-full flex flex-col-reverse lg:flex-row items-center justify-between gap-16 px-4 sm:px-6 lg:px-8">
-        {/* ด้านข้อความ */}
-        <div className="lg:w-1/2 text-center lg:text-left space-y-6">
-          <h1
-            tabIndex={0}
-            className="text-5xl sm:text-6xl font-extrabold tracking-tight leading-tight text-white drop-shadow-lg selection:bg-indigo-600"
-          >
-            JP Visual & Docs
-          </h1>
-          <p className="text-xl sm:text-2xl text-indigo-200 font-light leading-relaxed max-w-lg mx-auto lg:mx-0">
-            บริการเอกสารครบวงจร ยื่นกู้ วีซ่า การเงิน โปรไฟล์ และระบบหลังบ้าน
-          </p>
-          <p className="text-md sm:text-lg text-indigo-300 max-w-md mx-auto lg:mx-0">
-            วางแผนอย่างมืออาชีพ ดูแลทุกขั้นตอน ด้วยความลับและความเข้าใจ
-          </p>
+        <h1
+          id="hero-heading"
+          className="text-4xl sm:text-5xl font-extrabold text-white drop-shadow-xl leading-tight"
+        >
+          JP Visual & Docs
+        </h1>
 
-          {/* ปุ่มเข้าร่วม */}
-          <JoinButtons className="flex justify-center lg:justify-start gap-4 pt-6 flex-wrap" />
-        </div>
+        <p className="mt-4 text-lg sm:text-xl text-white/90 max-w-xl mx-auto leading-relaxed">
+          บริการออกแบบและจัดทำเอกสารมืออาชีพ
+          <br className="hidden sm:inline" />
+          ครบวงจรสำหรับธุรกิจของคุณ
+        </p>
 
-        {/* โลโก้ */}
-        <div className="lg:w-1/2 flex justify-center items-center">
-          <div className="relative group">
-            <Logo
-              className="w-48 sm:w-60 lg:w-72 rounded-3xl shadow-xl transition-transform duration-700 ease-in-out group-hover:scale-105 select-none"
-              aria-label="โลโก้ JP Visual & Docs"
-              role="img"
-              draggable={false}
-            />
-            <div
-              className="absolute inset-0 rounded-3xl ring-2 ring-indigo-400 opacity-20 blur-md animate-ping group-hover:opacity-40 pointer-events-none"
-              aria-hidden="true"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
+        <motion.a
+          href="#contact"
+          className="mt-10 inline-block btn-primary text-lg px-8 py-3 shadow-md focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-primary dark:focus:ring-white transition-transform rounded-md"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label="ติดต่อเรา"
+        >
+          ติดต่อเรา
+        </motion.a>
+      </motion.div>
+    </header>
   );
 };
 

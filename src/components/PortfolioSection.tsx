@@ -1,5 +1,5 @@
-// src/components/PortfolioSection.tsx
 import React from "react";
+import { motion } from "framer-motion";
 
 const portfolioImages = [
   "/images/portfolio-loan-success.jpg",
@@ -13,29 +13,47 @@ const PortfolioSection: React.FC = () => {
   return (
     <section
       id="portfolio"
-      className="max-w-6xl mx-auto px-6 py-16"
-      aria-label="ผลงานล่าสุด"
+      aria-labelledby="portfolio-title"
+      className="max-w-6xl mx-auto"
     >
-      <h2 className="text-4xl font-extrabold text-center mb-12 text-red-600">
-        ผลงานล่าสุด
-      </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {portfolioImages.map((src, index) => (
-          <div
-            key={index}
-            className="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition"
+      <motion.h2
+        id="portfolio-title"
+        className="text-3xl font-bold text-center mb-6 text-primary dark:text-accent"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+      >
+        ผลงานของเรา
+      </motion.h2>
+
+      <motion.p
+        className="text-center max-w-2xl mx-auto text-gray-700 dark:text-gray-300 mb-10"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.3 }}
+      >
+        เราได้ร่วมออกแบบแบรนด์ <strong>ALONDER</strong> ตั้งแต่การวางคอนเซ็ปต์แบรนด์ การวิเคราะห์ฐานลูกค้า การสร้าง Moodboard และ Brand Book จนถึงการนำเสนอพร้อม Workshop ถ่ายทอดสู่ทีมงานอย่างครบวงจร
+      </motion.p>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {portfolioImages.map((img, idx) => (
+          <motion.div
+            key={idx}
+            className="overflow-hidden rounded-lg shadow-md bg-white dark:bg-gray-900"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: idx * 0.1 }}
           >
             <img
-              src={src}
-              alt={`ผลงานตัวอย่าง ${index + 1}`}
+              src={img}
+              alt={`ภาพประกอบผลงาน ${idx + 1}`}
               className="w-full h-56 object-cover"
               loading="lazy"
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src =
-                  "/assets/fallback-image.png";
-              }}
             />
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>
