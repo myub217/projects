@@ -1,6 +1,8 @@
+// src/components/ServicesSection.tsx
 import React from "react";
 import { Link } from "react-router-dom";
-import { LucideArrowRight, LucideLineChart } from "lucide-react";
+import { ArrowRight, LineChart } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface Service {
   id: number;
@@ -91,83 +93,105 @@ const services: Service[] = [
 
 const ServicesSection: React.FC = () => {
   return (
-    <section id="services" className="max-w-7xl mx-auto px-6 py-20">
-      {/* Header */}
-      <div className="text-center mb-14">
-        <h2 className="text-5xl font-black tracking-tight text-red-600 dark:text-red-500">
+    <section
+      id="services"
+      className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-20 relative"
+    >
+      <div className="text-center mb-16">
+        <h2 className="text-5xl sm:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-orange-400 to-yellow-300">
           บริการครบวงจร
         </h2>
-        <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
+        <p className="mt-4 text-lg sm:text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
           ครอบคลุมทุกมิติของความสำเร็จ: เอกสาร ● การเงิน ● การตลาด ● ระบบหลังบ้าน ● AI
         </p>
       </div>
 
-      {/* Grid Cards */}
-      <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+      <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {services.map((service) => (
-          <div
+          <motion.div
             key={service.id}
-            className="rounded-2xl bg-white dark:bg-gray-900 shadow-lg hover:shadow-2xl transition-all overflow-hidden flex flex-col"
+            className="group rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-1.5 hover:scale-[1.01] transition-all duration-500 bg-white dark:bg-gray-900 flex flex-col"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: service.id * 0.05 }}
           >
-            <img
-              src={service.image}
-              alt={service.title}
-              className="h-48 w-full object-cover"
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src =
-                  "/images/services/ccom.png";
-              }}
-            />
+            <div className="relative h-48 overflow-hidden">
+              <img
+                loading="lazy"
+                src={service.image}
+                alt={`บริการ ${service.title} | JP Visual & Docs`}
+                aria-label={`บริการ ${service.title}`}
+                className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src =
+                    "/images/services/ccom.png";
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
+              <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-all duration-300" />
+            </div>
+
             <div className="p-6 flex flex-col flex-grow">
-              <h3 className="text-xl font-bold text-gray-800 dark:text-white">
+              <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-1">
                 {service.title}
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300 mt-1 flex-grow">
+              <p className="text-sm text-gray-600 dark:text-gray-300 flex-grow leading-relaxed">
                 {service.description}
               </p>
-              <div className="mt-3">
-                <p className="text-red-600 font-semibold">{service.price}</p>
+              <div className="mt-3 space-y-1">
+                <p className="text-base font-semibold text-red-600 dark:text-red-400">
+                  {service.price}
+                </p>
                 {service.duration && (
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     ระยะเวลา: {service.duration}
                   </p>
                 )}
               </div>
-              <div className="mt-4 flex flex-wrap gap-3">
-                {service.link && (
+
+              <div className="mt-4 flex flex-wrap gap-4 items-center">
+                {service.link ? (
                   <Link
                     to={service.link}
-                    className="text-sm text-red-600 hover:text-red-700 font-medium flex items-center gap-1"
+                    className="text-sm text-red-600 hover:text-red-700 dark:hover:text-red-400 font-medium flex items-center gap-1"
+                    aria-label={`ดูรายละเอียดเพิ่มเติมสำหรับ ${service.title}`}
                   >
-                    ดูเพิ่มเติม <LucideArrowRight size={16} />
+                    ดูเพิ่มเติม <ArrowRight size={16} />
                   </Link>
+                ) : (
+                  <span className="text-sm text-gray-400 italic">
+                    สอบถามบริการนี้ผ่าน LINE
+                  </span>
                 )}
                 <a
                   href="https://lin.ee/XJZ7H4u"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-green-600 hover:text-green-700 font-medium flex items-center gap-1"
+                  aria-label={`แอด LINE สำหรับบริการ ${service.title}`}
+                  className="text-sm text-green-600 hover:text-green-700 dark:hover:text-green-400 font-medium flex items-center gap-1"
                 >
-                  แอด LINE <LucideLineChart size={16} />
+                  แอด LINE <LineChart size={16} />
                 </a>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
 
-      {/* CTA */}
       <div className="mt-24 text-center">
-        <p className="text-xl text-gray-800 dark:text-gray-200 font-medium mb-4">
+        <p className="text-xl sm:text-2xl text-gray-800 dark:text-gray-200 font-medium mb-6">
           อย่าปล่อยให้โอกาสผ่านไป — ปรึกษาเราฟรี ไม่มีค่าใช้จ่าย
         </p>
         <a
           href="https://lin.ee/XJZ7H4u"
-          className="inline-block bg-red-600 hover:bg-red-700 text-white text-base font-bold px-8 py-3 rounded-full shadow-lg transition-all"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="แอด LINE JP Visual & Docs"
+          className="inline-flex items-center gap-2 bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 text-white text-base font-bold px-8 py-3 rounded-full shadow-xl hover:shadow-2xl active:scale-95 transition-all"
         >
           แอด LINE @462FQTFC
+          <LineChart size={18} />
         </a>
       </div>
     </section>

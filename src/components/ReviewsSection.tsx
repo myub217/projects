@@ -70,18 +70,21 @@ const ReviewsSection: React.FC = () => {
   return (
     <section
       id="reviews"
-      className="py-20 bg-slate-50 text-slate-800"
+      className="py-20 bg-slate-50 dark:bg-gray-800 text-slate-800 dark:text-gray-100"
       aria-labelledby="reviews-title"
       role="region"
     >
-      <div className="container max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6">
         <h2
           id="reviews-title"
-          className="text-4xl md:text-5xl font-extrabold text-center mb-6 text-blue-900"
+          className="text-4xl md:text-5xl font-extrabold text-center mb-6 text-blue-900 dark:text-blue-200"
         >
           ความคิดเห็นจากลูกค้าจริง
         </h2>
-        <p className="text-center mb-12 text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
+        <p
+          id="reviews-desc"
+          className="text-center mb-12 text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed"
+        >
           เราให้บริการด้านเอกสาร วีซ่า การเงิน และโปรไฟล์ครบวงจร โดยทีมงานมืออาชีพ
           <br />
           นี่คือเสียงสะท้อนจากลูกค้าที่ไว้วางใจใช้บริการของเรา
@@ -89,32 +92,40 @@ const ReviewsSection: React.FC = () => {
 
         <div
           role="list"
+          aria-describedby="reviews-desc"
           className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
         >
           {reviews.map(({ id, name, serviceUsed, message }) => (
             <article
               key={id}
               role="listitem"
-              className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 focus-within:ring-2 focus-within:ring-blue-500"
+              className="bg-white dark:bg-gray-900 border border-slate-200 dark:border-slate-700 
+                        rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 
+                        focus-within:ring-2 focus-within:ring-blue-500"
               tabIndex={0}
               aria-label={`รีวิวจากคุณ ${name}`}
             >
               <figure className="flex items-center gap-4 mb-4">
                 <div
                   aria-hidden="true"
-                  className="w-14 h-14 flex items-center justify-center rounded-full bg-blue-100 text-blue-700 text-xl font-bold border border-blue-300 shadow-sm select-none"
+                  className="w-14 h-14 flex items-center justify-center rounded-full 
+                             bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-white 
+                             text-xl font-bold border border-blue-300 dark:border-blue-600 
+                             shadow-sm select-none"
                 >
                   {name.charAt(0)}
                 </div>
                 <figcaption>
-                  <h3 className="text-lg font-semibold text-blue-800">
+                  <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-300">
                     {name}
                   </h3>
-                  <p className="text-sm text-blue-600">ใช้บริการ: {serviceUsed}</p>
+                  <p className="text-sm text-blue-600 dark:text-blue-400">
+                    ใช้บริการ: {serviceUsed}
+                  </p>
                 </figcaption>
               </figure>
 
-              <blockquote className="text-slate-700 text-sm leading-relaxed italic">
+              <blockquote className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed italic">
                 “{message}”
               </blockquote>
             </article>

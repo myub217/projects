@@ -1,28 +1,17 @@
 // src/main.tsx
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
-import "./index.css"; // ไฟล์ styles ของ Tailwind + DaisyUI
-import { ThemeProvider } from "./context/ThemeContext"; // บริบทจัดการธีม (ถ้ามี)
-import { BrowserRouter } from "react-router-dom"; // สำหรับ routing SPA
-import { HelmetProvider } from "react-helmet-async"; // สำหรับจัดการ meta tags, SEO
+import "./styles/global.css";
+import { ThemeProvider } from "./context/ThemeContext";
 
-const rootElement = document.getElementById("root");
-
-if (!rootElement) {
-  throw new Error("Root element not found"); // ตรวจสอบว่ามี element id=root หรือไม่
-}
-
-const root = ReactDOM.createRoot(rootElement);
-
-root.render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <HelmetProvider>
-        <ThemeProvider>
-          <App />
-        </ThemeProvider>
-      </HelmetProvider>
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

@@ -1,3 +1,4 @@
+// src/components/PortfolioSection.tsx
 import React from "react";
 
 const portfolioImages = [
@@ -18,7 +19,6 @@ const PortfolioSection: React.FC = () => {
       <h2 className="text-4xl font-extrabold text-center mb-12 text-red-600">
         ผลงานล่าสุด
       </h2>
-
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {portfolioImages.map((src, index) => (
           <div
@@ -31,7 +31,8 @@ const PortfolioSection: React.FC = () => {
               className="w-full h-56 object-cover"
               loading="lazy"
               onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src = "/assets/fallback-image.png";
+                (e.currentTarget as HTMLImageElement).src =
+                  "/assets/fallback-image.png";
               }}
             />
           </div>

@@ -1,67 +1,40 @@
 <!DOCTYPE html>
-<html lang="th" data-theme="light" class="">
+<html lang="th">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- รองรับ IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>JP Visual & Docs</title>
 
-    <!-- SEO Meta Tags -->
-    <title>JP Visual & Docs - ยื่นกู้ วีซ่า เอกสาร และระบบธุรกิจครบวงจร</title>
-    <meta
-      name="description"
-      content="บริการครบวงจร: ยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน โลโก้ การตลาด พร้อมให้คำปรึกษาและตัวอย่างผลงานจริง"
-    />
-    <meta name="robots" content="index, follow" />
-    <meta name="author" content="JP Visual & Docs" />
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Theme color for mobile browsers -->
     <meta name="theme-color" content="#1A237E" />
 
-    <!-- Open Graph / Social Sharing -->
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="th_TH" />
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน JP Visual & Docs" />
+    <meta name="author" content="JP Visual & Docs" />
+    
+    <!-- Open Graph / Facebook -->
     <meta property="og:title" content="JP Visual & Docs" />
-    <meta property="og:description" content="บริการยื่นกู้ วีซ่า เอกสาร และระบบหลังบ้านธุรกิจ" />
-    <meta
-      property="og:image"
-      content="https://applicationlub.vercel.app/assets/repository-open-graph-template.png"
-    />
-    <meta property="og:url" content="https://applicationlub.vercel.app/" />
-    <meta property="og:site_name" content="JP Visual & Docs" />
+    <meta property="og:description" content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://your-domain.com" />
+    <meta property="og:image" content="https://your-domain.com/og-image.png" />
+
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-
-    <!-- Favicon & App Icons -->
-    <link rel="icon" type="image/png" href="/assets/icons/icon-192x192.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/icon-512x512.png" />
-    <link rel="manifest" href="/manifest.webmanifest" />
-
-    <!-- Preconnect for Google Fonts (performance optimization) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <!-- Google Fonts - Inter (รองรับภาษาไทยด้วย) -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap&subset=thai"
-      rel="stylesheet"
-    />
-
-    <!-- Vite React Entry -->
-    <script type="module" src="/src/main.tsx"></script>
+    <meta name="twitter:title" content="JP Visual & Docs" />
+    <meta name="twitter:description" content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน" />
+    <meta name="twitter:image" content="https://your-domain.com/og-image.png" />
   </head>
-
-  <body
-    class="font-sans bg-base-100 text-base-content transition-colors duration-300"
-  >
-    <!-- React Root -->
+  <body>
     <div id="root"></div>
-
-    <!--
-      ** วิธีสลับ Dark Mode **
-      - ใส่ class "dark" ที่ <html> หรือ <body> เช่น
-        document.documentElement.classList.add('dark')
-        หรือ
-        document.documentElement.classList.remove('dark')
-
-      - หรือใช้ DaisyUI theme change ผ่าน attribute data-theme เช่น
-        <html data-theme="dark"> หรือ <html data-theme="light">
-    -->
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

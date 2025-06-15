@@ -1,5 +1,7 @@
+// src/pages/About.tsx
+
 import React from "react";
-import aboutImg from "../assets/about-us.jpg";
+import aboutImg from "../assets/images/about-us.jpg";
 
 const About: React.FC = () => {
   return (
@@ -8,14 +10,13 @@ const About: React.FC = () => {
       className="relative py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-black scroll-mt-24 text-gray-100"
       aria-labelledby="about-title"
     >
-      {/* Background noise pattern */}
+      {/* Background Noise */}
       <div
         className="absolute inset-0 opacity-10 bg-[url('/src/assets/noise.png')] bg-repeat z-0 pointer-events-none"
         aria-hidden="true"
       ></div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-20 lg:px-32">
-        {/* Section Title */}
         <h2
           id="about-title"
           className="text-6xl font-extrabold text-red-600 mb-20 text-center tracking-widest uppercase drop-shadow-2xl"
@@ -26,7 +27,6 @@ const About: React.FC = () => {
           </span>
         </h2>
 
-        {/* Content Grid */}
         <div className="grid md:grid-cols-2 gap-24 items-center">
           {/* Text Content */}
           <article className="text-lg font-medium space-y-10 tracking-wide leading-relaxed text-gray-300">
@@ -59,7 +59,6 @@ const About: React.FC = () => {
               ด้วยประสบการณ์กว่า 10 ปีในวงการนี้ เราเข้าใจทุกความต้องการและความกังวลของคุณ เพราะโลกนี้มันซับซ้อน แต่เราทำให้มันง่ายขึ้นสำหรับคุณ
             </p>
 
-            {/* CTA Button */}
             <div className="mt-12 text-center">
               <a
                 href="https://lin.ee/XJZ7H4u"

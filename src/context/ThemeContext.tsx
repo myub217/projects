@@ -1,54 +1,47 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+// src/context/ThemeContext.tsx
+import React, { createContext, useContext, useState, useEffect } from "react";
 
-type Theme = "light" | "dark";
+export type Theme = "light" | "dark";
 
 interface ThemeContextType {
-  theme: Theme;
+  currentTheme: Theme;
   toggleTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-const getInitialTheme = (): Theme => {
-  if (typeof window !== "undefined" && window.localStorage) {
-    const storedTheme = localStorage.getItem("theme") as Theme | null;
-    if (storedTheme === "light" || storedTheme === "dark") {
-      return storedTheme;
-    }
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    return prefersDark ? "dark" : "light";
-  }
-  return "light";
-};
-
-const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [currentTheme, setCurrentTheme] = useState<Theme>("light");
 
   useEffect(() => {
-    const root = document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
+    const storedTheme = localStorage.getItem("theme") as Theme | null;
+    if (storedTheme === "light" || storedTheme === "dark") {
+      setCurrentTheme(storedTheme);
     } else {
-      root.classList.remove("dark");
+      // ถ้าไม่มีค่าใน localStorage หรือค่าผิด ให้ตั้งตาม prefers-color-scheme
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      setCurrentTheme(prefersDark ? "dark" : "light");
     }
-    localStorage.setItem("theme", theme);
-  }, [theme]);
+  }, []);
 
-  const toggleTheme = () => setTheme(prev => (prev === "light" ? "dark" : "light"));
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", currentTheme === "dark");
+    localStorage.setItem("theme", currentTheme);
+  }, [currentTheme]);
+
+  const toggleTheme = () => {
+    setCurrentTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ currentTheme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
 };
 
-const useTheme = (): ThemeContextType => {
+export const useTheme = (): ThemeContextType => {
   const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error("useTheme ต้องใช้ภายใน ThemeProvider เท่านั้น");
-  }
+  if (!context) throw new Error("useTheme must be used within ThemeProvider");
   return context;
 };
-
-export { ThemeProvider, useTheme };
