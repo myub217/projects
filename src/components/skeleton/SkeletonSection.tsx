@@ -1,12 +1,24 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, MotionProps } from "framer-motion";
 
-interface SkeletonSectionProps {
+interface SkeletonSectionProps extends Partial<MotionProps> {
   title?: string;
-  className?: string; // ใส่คลาสเสริมได้
-  style?: React.CSSProperties; // ใส่สไตล์เพิ่มเติมได้
-  titleHeight?: string; // กำหนดความสูง skeleton title (เช่น "1.5rem")
-  children?: React.ReactNode; // ถ้าอยากส่ง skeleton content เอง
+  className?: string;
+  style?: React.CSSProperties;
+  titleHeight?: string;
+  titleWidth?: string;
+  children?: React.ReactNode;
+  /**
+   * ค่า aria-live สำหรับ screen reader,
+   * ค่าเริ่มต้นคือ polite,
+   * ถ้าต้องการให้รีบแจ้ง (assertive) ก็ส่ง 'assertive' มาได้
+   */
+  ariaLive?: "off" | "polite" | "assertive";
+  /**
+   * เปิด/ปิด animation pulse,
+   * ถ้า false จะเป็นสถานะ static
+   */
+  pulse?: boolean;
 }
 
 const SkeletonSection: React.FC<SkeletonSectionProps> = ({
@@ -14,26 +26,45 @@ const SkeletonSection: React.FC<SkeletonSectionProps> = ({
   className = "",
   style,
   titleHeight = "1.5rem",
+  titleWidth = "33%",
   children,
+  ariaLive = "polite",
+  pulse = true,
+  initial,
+  animate,
+  exit,
+  ...motionProps
 }) => {
+  // ค่าเริ่มต้น motion animation (ถ้าไม่ส่งมา)
+  const defaultMotion = {
+    initial: initial ?? { opacity: 0 },
+    animate: animate ?? { opacity: 1 },
+    exit: exit ?? { opacity: 0 },
+  };
+
   return (
     <motion.section
-      className={`animate-pulse space-y-4 p-6 rounded-xl bg-base-200 shadow ${className}`.trim()}
+      className={`
+        ${pulse ? "animate-pulse" : ""}
+        space-y-4 p-6 rounded-xl
+        bg-base-200 dark:bg-base-700
+        shadow
+        ${className}
+      `.trim()}
       style={style}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
       role="status"
       aria-busy="true"
-      aria-live="polite"
+      aria-live={ariaLive}
       aria-label={title ? `กำลังโหลดข้อมูลส่วน: ${title}` : "กำลังโหลดเนื้อหา"}
-      tabIndex={-1} // ไม่ให้โฟกัส
+      tabIndex={-1}
+      {...defaultMotion}
+      {...motionProps}
     >
       {title && (
         <header>
           <div
-            className="bg-base-300 rounded-md mb-4"
-            style={{ height: titleHeight, width: "33%" }}
+            className="bg-base-300 dark:bg-base-500 rounded-md mb-4"
+            style={{ height: titleHeight, width: titleWidth }}
             aria-hidden="true"
           />
         </header>
@@ -42,10 +73,10 @@ const SkeletonSection: React.FC<SkeletonSectionProps> = ({
       <div aria-hidden="true" className="space-y-3">
         {children ?? (
           <>
-            <div className="h-4 w-full bg-base-300 rounded-md" />
-            <div className="h-4 w-5/6 bg-base-300 rounded-md" />
-            <div className="h-4 w-2/3 bg-base-300 rounded-md" />
-            <div className="h-4 w-1/2 bg-base-300 rounded-md" />
+            <div className="h-4 w-full bg-base-300 dark:bg-base-500 rounded-md" />
+            <div className="h-4 w-5/6 bg-base-300 dark:bg-base-500 rounded-md" />
+            <div className="h-4 w-2/3 bg-base-300 dark:bg-base-500 rounded-md" />
+            <div className="h-4 w-1/2 bg-base-300 dark:bg-base-500 rounded-md" />
           </>
         )}
       </div>
