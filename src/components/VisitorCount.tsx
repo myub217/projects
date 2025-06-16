@@ -15,12 +15,15 @@ interface VisitorCountProps {
   initialCount?: number;
 }
 
-const sanitizeRange = (min: number, max: number): [number, number] => {
-  let minVal = Number.isInteger(min) && min >= 0 ? min : 500;
-  let maxVal = Number.isInteger(max) && max >= minVal ? max : 3000;
+const sanitizeRange = (min?: number, max?: number): [number, number] => {
+  // กำหนดค่าเริ่มต้นและตรวจสอบความถูกต้อง
+  let minVal = Number.isInteger(min) && min !== undefined && min >= 0 ? min : 500;
+  let maxVal = Number.isInteger(max) && max !== undefined && max >= minVal ? max : 3000;
 
-  if (min > max) {
-    console.warn(`VisitorCount: min (${min}) มากกว่า max (${max}), สลับค่าให้ถูกต้อง`);
+  if (minVal > maxVal) {
+    console.warn(
+      `VisitorCount: min (${minVal}) มากกว่า max (${maxVal}), สลับค่าให้ถูกต้อง`
+    );
     [minVal, maxVal] = [maxVal, minVal];
   }
 
@@ -32,8 +35,8 @@ const getRandomCount = (min: number, max: number): number => {
 };
 
 const VisitorCountComponent: React.FC<VisitorCountProps> = ({
-  min = 500,
-  max = 3000,
+  min,
+  max,
   className = "",
   label = "ยอดผู้ชมเว็บไซต์",
   updateInterval = 10000,
@@ -41,24 +44,29 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
 }) => {
   const [minVal, maxVal] = sanitizeRange(min, max);
 
-  const initial = initialCount !== undefined ? initialCount : getRandomCount(minVal, maxVal);
+  // ใช้เลขเริ่มต้นที่ส่งเข้ามาหรือสุ่มเลขในช่วง
+  const initial =
+    initialCount !== undefined && initialCount >= minVal && initialCount <= maxVal
+      ? initialCount
+      : getRandomCount(minVal, maxVal);
 
   const [count, setCount] = useState<number>(initial);
-
   const prevCountRef = useRef<number>(count);
 
   // กำหนด locale สำหรับ toLocaleString
-  const userLocale = typeof navigator !== "undefined" ? navigator.language : "en-US";
+  const userLocale =
+    typeof navigator !== "undefined" && navigator.language
+      ? navigator.language
+      : "en-US";
 
   useEffect(() => {
     if (updateInterval <= 0) return;
-
-    // ถ้าช่วงเลขแคบเกินไป (min == max) ไม่ตั้ง interval
     if (minVal === maxVal) return;
 
     const intervalId = setInterval(() => {
       let newCount = getRandomCount(minVal, maxVal);
 
+      // ป้องกันเลขซ้ำกับรอบก่อนหน้า
       if (newCount === prevCountRef.current) {
         newCount = newCount === maxVal ? minVal : newCount + 1;
       }

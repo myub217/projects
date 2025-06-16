@@ -11,6 +11,7 @@ const JoinButtons: React.FC = () => {
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
       aria-labelledby="contact-title"
+      role="region"
     >
       <h2
         id="contact-title"

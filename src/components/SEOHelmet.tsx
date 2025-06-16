@@ -1,3 +1,4 @@
+import React from "react";
 import { Helmet } from "react-helmet-async";
 
 interface SEOProps {
@@ -13,15 +14,21 @@ export const SEOHelmet: React.FC<SEOProps> = ({
   image = "/og-default.png",
   url = "https://jp-visual-docs.com",
 }) => {
+  // ลบ / ท้าย URL ถ้ามี เพื่อความสอดคล้องในการต่อ URL
   const normalizedUrl = url.endsWith("/") ? url.slice(0, -1) : url;
-  const fullImage = image.startsWith("http") ? image : `${normalizedUrl}${image.startsWith("/") ? "" : "/"}${image}`;
+
+  // ตรวจสอบว่า image เป็น URL เต็ม หรือ path ภายใน ให้เติม base URL ให้ถูกต้อง
+  const fullImage =
+    image.startsWith("http") || image.startsWith("https")
+      ? image
+      : `${normalizedUrl}${image.startsWith("/") ? "" : "/"}${image}`;
 
   return (
     <Helmet>
-      {/* Document Language */}
+      {/* กำหนดภาษาใน html */}
       <html lang="th" />
 
-      {/* Basic SEO */}
+      {/* เมต้าแท็กพื้นฐาน SEO */}
       <title>{title}</title>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -29,7 +36,7 @@ export const SEOHelmet: React.FC<SEOProps> = ({
       <link rel="canonical" href={normalizedUrl} />
       <meta name="description" content={description} />
 
-      {/* Open Graph */}
+      {/* Open Graph สำหรับแชร์ในโซเชียล */}
       <meta property="og:locale" content="th_TH" />
       <meta property="og:type" content="website" />
       <meta property="og:title" content={title} />
@@ -44,7 +51,7 @@ export const SEOHelmet: React.FC<SEOProps> = ({
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={fullImage} />
 
-      {/* Theme color for PWA */}
+      {/* สีธีมสำหรับ PWA */}
       <meta name="theme-color" content="#7F3FBF" />
     </Helmet>
   );

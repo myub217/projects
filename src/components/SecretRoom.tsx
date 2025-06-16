@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 const SecretRoom: React.FC = () => {
   const scrollToContact = () => {
     const el = document.getElementById("contact");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
@@ -71,10 +71,8 @@ const SecretRoom: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.7 }}
       >
-        <motion.a
-          href="#contact"
-          role="button"
-          tabIndex={0}
+        <motion.button
+          type="button"
           aria-label="ติดต่อเราเพื่อขอสิทธิ์เข้าห้องลับ"
           className="bg-purple-600 hover:bg-purple-700 text-white
             dark:bg-purple-500 dark:hover:bg-purple-600
@@ -88,12 +86,12 @@ const SecretRoom: React.FC = () => {
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
-              e.currentTarget.click();
+              scrollToContact();
             }
           }}
         >
           ติดต่อเราเพื่อขอสิทธิ์
-        </motion.a>
+        </motion.button>
       </motion.section>
     </main>
   );

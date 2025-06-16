@@ -16,15 +16,16 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ theme, toggleTheme }) => {
       aria-label="สลับโหมดธีมระหว่างสว่างและมืด"
       aria-pressed={isDark}
       title={`โหมด${isDark ? "มืด" : "สว่าง"}`}
+      data-theme={theme}
       className={`
         btn btn-sm btn-outline flex items-center gap-2
-        transition-colors duration-300 ease-in-out
-        ${isDark ? "btn-primary" : "btn-neutral"}
-        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
-        dark:focus:ring-indigo-400 dark:focus:ring-offset-gray-900
+        transition-all duration-300 ease-in-out
+        ${isDark ? "btn-primary text-white bg-gray-800" : "btn-neutral text-gray-900 bg-white"}
+        focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+        focus-visible:ring-indigo-500 dark:focus-visible:ring-indigo-400
+        dark:focus-visible:ring-offset-gray-900
       `}
     >
-      {/* ไอคอนเปลี่ยนสีและหมุนเล็กน้อยเมื่อ toggle */}
       <span
         aria-hidden="true"
         className="text-lg transition-transform duration-300 ease-in-out transform hover:rotate-12"

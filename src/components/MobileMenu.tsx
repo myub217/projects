@@ -24,14 +24,14 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   const menuRef = useRef<HTMLDivElement>(null);
   const [isClosing, setIsClosing] = useState(false);
 
-  // ฟังก์ชันปิดเมนู พร้อม disable ปุ่มเพื่อป้องกันคลิกซ้ำ
+  // ป้องกันคลิกซ้ำระหว่างปิดเมนู
   const handleClose = useCallback(() => {
     if (isClosing) return;
     setIsClosing(true);
     onClose();
   }, [isClosing, onClose]);
 
-  // กด Escape เพื่อปิดเมนู
+  // ปิดเมนูด้วยปุ่ม Escape
   useEffect(() => {
     if (!isOpen) return;
 
@@ -41,11 +41,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
         handleClose();
       }
     };
+
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen, handleClose]);
 
-  // Lock scroll เมื่อเปิดเมนูซ้อนกันหลายชั้น
+  // Lock scroll เมื่อเมนูเปิด (ซ้อนกันหลายชั้น)
   useEffect(() => {
     if (isOpen) {
       scrollLockCount++;
@@ -65,7 +66,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     if (!isOpen || !menuRef.current) return;
 
     const focusableSelectors =
-      'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
+      'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
     const focusableElements = Array.from(
       menuRef.current.querySelectorAll<HTMLElement>(focusableSelectors)
     ).filter((el) => !el.hasAttribute("disabled") && el.offsetParent !== null);
@@ -78,25 +79,17 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     const first = focusableElements[0];
     const last = focusableElements[focusableElements.length - 1];
 
-    const isFocusInsideMenu = () =>
-      menuRef.current?.contains(document.activeElement);
-
     const trapFocus = (e: KeyboardEvent) => {
       if (e.key !== "Tab") return;
 
-      if (!isFocusInsideMenu()) {
-        // ถ้า focus นอกเมนู ให้กลับมา focus แรก
-        e.preventDefault();
-        first.focus();
-        return;
-      }
-
       if (e.shiftKey) {
+        // Shift + Tab
         if (document.activeElement === first) {
           e.preventDefault();
           last.focus();
         }
       } else {
+        // Tab
         if (document.activeElement === last) {
           e.preventDefault();
           first.focus();
@@ -106,6 +99,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 
     document.addEventListener("keydown", trapFocus);
 
+    // Focus element เริ่มต้น ถ้ามี
     if (initialFocusRef?.current && menuRef.current.contains(initialFocusRef.current)) {
       initialFocusRef.current.focus();
     } else {
@@ -115,20 +109,24 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     return () => document.removeEventListener("keydown", trapFocus);
   }, [isOpen, initialFocusRef]);
 
-  // เมื่อเมนูปิด ให้ focus กลับไปยัง trigger button
+  // เมื่อเมนูปิด ให้ focus กลับไปยังปุ่มที่เปิดเมนู (trigger)
   useEffect(() => {
-    if (!isOpen && triggerRef?.current) {
-      triggerRef.current.focus();
+    if (!isOpen) {
       setIsClosing(false);
+      if (triggerRef?.current) {
+        triggerRef.current.focus();
+      }
     }
   }, [isOpen, triggerRef]);
 
+  // ฟังก์ชันจัดการคลิกลิงก์ในเมนู
   const handleLinkClick = useCallback(() => {
     if (isClosing) return;
     handleClose();
     onLinkClick?.();
   }, [handleClose, isClosing, onLinkClick]);
 
+  // กด Enter หรือ Space บนลิงก์ ให้ไป URL และปิดเมนู
   const handleLinkKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLAnchorElement>, href: string) => {
       if (e.key === "Enter" || e.key === " ") {
@@ -184,24 +182,30 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
               <X size={28} />
             </button>
 
-            <nav aria-label="ลิงก์เมนูหลัก">
-              {links.map(({ label, href, highlight }) => (
-                <a
-                  key={href}
-                  href={href}
-                  onClick={handleLinkClick}
-                  onKeyDown={(e) => handleLinkKeyDown(e, href)}
-                  className={`block px-6 py-3 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
-                    highlight
-                      ? "bg-primary text-white hover:bg-primary-focus"
-                      : "hover:text-primary dark:hover:text-primary"
-                  }`}
-                  tabIndex={0}
-                  aria-current={window.location.href.includes(href) ? "page" : undefined}
-                >
-                  {label}
-                </a>
-              ))}
+            <nav aria-label="ลิงก์เมนูหลัก" className="flex flex-col gap-2">
+              {links.map(({ label, href, highlight }) => {
+                // ตรวจสอบว่าลิงก์นี้คือหน้า current หรือไม่ โดยเทียบกับ window.location.href
+                const isCurrentPage =
+                  typeof window !== "undefined" && window.location.href.includes(href);
+
+                return (
+                  <a
+                    key={href}
+                    href={href}
+                    onClick={handleLinkClick}
+                    onKeyDown={(e) => handleLinkKeyDown(e, href)}
+                    className={`block px-6 py-3 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
+                      highlight
+                        ? "bg-primary text-white hover:bg-primary-focus"
+                        : "hover:text-primary dark:hover:text-primary"
+                    }`}
+                    tabIndex={0}
+                    aria-current={isCurrentPage ? "page" : undefined}
+                  >
+                    {label}
+                  </a>
+                );
+              })}
             </nav>
           </motion.div>
         </>

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, KeyboardEvent, useId } from "react";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 
@@ -7,7 +7,7 @@ interface Review {
   name: string;
   service: string;
   message: string;
-  rating: number; // 1-5
+  rating: number;
 }
 
 const reviews: Review[] = [
@@ -21,59 +21,75 @@ const reviews: Review[] = [
   },
   {
     id: 2,
-    name: "นางสาวปิยนุช สวัสดิ์ดี",
-    service: "บริการออกแบบกราฟิก",
+    name: "คุณอรทัย สุวรรณ",
+    service: "รับดูแลเอกสารยื่นวีซ่า",
     message:
-      "ผลงานออกแบบสวยงาม ตรงกับความต้องการมากค่ะ ทีมงานเข้าใจและสื่อสารดีมาก ขอบคุณสำหรับการออกแบบที่สร้างสรรค์และทันสมัยมากค่ะ",
-    rating: 4,
-  },
-  {
-    id: 3,
-    name: "นายวิทยา โชติชัย",
-    service: "บริการทำเว็บไซต์",
-    message:
-      "เว็บไซต์ใช้งานง่าย และรองรับมือถืออย่างดี ประทับใจบริการหลังการขายครับ ทีมงานดูแลดีและตอบปัญหาเร็วมาก",
+      "บริการดูแลเอกสารยื่นวีซ่าของ JP Visual & Docs ดีมากค่ะ เอกสารครบถ้วนถูกต้องทุกขั้นตอน ผ่านการอนุมัติเร็ว และมีคำแนะนำที่ชัดเจน ทำให้กระบวนการไม่ซับซ้อนเลยค่ะ",
     rating: 5,
   },
   {
-    id: 4,
-    name: "นางสาวสุนิสา ศรีสุข",
-    service: "บริการตลาดออนไลน์",
+    id: 3,
+    name: "นายวรเชษฐ์ พิทักษ์",
+    service: "แก้ไข สร้างใหม่ สลิป / เอกสาร",
     message:
-      "ยอดขายเพิ่มขึ้นอย่างชัดเจนหลังใช้บริการการตลาดออนไลน์กับทีมนี้ค่ะ แนะนำเลยให้ทุกคนที่ต้องการเติบโตในธุรกิจ",
+      "แก้ไขสลิปกับที่นี่รวดเร็วและถูกต้องมาก ใช้ฟอนต์ที่ทันสมัย และงานออกมาเนี๊ยบสุด ๆ ราคาก็ยุติธรรม เหมาะสำหรับคนที่ต้องการความรวดเร็วและมืออาชีพจริง ๆ ครับ",
+    rating: 4,
+  },
+  {
+    id: 4,
+    name: "นางสาวพิมพ์ชนก กิ่งแก้ว",
+    service: "แก้ไข-สร้างใหม่-จัดหาเอกสาร",
+    message:
+      "บริการครบครัน ตอบโจทย์ทุกความต้องการของเรา ไม่ว่าจะเอกสารแบบไหนก็ช่วยแก้ไขและจัดหาได้ดีมาก ช่วยประหยัดเวลาที่จะต้องทำเองเยอะเลยค่ะ",
     rating: 5,
   },
   {
     id: 5,
-    name: "นายธนพล กิจเจริญ",
-    service: "บริการระบบหลังบ้าน",
+    name: "คุณธนวัฒน์ สายใจ",
+    service: "ดูแลการตลาดครบวงจร",
     message:
-      "ระบบเสถียรและตอบโจทย์งานได้อย่างครบถ้วน ทีมงานแก้ปัญหาเร็วมากครับ ทำให้ธุรกิจผมสะดวกขึ้นเยอะ",
-    rating: 4,
+      "ทีมงานวางแผนการตลาดให้ละเอียดและตรงกลุ่มเป้าหมายจริง ๆ ผลงานภาพลักษณ์แบรนด์ดูดีขึ้นอย่างเห็นได้ชัด และคอนเทนต์ก็โดนใจลูกค้า แนะนำเลยครับ",
+    rating: 5,
   },
   {
     id: 6,
-    name: "นางสาวพิมพ์ใจ ศิลป์ดี",
-    service: "บริการวีซ่าและเอกสาร",
+    name: "คุณสาวิตรี ใจดี",
+    service: "ออกแบบโลโก้/แบนเนอร์/ทีม",
     message:
-      "ขั้นตอนรวดเร็วและมีความชัดเจน ทีมงานช่วยดูแลเอกสารอย่างละเอียดมากค่ะ ช่วยลดความยุ่งยากและทำให้ผ่านขั้นตอนต่าง ๆ อย่างง่ายดาย",
+      "งานออกแบบสวยงามตรงใจมาก ๆ ค่ะ โลโก้และแบนเนอร์ที่ได้ทำให้แบรนด์ของเราดูมืออาชีพขึ้นมาก ใช้งานได้ทั้งออนไลน์และออฟไลน์ ขอบคุณทีม JP Visual & Docs มากค่ะ",
     rating: 5,
   },
   {
     id: 7,
-    name: "นายอนุชา สุขใจ",
-    service: "บริการ AI Solution",
+    name: "นายปกรณ์ จิตตะนัย",
+    service: "ระบบหลังบ้านธุรกิจ",
     message:
-      "ระบบ AI ที่พัฒนามาช่วยประหยัดเวลาทำงานได้มาก ทีมงานให้คำปรึกษาดีเยี่ยมครับ ประทับใจมาก ๆ กับผลลัพธ์ที่ได้",
+      "ระบบหลังบ้านที่พัฒนาขึ้นช่วยให้จัดการลูกค้าและงานได้ง่ายขึ้นมาก อัตโนมัติครบถ้วน ลูกค้าติดต่อสะดวก ทีมงานดูแลดีและแก้ไขปัญหาได้เร็วมากครับ",
     rating: 5,
   },
   {
     id: 8,
-    name: "นางสาวอารยา แสนดี",
-    service: "บริการ Workshop และอบรม",
+    name: "คุณวริศรา สุขสันต์",
+    service: "สร้างภาพลักษณ์ / ทำลายภาพลักษณ์",
     message:
-      "Workshop มีประโยชน์มาก ได้ความรู้และเทคนิคใหม่ ๆ ที่สามารถนำไปใช้จริงได้ค่ะ ทีมงานมืออาชีพและน่ารักมาก",
-    rating: 4,
+      "บริการเฉพาะทางนี้ช่วยยกระดับภาพลักษณ์บริษัทของเราได้อย่างมืออาชีพ ทำให้เราได้รับความไว้วางใจจากลูกค้ามากขึ้นจริง ๆ ขอบคุณมากค่ะ",
+    rating: 5,
+  },
+  {
+    id: 9,
+    name: "คุณกิตติพงษ์ รักษ์ดี",
+    service: "บริการให้คำปรึกษาการเงิน",
+    message:
+      "คำแนะนำการเงินที่ได้รับช่วยให้วางแผนและบริหารจัดการเงินได้ดีขึ้นมาก มีระบบติดตามผลที่ชัดเจนและเป็นมืออาชีพมากครับ",
+    rating: 5,
+  },
+  {
+    id: 10,
+    name: "นางสาวปาริฉัตร นิ่มนวล",
+    service: "จัดการเอกสารทางธุรกิจ",
+    message:
+      "การจัดการเอกสารของทีมงาน JP Visual & Docs มีความเป็นระบบ เรียบร้อยและรวดเร็วมาก ช่วยลดความยุ่งยากและความผิดพลาดได้เยอะค่ะ",
+    rating: 5,
   },
 ];
 
@@ -81,18 +97,48 @@ const MAX_PREVIEW_LENGTH = 120;
 
 const ReviewsSection: React.FC = () => {
   const [expandedIds, setExpandedIds] = useState<Set<number>>(new Set());
+  const uniqueId = useId();
 
   const toggleExpand = useCallback((id: number) => {
     setExpandedIds((prev) => {
       const newSet = new Set(prev);
-      if (newSet.has(id)) {
-        newSet.delete(id);
-      } else {
-        newSet.add(id);
-      }
+      newSet.has(id) ? newSet.delete(id) : newSet.add(id);
       return newSet;
     });
   }, []);
+
+  const handleKeyDown = (
+    event: KeyboardEvent<HTMLButtonElement>,
+    id: number
+  ) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      toggleExpand(id);
+    }
+  };
+
+  if (reviews.length === 0) {
+    return (
+      <motion.section
+        id="reviews"
+        aria-labelledby="reviews-title"
+        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-base-100 dark:bg-gray-900 rounded-lg shadow-md text-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+      >
+        <h2
+          id="reviews-title"
+          className="text-3xl font-extrabold text-primary dark:text-accent"
+        >
+          เสียงตอบรับจากลูกค้า
+        </h2>
+        <p className="mt-6 text-gray-600 dark:text-gray-400">
+          ขณะนี้ยังไม่มีรีวิวจากลูกค้า
+        </p>
+      </motion.section>
+    );
+  }
 
   return (
     <section
@@ -118,15 +164,17 @@ const ReviewsSection: React.FC = () => {
       >
         {reviews.map(({ id, name, service, message, rating }) => {
           const isExpanded = expandedIds.has(id);
+          const shouldTruncate = message.length > MAX_PREVIEW_LENGTH;
           const displayMessage =
-            message && message.length > MAX_PREVIEW_LENGTH && !isExpanded
+            shouldTruncate && !isExpanded
               ? message.slice(0, MAX_PREVIEW_LENGTH) + "..."
-              : message || "ไม่มีข้อความรีวิว";
+              : message;
+          const messageId = `${uniqueId}-review-${id}`;
 
           return (
             <motion.article
               key={id}
-              className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg flex flex-col focus-within:ring-2 focus-within:ring-primary dark:focus-within:ring-accent"
+              className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg flex flex-col focus-within:ring-2 focus-within:ring-primary dark:focus-within:ring-accent transition-shadow duration-200 outline-none"
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -163,20 +211,21 @@ const ReviewsSection: React.FC = () => {
               </header>
 
               <section
-                id={`review-message-${id}`}
+                id={messageId}
                 className="text-gray-700 dark:text-gray-300 text-sm flex-grow leading-relaxed"
                 aria-live="polite"
               >
                 “{displayMessage}”
               </section>
 
-              {message && message.length > MAX_PREVIEW_LENGTH && (
+              {shouldTruncate && (
                 <button
                   type="button"
                   onClick={() => toggleExpand(id)}
-                  className="mt-3 self-center text-primary dark:text-accent underline text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent rounded"
+                  onKeyDown={(e) => handleKeyDown(e, id)}
+                  className="mt-3 self-center text-primary dark:text-accent underline text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent rounded hover:text-primary-focus dark:hover:text-accent-focus transition-colors duration-200"
                   aria-expanded={isExpanded}
-                  aria-controls={`review-message-${id}`}
+                  aria-controls={messageId}
                   aria-label={
                     isExpanded
                       ? `ย่อข้อความรีวิวจากคุณ ${name}`

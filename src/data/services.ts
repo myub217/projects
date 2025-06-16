@@ -1,28 +1,25 @@
-// src/data/services.ts
-
-/** 
- * Interface สำหรับข้อมูลบริการแต่ละรายการ 
- * - `available` เป็น optional boolean สำหรับสถานะว่าบริการนี้พร้อมให้บริการหรือไม่
- * - `tags` เป็น optional string array สำหรับจัดหมวดหมู่หรือคีย์เวิร์ด
- * - `link` เป็น optional string สำหรับ URL ลิงก์เพิ่มเติม หรือหน้า detail ของบริการ
+/**
+ * Interface สำหรับข้อมูลบริการแต่ละรายการ
+ * - `available` ระบุว่ายังให้บริการอยู่หรือไม่ (default: true หากไม่ได้ระบุ)
+ * - `tags` ใช้สำหรับการค้นหา/จัดหมวดหมู่เพิ่มเติม
+ * - `link` ลิงก์ไปยังหน้ารายละเอียดของบริการนั้น (optional)
  */
 export interface Service {
   id: number;
   title: string;
   description: string;
   price: string;
-  image: string;       // path ของรูปภาพ เช่น /images/services/service1.webp
-  altText: string;     // ข้อความอธิบายรูปภาพสำหรับ accessibility
-  category: string;    // หมวดหมู่บริการ เช่น "เอกสาร", "การตลาด"
-  tags?: string[];     // แท็กเสริม (ถ้ามี)
-  link?: string;       // URL ลิงก์เพิ่มเติม (ถ้ามี)
-  available?: boolean; // สถานะพร้อมให้บริการหรือไม่ (default true)
+  image: string;       // path แบบ relative เช่น "/images/services/xxx.webp"
+  altText: string;     // คำอธิบายรูปภาพสำหรับ screen reader และ SEO
+  category: string;    // หมวดหมู่หลัก เช่น "เอกสาร", "การตลาด"
+  tags?: string[];     // สำหรับกรอง/ค้นหา/SEO
+  link?: string;       // URL หน้ารายละเอียด (optional)
+  available?: boolean; // ใช้งานได้หรือไม่ (optional; default = true)
 }
 
 /**
- * รายการข้อมูลบริการทั้งหมด
- * - กำหนด `available` เพื่อใช้กรองหรือแสดงสถานะใน UI ได้
- * - `link` ถ้าต้องการให้ปุ่ม "ดูรายละเอียด" เชื่อมโยงไปหน้ารายละเอียด
+ * รายการบริการทั้งหมดที่เว็บไซต์นำเสนอ
+ * - กรองด้วย `available: true` เมื่อแสดงในหน้า UI
  */
 export const services: Service[] = [
   {
@@ -89,7 +86,7 @@ export const services: Service[] = [
     id: 6,
     title: "ดูแลการตลาดครบวงจร",
     description:
-      "ออกแบบภาพลักษณ์และกลยุทธ์ธุรกิจวิเคราะห์กลุ่มเป้าหมาย สร้างคอนเทนต์เฉพาะทาง วางแผนล่วงหน้า 3 เดือน เหมาะกับทุกสายงานทั้งสายขาว ดำ และเทา",
+      "ออกแบบภาพลักษณ์และกลยุทธ์ธุรกิจ วิเคราะห์กลุ่มเป้าหมาย สร้างคอนเทนต์เฉพาะทาง วางแผนล่วงหน้า 3 เดือน เหมาะกับทุกสายงานทั้งสายขาว ดำ และเทา",
     price: "5,000 - 500,000 บาท",
     image: "/images/services/service6.webp",
     altText: "ภาพประกอบบริการดูแลการตลาดครบวงจร",

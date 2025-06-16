@@ -1,4 +1,3 @@
-// App.tsx
 import React, {
   useEffect,
   useState,
@@ -12,7 +11,6 @@ import React, {
 } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-// Layout & Components
 import Header from "./layout/Header";
 import Footer from "./layout/Footer";
 import Hero from "./components/Hero";
@@ -26,7 +24,7 @@ import SkeletonSection from "./components/skeleton/SkeletonSection";
 
 const ReviewsSectionLazy = lazy(() => import("./components/ReviewsSection"));
 
-// ลิงก์เมนูนำทาง
+// ลิงก์เมนูนำทาง (คงที่)
 const navLinks = [
   { label: "เกี่ยวกับเรา", href: "#about" },
   { label: "บริการ", href: "#services" },
@@ -37,7 +35,7 @@ const navLinks = [
 
 type NavLink = typeof navLinks[number];
 
-// Custom hook สำหรับจัดการธีม (Light/Dark)
+// Custom Hook: จัดการธีม (Light/Dark) พร้อมการบันทึกและตรวจจับ system preference
 const useSystemTheme = () => {
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
@@ -49,11 +47,15 @@ const useSystemTheme = () => {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+
     try {
-      const storedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+      const storedTheme = localStorage.getItem("theme") as
+        | "light"
+        | "dark"
+        | null;
       const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-      if (storedTheme) {
+      if (storedTheme === "light" || storedTheme === "dark") {
         applyTheme(storedTheme);
       } else {
         applyTheme(mediaQuery.matches ? "dark" : "light");
@@ -65,14 +67,28 @@ const useSystemTheme = () => {
         }
       };
 
-      mediaQuery.addEventListener("change", onMediaChange);
-      return () => mediaQuery.removeEventListener("change", onMediaChange);
+      if (mediaQuery.addEventListener) {
+        mediaQuery.addEventListener("change", onMediaChange);
+      } else {
+        // รองรับ browser เก่า
+        // @ts-ignore
+        mediaQuery.addListener(onMediaChange);
+      }
+
+      return () => {
+        if (mediaQuery.removeEventListener) {
+          mediaQuery.removeEventListener("change", onMediaChange);
+        } else {
+          // @ts-ignore
+          mediaQuery.removeListener(onMediaChange);
+        }
+      };
     } catch {
       applyTheme("light");
     }
   }, [applyTheme]);
 
-  // ฟังก์ชันสลับธีม พร้อมบันทึกลง localStorage
+  // ฟังก์ชัน toggle ธีม พร้อมบันทึก
   const toggle = useCallback(() => {
     setTheme((prev) => {
       const next = prev === "dark" ? "light" : "dark";
@@ -89,7 +105,7 @@ const useSystemTheme = () => {
   return { theme, toggle };
 };
 
-// ErrorBoundary สำหรับจับ error ใน React tree
+// ErrorBoundary สำหรับจับและแสดงข้อความ error พร้อมปุ่ม retry
 class ErrorBoundary extends React.Component<
   { children: React.ReactNode },
   { hasError: boolean }
@@ -112,77 +128,86 @@ class ErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div
+        <section
           role="alert"
-          className="p-4 bg-red-100 text-red-700 rounded max-w-xl mx-auto my-8"
+          aria-live="assertive"
+          className="p-6 bg-red-100 text-red-700 rounded max-w-xl mx-auto my-8 text-center"
         >
-          <p>เกิดข้อผิดพลาดในการโหลดเนื้อหา กรุณาลองใหม่อีกครั้ง</p>
+          <p className="mb-4 font-semibold text-lg">
+            เกิดข้อผิดพลาดในการโหลดเนื้อหา กรุณาลองใหม่อีกครั้ง
+          </p>
           <button
             onClick={this.handleRetry}
-            className="mt-2 px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-400"
+            className="inline-block px-5 py-2 bg-pink-600 text-white rounded hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-400"
           >
             ลองใหม่
           </button>
-        </div>
+        </section>
       );
     }
     return this.props.children;
   }
 }
 
-// App Component หลัก
 const App: React.FC = memo(() => {
   const { theme, toggle } = useSystemTheme();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [currentUrl, setCurrentUrl] = useState("");
   const mainContentRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [loadReviews, setLoadReviews] = useState(false);
+  const [currentUrl, setCurrentUrl] = useState("");
 
-  // ตั้งค่า current URL สำหรับ SEO และ OG tags
+  // กำหนด current URL สำหรับ meta tags SEO/OG
   useEffect(() => {
     if (typeof window !== "undefined") {
       setCurrentUrl(window.location.href);
     }
   }, []);
 
-  // เมื่อเมนูเปิด ให้ล็อกการ scroll ของหน้า และเพิ่ม padding เพื่อป้องกัน content shift
+  // เมื่อเปิดเมนูมือถือ: ล็อก scroll ของหน้า และแก้ปัญหา content shift
   useEffect(() => {
-    if (menuOpen) {
-      const scrollbarWidth =
-        window.innerWidth - document.documentElement.clientWidth;
-      const originalOverflow = document.body.style.overflow;
-      const originalPaddingRight = document.body.style.paddingRight;
-      document.body.style.overflow = "hidden";
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-      return () => {
-        document.body.style.overflow = originalOverflow;
-        document.body.style.paddingRight = originalPaddingRight;
-      };
-    }
+    if (!menuOpen) return;
+
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+    const originalOverflow = document.body.style.overflow;
+    const originalPaddingRight = document.body.style.paddingRight;
+
+    document.body.style.overflow = "hidden";
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.style.paddingRight = originalPaddingRight;
+    };
   }, [menuOpen]);
 
-  // ปิดเมนูเมื่อกดปุ่ม Escape
+  // ปิดเมนูมือถือเมื่อกด Escape
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && menuOpen) setMenuOpen(false);
+      if (e.key === "Escape" && menuOpen) {
+        setMenuOpen(false);
+      }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [menuOpen]);
 
-  // ฟังก์ชันสำหรับข้ามไปยังเนื้อหาหลัก (skip link)
-  const handleSkipToContent = useCallback((e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    mainContentRef.current?.focus();
-  }, []);
+  // ฟังก์ชันสำหรับ "ข้ามไปยังเนื้อหาหลัก" (skip link)
+  const handleSkipToContent = useCallback(
+    (e: MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      mainContentRef.current?.focus();
+    },
+    []
+  );
 
-  // เมื่อเมนูปิดให้โฟกัสกลับที่ปุ่มเมนู
+  // เมื่อเมนูมือถือปิด, โฟกัสกลับที่ปุ่มเมนู
   useEffect(() => {
     if (!menuOpen) menuButtonRef.current?.focus();
   }, [menuOpen]);
 
-  // โหลดส่วนรีวิวแบบ lazy หลัง delay 2 วินาที
+  // โหลดส่วนรีวิวแบบ lazy หลัง delay 2 วินาที เพื่อประสิทธิภาพ
   useEffect(() => {
     const timeout = setTimeout(() => {
       startTransition(() => setLoadReviews(true));
@@ -215,16 +240,22 @@ const App: React.FC = memo(() => {
             content="รับออกแบบเว็บไซต์ เอกสาร และแบรนด์ครบวงจร"
           />
           <meta property="og:image" content="/assets/og-banner.png" />
-          <meta property="og:url" content={currentUrl || "https://jpvisualdocs.com"} />
+          <meta
+            property="og:url"
+            content={currentUrl || "https://jpvisualdocs.com"}
+          />
           <meta property="og:type" content="website" />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:site" content="@jpvisualdocs" />
-          <link rel="canonical" href={currentUrl || "https://jpvisualdocs.com"} />
+          <link
+            rel="canonical"
+            href={currentUrl || "https://jpvisualdocs.com"}
+          />
           <link rel="icon" href="/favicon.ico" />
           <style>{`html { scroll-behavior: smooth; }`}</style>
         </Helmet>
 
-        {/* Skip to main content link สำหรับ accessibility */}
+        {/* Skip to main content link (Accessibility) */}
         <a
           href="#main-content"
           onClick={handleSkipToContent}
@@ -238,8 +269,9 @@ const App: React.FC = memo(() => {
           theme={theme}
           toggleTheme={toggle}
           onOpenMenu={() => setMenuOpen(true)}
-          aria-expanded={menuOpen}
+          isMobileMenuOpen={menuOpen}
           menuButtonRef={menuButtonRef}
+          navLinks={navLinks}
         />
 
         <MobileMenu
@@ -322,7 +354,11 @@ const App: React.FC = memo(() => {
             </h2>
             <ErrorBoundary>
               <Suspense fallback={<SkeletonSection title="รีวิว" />}>
-                {loadReviews ? <ReviewsSectionLazy /> : <SkeletonSection title="รีวิว" />}
+                {loadReviews ? (
+                  <ReviewsSectionLazy />
+                ) : (
+                  <SkeletonSection title="รีวิว" />
+                )}
               </Suspense>
             </ErrorBoundary>
           </section>

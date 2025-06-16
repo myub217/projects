@@ -24,22 +24,29 @@ const lightboxVariants = {
 const PortfolioSection: React.FC = () => {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const lightboxRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
-  // ปิด Lightbox และเลื่อนภาพด้วย Arrow Keys
+  // จัดการ keydown สำหรับ Lightbox (ปิด, เลื่อนภาพ, focus trap)
   const onKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (lightboxIndex === null) return;
 
       switch (e.key) {
         case "Escape":
+          e.preventDefault();
           setLightboxIndex(null);
           break;
         case "ArrowLeft":
+          e.preventDefault();
           setLightboxIndex(
-            (prev) => (prev === null ? null : (prev + portfolioImages.length - 1) % portfolioImages.length)
+            (prev) =>
+              prev === null
+                ? null
+                : (prev + portfolioImages.length - 1) % portfolioImages.length
           );
           break;
         case "ArrowRight":
+          e.preventDefault();
           setLightboxIndex(
             (prev) => (prev === null ? null : (prev + 1) % portfolioImages.length)
           );
@@ -74,12 +81,16 @@ const PortfolioSection: React.FC = () => {
     [lightboxIndex]
   );
 
-  // จัดการเพิ่ม/ลบ event listener แบบปลอดภัย
+  // เพิ่ม/ลบ event listener สำหรับ keyboard และปิด scroll หน้าเมื่อเปิด lightbox
   useEffect(() => {
     if (lightboxIndex !== null) {
       window.addEventListener("keydown", onKeyDown);
-      // ป้องกัน scroll หน้าเมื่อเปิด lightbox
       document.body.style.overflow = "hidden";
+
+      // ตั้ง focus ไปที่ปุ่มปิดเมื่อเปิด lightbox
+      setTimeout(() => {
+        closeButtonRef.current?.focus();
+      }, 0);
     } else {
       document.body.style.overflow = "";
     }
@@ -89,12 +100,12 @@ const PortfolioSection: React.FC = () => {
     };
   }, [lightboxIndex, onKeyDown]);
 
-  // ฟังก์ชันเปลี่ยนภาพถัดไป
+  // แสดงภาพถัดไป
   const showNext = () => {
     setLightboxIndex((prev) => (prev === null ? null : (prev + 1) % portfolioImages.length));
   };
 
-  // ฟังก์ชันเปลี่ยนภาพก่อนหน้า
+  // แสดงภาพก่อนหน้า
   const showPrev = () => {
     setLightboxIndex((prev) => (prev === null ? null : (prev + portfolioImages.length - 1) % portfolioImages.length));
   };
@@ -191,7 +202,8 @@ const PortfolioSection: React.FC = () => {
               variants={lightboxVariants}
               role="dialog"
               aria-modal="true"
-              aria-label={`ภาพผลงานลำดับที่ ${lightboxIndex + 1} แบบขยายเต็มจอ`}
+              aria-labelledby="lightbox-label"
+              aria-describedby="lightbox-desc"
               tabIndex={-1}
               ref={lightboxRef}
             >
@@ -201,6 +213,7 @@ const PortfolioSection: React.FC = () => {
                   onClick={() => setLightboxIndex(null)}
                   aria-label="ปิดหน้าต่างแสดงภาพ"
                   className="absolute top-3 right-3 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-accent focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent rounded p-1"
+                  ref={closeButtonRef}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -254,12 +267,21 @@ const PortfolioSection: React.FC = () => {
                 <img
                   src={portfolioImages[lightboxIndex]}
                   alt={`ภาพผลงานขยายลำดับที่ ${lightboxIndex + 1}`}
+                  id="lightbox-label"
                   className="max-h-[80vh] w-auto mx-auto block select-none"
                   draggable={false}
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = fallbackImg;
                   }}
                 />
+
+                {/* คำอธิบายลำดับภาพ (สำหรับ screen reader) */}
+                <p
+                  id="lightbox-desc"
+                  className="sr-only"
+                >
+                  ภาพผลงานขยายแสดงลำดับที่ {lightboxIndex + 1} จากทั้งหมด {portfolioImages.length} ภาพ
+                </p>
               </div>
             </motion.div>
           </>

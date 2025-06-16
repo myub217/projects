@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Sun, Moon, Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import jpLogo from "../assets/jp-logo.png";
+import ThemeToggle from "../components/ThemeToggle";
 
 interface NavLink {
   label: string;
@@ -26,7 +27,7 @@ const navLinks: NavLink[] = [
 const Header: React.FC<HeaderProps> = ({
   theme,
   toggleTheme,
-  onOpenMenu = () => {},
+  onOpenMenu,
   isMobileMenuOpen = false,
 }) => {
   const [currentHash, setCurrentHash] = useState<string>(
@@ -36,10 +37,7 @@ const Header: React.FC<HeaderProps> = ({
   useEffect(() => {
     const updateHash = () => setCurrentHash(window.location.hash || "#");
     window.addEventListener("hashchange", updateHash);
-
-    // อัพเดตตอน mount เผื่อโหลดพร้อม hash
     updateHash();
-
     return () => window.removeEventListener("hashchange", updateHash);
   }, []);
 
@@ -48,7 +46,6 @@ const Header: React.FC<HeaderProps> = ({
       if (!href || href === "#") return false;
       if (!currentHash || currentHash === "#") return false;
       if (currentHash === href) return true;
-      // รองรับกรณี hash เป็น prefix (เช่น #services/detail)
       return currentHash.startsWith(href + "/");
     },
     [currentHash]
@@ -106,7 +103,6 @@ const Header: React.FC<HeaderProps> = ({
                 }`}
                 rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                 target={href.startsWith("http") ? "_blank" : undefined}
-                tabIndex={0}
               >
                 {label}
               </a>
@@ -117,19 +113,9 @@ const Header: React.FC<HeaderProps> = ({
         {/* Action Buttons */}
         <div className="flex items-center gap-3">
           {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            type="button"
-            aria-label="สลับโหมดสว่าง / มืด"
-            title="สลับธีม"
-            className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
-          >
-            {theme === "dark" ? (
-              <Sun size={20} aria-hidden="true" />
-            ) : (
-              <Moon size={20} aria-hidden="true" />
-            )}
-          </button>
+          <div className="hidden sm:block">
+            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -142,7 +128,11 @@ const Header: React.FC<HeaderProps> = ({
             aria-controls="mobile-menu"
             className="lg:hidden p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
           >
-            <Menu size={22} aria-hidden="true" />
+            {isMobileMenuOpen ? (
+              <X size={22} aria-hidden="true" />
+            ) : (
+              <Menu size={22} aria-hidden="true" />
+            )}
           </button>
         </div>
       </nav>

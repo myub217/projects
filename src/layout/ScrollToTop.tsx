@@ -1,50 +1,45 @@
+// src/components/common/ScrollToTop.tsx
+
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-const HEADER_OFFSET = 80; // ปรับขนาด offset ตามความสูง header ของคุณ (px)
+const HEADER_OFFSET = 80; // ปรับตามความสูงของ Header (px)
 
 const ScrollToTop: React.FC = () => {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
+    const scrollToHashOrTop = () => {
       if (hash) {
         try {
-          // decodeURIComponent เพื่อรองรับตัวอักษรพิเศษใน hash
-          const id = decodeURIComponent(hash);
-          // ตรวจสอบว่า id มี # นำหน้าหรือไม่
-          const selector = id.startsWith("#") ? id : `#${id}`;
-          const targetElement = document.querySelector<HTMLElement>(selector);
+          const decodedHash = decodeURIComponent(hash);
+          const selector = decodedHash.startsWith("#") ? decodedHash : `#${decodedHash}`;
+          const target = document.querySelector<HTMLElement>(selector);
 
-          if (targetElement) {
-            // เพิ่ม tabindex -1 หากไม่มี เพื่อให้ focus ได้
-            if (!targetElement.hasAttribute("tabindex")) {
-              targetElement.setAttribute("tabindex", "-1");
+          if (target) {
+            const top = target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+            requestAnimationFrame(() =>
+              window.scrollTo({ top: top >= 0 ? top : 0, behavior: "smooth" })
+            );
+
+            // optional: focus for accessibility
+            if (target.tabIndex < 0) {
+              target.setAttribute("tabindex", "-1");
             }
-            targetElement.focus();
-
-            // คำนวณตำแหน่ง scroll โดยลบ offset header
-            const elementTop = targetElement.getBoundingClientRect().top + window.pageYOffset;
-            const scrollToPosition = elementTop - HEADER_OFFSET;
-
-            // เลื่อนแบบ smooth พร้อม offset
-            window.scrollTo({
-              top: scrollToPosition >= 0 ? scrollToPosition : 0,
-              behavior: "smooth",
-            });
+            target.focus();
           } else {
-            // ถ้าไม่เจอ element เลื่อนกลับบนสุด
             window.scrollTo({ top: 0, behavior: "smooth" });
           }
-        } catch (error) {
-          // กรณี decodeURIComponent ผิดพลาด fallback เลื่อนบนสุด
+        } catch (err) {
+          console.warn("Invalid hash:", hash, err);
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
       } else {
-        // ไม่มี hash เลื่อนกลับบนสุด
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
-    }, 50);
+    };
+
+    const timeout = setTimeout(scrollToHashOrTop, 50); // Delay เพื่อรอ DOM mount
 
     return () => clearTimeout(timeout);
   }, [pathname, hash]);

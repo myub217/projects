@@ -3,38 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-    <!-- ✅ Responsive viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>JP Visual & Docs</title>
 
-    <!-- ✅ Preconnect สำหรับ font loading ที่เร็วขึ้น -->
+    <!-- ✅ Preconnect & Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <!-- ✅ Font: Noto Sans Thai (with font-display: swap) -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
 
-    <!-- ✅ Manifest for PWA -->
+    <!-- ✅ PWA Manifest -->
     <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#1A237E" />
 
     <!-- ✅ Icons -->
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
-    <meta name="theme-color" content="#1A237E" />
 
-    <!-- ✅ SEO Meta Tags -->
+    <!-- ✅ SEO Meta -->
     <meta
       name="description"
       content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน JP Visual & Docs"
     />
     <meta name="author" content="JP Visual & Docs" />
 
-    <!-- ✅ Open Graph -->
+    <!-- ✅ Open Graph Meta -->
     <meta property="og:title" content="JP Visual & Docs" />
     <meta
       property="og:description"
@@ -42,8 +38,11 @@
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://applicationlubmobile.vercel.app" />
-    <meta property="og:image" content="https://applicationlubmobile.vercel.app/og-image.png" />
-    <meta property="og:image:alt" content="JP Visual & Docs" />
+    <meta
+      property="og:image"
+      content="https://applicationlubmobile.vercel.app/og-image.png"
+    />
+    <meta property="og:image:alt" content="JP Visual & Docs Logo" />
     <meta property="og:locale" content="th_TH" />
 
     <!-- ✅ Twitter Card -->
@@ -53,7 +52,10 @@
       name="twitter:description"
       content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน"
     />
-    <meta name="twitter:image" content="https://applicationlubmobile.vercel.app/og-image.png" />
+    <meta
+      name="twitter:image"
+      content="https://applicationlubmobile.vercel.app/og-image.png"
+    />
     <meta name="twitter:creator" content="@yourtwitterhandle" />
 
     <!-- ✅ Preload Hero Image -->
@@ -67,17 +69,17 @@
     <!-- ✅ Canonical URL -->
     <link rel="canonical" href="https://applicationlubmobile.vercel.app" />
 
-    <!-- ✅ Security / CSP (Optional - ใช้เมื่อ deploy production จริง) -->
+    <!-- ✅ CSP (Production Only - Optional) -->
     <!--
-    <meta http-equiv="Content-Security-Policy"
-          content="default-src 'self'; img-src 'self' data: https:; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com;">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data: https:; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com;"
+    />
     -->
   </head>
 
   <body class="font-sans bg-base-100 text-base-content">
     <div id="root"></div>
-
-    <!-- ✅ React App Entry -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

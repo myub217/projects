@@ -1,3 +1,4 @@
+// src/layout/Layout.tsx
 import React, { ReactNode, useEffect, useState, useCallback } from "react";
 
 import Header from "./Header";
@@ -16,9 +17,11 @@ type LayoutProps = {
 };
 
 const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
+  // สถานะธีม และสถานะว่าผู้ใช้เลือกเองหรือไม่
   const [theme, setTheme] = useState<Theme>("light");
   const [userSetTheme, setUserSetTheme] = useState(false);
 
+  // โหลดค่า theme จาก localStorage หรือระบบปฏิบัติการเมื่อคอมโพเนนต์ mount
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -28,17 +31,20 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
         setTheme(storedTheme);
         setUserSetTheme(true);
       } else {
+        // กำหนด theme ตาม prefers-color-scheme ถ้าไม่มีค่าใน localStorage
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         setTheme(prefersDark ? "dark" : "light");
         setUserSetTheme(false);
       }
     } catch {
+      // กรณี error เช่น private mode ให้ fallback ตาม prefers-color-scheme
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
       setTheme(prefersDark ? "dark" : "light");
       setUserSetTheme(false);
     }
   }, []);
 
+  // อัปเดต class บน <html> และบันทึก theme ถ้าผู้ใช้เลือกเอง
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -53,11 +59,12 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
       try {
         localStorage.setItem("theme", theme);
       } catch {
-        // localStorage may not be available in some environments
+        // ไม่สามารถใช้ localStorage ได้ ไม่ต้องทำอะไรเพิ่ม
       }
     }
   }, [theme, userSetTheme]);
 
+  // ฟัง event เปลี่ยน prefers-color-scheme เมื่อผู้ใช้ยังไม่ได้เลือกธีมเอง
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (userSetTheme) return;
@@ -67,10 +74,11 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
       setTheme(e.matches ? "dark" : "light");
     };
 
+    // รองรับ browser หลายแบบ
     if (mq.addEventListener) {
       mq.addEventListener("change", handler);
     } else {
-      // For Safari and older browsers
+      // Safari และ browser เก่าใช้ addListener
       // @ts-ignore
       mq.addListener(handler);
     }
@@ -85,6 +93,7 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
     };
   }, [userSetTheme]);
 
+  // ฟังก์ชันสลับธีม พร้อมบันทึกสถานะว่าผู้ใช้เลือกเอง
   const toggleTheme = useCallback(() => {
     setTheme((prev) => {
       const next = prev === "light" ? "dark" : "light";
@@ -92,7 +101,7 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
       try {
         localStorage.setItem("theme", next);
       } catch {
-        // ignore
+        // ignore error
       }
       return next;
     });
@@ -100,6 +109,7 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
 
   return (
     <>
+      {/* ปุ่มลัดสำหรับข้ามไปยังเนื้อหาหลัก เพื่อการเข้าถึง (Accessibility) */}
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:bg-pink-600 focus:text-white focus:px-4 focus:py-2 focus:rounded z-50"

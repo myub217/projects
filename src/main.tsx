@@ -10,8 +10,8 @@ import "./styles/global.css";
 // Optional: Register service worker for PWA
 import { registerSW } from "virtual:pwa-register";
 
-// ตรวจสอบว่ารองรับ service worker แล้วค่อย register
 if ("serviceWorker" in navigator) {
+  // Register SW with event handlers for offline ready and update availability
   registerSW({
     onOfflineReady() {
       console.log("[PWA] App is ready to work offline");
@@ -22,14 +22,12 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-// เข้าถึง root element อย่างปลอดภัย
 const rootElement = document.getElementById("root");
 
 if (!rootElement) {
   throw new Error("❌ Root element #root not found");
 }
 
-// Render แอปหลักพร้อม Provider และ Suspense
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <HelmetProvider>
