@@ -1,9 +1,9 @@
-// src/components/ServicesSection.tsx
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { services } from "../data/services";
+import { services, Service } from "../data/services";
 import ServiceCard from "./ServiceCard";
 
+// Animation variants สำหรับการแสดงการ์ดแต่ละใบ พร้อม delay index
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
@@ -25,7 +25,7 @@ const cardVariants = {
 const ServicesSection: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Simulate loading
+  // จำลองการโหลดข้อมูลด้วย timeout 600ms
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 600);
     return () => clearTimeout(timer);
@@ -43,6 +43,7 @@ const ServicesSection: React.FC = () => {
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
     >
+      {/* หัวข้อ */}
       <motion.h2
         id="services-title"
         className="text-3xl sm:text-4xl font-bold text-center text-base-content mb-14 drop-shadow-sm"
@@ -56,25 +57,33 @@ const ServicesSection: React.FC = () => {
         </span>
       </motion.h2>
 
+      {/* รายการบริการในรูปแบบกริด */}
       <div
+        role="list"
+        aria-live={isLoading ? "polite" : "off"}
         className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 sm:gap-10"
-        aria-live="polite"
       >
         <AnimatePresence>
           {isLoading ? (
-            // Skeleton loader while loading
-            Array.from({ length: 4 }).map((_, index) => (
+            // Skeleton Loader แทนการ์ดจริงระหว่างโหลด
+            Array.from({ length: 4 }).map((_, idx) => (
               <motion.div
-                key={`skeleton-${index}`}
+                key={`skeleton-${idx}`}
+                role="listitem"
+                aria-label="กำลังโหลดข้อมูลบริการ"
+                tabIndex={-1}
                 className="animate-pulse bg-base-300 h-72 rounded-xl"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
               />
             ))
           ) : services.length > 0 ? (
-            services.map((service, index) => (
+            // แสดง ServiceCard ทีละรายการพร้อม animation delay
+            services.map((service: Service, index: number) => (
               <motion.div
                 key={service.id}
+                role="listitem"
                 layout
                 custom={index}
                 variants={cardVariants}
@@ -86,6 +95,7 @@ const ServicesSection: React.FC = () => {
               </motion.div>
             ))
           ) : (
+            // กรณีไม่มีบริการให้แสดง
             <motion.div
               className="col-span-full text-center text-base-content/70"
               initial={{ opacity: 0 }}

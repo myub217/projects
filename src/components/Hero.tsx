@@ -1,5 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
+import VisitorCount from "./VisitorCount";
 import heroBg from "../assets/hero.jpg";
 
 const Hero: React.FC = () => {
@@ -8,21 +10,44 @@ const Hero: React.FC = () => {
       id="hero"
       role="banner"
       aria-labelledby="hero-heading"
-      className="relative flex items-center justify-center min-h-[80vh] bg-black text-white overflow-hidden"
+      aria-describedby="hero-desc"
+      className="relative flex flex-col items-center justify-center min-h-[85vh] bg-black text-white overflow-hidden px-6 sm:px-10 scroll-mt-16"
     >
-      {/* Background image */}
+      <Helmet>
+        <title>JP Visual & Docs - บริการเอกสารครบวงจร</title>
+        <meta
+          name="description"
+          content="บริการออกแบบและจัดทำเอกสารมืออาชีพ ครบวงจรสำหรับธุรกิจของคุณ"
+        />
+        <meta property="og:title" content="JP Visual & Docs" />
+        <meta
+          property="og:description"
+          content="บริการออกแบบและจัดทำเอกสารมืออาชีพ ครบวงจรสำหรับธุรกิจของคุณ"
+        />
+        <meta property="og:image" content="/og.image.png" />
+        <meta property="og:type" content="website" />
+        <meta name="theme-color" content="#FF77E9" />
+      </Helmet>
+
+      {/* 🔥 Background image (decorative) */}
+      <img
+        src={heroBg}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover object-center opacity-80 -z-10 select-none pointer-events-none"
+      />
+
+      {/* 🔥 Dark overlay for readability */}
       <div
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-80"
-        style={{ backgroundImage: `url(${heroBg})` }}
+        className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/60 to-transparent dark:from-black/90 dark:via-black/70 -z-10"
         aria-hidden="true"
       />
 
-      {/* Overlay */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-t from-black/80 via-black/60 to-transparent dark:from-black/90 dark:via-black/70" aria-hidden="true" />
-
-      {/* Content */}
+      {/* 💎 Main content with animation */}
       <motion.div
-        className="relative z-10 text-center px-6 sm:px-10 max-w-3xl"
+        className="relative z-10 text-center w-full max-w-3xl mx-auto"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
@@ -34,19 +59,31 @@ const Hero: React.FC = () => {
           JP Visual & Docs
         </h1>
 
-        <p className="mt-4 text-lg sm:text-xl text-gray-200 leading-relaxed drop-shadow-sm">
+        <p
+          id="hero-desc"
+          className="mt-4 text-lg sm:text-xl text-gray-200 leading-relaxed drop-shadow-sm"
+        >
           บริการออกแบบและจัดทำเอกสารมืออาชีพ
           <br className="hidden sm:inline" />
           ครบวงจรสำหรับธุรกิจของคุณ
         </p>
 
+        {/* ✨ CTA Button */}
         <motion.a
           href="#contact"
           role="button"
+          tabIndex={0}
           aria-label="ติดต่อเรา"
-          className="btn-primary mt-8 inline-flex items-center gap-2"
+          className="btn btn-primary mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-lg shadow-lg transition-transform
+            focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-pink-500
+            dark:focus-visible:ring-pink-400"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.currentTarget.click();
+            }
+          }}
         >
           ติดต่อเรา
           <svg
@@ -56,6 +93,7 @@ const Hero: React.FC = () => {
             viewBox="0 0 24 24"
             stroke="currentColor"
             strokeWidth={2}
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
@@ -64,6 +102,16 @@ const Hero: React.FC = () => {
             />
           </svg>
         </motion.a>
+
+        {/* 👥 Visitor Count */}
+        <div className="mt-10">
+          <VisitorCount
+            min={500}
+            max={3000}
+            updateInterval={10000}
+            className="text-xl font-semibold text-white/90"
+          />
+        </div>
       </motion.div>
     </header>
   );

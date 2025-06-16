@@ -76,8 +76,12 @@ const Header: React.FC<HeaderProps> = ({
             className="h-8 w-auto select-none"
             loading="lazy"
             draggable={false}
+            itemProp="logo"
           />
-          <span className="font-bold text-lg tracking-tight select-none text-gray-900 dark:text-gray-100">
+          <span
+            className="font-bold text-lg tracking-tight select-none text-gray-900 dark:text-gray-100"
+            itemProp="name"
+          >
             JP Visual & Docs
           </span>
         </a>
@@ -100,8 +104,10 @@ const Header: React.FC<HeaderProps> = ({
                     ? "text-pink-600 dark:text-pink-400 font-semibold"
                     : "hover:text-pink-600 dark:hover:text-pink-400"
                 }`}
+                // เพิ่ม rel="noopener noreferrer" สำหรับลิงก์ที่เปิดในแท็บใหม่
                 rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                 target={href.startsWith("http") ? "_blank" : undefined}
+                tabIndex={0}
               >
                 {label}
               </a>
@@ -119,7 +125,7 @@ const Header: React.FC<HeaderProps> = ({
             title="สลับธีม"
             className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
           >
-            {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+            {theme === "dark" ? <Sun size={20} aria-hidden="true" /> : <Moon size={20} aria-hidden="true" />}
           </button>
 
           {/* Mobile Menu Button */}
@@ -133,7 +139,7 @@ const Header: React.FC<HeaderProps> = ({
             aria-controls="mobile-menu"
             className="lg:hidden p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
           >
-            <Menu size={22} />
+            <Menu size={22} aria-hidden="true" />
           </button>
         </div>
       </nav>

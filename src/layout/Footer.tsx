@@ -4,130 +4,135 @@ import { FaTiktok } from "react-icons/fa";
 import jpLogo from "../assets/jp-logo.png";
 
 const Footer: React.FC = () => {
-  const year = new Date().getFullYear();
+  const currentYear = new Date().getFullYear();
+
+  // ข้อมูลเมนูเว็บไซต์
+  const menuItems = [
+    { href: "#services", label: "บริการของเรา" },
+    { href: "#about", label: "เกี่ยวกับเรา" },
+    { href: "#contact", label: "ติดต่อเรา" },
+    { href: "/privacy-policy", label: "นโยบายความเป็นส่วนตัว" },
+  ];
+
+  // ข้อมูลช่องทางติดต่อและโซเชียล
+  const socialLinks = [
+    {
+      href: "https://lin.ee/BSkkcTR",
+      label: "@462FQTFC",
+      Icon: MessageCircleMore,
+      ariaLabel: "ติดต่อผ่าน LINE Official Account @462FQTFC",
+    },
+    {
+      href: "https://www.instagram.com/joapa",
+      label: "@joapa",
+      Icon: Instagram,
+      ariaLabel: "Instagram @joapa",
+    },
+    {
+      href: "https://www.tiktok.com/@mynameisjoapa",
+      label: "@mynameisjoapa",
+      Icon: FaTiktok,
+      ariaLabel: "TikTok @mynameisjoapa",
+    },
+    {
+      href: "https://facebook.com/JPVisualDocs",
+      label: "JP Visual & Docs",
+      Icon: Facebook,
+      ariaLabel: "Facebook JP Visual & Docs",
+    },
+  ];
 
   return (
     <footer
       role="contentinfo"
-      className="w-full bg-base-200 text-base-content border-t border-base-300 dark:border-base-700 px-6 py-10"
+      itemScope
+      itemType="https://schema.org/Organization"
+      className="w-full bg-base-200 text-base-content border-t border-base-300 dark:border-base-700 px-6 py-12"
     >
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* โลโก้และรายละเอียด */}
-        <div className="flex flex-col items-center md:items-start text-center md:text-left">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+        {/* โลโก้และคำอธิบาย */}
+        <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-3">
           <img
             src={jpLogo}
             alt="โลโก้ JP Visual & Docs"
-            className="w-24 h-auto mb-4 drop-shadow-md rounded-xl"
+            loading="lazy"
+            className="w-24 h-auto drop-shadow-md rounded-xl"
+            itemProp="logo"
           />
-          <p className="text-sm font-bold">JP Visual & Docs</p>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            พัฒนาโดย <strong>Applicationlab</strong><br />
+          <h2 className="text-lg font-bold" itemProp="name">
+            JP Visual & Docs
+          </h2>
+          <p className="text-sm text-muted text-balance" itemProp="description">
+            พัฒนาโดย <strong>Applicationlab</strong>
+            <br />
             ผู้เชี่ยวชาญด้านเอกสารและโซลูชันดิจิทัล
           </p>
         </div>
 
         {/* เมนูเว็บไซต์ */}
-        <div className="text-center md:text-left text-sm">
-          <h3 className="font-semibold mb-2">เมนู</h3>
+        <nav
+          aria-label="เมนูเว็บไซต์"
+          className="text-center md:text-left text-sm space-y-2"
+        >
+          <h3 className="text-base font-semibold mb-2">เมนู</h3>
           <ul className="space-y-1">
-            <li>
-              <a
-                href="#services"
-                className="hover:text-primary transition-colors focus-visible:ring"
-              >
-                บริการของเรา
-              </a>
-            </li>
-            <li>
-              <a
-                href="#about"
-                className="hover:text-primary transition-colors focus-visible:ring"
-              >
-                เกี่ยวกับเรา
-              </a>
-            </li>
-            <li>
-              <a
-                href="#contact"
-                className="hover:text-primary transition-colors focus-visible:ring"
-              >
-                ติดต่อเรา
-              </a>
-            </li>
-            <li>
-              <a
-                href="/privacy-policy"
-                className="hover:text-primary transition-colors focus-visible:ring"
-              >
-                นโยบายความเป็นส่วนตัว
-              </a>
-            </li>
+            {menuItems.map(({ href, label }) => (
+              <li key={href}>
+                <a
+                  href={href}
+                  className="hover:text-primary transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring ring-primary rounded px-1"
+                  title={label}
+                >
+                  {label}
+                </a>
+              </li>
+            ))}
           </ul>
-        </div>
+        </nav>
 
-        {/* ช่องทางติดต่อ */}
-        <div className="text-center md:text-left text-sm">
-          <h3 className="font-semibold mb-2">ติดต่อ</h3>
+        {/* ช่องทางติดต่อและโซเชียล */}
+        <section
+          aria-label="ช่องทางติดต่อและโซเชียลมีเดีย"
+          className="text-center md:text-left text-sm space-y-2"
+        >
+          <h3 className="text-base font-semibold mb-2">ติดต่อ</h3>
           <ul className="space-y-2">
-            <li>
-              <a
-                href="https://line.me/ti/p/@462FQFC"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 hover:text-primary transition-colors focus-visible:ring"
-                aria-label="ติดต่อผ่าน LINE @462FQFC"
-              >
-                <MessageCircleMore className="w-5 h-5" />
-                <span>@462FQFC</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.instagram.com/joapa"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 hover:text-primary transition-colors focus-visible:ring"
-                aria-label="Instagram @joapa"
-              >
-                <Instagram className="w-5 h-5" />
-                <span>@joapa</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.tiktok.com/@mynameisjoapa"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 hover:text-primary transition-colors focus-visible:ring"
-                aria-label="TikTok @mynameisjoapa"
-              >
-                <FaTiktok className="w-5 h-5" />
-                <span>@mynameisjoapa</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://facebook.com/JPVisualDocs"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 hover:text-primary transition-colors focus-visible:ring"
-                aria-label="Facebook JP Visual & Docs"
-              >
-                <Facebook className="w-5 h-5" />
-                <span>JP Visual & Docs</span>
-              </a>
-            </li>
+            {socialLinks.map(({ href, label, Icon, ariaLabel }) => (
+              <li key={href}>
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  className="inline-flex items-center gap-2 hover:text-primary transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring ring-primary rounded-md p-1.5"
+                  aria-label={ariaLabel}
+                  title={ariaLabel}
+                >
+                  <Icon className="w-5 h-5" aria-hidden="true" />
+                  <span>{label}</span>
+                </a>
+              </li>
+            ))}
           </ul>
-        </div>
+        </section>
 
-        {/* ลิขสิทธิ์ */}
-        <div className="flex flex-col items-center md:items-end text-center md:text-right text-sm justify-center">
-          <p>
-            © {year} <strong>Applicationlab</strong>
-          </p>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">
-            All rights reserved.
-          </p>
+        {/* ลิขสิทธิ์และลิงก์กลับขึ้นด้านบน */}
+        <div className="flex flex-col items-center md:items-end text-center md:text-right text-sm justify-between space-y-3">
+          <div>
+            <p>
+              © {currentYear} <strong>Applicationlab</strong>
+            </p>
+            <p className="text-muted">All rights reserved.</p>
+          </div>
+          <div>
+            <a
+              href="#top"
+              className="text-xs text-primary hover:underline transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring ring-primary rounded px-1"
+              aria-label="กลับขึ้นด้านบน"
+              title="กลับขึ้นด้านบน"
+            >
+              ↑ กลับด้านบน
+            </a>
+          </div>
         </div>
       </div>
     </footer>

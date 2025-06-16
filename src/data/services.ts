@@ -1,13 +1,29 @@
 // src/data/services.ts
 
+/** 
+ * Interface สำหรับข้อมูลบริการแต่ละรายการ 
+ * - `available` เป็น optional boolean สำหรับสถานะว่าบริการนี้พร้อมให้บริการหรือไม่
+ * - `tags` เป็น optional string array สำหรับจัดหมวดหมู่หรือคีย์เวิร์ด
+ * - `link` เป็น optional string สำหรับ URL ลิงก์เพิ่มเติม หรือหน้า detail ของบริการ
+ */
 export interface Service {
   id: number;
   title: string;
   description: string;
   price: string;
-  image: string; // ควรเก็บ path แบบ relative หรือ absolute ตามโครงสร้างโปรเจกต์
+  image: string;       // path ของรูปภาพ เช่น /images/services/service1.webp
+  altText: string;     // ข้อความอธิบายรูปภาพสำหรับ accessibility
+  category: string;    // หมวดหมู่บริการ เช่น "เอกสาร", "การตลาด"
+  tags?: string[];     // แท็กเสริม (ถ้ามี)
+  link?: string;       // URL ลิงก์เพิ่มเติม (ถ้ามี)
+  available?: boolean; // สถานะพร้อมให้บริการหรือไม่ (default true)
 }
 
+/**
+ * รายการข้อมูลบริการทั้งหมด
+ * - กำหนด `available` เพื่อใช้กรองหรือแสดงสถานะใน UI ได้
+ * - `link` ถ้าต้องการให้ปุ่ม "ดูรายละเอียด" เชื่อมโยงไปหน้ารายละเอียด
+ */
 export const services: Service[] = [
   {
     id: 1,
@@ -15,7 +31,11 @@ export const services: Service[] = [
     description:
       "เราดูแลครบทุกขั้นตอนการยื่นกู้สินเชื่อให้เหมาะสมกับโปรไฟล์ลูกค้าอย่างมืออาชีพ วิเคราะห์เงื่อนไขธนาคารและรวบรวมเอกสารอย่างละเอียด เพื่อเพิ่มโอกาสอนุมัติสินเชื่ออย่างมั่นใจ",
     price: "4,000 - 300,000 บาท",
-    image: "/images/services/service1.png",
+    image: "/images/services/service1.webp",
+    altText: "ภาพประกอบบริการที่ปรึกษายื่นกู้สินเชื่อ",
+    category: "สินเชื่อ",
+    tags: ["สินเชื่อ", "กู้เงิน", "ธนาคาร"],
+    available: true,
   },
   {
     id: 2,
@@ -23,7 +43,11 @@ export const services: Service[] = [
     description:
       "บริการออกแบบเอกสารสำหรับยื่นวีซ่าเน้นกลุ่มสาวสายทำงาน ดูแลทุกขั้นตอน ตรวจสอบและปรับแต่งเอกสารให้ครบถ้วนตามข้อกำหนดประเทศปลายทาง เพื่อผ่านการอนุมัติอย่างแท้จริง",
     price: "4,000 บาทขึ้นไป",
-    image: "/images/services/service2.png",
+    image: "/images/services/service2.webp",
+    altText: "ภาพประกอบบริการดูแลเอกสารยื่นวีซ่า",
+    category: "เอกสาร",
+    tags: ["วีซ่า", "เอกสาร", "ตรวจสอบ"],
+    available: true,
   },
   {
     id: 3,
@@ -31,7 +55,11 @@ export const services: Service[] = [
     description:
       "บริการแก้ไขทุกจุดในสลิป พร้อมใช้ฟอนต์และแบ็กกราวด์ล่าสุด โปรโมชั่นพิเศษ 10 ใบ เพียง 500 บาท สะสมใช้ได้ไม่จำกัด เหมาะสำหรับผู้ต้องการความยืดหยุ่น",
     price: "100 บาท/ใบ",
-    image: "/images/services/service3.png",
+    image: "/images/services/service3.webp",
+    altText: "ภาพประกอบบริการแก้ไขสร้างใหม่สลิปเอกสาร",
+    category: "เอกสาร",
+    tags: ["เอกสาร", "แก้ไข", "สลิป"],
+    available: true,
   },
   {
     id: 4,
@@ -39,7 +67,11 @@ export const services: Service[] = [
     description:
       "บริการแก้ไขเริ่มต้น 400 บาท (≤ 4 รายการ), สร้างใหม่เริ่ม 600 บาท, และจัดหาเอกสารหลากหลายรูปแบบตามความต้องการ ครอบคลุมการใช้งานทุกกรณี",
     price: "เริ่มต้น 400 - 600 บาท",
-    image: "/images/services/service4.png",
+    image: "/images/services/service4.webp",
+    altText: "ภาพประกอบบริการแก้ไขสร้างใหม่จัดหาเอกสาร",
+    category: "เอกสาร",
+    tags: ["เอกสาร", "แก้ไข", "จัดหา"],
+    available: true,
   },
   {
     id: 5,
@@ -47,7 +79,11 @@ export const services: Service[] = [
     description:
       "ตัวอย่างชิ้นงานจริงพร้อมลายน้ำแมวป้องกัน จัดส่งปลอดภัยผ่านรถทัวร์ Grab หรือ Uber เท่านั้น ไม่รับส่งมือเพื่อลดความเสี่ยง",
     price: "เริ่มต้น 4,500 บาท",
-    image: "/images/services/service5.png",
+    image: "/images/services/service5.webp",
+    altText: "ภาพประกอบชิ้นงานจริงบัตรแข็งและอ่อน",
+    category: "งานพิมพ์",
+    tags: ["งานพิมพ์", "บัตรแข็ง", "บัตรอ่อน"],
+    available: true,
   },
   {
     id: 6,
@@ -55,7 +91,11 @@ export const services: Service[] = [
     description:
       "ออกแบบภาพลักษณ์และกลยุทธ์ธุรกิจวิเคราะห์กลุ่มเป้าหมาย สร้างคอนเทนต์เฉพาะทาง วางแผนล่วงหน้า 3 เดือน เหมาะกับทุกสายงานทั้งสายขาว ดำ และเทา",
     price: "5,000 - 500,000 บาท",
-    image: "/images/services/service6.png",
+    image: "/images/services/service6.webp",
+    altText: "ภาพประกอบบริการดูแลการตลาดครบวงจร",
+    category: "การตลาด",
+    tags: ["การตลาด", "กลยุทธ์", "คอนเทนต์"],
+    available: true,
   },
   {
     id: 7,
@@ -63,7 +103,11 @@ export const services: Service[] = [
     description:
       "ชิ้นงานคุณภาพสูงพร้อมไฟล์ JPG และ PNG โปร่งใส รองรับทุกแพลตฟอร์ม เหมาะสำหรับสร้างแบรนด์ใหม่หรือรีแบรนด์",
     price: "เริ่มต้น 300 บาท",
-    image: "/images/services/service7.png",
+    image: "/images/services/service7.webp",
+    altText: "ภาพประกอบบริการออกแบบโลโก้และแบนเนอร์",
+    category: "ออกแบบ",
+    tags: ["ออกแบบ", "โลโก้", "แบนเนอร์"],
+    available: true,
   },
   {
     id: 8,
@@ -71,7 +115,11 @@ export const services: Service[] = [
     description:
       "พัฒนาระบบครบวงจร เช่น Line OA, กลุ่ม Telegram, ระบบแจ้งเตือนอัตโนมัติ และบอทรับลูกค้า เพื่อให้คุณพักผ่อนได้อย่างสบายใจ ลูกค้าเข้าถึงง่าย",
     price: "เริ่มต้น 4,000 บาท",
-    image: "/images/services/service8.png",
+    image: "/images/services/service8.webp",
+    altText: "ภาพประกอบระบบหลังบ้านธุรกิจ",
+    category: "ระบบ",
+    tags: ["ระบบ", "Line OA", "Telegram", "บอท"],
+    available: true,
   },
   {
     id: 9,
@@ -79,7 +127,11 @@ export const services: Service[] = [
     description:
       "ใช้ AI คัดกรองกลุ่มลูกค้าเฉพาะ (friend, thaionly) ดึงเข้าสู่ระบบ Line OA และ Telegram พร้อมระบบตอบกลับอัตโนมัติ เลือกงานได้ตามใจ ระบบทำงานแทนคุณ",
     price: "เริ่มต้น 5,000 บาท",
-    image: "/images/services/service9.png",
+    image: "/images/services/service9.webp",
+    altText: "ภาพประกอบโครงการให้น้องได้พักผ่อน",
+    category: "โครงการ",
+    tags: ["AI", "โครงการ", "Line OA", "Telegram"],
+    available: true,
   },
   {
     id: 10,
@@ -87,6 +139,10 @@ export const services: Service[] = [
     description:
       "บริการเฉพาะทางระดับลึก ช่วยยกระดับหรือแก้ไขภาพลักษณ์เดิมโดยไม่ผิดกฎหมาย (ยกเว้นการทำร้ายร่างกาย) เหมาะสำหรับธุรกิจที่ต้องการเปลี่ยนแปลงภาพลักษณ์",
     price: "เริ่มต้น 5,000 บาท",
-    image: "/images/services/service10.png",
+    image: "/images/services/service10.webp",
+    altText: "ภาพประกอบบริการสร้างภาพลักษณ์และทำลายภาพลักษณ์",
+    category: "เฉพาะทาง",
+    tags: ["ภาพลักษณ์", "บริการเฉพาะทาง"],
+    available: true,
   },
 ];

@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @layer components {
+  /* Keyframe animation สำหรับปุ่ม fade + slide up */
   @keyframes fadeSlideUp {
     0% {
       opacity: 0;
@@ -14,6 +15,7 @@
     }
   }
 
+  /* ปุ่มหลัก (primary) */
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg
       font-semibold text-white bg-gradient-to-br from-blue-600 to-indigo-600
@@ -27,34 +29,48 @@
     transition-property: background-color, color, transform, box-shadow;
   }
 
+  /* Hover state (เมื่อไม่ disabled) */
   .btn-primary:hover:not(:disabled) {
     @apply scale-105 shadow-xl;
+    /* ใช้ background-image CSS แทนการ apply gradient ใหม่ เพื่อ smooth */
     background-image: linear-gradient(135deg, #6366f1, #3b82f6);
   }
 
-  .btn-primary:active {
+  /* Active / pressed state */
+  .btn-primary:active:not(:disabled) {
     @apply scale-95 shadow-inner;
   }
 
+  /* ไอคอน svg ในปุ่ม */
   .btn-primary svg {
     @apply w-5 h-5;
     transition: transform 0.3s ease-in-out;
+    transform-origin: center center;
   }
 
+  /* Animation ไอคอนเมื่อ hover */
   .btn-primary:hover svg {
     transform: rotate(10deg) scale(1.1);
   }
 
+  /* Dark mode fallback สำหรับ background gradient */
   @media (prefers-color-scheme: dark) {
     .btn-primary {
       background-image: linear-gradient(135deg, #4f46e5, #2563eb);
     }
+    .btn-primary:hover:not(:disabled) {
+      background-image: linear-gradient(135deg, #6366f1, #3b82f6);
+    }
   }
 
+  /* รองรับผู้ใช้ที่เปิด prefers-reduced-motion */
   @media (prefers-reduced-motion: reduce) {
     .btn-primary {
-      animation: none;
-      transition: none;
+      animation: none !important;
+      transition: none !important;
+    }
+    .btn-primary:hover svg {
+      transform: none !important;
     }
   }
 }
