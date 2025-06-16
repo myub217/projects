@@ -1,37 +1,39 @@
-import React, { useEffect, useState, useRef, memo } from "react";
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+  memo,
+  useCallback,
+} from "react";
 
 interface VisitorCountProps {
-  /** เลขต่ำสุด (default: 500) */
   min?: number;
-  /** เลขสูงสุด (default: 3000) */
   max?: number;
-  /** CSS class เสริม (optional) */
   className?: string;
-  /** ข้อความนำหน้า (default: "ยอดผู้ชมเว็บไซต์") */
   label?: string;
-  /** เวลา (ms) ที่จะสุ่มเลขใหม่อัตโนมัติ (default: 10000) */
   updateInterval?: number;
-  /** เลขเริ่มต้น (optional) */
   initialCount?: number;
+  enableAutoUpdate?: boolean;
 }
 
 const sanitizeRange = (min?: number, max?: number): [number, number] => {
-  // กำหนดค่าเริ่มต้นและตรวจสอบความถูกต้อง
-  let minVal = Number.isInteger(min) && min !== undefined && min >= 0 ? min : 500;
-  let maxVal = Number.isInteger(max) && max !== undefined && max >= minVal ? max : 3000;
+  let minVal = Number.isInteger(min) && min! >= 0 ? min! : 500;
+  let maxVal = Number.isInteger(max) && max! >= minVal ? max! : 3000;
 
   if (minVal > maxVal) {
-    console.warn(
-      `VisitorCount: min (${minVal}) มากกว่า max (${maxVal}), สลับค่าให้ถูกต้อง`
-    );
+    console.warn(`VisitorCount: min (${minVal}) > max (${maxVal}), swapping.`);
     [minVal, maxVal] = [maxVal, minVal];
   }
 
   return [minVal, maxVal];
 };
 
-const getRandomCount = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+const getSmartRandom = (current: number, min: number, max: number): number => {
+  const delta = Math.floor((max - min) * 0.05); // เปลี่ยนแค่ 5%
+  const direction = Math.random() > 0.5 ? 1 : -1;
+  let next = current + direction * Math.floor(Math.random() * delta + 1);
+  return Math.min(max, Math.max(min, next));
 };
 
 const VisitorCountComponent: React.FC<VisitorCountProps> = ({
@@ -41,42 +43,47 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
   label = "ยอดผู้ชมเว็บไซต์",
   updateInterval = 10000,
   initialCount,
+  enableAutoUpdate = true,
 }) => {
-  const [minVal, maxVal] = sanitizeRange(min, max);
+  const [minVal, maxVal] = useMemo(() => sanitizeRange(min, max), [min, max]);
 
-  // ใช้เลขเริ่มต้นที่ส่งเข้ามาหรือสุ่มเลขในช่วง
-  const initial =
-    initialCount !== undefined && initialCount >= minVal && initialCount <= maxVal
+  const initial = useMemo(() => {
+    return initialCount !== undefined &&
+      initialCount >= minVal &&
+      initialCount <= maxVal
       ? initialCount
-      : getRandomCount(minVal, maxVal);
+      : getSmartRandom(minVal, minVal, maxVal);
+  }, [initialCount, minVal, maxVal]);
 
   const [count, setCount] = useState<number>(initial);
-  const prevCountRef = useRef<number>(count);
+  const prevCountRef = useRef<number>(initial);
 
-  // กำหนด locale สำหรับ toLocaleString
-  const userLocale =
+  const locale =
     typeof navigator !== "undefined" && navigator.language
       ? navigator.language
-      : "en-US";
+      : "th-TH";
+
+  const numberFormatter = useMemo(
+    () => new Intl.NumberFormat(locale),
+    [locale]
+  );
+
+  const updateCount = useCallback(() => {
+    const prev = prevCountRef.current;
+    const next = getSmartRandom(prev, minVal, maxVal);
+
+    if (next !== prev) {
+      prevCountRef.current = next;
+      setCount(next);
+    }
+  }, [minVal, maxVal]);
 
   useEffect(() => {
-    if (updateInterval <= 0) return;
-    if (minVal === maxVal) return;
+    if (!enableAutoUpdate || updateInterval <= 0 || minVal === maxVal) return;
 
-    const intervalId = setInterval(() => {
-      let newCount = getRandomCount(minVal, maxVal);
-
-      // ป้องกันเลขซ้ำกับรอบก่อนหน้า
-      if (newCount === prevCountRef.current) {
-        newCount = newCount === maxVal ? minVal : newCount + 1;
-      }
-
-      prevCountRef.current = newCount;
-      setCount(newCount);
-    }, updateInterval);
-
+    const intervalId = setInterval(updateCount, updateInterval);
     return () => clearInterval(intervalId);
-  }, [minVal, maxVal, updateInterval]);
+  }, [updateInterval, updateCount, enableAutoUpdate, minVal, maxVal]);
 
   return (
     <div
@@ -84,16 +91,17 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
       role="status"
       aria-live="polite"
       aria-atomic="true"
-      aria-label={`${label} จำนวน ${count.toLocaleString(userLocale)} คน`}
-      title={`${label}: ${count.toLocaleString(userLocale)} คน`}
+      aria-label={`${label} จำนวน ${numberFormatter.format(count)} คน`}
+      title={`${label}: ${numberFormatter.format(count)} คน`}
+      data-testid="visitor-count"
     >
       {label}:{" "}
       <span
         aria-hidden="true"
-        className="inline-block tabular-nums"
+        className="inline-block font-mono tracking-tight"
         style={{ minWidth: "4ch" }}
       >
-        {count.toLocaleString(userLocale)}
+        {numberFormatter.format(count)}
       </span>{" "}
       คน
     </div>

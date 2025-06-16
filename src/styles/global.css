@@ -1,4 +1,4 @@
-/* ===== Font Import (ต้องอยู่บรรทัดแรกสุด) ===== */
+/* ===== Font Import (อยู่บรรทัดแรกสุด) ===== */
 @import url("https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&family=Noto+Sans+Thai:wght@300;400;500;700&display=swap");
 
 /* ===== Tailwind Directives ===== */
@@ -6,21 +6,29 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===== Font Enhancements ===== */
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-variant-numeric: tabular-nums;
+}
+
 /* ===== Base Body Style ===== */
 body {
-  font-family: 'Kanit', 'Noto Sans Thai', sans-serif;
+  font-family: 'Kanit', 'Noto Sans Thai', 'Segoe UI', system-ui, sans-serif;
   @apply bg-background text-foreground font-sans antialiased;
-  line-height: 1.6;
   font-size: clamp(1rem, 1vw + 0.5rem, 1.125rem);
-  transition-property: background-color, color;
+  line-height: 1.6;
+  transition-property: background-color, color, border-color, fill, stroke;
   transition-duration: 300ms;
   transition-timing-function: ease-in-out;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ===== Headings ===== */
 h1, h2, h3, h4, h5, h6 {
   @apply text-primary font-heading font-semibold;
-  scroll-margin-top: 4rem; /* สำหรับ anchor link */
+  scroll-margin-top: 4rem;
 }
 
 /* ===== Links ===== */
@@ -40,11 +48,9 @@ a:focus-visible {
   cursor: pointer;
   user-select: none;
 }
-
 .btn-primary {
   @apply bg-primary text-white hover:bg-primary-dark;
 }
-
 .btn-secondary {
   @apply bg-secondary text-white hover:bg-secondary-dark;
 }
@@ -76,6 +82,14 @@ a:focus-visible {
   outline: none;
 }
 
+.dark .card {
+  @apply bg-neutral-900 text-foreground-dark;
+}
+
+.dark .btn-primary {
+  @apply bg-primary text-white hover:bg-primary-dark;
+}
+
 /* ===== Scrollbar (Optional) ===== */
 ::-webkit-scrollbar {
   width: 8px;
@@ -91,9 +105,12 @@ a:focus-visible {
 
 /* ===== Utility Enhancements ===== */
 
-/* เพิ่ม shadow แบบนุ่ม */
+/* Soft shadow */
 .shadow-soft {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+.dark .shadow-soft {
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
 }
 
 /* Spacing Utilities */
@@ -104,8 +121,13 @@ a:focus-visible {
   margin-bottom: 4.5rem;
 }
 
-/* Smooth Text Rendering */
-body, button, input, select, textarea {
+/* Better default for form elements */
+input, textarea, button, select {
+  @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+}
+
+/* Use `:where()` for better specificity control */
+:where(h1, h2, h3, h4, h5, h6, a, button, input, select, textarea) {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

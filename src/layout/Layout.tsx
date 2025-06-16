@@ -6,94 +6,66 @@ import Footer from "./Footer";
 
 export type Theme = "light" | "dark";
 
-export interface HeaderProps {
-  theme: Theme;
-  toggleTheme: () => void;
-}
-
 type LayoutProps = {
   children: ReactNode;
   className?: string;
 };
 
 const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
-  // สถานะธีม และสถานะว่าผู้ใช้เลือกเองหรือไม่
   const [theme, setTheme] = useState<Theme>("light");
   const [userSetTheme, setUserSetTheme] = useState(false);
 
-  // โหลดค่า theme จาก localStorage หรือระบบปฏิบัติการเมื่อคอมโพเนนต์ mount
+  // ดึง theme จาก localStorage หรือระบบ
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    try {
-      const storedTheme = localStorage.getItem("theme") as Theme | null;
-      if (storedTheme === "light" || storedTheme === "dark") {
-        setTheme(storedTheme);
-        setUserSetTheme(true);
-      } else {
-        // กำหนด theme ตาม prefers-color-scheme ถ้าไม่มีค่าใน localStorage
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        setTheme(prefersDark ? "dark" : "light");
-        setUserSetTheme(false);
+    const getInitialTheme = (): Theme => {
+      try {
+        const stored = localStorage.getItem("theme") as Theme | null;
+        if (stored === "light" || stored === "dark") return stored;
+      } catch {
+        // ignore
       }
-    } catch {
-      // กรณี error เช่น private mode ให้ fallback ตาม prefers-color-scheme
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setTheme(prefersDark ? "dark" : "light");
-      setUserSetTheme(false);
-    }
+
+      return window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    };
+
+    const initialTheme = getInitialTheme();
+    setTheme(initialTheme);
+    setUserSetTheme(!!localStorage.getItem("theme"));
   }, []);
 
-  // อัปเดต class บน <html> และบันทึก theme ถ้าผู้ใช้เลือกเอง
+  // อัปเดต class บน <html> และบันทึก theme
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const root = window.document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
+    const root = document.documentElement;
+    root.classList.toggle("dark", theme === "dark");
 
     if (userSetTheme) {
       try {
         localStorage.setItem("theme", theme);
       } catch {
-        // ไม่สามารถใช้ localStorage ได้ ไม่ต้องทำอะไรเพิ่ม
+        // ignore
       }
     }
   }, [theme, userSetTheme]);
 
-  // ฟัง event เปลี่ยน prefers-color-scheme เมื่อผู้ใช้ยังไม่ได้เลือกธีมเอง
+  // Sync กับ system theme ถ้ายังไม่ user-set
   useEffect(() => {
-    if (typeof window === "undefined") return;
     if (userSetTheme) return;
 
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    const handler = (e: MediaQueryListEvent) => {
+    const handleChange = (e: MediaQueryListEvent) =>
       setTheme(e.matches ? "dark" : "light");
-    };
 
-    // รองรับ browser หลายแบบ
-    if (mq.addEventListener) {
-      mq.addEventListener("change", handler);
-    } else {
-      // Safari และ browser เก่าใช้ addListener
-      // @ts-ignore
-      mq.addListener(handler);
-    }
+    mq.addEventListener?.("change", handleChange);
+    mq.addListener?.(handleChange); // fallback for old Safari
 
     return () => {
-      if (mq.removeEventListener) {
-        mq.removeEventListener("change", handler);
-      } else {
-        // @ts-ignore
-        mq.removeListener(handler);
-      }
+      mq.removeEventListener?.("change", handleChange);
+      mq.removeListener?.(handleChange);
     };
   }, [userSetTheme]);
 
-  // ฟังก์ชันสลับธีม พร้อมบันทึกสถานะว่าผู้ใช้เลือกเอง
   const toggleTheme = useCallback(() => {
     setTheme((prev) => {
       const next = prev === "light" ? "dark" : "light";
@@ -101,7 +73,7 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
       try {
         localStorage.setItem("theme", next);
       } catch {
-        // ignore error
+        // ignore
       }
       return next;
     });
@@ -109,7 +81,7 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
 
   return (
     <>
-      {/* ปุ่มลัดสำหรับข้ามไปยังเนื้อหาหลัก เพื่อการเข้าถึง (Accessibility) */}
+      {/* Accessibility Skip Link */}
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:bg-pink-600 focus:text-white focus:px-4 focus:py-2 focus:rounded z-50"
