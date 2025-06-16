@@ -104,7 +104,6 @@ const Header: React.FC<HeaderProps> = ({
                     ? "text-pink-600 dark:text-pink-400 font-semibold"
                     : "hover:text-pink-600 dark:hover:text-pink-400"
                 }`}
-                // เพิ่ม rel="noopener noreferrer" สำหรับลิงก์ที่เปิดในแท็บใหม่
                 rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                 target={href.startsWith("http") ? "_blank" : undefined}
                 tabIndex={0}
@@ -125,7 +124,11 @@ const Header: React.FC<HeaderProps> = ({
             title="สลับธีม"
             className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
           >
-            {theme === "dark" ? <Sun size={20} aria-hidden="true" /> : <Moon size={20} aria-hidden="true" />}
+            {theme === "dark" ? (
+              <Sun size={20} aria-hidden="true" />
+            ) : (
+              <Moon size={20} aria-hidden="true" />
+            )}
           </button>
 
           {/* Mobile Menu Button */}

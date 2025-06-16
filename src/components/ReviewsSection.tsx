@@ -130,7 +130,7 @@ const ReviewsSection: React.FC = () => {
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: id * 0.1 }}
+              transition={{ delay: id * 0.12 }}
               tabIndex={0}
               role="listitem"
               aria-label={`รีวิวจากคุณ ${name} สำหรับบริการ ${service}`}
@@ -165,16 +165,23 @@ const ReviewsSection: React.FC = () => {
               <section
                 id={`review-message-${id}`}
                 className="text-gray-700 dark:text-gray-300 text-sm flex-grow leading-relaxed"
+                aria-live="polite"
               >
                 “{displayMessage}”
               </section>
 
               {message && message.length > MAX_PREVIEW_LENGTH && (
                 <button
+                  type="button"
                   onClick={() => toggleExpand(id)}
                   className="mt-3 self-center text-primary dark:text-accent underline text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent rounded"
                   aria-expanded={isExpanded}
                   aria-controls={`review-message-${id}`}
+                  aria-label={
+                    isExpanded
+                      ? `ย่อข้อความรีวิวจากคุณ ${name}`
+                      : `อ่านรีวิวเพิ่มเติมจากคุณ ${name}`
+                  }
                 >
                   {isExpanded ? "ย่อข้อความ" : "อ่านรีวิวเพิ่มเติม"}
                 </button>

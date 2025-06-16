@@ -6,7 +6,6 @@ import jpLogo from "../assets/jp-logo.png";
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
-  // ข้อมูลเมนูเว็บไซต์
   const menuItems = [
     { href: "#services", label: "บริการของเรา" },
     { href: "#about", label: "เกี่ยวกับเรา" },
@@ -14,7 +13,6 @@ const Footer: React.FC = () => {
     { href: "/privacy-policy", label: "นโยบายความเป็นส่วนตัว" },
   ];
 
-  // ข้อมูลช่องทางติดต่อและโซเชียล
   const socialLinks = [
     {
       href: "https://lin.ee/BSkkcTR",
@@ -58,6 +56,7 @@ const Footer: React.FC = () => {
             loading="lazy"
             className="w-24 h-auto drop-shadow-md rounded-xl"
             itemProp="logo"
+            draggable={false}
           />
           <h2 className="text-lg font-bold" itemProp="name">
             JP Visual & Docs
@@ -82,6 +81,7 @@ const Footer: React.FC = () => {
                   href={href}
                   className="hover:text-primary transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring ring-primary rounded px-1"
                   title={label}
+                  tabIndex={0}
                 >
                   {label}
                 </a>
@@ -106,6 +106,7 @@ const Footer: React.FC = () => {
                   className="inline-flex items-center gap-2 hover:text-primary transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring ring-primary rounded-md p-1.5"
                   aria-label={ariaLabel}
                   title={ariaLabel}
+                  tabIndex={0}
                 >
                   <Icon className="w-5 h-5" aria-hidden="true" />
                   <span>{label}</span>
@@ -129,6 +130,7 @@ const Footer: React.FC = () => {
               className="text-xs text-primary hover:underline transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring ring-primary rounded px-1"
               aria-label="กลับขึ้นด้านบน"
               title="กลับขึ้นด้านบน"
+              tabIndex={0}
             >
               ↑ กลับด้านบน
             </a>

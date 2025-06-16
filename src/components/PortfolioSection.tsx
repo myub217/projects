@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const portfolioImages = [
@@ -23,37 +23,81 @@ const lightboxVariants = {
 
 const PortfolioSection: React.FC = () => {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const lightboxRef = useRef<HTMLDivElement>(null);
 
-  // ปิด Lightbox เมื่อกด Escape และเลื่อนภาพด้วย Arrow Keys
+  // ปิด Lightbox และเลื่อนภาพด้วย Arrow Keys
   const onKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      if (e.key === "Escape" && lightboxIndex !== null) {
-        setLightboxIndex(null);
-      }
-      if (e.key === "ArrowLeft" && lightboxIndex !== null) {
-        setLightboxIndex((prev) =>
-          prev === null ? null : (prev + portfolioImages.length - 1) % portfolioImages.length
-        );
-      }
-      if (e.key === "ArrowRight" && lightboxIndex !== null) {
-        setLightboxIndex((prev) =>
-          prev === null ? null : (prev + 1) % portfolioImages.length
-        );
+      if (lightboxIndex === null) return;
+
+      switch (e.key) {
+        case "Escape":
+          setLightboxIndex(null);
+          break;
+        case "ArrowLeft":
+          setLightboxIndex(
+            (prev) => (prev === null ? null : (prev + portfolioImages.length - 1) % portfolioImages.length)
+          );
+          break;
+        case "ArrowRight":
+          setLightboxIndex(
+            (prev) => (prev === null ? null : (prev + 1) % portfolioImages.length)
+          );
+          break;
+        case "Tab":
+          // Focus trap inside lightbox
+          if (!lightboxRef.current) return;
+          const focusableElements = lightboxRef.current.querySelectorAll<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          if (focusableElements.length === 0) return;
+
+          const firstElement = focusableElements[0];
+          const lastElement = focusableElements[focusableElements.length - 1];
+
+          if (e.shiftKey) {
+            // Shift + Tab
+            if (document.activeElement === firstElement) {
+              e.preventDefault();
+              lastElement.focus();
+            }
+          } else {
+            // Tab
+            if (document.activeElement === lastElement) {
+              e.preventDefault();
+              firstElement.focus();
+            }
+          }
+          break;
       }
     },
     [lightboxIndex]
   );
 
+  // จัดการเพิ่ม/ลบ event listener แบบปลอดภัย
   useEffect(() => {
     if (lightboxIndex !== null) {
       window.addEventListener("keydown", onKeyDown);
+      // ป้องกัน scroll หน้าเมื่อเปิด lightbox
+      document.body.style.overflow = "hidden";
     } else {
-      window.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = "";
     }
     return () => {
       window.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = "";
     };
   }, [lightboxIndex, onKeyDown]);
+
+  // ฟังก์ชันเปลี่ยนภาพถัดไป
+  const showNext = () => {
+    setLightboxIndex((prev) => (prev === null ? null : (prev + 1) % portfolioImages.length));
+  };
+
+  // ฟังก์ชันเปลี่ยนภาพก่อนหน้า
+  const showPrev = () => {
+    setLightboxIndex((prev) => (prev === null ? null : (prev + portfolioImages.length - 1) % portfolioImages.length));
+  };
 
   return (
     <section
@@ -149,14 +193,15 @@ const PortfolioSection: React.FC = () => {
               aria-modal="true"
               aria-label={`ภาพผลงานลำดับที่ ${lightboxIndex + 1} แบบขยายเต็มจอ`}
               tabIndex={-1}
+              ref={lightboxRef}
             >
               <div className="relative max-w-4xl max-h-full w-full rounded-lg overflow-hidden bg-white dark:bg-gray-900 shadow-lg">
+                {/* ปุ่ม ปิด */}
                 <button
                   onClick={() => setLightboxIndex(null)}
                   aria-label="ปิดหน้าต่างแสดงภาพ"
                   className="absolute top-3 right-3 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-accent focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent rounded p-1"
                 >
-                  {/* ไอคอนปิด */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-8 w-8"
@@ -169,6 +214,43 @@ const PortfolioSection: React.FC = () => {
                   </svg>
                 </button>
 
+                {/* ปุ่มก่อนหน้า */}
+                <button
+                  onClick={showPrev}
+                  aria-label="ภาพก่อนหน้า"
+                  className="absolute top-1/2 left-3 -translate-y-1/2 bg-black bg-opacity-50 rounded-full p-2 text-white hover:bg-opacity-70 focus:outline-none focus:ring-2 focus:ring-white"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+
+                {/* ปุ่มถัดไป */}
+                <button
+                  onClick={showNext}
+                  aria-label="ภาพถัดไป"
+                  className="absolute top-1/2 right-3 -translate-y-1/2 bg-black bg-opacity-50 rounded-full p-2 text-white hover:bg-opacity-70 focus:outline-none focus:ring-2 focus:ring-white"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+
+                {/* รูปภาพหลัก */}
                 <img
                   src={portfolioImages[lightboxIndex]}
                   alt={`ภาพผลงานขยายลำดับที่ ${lightboxIndex + 1}`}

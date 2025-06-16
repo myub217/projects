@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 
@@ -22,26 +22,34 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   triggerRef,
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
+  const [isClosing, setIsClosing] = useState(false);
 
+  // ฟังก์ชันปิดเมนู พร้อม disable ปุ่มเพื่อป้องกันคลิกซ้ำ
+  const handleClose = useCallback(() => {
+    if (isClosing) return;
+    setIsClosing(true);
+    onClose();
+  }, [isClosing, onClose]);
+
+  // กด Escape เพื่อปิดเมนู
   useEffect(() => {
     if (!isOpen) return;
 
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape" || e.key === "Esc") {
         e.preventDefault();
-        onClose();
+        handleClose();
       }
     };
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [isOpen, onClose]);
+  }, [isOpen, handleClose]);
 
+  // Lock scroll เมื่อเปิดเมนูซ้อนกันหลายชั้น
   useEffect(() => {
     if (isOpen) {
       scrollLockCount++;
-      if (scrollLockCount === 1) {
-        document.body.style.overflow = "hidden";
-      }
+      document.body.style.overflow = "hidden";
       return () => {
         scrollLockCount--;
         if (scrollLockCount <= 0) {
@@ -52,14 +60,15 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     }
   }, [isOpen]);
 
+  // Trap focus ภายในเมนู
   useEffect(() => {
     if (!isOpen || !menuRef.current) return;
 
     const focusableSelectors =
       'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
-    const focusableElements = menuRef.current.querySelectorAll<HTMLElement>(
-      focusableSelectors
-    );
+    const focusableElements = Array.from(
+      menuRef.current.querySelectorAll<HTMLElement>(focusableSelectors)
+    ).filter((el) => !el.hasAttribute("disabled") && el.offsetParent !== null);
 
     if (focusableElements.length === 0) {
       menuRef.current.focus();
@@ -69,8 +78,18 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     const first = focusableElements[0];
     const last = focusableElements[focusableElements.length - 1];
 
+    const isFocusInsideMenu = () =>
+      menuRef.current?.contains(document.activeElement);
+
     const trapFocus = (e: KeyboardEvent) => {
       if (e.key !== "Tab") return;
+
+      if (!isFocusInsideMenu()) {
+        // ถ้า focus นอกเมนู ให้กลับมา focus แรก
+        e.preventDefault();
+        first.focus();
+        return;
+      }
 
       if (e.shiftKey) {
         if (document.activeElement === first) {
@@ -87,7 +106,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 
     document.addEventListener("keydown", trapFocus);
 
-    if (initialFocusRef?.current) {
+    if (initialFocusRef?.current && menuRef.current.contains(initialFocusRef.current)) {
       initialFocusRef.current.focus();
     } else {
       first.focus();
@@ -96,27 +115,30 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     return () => document.removeEventListener("keydown", trapFocus);
   }, [isOpen, initialFocusRef]);
 
+  // เมื่อเมนูปิด ให้ focus กลับไปยัง trigger button
   useEffect(() => {
     if (!isOpen && triggerRef?.current) {
       triggerRef.current.focus();
+      setIsClosing(false);
     }
   }, [isOpen, triggerRef]);
 
-  const handleLinkClick = () => {
-    onClose();
+  const handleLinkClick = useCallback(() => {
+    if (isClosing) return;
+    handleClose();
     onLinkClick?.();
-  };
+  }, [handleClose, isClosing, onLinkClick]);
 
-  const handleLinkKeyDown = (
-    e: React.KeyboardEvent<HTMLAnchorElement>,
-    href: string
-  ) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      window.location.href = href;
-      handleLinkClick();
-    }
-  };
+  const handleLinkKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLAnchorElement>, href: string) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        window.location.href = href;
+        handleLinkClick();
+      }
+    },
+    [handleLinkClick]
+  );
 
   return (
     <AnimatePresence>
@@ -131,7 +153,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-[59] bg-black/40 dark:bg-black/60"
             aria-hidden="true"
-            onClick={onClose}
+            onClick={handleClose}
           />
 
           {/* Menu Panel */}
@@ -154,9 +176,10 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             </h2>
 
             <button
-              onClick={onClose}
+              onClick={handleClose}
               className="absolute top-4 right-4 text-gray-700 dark:text-gray-300 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
               aria-label="ปิดเมนู"
+              disabled={isClosing}
             >
               <X size={28} />
             </button>
@@ -174,6 +197,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                       : "hover:text-primary dark:hover:text-primary"
                   }`}
                   tabIndex={0}
+                  aria-current={window.location.href.includes(href) ? "page" : undefined}
                 >
                   {label}
                 </a>

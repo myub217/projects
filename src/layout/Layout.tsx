@@ -3,53 +3,46 @@ import React, { ReactNode, useEffect, useState, useCallback } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 
+export type Theme = "light" | "dark";
+
+export interface HeaderProps {
+  theme: Theme;
+  toggleTheme: () => void;
+}
+
 type LayoutProps = {
   children: ReactNode;
   className?: string;
 };
 
 const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
-  // Theme state: "light" or "dark"
-  const [theme, setTheme] = useState<"light" | "dark">("light");
-
-  // Track if user explicitly set theme
+  const [theme, setTheme] = useState<Theme>("light");
   const [userSetTheme, setUserSetTheme] = useState(false);
 
-  // On mount: load theme from localStorage or system preference
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     try {
-      const storedTheme = localStorage.getItem("theme") as
-        | "light"
-        | "dark"
-        | null;
-
+      const storedTheme = localStorage.getItem("theme") as Theme | null;
       if (storedTheme === "light" || storedTheme === "dark") {
         setTheme(storedTheme);
         setUserSetTheme(true);
       } else {
-        const prefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        ).matches;
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         setTheme(prefersDark ? "dark" : "light");
         setUserSetTheme(false);
       }
     } catch {
-      const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
       setTheme(prefersDark ? "dark" : "light");
       setUserSetTheme(false);
     }
   }, []);
 
-  // Sync <html> class and localStorage when theme or userSetTheme changes
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     const root = window.document.documentElement;
-
     if (theme === "dark") {
       root.classList.add("dark");
     } else {
@@ -60,30 +53,38 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
       try {
         localStorage.setItem("theme", theme);
       } catch {
-        // localStorage may not work (private mode)
+        // localStorage may not be available in some environments
       }
     }
   }, [theme, userSetTheme]);
 
-  // Listen to system theme changes if user hasn't explicitly set theme
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (userSetTheme) return;
 
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
-
     const handler = (e: MediaQueryListEvent) => {
       setTheme(e.matches ? "dark" : "light");
     };
 
-    mq.addEventListener("change", handler);
+    if (mq.addEventListener) {
+      mq.addEventListener("change", handler);
+    } else {
+      // For Safari and older browsers
+      // @ts-ignore
+      mq.addListener(handler);
+    }
 
     return () => {
-      mq.removeEventListener("change", handler);
+      if (mq.removeEventListener) {
+        mq.removeEventListener("change", handler);
+      } else {
+        // @ts-ignore
+        mq.removeListener(handler);
+      }
     };
   }, [userSetTheme]);
 
-  // Toggle theme and mark as user set
   const toggleTheme = useCallback(() => {
     setTheme((prev) => {
       const next = prev === "light" ? "dark" : "light";
@@ -91,33 +92,40 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
       try {
         localStorage.setItem("theme", next);
       } catch {
-        // fallback no-op
+        // ignore
       }
       return next;
     });
   }, []);
 
   return (
-    <div
-      aria-live="polite"
-      role="application"
-      className={`flex flex-col min-h-screen transition-colors duration-300 bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 ${className}`}
-    >
-      {/* Header */}
-      <Header theme={theme} toggleTheme={toggleTheme} />
-
-      {/* Main content area with skip-to-main keyboard focus */}
-      <main
-        role="main"
-        tabIndex={-1}
-        className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10"
+    <>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:bg-pink-600 focus:text-white focus:px-4 focus:py-2 focus:rounded z-50"
       >
-        {children}
-      </main>
+        ข้ามไปยังเนื้อหาหลัก
+      </a>
 
-      {/* Footer */}
-      <Footer />
-    </div>
+      <div
+        aria-live="polite"
+        role="application"
+        className={`flex flex-col min-h-screen transition-colors duration-300 bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 ${className}`}
+      >
+        <Header theme={theme} toggleTheme={toggleTheme} />
+
+        <main
+          id="main-content"
+          role="main"
+          tabIndex={-1}
+          className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10"
+        >
+          {children}
+        </main>
+
+        <Footer />
+      </div>
+    </>
   );
 };
 
