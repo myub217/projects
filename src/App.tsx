@@ -26,6 +26,7 @@ import SkeletonSection from "./components/skeleton/SkeletonSection";
 
 const ReviewsSectionLazy = lazy(() => import("./components/ReviewsSection"));
 
+// ลิงก์เมนูนำทาง
 const navLinks = [
   { label: "เกี่ยวกับเรา", href: "#about" },
   { label: "บริการ", href: "#services" },
@@ -36,7 +37,7 @@ const navLinks = [
 
 type NavLink = typeof navLinks[number];
 
-// Theme hook
+// Custom hook สำหรับจัดการธีม (Light/Dark)
 const useSystemTheme = () => {
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
@@ -71,6 +72,7 @@ const useSystemTheme = () => {
     }
   }, [applyTheme]);
 
+  // ฟังก์ชันสลับธีม พร้อมบันทึกลง localStorage
   const toggle = useCallback(() => {
     setTheme((prev) => {
       const next = prev === "dark" ? "light" : "dark";
@@ -87,7 +89,7 @@ const useSystemTheme = () => {
   return { theme, toggle };
 };
 
-// ErrorBoundary
+// ErrorBoundary สำหรับจับ error ใน React tree
 class ErrorBoundary extends React.Component<
   { children: React.ReactNode },
   { hasError: boolean }
@@ -108,26 +110,27 @@ class ErrorBoundary extends React.Component<
   handleRetry = () => this.setState({ hasError: false });
 
   render() {
-    return this.state.hasError ? (
-      <div
-        role="alert"
-        className="p-4 bg-red-100 text-red-700 rounded max-w-xl mx-auto my-8"
-      >
-        <p>เกิดข้อผิดพลาดในการโหลดเนื้อหา กรุณาลองใหม่อีกครั้ง</p>
-        <button
-          onClick={this.handleRetry}
-          className="mt-2 px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-400"
+    if (this.state.hasError) {
+      return (
+        <div
+          role="alert"
+          className="p-4 bg-red-100 text-red-700 rounded max-w-xl mx-auto my-8"
         >
-          ลองใหม่
-        </button>
-      </div>
-    ) : (
-      this.props.children
-    );
+          <p>เกิดข้อผิดพลาดในการโหลดเนื้อหา กรุณาลองใหม่อีกครั้ง</p>
+          <button
+            onClick={this.handleRetry}
+            className="mt-2 px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-400"
+          >
+            ลองใหม่
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
   }
 }
 
-// App
+// App Component หลัก
 const App: React.FC = memo(() => {
   const { theme, toggle } = useSystemTheme();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -136,14 +139,14 @@ const App: React.FC = memo(() => {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [loadReviews, setLoadReviews] = useState(false);
 
-  // Set current URL
+  // ตั้งค่า current URL สำหรับ SEO และ OG tags
   useEffect(() => {
     if (typeof window !== "undefined") {
       setCurrentUrl(window.location.href);
     }
   }, []);
 
-  // Lock scroll when menu open
+  // เมื่อเมนูเปิด ให้ล็อกการ scroll ของหน้า และเพิ่ม padding เพื่อป้องกัน content shift
   useEffect(() => {
     if (menuOpen) {
       const scrollbarWidth =
@@ -159,7 +162,7 @@ const App: React.FC = memo(() => {
     }
   }, [menuOpen]);
 
-  // Close on Esc
+  // ปิดเมนูเมื่อกดปุ่ม Escape
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && menuOpen) setMenuOpen(false);
@@ -168,17 +171,18 @@ const App: React.FC = memo(() => {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [menuOpen]);
 
-  // Skip to main content
+  // ฟังก์ชันสำหรับข้ามไปยังเนื้อหาหลัก (skip link)
   const handleSkipToContent = useCallback((e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     mainContentRef.current?.focus();
   }, []);
 
+  // เมื่อเมนูปิดให้โฟกัสกลับที่ปุ่มเมนู
   useEffect(() => {
     if (!menuOpen) menuButtonRef.current?.focus();
   }, [menuOpen]);
 
-  // Lazy load Reviews section
+  // โหลดส่วนรีวิวแบบ lazy หลัง delay 2 วินาที
   useEffect(() => {
     const timeout = setTimeout(() => {
       startTransition(() => setLoadReviews(true));
@@ -220,6 +224,7 @@ const App: React.FC = memo(() => {
           <style>{`html { scroll-behavior: smooth; }`}</style>
         </Helmet>
 
+        {/* Skip to main content link สำหรับ accessibility */}
         <a
           href="#main-content"
           onClick={handleSkipToContent}
@@ -258,7 +263,12 @@ const App: React.FC = memo(() => {
         >
           <Hero />
 
-          <section id="about" className="my-16" aria-labelledby="about-title" tabIndex={-1}>
+          <section
+            id="about"
+            className="my-16"
+            aria-labelledby="about-title"
+            tabIndex={-1}
+          >
             <h2
               id="about-title"
               className="text-2xl font-bold mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
@@ -268,7 +278,12 @@ const App: React.FC = memo(() => {
             <About />
           </section>
 
-          <section id="services" className="my-16" aria-labelledby="services-title" tabIndex={-1}>
+          <section
+            id="services"
+            className="my-16"
+            aria-labelledby="services-title"
+            tabIndex={-1}
+          >
             <h2
               id="services-title"
               className="text-2xl font-bold mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
@@ -278,7 +293,12 @@ const App: React.FC = memo(() => {
             <ServicesSection />
           </section>
 
-          <section id="portfolio" className="my-16" aria-labelledby="portfolio-title" tabIndex={-1}>
+          <section
+            id="portfolio"
+            className="my-16"
+            aria-labelledby="portfolio-title"
+            tabIndex={-1}
+          >
             <h2
               id="portfolio-title"
               className="text-2xl font-bold mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
@@ -288,7 +308,12 @@ const App: React.FC = memo(() => {
             <PortfolioSection />
           </section>
 
-          <section id="reviews" className="my-16" aria-labelledby="reviews-title" tabIndex={-1}>
+          <section
+            id="reviews"
+            className="my-16"
+            aria-labelledby="reviews-title"
+            tabIndex={-1}
+          >
             <h2
               id="reviews-title"
               className="text-2xl font-bold mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
@@ -302,7 +327,12 @@ const App: React.FC = memo(() => {
             </ErrorBoundary>
           </section>
 
-          <section id="contact" className="my-16" aria-labelledby="contact-title" tabIndex={-1}>
+          <section
+            id="contact"
+            className="my-16"
+            aria-labelledby="contact-title"
+            tabIndex={-1}
+          >
             <h2
               id="contact-title"
               className="text-2xl font-bold mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"

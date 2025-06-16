@@ -1,50 +1,74 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, memo } from "react";
 
 interface VisitorCountProps {
-  min?: number;             // เลขต่ำสุด (default: 500)
-  max?: number;             // เลขสูงสุด (default: 3000)
-  className?: string;       // CSS class เสริม (optional)
-  label?: string;           // ข้อความนำหน้า (default: "ยอดผู้ชมเว็บไซต์")
-  updateInterval?: number;  // เวลา (ms) ที่จะสุ่มเลขใหม่อัตโนมัติ (optional)
+  /** เลขต่ำสุด (default: 500) */
+  min?: number;
+  /** เลขสูงสุด (default: 3000) */
+  max?: number;
+  /** CSS class เสริม (optional) */
+  className?: string;
+  /** ข้อความนำหน้า (default: "ยอดผู้ชมเว็บไซต์") */
+  label?: string;
+  /** เวลา (ms) ที่จะสุ่มเลขใหม่อัตโนมัติ (default: 10000) */
+  updateInterval?: number;
+  /** เลขเริ่มต้น (optional) */
+  initialCount?: number;
 }
 
-/**
- * สุ่มตัวเลขในช่วง min ถึง max
- * ป้องกันกรณี min > max โดยสลับค่าให้อัตโนมัติ
- */
+const sanitizeRange = (min: number, max: number): [number, number] => {
+  let minVal = Number.isInteger(min) && min >= 0 ? min : 500;
+  let maxVal = Number.isInteger(max) && max >= minVal ? max : 3000;
+
+  if (min > max) {
+    console.warn(`VisitorCount: min (${min}) มากกว่า max (${max}), สลับค่าให้ถูกต้อง`);
+    [minVal, maxVal] = [maxVal, minVal];
+  }
+
+  return [minVal, maxVal];
+};
+
 const getRandomCount = (min: number, max: number): number => {
-  if (min > max) [min, max] = [max, min];
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const VisitorCount: React.FC<VisitorCountProps> = ({
+const VisitorCountComponent: React.FC<VisitorCountProps> = ({
   min = 500,
   max = 3000,
   className = "",
   label = "ยอดผู้ชมเว็บไซต์",
-  updateInterval,
+  updateInterval = 10000,
+  initialCount,
 }) => {
-  const [count, setCount] = useState<number>(() => getRandomCount(min, max));
+  const [minVal, maxVal] = sanitizeRange(min, max);
+
+  const initial = initialCount !== undefined ? initialCount : getRandomCount(minVal, maxVal);
+
+  const [count, setCount] = useState<number>(initial);
+
   const prevCountRef = useRef<number>(count);
 
+  // กำหนด locale สำหรับ toLocaleString
+  const userLocale = typeof navigator !== "undefined" ? navigator.language : "en-US";
+
   useEffect(() => {
-    if (updateInterval && updateInterval > 0) {
-      const intervalId = setInterval(() => {
-        let newCount = getRandomCount(min, max);
+    if (updateInterval <= 0) return;
 
-        // ป้องกันเลขซ้ำกับก่อนหน้า (ถ้าเป็นไปได้)
-        if (newCount === prevCountRef.current) {
-          newCount = newCount === max ? min : newCount + 1;
-        }
+    // ถ้าช่วงเลขแคบเกินไป (min == max) ไม่ตั้ง interval
+    if (minVal === maxVal) return;
 
-        prevCountRef.current = newCount;
-        setCount(newCount);
-      }, updateInterval);
+    const intervalId = setInterval(() => {
+      let newCount = getRandomCount(minVal, maxVal);
 
-      return () => clearInterval(intervalId);
-    }
-    return;
-  }, [min, max, updateInterval]);
+      if (newCount === prevCountRef.current) {
+        newCount = newCount === maxVal ? minVal : newCount + 1;
+      }
+
+      prevCountRef.current = newCount;
+      setCount(newCount);
+    }, updateInterval);
+
+    return () => clearInterval(intervalId);
+  }, [minVal, maxVal, updateInterval]);
 
   return (
     <div
@@ -52,19 +76,23 @@ const VisitorCount: React.FC<VisitorCountProps> = ({
       role="status"
       aria-live="polite"
       aria-atomic="true"
-      aria-label={`${label} จำนวน ${count.toLocaleString()} คน`}
+      aria-label={`${label} จำนวน ${count.toLocaleString(userLocale)} คน`}
+      title={`${label}: ${count.toLocaleString(userLocale)} คน`}
     >
       {label}:{" "}
       <span
-        aria-live="off"
+        aria-hidden="true"
         className="inline-block tabular-nums"
-        style={{ minWidth: "4ch" }} // กัน layout shift เล็กน้อย
+        style={{ minWidth: "4ch" }}
       >
-        {count.toLocaleString()}
+        {count.toLocaleString(userLocale)}
       </span>{" "}
       คน
     </div>
   );
 };
+
+const VisitorCount = memo(VisitorCountComponent);
+VisitorCount.displayName = "VisitorCount";
 
 export default VisitorCount;

@@ -1,16 +1,19 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  // ไฟล์ที่จะสแกนหา class name
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx,vue,mdx}", // ครอบคลุมไฟล์ส่วนใหญ่ในโปรเจกต์
+    "./src/**/*.{js,ts,jsx,tsx,vue,mdx}",
   ],
 
-  // เปิดใช้งาน dark mode โดยใช้ class "dark" บน root (<html>)
-  darkMode: "class",
+  darkMode: "class", // ใช้ class "dark" บน <html>
 
   theme: {
+    container: {
+      center: true,
+      padding: "1rem",
+    },
+
     extend: {
       fontFamily: {
         sans: ['"Noto Sans Thai"', "ui-sans-serif", "system-ui", "sans-serif"],
@@ -21,20 +24,20 @@ const config: Config = {
         current: "currentColor",
 
         primary: {
-          DEFAULT: "#4338ca",  // Indigo 700
-          dark: "#3730a3",     // Indigo 800
-          light: "#6366f1",    // Indigo 500
+          DEFAULT: "#4338ca",
+          dark: "#3730a3",
+          light: "#6366f1",
         },
 
         secondary: {
-          DEFAULT: "#8b5cf6",  // Violet 500
-          dark: "#7c3aed",     // Violet 600
-          light: "#c4b5fd",    // Violet 300
+          DEFAULT: "#8b5cf6",
+          dark: "#7c3aed",
+          light: "#c4b5fd",
         },
 
         accent: {
-          DEFAULT: "#c084fc",  // Violet 300
-          dark: "#a855f7",     // Violet 400
+          DEFAULT: "#c084fc",
+          dark: "#a855f7",
         },
 
         background: {
@@ -59,6 +62,15 @@ const config: Config = {
           800: "#1f2937",
           900: "#111827",
         },
+
+        success: "#22c55e",
+        error: "#ef4444",
+        warning: "#f59e0b",
+
+        text: {
+          light: "#1e293b",
+          dark: "#f1f5f9",
+        },
       },
 
       boxShadow: {
@@ -70,18 +82,18 @@ const config: Config = {
         xl: "1rem",
         "2xl": "1.5rem",
       },
+
+      transitionTimingFunction: {
+        DEFAULT: "ease-in-out",
+      },
+
+      transitionDuration: {
+        DEFAULT: "300ms",
+      },
     },
   },
 
-  variants: {
-    extend: {
-      backgroundColor: ['dark', 'hover', 'focus', 'focus-visible'],
-      textColor: ['dark', 'hover', 'focus', 'focus-visible'],
-      boxShadow: ['dark', 'focus-visible'],
-      ringWidth: ['focus-visible'],
-      ringColor: ['focus-visible'],
-    },
-  },
+  // variants สามารถตัดออกได้เพราะ Tailwind v3 เปิดใช้ default อยู่แล้ว
 
   plugins: [
     require("@tailwindcss/forms"),

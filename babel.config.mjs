@@ -1,4 +1,20 @@
 {
-  "presets": ["@babel/preset-env", "@babel/preset-react"],
-  "plugins": ["babel-plugin-macros"]
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": ">0.25%, not dead"
+      }
+    ],
+    [
+      "@babel/preset-react",
+      {
+        "runtime": "automatic"
+      }
+    ]
+  ],
+  "plugins": [
+    "babel-plugin-macros",
+    "@emotion/babel-plugin"
+  ]
 }

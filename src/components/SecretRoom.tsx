@@ -3,13 +3,17 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 
 const SecretRoom: React.FC = () => {
+  const scrollToContact = () => {
+    const el = document.getElementById("contact");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <main
       role="main"
       aria-labelledby="secret-room-heading"
       className="min-h-screen bg-gradient-to-br from-purple-950 via-indigo-900 to-black text-white px-6 py-12 sm:px-12 sm:py-20"
     >
-      {/* SEO & Meta */}
       <Helmet>
         <html lang="th" />
         <title>Secret Room - JP Visual & Docs</title>
@@ -24,11 +28,11 @@ const SecretRoom: React.FC = () => {
           content="ยินดีต้อนรับสู่ Secret Room ของ JP Visual & Docs — พื้นที่พิเศษสำหรับสมาชิกและผู้เยี่ยมชมที่ได้รับสิทธิ์"
         />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="/secret-room-og.png" />
+        <meta property="og:image" content="https://jp-visual-docs.com/secret-room-og.png" />
         <meta name="theme-color" content="#7F3FBF" />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      {/* Heading Section */}
       <section className="text-center max-w-4xl mx-auto" aria-labelledby="secret-room-heading">
         <motion.h1
           id="secret-room-heading"
@@ -53,21 +57,34 @@ const SecretRoom: React.FC = () => {
         </motion.p>
       </section>
 
-      {/* Divider */}
-      <hr className="border-gray-700 my-10 mx-auto w-1/2" aria-hidden="true" />
+      <motion.hr
+        className="border-gray-700 my-10 mx-auto w-1/2"
+        aria-hidden="true"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4, duration: 0.6 }}
+      />
 
-      {/* CTA Button */}
-      <section className="text-center">
+      <motion.section
+        className="text-center"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6, duration: 0.7 }}
+      >
         <motion.a
           href="#contact"
           role="button"
+          tabIndex={0}
           aria-label="ติดต่อเราเพื่อขอสิทธิ์เข้าห้องลับ"
-          className="btn btn-primary px-6 py-3 rounded-lg shadow-xl transition-transform
+          className="bg-purple-600 hover:bg-purple-700 text-white
+            dark:bg-purple-500 dark:hover:bg-purple-600
+            px-6 py-3 rounded-lg shadow-xl transition-transform
             focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500
             hover:scale-105 active:scale-95"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5, duration: 0.7, ease: 'easeOut' }}
+          transition={{ delay: 0.7, duration: 0.6, ease: "easeOut" }}
+          onClick={scrollToContact}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
@@ -77,7 +94,7 @@ const SecretRoom: React.FC = () => {
         >
           ติดต่อเราเพื่อขอสิทธิ์
         </motion.a>
-      </section>
+      </motion.section>
     </main>
   );
 };
