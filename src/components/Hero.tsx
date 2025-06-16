@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import jpLogo from "../assets/jp-logo.png";
+import heroBg from "../assets/hero.jpg";
 
 const Hero: React.FC = () => {
   return (
@@ -8,35 +8,33 @@ const Hero: React.FC = () => {
       id="hero"
       role="banner"
       aria-labelledby="hero-heading"
-      className="relative min-h-screen flex items-center justify-center bg-gradient-to-tr from-blue-950 via-indigo-900 to-blue-800 dark:from-gray-950 dark:via-gray-900 dark:to-gray-800 px-4 sm:px-8"
+      className="relative flex items-center justify-center min-h-[80vh] bg-black text-white overflow-hidden"
     >
-      <motion.div
-        className="text-center max-w-3xl mx-auto"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: "easeOut" }}
-        tabIndex={-1} // ให้ keyboard focus ได้
-      >
-        <motion.img
-          src={jpLogo}
-          alt="โลโก้ JP Visual & Docs"
-          className="w-24 h-24 mx-auto mb-6 rounded-full shadow-xl border-4 border-white dark:border-gray-700"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
-          loading="lazy"
-          decoding="async"
-          fetchPriority="low"
-        />
+      {/* Background image */}
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-80"
+        style={{ backgroundImage: `url(${heroBg})` }}
+        aria-hidden="true"
+      />
 
+      {/* Overlay */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-t from-black/80 via-black/60 to-transparent dark:from-black/90 dark:via-black/70" aria-hidden="true" />
+
+      {/* Content */}
+      <motion.div
+        className="relative z-10 text-center px-6 sm:px-10 max-w-3xl"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
         <h1
           id="hero-heading"
-          className="text-4xl sm:text-5xl font-extrabold text-white drop-shadow-xl leading-tight"
+          className="text-4xl sm:text-5xl font-extrabold tracking-tight drop-shadow-[0_3px_8px_rgba(0,0,0,0.8)]"
         >
           JP Visual & Docs
         </h1>
 
-        <p className="mt-4 text-lg sm:text-xl text-white/90 max-w-xl mx-auto leading-relaxed">
+        <p className="mt-4 text-lg sm:text-xl text-gray-200 leading-relaxed drop-shadow-sm">
           บริการออกแบบและจัดทำเอกสารมืออาชีพ
           <br className="hidden sm:inline" />
           ครบวงจรสำหรับธุรกิจของคุณ
@@ -44,12 +42,27 @@ const Hero: React.FC = () => {
 
         <motion.a
           href="#contact"
-          className="mt-10 inline-block btn-primary text-lg px-8 py-3 shadow-md focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-primary dark:focus:ring-white transition-transform rounded-md"
+          role="button"
+          aria-label="ติดต่อเรา"
+          className="btn-primary mt-8 inline-flex items-center gap-2"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          aria-label="ติดต่อเรา"
         >
           ติดต่อเรา
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-5 h-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+            />
+          </svg>
         </motion.a>
       </motion.div>
     </header>

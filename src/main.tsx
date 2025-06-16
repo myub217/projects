@@ -6,7 +6,13 @@ import App from "./App";
 import "./styles/global.css";
 import { ThemeProvider } from "./context/ThemeContext";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+const rootElement = document.getElementById("root");
+
+if (!rootElement) {
+  throw new Error("Root element #root not found");
+}
+
+ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider>

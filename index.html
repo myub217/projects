@@ -3,40 +3,76 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
+    <!-- ตั้งค่า viewport ให้เหมาะกับมือถือและ responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>JP Visual & Docs</title>
 
     <!-- โหลดฟอนต์ Noto Sans Thai จาก Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json" />
 
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
 
     <!-- Theme color for mobile browsers -->
     <meta name="theme-color" content="#1A237E" />
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน JP Visual & Docs" />
+    <meta
+      name="description"
+      content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน JP Visual & Docs"
+    />
     <meta name="author" content="JP Visual & Docs" />
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content="JP Visual & Docs" />
-    <meta property="og:description" content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน" />
+    <meta
+      property="og:description"
+      content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน"
+    />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://applicationlubmobile.vercel.app" />
-    <meta property="og:image" content="https://applicationlubmobile.vercel.app/og-image.png" />
+    <meta
+      property="og:image"
+      content="https://applicationlubmobile.vercel.app/og-image.png"
+    />
+    <meta property="og:image:alt" content="JP Visual & Docs" />
+    <meta property="og:locale" content="th_TH" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="JP Visual & Docs" />
-    <meta name="twitter:description" content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน" />
-    <meta name="twitter:image" content="https://applicationlubmobile.vercel.app/og-image.png" />
+    <meta
+      name="twitter:description"
+      content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน"
+    />
+    <meta
+      name="twitter:image"
+      content="https://applicationlubmobile.vercel.app/og-image.png"
+    />
+    <meta name="twitter:creator" content="@yourtwitterhandle" />
+
+    <!-- ป้องกันการแอบอ้างเว็บไซต์ (Optional) -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' ..."> -->
+
   </head>
-  <body>
+  <body class="font-sans" style="font-family: 'Noto Sans Thai', sans-serif;">
     <div id="root"></div>
 
     <!-- สคริปต์โหลด React App -->
