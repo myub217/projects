@@ -1,11 +1,15 @@
-// tailwind.config.ts
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 
 const config: Config = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx,vue,mdx}"],
-
   darkMode: "class",
+
+  safelist: [
+    "dark", // เผื่อใช้ class toggle ใน script
+    "animate-fadeIn",
+    "animate-slideInUp",
+  ],
 
   theme: {
     container: {
@@ -29,36 +33,30 @@ const config: Config = {
       colors: {
         transparent: "transparent",
         current: "currentColor",
-
         primary: {
-          DEFAULT: "#1A237E", // กรมท่า
+          DEFAULT: "#1A237E",
           dark: "#0D154D",
           light: "#3949AB",
         },
-
         secondary: {
-          DEFAULT: "#00BCD4", // ฟ้าเทค
+          DEFAULT: "#00BCD4",
           dark: "#0097A7",
           light: "#4DD0E1",
         },
-
         background: {
           DEFAULT: "#F5F6FA",
           dark: "#121212",
           soft: "#ECEFF1",
         },
-
         foreground: {
           DEFAULT: "#212121",
           dark: "#FFFFFF",
         },
-
         text: {
           light: "#1e293b",
           dark: "#f1f5f9",
           muted: "#64748b",
         },
-
         neutral: {
           50: "#f9fafb",
           100: "#f3f4f6",
@@ -71,7 +69,6 @@ const config: Config = {
           800: "#1f2937",
           900: "#0f172a",
         },
-
         success: "#22c55e",
         error: "#ef4444",
         warning: "#facc15",
@@ -92,7 +89,6 @@ const config: Config = {
       transitionTimingFunction: {
         DEFAULT: "ease-in-out",
       },
-
       transitionDuration: {
         DEFAULT: "300ms",
         fast: "150ms",
@@ -101,6 +97,28 @@ const config: Config = {
 
       accentColor: {
         DEFAULT: "#00BCD4",
+      },
+
+      animation: {
+        fadeIn: "fadeIn 1s ease-out forwards",
+        slideInUp: "slideInUp 0.8s ease-out forwards",
+      },
+
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        slideInUp: {
+          "0%": {
+            transform: "translateY(20px)",
+            opacity: "0",
+          },
+          "100%": {
+            transform: "translateY(0)",
+            opacity: "1",
+          },
+        },
       },
 
       typography: ({ theme }) => ({
@@ -155,6 +173,55 @@ const config: Config = {
     require("@tailwindcss/forms"),
     require("@tailwindcss/typography"),
     require("@tailwindcss/aspect-ratio"),
+
+    plugin(({ addComponents, theme }) => {
+      addComponents({
+        ".btn": {
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "0.5rem 1.25rem",
+          borderRadius: theme("borderRadius.xl"),
+          fontWeight: "500",
+          transitionProperty: "background-color, color, border-color, box-shadow",
+          transitionDuration: theme("transitionDuration.DEFAULT"),
+          cursor: "pointer",
+          userSelect: "none",
+        },
+        ".btn-primary": {
+          backgroundColor: theme("colors.primary.DEFAULT"),
+          color: "#fff",
+          "&:hover": {
+            backgroundColor: theme("colors.primary.dark"),
+          },
+        },
+        ".card": {
+          borderRadius: theme("borderRadius.2xl"),
+          padding: "1.5rem",
+          boxShadow: theme("boxShadow.card"),
+          backgroundColor: theme("colors.white"),
+          transitionProperty: "background-color, color",
+          transitionDuration: theme("transitionDuration.DEFAULT"),
+        },
+        ".dark .card": {
+          backgroundColor: theme("colors.neutral.900"),
+        },
+        ".section": {
+          paddingTop: "4rem",
+          paddingBottom: "4rem",
+          paddingLeft: "1rem",
+          paddingRight: "1rem",
+          "@screen sm": {
+            paddingLeft: "2rem",
+            paddingRight: "2rem",
+          },
+          "@screen lg": {
+            paddingLeft: "4rem",
+            paddingRight: "4rem",
+          },
+        },
+      });
+    }),
   ],
 };
 

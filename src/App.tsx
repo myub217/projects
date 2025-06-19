@@ -24,7 +24,6 @@ import SkeletonSection from "./components/skeleton/SkeletonSection";
 
 const ReviewsSectionLazy = lazy(() => import("./components/ReviewsSection"));
 
-// ลิงก์เมนูนำทาง (คงที่)
 const navLinks = [
   { label: "เกี่ยวกับเรา", href: "#about" },
   { label: "บริการ", href: "#services" },
@@ -33,71 +32,40 @@ const navLinks = [
   { label: "ติดต่อเรา", href: "#contact", highlight: true },
 ] as const;
 
-type NavLink = typeof navLinks[number];
-
-// Custom Hook: จัดการธีม (Light/Dark) พร้อมการบันทึกและตรวจจับ system preference
 const useSystemTheme = () => {
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
   const applyTheme = useCallback((newTheme: "light" | "dark") => {
-    if (typeof document === "undefined") return;
     document.documentElement.classList.toggle("dark", newTheme === "dark");
     setTheme(newTheme);
   }, []);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    const storedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-    try {
-      const storedTheme = localStorage.getItem("theme") as
-        | "light"
-        | "dark"
-        | null;
-      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-
-      if (storedTheme === "light" || storedTheme === "dark") {
-        applyTheme(storedTheme);
-      } else {
-        applyTheme(mediaQuery.matches ? "dark" : "light");
-      }
-
-      const onMediaChange = (e: MediaQueryListEvent) => {
-        if (!localStorage.getItem("theme")) {
-          applyTheme(e.matches ? "dark" : "light");
-        }
-      };
-
-      if (mediaQuery.addEventListener) {
-        mediaQuery.addEventListener("change", onMediaChange);
-      } else {
-        // รองรับ browser เก่า
-        // @ts-ignore
-        mediaQuery.addListener(onMediaChange);
-      }
-
-      return () => {
-        if (mediaQuery.removeEventListener) {
-          mediaQuery.removeEventListener("change", onMediaChange);
-        } else {
-          // @ts-ignore
-          mediaQuery.removeListener(onMediaChange);
-        }
-      };
-    } catch {
-      applyTheme("light");
+    if (storedTheme) {
+      applyTheme(storedTheme);
+    } else {
+      applyTheme(mediaQuery.matches ? "dark" : "light");
     }
+
+    const onMediaChange = (e: MediaQueryListEvent) => {
+      if (!localStorage.getItem("theme")) {
+        applyTheme(e.matches ? "dark" : "light");
+      }
+    };
+
+    mediaQuery.addEventListener?.("change", onMediaChange);
+
+    return () => mediaQuery.removeEventListener?.("change", onMediaChange);
   }, [applyTheme]);
 
-  // ฟังก์ชัน toggle ธีม พร้อมบันทึก
   const toggle = useCallback(() => {
     setTheme((prev) => {
       const next = prev === "dark" ? "light" : "dark";
-      try {
-        localStorage.setItem("theme", next);
-      } catch {}
-      if (typeof document !== "undefined") {
-        document.documentElement.classList.toggle("dark", next === "dark");
-      }
+      localStorage.setItem("theme", next);
+      document.documentElement.classList.toggle("dark", next === "dark");
       return next;
     });
   }, []);
@@ -105,7 +73,6 @@ const useSystemTheme = () => {
   return { theme, toggle };
 };
 
-// ErrorBoundary สำหรับจับและแสดงข้อความ error พร้อมปุ่ม retry
 class ErrorBoundary extends React.Component<
   { children: React.ReactNode },
   { hasError: boolean }
@@ -156,20 +123,16 @@ const App: React.FC = memo(() => {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [loadReviews, setLoadReviews] = useState(false);
   const [currentUrl, setCurrentUrl] = useState("");
+  const reviewsRef = useRef<HTMLDivElement | null>(null);
 
-  // กำหนด current URL สำหรับ meta tags SEO/OG
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setCurrentUrl(window.location.href);
-    }
+    setCurrentUrl(window.location.href);
   }, []);
 
-  // เมื่อเปิดเมนูมือถือ: ล็อก scroll ของหน้า และแก้ปัญหา content shift
   useEffect(() => {
     if (!menuOpen) return;
 
-    const scrollbarWidth =
-      window.innerWidth - document.documentElement.clientWidth;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     const originalOverflow = document.body.style.overflow;
     const originalPaddingRight = document.body.style.paddingRight;
 
@@ -182,37 +145,41 @@ const App: React.FC = memo(() => {
     };
   }, [menuOpen]);
 
-  // ปิดเมนูมือถือเมื่อกด Escape
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && menuOpen) {
-        setMenuOpen(false);
-      }
+      if (e.key === "Escape" && menuOpen) setMenuOpen(false);
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [menuOpen]);
 
-  // ฟังก์ชันสำหรับ "ข้ามไปยังเนื้อหาหลัก" (skip link)
   const handleSkipToContent = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
-      mainContentRef.current?.focus();
+      mainContentRef.current?.scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => {
+        mainContentRef.current?.focus();
+      }, 300);
     },
     []
   );
 
-  // เมื่อเมนูมือถือปิด, โฟกัสกลับที่ปุ่มเมนู
   useEffect(() => {
-    if (!menuOpen) menuButtonRef.current?.focus();
-  }, [menuOpen]);
+    if (!reviewsRef.current) return;
 
-  // โหลดส่วนรีวิวแบบ lazy หลัง delay 2 วินาที เพื่อประสิทธิภาพ
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      startTransition(() => setLoadReviews(true));
-    }, 2000);
-    return () => clearTimeout(timeout);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          startTransition(() => setLoadReviews(true));
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    observer.observe(reviewsRef.current);
+
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -221,46 +188,32 @@ const App: React.FC = memo(() => {
         <Helmet>
           <html lang="th" dir="ltr" />
           <title>JP Visual & Docs | บริการออกแบบและเอกสารครบวงจร</title>
-          <meta
-            name="description"
-            content="บริการออกแบบและเอกสารครบวงจร JP Visual & Docs"
-          />
-          <meta
-            name="keywords"
-            content="ออกแบบเว็บไซต์, เอกสาร, รีวิว, บริการ, JP Visual & Docs"
-          />
+          <meta name="description" content="บริการออกแบบและเอกสารครบวงจร JP Visual & Docs" />
+          <meta name="keywords" content="ออกแบบเว็บไซต์, เอกสาร, รีวิว, บริการ, JP Visual & Docs" />
           <meta name="author" content="JP Visual & Docs" />
-          <meta
-            name="theme-color"
-            content={theme === "dark" ? "#0f172a" : "#ffffff"}
-          />
+          <meta name="theme-color" content={theme === "dark" ? "#0f172a" : "#ffffff"} />
           <meta property="og:title" content="JP Visual & Docs" />
-          <meta
-            property="og:description"
-            content="รับออกแบบเว็บไซต์ เอกสาร และแบรนด์ครบวงจร"
-          />
-          <meta property="og:image" content="/assets/og-banner.png" />
-          <meta
-            property="og:url"
-            content={currentUrl || "https://jpvisualdocs.com"}
-          />
+          <meta property="og:description" content="รับออกแบบเว็บไซต์ เอกสาร และแบรนด์ครบวงจร" />
+          <meta property="og:image" content={`${currentUrl}assets/images/repository-open-graph-template.png`} />
+          <meta property="og:url" content={currentUrl || "https://jpvisualdocs.com"} />
           <meta property="og:type" content="website" />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:site" content="@jpvisualdocs" />
-          <link
-            rel="canonical"
-            href={currentUrl || "https://jpvisualdocs.com"}
-          />
+          <link rel="canonical" href={currentUrl || "https://jpvisualdocs.com"} />
           <link rel="icon" href="/favicon.ico" />
           <style>{`html { scroll-behavior: smooth; }`}</style>
         </Helmet>
 
-        {/* Skip to main content link (Accessibility) */}
+        <noscript>
+          <div className="bg-yellow-100 text-yellow-800 p-4 text-center text-sm">
+            กรุณาเปิดใช้งาน JavaScript เพื่อใช้งานเว็บไซต์อย่างสมบูรณ์
+          </div>
+        </noscript>
+
         <a
           href="#main-content"
           onClick={handleSkipToContent}
-          className="sr-only focus-visible:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 p-2 bg-pink-600 text-white rounded focus:outline-none focus:ring-2 focus:ring-pink-400"
-          aria-label="ข้ามไปยังเนื้อหาหลัก"
+          className="sr-only focus-visible:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 p-2 bg-pink-600 text-white rounded"
         >
           ข้ามไปยังเนื้อหาหลัก
         </a>
@@ -279,10 +232,6 @@ const App: React.FC = memo(() => {
           onClose={() => setMenuOpen(false)}
           links={navLinks}
           onLinkClick={() => setMenuOpen(false)}
-          id="mobile-menu"
-          role="dialog"
-          aria-modal="true"
-          aria-label="เมนูนำทางมือถือ"
         />
 
         <main
@@ -290,96 +239,41 @@ const App: React.FC = memo(() => {
           role="main"
           id="main-content"
           tabIndex={-1}
-          aria-label="เนื้อหาหลัก"
-          className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
         >
           <Hero />
 
-          <section
-            id="about"
-            className="my-16"
-            aria-labelledby="about-title"
-            tabIndex={-1}
-          >
-            <h2
-              id="about-title"
-              className="text-2xl font-bold mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
-            >
-              เกี่ยวกับเรา
-            </h2>
+          <section id="about" className="my-16" aria-labelledby="about-title">
+            <h2 id="about-title" className="text-2xl font-bold mb-4">เกี่ยวกับเรา</h2>
             <About />
           </section>
 
-          <section
-            id="services"
-            className="my-16"
-            aria-labelledby="services-title"
-            tabIndex={-1}
-          >
-            <h2
-              id="services-title"
-              className="text-2xl font-bold mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
-            >
-              บริการของเรา
-            </h2>
+          <section id="services" className="my-16" aria-labelledby="services-title">
+            <h2 id="services-title" className="text-2xl font-bold mb-4">บริการของเรา</h2>
             <ServicesSection />
           </section>
 
-          <section
-            id="portfolio"
-            className="my-16"
-            aria-labelledby="portfolio-title"
-            tabIndex={-1}
-          >
-            <h2
-              id="portfolio-title"
-              className="text-2xl font-bold mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
-            >
-              ผลงานที่ผ่านมา
-            </h2>
+          <section id="portfolio" className="my-16" aria-labelledby="portfolio-title">
+            <h2 id="portfolio-title" className="text-2xl font-bold mb-4">ผลงานที่ผ่านมา</h2>
             <PortfolioSection />
           </section>
 
-          <section
-            id="reviews"
-            className="my-16"
-            aria-labelledby="reviews-title"
-            tabIndex={-1}
-          >
-            <h2
-              id="reviews-title"
-              className="text-2xl font-bold mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
-            >
-              เสียงตอบรับจากลูกค้า
-            </h2>
+          <section id="reviews" ref={reviewsRef} className="my-16" aria-labelledby="reviews-title">
+            <h2 id="reviews-title" className="text-2xl font-bold mb-4">เสียงตอบรับจากลูกค้า</h2>
             <ErrorBoundary>
               <Suspense fallback={<SkeletonSection title="รีวิว" />}>
-                {loadReviews ? (
-                  <ReviewsSectionLazy />
-                ) : (
-                  <SkeletonSection title="รีวิว" />
-                )}
+                {loadReviews ? <ReviewsSectionLazy /> : <SkeletonSection title="รีวิว" />}
               </Suspense>
             </ErrorBoundary>
           </section>
 
-          <section
-            id="contact"
-            className="my-16"
-            aria-labelledby="contact-title"
-            tabIndex={-1}
-          >
-            <h2
-              id="contact-title"
-              className="text-2xl font-bold mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
-            >
-              ติดต่อเรา
-            </h2>
+          <section id="contact" className="my-16" aria-labelledby="contact-title">
+            <h2 id="contact-title" className="text-2xl font-bold mb-4">ติดต่อเรา</h2>
             <JoinButtons />
           </section>
         </main>
 
-        <Footer aria-label="ส่วนท้ายของเว็บไซต์" />
+        <Footer />
         <ScrollToTop />
       </>
     </HelmetProvider>
