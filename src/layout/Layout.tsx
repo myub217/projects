@@ -2,6 +2,7 @@
 import React, { ReactNode, useEffect, useState, useCallback } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
+import VisitorCount from "@/components/VisitorCount";
 
 export type Theme = "light" | "dark";
 
@@ -20,10 +21,7 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
       try {
         const stored = localStorage.getItem("theme") as Theme | null;
         if (stored === "light" || stored === "dark") return stored;
-      } catch {
-        // ignore
-      }
-
+      } catch {}
       return window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light";
@@ -33,30 +31,23 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
     setUserSetTheme(!!localStorage.getItem("theme"));
   }, []);
 
-  // อัปเดต <html> class
+  // อัปเดต class html
   useEffect(() => {
-    if (typeof document === "undefined") return;
-
     const root = document.documentElement;
     root.classList.toggle("dark", theme === "dark");
-
     if (userSetTheme) {
       try {
         localStorage.setItem("theme", theme);
-      } catch {
-        // ignore
-      }
+      } catch {}
     }
   }, [theme, userSetTheme]);
 
-  // ติดตาม system theme หากผู้ใช้ไม่ตั้งเอง
+  // sync system theme
   useEffect(() => {
     if (userSetTheme) return;
-
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
     const handleChange = (e: MediaQueryListEvent) =>
       setTheme(e.matches ? "dark" : "light");
-
     mq.addEventListener("change", handleChange);
     return () => mq.removeEventListener("change", handleChange);
   }, [userSetTheme]);
@@ -67,16 +58,14 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
       setUserSetTheme(true);
       try {
         localStorage.setItem("theme", next);
-      } catch {
-        // ignore
-      }
+      } catch {}
       return next;
     });
   }, []);
 
   return (
     <>
-      {/* Skip to Content */}
+      {/* Skip Link for accessibility */}
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:bg-pink-600 focus:text-white focus:px-4 focus:py-2 focus:rounded z-50"
@@ -99,6 +88,13 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
         </main>
 
         <Footer />
+
+        {/* ✅ Visitor Count ติดมุมขวาล่าง */}
+        <VisitorCount
+          min={1000}
+          max={3200}
+          className="!static sm:!fixed bottom-4 right-4 z-40 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md px-4 py-2 rounded shadow-lg text-sm"
+        />
       </div>
     </>
   );

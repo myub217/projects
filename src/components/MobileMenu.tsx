@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useCallback, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -23,6 +24,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const [isClosing, setIsClosing] = useState(false);
+  const navigate = useNavigate();
 
   const handleClose = useCallback(() => {
     if (isClosing) return;
@@ -39,7 +41,6 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
         handleClose();
       }
     };
-
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen, handleClose]);
@@ -50,9 +51,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
       document.body.style.overflow = "hidden";
       return () => {
         scrollLockCount = Math.max(0, scrollLockCount - 1);
-        if (scrollLockCount === 0) {
-          document.body.style.overflow = "";
-        }
+        if (scrollLockCount === 0) document.body.style.overflow = "";
       };
     }
   }, [isOpen]);
@@ -73,23 +72,17 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
       if (e.key !== "Tab") return;
       if (focusable.length === 0) return;
 
-      if (e.shiftKey) {
-        if (document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        }
-      } else {
-        if (document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
       }
     };
 
     document.addEventListener("keydown", trapFocus);
-
     (initialFocusRef?.current || first)?.focus();
-
     return () => document.removeEventListener("keydown", trapFocus);
   }, [isOpen, initialFocusRef]);
 
@@ -100,21 +93,14 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     }
   }, [isOpen, triggerRef]);
 
-  const handleLinkClick = useCallback(() => {
-    if (isClosing) return;
-    handleClose();
-    onLinkClick?.();
-  }, [handleClose, isClosing, onLinkClick]);
-
-  const handleLinkKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLAnchorElement>, href: string) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        window.location.hash = href;
-        handleLinkClick();
-      }
+  const handleLinkClick = useCallback(
+    (href: string) => {
+      if (isClosing) return;
+      handleClose();
+      onLinkClick?.();
+      navigate(href); // 👈 ใช้ React Router navigate แทน window.location
     },
-    [handleLinkClick]
+    [handleClose, isClosing, onLinkClick, navigate]
   );
 
   return (
@@ -160,30 +146,19 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             </button>
 
             <nav aria-label="ลิงก์เมนูหลัก" className="flex flex-col gap-2">
-              {links.map(({ label, href, highlight }) => {
-                const isCurrentPage = window.location.hash === href;
-
-                return (
-                  <a
-                    key={href}
-                    href={href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      window.location.hash = href;
-                      handleLinkClick();
-                    }}
-                    onKeyDown={(e) => handleLinkKeyDown(e, href)}
-                    className={`block px-6 py-3 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
-                      highlight
-                        ? "bg-primary text-white hover:bg-primary-focus"
-                        : "hover:text-primary dark:hover:text-primary"
-                    }`}
-                    aria-current={isCurrentPage ? "page" : undefined}
-                  >
-                    {label}
-                  </a>
-                );
-              })}
+              {links.map(({ label, href, highlight }) => (
+                <button
+                  key={href}
+                  onClick={() => handleLinkClick(href)}
+                  className={`text-left px-6 py-3 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
+                    highlight
+                      ? "bg-primary text-white hover:bg-primary-focus"
+                      : "hover:text-primary dark:hover:text-primary"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
             </nav>
           </motion.div>
         </>

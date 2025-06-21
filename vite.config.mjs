@@ -1,3 +1,4 @@
+// vite.config.ts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
@@ -8,21 +9,18 @@ export default defineConfig({
     react(),
 
     VitePWA({
-      registerType: "autoUpdate", // อัปเดต Service Worker อัตโนมัติ
-      strategies: "injectManifest", // ใช้ service worker custom (sw.ts)
+      registerType: "autoUpdate",
+      strategies: "injectManifest",
       srcDir: "src",
       filename: "sw.ts",
-
       devOptions: {
-        enabled: true, // ให้ทำงานใน dev ด้วย (ระวัง cache เวลา debug)
+        enabled: true,
         type: "module",
       },
-
       manifest: {
         name: "JP Visual & Docs",
         short_name: "JPVD",
-        description:
-          "บริการเอกสาร ยื่นกู้ วีซ่า โปรไฟล์ และระบบหลังบ้านครบวงจร",
+        description: "บริการเอกสาร ยื่นกู้ วีซ่า โปรไฟล์ และระบบหลังบ้านครบวงจร",
         start_url: "/",
         scope: "/",
         display: "standalone",
@@ -57,15 +55,20 @@ export default defineConfig({
     },
   },
 
+  assetsInclude: ["**/*.webp", "**/*.avif", "**/*.svg"],
+
   build: {
     outDir: "dist",
     sourcemap: false,
     emptyOutDir: true,
+    minify: "esbuild", // ✅ ปรับให้ compile เร็วขึ้น (default)
+    target: "esnext",  // ✅ รองรับ modern browser
   },
 
   server: {
     port: 5173,
     open: true,
-    strictPort: true, // ❗ ป้องกัน Vite เปลี่ยนพอร์ตเองถ้าพอร์ตถูกใช้งาน
+    strictPort: true,
+    cors: true, // ✅ เปิด CORS ถ้าต้องมีการ fetch ข้าม domain
   },
 });

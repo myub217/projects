@@ -1,11 +1,11 @@
+// src/components/VisitorCount.tsx
 import React, {
   useEffect,
-  useLayoutEffect,
-  useState,
   useRef,
+  useState,
   useMemo,
-  memo,
   useCallback,
+  memo,
 } from "react";
 
 interface VisitorCountProps {
@@ -24,17 +24,12 @@ const DEFAULT_MAX = 3000;
 const sanitizeRange = (min?: number, max?: number): [number, number] => {
   let minVal = Number.isInteger(min) && min! >= 0 ? min! : DEFAULT_MIN;
   let maxVal = Number.isInteger(max) && max! >= minVal ? max! : DEFAULT_MAX;
-
-  if (minVal > maxVal) {
-    console.warn(`VisitorCount: min (${minVal}) > max (${maxVal}), swapping.`);
-    [minVal, maxVal] = [maxVal, minVal];
-  }
-
+  if (minVal > maxVal) [minVal, maxVal] = [maxVal, minVal];
   return [minVal, maxVal];
 };
 
 const getSmartRandom = (current: number, min: number, max: number): number => {
-  const delta = Math.floor((max - min) * 0.05); // เปลี่ยนแค่ 5%
+  const delta = Math.floor((max - min) * 0.05);
   const direction = Math.random() > 0.5 ? 1 : -1;
   let next = current + direction * Math.floor(Math.random() * (delta + 1));
   return Math.min(max, Math.max(min, next));
@@ -44,13 +39,12 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
   min,
   max,
   className = "",
-  label = "ยอดผู้ชมเว็บไซต์",
+  label = "ยอดเข้าชม",
   updateInterval = 10000,
   initialCount,
   enableAutoUpdate = true,
 }) => {
   const [minVal, maxVal] = useMemo(() => sanitizeRange(min, max), [min, max]);
-
   const getInitial = () =>
     initialCount !== undefined &&
     initialCount >= minVal &&
@@ -74,7 +68,6 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
   const updateCount = useCallback(() => {
     const prev = prevCountRef.current;
     const next = getSmartRandom(prev, minVal, maxVal);
-
     if (next !== prev) {
       prevCountRef.current = next;
       setCount(next);
@@ -87,7 +80,6 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
     return () => clearInterval(intervalId);
   }, [updateInterval, updateCount, enableAutoUpdate, minVal, maxVal]);
 
-  // กรณี initialCount ถูกเปลี่ยน props ทีหลัง
   useEffect(() => {
     if (
       initialCount !== undefined &&
@@ -101,11 +93,11 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
 
   return (
     <div
-      className={`text-lg font-semibold text-primary select-none ${className}`}
+      className={`fixed bottom-2 right-2 z-50 text-sm text-gray-600 dark:text-gray-300 bg-white/80 dark:bg-gray-800/80 px-3 py-1.5 rounded shadow-md font-medium select-none ${className}`}
       role="status"
       aria-live="polite"
       aria-atomic="true"
-      aria-label={`${label} จำนวน ${numberFormatter.format(count)} คน`}
+      aria-label={`${label} ${numberFormatter.format(count)} คน`}
       title={`${label}: ${numberFormatter.format(count)} คน`}
       data-testid="visitor-count"
     >

@@ -1,5 +1,5 @@
 import React from "react";
-import aboutImage from "../assets/images/about-us.jpg";
+import aboutImage from "../assets/images/about-us.webp";
 
 const About: React.FC = () => {
   return (

@@ -15,6 +15,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
     target.src = "/images/services/placeholder.png";
   };
 
+  const isComingSoon = !service.available;
+
   const lineMessage = encodeURIComponent(
     `📌 สนใจบริการ: ${service.title}\n\n${service.description}\n\n💰 ราคา: ${service.price}\n\n💬 รบกวนแนะนำเพิ่มเติมหน่อยนะคะ 🙏`
   );
@@ -31,12 +33,25 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.45, ease: "easeOut" }}
-      className="card group card-compact bg-base-200 border border-base-300 dark:bg-gray-800 dark:border-gray-600 shadow-md rounded-xl overflow-hidden
+      className={`relative card group card-compact border shadow-md rounded-xl overflow-hidden
+        ${isComingSoon
+          ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed"
+          : "bg-base-200 border-base-300 dark:bg-gray-800 dark:border-gray-600"}
         focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ring-offset-2 ring-offset-base-100 dark:ring-offset-gray-900
-        transition duration-200 hover:shadow-lg cursor-default"
+        transition duration-200 hover:shadow-lg`}
     >
-      {/* ภาพประกอบบริการ */}
-      <figure className="w-full aspect-video bg-base-100 dark:bg-gray-700 overflow-hidden">
+      {/* Overlay Coming Soon */}
+      {isComingSoon && (
+        <div
+          className="absolute inset-0 bg-black/60 z-20 flex items-center justify-center text-white text-xl font-bold pointer-events-none"
+          tabIndex={-1}
+        >
+          🚧 Coming Soon
+        </div>
+      )}
+
+      {/* ภาพบริการ */}
+      <figure className="w-full aspect-[4/3] bg-base-100 dark:bg-gray-700 overflow-hidden">
         <img
           src={imageSrc}
           alt={service.altText?.trim() || `ภาพประกอบบริการ ${service.title}`}
@@ -45,15 +60,15 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
           decoding="async"
           draggable={false}
           width={640}
-          height={360}
+          height={480}
           fetchPriority="auto"
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
         />
         <figcaption className="sr-only">{service.title || "บริการ"}</figcaption>
       </figure>
 
-      {/* เนื้อหาภายในการ์ด */}
-      <div className="card-body p-4 flex flex-col justify-between h-full">
+      {/* เนื้อหาการ์ด */}
+      <div className={`card-body p-4 flex flex-col h-full z-10 ${isComingSoon ? "pointer-events-none" : ""}`}>
         <h3
           id={`service-title-${service.id}`}
           className="card-title text-lg font-bold text-base-content dark:text-white"
@@ -63,10 +78,10 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
 
         <p
           id={`service-desc-${service.id}`}
-          className="text-sm text-base-content/80 dark:text-gray-300 mt-2 leading-relaxed flex-grow"
+          className="text-sm text-base-content/80 dark:text-gray-300 mt-2 leading-relaxed flex-grow line-clamp-3"
           lang="th"
         >
-          {service.description}
+          {service.description || "-"}
         </p>
 
         <p
@@ -74,27 +89,33 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
           className="mt-4 font-semibold text-primary"
         >
           <span className="sr-only">ราคา:</span>
-          {service.price?.trim() || "กรุณาสอบถามราคา"}
+          {service.price?.trim() || "-"}
         </p>
 
         <div className="mt-4 flex flex-col gap-2">
-          {/* ปุ่มขอรับบริการ */}
           <button
             type="button"
             className="btn btn-sm btn-primary w-full"
-            onClick={() => alert(`คุณเลือกบริการ: ${service.title}`)}
+            onClick={() =>
+              !isComingSoon && alert(`คุณเลือกบริการ: ${service.title}`)
+            }
+            disabled={isComingSoon}
             aria-label={`ขอรับบริการ: ${service.title}`}
             title={`ขอรับบริการ: ${service.title}`}
           >
             ขอรับบริการ
           </button>
 
-          {/* ปุ่มไลน์แยก */}
           <a
-            href={lineUrl}
+            href={isComingSoon ? "#" : lineUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-sm btn-outline border-base-300 dark:border-gray-600 w-full flex items-center justify-center gap-2"
+            onClick={(e) => isComingSoon && e.preventDefault()}
+            className={`btn btn-sm btn-outline border-base-300 dark:border-gray-600 w-full flex items-center justify-center gap-2 transition ${
+              isComingSoon
+                ? "cursor-not-allowed opacity-50"
+                : "hover:bg-[#00c300]/10 hover:border-[#00c300]"
+            }`}
             aria-label={`ติดต่อ LINE สำหรับบริการ: ${service.title}`}
             title={`ติดต่อผ่าน LINE: ${service.title}`}
           >

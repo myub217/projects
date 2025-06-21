@@ -1,13 +1,20 @@
+// src/pages/HomePage.tsx
 import React, { lazy, Suspense, useEffect, useState, useRef } from "react";
-import Hero from "../components/Hero";
-import About from "../components/About";
-import ServicesSection from "../components/ServicesSection";
-import PortfolioSection from "../components/PortfolioSection";
-import JoinButtons from "../components/JoinButtons";
-import SkeletonSection from "../components/skeleton/SkeletonSection";
-import ErrorBoundary from "../components/ErrorBoundary";
+import Hero from "@/components/Hero";
+import About from "@/components/About";
+import ServicesSection from "@/components/ServicesSection";
+import PortfolioSection from "@/components/PortfolioSection";
+import JoinButtons from "@/components/JoinButtons";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
-const ReviewsSectionLazy = lazy(() => import("../components/ReviewsSection"));
+// Lazy-load รีวิว
+const ReviewsSectionLazy = lazy(() => import("@/components/ReviewsSection"));
+
+const ReviewFallback = (
+  <div className="text-center text-gray-400 dark:text-gray-500">
+    กำลังโหลดรีวิว...
+  </div>
+);
 
 const HomePage: React.FC = () => {
   const [loadReviews, setLoadReviews] = useState(false);
@@ -45,17 +52,17 @@ const HomePage: React.FC = () => {
         <About />
       </section>
 
-      {/* Services */}
+      {/* Services Section */}
       <section id="services" className="my-16" aria-labelledby="services-title">
         <ServicesSection />
       </section>
 
-      {/* Portfolio */}
+      {/* Portfolio Section */}
       <section id="portfolio" className="my-16" aria-labelledby="portfolio-title">
         <PortfolioSection />
       </section>
 
-      {/* Reviews */}
+      {/* Reviews Section */}
       <section
         id="reviews"
         ref={reviewsRef}
@@ -63,13 +70,13 @@ const HomePage: React.FC = () => {
         aria-labelledby="reviews-title"
       >
         <ErrorBoundary>
-          <Suspense fallback={<SkeletonSection title="รีวิว" />}>
-            {loadReviews ? <ReviewsSectionLazy /> : <SkeletonSection title="รีวิว" />}
+          <Suspense fallback={ReviewFallback}>
+            {loadReviews ? <ReviewsSectionLazy /> : ReviewFallback}
           </Suspense>
         </ErrorBoundary>
       </section>
 
-      {/* Contact / Join */}
+      {/* Join / Contact Section */}
       <section id="contact" className="my-16" aria-labelledby="contact-title">
         <JoinButtons />
       </section>
