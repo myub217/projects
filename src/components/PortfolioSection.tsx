@@ -9,7 +9,7 @@ const portfolioImages = [
   "/images/portfolio-loan-success4.jpg",
 ];
 
-const fallbackImg = "/images/fallback-image.png"; // รูปภาพสำรอง กรณีโหลดไม่สำเร็จ
+const fallbackImg = "/images/fallback-image.png";
 
 const overlayVariants = {
   hidden: { opacity: 0 },
@@ -26,7 +26,6 @@ const PortfolioSection: React.FC = () => {
   const lightboxRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
-  // จัดการ keydown สำหรับ Lightbox (ปิด, เลื่อนภาพ, focus trap)
   const onKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (lightboxIndex === null) return;
@@ -38,41 +37,36 @@ const PortfolioSection: React.FC = () => {
           break;
         case "ArrowLeft":
           e.preventDefault();
-          setLightboxIndex(
-            (prev) =>
-              prev === null
-                ? null
-                : (prev + portfolioImages.length - 1) % portfolioImages.length
+          setLightboxIndex((prev) =>
+            prev !== null
+              ? (prev + portfolioImages.length - 1) % portfolioImages.length
+              : null
           );
           break;
         case "ArrowRight":
           e.preventDefault();
-          setLightboxIndex(
-            (prev) => (prev === null ? null : (prev + 1) % portfolioImages.length)
+          setLightboxIndex((prev) =>
+            prev !== null ? (prev + 1) % portfolioImages.length : null
           );
           break;
         case "Tab":
-          // Focus trap inside lightbox
           if (!lightboxRef.current) return;
-          const focusableElements = lightboxRef.current.querySelectorAll<HTMLElement>(
+          const focusableEls = lightboxRef.current.querySelectorAll<HTMLElement>(
             'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
           );
-          if (focusableElements.length === 0) return;
-
-          const firstElement = focusableElements[0];
-          const lastElement = focusableElements[focusableElements.length - 1];
+          if (!focusableEls.length) return;
+          const first = focusableEls[0];
+          const last = focusableEls[focusableEls.length - 1];
 
           if (e.shiftKey) {
-            // Shift + Tab
-            if (document.activeElement === firstElement) {
+            if (document.activeElement === first) {
               e.preventDefault();
-              lastElement.focus();
+              last.focus();
             }
           } else {
-            // Tab
-            if (document.activeElement === lastElement) {
+            if (document.activeElement === last) {
               e.preventDefault();
-              firstElement.focus();
+              first.focus();
             }
           }
           break;
@@ -81,34 +75,23 @@ const PortfolioSection: React.FC = () => {
     [lightboxIndex]
   );
 
-  // เพิ่ม/ลบ event listener สำหรับ keyboard และปิด scroll หน้าเมื่อเปิด lightbox
   useEffect(() => {
     if (lightboxIndex !== null) {
       window.addEventListener("keydown", onKeyDown);
       document.body.style.overflow = "hidden";
-
-      // ตั้ง focus ไปที่ปุ่มปิดเมื่อเปิด lightbox
       setTimeout(() => {
         closeButtonRef.current?.focus();
       }, 0);
-    } else {
-      document.body.style.overflow = "";
+
+      const next = (lightboxIndex + 1) % portfolioImages.length;
+      new Image().src = portfolioImages[next];
     }
+
     return () => {
       window.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = "";
     };
   }, [lightboxIndex, onKeyDown]);
-
-  // แสดงภาพถัดไป
-  const showNext = () => {
-    setLightboxIndex((prev) => (prev === null ? null : (prev + 1) % portfolioImages.length));
-  };
-
-  // แสดงภาพก่อนหน้า
-  const showPrev = () => {
-    setLightboxIndex((prev) => (prev === null ? null : (prev + portfolioImages.length - 1) % portfolioImages.length));
-  };
 
   return (
     <section
@@ -116,7 +99,6 @@ const PortfolioSection: React.FC = () => {
       aria-labelledby="portfolio-title"
       className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
     >
-      {/* หัวข้อ */}
       <motion.h2
         id="portfolio-title"
         className="text-3xl font-extrabold text-center mb-6 text-primary dark:text-accent"
@@ -128,7 +110,6 @@ const PortfolioSection: React.FC = () => {
         ผลงานของเรา
       </motion.h2>
 
-      {/* คำอธิบาย */}
       <motion.p
         className="text-center max-w-2xl mx-auto text-gray-700 dark:text-gray-300 mb-10 leading-relaxed"
         initial={{ opacity: 0 }}
@@ -140,7 +121,6 @@ const PortfolioSection: React.FC = () => {
         การวิเคราะห์ฐานลูกค้า การสร้าง Moodboard และ Brand Book จนถึงการนำเสนอพร้อม Workshop ถ่ายทอดสู่ทีมงานอย่างครบวงจร
       </motion.p>
 
-      {/* กริดแสดงภาพผลงาน */}
       <motion.div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         role="list"
@@ -166,23 +146,21 @@ const PortfolioSection: React.FC = () => {
           >
             <img
               src={img}
-              alt={`ภาพประกอบผลงานของเรา ลำดับที่ ${idx + 1}`}
+              alt={`ภาพประกอบผลงาน ลำดับที่ ${idx + 1}`}
+              onError={(e) =>
+                ((e.target as HTMLImageElement).src = fallbackImg)
+              }
               loading="lazy"
-              draggable={false}
               className="w-full h-56 sm:h-64 md:h-72 object-cover rounded-lg"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = fallbackImg;
-              }}
+              draggable={false}
             />
           </motion.div>
         ))}
       </motion.div>
 
-      {/* Lightbox */}
       <AnimatePresence>
         {lightboxIndex !== null && (
           <>
-            {/* Overlay */}
             <motion.div
               className="fixed inset-0 bg-black z-40"
               initial="hidden"
@@ -192,10 +170,8 @@ const PortfolioSection: React.FC = () => {
               onClick={() => setLightboxIndex(null)}
               aria-hidden="true"
             />
-
-            {/* Lightbox Container */}
             <motion.div
-              className="fixed inset-0 flex items-center justify-center z-50 p-4"
+              className="fixed inset-0 z-50 flex items-center justify-center p-4"
               initial="hidden"
               animate="visible"
               exit="hidden"
@@ -207,80 +183,67 @@ const PortfolioSection: React.FC = () => {
               tabIndex={-1}
               ref={lightboxRef}
             >
-              <div className="relative max-w-4xl max-h-full w-full rounded-lg overflow-hidden bg-white dark:bg-gray-900 shadow-lg">
-                {/* ปุ่ม ปิด */}
+              <div className="relative max-w-5xl w-full bg-white dark:bg-gray-900 rounded-lg shadow-xl max-h-[90vh] overflow-auto">
+                {/* ปุ่มปิด */}
                 <button
                   onClick={() => setLightboxIndex(null)}
                   aria-label="ปิดหน้าต่างแสดงภาพ"
                   className="absolute top-3 right-3 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-accent focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent rounded p-1"
                   ref={closeButtonRef}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
 
                 {/* ปุ่มก่อนหน้า */}
                 <button
-                  onClick={showPrev}
+                  onClick={() =>
+                    setLightboxIndex((prev) =>
+                      prev !== null
+                        ? (prev + portfolioImages.length - 1) %
+                          portfolioImages.length
+                        : null
+                    )
+                  }
                   aria-label="ภาพก่อนหน้า"
-                  className="absolute top-1/2 left-3 -translate-y-1/2 bg-black bg-opacity-50 rounded-full p-2 text-white hover:bg-opacity-70 focus:outline-none focus:ring-2 focus:ring-white"
+                  className="absolute top-1/2 left-3 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 focus:outline-none focus:ring-2 focus:ring-white"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
 
                 {/* ปุ่มถัดไป */}
                 <button
-                  onClick={showNext}
+                  onClick={() =>
+                    setLightboxIndex((prev) =>
+                      prev !== null
+                        ? (prev + 1) % portfolioImages.length
+                        : null
+                    )
+                  }
                   aria-label="ภาพถัดไป"
-                  className="absolute top-1/2 right-3 -translate-y-1/2 bg-black bg-opacity-50 rounded-full p-2 text-white hover:bg-opacity-70 focus:outline-none focus:ring-2 focus:ring-white"
+                  className="absolute top-1/2 right-3 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 focus:outline-none focus:ring-2 focus:ring-white"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
 
-                {/* รูปภาพหลัก */}
+                {/* ภาพหลัก */}
                 <img
                   src={portfolioImages[lightboxIndex]}
                   alt={`ภาพผลงานขยายลำดับที่ ${lightboxIndex + 1}`}
-                  id="lightbox-label"
-                  className="max-h-[80vh] w-auto mx-auto block select-none"
+                  loading="eager"
+                  className="block mx-auto max-h-[80vh] w-auto select-none"
                   draggable={false}
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = fallbackImg;
-                  }}
+                  onError={(e) => ((e.target as HTMLImageElement).src = fallbackImg)}
+                  id="lightbox-label"
                 />
 
-                {/* คำอธิบายลำดับภาพ (สำหรับ screen reader) */}
-                <p
-                  id="lightbox-desc"
-                  className="sr-only"
-                >
-                  ภาพผลงานขยายแสดงลำดับที่ {lightboxIndex + 1} จากทั้งหมด {portfolioImages.length} ภาพ
+                <p id="lightbox-desc" className="sr-only">
+                  ภาพผลงานขยายลำดับที่ {lightboxIndex + 1} จากทั้งหมด {portfolioImages.length} ภาพ
                 </p>
               </div>
             </motion.div>

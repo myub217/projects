@@ -1,5 +1,6 @@
 import React, {
   useEffect,
+  useLayoutEffect,
   useState,
   useRef,
   useMemo,
@@ -17,9 +18,12 @@ interface VisitorCountProps {
   enableAutoUpdate?: boolean;
 }
 
+const DEFAULT_MIN = 500;
+const DEFAULT_MAX = 3000;
+
 const sanitizeRange = (min?: number, max?: number): [number, number] => {
-  let minVal = Number.isInteger(min) && min! >= 0 ? min! : 500;
-  let maxVal = Number.isInteger(max) && max! >= minVal ? max! : 3000;
+  let minVal = Number.isInteger(min) && min! >= 0 ? min! : DEFAULT_MIN;
+  let maxVal = Number.isInteger(max) && max! >= minVal ? max! : DEFAULT_MAX;
 
   if (minVal > maxVal) {
     console.warn(`VisitorCount: min (${minVal}) > max (${maxVal}), swapping.`);
@@ -32,7 +36,7 @@ const sanitizeRange = (min?: number, max?: number): [number, number] => {
 const getSmartRandom = (current: number, min: number, max: number): number => {
   const delta = Math.floor((max - min) * 0.05); // เปลี่ยนแค่ 5%
   const direction = Math.random() > 0.5 ? 1 : -1;
-  let next = current + direction * Math.floor(Math.random() * delta + 1);
+  let next = current + direction * Math.floor(Math.random() * (delta + 1));
   return Math.min(max, Math.max(min, next));
 };
 
@@ -47,16 +51,15 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
 }) => {
   const [minVal, maxVal] = useMemo(() => sanitizeRange(min, max), [min, max]);
 
-  const initial = useMemo(() => {
-    return initialCount !== undefined &&
-      initialCount >= minVal &&
-      initialCount <= maxVal
+  const getInitial = () =>
+    initialCount !== undefined &&
+    initialCount >= minVal &&
+    initialCount <= maxVal
       ? initialCount
       : getSmartRandom(minVal, minVal, maxVal);
-  }, [initialCount, minVal, maxVal]);
 
-  const [count, setCount] = useState<number>(initial);
-  const prevCountRef = useRef<number>(initial);
+  const [count, setCount] = useState<number>(getInitial);
+  const prevCountRef = useRef<number>(count);
 
   const locale =
     typeof navigator !== "undefined" && navigator.language
@@ -80,10 +83,21 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
 
   useEffect(() => {
     if (!enableAutoUpdate || updateInterval <= 0 || minVal === maxVal) return;
-
     const intervalId = setInterval(updateCount, updateInterval);
     return () => clearInterval(intervalId);
   }, [updateInterval, updateCount, enableAutoUpdate, minVal, maxVal]);
+
+  // กรณี initialCount ถูกเปลี่ยน props ทีหลัง
+  useEffect(() => {
+    if (
+      initialCount !== undefined &&
+      initialCount >= minVal &&
+      initialCount <= maxVal
+    ) {
+      setCount(initialCount);
+      prevCountRef.current = initialCount;
+    }
+  }, [initialCount, minVal, maxVal]);
 
   return (
     <div

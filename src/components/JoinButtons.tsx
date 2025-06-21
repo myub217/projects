@@ -24,30 +24,38 @@ const JoinButtons: React.FC = () => {
       </p>
 
       <div className="flex flex-wrap justify-center gap-4 mt-6">
+        {/* Facebook Messenger */}
         <a
           href="https://m.me/yourpage"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener noreferrer nofollow"
           aria-label="ติดต่อผ่าน Facebook Messenger"
+          title="ติดต่อผ่าน Facebook Messenger"
           className="btn btn-primary flex items-center gap-2 px-5 py-3 text-lg font-semibold transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/60 dark:focus:ring-secondary/70 rounded-lg"
         >
           <FaFacebookMessenger className="w-6 h-6" aria-hidden="true" />
           Messenger
         </a>
+
+        {/* โทรศัพท์ */}
         <a
           href="tel:0891234567"
           aria-label="โทรหาเรา"
+          title="โทรหาเรา"
           className="btn btn-secondary flex items-center gap-2 px-5 py-3 text-lg font-semibold transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-secondary/60 dark:focus:ring-primary/70 rounded-lg"
         >
           <FaPhoneAlt className="w-6 h-6" aria-hidden="true" />
           โทรหาเรา
         </a>
+
+        {/* LINE */}
         <a
           href="https://line.me/ti/p/~yourlineid"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener noreferrer nofollow"
           aria-label="ติดต่อผ่าน LINE"
-          className="btn btn-accent flex items-center gap-2 px-5 py-3 text-lg font-semibold transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent/60 dark:focus:ring-accent-focus/70 rounded-lg"
+          title="ติดต่อผ่าน LINE"
+          className="btn btn-accent flex items-center gap-2 px-5 py-3 text-lg font-semibold transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent/60 dark:focus:ring-accent/70 rounded-lg"
         >
           <FaLine className="w-6 h-6" aria-hidden="true" />
           LINE

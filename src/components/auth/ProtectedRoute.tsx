@@ -1,13 +1,37 @@
-import { useAuth } from "../context/AuthContext"; // สมมุติว่ามี AuthContext
+import React, { useEffect, useState } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
+/**
+ * ProtectedRoute:
+ * ป้องกันไม่ให้เข้าถึง route หากยังไม่ผ่านการยืนยันตัวตน
+ * รองรับการตรวจสอบ auth จาก localStorage (mock) และเตรียมพร้อมสำหรับ context หรือระบบจริง
+ */
 
-  if (loading) return <div className="text-center mt-12">กำลังโหลด...</div>;
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+}
 
-  return isAuthenticated ? <>{children}</> : (
-    <div className="text-center mt-12 text-red-400">
-      🚫 คุณไม่มีสิทธิ์เข้าหน้านี้
-    </div>
-  );
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+  const location = useLocation();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    return localStorage.getItem("auth") === "true";
+  });
+
+  // รองรับกรณี auth เปลี่ยนแปลงในระหว่างใช้งาน (optional)
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setIsAuthenticated(localStorage.getItem("auth") === "true");
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return <>{children}</>;
 };
+
+export default ProtectedRoute;

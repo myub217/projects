@@ -19,9 +19,10 @@
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#1A237E" />
 
-    <!-- ✅ Icons -->
+    <!-- ✅ Favicon & Icons -->
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
 
     <!-- ✅ SEO Meta -->
     <meta
@@ -29,6 +30,7 @@
       content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน JP Visual & Docs"
     />
     <meta name="author" content="JP Visual & Docs" />
+    <meta name="keywords" content="เอกสาร, กู้เงิน, วีซ่า, ระบบหลังบ้าน, โปรไฟล์, การเงิน" />
 
     <!-- ✅ Open Graph Meta -->
     <meta property="og:title" content="JP Visual & Docs" />
@@ -61,7 +63,7 @@
     <!-- ✅ Preload Hero Image -->
     <link rel="preload" as="image" href="/hero.webp" type="image/webp" />
 
-    <!-- ✅ PWA iOS Support -->
+    <!-- ✅ iOS / Android PWA Support -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -69,11 +71,17 @@
     <!-- ✅ Canonical URL -->
     <link rel="canonical" href="https://applicationlubmobile.vercel.app" />
 
-    <!-- ✅ CSP (Production Only - Optional) -->
+    <!-- ✅ CSP (แนะนำใน production) -->
     <!--
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; img-src 'self' data: https:; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com;"
+      content="
+        default-src 'self';
+        img-src 'self' data: https:;
+        script-src 'self';
+        style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
+        font-src https://fonts.gstatic.com;
+      "
     />
     -->
   </head>

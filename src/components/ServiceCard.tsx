@@ -49,7 +49,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
           fetchPriority="auto"
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
-        <figcaption className="sr-only">{service.title}</figcaption>
+        <figcaption className="sr-only">{service.title || "บริการ"}</figcaption>
       </figure>
 
       {/* เนื้อหาภายในการ์ด */}
@@ -100,9 +100,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
           >
             <img
               src="/images/icons/line.svg"
-              alt="LINE icon"
+              alt=""
+              aria-hidden="true"
               width={20}
               height={20}
+              draggable={false}
               className="inline-block"
             />
             ติดต่อผ่าน LINE

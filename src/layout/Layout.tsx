@@ -1,6 +1,5 @@
 // src/layout/Layout.tsx
 import React, { ReactNode, useEffect, useState, useCallback } from "react";
-
 import Header from "./Header";
 import Footer from "./Footer";
 
@@ -15,7 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
   const [theme, setTheme] = useState<Theme>("light");
   const [userSetTheme, setUserSetTheme] = useState(false);
 
-  // ดึง theme จาก localStorage หรือระบบ
+  // ดึง theme เริ่มต้น
   useEffect(() => {
     const getInitialTheme = (): Theme => {
       try {
@@ -30,13 +29,14 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
         : "light";
     };
 
-    const initialTheme = getInitialTheme();
-    setTheme(initialTheme);
+    setTheme(getInitialTheme());
     setUserSetTheme(!!localStorage.getItem("theme"));
   }, []);
 
-  // อัปเดต class บน <html> และบันทึก theme
+  // อัปเดต <html> class
   useEffect(() => {
+    if (typeof document === "undefined") return;
+
     const root = document.documentElement;
     root.classList.toggle("dark", theme === "dark");
 
@@ -49,7 +49,7 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
     }
   }, [theme, userSetTheme]);
 
-  // Sync กับ system theme ถ้ายังไม่ user-set
+  // ติดตาม system theme หากผู้ใช้ไม่ตั้งเอง
   useEffect(() => {
     if (userSetTheme) return;
 
@@ -57,13 +57,8 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
     const handleChange = (e: MediaQueryListEvent) =>
       setTheme(e.matches ? "dark" : "light");
 
-    mq.addEventListener?.("change", handleChange);
-    mq.addListener?.(handleChange); // fallback for old Safari
-
-    return () => {
-      mq.removeEventListener?.("change", handleChange);
-      mq.removeListener?.(handleChange);
-    };
+    mq.addEventListener("change", handleChange);
+    return () => mq.removeEventListener("change", handleChange);
   }, [userSetTheme]);
 
   const toggleTheme = useCallback(() => {
@@ -81,7 +76,7 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
 
   return (
     <>
-      {/* Accessibility Skip Link */}
+      {/* Skip to Content */}
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:bg-pink-600 focus:text-white focus:px-4 focus:py-2 focus:rounded z-50"
@@ -90,8 +85,6 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
       </a>
 
       <div
-        aria-live="polite"
-        role="application"
         className={`flex flex-col min-h-screen transition-colors duration-300 bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 ${className}`}
       >
         <Header theme={theme} toggleTheme={toggleTheme} />

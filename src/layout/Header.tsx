@@ -30,23 +30,22 @@ const Header: React.FC<HeaderProps> = ({
   onOpenMenu,
   isMobileMenuOpen = false,
 }) => {
-  const [currentHash, setCurrentHash] = useState<string>(
-    typeof window !== "undefined" ? window.location.hash : ""
-  );
+  const [currentHash, setCurrentHash] = useState("");
 
   useEffect(() => {
-    const updateHash = () => setCurrentHash(window.location.hash || "#");
-    window.addEventListener("hashchange", updateHash);
+    const updateHash = () => {
+      setCurrentHash(window.location.hash || "#");
+    };
+
     updateHash();
+    window.addEventListener("hashchange", updateHash);
     return () => window.removeEventListener("hashchange", updateHash);
   }, []);
 
   const isLinkActive = useCallback(
     (href: string) => {
       if (!href || href === "#") return false;
-      if (!currentHash || currentHash === "#") return false;
-      if (currentHash === href) return true;
-      return currentHash.startsWith(href + "/");
+      return currentHash === href || currentHash.startsWith(href + "/");
     },
     [currentHash]
   );
@@ -73,36 +72,37 @@ const Header: React.FC<HeaderProps> = ({
             className="h-8 w-auto select-none"
             loading="lazy"
             draggable={false}
-            itemProp="logo"
           />
-          <span
-            className="font-bold text-lg tracking-tight select-none text-gray-900 dark:text-gray-100"
-            itemProp="name"
-          >
+          <span className="font-bold text-lg tracking-tight select-none text-gray-900 dark:text-gray-100">
             JP Visual & Docs
           </span>
         </a>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-700 dark:text-gray-300">
           {navLinks.map(({ label, href, highlight }) => {
             const active = isLinkActive(href);
+            const isExternal = /^https?:\/\//.test(href);
+
+            const baseClass =
+              "px-3 py-1.5 rounded transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2";
+
+            const activeClass = highlight
+              ? "bg-pink-600 text-white hover:bg-pink-700"
+              : active
+              ? "text-pink-600 dark:text-pink-400 font-semibold"
+              : "hover:text-pink-600 dark:hover:text-pink-400";
+
             return (
               <a
                 key={href}
                 href={href}
                 role="link"
-                aria-current={active ? "page" : undefined}
                 title={label}
-                className={`px-3 py-1.5 rounded transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2 ${
-                  highlight
-                    ? "bg-pink-600 text-white hover:bg-pink-700"
-                    : active
-                    ? "text-pink-600 dark:text-pink-400 font-semibold"
-                    : "hover:text-pink-600 dark:hover:text-pink-400"
-                }`}
-                rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-                target={href.startsWith("http") ? "_blank" : undefined}
+                className={`${baseClass} ${activeClass}`}
+                aria-current={active ? "location" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
+                target={isExternal ? "_blank" : undefined}
               >
                 {label}
               </a>
@@ -110,7 +110,7 @@ const Header: React.FC<HeaderProps> = ({
           })}
         </div>
 
-        {/* Action Buttons */}
+        {/* Actions */}
         <div className="flex items-center gap-3">
           {/* Theme Toggle */}
           <div className="hidden sm:block">

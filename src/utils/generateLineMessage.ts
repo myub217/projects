@@ -9,9 +9,9 @@ const BASE_URL = `https://line.me/R/ti/p/${LINE_ID}`;
  * @returns ลิงก์ที่สามารถเปิดแชท LINE พร้อมข้อความที่กรอกไว้ล่วงหน้า
  */
 export function generateLineMessage(service: Service): string {
-  const title = service.title?.trim() || "ไม่ระบุชื่อบริการ";
-  const description = service.description?.trim() || "ไม่มีคำอธิบาย";
-  const price = service.price?.trim() || "กรุณาสอบถามราคา";
+  const title = sanitize(service.title, "ไม่ระบุชื่อบริการ");
+  const description = sanitize(service.description, "ไม่มีคำอธิบาย");
+  const price = sanitize(service.price, "กรุณาสอบถามราคา");
 
   const message = [
     `💬 สนใจบริการ: ${title}`,
@@ -24,4 +24,13 @@ export function generateLineMessage(service: Service): string {
   ].join("\n");
 
   return `${BASE_URL}?text=${encodeURIComponent(message)}`;
+}
+
+/**
+ * ฟังก์ชันสำหรับตรวจสอบและจัดการข้อความว่าง
+ * @param value ข้อความที่ต้องการตรวจสอบ
+ * @param fallback ข้อความสำรองหากว่าง
+ */
+function sanitize(value?: string, fallback = ""): string {
+  return value?.trim() || fallback;
 }

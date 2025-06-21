@@ -2,57 +2,47 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 
 interface SEOProps {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   image?: string;
   url?: string;
 }
 
-export const SEOHelmet: React.FC<SEOProps> = ({
-  title,
-  description,
-  image = "/og-default.png",
-  url = "https://jp-visual-docs.com",
+const SEOHelmet: React.FC<SEOProps> = ({
+  title = "JP Service | บริการเอกสารครบวงจร",
+  description = "บริการเอกสาร สินเชื่อ วีซ่า โปรไฟล์บริษัท และอื่น ๆ ครบจบที่เดียว",
+  image = "/og-image.png",
+  url = "https://yourdomain.com",
 }) => {
-  // ลบ / ท้าย URL ถ้ามี เพื่อความสอดคล้องในการต่อ URL
-  const normalizedUrl = url.endsWith("/") ? url.slice(0, -1) : url;
+  const fullImage = image.startsWith("http")
+    ? image
+    : `${url.replace(/\/+$/, "")}${image.startsWith("/") ? "" : "/"}${image}`;
 
-  // ตรวจสอบว่า image เป็น URL เต็ม หรือ path ภายใน ให้เติม base URL ให้ถูกต้อง
-  const fullImage =
-    image.startsWith("http") || image.startsWith("https")
-      ? image
-      : `${normalizedUrl}${image.startsWith("/") ? "" : "/"}${image}`;
+  const canonicalUrl = url.replace(/\/+$/, "");
 
   return (
     <Helmet>
-      {/* กำหนดภาษาใน html */}
-      <html lang="th" />
-
-      {/* เมต้าแท็กพื้นฐาน SEO */}
+      {/* Basic SEO */}
       <title>{title}</title>
-      <meta charSet="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <meta name="robots" content="index, follow" />
-      <link rel="canonical" href={normalizedUrl} />
       <meta name="description" content={description} />
 
-      {/* Open Graph สำหรับแชร์ในโซเชียล */}
-      <meta property="og:locale" content="th_TH" />
+      {/* Open Graph (Facebook, LINE) */}
       <meta property="og:type" content="website" />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:url" content={normalizedUrl} />
       <meta property="og:image" content={fullImage} />
-      <meta property="og:image:alt" content={title} />
+      <meta property="og:url" content={canonicalUrl} />
 
-      {/* Twitter Card */}
+      {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={fullImage} />
 
-      {/* สีธีมสำหรับ PWA */}
-      <meta name="theme-color" content="#7F3FBF" />
+      {/* Canonical URL */}
+      <link rel="canonical" href={canonicalUrl} />
     </Helmet>
   );
 };
+
+export default SEOHelmet;

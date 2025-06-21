@@ -8,20 +8,21 @@ export default defineConfig({
     react(),
 
     VitePWA({
-      registerType: "autoUpdate",
-      strategies: "injectManifest", // ใช้ service worker แบบ custom
+      registerType: "autoUpdate", // อัปเดต Service Worker อัตโนมัติ
+      strategies: "injectManifest", // ใช้ service worker custom (sw.ts)
       srcDir: "src",
-      filename: "sw.ts", // ใช้ TypeScript
+      filename: "sw.ts",
 
       devOptions: {
-        enabled: true,
+        enabled: true, // ให้ทำงานใน dev ด้วย (ระวัง cache เวลา debug)
         type: "module",
       },
 
       manifest: {
         name: "JP Visual & Docs",
         short_name: "JPVD",
-        description: "บริการเอกสาร ยื่นกู้ วีซ่า โปรไฟล์และระบบหลังบ้านครบวงจร",
+        description:
+          "บริการเอกสาร ยื่นกู้ วีซ่า โปรไฟล์ และระบบหลังบ้านครบวงจร",
         start_url: "/",
         scope: "/",
         display: "standalone",
@@ -59,5 +60,12 @@ export default defineConfig({
   build: {
     outDir: "dist",
     sourcemap: false,
+    emptyOutDir: true,
+  },
+
+  server: {
+    port: 5173,
+    open: true,
+    strictPort: true, // ❗ ป้องกัน Vite เปลี่ยนพอร์ตเองถ้าพอร์ตถูกใช้งาน
   },
 });

@@ -1,100 +1,28 @@
+// src/pages/SecretRoomPage.tsx
 import React from "react";
-import { motion } from "framer-motion";
-import { Helmet } from "react-helmet-async";
+import Layout from "../layout/Layout";
+import SecretRoom from "../components/SecretRoom";
+import SEOHelmet from "../components/SEOHelmet";
 
-const SecretRoom: React.FC = () => {
-  const scrollToContact = () => {
-    const el = document.getElementById("contact");
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
+const SecretRoomPage: React.FC = () => {
   return (
-    <main
-      role="main"
-      aria-labelledby="secret-room-heading"
-      className="min-h-screen bg-gradient-to-br from-purple-950 via-indigo-900 to-black text-white px-6 py-12 sm:px-12 sm:py-20"
-    >
-      <Helmet>
-        <html lang="th" />
-        <title>Secret Room - JP Visual & Docs</title>
-        <link rel="canonical" href="https://jp-visual-docs.com/secret" />
-        <meta
-          name="description"
-          content="ยินดีต้อนรับสู่ Secret Room ของ JP Visual & Docs — พื้นที่พิเศษสำหรับสมาชิกและผู้เยี่ยมชมที่ได้รับสิทธิ์"
-        />
-        <meta property="og:title" content="Secret Room - JP Visual & Docs" />
-        <meta
-          property="og:description"
-          content="ยินดีต้อนรับสู่ Secret Room ของ JP Visual & Docs — พื้นที่พิเศษสำหรับสมาชิกและผู้เยี่ยมชมที่ได้รับสิทธิ์"
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://jp-visual-docs.com/secret-room-og.png" />
-        <meta name="theme-color" content="#7F3FBF" />
-        <meta name="robots" content="noindex, nofollow" />
-      </Helmet>
-
-      <section className="text-center max-w-4xl mx-auto" aria-labelledby="secret-room-heading">
-        <motion.h1
-          id="secret-room-heading"
-          className="text-4xl sm:text-5xl font-extrabold mb-6 drop-shadow-lg"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-        >
-          ห้องลับ (Secret Room)
-        </motion.h1>
-
-        <motion.p
-          className="text-lg sm:text-xl text-gray-300 leading-relaxed mb-12"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
-        >
-          นี่คือพื้นที่พิเศษสำหรับสมาชิก JP Visual & Docs เท่านั้น
-          คุณสามารถเข้าถึงข้อมูลและฟีเจอร์ที่พิเศษกว่าใคร
-          <br className="hidden sm:block" />
-          โปรดติดต่อทีมงานหากต้องการสิทธิ์เข้าถึง
-        </motion.p>
-      </section>
-
-      <motion.hr
-        className="border-gray-700 my-10 mx-auto w-1/2"
-        aria-hidden="true"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4, duration: 0.6 }}
+    <>
+      <SEOHelmet
+        title="Secret Room | JP Service"
+        description="พื้นที่ลับสำหรับบริการพิเศษเฉพาะสมาชิกเท่านั้น"
+        url="https://yourdomain.com/secret-room"
       />
-
-      <motion.section
-        className="text-center"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6, duration: 0.7 }}
-      >
-        <motion.button
-          type="button"
-          aria-label="ติดต่อเราเพื่อขอสิทธิ์เข้าห้องลับ"
-          className="bg-purple-600 hover:bg-purple-700 text-white
-            dark:bg-purple-500 dark:hover:bg-purple-600
-            px-6 py-3 rounded-lg shadow-xl transition-transform
-            focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500
-            hover:scale-105 active:scale-95"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.7, duration: 0.6, ease: "easeOut" }}
-          onClick={scrollToContact}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              scrollToContact();
-            }
-          }}
+      <Layout>
+        <main
+          id="secret-room"
+          aria-label="หน้าห้องลับ"
+          className="min-h-screen"
         >
-          ติดต่อเราเพื่อขอสิทธิ์
-        </motion.button>
-      </motion.section>
-    </main>
+          <SecretRoom />
+        </main>
+      </Layout>
+    </>
   );
 };
 
-export default SecretRoom;
+export default SecretRoomPage;
