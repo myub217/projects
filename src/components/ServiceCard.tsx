@@ -15,6 +15,12 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
     target.src = "/images/services/placeholder.png";
   };
 
+  const lineMessage = encodeURIComponent(
+    `📌 สนใจบริการ: ${service.title}\n\n${service.description}\n\n💰 ราคา: ${service.price}\n\n💬 รบกวนแนะนำเพิ่มเติมหน่อยนะคะ 🙏`
+  );
+
+  const lineUrl = `https://line.me/R/ti/p/@462FQTFC?text=${lineMessage}`;
+
   return (
     <motion.article
       role="group"
@@ -68,36 +74,39 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
           className="mt-4 font-semibold text-primary"
         >
           <span className="sr-only">ราคา:</span>
-          {typeof service.price === "string" && service.price.trim()
-            ? service.price
-            : "กรุณาสอบถามราคา"}
+          {service.price?.trim() || "กรุณาสอบถามราคา"}
         </p>
 
-        <div className="mt-4">
-          {typeof service.link === "string" && service.link.trim() ? (
-            <a
-              href={service.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-sm btn-primary w-full"
-              aria-label={`ดูรายละเอียดบริการ: ${service.title}`}
-              title={`ดูรายละเอียดบริการ: ${service.title}`}
-              aria-describedby={`service-desc-${service.id}`}
-            >
-              ดูรายละเอียด
-            </a>
-          ) : (
-            <button
-              type="button"
-              className="btn btn-sm btn-primary w-full cursor-pointer"
-              onClick={() => alert(`ขอรับบริการ: ${service.title}`)}
-              aria-label={`ขอรับบริการ: ${service.title}`}
-              title={`ขอรับบริการ: ${service.title}`}
-              aria-describedby={`service-desc-${service.id}`}
-            >
-              ขอรับบริการ
-            </button>
-          )}
+        <div className="mt-4 flex flex-col gap-2">
+          {/* ปุ่มขอรับบริการ */}
+          <button
+            type="button"
+            className="btn btn-sm btn-primary w-full"
+            onClick={() => alert(`คุณเลือกบริการ: ${service.title}`)}
+            aria-label={`ขอรับบริการ: ${service.title}`}
+            title={`ขอรับบริการ: ${service.title}`}
+          >
+            ขอรับบริการ
+          </button>
+
+          {/* ปุ่มไลน์แยก */}
+          <a
+            href={lineUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-sm btn-outline border-base-300 dark:border-gray-600 w-full flex items-center justify-center gap-2"
+            aria-label={`ติดต่อ LINE สำหรับบริการ: ${service.title}`}
+            title={`ติดต่อผ่าน LINE: ${service.title}`}
+          >
+            <img
+              src="/images/icons/line.svg"
+              alt="LINE icon"
+              width={20}
+              height={20}
+              className="inline-block"
+            />
+            ติดต่อผ่าน LINE
+          </a>
         </div>
       </div>
     </motion.article>

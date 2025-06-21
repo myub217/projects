@@ -10,7 +10,7 @@ const cardVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.05,
+      delay: i * 0.06,
       duration: 0.4,
       ease: "easeOut",
     },
@@ -26,7 +26,7 @@ const ServicesSection: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 600);
+    const timer = setTimeout(() => setIsLoading(false), 500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -35,7 +35,6 @@ const ServicesSection: React.FC = () => {
       id="services"
       role="region"
       aria-labelledby="services-title"
-      aria-label="บริการที่เรามีให้เลือก"
       aria-busy={isLoading}
       className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20"
       initial="hidden"
@@ -57,7 +56,7 @@ const ServicesSection: React.FC = () => {
         </span>
       </motion.h2>
 
-      {/* รายการบริการแบบกริด */}
+      {/* รายการบริการ */}
       <div
         role="list"
         aria-live={isLoading ? "polite" : "off"}
@@ -66,10 +65,10 @@ const ServicesSection: React.FC = () => {
       >
         <AnimatePresence>
           {isLoading ? (
-            Array.from({ length: 4 }).map((_, idx) => (
+            Array.from({ length: 8 }).map((_, idx) => (
               <motion.div
                 key={`skeleton-${idx}`}
-                role="status"          // แก้ไข: เหลือ role เดียวคือ status
+                role="status"
                 aria-label="กำลังโหลดข้อมูลบริการ"
                 aria-busy="true"
                 tabIndex={-1}
