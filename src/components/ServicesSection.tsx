@@ -4,6 +4,7 @@ import { services } from "@/data/services";
 import ServiceCard from "@/components/ServiceCard";
 
 const ServicesSection: React.FC = () => {
+  // แยกบริการที่เปิดให้ใช้งาน และบริการที่จะมาเร็ว ๆ นี้
   const availableServices = services.filter((s) => s.available);
   const comingSoonServices = services.filter((s) => !s.available);
 
@@ -12,12 +13,12 @@ const ServicesSection: React.FC = () => {
       id="services"
       role="region"
       aria-labelledby="services-title"
-      className="py-16 px-4 sm:px-6 lg:px-8"
+      className="py-16 px-4 sm:px-6 lg:px-8 bg-base-200"
     >
       <div className="max-w-7xl mx-auto text-center">
         <h2
           id="services-title"
-          className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-800 dark:text-white"
+          className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white"
         >
           บริการของเรา
         </h2>
@@ -29,7 +30,7 @@ const ServicesSection: React.FC = () => {
       {/* บริการที่เปิดให้ใช้งาน */}
       {availableServices.length > 0 && (
         <div className="mt-12">
-          <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
             พร้อมให้บริการ
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -40,13 +41,13 @@ const ServicesSection: React.FC = () => {
         </div>
       )}
 
-      {/* บริการที่ยังไม่เปิดใช้งาน */}
+      {/* บริการที่จะมาเร็ว ๆ นี้ */}
       {comingSoonServices.length > 0 && (
         <div className="mt-16">
           <h3 className="text-xl font-semibold text-gray-500 dark:text-gray-400 mb-4">
-            บริการที่จะมาเร็วๆ นี้
+            บริการที่จะมาเร็ว ๆ นี้
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 opacity-70">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 opacity-70 select-none pointer-events-none">
             {comingSoonServices.map((service) => (
               <ServiceCard key={service.id} service={service} disabled />
             ))}

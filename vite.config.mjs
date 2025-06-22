@@ -7,7 +7,6 @@ import path from "path";
 export default defineConfig({
   plugins: [
     react(),
-
     VitePWA({
       registerType: "autoUpdate",
       strategies: "injectManifest",
@@ -46,29 +45,37 @@ export default defineConfig({
           },
         ],
       },
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,webp}"],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/applicationlubmobile\.vercel\.app\/.*$/,
+            handler: "NetworkFirst",
+            options: {
+              cacheName: "pages",
+            },
+          },
+        ],
+      },
     }),
   ],
-
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
     },
   },
-
   assetsInclude: ["**/*.webp", "**/*.avif", "**/*.svg"],
-
   build: {
     outDir: "dist",
     sourcemap: false,
     emptyOutDir: true,
-    minify: "esbuild", // ✅ ปรับให้ compile เร็วขึ้น (default)
-    target: "esnext",  // ✅ รองรับ modern browser
+    minify: "esbuild",
+    target: "esnext",
   },
-
   server: {
     port: 5173,
     open: true,
     strictPort: true,
-    cors: true, // ✅ เปิด CORS ถ้าต้องมีการ fetch ข้าม domain
+    cors: true,
   },
 });

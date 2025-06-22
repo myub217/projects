@@ -1,6 +1,7 @@
+// src/components/ServiceCard.tsx
 import React from "react";
 import { motion } from "framer-motion";
-import type { Service } from "../data/services";
+import type { Service } from "@/data/services";
 
 interface ServiceCardProps {
   service: Service;
@@ -11,7 +12,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const target = e.currentTarget;
-    target.onerror = null;
+    target.onerror = null; // ป้องกันลูป error
     target.src = "/images/services/placeholder.png";
   };
 
@@ -34,9 +35,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.45, ease: "easeOut" }}
       className={`relative card group card-compact border shadow-md rounded-xl overflow-hidden
-        ${isComingSoon
-          ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed"
-          : "bg-base-200 border-base-300 dark:bg-gray-800 dark:border-gray-600"}
+        ${
+          isComingSoon
+            ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed"
+            : "bg-base-200 border-base-300 dark:bg-gray-800 dark:border-gray-600"
+        }
         focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ring-offset-2 ring-offset-base-100 dark:ring-offset-gray-900
         transition duration-200 hover:shadow-lg`}
     >
@@ -68,7 +71,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
       </figure>
 
       {/* เนื้อหาการ์ด */}
-      <div className={`card-body p-4 flex flex-col h-full z-10 ${isComingSoon ? "pointer-events-none" : ""}`}>
+      <div
+        className={`card-body p-4 flex flex-col h-full z-10 ${
+          isComingSoon ? "pointer-events-none" : ""
+        }`}
+      >
         <h3
           id={`service-title-${service.id}`}
           className="card-title text-lg font-bold text-base-content dark:text-white"
@@ -96,9 +103,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
           <button
             type="button"
             className="btn btn-sm btn-primary w-full"
-            onClick={() =>
-              !isComingSoon && alert(`คุณเลือกบริการ: ${service.title}`)
-            }
+            onClick={() => !isComingSoon && alert(`คุณเลือกบริการ: ${service.title}`)}
             disabled={isComingSoon}
             aria-label={`ขอรับบริการ: ${service.title}`}
             title={`ขอรับบริการ: ${service.title}`}
