@@ -10,8 +10,13 @@ const LoginPage: React.FC = () => {
     // จำลองล็อกอิน: ตั้งค่าใน localStorage
     localStorage.setItem("auth", "true");
 
-    // เปลี่ยนเส้นทางไปยังหน้าที่ถูกจำกัดสิทธิ์ (หรือ root)
-    const redirectTo = (history.state?.usr?.from?.pathname as string) || "/secret";
+    // กำหนดเส้นทาง redirect หลังล็อกอิน
+    const redirectTo =
+      (window.history.state &&
+        (window.history.state as any).usr?.from?.pathname) ||
+      "/secret";
+
+    // เปลี่ยนเส้นทางหน้าเว็บ (redirect)
     window.location.href = redirectTo;
   };
 

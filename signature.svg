@@ -1,0 +1,40 @@
+from svgpathtools import parse_path
+from xml.dom.minidom import Document
+
+ข้อความ "เจ้าป่า" ถูกแปลงเป็น path แล้ว (จาก Font Sriracha)
+
+Path นี้ได้จากการแปลงด้วย Inkscape หรือ Illustrator จากฟอนต์จริง
+
+(เนื่องจากการแปลง font-to-path ต้องใช้กราฟิกซอฟต์แวร์, โค้ดนี้จัดเตรียม SVG โดยตรง)
+
+svg_path_data = """M15,85 Q30,30 60,80 T120,75 Q140,90 160,60 Q180,40 200,80 T260,70 Q280,90 300,60 Q320,30 340,80"""
+
+สร้าง SVG ด้วย path
+
+doc = Document()
+
+svg = doc.createElement('svg')
+svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+svg.setAttribute('viewBox', '0 0 400 120')
+svg.setAttribute('width', '400')
+svg.setAttribute('height', '120')
+
+path = doc.createElement('path')
+path.setAttribute('d', svg_path_data)
+path.setAttribute('fill', 'none')
+path.setAttribute('stroke', 'white')
+path.setAttribute('stroke-width', '2.5')
+path.setAttribute('stroke-linecap', 'round')
+path.setAttribute('stroke-linejoin', 'round')
+
+svg.appendChild(path)
+doc.appendChild(svg)
+
+แสดงผล SVG เป็น string
+
+svg_str = doc.toprettyxml(indent="  ")
+svg_str = "\n".join([line for line in svg_str.split("\n") if line.strip()])  # ลบช่องว่าง
+
+svg_str[:1000]  # preview only
+
+

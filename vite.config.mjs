@@ -2,14 +2,18 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
+import svgr from "vite-plugin-svgr";
 import path from "path";
 
 export default defineConfig({
   plugins: [
     react(),
+    svgr(),
+
+    // PWA Support
     VitePWA({
       registerType: "autoUpdate",
-      strategies: "injectManifest",
+      strategies: "injectManifest", // Requires sw.ts in /src
       srcDir: "src",
       filename: "sw.ts",
       devOptions: {
@@ -28,17 +32,17 @@ export default defineConfig({
         orientation: "portrait",
         icons: [
           {
-            src: "/icons/icon-192.png",
+            src: "/icons/icon-192x192.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "/icons/icon-512.png",
+            src: "/icons/icon-512x512.png",
             sizes: "512x512",
             type: "image/png",
           },
           {
-            src: "/icons/icon-512.png",
+            src: "/icons/icon-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "any maskable",
@@ -53,18 +57,32 @@ export default defineConfig({
             handler: "NetworkFirst",
             options: {
               cacheName: "pages",
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
             },
           },
         ],
       },
     }),
   ],
+
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
+      "@": path.resolve(__dirname, "src"), // Use @ to import from src
     },
   },
-  assetsInclude: ["**/*.webp", "**/*.avif", "**/*.svg"],
+
+  assetsInclude: [
+    "**/*.webp",
+    "**/*.avif",
+    "**/*.svg"
+  ],
+
   build: {
     outDir: "dist",
     sourcemap: false,
@@ -72,6 +90,7 @@ export default defineConfig({
     minify: "esbuild",
     target: "esnext",
   },
+
   server: {
     port: 5173,
     open: true,

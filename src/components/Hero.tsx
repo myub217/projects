@@ -1,32 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { FaLock } from "react-icons/fa";
+import { FaLock, FaDoorOpen } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import VisitorCount from "@/components/VisitorCount";
 import heroBg from "@/assets/hero.webp";
+import signature from "@/assets/signature.webp";
 
 type HeroProps = {
-  title?: string;
-  subtitle?: string;
-  description?: string;
   buttonText?: string;
-  buttonLink?: string;
 };
 
 const Hero: React.FC<HeroProps> = ({
-  title = "JP",
-  subtitle = "Visual & Docs",
-  description = "ทำให้เรื่องเอกสารและการจัดการระบบของคุณง่ายขึ้น",
   buttonText = "เข้าสู่ระบบลับ",
-  buttonLink = "/login",
 }) => {
-  const scrollToNextSection = () => {
-    const nextSection = document.getElementById("services");
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: "smooth" });
-    } else {
-      console.warn("ไม่พบ section: #services");
-    }
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    navigate("/login");
   };
 
   return (
@@ -34,17 +23,16 @@ const Hero: React.FC<HeroProps> = ({
       id="hero"
       role="banner"
       aria-label="JP Visual & Docs Hero Section"
-      className="relative min-h-[572px] sm:min-h-[75vh] flex items-center justify-center text-white overflow-hidden bg-base-200"
+      className="relative min-h-[576px] sm:min-h-screen bg-base-900 text-white overflow-hidden flex items-center justify-center px-6 sm:px-12 pt-24 sm:pt-32 pb-20"
+      style={{
+        backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.3), rgba(0,0,0,0.08)), url(${heroBg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center top",
+        boxShadow: "inset 0 0 100px rgb(0 0 0 / 0.5)",
+        filter: "brightness(1.2) contrast(1.1)",
+      }}
     >
-      {/* Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-no-repeat opacity-20 blur-sm"
-        style={{
-          backgroundImage: `url(${heroBg})`,
-          backgroundPosition: "center top 20%",
-        }}
-        aria-hidden="true"
-      />
+      {/* ซ่อนภาพพื้นหลังจาก screen reader */}
       <img
         src={heroBg}
         alt="JP Visual Docs background"
@@ -52,60 +40,50 @@ const Hero: React.FC<HeroProps> = ({
         loading="lazy"
       />
 
-      {/* Content */}
+      {/* ลายเซ็น + ปุ่ม login */}
       <motion.div
-        initial={{ opacity: 0, y: 60 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="relative z-10 w-full max-w-4xl px-4 text-center"
+        transition={{ duration: 0.8, delay: 0.3 }}
+        className="fixed bottom-4 right-4 flex flex-col items-center gap-1 sm:gap-2.5 z-50"
       >
-        <div className="mb-6">
-          <h1 className="text-5xl sm:text-7xl font-extrabold drop-shadow-xl tracking-tight leading-tight text-primary-content">
-            {title}
-          </h1>
-          <p className="text-xl sm:text-2xl text-primary-content/80 tracking-widest font-light uppercase">
-            {subtitle}
-          </p>
-        </div>
-
-        <div className="max-w-2xl mx-auto">
-          <p className="mt-1 text-lg sm:text-xl text-primary-content/90 font-light">
-            {description}
-          </p>
-          <p className="mt-2 text-sm sm:text-base text-primary-content/70">
-            ศูนย์บริการเอกสาร การเงิน โปรไฟล์ และระบบหลังบ้านครบวงจร
-          </p>
-        </div>
-
-        <div className="mt-10">
-          <Link
-            to={buttonLink}
-            className="inline-flex items-center gap-2 bg-white text-indigo-700 font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-gray-100 transition-colors duration-200"
-          >
-            <FaLock className="text-lg" />
-            {buttonText}
-          </Link>
-          <p className="mt-2 text-xs text-white/60">สำหรับผู้ใช้งานพิเศษ</p>
-        </div>
-
-        <div className="mt-6">
-          <VisitorCount min={1200} max={3000} />
-        </div>
-
-        {/* Scroll Down Button */}
-        <motion.button
-          onClick={scrollToNextSection}
-          className="mt-10 btn btn-circle btn-outline text-white hover:text-primary"
-          aria-label="เลื่อนไปยังส่วนถัดไป"
-          initial={{ y: 0 }}
-          animate={{ y: [0, -10, 0] }}
-          transition={{
-            repeat: Infinity,
-            duration: 1.2,
-            ease: "easeInOut",
+        {/* ลายเซ็นเจ้าป่า */}
+        <motion.img
+          src={signature}
+          alt="เจ้าป่า ลายเซ็น"
+          loading="lazy"
+          className="select-none pointer-events-none w-20 sm:w-40 translate-y-2 sm:translate-y-1"
+          style={{
+            filter: `
+              brightness(2.3)
+              contrast(2)
+              drop-shadow(0 0 3px rgba(255,255,255,0.5))
+              drop-shadow(0 0 4px rgba(255,255,255,0.25))
+            `,
+            marginBottom: "-0.25rem", // ลดช่องว่างให้น้อยลง
           }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.1, delay: 0.5 }}
+        />
+
+        {/* ปุ่มเข้าสู่ระบบ */}
+        <motion.button
+          onClick={handleLoginClick}
+          aria-label="เข้าสู่ระบบลับ"
+          title="สำหรับผู้ที่รู้จักเท่านั้น"
+          type="button"
+          className="inline-flex items-center gap-1.5 sm:gap-3 bg-white bg-opacity-90 text-gray-900 font-semibold
+            px-4 py-1.5 sm:px-9 sm:py-3 rounded-full shadow-md
+            hover:bg-opacity-100 hover:scale-105 hover:shadow-lg
+            transition-transform duration-300 focus:outline-none focus:ring-4 focus:ring-gray-400"
+          style={{ boxShadow: "0 2px 10px rgb(0 0 0 / 0.15)" }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.98 }}
         >
-          ↓
+          <FaLock className="text-base sm:text-xl" aria-hidden="true" />
+          <span className="text-xs sm:text-base">{buttonText}</span>
+          <FaDoorOpen className="text-sm sm:text-lg opacity-70" aria-hidden="true" />
         </motion.button>
       </motion.div>
     </section>

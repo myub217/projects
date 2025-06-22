@@ -5,24 +5,25 @@ import { precacheAndRoute } from "workbox-precaching";
 // บอก TypeScript ว่านี่คือ ServiceWorkerGlobalScope
 declare const self: ServiceWorkerGlobalScope;
 
-// ✅ ดึงรายการไฟล์ที่ถูกสร้างโดย Vite มา precache
-// __WB_MANIFEST จะถูก inject อัตโนมัติโดย Vite
+// precache ไฟล์ที่ถูกสร้างโดย Vite (inject มาอัตโนมัติ)
 precacheAndRoute(self.__WB_MANIFEST);
 
-// ✅ เมื่อ install service worker ให้ skipWaiting ทันที
+// ติดตั้ง service worker แล้วบังคับข้าม waiting state
 self.addEventListener("install", (event) => {
-  self.skipWaiting(); // ทดแทน worker เก่าทันทีโดยไม่รอ reload
+  self.skipWaiting();
 });
 
-// ✅ เมื่อ activate แล้ว ให้ service worker เข้าควบคุม client ทันที
+// เมื่อ activate แล้วให้ service worker ควบคุมหน้าเว็บทันที
 self.addEventListener("activate", (event) => {
-  self.clients.claim(); // เข้าควบคุม client โดยไม่รอ
+  self.clients.claim();
 });
 
-// ✅ ดักจับ fetch requests (สามารถเพิ่ม logic caching custom ได้ตรงนี้)
+// ดักจับ fetch event (สามารถเพิ่ม logic cache ได้ที่นี่)
 self.addEventListener("fetch", (event: FetchEvent) => {
-  // ตัวอย่าง: ใช้ default network, fallback ถ้า offline
-  // event.respondWith(fetch(event.request).catch(() => caches.match("/offline.html")));
+  // ตัวอย่าง: ใช้ network ก่อน fallback ไป cache (ถ้ามี)
+  // event.respondWith(
+  //   fetch(event.request).catch(() => caches.match(event.request))
+  // );
 
-  // ยังไม่ใช้งาน custom fetch (ปล่อยผ่าน)
+  // ตอนนี้ยังปล่อยผ่าน fetch ตามปกติ
 });

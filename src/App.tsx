@@ -9,15 +9,15 @@ import HomePage from "@/pages/HomePage";
 import LoginPage from "@/pages/LoginPage";
 import SecretRoomPage from "@/pages/SecretRoomPage";
 
-// Utilities
+// Hook for scrolling to top on route change
 import useScrollToTop from "@/hooks/useScrollToTop";
 
 const App: React.FC = () => {
-  useScrollToTop(); // Scroll to top on route change
+  useScrollToTop(); // Scroll to top when route changes
 
   return (
     <Routes>
-      {/* หน้าแรก + Layout ครอบ */}
+      {/* หน้าแรก พร้อม Layout ครอบ */}
       <Route
         path="/"
         element={
@@ -30,7 +30,7 @@ const App: React.FC = () => {
       {/* หน้าเข้าสู่ระบบ (ไม่ใช้ Layout เพื่อให้เต็มจอ) */}
       <Route path="/login" element={<LoginPage />} />
 
-      {/* Secret Room (ระบบห้องลับ) */}
+      {/* หน้า Secret Room ที่มี Layout ครอบ */}
       <Route
         path="/secret"
         element={
@@ -40,7 +40,7 @@ const App: React.FC = () => {
         }
       />
 
-      {/* เส้นทางอื่น redirect กลับหน้าแรก */}
+      {/* เส้นทางอื่นๆ ให้ Redirect กลับไปหน้าแรก */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
