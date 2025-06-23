@@ -9,7 +9,6 @@ const ScrollToTop: React.FC<ScrollToTopProps> = ({ behavior = "smooth" }) => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    // ตรวจสอบว่าอยู่ในเบราว์เซอร์ก่อน scroll (สำคัญสำหรับ SSR หรือทดสอบ)
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior });
     }

@@ -1,4 +1,3 @@
-// src/layout/Layout.tsx
 import React, { ReactNode, useEffect, useState, useCallback } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -15,13 +14,15 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
   const [theme, setTheme] = useState<Theme>("light");
   const [userSetTheme, setUserSetTheme] = useState(false);
 
-  // ดึง theme เริ่มต้น
+  // ดึงธีมเริ่มต้นจาก localStorage หรือระบบปฏิบัติการ
   useEffect(() => {
     const getInitialTheme = (): Theme => {
       try {
         const stored = localStorage.getItem("theme") as Theme | null;
         if (stored === "light" || stored === "dark") return stored;
-      } catch {}
+      } catch {
+        // localStorage อาจไม่พร้อมใช้งาน
+      }
       return window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light";
@@ -31,44 +32,59 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
     setUserSetTheme(!!localStorage.getItem("theme"));
   }, []);
 
-  // อัปเดต class html
+  // ซิงก์ theme กับ class บน <html> และเก็บ localStorage หาก user ตั้งค่าเอง
   useEffect(() => {
     const root = document.documentElement;
     root.classList.toggle("dark", theme === "dark");
     if (userSetTheme) {
       try {
         localStorage.setItem("theme", theme);
-      } catch {}
+      } catch {
+        // localStorage อาจไม่พร้อมใช้งาน
+      }
     }
   }, [theme, userSetTheme]);
 
-  // sync system theme
+  // ฟัง event เปลี่ยนธีมระบบ (เช่น user เปลี่ยน dark/light mode บน OS)
   useEffect(() => {
     if (userSetTheme) return;
+
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleChange = (e: MediaQueryListEvent) =>
-      setTheme(e.matches ? "dark" : "light");
-    mq.addEventListener("change", handleChange);
-    return () => mq.removeEventListener("change", handleChange);
+    const handleChange = (e: MediaQueryListEvent) => setTheme(e.matches ? "dark" : "light");
+
+    // Modern browsers
+    if (mq.addEventListener) {
+      mq.addEventListener("change", handleChange);
+      return () => mq.removeEventListener("change", handleChange);
+    } 
+    // Fallback สำหรับบาง browser เก่า (เช่น Safari)
+    else if (mq.addListener) {
+      mq.addListener(handleChange);
+      return () => mq.removeListener(handleChange);
+    }
   }, [userSetTheme]);
 
+  // ฟังก์ชัน toggle ธีม (เรียกจากปุ่ม toggle ใน Header)
   const toggleTheme = useCallback(() => {
     setTheme((prev) => {
       const next = prev === "light" ? "dark" : "light";
       setUserSetTheme(true);
       try {
         localStorage.setItem("theme", next);
-      } catch {}
+      } catch {
+        // localStorage อาจไม่พร้อมใช้งาน
+      }
       return next;
     });
   }, []);
 
   return (
     <>
-      {/* Skip Link for accessibility */}
+      {/* Skip Link เพื่อช่วยการเข้าถึง (Accessibility) */}
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:bg-pink-600 focus:text-white focus:px-4 focus:py-2 focus:rounded z-50"
+        aria-label="ข้ามไปยังเนื้อหาหลัก"
       >
         ข้ามไปยังเนื้อหาหลัก
       </a>
@@ -89,7 +105,7 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
 
         <Footer />
 
-        {/* ✅ Visitor Count ติดมุมขวาล่าง */}
+        {/* Visitor Count แสดงมุมขวาล่าง */}
         <VisitorCount
           min={1000}
           max={3200}

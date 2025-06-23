@@ -11,12 +11,13 @@ const SecretRoomPage: React.FC = () => {
         title="Secret Room | JP Service"
         description="พื้นที่ลับสำหรับบริการพิเศษเฉพาะสมาชิกเท่านั้น"
         url="https://yourdomain.com/secret-room"
+        // เพิ่มเติมถ้าต้องการ keywords, og:image หรืออื่น ๆ ใน SEOHelmet component
       />
       <Layout>
         <main
           id="secret-room"
           aria-label="หน้าห้องลับ"
-          className="min-h-screen"
+          className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300"
         >
           <SecretRoom />
         </main>

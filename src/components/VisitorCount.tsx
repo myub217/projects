@@ -21,6 +21,9 @@ interface VisitorCountProps {
 const DEFAULT_MIN = 500;
 const DEFAULT_MAX = 3000;
 
+/**
+ * Validate and sanitize min and max values to ensure min <= max
+ */
 const sanitizeRange = (min?: number, max?: number): [number, number] => {
   let minVal = Number.isInteger(min) && min! >= 0 ? min! : DEFAULT_MIN;
   let maxVal = Number.isInteger(max) && max! >= minVal ? max! : DEFAULT_MAX;
@@ -28,6 +31,9 @@ const sanitizeRange = (min?: number, max?: number): [number, number] => {
   return [minVal, maxVal];
 };
 
+/**
+ * Generate a "smart" random number near the current value to simulate smooth visitor count changes
+ */
 const getSmartRandom = (current: number, min: number, max: number): number => {
   const delta = Math.floor((max - min) * 0.05);
   const direction = Math.random() > 0.5 ? 1 : -1;
@@ -45,6 +51,8 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
   enableAutoUpdate = true,
 }) => {
   const [minVal, maxVal] = useMemo(() => sanitizeRange(min, max), [min, max]);
+
+  // Initialize count value (use initialCount if valid, else random within range)
   const getInitial = () =>
     initialCount !== undefined &&
     initialCount >= minVal &&
@@ -55,6 +63,7 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
   const [count, setCount] = useState<number>(getInitial);
   const prevCountRef = useRef<number>(count);
 
+  // Use browser locale or fallback to Thai
   const locale =
     typeof navigator !== "undefined" && navigator.language
       ? navigator.language
@@ -65,6 +74,7 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
     [locale]
   );
 
+  // Update count periodically with smooth random changes
   const updateCount = useCallback(() => {
     const prev = prevCountRef.current;
     const next = getSmartRandom(prev, minVal, maxVal);
@@ -74,12 +84,14 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
     }
   }, [minVal, maxVal]);
 
+  // Setup interval for auto update if enabled
   useEffect(() => {
     if (!enableAutoUpdate || updateInterval <= 0 || minVal === maxVal) return;
     const intervalId = setInterval(updateCount, updateInterval);
     return () => clearInterval(intervalId);
   }, [updateInterval, updateCount, enableAutoUpdate, minVal, maxVal]);
 
+  // If initialCount changes and is valid, update count immediately
   useEffect(() => {
     if (
       initialCount !== undefined &&

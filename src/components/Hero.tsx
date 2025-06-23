@@ -38,6 +38,7 @@ const Hero: React.FC<HeroProps> = ({
         alt="JP Visual Docs background"
         className="sr-only"
         loading="lazy"
+        draggable={false}
       />
 
       {/* ลายเซ็น + ปุ่ม login */}
@@ -53,6 +54,7 @@ const Hero: React.FC<HeroProps> = ({
           alt="เจ้าป่า ลายเซ็น"
           loading="lazy"
           className="select-none pointer-events-none w-20 sm:w-40 translate-y-2 sm:translate-y-1"
+          draggable={false}
           style={{
             filter: `
               brightness(2.3)

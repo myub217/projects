@@ -29,7 +29,7 @@ const ServicesSection: React.FC = () => {
 
       {/* บริการที่เปิดให้ใช้งาน */}
       {availableServices.length > 0 && (
-        <div className="mt-12">
+        <div className="mt-12" aria-label="บริการพร้อมให้บริการ">
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
             พร้อมให้บริการ
           </h3>
@@ -43,11 +43,11 @@ const ServicesSection: React.FC = () => {
 
       {/* บริการที่จะมาเร็ว ๆ นี้ */}
       {comingSoonServices.length > 0 && (
-        <div className="mt-16">
+        <div className="mt-16 opacity-70 select-none pointer-events-none" aria-label="บริการจะมาเร็ว ๆ นี้">
           <h3 className="text-xl font-semibold text-gray-500 dark:text-gray-400 mb-4">
             บริการที่จะมาเร็ว ๆ นี้
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 opacity-70 select-none pointer-events-none">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {comingSoonServices.map((service) => (
               <ServiceCard key={service.id} service={service} disabled />
             ))}

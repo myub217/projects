@@ -28,44 +28,44 @@ const config: Config = {
         current: "currentColor",
         white: "#ffffff",
         primary: {
-          DEFAULT: "#1A237E",
-          dark: "#0D154D",
-          light: "#3949AB",
+          DEFAULT: "#2C3E50", // น้ำเงินเข้ม
+          dark: "#22313F",
+          light: "#34495E",
         },
         secondary: {
-          DEFAULT: "#00BCD4",
-          dark: "#0097A7",
-          light: "#4DD0E1",
+          DEFAULT: "#18BC9C", // เขียวอมฟ้า
+          dark: "#128F7E",
+          light: "#48C9B0",
         },
         background: {
-          DEFAULT: "#F5F6FA",
-          dark: "#121212",
-          soft: "#ECEFF1",
+          DEFAULT: "#F7F9F9", // ขาวอมเทาอ่อน
+          dark: "#22313F",
+          soft: "#EAEDED",
         },
         foreground: {
-          DEFAULT: "#212121",
+          DEFAULT: "#34495E",
           dark: "#FFFFFF",
         },
         text: {
-          light: "#1e293b",
-          dark: "#f1f5f9",
-          muted: "#64748b",
+          light: "#34495E",
+          dark: "#F7F9F9",
+          muted: "#7F8C8D",
         },
         neutral: {
-          50: "#f9fafb",
-          100: "#f3f4f6",
-          200: "#e5e7eb",
-          300: "#d1d5db",
-          400: "#9ca3af",
-          500: "#6b7280",
-          600: "#4b5563",
-          700: "#374151",
-          800: "#1f2937",
-          900: "#0f172a",
+          50: "#F7F9F9",
+          100: "#ECF0F1",
+          200: "#BDC3C7",
+          300: "#95A5A6",
+          400: "#7F8C8D",
+          500: "#707B7C",
+          600: "#566573",
+          700: "#34495E",
+          800: "#2C3E50",
+          900: "#22313F",
         },
-        success: "#22c55e",
-        error: "#ef4444",
-        warning: "#facc15",
+        success: "#27AE60",
+        error: "#E74C3C",
+        warning: "#F39C12",
       },
       borderRadius: {
         xl: "1rem",
@@ -75,7 +75,7 @@ const config: Config = {
       boxShadow: {
         soft: "0 1px 3px rgba(0, 0, 0, 0.05)",
         card: "0 4px 12px rgba(0, 0, 0, 0.08)",
-        glow: "0 0 12px rgba(0, 188, 212, 0.6)",
+        glow: "0 0 12px rgba(24, 188, 156, 0.6)", // เข้ากับ secondary
       },
       transitionTimingFunction: {
         DEFAULT: "ease-in-out",
@@ -86,7 +86,7 @@ const config: Config = {
         slow: "500ms",
       },
       accentColor: {
-        DEFAULT: "#00BCD4",
+        DEFAULT: "#18BC9C",
       },
       animation: {
         fadeIn: "fadeIn 1s ease-out forwards",
@@ -163,6 +163,7 @@ const config: Config = {
     require("@tailwindcss/aspect-ratio"),
     plugin(({ addComponents, theme }) => {
       addComponents({
+        // ปุ่มหลัก
         ".btn": {
           display: "inline-flex",
           alignItems: "center",
@@ -182,6 +183,23 @@ const config: Config = {
             backgroundColor: theme("colors.primary.dark"),
           },
         },
+
+        // ปุ่มเขียวพิเศษ
+        ".btn-green": {
+          backgroundColor: theme("colors.success"),
+          color: "#fff",
+          padding: "0.5rem 1rem",
+          borderRadius: theme("borderRadius.md"),
+          fontWeight: "600",
+          transition: "background-color 0.3s ease",
+          cursor: "pointer",
+          userSelect: "none",
+          "&:hover": {
+            backgroundColor: "#218838", // เข้มกว่าสี success
+          },
+        },
+
+        // การ์ดแบบกำหนดเอง
         ".card": {
           borderRadius: theme("borderRadius.2xl"),
           padding: "1.5rem",
@@ -193,6 +211,50 @@ const config: Config = {
         ".dark .card": {
           backgroundColor: theme("colors.neutral.900"),
         },
+
+        // การ์ดแบบพิเศษ
+        ".card-custom": {
+          backgroundColor: theme("colors.white"),
+          borderRadius: theme("borderRadius.lg"),
+          boxShadow: theme("boxShadow.card"),
+          padding: "1.5rem",
+          transition: "background-color 0.3s ease, color 0.3s ease",
+          cursor: "default",
+          "&:hover": {
+            boxShadow: "0 6px 18px rgba(0,0,0,0.15)",
+          },
+        },
+        ".dark .card-custom": {
+          backgroundColor: theme("colors.neutral.800"),
+        },
+
+        // โมดัลพื้นฐาน
+        ".modal-basic": {
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "rgba(0,0,0,0.6)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: "1000",
+        },
+        ".modal-basic > .modal-content": {
+          backgroundColor: theme("colors.white"),
+          borderRadius: theme("borderRadius.xl"),
+          padding: "2rem",
+          maxWidth: "600px",
+          width: "90%",
+          boxShadow: theme("boxShadow.card"),
+          position: "relative",
+        },
+        ".dark .modal-basic > .modal-content": {
+          backgroundColor: theme("colors.neutral.900"),
+        },
+
+        // ส่วน section
         ".section": {
           paddingTop: "4rem",
           paddingBottom: "4rem",

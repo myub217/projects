@@ -46,8 +46,9 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
       {/* Overlay Coming Soon */}
       {isComingSoon && (
         <div
-          className="absolute inset-0 bg-black/60 z-20 flex items-center justify-center text-white text-xl font-bold pointer-events-none"
+          className="absolute inset-0 bg-black/60 z-20 flex items-center justify-center text-white text-xl font-bold pointer-events-none select-none"
           tabIndex={-1}
+          aria-hidden="true"
         >
           🚧 Coming Soon
         </div>

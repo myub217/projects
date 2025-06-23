@@ -1,175 +1,147 @@
-✅ คู่มือการใช้งานและแก้ไขโปรเจกต์ React + Vite (JP Visual & Docs)
+# Applicationlubmobile
 
-🔧 โครงสร้างโปรเจกต์หลัก (ระดับ 1)
-
-ไฟล์/โฟลเดอร์	หน้าที่
-
-index.html	HTML Template หลัก (SEO/OG/Image/Meta อยู่ที่นี่)
-vite.config.ts	ตั้งค่า Vite เช่น plugin, PWA, alias
-tailwind.config.ts	ตั้งค่า Tailwind เช่น theme, plugin
-postcss.config.cjs	PostCSS สำหรับ Tailwind
-tsconfig.*.json	ตั้งค่า TypeScript ในแต่ละบริบท
-src/	โค้ดแอปทั้งหมด อยู่ที่นี่
-public/	ไฟล์สาธารณะ เช่น favicon, manifest.json
-dist/	ผลลัพธ์ที่ได้จาก vite build
-fix_project.sh	สคริปต์ช่วยแก้ไขบางจุด (ต้องตรวจสอบว่าทำอะไร)
-
-
+โปรเจกต์เว็บไซต์สำหรับบริการด้านเอกสาร วีซ่า การเงิน การแปล และออกแบบโปรไฟล์  
+พัฒนาโดยใช้ React + TypeScript พร้อม Tailwind CSS, DaisyUI, Framer Motion และ Vite
 
 ---
 
-🧩 โฟลเดอร์ src/ รายละเอียดและหน้าที่
+## โครงสร้างโปรเจกต์หลัก
 
-โฟลเดอร์ / ไฟล์	หน้าที่
+- `/src` - โค้ดหลักของแอป React  
+  - `App.tsx` - จุดเริ่มต้นของแอป  
+  - `assets/` - รูปภาพ ไอคอน โลโก้  
+  - `components/` - ส่วนประกอบ UI หลัก เช่น Hero, About, Services, Footer  
+  - `context/` - React Context API (เช่น ThemeContext)  
+  - `data/` - ข้อมูลคงที่ (เช่น รายการบริการ)  
+  - `hooks/` - Custom React hooks  
+  - `layout/` - โครงสร้างหน้าเว็บ Header, Footer  
+  - `lib/` - ฟังก์ชันช่วยเหลือทั่วไป  
+  - `pages/` - หน้าเพจต่าง ๆ เช่น Home, Login, SecretRoom  
+  - `styles/` - ไฟล์ CSS และธีม  
+  - `main.tsx` - จุดเริ่มต้น Render React App  
 
-App.tsx	โครงสร้าง SPA หลักของเว็บ
-main.tsx	Entry point ของแอป
-index.css	สไตล์ Tailwind/Custom ทั่วไป
-assets/	รูปภาพ โลโก้ ไอคอน
-components/	UI Components ที่นำไปใช้ในหน้า
-components/skeletons/	Skeleton Loader แต่ละจุด
-context/ThemeContext.tsx	Context สำหรับ Dark/Light Mode
-components/index.js	Export รวม components
-
-
-
----
-
-🎯 แพ็กเกจหลักที่ใช้งาน (และควรคงไว้)
-
-กลุ่ม	แพ็กเกจ	หน้าที่
-
-Core	react, react-dom	React Core
-Tailwind	tailwindcss, @tailwindcss/*	CSS Framework + Plugin
-UI	daisyui, lucide-react, react-icons	UI Components + Icons
-Motion	framer-motion	Animation / Page transitions
-SEO	react-helmet-async	SEO/Meta tag รองรับ async
-Loader	react-loading-skeleton	Loading UI
-Scroll	react-scroll	ลิงก์เลื่อนหน้า (SPA)
-Dev	vite, typescript, eslint, pnpm	ระบบพัฒนา
-
-
+- `/public` - ไฟล์สาธารณะ เช่น ไอคอน, manifest, robots.txt  
+- `/dist` - ไฟล์ build สุดท้าย (หลังคอมไพล์)  
+- `package.json` - ข้อมูลโปรเจกต์และ dependencies  
+- `vite.config.mjs` - การตั้งค่า Vite  
+- `tailwind.config.mjs` - การตั้งค่า Tailwind CSS  
+- `tsconfig.json` - การตั้งค่า TypeScript  
 
 ---
 
-🛠️ ข้อเสนอแนะสิ่งที่ควรเอาออก / เพิ่ม
+## การใช้งานเบื้องต้น
 
-❌ สิ่งที่ควรเอาออก (หากไม่ใช้งานจริง)
-
-รายการ	เหตุผล
-
-fix_project1.sh	หากไม่มีการใช้งานจริงหรือล้าสมัย
-tailwind.config.js	ถ้าใช้ tailwind.config.ts แล้วไม่จำเป็นต้องมีทั้งสอง
-vite-env.d.ts	ตรวจสอบว่าใช้งานหรือไม่ บางโปรเจกต์ไม่จำเป็น
-make-icons.py	ถ้าไม่ได้ build icons หรือสร้าง favicon ด้วย Python แล้วไม่จำเป็น
-.tsbuildinfo	สร้างโดย TypeScript อัตโนมัติ ไม่จำเป็นต้องเก็บไว้ใน git
-
-
-✅ สิ่งที่ควรเพิ่ม / ตรวจสอบ
-
-รายการ	เหตุผล
-
-manifest.webmanifest (ใน public/)	เพื่อรองรับ PWA อย่างสมบูรณ์
-favicon.ico / favicon.svg	เพื่อให้ทุกเบราว์เซอร์แสดง favicon ถูกต้อง
-robots.txt / sitemap.xml	รองรับ SEO (สร้างได้ง่าย ๆ ด้วยสคริปต์หรือมือ)
-README.md (เขียนเพิ่ม)	อธิบายโปรเจกต์ให้คนอื่นอ่านรู้เรื่อง
-.env / .env.example	แยก config เช่น API_KEY ออกไปจากโค้ด
-404.html (ใน public/)	สำหรับ SPA รองรับ fallback หน้า
-
-
-
----
-
-🚀 วิธีการใช้งานและพัฒนา
-
-✅ คำสั่งที่ควรรู้
-
-# ติดตั้ง dependency
+1. **ติดตั้ง dependencies**  
+```bash
 pnpm install
 
-# รันโหมดพัฒนา
-pnpm dev
-
-# สร้าง build สำหรับ production
-pnpm build
-
-# เปิดดู build
-pnpm preview
-
-
----
-
-🌗 Dark Mode Toggle
-
-> ใช้ผ่าน ThemeContext.tsx + ปุ่ม toggle ใน ThemeToggle.tsx
-ค่า theme จะถูกเก็บใน localStorage และมีการใช้ class dark บน <html>
+2. รันโปรเจกต์ในโหมดพัฒนา
 
 
 
+pnpm run dev
 
----
-
-🔍 SEO & OG Tag
-
-ใช้ react-helmet-async สำหรับใส่ <meta>, <title>, OG image
-
-ให้ตั้งค่าไว้ใน index.html และ App.tsx
+3. สร้างไฟล์ build สำหรับโปรดักชัน
 
 
-<Helmet>
-  <title>JP Visual & Docs</title>
-  <meta name="description" content="บริการครบวงจรเกี่ยวกับการเงิน เอกสาร และระบบ" />
-  <meta property="og:image" content="/repository-open-graph-template.png" />
-</Helmet>
+
+pnpm run build
+
+4. รันไฟล์ build แบบ local preview
+
+
+
+pnpm run preview
 
 
 ---
 
-📲 Progressive Web App (PWA)
+ฟีเจอร์เด่น
 
-> ตรวจสอบว่าใน vite.config.ts มี plugin PWA แล้วหรือยัง เช่น:
+ระบบธีม (Dark/Light) พร้อม Context API
 
+หน้า Hero พร้อมโลโก้พื้นหลังและลายเซ็นเจ้าป่า
 
+ระบบล็อกอินแบบ Secret Room
 
-import { VitePWA } from 'vite-plugin-pwa'
+ส่วนแสดงข้อมูลบริการ (Visa, Finance, Translation ฯลฯ)
 
-plugins: [
-  react(),
-  VitePWA({
-    manifest: {
-      name: 'JP Visual & Docs',
-      icons: [/* ... */],
-    },
-    registerType: 'autoUpdate',
-  })
-]
+Responsive Design สำหรับมือถือและเดสก์ท็อป
+
+Progressive Web App (PWA) รองรับการติดตั้งบนอุปกรณ์
+
+Smooth Scroll และ Animation ด้วย Framer Motion
+
 
 
 ---
 
-📁 ตัวอย่างโฟลเดอร์ที่ดีสำหรับโปรเจกต์นี้
+โครงสร้างโฟลเดอร์ src/components (ตัวอย่าง)
 
-src/
-├── components/
-│   ├── Hero.tsx
-│   ├── ServicesSection.tsx
-│   ├── ...
-│   └── skeletons/
-├── pages/        ← (เพิ่มถ้าแยกหน้าในอนาคต)
-├── assets/
-├── context/
-├── App.tsx
-├── main.tsx
+Hero.tsx — ส่วน Hero ของหน้าแรก
+
+About.tsx — ข้อมูลเกี่ยวกับบริษัท
+
+ServicesSection.tsx — แสดงบริการ
+
+ReviewsSection.tsx — รีวิวลูกค้า
+
+SecretRoom.tsx — ส่วนล็อกอินลับ
+
+ThemeToggle.tsx — สวิตช์เปลี่ยนธีม
+
+VisitorCount.tsx — ตัวนับผู้เยี่ยมชม
+
 
 
 ---
 
-📚 ข้อเสนอแนะเพิ่มเติม
+ข้อมูลอื่น ๆ
 
-เพิ่ม i18n (แปลภาษา) ถ้ามีแผนทำเว็บหลายภาษา
+ใช้ Tailwind CSS + DaisyUI ในการจัดแต่ง UI
 
-ใช้ React Router v6+ ถ้าจะมีหลายหน้าแทน SPA
+ใช้ React Context สำหรับจัดการธีมและสถานะล็อกอิน
 
-ใช้ zustand หรือ redux หาก state เริ่มซับซ้อนขึ้น
+ใช้ Vite เป็น build tool สำหรับความเร็วและง่ายต่อการตั้งค่า
 
-ใช้ commit lint + husky เพื่อควบคุมคุณภาพ git commit
+รูปภาพและไอคอนเก็บไว้ใน /src/assets
+
+ไฟล์ลายเซ็น SVG อยู่ใน root /signature.svg
+
+
+
+---
+
+ติดต่อ
+
+เว็บไซต์: https://applicationlubmobile.vercel.app/
+
+GitHub: https://github.com/myub217/projects
+
+LINE: @462FQTFC
+
+
+
+Prompt
+
+Design a professional website theme for a confidential consultancy and creative documentation brand named “JP VISUAL & DOCS”. 
+
+The visual tone should feel warm, elegant, calm, and trustworthy — suitable for private business services, visa/document guidance, and creative branding. 
+
+Use a muted luxury color palette with the following tones:
+- Primary: #D4B087 (Beige Sand)
+- Secondary: #B49B7F (Muted Gold)
+- Background: #F8F5F0 (Warm Ivory)
+- Text: #4A3F35 (Espresso Brown)
+- Accent: #EBD9C3 (Soft Glow Cream)
+- Optional Dark: #1E1A16 (Dark Coffee Black) for modals or deep sections
+
+Professional Thai document consultancy brand workspace scene. 
+Warm, soft lighting. Clean espresso-brown wooden desk. Neatly stacked Thai documents and templates. 
+Visible Thai passport. Folder labeled “JP Visual & Docs”. 
+Laptop glowing softly with blurred LINE OA dashboard visible. 
+Printed logo mockup and branding sketches beside. 
+Background shows faint finance-related icons or paperwork.
+Muted luxury color palette: beige sand (#D4B087), ivory (#F8F5F0), espresso brown (#4A3F35), soft gold accents. 
+Leave bottom third clean and bright for Thai text overlay. 
+No people. No coffee cup. No cartoon or neon. Calm and premium branding tone.

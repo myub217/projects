@@ -14,10 +14,13 @@ const SEOHelmet: React.FC<SEOProps> = ({
   image = "/og-image.png",
   url = "https://yourdomain.com",
 }) => {
-  const fullImage = image.startsWith("http")
-    ? image
-    : `${url.replace(/\/+$/, "")}${image.startsWith("/") ? "" : "/"}${image}`;
+  // สร้าง full URL สำหรับภาพ og:image
+  const fullImage =
+    image.startsWith("http")
+      ? image
+      : `${url.replace(/\/+$/, "")}${image.startsWith("/") ? "" : "/"}${image}`;
 
+  // ลิงก์ canonical ตัด / ท้ายออก
   const canonicalUrl = url.replace(/\/+$/, "");
 
   return (
@@ -33,7 +36,7 @@ const SEOHelmet: React.FC<SEOProps> = ({
       <meta property="og:image" content={fullImage} />
       <meta property="og:url" content={canonicalUrl} />
 
-      {/* Twitter */}
+      {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />

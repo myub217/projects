@@ -20,6 +20,7 @@ interface SocialLink {
 }
 
 const Footer: React.FC = () => {
+  // ประกาศ currentYear
   const currentYear = new Date().getFullYear();
 
   const menuItems: MenuItem[] = [
@@ -133,25 +134,27 @@ const Footer: React.FC = () => {
         >
           <h3 className="text-base font-semibold mb-2">ติดต่อ</h3>
           <ul role="list" className="space-y-2">
-            {socialLinks.map(({ href, label, Icon, ariaLabel, external, nofollow }) => (
-              <li key={href} itemProp="sameAs">
-                <a
-                  href={href}
-                  target={external ? "_blank" : undefined}
-                  rel={
-                    external
-                      ? `noopener noreferrer${nofollow ? " nofollow" : ""}`.trim()
-                      : undefined
-                  }
-                  className="inline-flex items-center gap-2 hover:text-primary dark:hover:text-primary transition-colors duration-300 ease-in-out focus:outline-none focus-visible:ring ring-primary rounded-md p-1.5"
-                  aria-label={ariaLabel}
-                  title={ariaLabel}
-                >
-                  <Icon className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
-                  <span>{label}</span>
-                </a>
-              </li>
-            ))}
+            {socialLinks.map(
+              ({ href, label, Icon, ariaLabel, external, nofollow }) => (
+                <li key={href} itemProp="sameAs">
+                  <a
+                    href={href}
+                    target={external ? "_blank" : undefined}
+                    rel={
+                      external
+                        ? `noopener noreferrer${nofollow ? " nofollow" : ""}`.trim()
+                        : undefined
+                    }
+                    className="inline-flex items-center gap-2 hover:text-primary dark:hover:text-primary transition-colors duration-300 ease-in-out focus:outline-none focus-visible:ring ring-primary rounded-md p-1.5"
+                    aria-label={ariaLabel}
+                    title={ariaLabel}
+                  >
+                    <Icon className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
+                    <span>{label}</span>
+                  </a>
+                </li>
+              )
+            )}
           </ul>
         </section>
 

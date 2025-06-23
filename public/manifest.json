@@ -2,13 +2,13 @@
   "name": "JP Visual & Docs",
   "short_name": "JP Docs",
   "description": "บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน โดย JP Visual & Docs",
+  "lang": "th",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#1A237E",
-  "orientation": "portrait-primary",
-  "lang": "th",
-  "scope": "/",
   "icons": [
     {
       "src": "/assets/icons/icon-192x192.png",
@@ -34,5 +34,7 @@
       "type": "image/png",
       "purpose": "maskable"
     }
-  ]
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 }

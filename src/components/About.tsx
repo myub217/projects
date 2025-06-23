@@ -29,12 +29,12 @@ const socialLinks = [
   {
     name: "Telegram",
     href: "https://t.me/yourtelegram",
-    src: "/images/icons/Telagarm.svg",
+    src: "/images/icons/Telegram.svg",
     alt: "Telegram",
     className: "w-8 h-8",
   },
   {
-    name: "Tiktok",
+    name: "TikTok",
     href: "https://tiktok.com/@yourprofile",
     src: "/images/icons/Tiktok.svg",
     alt: "TikTok",
@@ -64,6 +64,7 @@ const About: React.FC = () => {
             loading="lazy"
             decoding="async"
             className="rounded-2xl shadow-xl w-full h-auto object-cover"
+            draggable={false}
           />
         </motion.div>
 
@@ -107,8 +108,7 @@ const About: React.FC = () => {
             </p>
 
             <blockquote
-              className="mt-8 text-right italic font-medium text-gray-600 dark:text-white/70 border-r-4 border-white/50 pr-4 flex flex-col items-end gap-2"
-              style={{ maxWidth: "320px" }}
+              className="mt-8 text-right italic font-medium text-gray-600 dark:text-white/70 border-r-4 border-white/50 pr-4 flex flex-col items-end gap-2 max-w-xs"
             >
               <motion.span
                 initial={{ opacity: 0, y: 10 }}
@@ -145,8 +145,10 @@ const About: React.FC = () => {
             <a
               href="mailto:contact@yourdomain.com"
               className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-full shadow-lg transition-colors duration-300"
+              aria-label="ติดต่อเรา ผ่านอีเมล"
+              title="ติดต่อเรา"
             >
-              <FaEnvelope className="text-lg" />
+              <FaEnvelope className="text-lg" aria-hidden="true" />
               ติดต่อเรา
             </a>
           </div>
@@ -165,7 +167,13 @@ const About: React.FC = () => {
                 aria-label={name}
                 className="hover:opacity-80 transition-opacity hover:scale-110 transform duration-300"
               >
-                <img src={src} alt={alt} className={className} loading="lazy" />
+                <img
+                  src={src}
+                  alt={alt}
+                  className={className}
+                  loading="lazy"
+                  draggable={false}
+                />
               </a>
             ))}
           </nav>

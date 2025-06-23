@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="th" class="scroll-smooth">
+<html lang="th" dir="ltr" class="scroll-smooth dark">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     <title>JP Visual & Docs</title>
 
-    <!-- ✅ Preconnect & Font -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,28 +14,33 @@
       rel="stylesheet"
     />
 
-    <!-- ✅ PWA Manifest -->
+    <!-- Tailwind CSS -->
+    <link href="/dist/output.css" rel="stylesheet" />
+
+    <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#1A237E" />
+    <meta name="theme-color" content="#2C3E50" />
 
-    <!-- ✅ Favicon & Icons -->
-    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <!-- Icons -->
+    <link rel="icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
-    <link rel="shortcut icon" href="/favicon.ico" />
 
-    <!-- ✅ SEO Meta -->
+    <!-- SEO Meta -->
     <meta
       name="description"
-      content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน JP Visual & Docs"
+      content="JP Visual & Docs ให้บริการวีซ่า การเงิน เอกสารสำคัญและระบบจัดการหลังบ้านอย่างมืออาชีพ"
     />
     <meta name="author" content="JP Visual & Docs" />
-    <meta name="keywords" content="เอกสาร, กู้เงิน, วีซ่า, ระบบหลังบ้าน, โปรไฟล์, การเงิน" />
+    <meta
+      name="keywords"
+      content="วีซ่า, เอกสาร, กู้เงิน, แปลภาษา, โปรไฟล์, การเงิน, JP Visual & Docs"
+    />
 
-    <!-- ✅ Open Graph Meta -->
+    <!-- Open Graph -->
     <meta property="og:title" content="JP Visual & Docs" />
     <meta
       property="og:description"
-      content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน"
+      content="บริการวีซ่า การเงิน เอกสารสำคัญ โปรไฟล์ และระบบจัดการหลังบ้าน"
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://applicationlubmobile.vercel.app" />
@@ -44,50 +48,38 @@
       property="og:image"
       content="https://applicationlubmobile.vercel.app/og-image.png"
     />
-    <meta property="og:image:alt" content="JP Visual & Docs Logo" />
+    <meta property="og:image:alt" content="JP Visual & Docs Cover" />
     <meta property="og:locale" content="th_TH" />
 
-    <!-- ✅ Twitter Card -->
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="JP Visual & Docs" />
     <meta
       name="twitter:description"
-      content="บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ ระบบหลังบ้าน"
+      content="บริการวีซ่า เอกสาร การเงิน โปรไฟล์ และระบบหลังบ้าน"
     />
     <meta
       name="twitter:image"
       content="https://applicationlubmobile.vercel.app/og-image.png"
     />
-    <meta name="twitter:creator" content="@yourtwitterhandle" />
+    <meta name="twitter:creator" content="@jpdocs" />
 
-    <!-- ✅ Preload Hero Image -->
+    <!-- Preload Hero Image -->
     <link rel="preload" as="image" href="/hero.webp" type="image/webp" />
 
-    <!-- ✅ iOS / Android PWA Support -->
+    <!-- Mobile App Support -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-    <!-- ✅ Canonical URL -->
+    <!-- Canonical -->
     <link rel="canonical" href="https://applicationlubmobile.vercel.app" />
-
-    <!-- ✅ CSP (แนะนำใน production) -->
-    <!--
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="
-        default-src 'self';
-        img-src 'self' data: https:;
-        script-src 'self';
-        style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
-        font-src https://fonts.gstatic.com;
-      "
-    />
-    -->
   </head>
 
-  <body class="font-sans bg-base-100 text-base-content">
+  <body class="font-sans bg-background text-foreground antialiased transition-colors duration-300">
     <div id="root"></div>
+
+    <!-- Main Script -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

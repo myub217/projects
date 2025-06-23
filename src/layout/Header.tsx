@@ -4,7 +4,13 @@ import jpLogo from "../assets/jp-logo.png";
 import ThemeToggle from "../components/ThemeToggle";
 import MobileMenu from "../components/MobileMenu";
 
-const navLinks = [
+interface NavLink {
+  label: string;
+  href: string;
+  highlight?: boolean;
+}
+
+const navLinks: NavLink[] = [
   { label: "เกี่ยวกับเรา", href: "#about" },
   { label: "บริการ", href: "#services" },
   { label: "ผลงาน", href: "#portfolio" },
@@ -18,15 +24,12 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
-  const [currentHash, setCurrentHash] = useState("");
+  const [currentHash, setCurrentHash] = useState<string>(window.location.hash || "");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const updateHash = () => {
-      setCurrentHash(window.location.hash || "#");
-    };
-    updateHash();
+    const updateHash = () => setCurrentHash(window.location.hash || "");
     window.addEventListener("hashchange", updateHash);
     return () => window.removeEventListener("hashchange", updateHash);
   }, []);
@@ -38,6 +41,21 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
     },
     [currentHash]
   );
+
+  // Close mobile menu on navigation or Escape key press for better UX
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsMobileMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isMobileMenuOpen]);
 
   return (
     <>
@@ -68,7 +86,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
             </span>
           </a>
 
-          {/* Desktop Nav */}
+          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-700 dark:text-gray-300">
             {navLinks.map(({ label, href, highlight }) => {
               const active = isLinkActive(href);
@@ -110,9 +128,9 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
             {/* Mobile Menu Toggle */}
             <button
               ref={menuButtonRef}
-              onClick={() => setIsMobileMenuOpen(true)}
+              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
               type="button"
-              aria-label="เปิดเมนูมือถือ"
+              aria-label={isMobileMenuOpen ? "ปิดเมนูมือถือ" : "เปิดเมนูมือถือ"}
               title="เมนูมือถือ"
               aria-haspopup="true"
               aria-expanded={isMobileMenuOpen}
@@ -132,7 +150,10 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
       {/* Mobile Menu Component */}
       <MobileMenu
         isOpen={isMobileMenuOpen}
-        onClose={() => setIsMobileMenuOpen(false)}
+        onClose={() => {
+          setIsMobileMenuOpen(false);
+          menuButtonRef.current?.focus();
+        }}
         links={navLinks}
         triggerRef={menuButtonRef}
       />
