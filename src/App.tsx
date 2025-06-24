@@ -12,8 +12,11 @@ import SecretRoomPage from "@/pages/SecretRoomPage";
 // Hook for scrolling to top on route change
 import useScrollToTop from "@/hooks/useScrollToTop";
 
+// Route protection
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
+
 const App: React.FC = () => {
-  useScrollToTop(); // Scroll to top when route changes
+  useScrollToTop(); // เลื่อนขึ้นบนสุดเมื่อเปลี่ยนเส้นทาง
 
   return (
     <Routes>
@@ -27,20 +30,22 @@ const App: React.FC = () => {
         }
       />
 
-      {/* หน้าเข้าสู่ระบบ (ไม่ใช้ Layout เพื่อให้เต็มจอ) */}
+      {/* หน้าเข้าสู่ระบบ (ไม่มี Layout) */}
       <Route path="/login" element={<LoginPage />} />
 
-      {/* หน้า Secret Room ที่มี Layout ครอบ */}
+      {/* หน้า Secret Room ที่ใช้ Layout และ ProtectedRoute */}
       <Route
         path="/secret"
         element={
-          <Layout>
-            <SecretRoomPage />
-          </Layout>
+          <ProtectedRoute>
+            <Layout>
+              <SecretRoomPage />
+            </Layout>
+          </ProtectedRoute>
         }
       />
 
-      {/* เส้นทางอื่นๆ ให้ Redirect กลับไปหน้าแรก */}
+      {/* เส้นทางอื่นที่ไม่พบ: กลับไปหน้าแรก */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

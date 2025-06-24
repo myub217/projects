@@ -1,4 +1,3 @@
-// src/pages/HomePage.tsx
 import React, { lazy, Suspense, useEffect, useState, useRef } from "react";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
@@ -22,7 +21,8 @@ const HomePage: React.FC = () => {
   const hasLoaded = useRef(false);
 
   useEffect(() => {
-    if (!reviewsRef.current || hasLoaded.current) return;
+    if (hasLoaded.current) return;
+    if (!reviewsRef.current) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {

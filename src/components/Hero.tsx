@@ -62,7 +62,7 @@ const Hero: React.FC<HeroProps> = ({
               drop-shadow(0 0 3px rgba(255,255,255,0.5))
               drop-shadow(0 0 4px rgba(255,255,255,0.25))
             `,
-            marginBottom: "-0.25rem", // ลดช่องว่างให้น้อยลง
+            marginBottom: "-0.25rem",
           }}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}

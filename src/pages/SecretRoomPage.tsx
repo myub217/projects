@@ -1,20 +1,10 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import Layout from "../layout/Layout";
+// src/pages/SecretRoomPage.tsx
+import React from "react";
 import SEOHelmet from "../components/SEOHelmet";
 
 const SecretRoomPage: React.FC = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const isAuth = localStorage.getItem("auth") === "true";
-    if (!isAuth) {
-      navigate("/login", { replace: true });
-    }
-  }, [navigate]);
-
   return (
-    <Layout>
+    <>
       <SEOHelmet title="Secret Room" />
       <section
         className="py-12 px-4 text-center bg-base-100 dark:bg-gray-950"
@@ -37,7 +27,7 @@ const SecretRoomPage: React.FC = () => {
           </p>
         </div>
       </section>
-    </Layout>
+    </>
   );
 };
 

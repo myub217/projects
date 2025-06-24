@@ -1,23 +1,23 @@
-// src/pages/LoginPage.tsx
 import React from "react";
 import Layout from "../layout/Layout";
 import SEOHelmet from "../components/SEOHelmet";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // ดึงตำแหน่งที่ user จะถูกส่งกลับหลัง login สำเร็จ (default /secret)
+  const from = (location.state as any)?.from?.pathname || "/secret";
+
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // จำลองล็อกอิน: ตั้งค่าใน localStorage
     localStorage.setItem("auth", "true");
 
-    // กำหนดเส้นทาง redirect หลังล็อกอิน
-    const redirectTo =
-      (window.history.state &&
-        (window.history.state as any).usr?.from?.pathname) ||
-      "/secret";
-
-    // เปลี่ยนเส้นทางหน้าเว็บ (redirect)
-    window.location.href = redirectTo;
+    // เปลี่ยนเส้นทางไปยังหน้าที่ต้องการหลัง login
+    navigate(from, { replace: true });
   };
 
   return (
@@ -41,7 +41,6 @@ const LoginPage: React.FC = () => {
           className="w-full max-w-sm bg-white dark:bg-gray-800 shadow-md rounded-xl px-8 pt-6 pb-8 mb-4"
           onSubmit={handleLogin}
         >
-          {/* Username */}
           <div className="mb-4 text-left">
             <label
               htmlFor="username"
@@ -60,7 +59,6 @@ const LoginPage: React.FC = () => {
             />
           </div>
 
-          {/* Password */}
           <div className="mb-6 text-left">
             <label
               htmlFor="password"
@@ -79,7 +77,6 @@ const LoginPage: React.FC = () => {
             />
           </div>
 
-          {/* Submit Button */}
           <div className="flex items-center justify-center">
             <button
               type="submit"
