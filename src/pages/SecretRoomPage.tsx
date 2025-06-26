@@ -7,8 +7,8 @@ const SecretRoomPage: React.FC = () => {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState<string>("");
-  const [progress, setProgress] = useState<number>(100); // 100% at start
-  const [totalDuration, setTotalDuration] = useState<number>(0); // ms
+  const [progress, setProgress] = useState<number>(100);
+  const [totalDuration, setTotalDuration] = useState<number>(0);
 
   useEffect(() => {
     if (!currentUser) {
@@ -32,9 +32,7 @@ const SecretRoomPage: React.FC = () => {
         const minutes = Math.floor(diff / 60000);
         const seconds = Math.floor((diff % 60000) / 1000);
         setTimeLeft(`${minutes} นาที ${seconds} วินาที`);
-
-        const remainingPercent = Math.max(0, (diff / duration) * 100);
-        setProgress(remainingPercent);
+        setProgress(Math.max(0, (diff / duration) * 100));
       }
     };
 
@@ -58,7 +56,7 @@ const SecretRoomPage: React.FC = () => {
         aria-labelledby="secret-room-title"
       >
         <div className="max-w-6xl mx-auto space-y-12">
-          {/* Breadcrumb */}
+          {/* Breadcrumb + Logout */}
           <nav
             className="text-sm text-neutral-600 dark:text-neutral-400 flex justify-between items-center"
             aria-label="breadcrumb"
@@ -81,7 +79,7 @@ const SecretRoomPage: React.FC = () => {
             </button>
           </nav>
 
-          {/* Page Header */}
+          {/* Header */}
           <header className="text-center px-2 sm:px-0 space-y-3">
             <h1
               id="secret-room-title"
@@ -103,7 +101,7 @@ const SecretRoomPage: React.FC = () => {
             </div>
           </header>
 
-          {/* Features Section */}
+          {/* Features */}
           <section className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-8 md:p-10 space-y-6">
             <h2 className="text-xl sm:text-2xl font-semibold text-primary dark:text-accent">
               สิทธิพิเศษสำหรับสมาชิก
@@ -133,7 +131,7 @@ const SecretRoomPage: React.FC = () => {
             </div>
           </section>
 
-          {/* Example Document */}
+          {/* Document Preview */}
           <section
             aria-label="เอกสารหนังสือรับรองเงินเดือนตัวอย่าง"
             className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-4 sm:p-6 flex justify-center"
