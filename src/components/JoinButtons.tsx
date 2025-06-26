@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { FaFacebookMessenger, FaPhoneAlt, FaLine } from "react-icons/fa";
+import { FaFacebookMessenger, FaLine, FaCopy, FaCheckCircle } from "react-icons/fa";
+import { QRCodeSVG } from "qrcode.react";
+
+const lineURL = "https://lin.ee/1L4DoHO";
+const lineID = "@462fqtfc";
 
 const JoinButtons: React.FC = () => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyLineID = () => {
+    navigator.clipboard.writeText(lineID).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
   return (
     <motion.section
       className="text-center space-y-6 px-4 sm:px-0 py-12 max-w-3xl mx-auto"
@@ -19,43 +32,75 @@ const JoinButtons: React.FC = () => {
       >
         ติดต่อเรา
       </h2>
-      <p className="text-gray-700 dark:text-gray-300 max-w-xl mx-auto leading-relaxed">
-        หากคุณสนใจบริการของเรา หรือต้องการพูดคุยเพิ่มเติม เรายินดีให้คำแนะนำ!
+
+      <p className="text-gray-800 dark:text-gray-200 max-w-xl mx-auto leading-relaxed">
+        หากคุณสนใจบริการของเรา หรือต้องการพูดคุยเพิ่มเติม <br />
+        <span className="font-medium text-gray-700 dark:text-gray-300">
+          เราพร้อมให้คำแนะนำโดยไม่มีค่าใช้จ่ายเบื้องต้น
+        </span>
       </p>
 
-      <div className="flex flex-wrap justify-center gap-4 mt-6">
-        {/* Facebook Messenger */}
+      {/* LINE ID + Copy */}
+      <div className="flex items-center justify-center gap-3 mt-2">
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-400">
+          LINE ID: {lineID}
+        </span>
+        <button
+          onClick={handleCopyLineID}
+          className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition"
+          aria-label="คัดลอก LINE ID"
+        >
+          {copied ? (
+            <>
+              <FaCheckCircle className="text-green-500" />
+              <span aria-live="polite">คัดลอกแล้ว</span>
+            </>
+          ) : (
+            <>
+              <FaCopy />
+              <span>คัดลอก</span>
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* QR Code */}
+      <div className="flex justify-center mt-4">
+        <QRCodeSVG
+          value={lineURL}
+          size={192}
+          bgColor="transparent"
+          fgColor="#16a34a"
+          level="M"
+          className="rounded-lg shadow-lg border border-gray-300 dark:border-gray-700 p-2"
+          aria-label="QR Code สำหรับเพิ่มเพื่อนใน LINE"
+          title="QR Code LINE"
+        />
+      </div>
+
+      {/* Contact Buttons */}
+      <div className="flex flex-wrap justify-center gap-4 mt-8">
+        {/* Facebook */}
         <a
-          href="https://m.me/yourpage"
+          href="https://www.facebook.com/profile.php?id=61573307616115&mibextid=kFxxJD"
           target="_blank"
           rel="noopener noreferrer nofollow"
-          aria-label="ติดต่อผ่าน Facebook Messenger"
-          title="ติดต่อผ่าน Facebook Messenger"
-          className="btn btn-primary flex items-center gap-2 px-5 py-3 text-lg font-semibold transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/60 dark:focus:ring-secondary/70 rounded-lg"
+          aria-label="ติดต่อผ่าน Facebook"
+          title="ติดต่อผ่าน Facebook"
+          className="btn btn-primary flex items-center gap-2 px-5 py-3 text-lg font-semibold transition hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/60 dark:focus:ring-secondary/70 rounded-lg"
         >
           <FaFacebookMessenger className="w-6 h-6" aria-hidden="true" />
-          Messenger
-        </a>
-
-        {/* โทรศัพท์ */}
-        <a
-          href="tel:0891234567"
-          aria-label="โทรหาเรา"
-          title="โทรหาเรา"
-          className="btn btn-secondary flex items-center gap-2 px-5 py-3 text-lg font-semibold transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-secondary/60 dark:focus:ring-primary/70 rounded-lg"
-        >
-          <FaPhoneAlt className="w-6 h-6" aria-hidden="true" />
-          โทรหาเรา
+          Facebook
         </a>
 
         {/* LINE */}
         <a
-          href="https://line.me/ti/p/~yourlineid"
+          href={lineURL}
           target="_blank"
           rel="noopener noreferrer nofollow"
           aria-label="ติดต่อผ่าน LINE"
           title="ติดต่อผ่าน LINE"
-          className="btn btn-accent flex items-center gap-2 px-5 py-3 text-lg font-semibold transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent/60 dark:focus:ring-accent/70 rounded-lg"
+          className="btn btn-accent flex items-center gap-2 px-5 py-3 text-lg font-semibold transition hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent/60 dark:focus:ring-accent/70 rounded-lg"
         >
           <FaLine className="w-6 h-6" aria-hidden="true" />
           LINE

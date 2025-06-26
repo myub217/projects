@@ -11,46 +11,59 @@ const SecretRoomPage: React.FC = () => {
       />
 
       <main
-        className="min-h-screen py-16 px-4 bg-gray-50 dark:bg-gray-900 transition-colors duration-300"
+        className="min-h-screen bg-gradient-to-b from-base-100 to-gray-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300 py-20 px-4"
         aria-labelledby="secret-room-title"
       >
-        <div className="max-w-6xl mx-auto">
-          {/* Breadcrumb */}
-          <nav className="text-sm mb-6 text-gray-500 dark:text-gray-400">
-            <a href="/" className="hover:underline">หน้าแรก</a> / ห้องลับ
+        <div className="max-w-6xl mx-auto space-y-12">
+          {/* Navigation */}
+          <nav className="text-sm text-neutral-600 dark:text-neutral-400">
+            <a href="/" className="hover:underline">
+              หน้าแรก
+            </a>{" "}
+            / <span className="text-primary dark:text-accent">ห้องลับ</span>
           </nav>
 
           {/* Header */}
-          <div className="text-center">
+          <header className="text-center">
             <h1
               id="secret-room-title"
-              className="text-4xl sm:text-5xl font-extrabold text-primary dark:text-accent mb-6"
+              className="text-5xl font-extrabold text-primary dark:text-accent mb-4"
             >
-              🔒 ยินดีต้อนรับสู่ห้องลับ
+              🔒 ห้องลับเฉพาะสมาชิก
             </h1>
-            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-              คุณได้เข้าสู่พื้นที่พิเศษที่สงวนไว้สำหรับสมาชิกที่ผ่านการยืนยันตัวตนแล้วเท่านั้น
-              กรุณาใช้งานข้อมูลและฟีเจอร์ที่นี่อย่างมีความรับผิดชอบ
+            <p className="text-lg text-neutral-800 dark:text-neutral-300 max-w-2xl mx-auto leading-relaxed">
+              ยินดีต้อนรับเข้าสู่พื้นที่พิเศษสำหรับสมาชิกที่ได้รับอนุญาต
+              เข้าถึงฟีเจอร์เฉพาะทางและข้อมูลเชิงลึกได้ที่นี่
             </p>
-          </div>
+          </header>
 
-          {/* Feature Content */}
-          <section className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 space-y-6">
+          {/* Features */}
+          <section className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-8 md:p-10 space-y-6">
             <h2 className="text-2xl font-semibold text-primary dark:text-accent">
-              ฟีเจอร์พิเศษสำหรับคุณ
+              สิทธิพิเศษสำหรับสมาชิก
             </h2>
-
-            <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2 text-left">
-              <li>📄 ดาวน์โหลดเอกสารที่เกี่ยวข้อง</li>
-              <li>📊 รายงานความคืบหน้าของงานบริการ</li>
-              <li>🔧 ฟอร์มร้องขอเฉพาะสำหรับสมาชิกเท่านั้น</li>
-              <li>🧠 ระบบติดต่อด่วนถึงเจ้าหน้าที่ (Coming soon)</li>
-            </ul>
-
-            <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                หากคุณมีคำถามหรือข้อเสนอแนะ โปรดติดต่อทีม JP ผ่าน LINE
-                หรือช่องทางที่คุณสะดวก
+            <div className="grid gap-4 sm:grid-cols-2 text-left text-neutral-700 dark:text-neutral-200">
+              <div className="flex items-start gap-3">
+                <span className="text-2xl">📄</span>
+                <span>ดาวน์โหลดเอกสารที่เกี่ยวข้อง</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-2xl">📊</span>
+                <span>ดูรายงานความคืบหน้าของงานบริการ</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-2xl">🔧</span>
+                <span>เข้าถึงฟอร์มร้องขอเฉพาะสมาชิก</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-2xl">🧠</span>
+                <span>ระบบติดต่อเจ้าหน้าที่โดยตรง (เร็วๆ นี้)</span>
+              </div>
+            </div>
+            <div className="pt-6 border-t border-gray-200 dark:border-gray-600">
+              <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                หากคุณมีคำถามเพิ่มเติม โปรดติดต่อทีมงานผ่าน LINE @462FQTFC
+                หรือผ่านช่องทางที่คุณสะดวก
               </p>
             </div>
           </section>
