@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>หนังสือรับรองเงินเดือน</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Sarabun&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #eee;
+      font-family: 'Sarabun', sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      background: #fff;
+      padding: 20mm 25mm;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      font-size: 13.5pt;
+      line-height: 1.6;
+      color: #000;
+      overflow: hidden;
+    }
+
+    @media print {
+      html, body {
+        background: none;
+        margin: 0;
+        padding: 0;
+        -webkit-print-color-adjust: exact;
+      }
+
+      .page {
+        box-shadow: none;
+        width: 210mm;
+        height: 297mm;
+        padding: 20mm 25mm;
+        page-break-after: always;
+      }
+
+      @page {
+        size: A4;
+        margin: 0;
+      }
+    }
+
+    .header h1 {
+      font-size: 16pt;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .header h2 {
+      font-size: 14pt;
+      font-style: italic;
+      margin: 4px 0 12px;
+      color: #555;
+    }
+
+    .document-id {
+      font-size: 13pt;
+      color: #333;
+      margin: 20px 0;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 17pt;
+      font-weight: bold;
+      text-decoration: underline;
+      margin-bottom: 28px;
+    }
+
+    .content {
+      flex-grow: 1;
+      text-align: justify;
+    }
+
+    .content p {
+      text-indent: 2em;
+      margin: 14px 0;
+    }
+
+    .salary-details {
+      margin: 12px 0 28px 64px;
+      list-style-type: disc;
+    }
+
+    .salary-details li {
+      margin: 6px 0;
+    }
+
+    .issue-signature-wrapper {
+      max-width: 100%;
+      margin-left: auto;
+      font-size: 14pt;
+      color: #222;
+      margin-top: 48px;
+      text-align: right;
+      line-height: 1.8;
+    }
+
+    .issue-signature-wrapper p {
+      margin: 0;
+    }
+
+    .issue-signature-wrapper p:nth-child(1) {
+      padding-right: 24px;
+    }
+
+    .issue-signature-wrapper p:nth-child(2) {
+      padding-right: 80px;
+      font-weight: bold;
+    }
+
+    .issue-signature-wrapper p:nth-child(3) {
+      padding-right: 60px;
+      margin-bottom: 12px;
+    }
+
+    .notes {
+      margin-top: 48px;
+      padding-top: 12px;
+      font-size: 13pt;
+      color: #555;
+      border-top: 1px solid #ccc;
+    }
+
+    .notes strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #000;
+    }
+
+    .notes p {
+      text-indent: 2em;
+      margin: 6px 0;
+    }
+
+    .footer {
+      font-size: 13pt;
+      line-height: 1.5;
+      color: #333;
+      margin-top: auto;
+      padding-top: 24px;
+    }
+
+    .footer p {
+      margin: 4px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <main>
+      <div class="header">
+        <h1>บริษัท เจ้าป่าการตลาดนอกกรอบ จำกัด</h1>
+        <h2>JOAPAAKANTARADNOKGROB CO., LTD.</h2>
+      </div>
+
+      <div class="document-id">
+        เลขที่เอกสาร: HR. Cer 123456789
+      </div>
+
+      <div class="title">หนังสือรับรองเงินเดือน</div>
+
+      <div class="content">
+        <p>
+          หนังสือรับรองฉบับนี้ขอรับรองว่า <strong>นาย เจ้าป่า นามสมมุติ</strong>
+          เป็นพนักงานของบริษัท <strong>เจ้าป่าการตลาดนอกกรอบ จำกัด</strong>
+          โดยเริ่มปฏิบัติงานตั้งแต่วันที่ <strong>99 ธันวาคม 3456</strong> จนถึงปัจจุบัน
+          ในตำแหน่ง <strong>BOSSRAISARA</strong> แผนกฝ่าย <strong>MAIMEPAYOD</strong>
+        </p>
+
+        <p>ได้รับรายได้ดังนี้:</p>
+        <ul class="salary-details">
+          <li>เงินเดือน เดือนละ 50,000 บาท</li>
+          <li>ค่าตำแหน่ง เดือนละ 5,000 บาท</li>
+          <li>ค่าครองชีพ เดือนละ 3,000 บาท</li>
+        </ul>
+
+        <div class="issue-signature-wrapper">
+          <p>ออกให้ ณ วันที่ <strong>1 ธันวาคม 2345</strong></p>
+          <p>Drapaakantarad</p>
+          <p>(นาย เจ้าป่า นามสมมุติ)</p>
+          <p>แผนกฝ่ายบริหารทรัพยากรบุคคลและบริการองค์กร</p>
+        </div>
+
+        <div class="notes">
+          <strong>หมายเหตุ:</strong>
+          <p>1. หนังสือรับรองนี้เป็นการยืนยันการเป็นพนักงานบริษัทเท่านั้น</p>
+          <p>2. หนังสือรับรองฉบับนี้ต้องไม่มีรอยขูด ขีด ลบ แต่อย่างใด จึงถือว่าสมบูรณ์</p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>ฝ่ายทรัพยากรบุคคล โทร. 02 345-6789 ต่อ 123</p>
+      <p>234/56 บริษัท เจ้าป่าการตลาดนอกกรอบ จำกัด</p>
+      <p>ตึกเวิลด์เทรด ชั้น 109 รัฐฉาน</p>
+      <p>เขตกวางตุ้ง ประเทศสหรัฐอเมริกา</p>
+    </footer>
+  </div>
+</body>
+</html>
