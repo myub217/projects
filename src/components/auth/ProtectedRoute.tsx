@@ -1,36 +1,36 @@
-import React, { useEffect, useState } from "react";
+// src/components/auth/ProtectedRoute.tsx
+import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
+  requiredRole?: "member" | "admin"; // ค่า default เป็น member
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  children,
+  requiredRole = "member",
+}) => {
+  const { isLoggedIn, role } = useAuth();
   const location = useLocation();
 
-  // เริ่มต้นตรวจสอบจาก localStorage
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return localStorage.getItem("auth") === "true";
-  });
-
-  useEffect(() => {
-    // ฟัง event เปลี่ยนแปลง localStorage (เช่น logout จาก tab อื่น)
-    const handleStorageChange = () => {
-      setIsAuthenticated(localStorage.getItem("auth") === "true");
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
-
-  // หากยังไม่ล็อกอิน ให้ redirect ไปหน้า /login พร้อมส่งตำแหน่งเดิมใน state
-  if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+  // ❌ ยังไม่เข้าสู่ระบบ → ไปหน้า login พร้อมเก็บตำแหน่งที่มาด้วย
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
-  // หากล็อกอินแล้ว แสดง children ตามปกติ
+  // ❌ ผู้ใช้ทั่วไปแต่พยายามเข้าหน้า admin
+  if (requiredRole === "admin" && role !== "admin") {
+    return <Navigate to="/" replace />;
+  }
+
+  // ❌ ไม่ใช่ member หรือ admin (ไม่ควรเกิด ถ้าไม่มี role เลย)
+  if (requiredRole === "member" && role !== "member" && role !== "admin") {
+    return <Navigate to="/" replace />;
+  }
+
+  // ✅ ผ่านทุกเงื่อนไข แสดงเนื้อหาด้านใน
   return <>{children}</>;
 };
 

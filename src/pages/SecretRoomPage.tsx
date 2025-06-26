@@ -89,8 +89,7 @@ const SecretRoomPage: React.FC = () => {
               style={{
                 width: 794, // 210mm in px
                 height: 1123, // 297mm in px
-                boxShadow:
-                  "0 0 15px rgba(0,0,0,0.2)",
+                boxShadow: "0 0 15px rgba(0,0,0,0.2)",
               }}
             >
               <iframe

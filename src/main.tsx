@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import App from "./App";
+import { AuthProvider } from "./context/AuthContext"; // ✅ เพิ่ม
 import "./styles/global.css";
 
 // ตรวจสอบว่า root element มีอยู่จริงก่อน render
@@ -20,7 +21,9 @@ root.render(
   <React.StrictMode>
     <HelmetProvider>
       <BrowserRouter>
-        <App />
+        <AuthProvider> {/* ✅ ครอบ App ด้วย AuthProvider */}
+          <App />
+        </AuthProvider>
       </BrowserRouter>
     </HelmetProvider>
   </React.StrictMode>

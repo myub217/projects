@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { validateUser, users } = useAuth();
+
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -13,17 +18,40 @@ const LoginPage: React.FC = () => {
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { username, password } = formData;
+    if (loading) return;
 
-    if (username === "admin" && password === "25217") {
-      setMessage("🎉 เข้าสู่ระบบสำเร็จ");
-      // บันทึกสถานะล็อกอิน
-      localStorage.setItem("auth", "true");
-      // ไปหน้า SecretRoomPage
-      navigate("/secret");
-    } else {
-      setMessage("❌ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+    const username = formData.username.trim();
+    const password = formData.password;
+
+    if (!username || !password) {
+      setMessage("กรุณากรอกชื่อผู้ใช้และรหัสผ่าน");
+      return;
     }
+
+    setLoading(true);
+
+    setTimeout(() => {
+      const success = validateUser(username, password);
+
+      if (success) {
+        const foundUser = users.find((u) => u.username === username);
+        const userRole = foundUser?.role;
+
+        setMessage(`🎉 ยินดีต้อนรับ ${username}`);
+        setFormData({ username: "", password: "" });
+
+        // นำทางไปหน้าที่เหมาะสมหลัง login สำเร็จ
+        if (userRole === "admin") {
+          navigate("/admin", { replace: true });
+        } else {
+          navigate("/secret", { replace: true }); // สำหรับสมาชิกทุกคน (member และอื่นๆ)
+        }
+      } else {
+        setMessage("❌ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง หรือหมดอายุแล้ว");
+      }
+
+      setLoading(false);
+    }, 500);
   };
 
   return (
@@ -41,14 +69,17 @@ const LoginPage: React.FC = () => {
       <form
         onSubmit={handleLogin}
         className="w-full max-w-sm bg-white dark:bg-gray-800 shadow-lg rounded-2xl px-8 pt-6 pb-8 space-y-4"
+        noValidate
       >
         {message && (
           <div
             className={`text-sm font-medium text-left ${
-              message.includes("สำเร็จ")
+              message.includes("ยินดีต้อนรับ")
                 ? "text-green-600 dark:text-green-400"
                 : "text-red-600 dark:text-red-400"
             }`}
+            role="alert"
+            aria-live="assertive"
           >
             {message}
           </div>
@@ -70,8 +101,10 @@ const LoginPage: React.FC = () => {
             autoComplete="username"
             value={formData.username}
             onChange={handleChange}
-            placeholder="username"
+            placeholder="เช่น user01 หรือ admin"
             className="input input-bordered w-full bg-white dark:bg-gray-900 text-gray-800 dark:text-white"
+            disabled={loading}
+            aria-label="ชื่อผู้ใช้"
           />
         </div>
 
@@ -92,6 +125,8 @@ const LoginPage: React.FC = () => {
             onChange={handleChange}
             placeholder="••••••••"
             className="input input-bordered w-full bg-white dark:bg-gray-900 text-gray-800 dark:text-white"
+            disabled={loading}
+            aria-label="รหัสผ่าน"
           />
         </div>
 
@@ -99,8 +134,9 @@ const LoginPage: React.FC = () => {
           type="submit"
           className="btn btn-primary w-full"
           aria-label="เข้าสู่ระบบ"
+          disabled={loading}
         >
-          เข้าสู่ระบบ
+          {loading ? "กำลังตรวจสอบ..." : "เข้าสู่ระบบ"}
         </button>
       </form>
     </section>

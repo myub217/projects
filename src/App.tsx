@@ -1,3 +1,4 @@
+// src/App.tsx
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
@@ -8,19 +9,20 @@ import Layout from "@/layout/Layout";
 import HomePage from "@/pages/HomePage";
 import LoginPage from "@/pages/LoginPage";
 import SecretRoomPage from "@/pages/SecretRoomPage";
+import AdminUserManagement from "@/pages/AdminUserManagement";
 
-// Hook for scrolling to top on route change
+// Hook
 import useScrollToTop from "@/hooks/useScrollToTop";
 
 // Route protection
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
 const App: React.FC = () => {
-  useScrollToTop(); // เลื่อนขึ้นบนสุดเมื่อเปลี่ยนเส้นทาง
+  useScrollToTop(); // scroll to top when route changes
 
   return (
     <Routes>
-      {/* หน้าแรก พร้อม Layout ครอบ */}
+      {/* หน้าหลัก */}
       <Route
         path="/"
         element={
@@ -30,14 +32,14 @@ const App: React.FC = () => {
         }
       />
 
-      {/* หน้าเข้าสู่ระบบ (ไม่มี Layout) */}
+      {/* หน้าล็อกอิน */}
       <Route path="/login" element={<LoginPage />} />
 
-      {/* หน้า Secret Room ที่ใช้ Layout และ ProtectedRoute */}
+      {/* Secret room สำหรับสมาชิกทั่วไป */}
       <Route
         path="/secret"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredRole="member">
             <Layout>
               <SecretRoomPage />
             </Layout>
@@ -45,7 +47,19 @@ const App: React.FC = () => {
         }
       />
 
-      {/* เส้นทางอื่นที่ไม่พบ: กลับไปหน้าแรก */}
+      {/* Admin panel สำหรับผู้ดูแลระบบ */}
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute requiredRole="admin">
+            <Layout>
+              <AdminUserManagement />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+
+      {/* กรณี path ไม่ตรงกับที่มี */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
