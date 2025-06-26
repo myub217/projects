@@ -4,7 +4,6 @@ import { services } from "@/data/services";
 import ServiceCard from "@/components/ServiceCard";
 
 const ServicesSection: React.FC = () => {
-  // แยกบริการที่เปิดให้ใช้งาน และบริการที่จะมาเร็ว ๆ นี้
   const availableServices = services.filter((s) => s.available);
   const comingSoonServices = services.filter((s) => !s.available);
 
@@ -15,6 +14,7 @@ const ServicesSection: React.FC = () => {
       aria-labelledby="services-title"
       className="py-16 px-4 sm:px-6 lg:px-8 bg-base-200"
     >
+      {/* Section Heading */}
       <div className="max-w-7xl mx-auto text-center">
         <h2
           id="services-title"
@@ -27,10 +27,13 @@ const ServicesSection: React.FC = () => {
         </p>
       </div>
 
-      {/* บริการที่เปิดให้ใช้งาน */}
+      {/* Available Services */}
       {availableServices.length > 0 && (
-        <div className="mt-12" aria-label="บริการพร้อมให้บริการ">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="mt-12" aria-labelledby="available-services-title">
+          <h3
+            id="available-services-title"
+            className="text-xl font-semibold text-gray-900 dark:text-white mb-6 text-left"
+          >
             พร้อมให้บริการ
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -41,10 +44,16 @@ const ServicesSection: React.FC = () => {
         </div>
       )}
 
-      {/* บริการที่จะมาเร็ว ๆ นี้ */}
+      {/* Coming Soon Services */}
       {comingSoonServices.length > 0 && (
-        <div className="mt-16 opacity-70 select-none pointer-events-none" aria-label="บริการจะมาเร็ว ๆ นี้">
-          <h3 className="text-xl font-semibold text-gray-500 dark:text-gray-400 mb-4">
+        <div
+          className="mt-16 opacity-70 select-none pointer-events-none"
+          aria-labelledby="coming-soon-services-title"
+        >
+          <h3
+            id="coming-soon-services-title"
+            className="text-xl font-semibold text-gray-500 dark:text-gray-400 mb-6 text-left"
+          >
             บริการที่จะมาเร็ว ๆ นี้
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
