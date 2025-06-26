@@ -7,11 +7,14 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const location = useLocation();
+
+  // เริ่มต้นตรวจสอบจาก localStorage
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     return localStorage.getItem("auth") === "true";
   });
 
   useEffect(() => {
+    // ฟัง event เปลี่ยนแปลง localStorage (เช่น logout จาก tab อื่น)
     const handleStorageChange = () => {
       setIsAuthenticated(localStorage.getItem("auth") === "true");
     };
@@ -22,12 +25,12 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     };
   }, []);
 
+  // หากยังไม่ล็อกอิน ให้ redirect ไปหน้า /login พร้อมส่งตำแหน่งเดิมใน state
   if (!isAuthenticated) {
-    // หากยังไม่ได้ล็อกอิน ให้ redirect ไปหน้า login พร้อมบันทึกตำแหน่งเดิมไว้ใน state
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // ถ้า authenticated แล้ว แสดง children ที่ถูกป้องกันไว้
+  // หากล็อกอินแล้ว แสดง children ตามปกติ
   return <>{children}</>;
 };
 

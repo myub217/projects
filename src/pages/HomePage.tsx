@@ -5,6 +5,7 @@ import ServicesSection from "@/components/ServicesSection";
 import PortfolioSection from "@/components/PortfolioSection";
 import JoinButtons from "@/components/JoinButtons";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import SEOHelmet from "@/components/SEOHelmet";
 
 // Lazy-load รีวิว
 const ReviewsSectionLazy = lazy(() => import("@/components/ReviewsSection"));
@@ -21,8 +22,7 @@ const HomePage: React.FC = () => {
   const hasLoaded = useRef(false);
 
   useEffect(() => {
-    if (hasLoaded.current) return;
-    if (!reviewsRef.current) return;
+    if (hasLoaded.current || !reviewsRef.current) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -32,7 +32,10 @@ const HomePage: React.FC = () => {
           observer.disconnect();
         }
       },
-      { rootMargin: "200px" }
+      {
+        rootMargin: "200px",
+        threshold: 0.1,
+      }
     );
 
     observer.observe(reviewsRef.current);
@@ -44,6 +47,9 @@ const HomePage: React.FC = () => {
       className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-all duration-300"
       aria-label="หน้าแรก"
     >
+      {/* SEO Title */}
+      <SEOHelmet title="JP Visual & Docs | บริการเอกสาร วีซ่า ยื่นกู้ ครบวงจร" />
+
       {/* Hero Section */}
       <Hero />
 
@@ -70,9 +76,11 @@ const HomePage: React.FC = () => {
         aria-labelledby="reviews-title"
       >
         <ErrorBoundary>
-          <Suspense fallback={ReviewFallback}>
-            {loadReviews ? <ReviewsSectionLazy /> : ReviewFallback}
-          </Suspense>
+          {loadReviews && (
+            <Suspense fallback={ReviewFallback}>
+              <ReviewsSectionLazy />
+            </Suspense>
+          )}
         </ErrorBoundary>
       </section>
 

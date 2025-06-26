@@ -1,26 +1,17 @@
-// src/utils/tempAuth.ts
+// src/utils/authHelpers.ts
+
+import { TEMP_USERS } from "./tempAuth";
 
 /**
- * รายชื่อผู้ใช้และรหัสผ่านชั่วคราว
- * ใช้สำหรับจำลองระบบล็อกอินแบบ manual
- * มีวันหมดอายุเพื่อความปลอดภัย
+ * ตรวจสอบว่าผู้ใช้และรหัสผ่านตรงกับบัญชีที่มี และไม่หมดอายุ
  */
+export function isValidUser(username: string, password: string): boolean {
+  const now = new Date();
 
-export interface TempUser {
-  username: string;
-  password: string;
-  expiresAt: Date;
+  return TEMP_USERS.some(
+    (user) =>
+      user.username === username &&
+      user.password === password &&
+      user.expiresAt > now
+  );
 }
-
-export const TEMP_USERS: TempUser[] = [
-  {
-    username: "admin",
-    password: "1234", // 🔐 เปลี่ยนได้ตามต้องการ
-    expiresAt: new Date("2025-07-31T23:59:59Z"), // ⏰ วันหมดอายุ (UTC)
-  },
-  {
-    username: "tester",
-    password: "5678",
-    expiresAt: new Date("2025-07-15T00:00:00Z"),
-  },
-];
