@@ -2,23 +2,18 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 
-const DEFAULT_KEYS = [
-  { username: "jpkey", password: "JP2025KEY", role: "member" },
-  { username: "admin", password: "25217", role: "admin" },
-  { username: "Myub25217", password: "22584566", role: "admin" },
-];
-
-const ADMIN_SECONDARY_CODE = "85208";
+const ADMIN_CREDENTIAL = { username: "myub25217", password: "25217" };
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const { validateUser, users, loginAs } = useAuth();
+  const { validateUser, users, addUser, loginAs } = useAuth();
 
   const [formData, setFormData] = useState({ username: "", password: "" });
-  const [secondCode, setSecondCode] = useState("");
-  const [redirectTo, setRedirectTo] = useState<"/admin" | "/secretroom">("/secretroom");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const [addingUser, setAddingUser] = useState(false);
+  const [newUser, setNewUser] = useState({ username: "", password: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -27,7 +22,6 @@ const LoginPage: React.FC = () => {
 
   const resetForm = () => {
     setFormData({ username: "", password: "" });
-    setSecondCode("");
     setMessage("");
   };
 
@@ -35,8 +29,8 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     if (loading) return;
 
-    const username = formData.username.trim();
-    const password = formData.password;
+    const username = formData.username.trim().toLowerCase();
+    const password = formData.password.trim();
 
     if (!username || !password) {
       setMessage("⚠️ กรุณากรอกชื่อผู้ใช้และรหัสผ่าน");
@@ -46,16 +40,18 @@ const LoginPage: React.FC = () => {
     setLoading(true);
 
     setTimeout(() => {
-      const defaultUser = DEFAULT_KEYS.find(
-        (u) => u.username.toLowerCase() === username.toLowerCase() && u.password === password
-      );
+      const isAdmin =
+        username === ADMIN_CREDENTIAL.username &&
+        password === ADMIN_CREDENTIAL.password;
 
       const userFromSystem = users.find(
-        (u) => u.username.toLowerCase() === username.toLowerCase()
+        (u) => u.username.toLowerCase() === username
       );
-      const isValid = validateUser(username.toLowerCase(), password);
+      const isValid = validateUser(username, password);
 
-      const user = defaultUser || (isValid && userFromSystem);
+      const user = isAdmin
+        ? { username, password, role: "admin" }
+        : isValid && userFromSystem;
 
       if (!user) {
         setMessage("❌ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง หรือบัญชีหมดอายุ");
@@ -63,127 +59,154 @@ const LoginPage: React.FC = () => {
         return;
       }
 
-      if (user.role === "admin" && secondCode !== ADMIN_SECONDARY_CODE) {
-        setMessage("🔐 กรุณากรอกรหัสยืนยัน 5 หลักสำหรับผู้ดูแลระบบ");
-        setLoading(false);
-        return;
-      }
-
       loginAs(user.role);
       resetForm();
 
-      // ไปยังเส้นทางที่เลือก (admin เลือกได้)
-      navigate(user.role === "admin" ? redirectTo : "/secretroom", { replace: true });
+      if (user.role === "admin") {
+        setAddingUser(true);
+      } else {
+        navigate("/secretroom", { replace: true });
+      }
+      setLoading(false);
     }, 400);
   };
 
-  const isAdminInput = ["admin", "myub25217"].includes(formData.username.trim().toLowerCase());
+  const handleAddUser = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const username = newUser.username.trim();
+    const password = newUser.password.trim();
+
+    if (!username || !password) {
+      setMessage("⚠️ กรอกชื่อและรหัสผ่านของผู้ใช้ใหม่");
+      return;
+    }
+
+    const exists = users.some((u) => u.username.toLowerCase() === username.toLowerCase());
+    if (exists) {
+      setMessage(`❌ ผู้ใช้ "${username}" มีอยู่ในระบบแล้ว`);
+      return;
+    }
+
+    addUser({ username, password, role: "member" });
+    setMessage(`✅ เพิ่มผู้ใช้ "${username}" สำเร็จ`);
+    setNewUser({ username: "", password: "" });
+  };
 
   return (
-    <section className="flex items-center justify-center min-h-screen bg-base-100 dark:bg-gray-950 px-4">
-      <form
-        onSubmit={handleLogin}
-        className="w-full max-w-sm p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl space-y-5"
-        noValidate
-      >
-        <h1 className="text-3xl font-bold text-center text-primary dark:text-accent mb-4">
-          เข้าสู่ระบบ
-        </h1>
+    <section className="flex flex-col items-center justify-center min-h-screen bg-base-100 dark:bg-gray-950 px-4">
+      {/* ฟอร์มล็อกอิน */}
+      {!addingUser && (
+        <form
+          onSubmit={handleLogin}
+          className="w-full max-w-sm p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl space-y-5"
+          noValidate
+        >
+          <h1 className="text-3xl font-bold text-center text-primary dark:text-accent mb-4">
+            เข้าสู่ระบบ
+          </h1>
 
-        {message && (
-          <div
-            className={`text-sm font-medium ${
-              message.includes("ผิด") || message.includes("กรอก")
-                ? "text-red-600 dark:text-red-400"
-                : "text-green-600 dark:text-green-400"
-            }`}
-            role="alert"
-          >
-            {message}
+          {message && (
+            <div
+              className={`text-sm font-medium text-center ${
+                message.includes("ผิด") || message.includes("กรอก") || message.includes("มีอยู่")
+                  ? "text-red-600 dark:text-red-400"
+                  : "text-green-600 dark:text-green-400"
+              }`}
+              role="alert"
+            >
+              {message}
+            </div>
+          )}
+
+          <div className="form-control">
+            <label htmlFor="username" className="label text-sm font-semibold text-gray-700 dark:text-gray-300">
+              ชื่อผู้ใช้
+            </label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              autoComplete="username"
+              required
+              disabled={loading}
+              value={formData.username}
+              onChange={handleChange}
+              className="input input-bordered bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+              placeholder="myub25217"
+            />
           </div>
-        )}
 
-        {/* Username */}
-        <div className="form-control">
-          <label htmlFor="username" className="label text-sm font-semibold text-gray-700 dark:text-gray-300">
-            ชื่อผู้ใช้
-          </label>
-          <input
-            id="username"
-            name="username"
-            type="text"
-            autoComplete="username"
-            required
-            disabled={loading}
-            value={formData.username}
-            onChange={handleChange}
-            className="input input-bordered bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-            placeholder="admin หรือ jpkey"
-          />
-        </div>
+          <div className="form-control">
+            <label htmlFor="password" className="label text-sm font-semibold text-gray-700 dark:text-gray-300">
+              รหัสผ่าน
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              required
+              disabled={loading}
+              value={formData.password}
+              onChange={handleChange}
+              className="input input-bordered bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+              placeholder="••••••••"
+            />
+          </div>
 
-        {/* Password */}
-        <div className="form-control">
-          <label htmlFor="password" className="label text-sm font-semibold text-gray-700 dark:text-gray-300">
-            รหัสผ่าน
-          </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            required
-            disabled={loading}
-            value={formData.password}
-            onChange={handleChange}
-            className="input input-bordered bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-            placeholder="••••••••"
-          />
-        </div>
+          <button type="submit" disabled={loading} className="btn btn-primary w-full">
+            {loading ? "กำลังตรวจสอบ..." : "เข้าสู่ระบบ"}
+          </button>
+        </form>
+      )}
 
-        {/* 2FA */}
-        {isAdminInput && (
-          <>
-            <div className="form-control">
-              <label htmlFor="secondCode" className="label text-sm font-semibold text-gray-700 dark:text-gray-300">
-                รหัสยืนยัน (5 หลัก)
-              </label>
-              <input
-                id="secondCode"
-                name="secondCode"
-                type="password"
-                inputMode="numeric"
-                maxLength={5}
-                disabled={loading}
-                value={secondCode}
-                onChange={(e) => setSecondCode(e.target.value)}
-                className="input input-bordered bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-                placeholder="852085"
-              />
+      {/* ฟอร์มเพิ่มผู้ใช้ใหม่ */}
+      {addingUser && (
+        <form
+          onSubmit={handleAddUser}
+          className="w-full max-w-md p-8 mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg space-y-5"
+        >
+          <h2 className="text-2xl font-bold text-center text-primary dark:text-accent mb-4">
+            เพิ่มผู้ใช้ใหม่
+          </h2>
+
+          {message && (
+            <div className="text-sm font-medium text-center text-green-600 dark:text-green-400">
+              {message}
             </div>
+          )}
 
-            <div className="form-control">
-              <label htmlFor="redirectTo" className="label text-sm font-semibold text-gray-700 dark:text-gray-300">
-                เข้าสู่หน้าหลังล็อกอิน
-              </label>
-              <select
-                id="redirectTo"
-                value={redirectTo}
-                onChange={(e) => setRedirectTo(e.target.value as "/admin" | "/secretroom")}
-                className="select select-bordered bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-              >
-                <option value="/admin">📋 หน้าผู้ดูแลระบบ (/admin)</option>
-                <option value="/secretroom">🔐 ห้องลับผู้ใช้ (/secretroom)</option>
-              </select>
-            </div>
-          </>
-        )}
+          <div className="form-control">
+            <label className="label">ชื่อผู้ใช้ใหม่</label>
+            <input
+              type="text"
+              name="username"
+              value={newUser.username}
+              onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
+              className="input input-bordered"
+              placeholder="username"
+              required
+            />
+          </div>
 
-        {/* Submit */}
-        <button type="submit" disabled={loading} className="btn btn-primary w-full">
-          {loading ? "กำลังตรวจสอบ..." : "เข้าสู่ระบบ"}
-        </button>
-      </form>
+          <div className="form-control">
+            <label className="label">รหัสผ่าน</label>
+            <input
+              type="password"
+              name="password"
+              value={newUser.password}
+              onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+              className="input input-bordered"
+              placeholder="password"
+              required
+            />
+          </div>
+
+          <button type="submit" className="btn btn-success w-full">
+            ✅ เพิ่มผู้ใช้
+          </button>
+        </form>
+      )}
     </section>
   );
 };

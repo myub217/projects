@@ -1,5 +1,10 @@
-// src/context/AuthContext.tsx
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 
 type Role = "guest" | "member" | "admin";
 
@@ -40,7 +45,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [users, setUsers] = useState<User[]>([]);
 
-  // โหลดข้อมูลจาก localStorage ตอน mount
+  // โหลดผู้ใช้และสถานะล็อกอินจาก localStorage
   useEffect(() => {
     const storedUsers = localStorage.getItem("users");
     let validUsers: User[] = [];
@@ -55,13 +60,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     }
 
-    // สร้าง admin ถ้าไม่มี
-    const adminExists = validUsers.some((u) => u.username === "admin");
+    // ถ้าไม่มี myub25217 ให้สร้าง admin เริ่มต้น
+    const adminExists = validUsers.some(
+      (u) => u.username.toLowerCase() === "myub25217"
+    );
     if (!adminExists) {
       const expiresAt = new Date();
       expiresAt.setFullYear(expiresAt.getFullYear() + 10);
       validUsers.push({
-        username: "admin",
+        username: "myub25217",
         password: "25217",
         role: "admin",
         expiresAt: expiresAt.toISOString(),
@@ -71,6 +78,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUsers(validUsers);
     localStorage.setItem("users", JSON.stringify(validUsers));
 
+    // โหลดสถานะปัจจุบัน
     const storedRole = localStorage.getItem("role") as Role | null;
     const storedUserStr = localStorage.getItem("currentUser");
     let storedUser: User | null = null;
@@ -83,33 +91,49 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     }
 
-    if (storedRole && storedRole !== "guest" && storedUser) {
+    if (storedRole && storedUser) {
       setRole(storedRole);
-      setIsLoggedIn(true);
       setCurrentUser(storedUser);
+      setIsLoggedIn(true);
     }
   }, []);
 
-  // เก็บ users ทุกครั้งที่มีการเปลี่ยนแปลง
+  // Sync users กับ localStorage ทุกครั้งที่เปลี่ยน
   useEffect(() => {
     localStorage.setItem("users", JSON.stringify(users));
   }, [users]);
 
-  // เพิ่ม user ใหม่ (ถ้า username ซ้ำจะไม่เพิ่ม)
-  const addUser = (user: Omit<User, "expiresAt"> & { expiresMinutes: number }) => {
-    const exists = users.some((u) => u.username === user.username);
+  // เพิ่มผู้ใช้ใหม่
+  const addUser = (
+    user: Omit<User, "expiresAt"> & { expiresMinutes: number }
+  ) => {
+    const usernameLower = user.username.trim().toLowerCase();
+    const exists = users.some(
+      (u) => u.username.trim().toLowerCase() === usernameLower
+    );
     if (exists) return;
 
-    const expiresAt = new Date(Date.now() + user.expiresMinutes * 60000).toISOString();
-    const newUser: User = { ...user, expiresAt };
+    const expiresAt = new Date(
+      Date.now() + user.expiresMinutes * 60000
+    ).toISOString();
+    const newUser: User = {
+      username: user.username.trim(),
+      password: user.password.trim(),
+      role: user.role,
+      expiresAt,
+    };
+
     setUsers((prev) => [...prev, newUser]);
   };
 
-  // ตรวจสอบ user และ login
+  // ตรวจสอบผู้ใช้
   const validateUser = (username: string, password: string): boolean => {
     const now = new Date();
     const foundUser = users.find(
-      (u) => u.username === username && u.password === password && new Date(u.expiresAt) > now
+      (u) =>
+        u.username.toLowerCase() === username.toLowerCase() &&
+        u.password === password &&
+        new Date(u.expiresAt) > now
     );
 
     if (foundUser) {
@@ -124,7 +148,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return false;
   };
 
-  // loginAs สำหรับใช้ล็อกอินแบบ role โดยไม่ต้อง user/pass (ถ้าจำเป็น)
+  // เข้าสู่ระบบด้วย role (ใช้เฉพาะ admin เทียม)
   const loginAs = (newRole: Role) => {
     setRole(newRole);
     setIsLoggedIn(true);
@@ -133,7 +157,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("currentUser");
   };
 
-  // Logout ล้างข้อมูล
+  // ออกจากระบบ
   const logout = () => {
     setRole("guest");
     setIsLoggedIn(false);
@@ -144,7 +168,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ role, isLoggedIn, currentUser, users, loginAs, logout, addUser, validateUser }}
+      value={{
+        role,
+        isLoggedIn,
+        currentUser,
+        users,
+        loginAs,
+        logout,
+        addUser,
+        validateUser,
+      }}
     >
       {children}
     </AuthContext.Provider>
