@@ -1,4 +1,10 @@
-import React, { ReactNode, useEffect, useState, useCallback } from "react";
+// src/components/Layout.tsx
+import React, {
+  ReactNode,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import VisitorCount from "@/components/VisitorCount";
@@ -14,14 +20,14 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
   const [theme, setTheme] = useState<Theme>("light");
   const [userSetTheme, setUserSetTheme] = useState(false);
 
-  // ดึงธีมเริ่มต้นจาก localStorage หรือระบบปฏิบัติการ
+  // ดึงธีมเริ่มต้นจาก localStorage หรือ system preference
   useEffect(() => {
     const getInitialTheme = (): Theme => {
       try {
         const stored = localStorage.getItem("theme") as Theme | null;
         if (stored === "light" || stored === "dark") return stored;
       } catch {
-        // localStorage อาจไม่พร้อมใช้งาน
+        // ในกรณี localStorage ไม่พร้อม
       }
       return window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
@@ -32,7 +38,7 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
     setUserSetTheme(!!localStorage.getItem("theme"));
   }, []);
 
-  // ซิงก์ theme กับ class บน <html> และเก็บ localStorage หาก user ตั้งค่าเอง
+  // ซิงก์ theme กับ class บน <html>
   useEffect(() => {
     const root = document.documentElement;
     root.classList.toggle("dark", theme === "dark");
@@ -40,31 +46,30 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
       try {
         localStorage.setItem("theme", theme);
       } catch {
-        // localStorage อาจไม่พร้อมใช้งาน
+        // fallback: ไม่สามารถบันทึก theme
       }
     }
   }, [theme, userSetTheme]);
 
-  // ฟัง event เปลี่ยนธีมระบบ (เช่น user เปลี่ยน dark/light mode บน OS)
+  // ตรวจจับ system theme auto เปลี่ยน ถ้า user ยังไม่ตั้งค่าเอง
   useEffect(() => {
     if (userSetTheme) return;
 
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleChange = (e: MediaQueryListEvent) => setTheme(e.matches ? "dark" : "light");
+    const handleChange = (e: MediaQueryListEvent) =>
+      setTheme(e.matches ? "dark" : "light");
 
-    // Modern browsers
     if (mq.addEventListener) {
       mq.addEventListener("change", handleChange);
       return () => mq.removeEventListener("change", handleChange);
-    } 
-    // Fallback สำหรับบาง browser เก่า (เช่น Safari)
-    else if (mq.addListener) {
+    } else if (mq.addListener) {
+      // fallback สำหรับ Safari
       mq.addListener(handleChange);
       return () => mq.removeListener(handleChange);
     }
   }, [userSetTheme]);
 
-  // ฟังก์ชัน toggle ธีม (เรียกจากปุ่ม toggle ใน Header)
+  // toggle theme แบบ user interaction
   const toggleTheme = useCallback(() => {
     setTheme((prev) => {
       const next = prev === "light" ? "dark" : "light";
@@ -72,7 +77,7 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
       try {
         localStorage.setItem("theme", next);
       } catch {
-        // localStorage อาจไม่พร้อมใช้งาน
+        // fallback
       }
       return next;
     });
@@ -80,7 +85,7 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
 
   return (
     <>
-      {/* Skip Link เพื่อช่วยการเข้าถึง (Accessibility) */}
+      {/* Accessibility: Skip to Content */}
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:bg-pink-600 focus:text-white focus:px-4 focus:py-2 focus:rounded z-50"
@@ -105,7 +110,7 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
 
         <Footer />
 
-        {/* Visitor Count แสดงมุมขวาล่าง */}
+        {/* แสดงจำนวนผู้เยี่ยมชมที่มุมขวาล่าง */}
         <VisitorCount
           min={1000}
           max={3200}

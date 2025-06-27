@@ -1,3 +1,4 @@
+// src/components/Hero.tsx
 import React from "react";
 import { FaLock, FaDoorOpen } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -35,7 +36,8 @@ const Hero: React.FC<HeroProps> = ({
       {/* ซ่อนภาพพื้นหลังจาก screen reader */}
       <img
         src={heroBg}
-        alt="JP Visual Docs background"
+        alt=""
+        aria-hidden="true"
         className="sr-only"
         loading="lazy"
         draggable={false}
@@ -51,10 +53,10 @@ const Hero: React.FC<HeroProps> = ({
         {/* ลายเซ็นเจ้าป่า */}
         <motion.img
           src={signature}
-          alt="เจ้าป่า ลายเซ็น"
+          alt="ลายเซ็น JP Visual"
           loading="lazy"
-          className="select-none pointer-events-none w-20 sm:w-40 translate-y-2 sm:translate-y-1"
           draggable={false}
+          className="select-none pointer-events-none w-20 sm:w-40 translate-y-2 sm:translate-y-1"
           style={{
             filter: `
               brightness(2.3)

@@ -18,11 +18,11 @@ import useScrollToTop from "@/hooks/useScrollToTop";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
 const App: React.FC = () => {
-  useScrollToTop(); // scroll to top when route changes
+  useScrollToTop(); // Scroll ไปบนสุดเมื่อเปลี่ยนเส้นทาง
 
   return (
     <Routes>
-      {/* หน้าหลัก */}
+      {/* หน้าหลัก (Public) */}
       <Route
         path="/"
         element={
@@ -32,10 +32,10 @@ const App: React.FC = () => {
         }
       />
 
-      {/* หน้าล็อกอิน */}
+      {/* หน้า Login */}
       <Route path="/login" element={<LoginPage />} />
 
-      {/* Secret room สำหรับสมาชิกทั่วไป */}
+      {/* ห้องลับ สำหรับสมาชิก (member หรือ admin) */}
       <Route
         path="/secret"
         element={
@@ -47,7 +47,7 @@ const App: React.FC = () => {
         }
       />
 
-      {/* Admin panel สำหรับผู้ดูแลระบบ */}
+      {/* แอดมินเท่านั้น */}
       <Route
         path="/admin"
         element={
@@ -59,7 +59,7 @@ const App: React.FC = () => {
         }
       />
 
-      {/* กรณี path ไม่ตรงกับที่มี */}
+      {/* กรณี path ไม่ตรงกับที่กำหนด */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
