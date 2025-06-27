@@ -1,4 +1,3 @@
-// src/pages/LoginPage.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
@@ -6,9 +5,10 @@ import { useAuth } from "@/context/AuthContext";
 const DEFAULT_KEYS = [
   { username: "jpkey", password: "JP2025KEY", role: "member" },
   { username: "admin", password: "25217", role: "admin" },
+  { username: "Myub25217", password: "22584566", role: "admin" },
 ];
 
-const ADMIN_SECONDARY_CODE = "852085"; // 🔐 รหัส 2FA สำหรับ admin
+const ADMIN_SECONDARY_CODE = "852085";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -16,6 +16,7 @@ const LoginPage: React.FC = () => {
 
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [secondCode, setSecondCode] = useState("");
+  const [redirectTo, setRedirectTo] = useState<"/admin" | "/secretroom">("/secretroom");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -34,7 +35,7 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     if (loading) return;
 
-    const username = formData.username.trim().toLowerCase();
+    const username = formData.username.trim();
     const password = formData.password;
 
     if (!username || !password) {
@@ -45,72 +46,56 @@ const LoginPage: React.FC = () => {
     setLoading(true);
 
     setTimeout(() => {
-      // 🔐 ตรวจ Default Keys
       const defaultUser = DEFAULT_KEYS.find(
-        (key) => key.username.toLowerCase() === username && key.password === password
+        (u) => u.username.toLowerCase() === username.toLowerCase() && u.password === password
       );
 
-      if (defaultUser) {
-        if (defaultUser.role === "admin" && secondCode !== ADMIN_SECONDARY_CODE) {
-          setMessage("🔐 กรุณากรอกรหัสยืนยัน 5 หลักสำหรับผู้ดูแลระบบ");
-          setLoading(false);
-          return;
-        }
+      const userFromSystem = users.find(
+        (u) => u.username.toLowerCase() === username.toLowerCase()
+      );
+      const isValid = validateUser(username.toLowerCase(), password);
 
-        loginAs(defaultUser.role);
-        setMessage(`🔑 เข้าสู่ระบบสำเร็จในชื่อ ${defaultUser.username}`);
-        navigate("/secretroom", { replace: true });
-        resetForm();
+      const user = defaultUser || (isValid && userFromSystem);
+
+      if (!user) {
+        setMessage("❌ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง หรือบัญชีหมดอายุ");
         setLoading(false);
         return;
       }
 
-      // 🔐 ตรวจจากระบบ users
-      const matchedUser = users.find((u) => u.username.toLowerCase() === username);
-      const isValid = validateUser(username, password);
-
-      if (isValid && matchedUser) {
-        if (matchedUser.role === "admin" && secondCode !== ADMIN_SECONDARY_CODE) {
-          setMessage("🔐 กรุณากรอกรหัสยืนยัน 5 หลักสำหรับผู้ดูแลระบบ");
-          setLoading(false);
-          return;
-        }
-
-        loginAs(matchedUser.role);
-        setMessage(`✅ ยินดีต้อนรับ ${matchedUser.username}`);
-        navigate("/secretroom", { replace: true });
-        resetForm();
-      } else {
-        setMessage("❌ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง หรือบัญชีหมดอายุ");
+      if (user.role === "admin" && secondCode !== ADMIN_SECONDARY_CODE) {
+        setMessage("🔐 กรุณากรอกรหัสยืนยัน 5 หลักสำหรับผู้ดูแลระบบ");
+        setLoading(false);
+        return;
       }
 
-      setLoading(false);
+      loginAs(user.role);
+      resetForm();
+
+      // ไปยังเส้นทางที่เลือก (admin เลือกได้)
+      navigate(user.role === "admin" ? redirectTo : "/secretroom", { replace: true });
     }, 400);
   };
 
-  const isAdminInput = formData.username.trim().toLowerCase() === "admin";
+  const isAdminInput = ["admin", "myub25217"].includes(formData.username.trim().toLowerCase());
 
   return (
     <section className="flex items-center justify-center min-h-screen bg-base-100 dark:bg-gray-950 px-4">
       <form
         onSubmit={handleLogin}
         className="w-full max-w-sm p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl space-y-5"
-        aria-labelledby="login-heading"
         noValidate
       >
-        <h1
-          id="login-heading"
-          className="text-3xl font-bold text-center text-primary dark:text-accent mb-4"
-        >
+        <h1 className="text-3xl font-bold text-center text-primary dark:text-accent mb-4">
           เข้าสู่ระบบ
         </h1>
 
         {message && (
           <div
             className={`text-sm font-medium ${
-              message.includes("ยินดีต้อนรับ") || message.includes("สำเร็จ")
-                ? "text-green-600 dark:text-green-400"
-                : "text-red-600 dark:text-red-400"
+              message.includes("ผิด") || message.includes("กรอก")
+                ? "text-red-600 dark:text-red-400"
+                : "text-green-600 dark:text-green-400"
             }`}
             role="alert"
           >
@@ -158,25 +143,40 @@ const LoginPage: React.FC = () => {
 
         {/* 2FA */}
         {isAdminInput && (
-          <div className="form-control">
-            <label htmlFor="secondCode" className="label text-sm font-semibold text-gray-700 dark:text-gray-300">
-              รหัสยืนยัน (5 หลัก)
-            </label>
-            <input
-              id="secondCode"
-              name="secondCode"
-              type="password"
-              inputMode="numeric"
-              pattern="\d{5}"
-              maxLength={5}
-              required
-              disabled={loading}
-              value={secondCode}
-              onChange={(e) => setSecondCode(e.target.value)}
-              className="input input-bordered bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-              placeholder="852085"
-            />
-          </div>
+          <>
+            <div className="form-control">
+              <label htmlFor="secondCode" className="label text-sm font-semibold text-gray-700 dark:text-gray-300">
+                รหัสยืนยัน (5 หลัก)
+              </label>
+              <input
+                id="secondCode"
+                name="secondCode"
+                type="password"
+                inputMode="numeric"
+                maxLength={5}
+                disabled={loading}
+                value={secondCode}
+                onChange={(e) => setSecondCode(e.target.value)}
+                className="input input-bordered bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+                placeholder="852085"
+              />
+            </div>
+
+            <div className="form-control">
+              <label htmlFor="redirectTo" className="label text-sm font-semibold text-gray-700 dark:text-gray-300">
+                เข้าสู่หน้าหลังล็อกอิน
+              </label>
+              <select
+                id="redirectTo"
+                value={redirectTo}
+                onChange={(e) => setRedirectTo(e.target.value as "/admin" | "/secretroom")}
+                className="select select-bordered bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+              >
+                <option value="/admin">📋 หน้าผู้ดูแลระบบ (/admin)</option>
+                <option value="/secretroom">🔐 ห้องลับผู้ใช้ (/secretroom)</option>
+              </select>
+            </div>
+          </>
         )}
 
         {/* Submit */}

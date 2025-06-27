@@ -1,16 +1,13 @@
-// src/components/AdminUserManagement.tsx
 import React, { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 
 const AdminUserManagement: React.FC = () => {
-  const { addUser, users, setUserRole, revokeUser, activeUsers } = useAuth();
+  const { addUser, users, setUserRole, revokeUser, activeUsers, role } = useAuth();
 
   const [username, setUsername] = useState("Myub25217");
   const [password, setPassword] = useState("22584566");
-  const [role, setRole] = useState<"member" | "vip" | "admin">("admin");
-  const [expiresMinutes, setExpiresMinutes] = useState(1440); // default 1 วัน
-  const [secondCode, setSecondCode] = useState("");
-  const [isSecondLayerUnlocked, setSecondLayerUnlocked] = useState(false);
+  const [roleInput, setRoleInput] = useState<"member" | "vip" | "admin">("admin");
+  const [expiresMinutes, setExpiresMinutes] = useState(1440); // 1 วัน
 
   const [message, setMessage] = useState("");
   const [search, setSearch] = useState("");
@@ -25,7 +22,7 @@ const AdminUserManagement: React.FC = () => {
   const handleAddUser = () => {
     const trimmed = username.trim();
     if (!trimmed || !password.trim() || expiresMinutes < 1) {
-      setMessage("⚠️ กรุณากรอกข้อมูลให้ครบถ้วนและเวลาหมดอายุอย่างน้อย 1 นาที");
+      setMessage("⚠️ กรุณากรอกข้อมูลให้ครบถ้วน และตั้งเวลาหมดอายุอย่างน้อย 1 นาที");
       return;
     }
 
@@ -34,23 +31,16 @@ const AdminUserManagement: React.FC = () => {
       return;
     }
 
-    const safeToken = `t_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
-
-    addUser({
-      username: trimmed,
-      password,
-      role,
-      expiresMinutes,
-      token: safeToken,
-    });
+    const token = `t_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+    addUser({ username: trimmed, password, role: roleInput, expiresMinutes, token });
 
     setMessage(`✅ เพิ่มผู้ใช้ "${trimmed}" สำเร็จ (หมดอายุใน ${expiresMinutes} นาที)`);
   };
 
   const handleRevoke = (username: string) => {
-    if (confirm(`⚠️ คุณแน่ใจหรือไม่ที่จะลบบัญชี "${username}"?`)) {
+    if (confirm(`⚠️ ต้องการลบบัญชี "${username}" จริงหรือไม่?`)) {
       revokeUser(username);
-      setMessage(`🗑️ บัญชี "${username}" ถูกยกเลิกแล้ว`);
+      setMessage(`🗑️ บัญชี "${username}" ถูกลบแล้ว`);
     }
   };
 
@@ -60,33 +50,17 @@ const AdminUserManagement: React.FC = () => {
     setMessage(`🔄 อัปเดตสิทธิ์ของ "${username}" เป็น "${newRole}"`);
   };
 
-  const handleSecondLayerCheck = () => {
-    if (secondCode.trim() === "852085") {
-      setSecondLayerUnlocked(true);
-    } else {
-      alert("❌ รหัสชั้นที่ 2 ไม่ถูกต้อง");
-    }
-  };
-
-  const filteredUsers = activeUsers.filter((u) =>
-    u.username.toLowerCase().includes(search.toLowerCase()) ||
-    (u.token?.toLowerCase().includes(search.toLowerCase()) ?? false)
+  const filteredUsers = activeUsers.filter(
+    (u) =>
+      u.username.toLowerCase().includes(search.toLowerCase()) ||
+      (u.token?.toLowerCase().includes(search.toLowerCase()) ?? false)
   );
 
-  if (!isSecondLayerUnlocked) {
+  // ⛔ ป้องกันการเข้าถึงหากไม่ใช่ admin (กัน fallback เฉพาะ component)
+  if (role !== "admin") {
     return (
-      <section className="max-w-sm mx-auto mt-20 p-6 bg-white dark:bg-gray-800 rounded-xl shadow space-y-6">
-        <h2 className="text-xl font-bold text-center text-primary dark:text-accent">🔐 ยืนยันรหัสชั้นที่ 2</h2>
-        <input
-          type="password"
-          placeholder="กรอกรหัส 5 หลัก"
-          className="input input-bordered w-full"
-          value={secondCode}
-          onChange={(e) => setSecondCode(e.target.value)}
-        />
-        <button className="btn btn-primary w-full" onClick={handleSecondLayerCheck}>
-          ดำเนินการต่อ
-        </button>
+      <section className="text-center text-red-500 mt-20">
+        ⛔ ไม่มีสิทธิ์เข้าถึงหน้านี้
       </section>
     );
   }
@@ -108,7 +82,7 @@ const AdminUserManagement: React.FC = () => {
         </div>
       )}
 
-      {/* Form เพิ่มผู้ใช้ */}
+      {/* ฟอร์มเพิ่มผู้ใช้ */}
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -134,8 +108,8 @@ const AdminUserManagement: React.FC = () => {
         />
         <select
           className="select select-bordered w-full"
-          value={role}
-          onChange={(e) => setRole(e.target.value as "member" | "vip" | "admin")}
+          value={roleInput}
+          onChange={(e) => setRoleInput(e.target.value as any)}
         >
           <option value="member">member</option>
           <option value="vip">vip</option>
@@ -143,9 +117,9 @@ const AdminUserManagement: React.FC = () => {
         </select>
         <input
           type="number"
+          min={1}
           placeholder="หมดอายุใน (นาที)"
           className="input input-bordered w-full"
-          min={1}
           value={expiresMinutes}
           onChange={(e) => setExpiresMinutes(Number(e.target.value))}
           required
@@ -157,18 +131,18 @@ const AdminUserManagement: React.FC = () => {
         </div>
       </form>
 
-      {/* Search */}
+      {/* ช่องค้นหา */}
       <div>
         <input
           type="text"
-          placeholder="🔎 ค้นหาผู้ใช้หรือ token..."
+          placeholder="🔍 ค้นหาชื่อผู้ใช้หรือ token..."
           className="input input-bordered w-full"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
 
-      {/* Table แสดงผู้ใช้ */}
+      {/* ตารางผู้ใช้ */}
       <div className="overflow-x-auto">
         <table className="table w-full text-sm">
           <thead>
@@ -182,45 +156,48 @@ const AdminUserManagement: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredUsers.map((user) => (
-              <tr key={user.username}>
-                <td>{user.username}</td>
-                <td>
-                  <select
-                    value={user.role}
-                    onChange={(e) => handleRoleChange(user.username, e.target.value as any)}
-                    className="select select-sm select-bordered"
-                  >
-                    <option value="member">member</option>
-                    <option value="vip">vip</option>
-                    <option value="admin">admin</option>
-                  </select>
-                </td>
-                <td>
-                  <code className="text-xs break-all">{user.token || "-"}</code>
-                </td>
-                <td>
-                  {new Date(user.expiresAt).getTime() > Date.now() ? "✅ ใช้งานได้" : "⛔ หมดอายุ"}
-                </td>
-                <td>
-                  {new Date(user.expiresAt).toLocaleString("th-TH", {
-                    dateStyle: "short",
-                    timeStyle: "short",
-                  })}
-                </td>
-                <td className="text-right">
-                  <button
-                    onClick={() => handleRevoke(user.username)}
-                    className="btn btn-sm btn-outline btn-error"
-                  >
-                    ลบ
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {filteredUsers.length === 0 && (
+            {filteredUsers.length > 0 ? (
+              filteredUsers.map((user) => (
+                <tr key={user.username}>
+                  <td>{user.username}</td>
+                  <td>
+                    <select
+                      value={user.role}
+                      onChange={(e) => handleRoleChange(user.username, e.target.value as any)}
+                      className="select select-sm select-bordered"
+                    >
+                      <option value="member">member</option>
+                      <option value="vip">vip</option>
+                      <option value="admin">admin</option>
+                    </select>
+                  </td>
+                  <td>
+                    <code className="text-xs break-all">{user.token || "-"}</code>
+                  </td>
+                  <td>
+                    {new Date(user.expiresAt).getTime() > Date.now()
+                      ? "✅ ใช้งานได้"
+                      : "⛔ หมดอายุ"}
+                  </td>
+                  <td>
+                    {new Date(user.expiresAt).toLocaleString("th-TH", {
+                      dateStyle: "short",
+                      timeStyle: "short",
+                    })}
+                  </td>
+                  <td className="text-right">
+                    <button
+                      onClick={() => handleRevoke(user.username)}
+                      className="btn btn-sm btn-outline btn-error"
+                    >
+                      ลบ
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
               <tr>
-                <td colSpan={6} className="text-center py-4 text-gray-400">
+                <td colSpan={6} className="text-center text-gray-400 py-4">
                   ไม่พบผู้ใช้ที่ตรงกับคำค้นหา
                 </td>
               </tr>

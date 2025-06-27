@@ -7,7 +7,7 @@ import JoinButtons from "@/components/JoinButtons";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import SEOHelmet from "@/components/SEOHelmet";
 
-// Lazy-load รีวิว
+// Lazy-load รีวิว (ReviewsSection) เพื่อประหยัดโหลดหน้าแรก
 const ReviewsSectionLazy = lazy(() => import("@/components/ReviewsSection"));
 
 const ReviewFallback = (
@@ -22,6 +22,7 @@ const HomePage: React.FC = () => {
   const hasLoaded = useRef(false);
 
   useEffect(() => {
+    // ป้องกันโหลดซ้ำ และตรวจสอบว่ามี element หรือไม่
     if (hasLoaded.current || !reviewsRef.current) return;
 
     const observer = new IntersectionObserver(
@@ -39,6 +40,7 @@ const HomePage: React.FC = () => {
     );
 
     observer.observe(reviewsRef.current);
+
     return () => observer.disconnect();
   }, []);
 
@@ -47,28 +49,28 @@ const HomePage: React.FC = () => {
       className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-all duration-300"
       aria-label="หน้าแรก"
     >
-      {/* SEO Title */}
+      {/* SEO */}
       <SEOHelmet title="JP Visual & Docs | บริการเอกสาร วีซ่า ยื่นกู้ ครบวงจร" />
 
-      {/* Hero Section */}
+      {/* Hero */}
       <Hero />
 
-      {/* About Section */}
+      {/* About */}
       <section id="about" className="my-16" aria-labelledby="about-title">
         <About />
       </section>
 
-      {/* Services Section */}
+      {/* Services */}
       <section id="services" className="my-16" aria-labelledby="services-title">
         <ServicesSection />
       </section>
 
-      {/* Portfolio Section */}
+      {/* Portfolio */}
       <section id="portfolio" className="my-16" aria-labelledby="portfolio-title">
         <PortfolioSection />
       </section>
 
-      {/* Reviews Section */}
+      {/* Reviews (Lazy load) */}
       <section
         id="reviews"
         ref={reviewsRef}
@@ -84,7 +86,7 @@ const HomePage: React.FC = () => {
         </ErrorBoundary>
       </section>
 
-      {/* Join / Contact Section */}
+      {/* Join / Contact */}
       <section id="contact" className="my-16" aria-labelledby="contact-title">
         <JoinButtons />
       </section>

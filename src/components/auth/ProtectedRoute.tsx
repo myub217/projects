@@ -5,12 +5,12 @@ import { useAuth } from "@/context/AuthContext";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  requiredRole?: "member" | "admin"; // ค่า default คือ "member"
+  requiredRole?: "member" | "vip" | "admin"; // ค่า default คือ "member"
 }
 
 /**
- * ProtectedRoute – ใช้ครอบเส้นทางที่ต้องมีสิทธิ์เข้าถึง (member หรือ admin)
- * จะตรวจสอบสถานะ login และบทบาทผู้ใช้ (role)
+ * 🔒 ProtectedRoute – ใช้ครอบเส้นทางที่ต้องการการยืนยันตัวตน
+ * ✅ ตรวจสอบว่า login แล้ว และมี role ตามที่กำหนดไว้
  */
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
@@ -19,23 +19,27 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const { isLoggedIn, role } = useAuth();
   const location = useLocation();
 
-  // ⛔ ยังไม่ได้เข้าสู่ระบบ → redirect ไปที่ /login และจำ path เดิม
+  // ⛔ ยังไม่ได้เข้าสู่ระบบ → ไป /login
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
-  // ⛔ ต้องการสิทธิ์ระดับ "admin" แต่ผู้ใช้ไม่ใช่ admin
-  if (requiredRole === "admin" && role !== "admin") {
+  // 🔐 ตรวจสอบสิทธิ์ role ขั้นต่ำ
+  const roleHierarchy = {
+    member: 1,
+    vip: 2,
+    admin: 3,
+  };
+
+  const userLevel = roleHierarchy[role as keyof typeof roleHierarchy] || 0;
+  const requiredLevel = roleHierarchy[requiredRole];
+
+  if (userLevel < requiredLevel) {
+    // ⛔ สิทธิ์ไม่เพียงพอ → redirect
     return <Navigate to="/" replace />;
   }
 
-  // ⛔ ต้องการ "member" แต่ไม่มี role หรือ role ไม่ถูกต้อง
-  const validRoles = ["member", "admin"];
-  if (requiredRole === "member" && !validRoles.includes(role)) {
-    return <Navigate to="/" replace />;
-  }
-
-  // ✅ ผ่านทุกเงื่อนไข → render children ได้
+  // ✅ ผ่านทุกเงื่อนไข → แสดงหน้าที่ร้องขอได้
   return <>{children}</>;
 };
 

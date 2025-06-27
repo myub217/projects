@@ -22,7 +22,7 @@ const App: React.FC = () => {
 
   return (
     <Routes>
-      {/* หน้าหลัก (Public) */}
+      {/* 🔓 หน้าแรก (ไม่ต้อง login) */}
       <Route
         path="/"
         element={
@@ -32,10 +32,10 @@ const App: React.FC = () => {
         }
       />
 
-      {/* หน้า Login */}
+      {/* 🔓 หน้าเข้าสู่ระบบ */}
       <Route path="/login" element={<LoginPage />} />
 
-      {/* ห้องลับ สำหรับสมาชิก (member หรือ admin) */}
+      {/* 🔐 Secret Room (สำหรับ member, vip, admin) */}
       <Route
         path="/secret"
         element={
@@ -47,7 +47,7 @@ const App: React.FC = () => {
         }
       />
 
-      {/* แอดมินเท่านั้น */}
+      {/* 🔐 Admin Panel (admin เท่านั้น) */}
       <Route
         path="/admin"
         element={
@@ -59,7 +59,7 @@ const App: React.FC = () => {
         }
       />
 
-      {/* กรณี path ไม่ตรงกับที่กำหนด */}
+      {/* 🔄 เส้นทางไม่พบ */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
