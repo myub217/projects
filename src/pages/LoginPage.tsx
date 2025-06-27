@@ -2,13 +2,13 @@
 
 const DEFAULT_KEYS = [ { username: "jpkey", password: "JP2025KEY", role: "member" }, { username: "admin", password: "25217", role: "admin" }, ];
 
+const ADMIN_SECONDARY_CODE = "852085"; // 🔐 รหัสชั้นที่ 2 สำหรับ admin
+
 const LoginPage: React.FC = () => { const navigate = useNavigate(); const { validateUser, users, loginAs } = useAuth();
 
-const [formData, setFormData] = useState({ username: "", password: "", });
+const [formData, setFormData] = useState({ username: "", password: "" }); const [secondCode, setSecondCode] = useState(""); const [message, setMessage] = useState(""); const [loading, setLoading] = useState(false);
 
-const [message, setMessage] = useState(""); const [loading, setLoading] = useState(false);
-
-const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => { setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value })); setMessage(""); };
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => { setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value, })); setMessage(""); };
 
 const handleLogin = (e: React.FormEvent<HTMLFormElement>) => { e.preventDefault(); if (loading) return;
 
@@ -28,6 +28,11 @@ setTimeout(() => {
   );
 
   if (defaultMatch) {
+    if (defaultMatch.role === "admin" && secondCode !== ADMIN_SECONDARY_CODE) {
+      setMessage("🔐 กรุณากรอกรหัสยืนยัน 5 หลักสำหรับผู้ดูแลระบบ");
+      setLoading(false);
+      return;
+    }
     loginAs(defaultMatch.role as any);
     setMessage(`🔑 เข้าระบบด้วย access key: ${defaultMatch.username}`);
     navigate("/secret", { replace: true });
@@ -39,6 +44,11 @@ setTimeout(() => {
   const user = users.find((u) => u.username === trimmedUser);
 
   if (success && user) {
+    if (user.role === "admin" && secondCode !== ADMIN_SECONDARY_CODE) {
+      setMessage("🔐 กรุณากรอกรหัสยืนยัน 5 หลักสำหรับผู้ดูแลระบบ");
+      setLoading(false);
+      return;
+    }
     setMessage(`✅ ยินดีต้อนรับ ${user.username}`);
     setFormData({ username: "", password: "" });
     navigate("/secret", { replace: true });
@@ -75,7 +85,10 @@ className="text-3xl font-bold text-center text-primary dark:text-accent mb-4"
     )}
 
     <div className="form-control">
-      <label htmlFor="username" className="label text-sm font-semibold text-gray-700 dark:text-gray-300">
+      <label
+        htmlFor="username"
+        className="label text-sm font-semibold text-gray-700 dark:text-gray-300"
+      >
         ชื่อผู้ใช้
       </label>
       <input
@@ -93,7 +106,10 @@ className="text-3xl font-bold text-center text-primary dark:text-accent mb-4"
     </div>
 
     <div className="form-control">
-      <label htmlFor="password" className="label text-sm font-semibold text-gray-700 dark:text-gray-300">
+      <label
+        htmlFor="password"
+        className="label text-sm font-semibold text-gray-700 dark:text-gray-300"
+      >
         รหัสผ่าน
       </label>
       <input
@@ -109,6 +125,31 @@ className="text-3xl font-bold text-center text-primary dark:text-accent mb-4"
         placeholder="••••••••"
       />
     </div>
+
+    {formData.username.trim().toLowerCase() === "admin" && (
+      <div className="form-control">
+        <label
+          htmlFor="secondCode"
+          className="label text-sm font-semibold text-gray-700 dark:text-gray-300"
+        >
+          รหัสยืนยัน (5 หลัก)
+        </label>
+        <input
+          id="secondCode"
+          name="secondCode"
+          type="password"
+          maxLength={5}
+          inputMode="numeric"
+          pattern="\d{5}"
+          required
+          disabled={loading}
+          value={secondCode}
+          onChange={(e) => setSecondCode(e.target.value)}
+          className="input input-bordered bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+          placeholder="852085"
+        />
+      </div>
+    )}
 
     <button
       type="submit"

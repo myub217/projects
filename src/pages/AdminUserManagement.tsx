@@ -1,17 +1,20 @@
+// src/components/AdminUserManagement.tsx
 import React, { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 
 const AdminUserManagement: React.FC = () => {
-  const { addUser, users } = useAuth();
+  const { addUser, users, setUserRole, revokeUser, activeUsers } = useAuth();
 
-  // State ของฟอร์ม
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState<"member" | "admin">("member");
-  const [expiresMinutes, setExpiresMinutes] = useState(10);
+  const [username, setUsername] = useState("Myub25217");
+  const [password, setPassword] = useState("22584566");
+  const [role, setRole] = useState<"admin">("admin");
+  const [expiresMinutes, setExpiresMinutes] = useState(1440); // 1 วัน
   const [message, setMessage] = useState("");
+  const [search, setSearch] = useState("");
+  const [secondCode, setSecondCode] = useState("");
 
-  // ล้างข้อความแจ้งเตือนอัตโนมัติหลัง 5 วินาที
+  const [isSecondLayerUnlocked, setSecondLayerUnlocked] = useState(false);
+
   useEffect(() => {
     if (message) {
       const timer = setTimeout(() => setMessage(""), 5000);
@@ -19,51 +22,86 @@ const AdminUserManagement: React.FC = () => {
     }
   }, [message]);
 
-  // ฟังก์ชันเพิ่มผู้ใช้
   const handleAddUser = () => {
-    // ตรวจสอบข้อมูลเบื้องต้น
     if (!username.trim() || !password.trim() || expiresMinutes < 1) {
-      setMessage(
-        "กรุณากรอกข้อมูลให้ครบถ้วนและระบุเวลาหมดอายุให้ถูกต้อง (1 นาทีขึ้นไป)"
-      );
+      setMessage("⚠️ กรุณากรอกข้อมูลให้ครบถ้วนและเวลาหมดอายุอย่างน้อย 1 นาที");
       return;
     }
 
-    // ตรวจสอบซ้ำ username
     if (users.some((u) => u.username === username.trim())) {
-      setMessage(`ชื่อผู้ใช้ "${username.trim()}" นี้มีอยู่แล้ว กรุณาใช้ชื่ออื่น`);
+      setMessage(`ชื่อผู้ใช้ "${username.trim()}" มีอยู่แล้ว`);
       return;
     }
 
-    // เรียก addUser จาก context
-    addUser({ username: username.trim(), password, role, expiresMinutes });
-    setMessage(`เพิ่มผู้ใช้ "${username.trim()}" สำเร็จ หมดอายุใน ${expiresMinutes} นาที`);
+    const safeToken = `t_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 
-    // ล้างฟอร์ม
-    setUsername("");
-    setPassword("");
-    setRole("member");
-    setExpiresMinutes(10);
+    addUser({
+      username: username.trim(),
+      password,
+      role,
+      expiresMinutes,
+      token: safeToken,
+    });
+
+    setMessage(`✅ เพิ่มผู้ใช้ "${username.trim()}" สำเร็จ หมดอายุใน ${expiresMinutes} นาที`);
   };
 
+  const handleRevoke = (username: string) => {
+    if (confirm(`คุณแน่ใจหรือไม่ที่จะลบบัญชี "${username}"?`)) {
+      revokeUser(username);
+      setMessage(`🗑️ บัญชี "${username}" ถูกยกเลิกแล้ว`);
+    }
+  };
+
+  const handleRoleChange = (username: string, newRole: "member" | "vip" | "admin") => {
+    if (newRole === "admin") {
+      if (!confirm("คุณกำลังให้สิทธิ์ระดับผู้ดูแลระบบ ยืนยันหรือไม่?")) return;
+    }
+    setUserRole(username, newRole);
+    setMessage(`🔄 เปลี่ยนสิทธิ์ของ "${username}" เป็น ${newRole}`);
+  };
+
+  const handleSecondLayerCheck = () => {
+    if (secondCode.trim() === "852085") {
+      setSecondLayerUnlocked(true);
+    } else {
+      alert("❌ รหัสชั้นที่ 2 ไม่ถูกต้อง");
+    }
+  };
+
+  const filteredUsers = activeUsers.filter((u) =>
+    u.username.toLowerCase().includes(search.toLowerCase()) ||
+    (u.token?.toLowerCase().includes(search.toLowerCase()) ?? false)
+  );
+
+  if (!isSecondLayerUnlocked) {
+    return (
+      <section className="max-w-sm mx-auto mt-20 p-6 bg-white dark:bg-gray-800 rounded-xl shadow space-y-6">
+        <h2 className="text-xl font-bold text-center text-primary dark:text-accent">🔐 ยืนยันรหัสชั้นที่ 2</h2>
+        <input
+          type="password"
+          placeholder="กรอกรหัส 5 หลัก"
+          className="input input-bordered w-full"
+          value={secondCode}
+          onChange={(e) => setSecondCode(e.target.value)}
+        />
+        <button className="btn btn-primary w-full" onClick={handleSecondLayerCheck}>
+          ดำเนินการต่อ
+        </button>
+      </section>
+    );
+  }
+
   return (
-    <section
-      aria-labelledby="admin-user-management-title"
-      className="max-w-md mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow space-y-6"
-    >
-      <h2
-        id="admin-user-management-title"
-        className="text-2xl font-bold text-center text-primary dark:text-accent"
-      >
-        ระบบจัดการผู้ใช้ (Admin)
+    <section className="max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow space-y-8">
+      <h2 className="text-2xl font-bold text-center text-primary dark:text-accent">
+        🔐 จัดการผู้ใช้ (Admin เท่านั้น)
       </h2>
 
       {message && (
         <div
           className={`text-center font-medium ${
-            message.includes("สำเร็จ")
-              ? "text-green-600 dark:text-green-400"
-              : "text-red-600 dark:text-red-400"
+            message.includes("✅") ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
           }`}
           role="alert"
           aria-live="polite"
@@ -78,80 +116,108 @@ const AdminUserManagement: React.FC = () => {
           handleAddUser();
         }}
         className="space-y-4"
-        noValidate
       >
-        <label htmlFor="username" className="sr-only">
-          ชื่อผู้ใช้
-        </label>
         <input
-          id="username"
           type="text"
           placeholder="ชื่อผู้ใช้"
           className="input input-bordered w-full"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          autoComplete="username"
-          aria-required="true"
-          aria-label="ชื่อผู้ใช้"
-          disabled={false}
+          autoComplete="off"
+          required
         />
-
-        <label htmlFor="password" className="sr-only">
-          รหัสผ่าน
-        </label>
         <input
-          id="password"
           type="password"
           placeholder="รหัสผ่าน"
           className="input input-bordered w-full"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           autoComplete="new-password"
-          aria-required="true"
-          aria-label="รหัสผ่าน"
-          disabled={false}
+          required
         />
-
-        <label htmlFor="role" className="sr-only">
-          สิทธิ์ผู้ใช้
-        </label>
         <select
-          id="role"
           className="select select-bordered w-full"
           value={role}
-          onChange={(e) => setRole(e.target.value as "member" | "admin")}
-          aria-label="สิทธิ์ผู้ใช้"
-          disabled={false}
+          onChange={(e) => setRole(e.target.value as "member" | "vip" | "admin")}
         >
-          <option value="member">สมาชิก (Member)</option>
-          <option value="admin">ผู้ดูแลระบบ (Admin)</option>
+          <option value="admin">แอดมิน (admin)</option>
         </select>
-
-        <label htmlFor="expiresMinutes" className="sr-only">
-          เวลาหมดอายุ (นาที)
-        </label>
         <input
-          id="expiresMinutes"
           type="number"
-          placeholder="เวลาหมดอายุ (นาที)"
+          placeholder="หมดอายุใน (นาที)"
           className="input input-bordered w-full"
-          value={expiresMinutes}
           min={1}
+          value={expiresMinutes}
           onChange={(e) => setExpiresMinutes(Number(e.target.value))}
-          aria-label="เวลาหมดอายุ (นาที)"
-          aria-required="true"
-          disabled={false}
+          required
         />
-
-        <button
-          type="submit"
-          className="btn btn-primary w-full"
-          aria-label="เพิ่มผู้ใช้ใหม่"
-          disabled={false}
-        >
-          เพิ่มผู้ใช้ใหม่
+        <button type="submit" className="btn btn-primary w-full">
+          ✅ เพิ่มผู้ใช้แอดมิน
         </button>
       </form>
+
+      <div>
+        <input
+          type="text"
+          placeholder="🔎 ค้นหาด้วยชื่อผู้ใช้หรือ token..."
+          className="input input-bordered w-full"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="table w-full text-sm">
+          <thead>
+            <tr>
+              <th>ชื่อผู้ใช้</th>
+              <th>สิทธิ์</th>
+              <th>Token</th>
+              <th>สถานะ</th>
+              <th>หมดอายุ</th>
+              <th className="text-right">จัดการ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredUsers.map((user) => (
+              <tr key={user.username}>
+                <td>{user.username}</td>
+                <td>
+                  <select
+                    value={user.role}
+                    onChange={(e) => handleRoleChange(user.username, e.target.value as any)}
+                    className="select select-sm select-bordered"
+                  >
+                    <option value="member">member</option>
+                    <option value="vip">vip</option>
+                    <option value="admin">admin</option>
+                  </select>
+                </td>
+                <td>
+                  <code className="text-xs break-all">{user.token || "-"}</code>
+                </td>
+                <td>
+                  {new Date(user.expiresAt).getTime() > Date.now() ? "✅ ใช้งานได้" : "⛔ หมดอายุ"}
+                </td>
+                <td>
+                  {new Date(user.expiresAt).toLocaleString("th-TH", {
+                    dateStyle: "short",
+                    timeStyle: "short",
+                  })}
+                </td>
+                <td className="text-right">
+                  <button
+                    onClick={() => handleRevoke(user.username)}
+                    className="btn btn-sm btn-outline btn-error"
+                  >
+                    ลบ
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 };
