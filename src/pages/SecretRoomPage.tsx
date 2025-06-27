@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react"; import { useNavigate } from "react-router-dom"; import SEOHelmet from "@/components/SEOHelmet"; import { useAuth } from "@/context/AuthContext";
 
-interface ApiCheckKeyResponse { success: boolean; message?: string; }
+interface ApiCheckKeyResponse { success: boolean; level?: string; message?: string; }
 
 const SecretRoomPage: React.FC = () => { const { currentUser, logout } = useAuth(); const navigate = useNavigate();
 
-const [timeLeft, setTimeLeft] = useState(""); const [progress, setProgress] = useState(100); const [accessKey, setAccessKey] = useState(localStorage.getItem("accessKey") || ""); const [isUnlocked, setIsUnlocked] = useState(false); const [loadingKeyCheck, setLoadingKeyCheck] = useState(false);
+const [timeLeft, setTimeLeft] = useState(""); const [progress, setProgress] = useState(100); const [accessKey, setAccessKey] = useState(localStorage.getItem("accessKey") || ""); const [isUnlocked, setIsUnlocked] = useState(false); const [userLevel, setUserLevel] = useState(""); const [loadingKeyCheck, setLoadingKeyCheck] = useState(false);
 
 const salaryRef = useRef<HTMLDivElement>(null); const businessRef = useRef<HTMLDivElement>(null);
 
@@ -58,6 +58,7 @@ try {
 
   if (res.ok && data.success) {
     setIsUnlocked(true);
+    setUserLevel(data.level || "");
     localStorage.setItem("accessKey", accessKey);
     alert("ปลดล็อกสำเร็จ! คุณสามารถเข้าถึงฟีเจอร์พิเศษได้แล้ว");
   } else {
@@ -136,6 +137,8 @@ setTimeout(() => {
 
 if (!currentUser) return null;
 
+const canViewAll = userLevel === "Admin";
+
 return ( <> <SEOHelmet
 title="Secret Room | JP Visual & Docs"
 description="พื้นที่พิเศษสำหรับสมาชิกที่ได้รับอนุญาต"
@@ -167,8 +170,8 @@ url="https://applicationlubmobile.vercel.app/secret"
           🔒 ห้องลับเฉพาะสมาชิก
         </h1>
         <p className="text-neutral-800 dark:text-neutral-300">
-          ยินดีต้อนรับ <strong>{currentUser.username}</strong>
-          <br />บัญชีหมดอายุใน: <strong>{timeLeft}</strong>
+          ยินดีต้อนรับ <strong>{currentUser.username}</strong><br />
+          บัญชีหมดอายุใน: <strong>{timeLeft}</strong>
         </p>
         <div className="h-2 w-full max-w-md mx-auto rounded-full bg-neutral-200 dark:bg-neutral-700">
           <div
@@ -201,7 +204,7 @@ url="https://applicationlubmobile.vercel.app/secret"
           </div>
         ) : (
           <div className="text-green-500">
-            ✅ ปลดล็อกแล้ว! สามารถใช้งานฟีเจอร์ทั้งหมดได้
+            ✅ ปลดล็อกแล้ว! ({userLevel}) สามารถใช้งานฟีเจอร์ตามสิทธิ์ได้
           </div>
         )}
       </section>
@@ -212,10 +215,7 @@ url="https://applicationlubmobile.vercel.app/secret"
             <h3 className="text-xl font-semibold text-primary dark:text-accent">
               📄 ใบทะเบียนพาณิชย์
             </h3>
-            <div
-              ref={businessRef}
-              className="border rounded bg-white dark:bg-gray-900 flex justify-center overflow-x-auto"
-            >
+            <div ref={businessRef} className="border rounded bg-white dark:bg-gray-900 flex justify-center overflow-x-auto">
               <iframe
                 src="/business-registration.html"
                 width="794"
@@ -226,15 +226,11 @@ url="https://applicationlubmobile.vercel.app/secret"
               />
             </div>
             <div className="text-right space-x-2">
-              <button className="btn btn-sm" onClick={() => handleDownload(businessRef, "png")}>
-                ดาวน์โหลด PNG
-              </button>
-              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(businessRef, "pdf")}>
-                ดาวน์โหลด PDF
-              </button>
-              <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(businessRef)}>
-                พิมพ์เอกสาร
-              </button>
+              <button className="btn btn-sm" onClick={() => handleDownload(businessRef, "png")}>ดาวน์โหลด PNG</button>
+              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(businessRef, "pdf")}>ดาวน์โหลด PDF</button>
+              {canViewAll && (
+                <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(businessRef)}>พิมพ์เอกสาร</button>
+              )}
             </div>
           </section>
 
@@ -242,10 +238,7 @@ url="https://applicationlubmobile.vercel.app/secret"
             <h3 className="text-xl font-semibold text-primary dark:text-accent">
               📄 หนังสือรับรองเงินเดือน
             </h3>
-            <div
-              ref={salaryRef}
-              className="border rounded bg-white dark:bg-gray-900 flex justify-center overflow-x-auto"
-            >
+            <div ref={salaryRef} className="border rounded bg-white dark:bg-gray-900 flex justify-center overflow-x-auto">
               <iframe
                 src="/salary-certificate.html"
                 width="794"
@@ -256,15 +249,11 @@ url="https://applicationlubmobile.vercel.app/secret"
               />
             </div>
             <div className="text-right space-x-2">
-              <button className="btn btn-sm" onClick={() => handleDownload(salaryRef, "png")}>
-                ดาวน์โหลด PNG
-              </button>
-              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(salaryRef, "pdf")}>
-                ดาวน์โหลด PDF
-              </button>
-              <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(salaryRef)}>
-                พิมพ์เอกสาร
-              </button>
+              <button className="btn btn-sm" onClick={() => handleDownload(salaryRef, "png")}>ดาวน์โหลด PNG</button>
+              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(salaryRef, "pdf")}>ดาวน์โหลด PDF</button>
+              {canViewAll && (
+                <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(salaryRef)}>พิมพ์เอกสาร</button>
+              )}
             </div>
           </section>
         </>
