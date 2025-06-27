@@ -15,10 +15,10 @@
       rel="stylesheet"
     />
 
-    <!-- Tailwind CSS (for local dev, change for prod if needed) -->
+    <!-- Tailwind CSS -->
     <link href="/dist/output.css" rel="stylesheet" />
 
-    <!-- PWA Meta -->
+    <!-- PWA Manifest and Meta -->
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="theme-color" content="#2C3E50" />
     <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
@@ -29,7 +29,7 @@
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico" />
 
-    <!-- SEO -->
+    <!-- SEO Meta Tags -->
     <meta
       name="description"
       content="บริการวีซ่า การเงิน เอกสาร ระบบหลังบ้าน และการออกแบบอย่างมืออาชีพ โดยทีม JP Visual & Docs"
@@ -49,7 +49,10 @@
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://applicationlubmobile.vercel.app" />
-    <meta property="og:image" content="https://applicationlubmobile.vercel.app/og-image-v2.jpg" />
+    <meta
+      property="og:image"
+      content="https://applicationlubmobile.vercel.app/og-image-v2.jpg"
+    />
     <meta property="og:image:alt" content="JP Visual & Docs - ครบทุกบริการมืออาชีพ" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -63,18 +66,24 @@
       name="twitter:description"
       content="บริการที่ครอบคลุมตั้งแต่วีซ่า การเงิน เอกสาร จนถึงระบบหลังบ้าน"
     />
-    <meta name="twitter:image" content="https://applicationlubmobile.vercel.app/og-image-v2.jpg" />
+    <meta
+      name="twitter:image"
+      content="https://applicationlubmobile.vercel.app/og-image-v2.jpg"
+    />
     <meta name="twitter:creator" content="@jpdocs" />
 
     <!-- Preload Important Assets -->
     <link rel="preload" as="image" href="/hero.webp" type="image/webp" />
 
-    <!-- Accessibility / Performance -->
+    <!-- Robots -->
     <meta name="robots" content="index, follow" />
   </head>
 
-  <body class="font-sans bg-background text-foreground antialiased transition-colors duration-300">
-    <div id="root"></div>
+  <body
+    class="font-sans bg-background text-foreground antialiased transition-colors duration-300"
+  >
+    <div id="root" role="main"></div>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
