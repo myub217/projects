@@ -1,0 +1,61 @@
+/// <reference lib="webworker" />
+
+import { precacheAndRoute } from "workbox-precaching";
+
+// ประกาศ global scope ของ Service Worker
+declare const self: ServiceWorkerGlobalScope;
+
+// 👉 preload ไฟล์ที่ถูก inject โดย Vite ผ่าน __WB_MANIFEST
+precacheAndRoute(self.__WB_MANIFEST);
+
+// ✅ ติดตั้งและข้าม waiting state เพื่อ activate ทันที
+self.addEventListener("install", (event) => {
+  console.log("[SW] Installed");
+  self.skipWaiting();
+});
+
+// ✅ ควบคุมทุก client ทันทีหลังจาก activate
+self.addEventListener("activate", (event) => {
+  console.log("[SW] Activated");
+  self.clients.claim();
+});
+
+// ✅ ดักจับ fetch event เพื่อจัดการ caching แบบ Network First + fallback to cache
+self.addEventListener("fetch", (event: FetchEvent) => {
+  // เฉพาะคำขอ GET เท่านั้น
+  if (event.request.method !== "GET") {
+    return;
+  }
+
+  event.respondWith(
+    fetch(event.request)
+      .then((networkResponse) => {
+        // ถ้า fetch สำเร็จ ให้เก็บ cache ไว้ด้วย (optional)
+        const responseClone = networkResponse.clone();
+        caches.open("dynamic-cache").then((cache) => {
+          cache.put(event.request, responseClone);
+        });
+        return networkResponse;
+      })
+      .catch(() => {
+        // fallback: หาใน cache
+        return caches.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) return cachedResponse;
+
+          // ถ้าไม่มีใน cache และเป็นหน้า HTML ให้แสดง offline page (ถ้ามี)
+          if (event.request.headers.get("accept")?.includes("text/html")) {
+            return caches.match("/offline.html");
+          }
+
+          // ถ้าไม่ใช่ ก็ส่ง response 503 Offline
+          return new Response("Offline", {
+            status: 503,
+            statusText: "Service Unavailable",
+            headers: {
+              "Content-Type": "text/plain",
+            },
+          });
+        });
+      })
+  );
+});
