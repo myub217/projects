@@ -1,245 +1,123 @@
+// src/pages/LoginPage.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 
-const ADMIN_CREDENTIAL = { username: "myub25217", password: "25217" };
-
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const { validateUser, users, addUser, loginAs } = useAuth();
+  const { validateUser, loginAs, users, addUser } = useAuth();
 
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const [addingUser, setAddingUser] = useState(false);
   const [newUser, setNewUser] = useState({ username: "", password: "" });
+  const [addingUser, setAddingUser] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     setMessage("");
   };
 
-  const resetForm = () => {
-    setFormData({ username: "", password: "" });
-    setMessage("");
-  };
-
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (loading) return;
-
-    const username = formData.username.trim().toLowerCase();
-    const password = formData.password.trim();
-
-    if (!username || !password) {
-      setMessage("⚠️ กรุณากรอกชื่อผู้ใช้และรหัสผ่าน");
-      return;
-    }
-
     setLoading(true);
+    const user = validateUser(formData.username, formData.password);
 
     setTimeout(() => {
-      const isAdmin =
-        username === ADMIN_CREDENTIAL.username.toLowerCase() &&
-        password === ADMIN_CREDENTIAL.password;
-
-      const userFromSystem = users.find(
-        (u) => u.username.toLowerCase() === username
-      );
-      const isValid = validateUser(username, password);
-
-      const user = isAdmin
-        ? { username, password, role: "admin" }
-        : isValid && userFromSystem;
-
-      if (!user) {
-        setMessage("❌ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง หรือบัญชีหมดอายุ");
-        setLoading(false);
-        return;
+      if (user) {
+        loginAs(user);
+        navigate("/secretroom");
+      } else {
+        setMessage("❌ ผู้ใช้หรือรหัสผ่านไม่ถูกต้องหรือหมดอายุ");
       }
-
-      loginAs(user.role);
-      resetForm();
-      navigate("/secretroom", { replace: true });
       setLoading(false);
     }, 400);
   };
 
-  const handleAddUser = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleAddUser = (e: React.FormEvent) => {
     e.preventDefault();
-    const username = newUser.username.trim().toLowerCase();
-    const password = newUser.password.trim();
-
-    if (!username || !password) {
-      setMessage("⚠️ กรอกชื่อและรหัสผ่านของผู้ใช้ใหม่");
+    const name = newUser.username.trim();
+    const pass = newUser.password.trim();
+    if (!name || !pass) {
+      setMessage("⚠️ กรอกชื่อและรหัสผ่านให้ครบ");
+      return;
+    }
+    if (users.some((u) => u.username.toLowerCase() === name.toLowerCase())) {
+      setMessage(`❌ "${name}" มีอยู่แล้ว`);
       return;
     }
 
-    const exists = users.some(
-      (u) => u.username.toLowerCase() === username
-    );
-    if (exists) {
-      setMessage(`❌ ผู้ใช้ "${username}" มีอยู่ในระบบแล้ว`);
-      return;
-    }
-
-    addUser({ username, password, role: "member", expiresMinutes: 60 * 24 });
-    setMessage(`✅ เพิ่มผู้ใช้ "${username}" สำเร็จ`);
+    addUser({ username: name, password: pass, role: "member", expiresMinutes: 60 * 24 });
+    setMessage(`✅ เพิ่มผู้ใช้ "${name}" แล้ว`);
     setNewUser({ username: "", password: "" });
   };
 
   return (
-    <section className="flex flex-col items-center justify-center min-h-screen bg-base-100 dark:bg-gray-950 px-4">
-      {!addingUser && (
+    <section className="min-h-screen flex items-center justify-center bg-base-100 px-4">
+      {!addingUser ? (
         <form
           onSubmit={handleLogin}
-          className="w-full max-w-sm p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl space-y-5"
-          noValidate
+          className="bg-white dark:bg-gray-800 shadow-xl rounded-xl p-8 max-w-sm w-full space-y-5"
         >
-          <h1 className="text-3xl font-bold text-center text-primary dark:text-accent mb-4">
+          <h1 className="text-3xl font-bold text-center text-primary dark:text-accent">
             เข้าสู่ระบบ
           </h1>
 
           {message && (
-            <div
-              className={`text-sm font-medium text-center ${
-                message.includes("⚠️") || message.includes("❌")
-                  ? "text-red-600 dark:text-red-400"
-                  : "text-green-600 dark:text-green-400"
-              }`}
-              role="alert"
-            >
-              {message}
-            </div>
+            <div className="text-sm text-center text-red-500">{message}</div>
           )}
 
-          <div className="form-control">
-            <label
-              htmlFor="username"
-              className="label text-sm font-semibold text-gray-700 dark:text-gray-300"
-            >
-              ชื่อผู้ใช้
-            </label>
-            <input
-              id="username"
-              name="username"
-              type="text"
-              autoComplete="username"
-              required
-              disabled={loading}
-              value={formData.username}
-              onChange={handleChange}
-              className="input input-bordered bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-              placeholder="เช่น myub25217"
-            />
-          </div>
-
-          <div className="form-control">
-            <label
-              htmlFor="password"
-              className="label text-sm font-semibold text-gray-700 dark:text-gray-300"
-            >
-              รหัสผ่าน
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              disabled={loading}
-              value={formData.password}
-              onChange={handleChange}
-              className="input input-bordered bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-              placeholder="••••••••"
-            />
-          </div>
-
-          <button type="submit" disabled={loading} className="btn btn-primary w-full">
+          <input
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            className="input input-bordered w-full"
+            placeholder="ชื่อผู้ใช้"
+            autoComplete="username"
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            className="input input-bordered w-full"
+            placeholder="รหัสผ่าน"
+            autoComplete="current-password"
+            required
+          />
+          <button type="submit" className="btn btn-primary w-full" disabled={loading}>
             {loading ? "กำลังตรวจสอบ..." : "เข้าสู่ระบบ"}
           </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              setMessage("");
-              setAddingUser(true);
-            }}
-            className="btn btn-sm btn-outline w-full mt-2"
-          >
-            ➕ เพิ่มผู้ใช้ใหม่
-          </button>
         </form>
-      )}
-
-      {addingUser && (
+      ) : (
         <form
           onSubmit={handleAddUser}
-          className="w-full max-w-md p-8 mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg space-y-5"
+          className="bg-white dark:bg-gray-800 shadow-xl rounded-xl p-8 max-w-sm w-full space-y-5"
         >
-          <h2 className="text-2xl font-bold text-center text-primary dark:text-accent mb-4">
+          <h2 className="text-2xl font-bold text-center text-primary dark:text-accent">
             เพิ่มผู้ใช้ใหม่
           </h2>
-
-          {message && (
-            <div
-              className={`text-sm font-medium text-center ${
-                message.includes("สำเร็จ")
-                  ? "text-green-600 dark:text-green-400"
-                  : "text-red-600 dark:text-red-400"
-              }`}
-              role="alert"
-            >
-              {message}
-            </div>
-          )}
-
-          <div className="form-control">
-            <label className="label">ชื่อผู้ใช้ใหม่</label>
-            <input
-              type="text"
-              name="username"
-              value={newUser.username}
-              onChange={(e) =>
-                setNewUser({ ...newUser, username: e.target.value })
-              }
-              className="input input-bordered"
-              placeholder="ชื่อผู้ใช้"
-              required
-            />
-          </div>
-
-          <div className="form-control">
-            <label className="label">รหัสผ่าน</label>
-            <input
-              type="password"
-              name="password"
-              value={newUser.password}
-              onChange={(e) =>
-                setNewUser({ ...newUser, password: e.target.value })
-              }
-              className="input input-bordered"
-              placeholder="รหัสผ่าน"
-              required
-            />
-          </div>
-
-          <div className="flex gap-2">
-            <button type="submit" className="btn btn-success w-full">
-              ✅ เพิ่มผู้ใช้
-            </button>
-            <button
-              type="button"
-              className="btn btn-ghost w-full"
-              onClick={() => {
-                setAddingUser(false);
-                setMessage("");
-              }}
-            >
-              🔙 กลับ
-            </button>
-          </div>
+          <input
+            type="text"
+            placeholder="ชื่อผู้ใช้ใหม่"
+            value={newUser.username}
+            onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
+            className="input input-bordered w-full"
+            required
+          />
+          <input
+            type="password"
+            placeholder="รหัสผ่าน"
+            value={newUser.password}
+            onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+            className="input input-bordered w-full"
+            required
+          />
+          <button type="submit" className="btn btn-success w-full">
+            เพิ่มผู้ใช้
+          </button>
         </form>
       )}
     </section>

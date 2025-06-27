@@ -1,3 +1,4 @@
+// src/context/AuthContext.tsx
 import React, {
   createContext,
   useContext,
@@ -13,7 +14,7 @@ export interface User {
   password: string;
   role: Role;
   expiresAt: string; // ISO string
-  token?: string; // optional, for future API usage
+  token?: string;
 }
 
 interface AuthContextType {
@@ -21,10 +22,10 @@ interface AuthContextType {
   isLoggedIn: boolean;
   currentUser: User | null;
   users: User[];
-  loginAs: (role: Role) => void;
+  loginAs: (user: User) => void;
   logout: () => void;
   addUser: (user: Omit<User, "expiresAt"> & { expiresMinutes: number }) => void;
-  validateUser: (username: string, password: string) => boolean;
+  validateUser: (username: string, password: string) => User | null;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -35,7 +36,7 @@ const AuthContext = createContext<AuthContextType>({
   loginAs: () => {},
   logout: () => {},
   addUser: () => {},
-  validateUser: () => false,
+  validateUser: () => null,
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -46,22 +47,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [users, setUsers] = useState<User[]>([]);
 
-  // โหลดจาก localStorage ตอนเริ่มต้น
   useEffect(() => {
-    let validUsers: User[] = [];
     const storedUsers = localStorage.getItem("users");
+    let validUsers: User[] = [];
 
     if (storedUsers) {
       try {
-        const parsedUsers: User[] = JSON.parse(storedUsers);
+        const parsed: User[] = JSON.parse(storedUsers);
         const now = new Date();
-        validUsers = parsedUsers.filter((u) => new Date(u.expiresAt) > now);
-      } catch {
-        validUsers = [];
-      }
+        validUsers = parsed.filter((u) => new Date(u.expiresAt) > now);
+      } catch {}
     }
 
-    // สร้าง admin เริ่มต้นถ้าไม่พบ
     const adminExists = validUsers.some(
       (u) => u.username.toLowerCase() === "myub25217"
     );
@@ -80,88 +77,58 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUsers(validUsers);
     localStorage.setItem("users", JSON.stringify(validUsers));
 
-    const storedRole = localStorage.getItem("role") as Role | null;
-    const storedUserStr = localStorage.getItem("currentUser");
+    const savedRole = localStorage.getItem("role") as Role;
+    const savedUserStr = localStorage.getItem("currentUser");
 
-    let storedUser: User | null = null;
-    if (storedUserStr) {
+    if (savedRole && savedUserStr) {
       try {
-        storedUser = JSON.parse(storedUserStr);
+        const savedUser: User = JSON.parse(savedUserStr);
+        if (new Date(savedUser.expiresAt) > new Date()) {
+          setRole(savedRole);
+          setCurrentUser(savedUser);
+          setIsLoggedIn(true);
+        }
       } catch {
-        storedUser = null;
+        localStorage.removeItem("currentUser");
+        localStorage.removeItem("role");
       }
-    }
-
-    if (storedRole && storedUser && new Date(storedUser.expiresAt) > new Date()) {
-      setRole(storedRole);
-      setCurrentUser(storedUser);
-      setIsLoggedIn(true);
-    } else {
-      localStorage.removeItem("currentUser");
-      localStorage.removeItem("role");
     }
   }, []);
 
-  // Sync users ทุกครั้งที่เปลี่ยน
   useEffect(() => {
     localStorage.setItem("users", JSON.stringify(users));
   }, [users]);
 
-  // เพิ่มผู้ใช้ใหม่
   const addUser = (
     user: Omit<User, "expiresAt"> & { expiresMinutes: number }
   ) => {
     const username = user.username.trim().toLowerCase();
-    const exists = users.some(
-      (u) => u.username.trim().toLowerCase() === username
-    );
-    if (exists) return;
+    if (users.some((u) => u.username.toLowerCase() === username)) return;
 
     const expiresAt = new Date(Date.now() + user.expiresMinutes * 60000).toISOString();
-
-    const newUser: User = {
-      username: user.username.trim(),
-      password: user.password.trim(),
-      role: user.role,
-      expiresAt,
-    };
-
+    const newUser: User = { ...user, username, expiresAt };
     setUsers((prev) => [...prev, newUser]);
   };
 
-  // ตรวจสอบการเข้าสู่ระบบของผู้ใช้
-  const validateUser = (username: string, password: string): boolean => {
+  const validateUser = (username: string, password: string): User | null => {
     const now = new Date();
-
     const user = users.find(
       (u) =>
         u.username.toLowerCase() === username.toLowerCase() &&
         u.password === password &&
         new Date(u.expiresAt) > now
     );
-
-    if (user) {
-      setRole(user.role);
-      setIsLoggedIn(true);
-      setCurrentUser(user);
-      localStorage.setItem("role", user.role);
-      localStorage.setItem("currentUser", JSON.stringify(user));
-      return true;
-    }
-
-    return false;
+    return user || null;
   };
 
-  // เข้าสู่ระบบแบบระบุ role โดยตรง (ใช้ในกรณีพิเศษ เช่น admin hardcoded)
-  const loginAs = (newRole: Role) => {
-    setRole(newRole);
+  const loginAs = (user: User) => {
+    setRole(user.role);
     setIsLoggedIn(true);
-    setCurrentUser(null); // ไม่มี user object จริง
-    localStorage.setItem("role", newRole);
-    localStorage.removeItem("currentUser");
+    setCurrentUser(user);
+    localStorage.setItem("role", user.role);
+    localStorage.setItem("currentUser", JSON.stringify(user));
   };
 
-  // ออกจากระบบ
   const logout = () => {
     setRole("guest");
     setIsLoggedIn(false);
