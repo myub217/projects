@@ -110,6 +110,30 @@ try {
 
 };
 
+const handlePrint = (ref: React.RefObject<HTMLDivElement>) => { if (!ref.current) return; const content = ref.current.innerHTML; const printWindow = window.open("", "_blank", "width=800,height=1000"); if (!printWindow) return;
+
+printWindow.document.open();
+printWindow.document.write(`
+  <html>
+    <head>
+      <title>Print Document</title>
+      <style>
+        body { margin: 0; padding: 0; font-family: 'Sarabun', sans-serif; }
+        iframe { width: 794px; height: 1123px; border: none; }
+      </style>
+    </head>
+    <body>${content}</body>
+  </html>
+`);
+printWindow.document.close();
+printWindow.focus();
+setTimeout(() => {
+  printWindow.print();
+  printWindow.close();
+}, 800);
+
+};
+
 if (!currentUser) return null;
 
 return ( <> <SEOHelmet
@@ -122,10 +146,8 @@ url="https://applicationlubmobile.vercel.app/secret"
     <div className="max-w-6xl mx-auto space-y-12">
       <nav className="flex justify-between text-sm text-neutral-600 dark:text-neutral-400">
         <div>
-          <a href="/" className="hover:underline">
-            หน้าแรก
-          </a>{" "}
-          / <span className="text-primary dark:text-accent">ห้องลับ</span>
+          <a href="/" className="hover:underline">หน้าแรก</a>
+          <span className="text-primary dark:text-accent"> / ห้องลับ</span>
         </div>
         <button
           onClick={() => {
@@ -146,8 +168,7 @@ url="https://applicationlubmobile.vercel.app/secret"
         </h1>
         <p className="text-neutral-800 dark:text-neutral-300">
           ยินดีต้อนรับ <strong>{currentUser.username}</strong>
-          <br />
-          บัญชีหมดอายุใน: <strong>{timeLeft}</strong>
+          <br />บัญชีหมดอายุใน: <strong>{timeLeft}</strong>
         </p>
         <div className="h-2 w-full max-w-md mx-auto rounded-full bg-neutral-200 dark:bg-neutral-700">
           <div
@@ -161,8 +182,7 @@ url="https://applicationlubmobile.vercel.app/secret"
         <h2 className="text-xl font-semibold text-primary dark:text-accent">
           สิทธิพิเศษสำหรับสมาชิก
         </h2>
-
-        {!isUnlocked && (
+        {!isUnlocked ? (
           <div className="flex gap-2">
             <input
               type="text"
@@ -179,9 +199,7 @@ url="https://applicationlubmobile.vercel.app/secret"
               {loadingKeyCheck ? "กำลังตรวจสอบ..." : "ปลดล็อก"}
             </button>
           </div>
-        )}
-
-        {isUnlocked && (
+        ) : (
           <div className="text-green-500">
             ✅ ปลดล็อกแล้ว! สามารถใช้งานฟีเจอร์ทั้งหมดได้
           </div>
@@ -191,12 +209,9 @@ url="https://applicationlubmobile.vercel.app/secret"
       {isUnlocked && (
         <>
           <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
-            <h3 className="text-xl sm:text-2xl font-semibold text-primary dark:text-accent">
+            <h3 className="text-xl font-semibold text-primary dark:text-accent">
               📄 ใบทะเบียนพาณิชย์
             </h3>
-            <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              เอกสารแสดงการจดทะเบียนบริษัทอย่างเป็นทางการ
-            </p>
             <div
               ref={businessRef}
               className="border rounded bg-white dark:bg-gray-900 flex justify-center overflow-x-auto"
@@ -207,33 +222,26 @@ url="https://applicationlubmobile.vercel.app/secret"
                 height="1123"
                 className="shadow-md"
                 title="ใบทะเบียนพาณิชย์"
-                aria-label="Business Registration Document"
                 sandbox="allow-same-origin allow-scripts allow-forms"
               />
             </div>
             <div className="text-right space-x-2">
-              <button
-                className="btn btn-sm"
-                onClick={() => handleDownload(businessRef, "png")}
-              >
+              <button className="btn btn-sm" onClick={() => handleDownload(businessRef, "png")}>
                 ดาวน์โหลด PNG
               </button>
-              <button
-                className="btn btn-sm btn-outline"
-                onClick={() => handleDownload(businessRef, "pdf")}
-              >
+              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(businessRef, "pdf")}>
                 ดาวน์โหลด PDF
+              </button>
+              <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(businessRef)}>
+                พิมพ์เอกสาร
               </button>
             </div>
           </section>
 
           <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
-            <h3 className="text-xl sm:text-2xl font-semibold text-primary dark:text-accent">
+            <h3 className="text-xl font-semibold text-primary dark:text-accent">
               📄 หนังสือรับรองเงินเดือน
             </h3>
-            <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              เอกสารสำหรับยืนยันสถานภาพและรายได้พนักงาน
-            </p>
             <div
               ref={salaryRef}
               className="border rounded bg-white dark:bg-gray-900 flex justify-center overflow-x-auto"
@@ -244,22 +252,18 @@ url="https://applicationlubmobile.vercel.app/secret"
                 height="1123"
                 className="shadow-md"
                 title="หนังสือรับรองเงินเดือน"
-                aria-label="Salary Certificate Document"
                 sandbox="allow-same-origin allow-scripts allow-forms"
               />
             </div>
             <div className="text-right space-x-2">
-              <button
-                className="btn btn-sm"
-                onClick={() => handleDownload(salaryRef, "png")}
-              >
+              <button className="btn btn-sm" onClick={() => handleDownload(salaryRef, "png")}>
                 ดาวน์โหลด PNG
               </button>
-              <button
-                className="btn btn-sm btn-outline"
-                onClick={() => handleDownload(salaryRef, "pdf")}
-              >
+              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(salaryRef, "pdf")}>
                 ดาวน์โหลด PDF
+              </button>
+              <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(salaryRef)}>
+                พิมพ์เอกสาร
               </button>
             </div>
           </section>
