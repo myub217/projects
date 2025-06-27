@@ -12,16 +12,18 @@ const SecretRoomPage: React.FC = () => {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
 
+  // State
   const [timeLeft, setTimeLeft] = useState("");
   const [progress, setProgress] = useState(100);
   const [accessKey, setAccessKey] = useState("");
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [loadingKeyCheck, setLoadingKeyCheck] = useState(false);
 
+  // Refs for documents iframe container
   const salaryRef = useRef<HTMLDivElement>(null);
   const businessRef = useRef<HTMLDivElement>(null);
 
-  // ตรวจสอบเวลาหมดอายุของ session
+  // เช็ค session หมดอายุหรือไม่มี user => redirect login
   useEffect(() => {
     if (!currentUser) {
       navigate("/login");
@@ -55,10 +57,11 @@ const SecretRoomPage: React.FC = () => {
 
     updateTimeLeft();
     const interval = setInterval(updateTimeLeft, 1000);
+
     return () => clearInterval(interval);
   }, [currentUser, logout, navigate]);
 
-  // ยืนยัน access key
+  // ฟังก์ชันตรวจสอบ access key กับ API
   const handleKeySubmit = async () => {
     if (!accessKey.trim()) {
       alert("กรุณากรอกรหัสปลดล็อก");
@@ -71,7 +74,7 @@ const SecretRoomPage: React.FC = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${currentUser?.token}`,
+          Authorization: `Bearer ${currentUser?.token}`, // ส่ง token สำหรับ auth
         },
         body: JSON.stringify({ accessKey }),
       });
@@ -92,7 +95,7 @@ const SecretRoomPage: React.FC = () => {
     }
   };
 
-  // ดาวน์โหลด PNG หรือ PDF
+  // ฟังก์ชันดาวน์โหลดเอกสาร PNG หรือ PDF
   const handleDownload = async (
     ref: React.RefObject<HTMLDivElement>,
     type: "png" | "pdf"
@@ -145,8 +148,10 @@ const SecretRoomPage: React.FC = () => {
           {/* Navigation */}
           <nav className="flex justify-between text-sm text-neutral-600 dark:text-neutral-400">
             <div>
-              <a href="/" className="hover:underline">หน้าแรก</a> /{" "}
-              <span className="text-primary dark:text-accent">ห้องลับ</span>
+              <a href="/" className="hover:underline">
+                หน้าแรก
+              </a>{" "}
+              / <span className="text-primary dark:text-accent">ห้องลับ</span>
             </div>
             <button
               onClick={() => {
@@ -167,7 +172,8 @@ const SecretRoomPage: React.FC = () => {
               🔒 ห้องลับเฉพาะสมาชิก
             </h1>
             <p className="text-neutral-800 dark:text-neutral-300">
-              ยินดีต้อนรับ <strong>{currentUser.username}</strong><br />
+              ยินดีต้อนรับ <strong>{currentUser.username}</strong>
+              <br />
               บัญชีหมดอายุใน: <strong>{timeLeft}</strong>
             </p>
             <div className="h-2 w-full max-w-md mx-auto rounded-full bg-neutral-200 dark:bg-neutral-700">
@@ -178,7 +184,7 @@ const SecretRoomPage: React.FC = () => {
             </div>
           </header>
 
-          {/* Access Key */}
+          {/* Access Key Section */}
           <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-6">
             <h2 className="text-xl font-semibold text-primary dark:text-accent">
               สิทธิพิเศษสำหรับสมาชิก
@@ -210,10 +216,10 @@ const SecretRoomPage: React.FC = () => {
             )}
           </section>
 
-          {/* Documents */}
+          {/* Documents Section */}
           {isUnlocked && (
             <>
-              {/* Business Registration */}
+              {/* Business Registration Document */}
               <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
                 <h3 className="text-xl sm:text-2xl font-semibold text-primary dark:text-accent">
                   📄 ใบทะเบียนพาณิชย์
@@ -250,7 +256,7 @@ const SecretRoomPage: React.FC = () => {
                 </div>
               </section>
 
-              {/* Salary Certificate */}
+              {/* Salary Certificate Document */}
               <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
                 <h3 className="text-xl sm:text-2xl font-semibold text-primary dark:text-accent">
                   📄 หนังสือรับรองเงินเดือน
