@@ -1,194 +1,293 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import SEOHelmet from "@/components/SEOHelmet";
-import { useAuth } from "@/context/AuthContext";
+// src/documents/BusinessRegistration.tsx
+import React, { useRef } from "react";
 
-const SecretRoomPage: React.FC = () => {
-  const { currentUser, logout } = useAuth();
-  const navigate = useNavigate();
-  const [timeLeft, setTimeLeft] = useState<string>("");
-  const [progress, setProgress] = useState<number>(100);
+interface BusinessRegistrationProps {
+  companyThaiName: string;
+  companyEngName: string;
+  registrationNumber: string;
+  registrationDate: string;
+  ownerName: string;
+  position: string;
+  department: string;
+  businessAddressLines: string[];
+  issueDate: string;
+  issuerName: string;
+  issuerPosition: string;
+  contactPhone: string;
+  watermarkUrl?: string;
+}
 
-  const salaryRef = useRef<HTMLDivElement>(null);
-  const businessRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!currentUser) {
-      navigate("/login");
-      return;
-    }
-
-    const expires = new Date(currentUser.expiresAt).getTime();
-    const now = Date.now();
-    const duration = expires - now;
-
-    const updateTimeLeft = () => {
-      const now = Date.now();
-      const diff = expires - now;
-
-      if (diff <= 0) {
-        logout();
-        navigate("/login");
-      } else {
-        const minutes = Math.floor(diff / 60000);
-        const seconds = Math.floor((diff % 60000) / 1000);
-        setTimeLeft(`${minutes} นาที ${seconds} วินาที`);
-        setProgress(Math.max(0, (diff / duration) * 100));
-      }
-    };
-
-    updateTimeLeft();
-    const interval = setInterval(updateTimeLeft, 1000);
-    return () => clearInterval(interval);
-  }, [currentUser, logout, navigate]);
-
-  const handleDownload = async (
-    ref: React.RefObject<HTMLDivElement>,
-    type: "png" | "pdf"
-  ) => {
-    if (!ref.current) return;
-
-    try {
-      const html2canvas = (await import("html2canvas")).default;
-      const jsPDF = (await import("jspdf")).default;
-
-      const canvas = await html2canvas(ref.current, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-      });
-
-      if (type === "png") {
-        const link = document.createElement("a");
-        link.download = "document.png";
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-      } else {
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("p", "mm", "a4");
-        const pdfWidth = 210;
-        const pdfHeight = 297;
-
-        const imgProps = {
-          width: canvas.width,
-          height: canvas.height,
-        };
-        const ratio = Math.min(pdfWidth / imgProps.width, pdfHeight / imgProps.height);
-        const imgWidth = imgProps.width * ratio;
-        const imgHeight = imgProps.height * ratio;
-
-        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-        pdf.save("document.pdf");
-      }
-    } catch (error) {
-      console.error("Error capturing document:", error);
-      alert("เกิดข้อผิดพลาดในการดาวน์โหลดเอกสาร โปรดลองอีกครั้ง");
-    }
-  };
-
-  if (!currentUser) return null;
+const BusinessRegistration: React.FC<BusinessRegistrationProps> = ({
+  companyThaiName,
+  companyEngName,
+  registrationNumber,
+  registrationDate,
+  ownerName,
+  position,
+  department,
+  businessAddressLines,
+  issueDate,
+  issuerName,
+  issuerPosition,
+  contactPhone,
+  watermarkUrl = "sensor.webp",
+}) => {
+  const pageRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
-      <SEOHelmet
-        title="Secret Room | JP Visual & Docs"
-        description="พื้นที่พิเศษสำหรับสมาชิกที่ได้รับอนุญาต"
-        url="https://applicationlubmobile.vercel.app/secret"
-      />
+      {/* CSS Styles */}
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Sarabun&display=swap');
 
-      <main className="min-h-screen bg-gradient-to-b from-base-100 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto space-y-12">
-          <nav className="text-sm text-neutral-600 dark:text-neutral-400 flex justify-between items-center" aria-label="breadcrumb">
-            <div>
-              <a href="/" className="hover:underline">หน้าแรก</a> / <span className="text-primary dark:text-accent">ห้องลับ</span>
-            </div>
-            <button
-              onClick={() => {
-                logout();
-                navigate("/login");
-              }}
-              className="btn btn-sm btn-outline text-sm"
-              aria-label="ออกจากระบบ"
-            >
-              ออกจากระบบ
-            </button>
-          </nav>
+          * {
+            box-sizing: border-box;
+          }
 
-          <header className="text-center px-2 sm:px-0 space-y-3">
-            <h1 id="secret-room-title" className="text-3xl sm:text-5xl font-extrabold text-primary dark:text-accent">
-              🔒 ห้องลับเฉพาะสมาชิก
-            </h1>
-            <p className="text-base sm:text-lg text-neutral-800 dark:text-neutral-300 max-w-2xl mx-auto leading-relaxed">
-              ยินดีต้อนรับ <strong>{currentUser.username}</strong> เข้าสู่พื้นที่พิเศษสำหรับสมาชิก
-              <br />
-              บัญชีของคุณจะหมดอายุใน: <strong>{timeLeft}</strong>
-            </p>
-            <div
-              className="w-full max-w-lg mx-auto h-2 rounded-full bg-neutral-200 dark:bg-neutral-700"
-              role="progressbar"
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-valuenow={Math.round(progress)}
-              aria-label={`เหลือเวลา ${Math.round(progress)}%`}
-            >
-              <div className="h-full rounded-full bg-primary dark:bg-accent transition-all duration-300" style={{ width: `${progress}%` }} />
-            </div>
-          </header>
+          html, body {
+            margin: 0;
+            padding: 0;
+            background: #eee;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 13.5pt;
+            line-height: 1.6;
+            color: #000;
+            height: 100%;
+          }
 
-          <section className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-8 md:p-10 space-y-6">
-            <h2 className="text-xl sm:text-2xl font-semibold text-primary dark:text-accent">สิทธิพิเศษสำหรับสมาชิก</h2>
-            <div className="grid gap-4 sm:grid-cols-2 text-left text-neutral-700 dark:text-neutral-200">
-              <div className="flex items-start gap-3"><span className="text-2xl">📄</span><span>ดาวน์โหลดเอกสารที่เกี่ยวข้อง</span></div>
-              <div className="flex items-start gap-3"><span className="text-2xl">📊</span><span>ดูรายงานความคืบหน้าของงานบริการ</span></div>
-              <div className="flex items-start gap-3"><span className="text-2xl">🔧</span><span>เข้าถึงฟอร์มร้องขอเฉพาะสมาชิก</span></div>
-              <div className="flex items-start gap-3"><span className="text-2xl">🧠</span><span>ระบบติดต่อเจ้าหน้าที่โดยตรง (เร็วๆ นี้)</span></div>
-            </div>
-            <div className="pt-6 border-t border-gray-200 dark:border-gray-600">
-              <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400">
-                หากคุณมีคำถามเพิ่มเติม โปรดติดต่อทีมงานผ่าน LINE @462FQTFC หรือผ่านช่องทางที่คุณสะดวก
-              </p>
-            </div>
-          </section>
+          body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            min-height: 100vh;
+          }
 
-          <section className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-4 sm:p-6 space-y-4">
-            <h3 className="text-lg font-semibold text-primary dark:text-accent">หนังสือรับรองเงินเดือน</h3>
-            <div ref={salaryRef} className="flex justify-center overflow-auto max-w-[794px] border rounded">
-              <iframe
-                src="/salary-certificate.html"
-                width="794"
-                height="1123"
-                className="rounded"
-                title="หนังสือรับรองเงินเดือน"
-                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-              />
-            </div>
-            <div className="text-right space-x-2">
-              <button className="btn btn-sm" onClick={() => handleDownload(salaryRef, "png")}>Download PNG</button>
-              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(salaryRef, "pdf")}>Download PDF</button>
-            </div>
-          </section>
+          .page {
+            position: relative;
+            width: 210mm;
+            height: 297mm;
+            background: #fff;
+            padding: 25mm 20mm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            margin: 20px auto;
+          }
 
-          <section className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-4 sm:p-6 space-y-4">
-            <h3 className="text-lg font-semibold text-primary dark:text-accent">ใบทะเบียนพาณิชย์</h3>
-            <div ref={businessRef} className="flex justify-center overflow-auto max-w-[794px] border rounded">
-              <iframe
-                src="/business-registration.html"
-                width="794"
-                height="1123"
-                className="rounded"
-                title="ใบทะเบียนพาณิชย์"
-                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-              />
-            </div>
-            <div className="text-right space-x-2">
-              <button className="btn btn-sm" onClick={() => handleDownload(businessRef, "png")}>Download PNG</button>
-              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(businessRef, "pdf")}>Download PDF</button>
-            </div>
-          </section>
+          /* Watermark background */
+          .page::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url("${watermarkUrl}") center center no-repeat;
+            background-size: 90% auto;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+          }
+
+          /* Ensure content is above watermark */
+          .page * {
+            position: relative;
+            z-index: 1;
+          }
+
+          header.header {
+            margin-bottom: 16px;
+          }
+
+          header.header h1 {
+            font-size: 16pt;
+            font-weight: bold;
+            margin: 0;
+            user-select: text;
+          }
+
+          header.header h2 {
+            font-size: 14pt;
+            font-style: italic;
+            margin: 4px 0 16px 0;
+            color: #555;
+            user-select: text;
+          }
+
+          .document-id {
+            font-size: 13pt;
+            margin: 12px 0 24px 0;
+            color: #444;
+            user-select: text;
+          }
+
+          .title {
+            text-align: center;
+            font-size: 17pt;
+            font-weight: bold;
+            text-decoration: underline;
+            margin-bottom: 28px;
+            user-select: text;
+          }
+
+          section.content {
+            flex: 1;
+            text-align: justify;
+            user-select: text;
+          }
+
+          section.content p {
+            text-indent: 2em;
+            margin: 14px 0;
+          }
+
+          ul.details-list {
+            margin-left: 60px;
+            margin-bottom: 28px;
+            list-style-type: disc;
+            user-select: text;
+          }
+
+          ul.details-list li {
+            margin: 6px 0;
+          }
+
+          .issue-signature-wrapper {
+            text-align: right;
+            margin-top: 48px;
+            line-height: 1.8;
+            user-select: text;
+          }
+
+          .issue-signature-wrapper p {
+            margin: 0;
+          }
+
+          .issue-signature-wrapper p:nth-child(1) {
+            padding-right: 20px;
+          }
+
+          .issue-signature-wrapper p:nth-child(2) {
+            font-weight: bold;
+            padding-right: 64px;
+          }
+
+          .issue-signature-wrapper p:nth-child(3) {
+            padding-right: 48px;
+            margin-bottom: 12px;
+          }
+
+          section.notes {
+            margin-top: 48px;
+            padding-top: 12px;
+            border-top: 1px solid #ccc;
+            font-size: 13pt;
+            color: #555;
+            user-select: text;
+          }
+
+          section.notes strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #000;
+          }
+
+          section.notes p {
+            text-indent: 2em;
+            margin: 6px 0;
+          }
+
+          footer.footer {
+            font-size: 13pt;
+            line-height: 1.5;
+            margin-top: auto;
+            padding-top: 20px;
+            color: #444;
+            user-select: text;
+          }
+
+          footer.footer p {
+            margin: 4px 0;
+          }
+
+          /* Print Styles */
+          @media print {
+            html, body {
+              background: none;
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+              height: auto;
+            }
+
+            .page {
+              box-shadow: none;
+              margin: 0;
+              page-break-after: always;
+            }
+
+            @page {
+              size: A4;
+              margin: 0;
+            }
+          }
+        `}
+      </style>
+
+      {/* Document */}
+      <article
+        ref={pageRef}
+        className="page"
+        role="document"
+        aria-label="ใบทะเบียนพาณิชย์"
+        lang="th"
+      >
+        <header className="header" aria-label="หัวกระดาษบริษัท">
+          <h1>{companyThaiName}</h1>
+          <h2>{companyEngName}</h2>
+        </header>
+
+        <div className="document-id" aria-label="เลขที่ทะเบียนพาณิชย์">
+          เลขที่ทะเบียนพาณิชย์: {registrationNumber}
         </div>
-      </main>
+
+        <h2 className="title">ใบทะเบียนพาณิชย์</h2>
+
+        <section className="content" aria-label="รายละเอียดใบทะเบียนพาณิชย์">
+          <p>
+            ใบทะเบียนนี้ขอรับรองว่า <strong>{ownerName}</strong> เป็นเจ้าของกิจการบริษัท <strong>{companyThaiName}</strong> โดยจดทะเบียนเมื่อวันที่{" "}
+            <strong>{registrationDate}</strong> ปัจจุบันดำเนินกิจการประเภท <strong>{position}</strong> แผนก <strong>{department}</strong>
+          </p>
+
+          <p>ที่อยู่สถานประกอบการ:</p>
+          <ul className="details-list" aria-label="ที่อยู่สถานประกอบการ">
+            {businessAddressLines.map((line, idx) => (
+              <li key={idx}>{line}</li>
+            ))}
+          </ul>
+
+          <div className="issue-signature-wrapper" aria-label="ลายเซ็นผู้รับรอง">
+            <p>ออกให้ ณ วันที่ <strong>{issueDate}</strong></p>
+            <p>{companyEngName}</p>
+            <p>({issuerName})</p>
+            <p>{issuerPosition}</p>
+          </div>
+
+          <section className="notes" aria-label="หมายเหตุใบทะเบียนพาณิชย์">
+            <strong>หมายเหตุ:</strong>
+            <p>1. ใบทะเบียนนี้จัดทำขึ้นเพื่อยืนยันการจดทะเบียนพาณิชย์อย่างถูกต้อง</p>
+            <p>2. ใบทะเบียนนี้ต้องไม่มีรอยขูดขีด ลบ หรือแก้ไขใด ๆ</p>
+          </section>
+        </section>
+
+        <footer className="footer" aria-label="ข้อมูลติดต่อบริษัท">
+          <p>โทรศัพท์: {contactPhone}</p>
+          {businessAddressLines.map((line, idx) => (
+            <p key={idx}>{line}</p>
+          ))}
+        </footer>
+      </article>
     </>
   );
 };
 
-export default SecretRoomPage;
+export default BusinessRegistration;

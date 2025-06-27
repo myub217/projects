@@ -1,4 +1,3 @@
-// vite.config.ts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
@@ -73,14 +72,15 @@ export default defineConfig({
 
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"), // Use @ to import from src
+      // ใช้ @ เป็น alias แทน path src เพื่อให้ import สะดวกขึ้น
+      "@": path.resolve(__dirname, "src"),
     },
   },
 
   assetsInclude: [
     "**/*.webp",
     "**/*.avif",
-    "**/*.svg"
+    "**/*.svg",
   ],
 
   build: {
