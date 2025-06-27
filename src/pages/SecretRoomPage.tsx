@@ -15,7 +15,7 @@ const SecretRoomPage: React.FC = () => {
 
   const [timeLeft, setTimeLeft] = useState("");
   const [progress, setProgress] = useState(100);
-  const [accessKey, setAccessKey] = useState("");
+  const [accessKey, setAccessKey] = useState(localStorage.getItem("accessKey") || "");
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [loadingKeyCheck, setLoadingKeyCheck] = useState(false);
 
@@ -79,6 +79,7 @@ const SecretRoomPage: React.FC = () => {
 
       if (res.ok && data.success) {
         setIsUnlocked(true);
+        localStorage.setItem("accessKey", accessKey);
         alert("ปลดล็อกสำเร็จ! คุณสามารถเข้าถึงฟีเจอร์พิเศษได้แล้ว");
       } else {
         alert(data.message || "รหัสปลดล็อกไม่ถูกต้อง");
@@ -116,9 +117,14 @@ const SecretRoomPage: React.FC = () => {
         const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF("p", "mm", "a4");
         const ratio = Math.min(210 / canvas.width, 297 / canvas.height);
-        const imgWidth = canvas.width * ratio;
-        const imgHeight = canvas.height * ratio;
-        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+        pdf.addImage(
+          imgData,
+          "PNG",
+          0,
+          0,
+          canvas.width * ratio,
+          canvas.height * ratio
+        );
         pdf.save("document.pdf");
       }
     } catch (error) {
@@ -139,11 +145,12 @@ const SecretRoomPage: React.FC = () => {
 
       <main className="min-h-screen bg-gradient-to-b from-base-100 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto space-y-12">
+          {/* Navigation */}
           <nav className="flex justify-between text-sm text-neutral-600 dark:text-neutral-400">
             <div>
               <a href="/" className="hover:underline">
                 หน้าแรก
-              </a>
+              </a>{" "}
               / <span className="text-primary dark:text-accent">ห้องลับ</span>
             </div>
             <button
@@ -159,6 +166,7 @@ const SecretRoomPage: React.FC = () => {
             </button>
           </nav>
 
+          {/* Header */}
           <header className="text-center space-y-3">
             <h1 className="text-3xl sm:text-5xl font-bold text-primary dark:text-accent">
               🔒 ห้องลับเฉพาะสมาชิก
@@ -176,6 +184,7 @@ const SecretRoomPage: React.FC = () => {
             </div>
           </header>
 
+          {/* Unlock Section */}
           <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-6">
             <h2 className="text-xl font-semibold text-primary dark:text-accent">
               สิทธิพิเศษสำหรับสมาชิก
@@ -207,8 +216,10 @@ const SecretRoomPage: React.FC = () => {
             )}
           </section>
 
+          {/* Document Sections */}
           {isUnlocked && (
             <>
+              {/* Business Registration */}
               <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
                 <h3 className="text-xl sm:text-2xl font-semibold text-primary dark:text-accent">
                   📄 ใบทะเบียนพาณิชย์
@@ -226,6 +237,7 @@ const SecretRoomPage: React.FC = () => {
                     height="1123"
                     className="w-[794px] max-w-full shadow-md"
                     title="ใบทะเบียนพาณิชย์"
+                    aria-label="Business Registration Document"
                     sandbox="allow-same-origin allow-scripts allow-forms"
                   />
                 </div>
@@ -245,6 +257,7 @@ const SecretRoomPage: React.FC = () => {
                 </div>
               </section>
 
+              {/* Salary Certificate */}
               <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
                 <h3 className="text-xl sm:text-2xl font-semibold text-primary dark:text-accent">
                   📄 หนังสือรับรองเงินเดือน
@@ -262,6 +275,7 @@ const SecretRoomPage: React.FC = () => {
                     height="1123"
                     className="w-[794px] max-w-full shadow-md"
                     title="หนังสือรับรองเงินเดือน"
+                    aria-label="Salary Certificate Document"
                     sandbox="allow-same-origin allow-scripts allow-forms"
                   />
                 </div>
