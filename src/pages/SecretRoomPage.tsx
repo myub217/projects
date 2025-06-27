@@ -3,17 +3,12 @@ import { useNavigate } from "react-router-dom";
 import SEOHelmet from "@/components/SEOHelmet";
 import { useAuth } from "@/context/AuthContext";
 
-// เรียก Component เอกสารแทน iframe
-import BusinessRegistration from "@/components/BusinessRegistration";
-import SalaryCertificate from "@/components/SalaryCertificate";
-
 const SecretRoomPage: React.FC = () => {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState<string>("");
   const [progress, setProgress] = useState<number>(100);
 
-  // ref ชี้ไปยัง div ที่เป็น container ของเอกสาร (BusinessRegistration, SalaryCertificate)
   const salaryRef = useRef<HTMLDivElement>(null);
   const businessRef = useRef<HTMLDivElement>(null);
 
@@ -47,7 +42,6 @@ const SecretRoomPage: React.FC = () => {
     return () => clearInterval(interval);
   }, [currentUser, logout, navigate]);
 
-  // ฟังก์ชันดาวน์โหลดจับภาพจาก ref (แนะนำให้จับจาก component ภายใน ref เท่านั้น)
   const handleDownload = async (
     ref: React.RefObject<HTMLDivElement>,
     type: "png" | "pdf"
@@ -58,12 +52,10 @@ const SecretRoomPage: React.FC = () => {
       const html2canvas = (await import("html2canvas")).default;
       const jsPDF = (await import("jspdf")).default;
 
-      // สั่งจับภาพ container ทั้งหมด
       const canvas = await html2canvas(ref.current, {
         scale: 2,
         useCORS: true,
         allowTaint: true,
-        scrollY: -window.scrollY,
       });
 
       if (type === "png") {
@@ -94,50 +86,7 @@ const SecretRoomPage: React.FC = () => {
     }
   };
 
-  // ถ้าไม่มี currentUser ให้ return null เพื่อไม่ให้โหลดหน้า
   if (!currentUser) return null;
-
-  // ตัวอย่างข้อมูล props สำหรับ SalaryCertificate และ BusinessRegistration
-  // กรุณาแทนที่ข้อมูลจริงตามต้องการ
-  const salaryCertificateData = {
-    companyThaiName: "บริษัท เจ้าป่าการตลาดนอกกรอบ จำกัด",
-    companyEngName: "JOAPAAKANTARADNOKGROB CO., LTD.",
-    documentId: "HR. Cer 123456789",
-    employeeName: currentUser.username,
-    startDate: "1 มกราคม 2565",
-    position: "นักการตลาดดิจิทัล",
-    department: "ฝ่ายการตลาด",
-    salaryDetails: [
-      { label: "เงินเดือนพื้นฐาน:", amount: "30,000 บาท" },
-      { label: "ค่าคอมมิชชั่น:", amount: "5,000 บาท" },
-      { label: "รวมรายได้:", amount: "35,000 บาท" },
-    ],
-    issueDate: new Date().toLocaleDateString("th-TH"),
-    issuerName: "นายเจ้าป่า",
-    issuerPosition: "ผู้จัดการฝ่ายทรัพยากรบุคคล",
-    hrPhone: "02-123-4567",
-    hrAddressLines: [
-      "123 ถนนสุขสวัสดิ์ แขวงบางจาก เขตพระประแดง",
-      "กรุงเทพมหานคร 10130",
-    ],
-  };
-
-  const businessRegistrationData = {
-    companyThaiName: "บริษัท เจ้าป่าการตลาดนอกกรอบ จำกัด",
-    companyEngName: "JOAPAAKANTARADNOKGROB CO., LTD.",
-    registrationNumber: "0105551234567",
-    registrationDate: "1 มกราคม 2560",
-    ownerName: "นายเจ้าป่า",
-    businessType: "ธุรกิจการตลาดและโฆษณา",
-    businessAddressLines: [
-      "123 ถนนสุขสวัสดิ์ แขวงบางจาก เขตพระประแดง",
-      "กรุงเทพมหานคร 10130",
-    ],
-    issueDate: new Date().toLocaleDateString("th-TH"),
-    issuerName: "เจ้าป่า การตลาด",
-    issuerPosition: "ผู้จัดการทั่วไป",
-    contactPhone: "02-123-4567",
-  };
 
   return (
     <>
@@ -149,15 +98,9 @@ const SecretRoomPage: React.FC = () => {
 
       <main className="min-h-screen bg-gradient-to-b from-base-100 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto space-y-12">
-          <nav
-            className="text-sm text-neutral-600 dark:text-neutral-400 flex justify-between items-center"
-            aria-label="breadcrumb"
-          >
+          <nav className="text-sm text-neutral-600 dark:text-neutral-400 flex justify-between items-center" aria-label="breadcrumb">
             <div>
-              <a href="/" className="hover:underline">
-                หน้าแรก
-              </a>{" "}
-              / <span className="text-primary dark:text-accent">ห้องลับ</span>
+              <a href="/" className="hover:underline">หน้าแรก</a> / <span className="text-primary dark:text-accent">ห้องลับ</span>
             </div>
             <button
               onClick={() => {
@@ -172,10 +115,7 @@ const SecretRoomPage: React.FC = () => {
           </nav>
 
           <header className="text-center px-2 sm:px-0 space-y-3">
-            <h1
-              id="secret-room-title"
-              className="text-3xl sm:text-5xl font-extrabold text-primary dark:text-accent"
-            >
+            <h1 id="secret-room-title" className="text-3xl sm:text-5xl font-extrabold text-primary dark:text-accent">
               🔒 ห้องลับเฉพาะสมาชิก
             </h1>
             <p className="text-base sm:text-lg text-neutral-800 dark:text-neutral-300 max-w-2xl mx-auto leading-relaxed">
@@ -191,34 +131,17 @@ const SecretRoomPage: React.FC = () => {
               aria-valuenow={Math.round(progress)}
               aria-label={`เหลือเวลา ${Math.round(progress)}%`}
             >
-              <div
-                className="h-full rounded-full bg-primary dark:bg-accent transition-all duration-300"
-                style={{ width: `${progress}%` }}
-              />
+              <div className="h-full rounded-full bg-primary dark:bg-accent transition-all duration-300" style={{ width: `${progress}%` }} />
             </div>
           </header>
 
           <section className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-8 md:p-10 space-y-6">
-            <h2 className="text-xl sm:text-2xl font-semibold text-primary dark:text-accent">
-              สิทธิพิเศษสำหรับสมาชิก
-            </h2>
+            <h2 className="text-xl sm:text-2xl font-semibold text-primary dark:text-accent">สิทธิพิเศษสำหรับสมาชิก</h2>
             <div className="grid gap-4 sm:grid-cols-2 text-left text-neutral-700 dark:text-neutral-200">
-              <div className="flex items-start gap-3">
-                <span className="text-2xl">📄</span>
-                <span>ดาวน์โหลดเอกสารที่เกี่ยวข้อง</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="text-2xl">📊</span>
-                <span>ดูรายงานความคืบหน้าของงานบริการ</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="text-2xl">🔧</span>
-                <span>เข้าถึงฟอร์มร้องขอเฉพาะสมาชิก</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="text-2xl">🧠</span>
-                <span>ระบบติดต่อเจ้าหน้าที่โดยตรง (เร็วๆ นี้)</span>
-              </div>
+              <div className="flex items-start gap-3"><span className="text-2xl">📄</span><span>ดาวน์โหลดเอกสารที่เกี่ยวข้อง</span></div>
+              <div className="flex items-start gap-3"><span className="text-2xl">📊</span><span>ดูรายงานความคืบหน้าของงานบริการ</span></div>
+              <div className="flex items-start gap-3"><span className="text-2xl">🔧</span><span>เข้าถึงฟอร์มร้องขอเฉพาะสมาชิก</span></div>
+              <div className="flex items-start gap-3"><span className="text-2xl">🧠</span><span>ระบบติดต่อเจ้าหน้าที่โดยตรง (เร็วๆ นี้)</span></div>
             </div>
             <div className="pt-6 border-t border-gray-200 dark:border-gray-600">
               <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400">
@@ -227,59 +150,39 @@ const SecretRoomPage: React.FC = () => {
             </div>
           </section>
 
-          {/* Salary Certificate Section */}
           <section className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-4 sm:p-6 space-y-4">
-            <h3 className="text-lg font-semibold text-primary dark:text-accent">
-              หนังสือรับรองเงินเดือน
-            </h3>
-            <div
-              ref={salaryRef}
-              className="flex justify-center overflow-auto max-w-[794px] border rounded bg-white dark:bg-gray-900 p-4"
-              style={{ userSelect: "text" }}
-            >
-              <SalaryCertificate {...salaryCertificateData} />
+            <h3 className="text-lg font-semibold text-primary dark:text-accent">หนังสือรับรองเงินเดือน</h3>
+            <div ref={salaryRef} className="flex justify-center overflow-auto max-w-[794px] border rounded">
+              <iframe
+                src="/salary-certificate.html"
+                width="794"
+                height="1123"
+                className="rounded"
+                title="หนังสือรับรองเงินเดือน"
+                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+              />
             </div>
             <div className="text-right space-x-2">
-              <button
-                className="btn btn-sm"
-                onClick={() => handleDownload(salaryRef, "png")}
-              >
-                Download PNG
-              </button>
-              <button
-                className="btn btn-sm btn-outline"
-                onClick={() => handleDownload(salaryRef, "pdf")}
-              >
-                Download PDF
-              </button>
+              <button className="btn btn-sm" onClick={() => handleDownload(salaryRef, "png")}>Download PNG</button>
+              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(salaryRef, "pdf")}>Download PDF</button>
             </div>
           </section>
 
-          {/* Business Registration Section */}
           <section className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-4 sm:p-6 space-y-4">
-            <h3 className="text-lg font-semibold text-primary dark:text-accent">
-              ใบทะเบียนพาณิชย์
-            </h3>
-            <div
-              ref={businessRef}
-              className="flex justify-center overflow-auto max-w-[794px] border rounded bg-white dark:bg-gray-900 p-4"
-              style={{ userSelect: "text" }}
-            >
-              <BusinessRegistration {...businessRegistrationData} />
+            <h3 className="text-lg font-semibold text-primary dark:text-accent">ใบทะเบียนพาณิชย์</h3>
+            <div ref={businessRef} className="flex justify-center overflow-auto max-w-[794px] border rounded">
+              <iframe
+                src="/business-registration.html"
+                width="794"
+                height="1123"
+                className="rounded"
+                title="ใบทะเบียนพาณิชย์"
+                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+              />
             </div>
             <div className="text-right space-x-2">
-              <button
-                className="btn btn-sm"
-                onClick={() => handleDownload(businessRef, "png")}
-              >
-                Download PNG
-              </button>
-              <button
-                className="btn btn-sm btn-outline"
-                onClick={() => handleDownload(businessRef, "pdf")}
-              >
-                Download PDF
-              </button>
+              <button className="btn btn-sm" onClick={() => handleDownload(businessRef, "png")}>Download PNG</button>
+              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(businessRef, "pdf")}>Download PDF</button>
             </div>
           </section>
         </div>
