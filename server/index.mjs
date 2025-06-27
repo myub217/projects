@@ -1,20 +1,37 @@
+// index.mjs
+
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
+import accessKeyRouter from "./routes/accessKey.mjs";
 
-async function main() {
-  try {
-    const app = express();
-    const port = 3000;
+const app = express();
+const port = process.env.PORT || 3000;
 
-    app.get("/", (req, res) => {
-      res.send("Hello World from Express + ES Modules!");
-    });
+// Middleware สำหรับแปลง JSON body
+app.use(express.json());
 
-    app.listen(port, () => {
-      console.log(`Server running at http://localhost:${port}`);
-    });
-  } catch (err) {
-    console.error("Error during server startup:", err);
-  }
-}
+// Routes
+app.use("/api/check-access-key", accessKeyRouter);
 
-main();
+// Default Route
+app.get("/", (req, res) => {
+  res.send("🌐 JP Visual & Docs API is running.");
+});
+
+// Global Error Handlers (optional)
+process.on("uncaughtException", (err) => {
+  console.error("💥 Uncaught Exception:", err);
+});
+
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("⚠️ Unhandled Rejection at:", promise, "reason:", reason);
+});
+
+// Start Server
+app.listen(port, () => {
+  console.log(`🚀 Server running at http://localhost:${port}`);
+});
+
+export default app;
