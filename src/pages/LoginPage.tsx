@@ -28,10 +28,10 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     if (loading) return;
 
-    const { username, password } = formData;
-    const trimmedUser = username.trim();
+    const username = formData.username.trim();
+    const password = formData.password;
 
-    if (!trimmedUser || !password) {
+    if (!username || !password) {
       setMessage("⚠️ กรุณากรอกชื่อผู้ใช้และรหัสผ่าน");
       return;
     }
@@ -41,7 +41,7 @@ const LoginPage: React.FC = () => {
     setTimeout(() => {
       // 🔐 ตรวจสอบ Default Key
       const defaultMatch = DEFAULT_KEYS.find(
-        (key) => key.username === trimmedUser && key.password === password
+        (key) => key.username === username && key.password === password
       );
 
       if (defaultMatch) {
@@ -51,14 +51,16 @@ const LoginPage: React.FC = () => {
           return;
         }
 
-        loginAs(defaultMatch.role as any);
+        loginAs(defaultMatch.role);
+        setMessage(`🔑 เข้าระบบด้วย access key: ${defaultMatch.username}`);
         navigate("/secret", { replace: true });
+        setLoading(false);
         return;
       }
 
       // 🔐 ตรวจสอบจากระบบ user
-      const user = users.find((u) => u.username === trimmedUser);
-      const isValid = validateUser(trimmedUser, password);
+      const isValid = validateUser(username, password);
+      const user = users.find((u) => u.username === username);
 
       if (isValid && user) {
         if (user.role === "admin" && secondCode !== ADMIN_SECONDARY_CODE) {
@@ -67,8 +69,10 @@ const LoginPage: React.FC = () => {
           return;
         }
 
+        loginAs(user.role);
         setMessage(`✅ ยินดีต้อนรับ ${user.username}`);
         setFormData({ username: "", password: "" });
+        setSecondCode("");
         navigate("/secret", { replace: true });
       } else {
         setMessage("❌ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง หรือบัญชีหมดอายุ");
@@ -110,10 +114,7 @@ const LoginPage: React.FC = () => {
 
         {/* Username */}
         <div className="form-control">
-          <label
-            htmlFor="username"
-            className="label text-sm font-semibold text-gray-700 dark:text-gray-300"
-          >
+          <label htmlFor="username" className="label text-sm font-semibold text-gray-700 dark:text-gray-300">
             ชื่อผู้ใช้
           </label>
           <input
@@ -132,10 +133,7 @@ const LoginPage: React.FC = () => {
 
         {/* Password */}
         <div className="form-control">
-          <label
-            htmlFor="password"
-            className="label text-sm font-semibold text-gray-700 dark:text-gray-300"
-          >
+          <label htmlFor="password" className="label text-sm font-semibold text-gray-700 dark:text-gray-300">
             รหัสผ่าน
           </label>
           <input
@@ -152,22 +150,19 @@ const LoginPage: React.FC = () => {
           />
         </div>
 
-        {/* รหัสชั้นที่ 2 */}
+        {/* Admin 2FA */}
         {isAdmin && (
           <div className="form-control">
-            <label
-              htmlFor="secondCode"
-              className="label text-sm font-semibold text-gray-700 dark:text-gray-300"
-            >
+            <label htmlFor="secondCode" className="label text-sm font-semibold text-gray-700 dark:text-gray-300">
               รหัสยืนยัน (5 หลัก)
             </label>
             <input
               id="secondCode"
               name="secondCode"
               type="password"
-              maxLength={5}
               inputMode="numeric"
               pattern="\d{5}"
+              maxLength={5}
               required
               disabled={loading}
               value={secondCode}
@@ -179,11 +174,7 @@ const LoginPage: React.FC = () => {
         )}
 
         {/* Submit */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="btn btn-primary w-full"
-        >
+        <button type="submit" disabled={loading} className="btn btn-primary w-full">
           {loading ? "กำลังตรวจสอบ..." : "เข้าสู่ระบบ"}
         </button>
       </form>
