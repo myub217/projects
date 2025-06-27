@@ -24,6 +24,12 @@ const LoginPage: React.FC = () => {
     setMessage("");
   };
 
+  const resetForm = () => {
+    setFormData({ username: "", password: "" });
+    setSecondCode("");
+    setMessage("");
+  };
+
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (loading) return;
@@ -39,49 +45,47 @@ const LoginPage: React.FC = () => {
     setLoading(true);
 
     setTimeout(() => {
+      // 🔐 ตรวจ Default Keys
       const defaultUser = DEFAULT_KEYS.find(
-        (key) => key.username === username && key.password === password
+        (key) => key.username.toLowerCase() === username && key.password === password
       );
 
-      const matchedUser = users.find((u) => u.username.toLowerCase() === username);
-      const isValid = validateUser(username, password);
+      if (defaultUser) {
+        if (defaultUser.role === "admin" && secondCode !== ADMIN_SECONDARY_CODE) {
+          setMessage("🔐 กรุณากรอกรหัสยืนยัน 5 หลักสำหรับผู้ดูแลระบบ");
+          setLoading(false);
+          return;
+        }
 
-      const role = defaultUser?.role || matchedUser?.role;
-      const isAdmin = role === "admin";
-
-      // 🔐 ตรวจสอบรหัส 2FA หากเป็นแอดมิน
-      if (isAdmin && secondCode !== ADMIN_SECONDARY_CODE) {
-        setMessage("🔐 กรุณากรอกรหัสยืนยัน 5 หลักสำหรับผู้ดูแลระบบ");
+        loginAs(defaultUser.role);
+        setMessage(`🔑 เข้าสู่ระบบสำเร็จในชื่อ ${defaultUser.username}`);
+        navigate("/secretroom", { replace: true });
+        resetForm();
         setLoading(false);
         return;
       }
 
-      // 🔐 ตรวจสอบ Default Key
-      if (defaultUser) {
-        loginAs(defaultUser.role);
-        setMessage(`🔑 เข้าสู่ระบบสำเร็จในชื่อ ${defaultUser.username}`);
-        resetForm();
-        navigate("/secretroom", { replace: true });
-        return;
-      }
+      // 🔐 ตรวจจากระบบ users
+      const matchedUser = users.find((u) => u.username.toLowerCase() === username);
+      const isValid = validateUser(username, password);
 
-      // 🔐 ตรวจสอบระบบ users
       if (isValid && matchedUser) {
+        if (matchedUser.role === "admin" && secondCode !== ADMIN_SECONDARY_CODE) {
+          setMessage("🔐 กรุณากรอกรหัสยืนยัน 5 หลักสำหรับผู้ดูแลระบบ");
+          setLoading(false);
+          return;
+        }
+
         loginAs(matchedUser.role);
         setMessage(`✅ ยินดีต้อนรับ ${matchedUser.username}`);
-        resetForm();
         navigate("/secretroom", { replace: true });
+        resetForm();
       } else {
         setMessage("❌ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง หรือบัญชีหมดอายุ");
       }
 
       setLoading(false);
     }, 400);
-  };
-
-  const resetForm = () => {
-    setFormData({ username: "", password: "" });
-    setSecondCode("");
   };
 
   const isAdminInput = formData.username.trim().toLowerCase() === "admin";
@@ -152,7 +156,7 @@ const LoginPage: React.FC = () => {
           />
         </div>
 
-        {/* รหัสยืนยัน 2FA สำหรับ admin */}
+        {/* 2FA */}
         {isAdminInput && (
           <div className="form-control">
             <label htmlFor="secondCode" className="label text-sm font-semibold text-gray-700 dark:text-gray-300">
