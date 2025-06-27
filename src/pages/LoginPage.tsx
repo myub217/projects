@@ -41,7 +41,7 @@ const LoginPage: React.FC = () => {
 
     setTimeout(() => {
       const isAdmin =
-        username === ADMIN_CREDENTIAL.username &&
+        username === ADMIN_CREDENTIAL.username.toLowerCase() &&
         password === ADMIN_CREDENTIAL.password;
 
       const userFromSystem = users.find(
@@ -61,17 +61,14 @@ const LoginPage: React.FC = () => {
 
       loginAs(user.role);
       resetForm();
-
-      // ไปหน้า secretroom เสมอหลังเข้าสู่ระบบ
       navigate("/secretroom", { replace: true });
-
       setLoading(false);
     }, 400);
   };
 
   const handleAddUser = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const username = newUser.username.trim();
+    const username = newUser.username.trim().toLowerCase();
     const password = newUser.password.trim();
 
     if (!username || !password) {
@@ -80,7 +77,7 @@ const LoginPage: React.FC = () => {
     }
 
     const exists = users.some(
-      (u) => u.username.toLowerCase() === username.toLowerCase()
+      (u) => u.username.toLowerCase() === username
     );
     if (exists) {
       setMessage(`❌ ผู้ใช้ "${username}" มีอยู่ในระบบแล้ว`);
@@ -107,9 +104,7 @@ const LoginPage: React.FC = () => {
           {message && (
             <div
               className={`text-sm font-medium text-center ${
-                message.includes("ผิด") ||
-                message.includes("กรอก") ||
-                message.includes("มีอยู่")
+                message.includes("⚠️") || message.includes("❌")
                   ? "text-red-600 dark:text-red-400"
                   : "text-green-600 dark:text-green-400"
               }`}
@@ -136,7 +131,7 @@ const LoginPage: React.FC = () => {
               value={formData.username}
               onChange={handleChange}
               className="input input-bordered bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-              placeholder="myub25217"
+              placeholder="เช่น myub25217"
             />
           </div>
 
@@ -163,6 +158,17 @@ const LoginPage: React.FC = () => {
 
           <button type="submit" disabled={loading} className="btn btn-primary w-full">
             {loading ? "กำลังตรวจสอบ..." : "เข้าสู่ระบบ"}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setMessage("");
+              setAddingUser(true);
+            }}
+            className="btn btn-sm btn-outline w-full mt-2"
+          >
+            ➕ เพิ่มผู้ใช้ใหม่
           </button>
         </form>
       )}
@@ -199,7 +205,7 @@ const LoginPage: React.FC = () => {
                 setNewUser({ ...newUser, username: e.target.value })
               }
               className="input input-bordered"
-              placeholder="username"
+              placeholder="ชื่อผู้ใช้"
               required
             />
           </div>
@@ -214,14 +220,26 @@ const LoginPage: React.FC = () => {
                 setNewUser({ ...newUser, password: e.target.value })
               }
               className="input input-bordered"
-              placeholder="password"
+              placeholder="รหัสผ่าน"
               required
             />
           </div>
 
-          <button type="submit" className="btn btn-success w-full">
-            ✅ เพิ่มผู้ใช้
-          </button>
+          <div className="flex gap-2">
+            <button type="submit" className="btn btn-success w-full">
+              ✅ เพิ่มผู้ใช้
+            </button>
+            <button
+              type="button"
+              className="btn btn-ghost w-full"
+              onClick={() => {
+                setAddingUser(false);
+                setMessage("");
+              }}
+            >
+              🔙 กลับ
+            </button>
+          </div>
         </form>
       )}
     </section>

@@ -1,4 +1,3 @@
-// src/pages/SecretRoomPage.tsx
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import SEOHelmet from "@/components/SEOHelmet";
@@ -61,7 +60,14 @@ const SecretRoomPage: React.FC = () => {
     return () => clearInterval(interval);
   }, [currentUser, logout, navigate]);
 
-  // ฟังก์ชันตรวจสอบรหัสปลดล็อกผ่าน API
+  // ตรวจสอบ key จาก localStorage ตอนเริ่มต้น (optional)
+  useEffect(() => {
+    if (accessKey && !isUnlocked) {
+      handleKeySubmit();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleKeySubmit = async () => {
     if (!accessKey.trim()) {
       alert("กรุณากรอกรหัสปลดล็อก");
@@ -97,7 +103,6 @@ const SecretRoomPage: React.FC = () => {
     }
   };
 
-  // ฟังก์ชันดาวน์โหลดเนื้อหาจาก ref เป็น PNG หรือ PDF
   const handleDownload = async (
     ref: React.RefObject<HTMLDivElement>,
     type: "png" | "pdf"
@@ -132,7 +137,6 @@ const SecretRoomPage: React.FC = () => {
     }
   };
 
-  // ฟังก์ชันพิมพ์เอกสารจาก ref
   const handlePrint = (ref: React.RefObject<HTMLDivElement>) => {
     if (!ref.current) return;
     const content = ref.current.innerHTML;
@@ -146,7 +150,6 @@ const SecretRoomPage: React.FC = () => {
           <title>Print Document</title>
           <style>
             body { margin: 0; padding: 0; font-family: 'Sarabun', sans-serif; }
-            iframe { width: 794px; height: 1123px; border: none; }
           </style>
         </head>
         <body>${content}</body>
@@ -219,13 +222,13 @@ const SecretRoomPage: React.FC = () => {
               สิทธิพิเศษสำหรับสมาชิก
             </h2>
             {!isUnlocked ? (
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <input
                   type="text"
                   value={accessKey}
                   onChange={(e) => setAccessKey(e.target.value)}
                   className="input input-sm input-bordered w-64"
-                  placeholder="กรอกรหัสจากแอดมิน"
+                  placeholder="รหัสปลดล็อกจากแอดมิน"
                 />
                 <button
                   onClick={handleKeySubmit}
@@ -244,6 +247,7 @@ const SecretRoomPage: React.FC = () => {
 
           {isUnlocked && (
             <>
+              {/* ใบทะเบียนพาณิชย์ */}
               <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
                 <h3 className="text-xl font-semibold text-primary dark:text-accent">
                   📄 ใบทะเบียนพาณิชย์
@@ -262,29 +266,21 @@ const SecretRoomPage: React.FC = () => {
                   />
                 </div>
                 <div className="text-right space-x-2">
-                  <button
-                    className="btn btn-sm"
-                    onClick={() => handleDownload(businessRef, "png")}
-                  >
+                  <button className="btn btn-sm" onClick={() => handleDownload(businessRef, "png")}>
                     ดาวน์โหลด PNG
                   </button>
-                  <button
-                    className="btn btn-sm btn-outline"
-                    onClick={() => handleDownload(businessRef, "pdf")}
-                  >
+                  <button className="btn btn-sm btn-outline" onClick={() => handleDownload(businessRef, "pdf")}>
                     ดาวน์โหลด PDF
                   </button>
                   {isAdmin && (
-                    <button
-                      className="btn btn-sm btn-ghost"
-                      onClick={() => handlePrint(businessRef)}
-                    >
+                    <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(businessRef)}>
                       พิมพ์เอกสาร
                     </button>
                   )}
                 </div>
               </section>
 
+              {/* หนังสือรับรองเงินเดือน */}
               {(isVip || isAdmin) && (
                 <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
                   <h3 className="text-xl font-semibold text-primary dark:text-accent">
@@ -304,23 +300,14 @@ const SecretRoomPage: React.FC = () => {
                     />
                   </div>
                   <div className="text-right space-x-2">
-                    <button
-                      className="btn btn-sm"
-                      onClick={() => handleDownload(salaryRef, "png")}
-                    >
+                    <button className="btn btn-sm" onClick={() => handleDownload(salaryRef, "png")}>
                       ดาวน์โหลด PNG
                     </button>
-                    <button
-                      className="btn btn-sm btn-outline"
-                      onClick={() => handleDownload(salaryRef, "pdf")}
-                    >
+                    <button className="btn btn-sm btn-outline" onClick={() => handleDownload(salaryRef, "pdf")}>
                       ดาวน์โหลด PDF
                     </button>
                     {isAdmin && (
-                      <button
-                        className="btn btn-sm btn-ghost"
-                        onClick={() => handlePrint(salaryRef)}
-                      >
+                      <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(salaryRef)}>
                         พิมพ์เอกสาร
                       </button>
                     )}

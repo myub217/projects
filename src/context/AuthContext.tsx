@@ -13,6 +13,7 @@ export interface User {
   password: string;
   role: Role;
   expiresAt: string; // ISO string
+  token?: string; // optional, for future API usage
 }
 
 interface AuthContextType {
@@ -45,10 +46,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [users, setUsers] = useState<User[]>([]);
 
-  // โหลดผู้ใช้และสถานะล็อกอินจาก localStorage
+  // โหลดจาก localStorage ตอนเริ่มต้น
   useEffect(() => {
-    const storedUsers = localStorage.getItem("users");
     let validUsers: User[] = [];
+    const storedUsers = localStorage.getItem("users");
 
     if (storedUsers) {
       try {
@@ -60,10 +61,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     }
 
-    // ถ้าไม่มี myub25217 ให้สร้าง admin เริ่มต้น
+    // สร้าง admin เริ่มต้นถ้าไม่พบ
     const adminExists = validUsers.some(
       (u) => u.username.toLowerCase() === "myub25217"
     );
+
     if (!adminExists) {
       const expiresAt = new Date();
       expiresAt.setFullYear(expiresAt.getFullYear() + 10);
@@ -78,11 +80,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUsers(validUsers);
     localStorage.setItem("users", JSON.stringify(validUsers));
 
-    // โหลดสถานะปัจจุบัน
     const storedRole = localStorage.getItem("role") as Role | null;
     const storedUserStr = localStorage.getItem("currentUser");
-    let storedUser: User | null = null;
 
+    let storedUser: User | null = null;
     if (storedUserStr) {
       try {
         storedUser = JSON.parse(storedUserStr);
@@ -91,14 +92,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     }
 
-    if (storedRole && storedUser) {
+    if (storedRole && storedUser && new Date(storedUser.expiresAt) > new Date()) {
       setRole(storedRole);
       setCurrentUser(storedUser);
       setIsLoggedIn(true);
+    } else {
+      localStorage.removeItem("currentUser");
+      localStorage.removeItem("role");
     }
   }, []);
 
-  // Sync users กับ localStorage ทุกครั้งที่เปลี่ยน
+  // Sync users ทุกครั้งที่เปลี่ยน
   useEffect(() => {
     localStorage.setItem("users", JSON.stringify(users));
   }, [users]);
@@ -107,15 +111,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const addUser = (
     user: Omit<User, "expiresAt"> & { expiresMinutes: number }
   ) => {
-    const usernameLower = user.username.trim().toLowerCase();
+    const username = user.username.trim().toLowerCase();
     const exists = users.some(
-      (u) => u.username.trim().toLowerCase() === usernameLower
+      (u) => u.username.trim().toLowerCase() === username
     );
     if (exists) return;
 
-    const expiresAt = new Date(
-      Date.now() + user.expiresMinutes * 60000
-    ).toISOString();
+    const expiresAt = new Date(Date.now() + user.expiresMinutes * 60000).toISOString();
+
     const newUser: User = {
       username: user.username.trim(),
       password: user.password.trim(),
@@ -126,33 +129,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUsers((prev) => [...prev, newUser]);
   };
 
-  // ตรวจสอบผู้ใช้
+  // ตรวจสอบการเข้าสู่ระบบของผู้ใช้
   const validateUser = (username: string, password: string): boolean => {
     const now = new Date();
-    const foundUser = users.find(
+
+    const user = users.find(
       (u) =>
         u.username.toLowerCase() === username.toLowerCase() &&
         u.password === password &&
         new Date(u.expiresAt) > now
     );
 
-    if (foundUser) {
-      setRole(foundUser.role);
+    if (user) {
+      setRole(user.role);
       setIsLoggedIn(true);
-      setCurrentUser(foundUser);
-      localStorage.setItem("role", foundUser.role);
-      localStorage.setItem("currentUser", JSON.stringify(foundUser));
+      setCurrentUser(user);
+      localStorage.setItem("role", user.role);
+      localStorage.setItem("currentUser", JSON.stringify(user));
       return true;
     }
 
     return false;
   };
 
-  // เข้าสู่ระบบด้วย role (ใช้เฉพาะ admin เทียม)
+  // เข้าสู่ระบบแบบระบุ role โดยตรง (ใช้ในกรณีพิเศษ เช่น admin hardcoded)
   const loginAs = (newRole: Role) => {
     setRole(newRole);
     setIsLoggedIn(true);
-    setCurrentUser(null);
+    setCurrentUser(null); // ไม่มี user object จริง
     localStorage.setItem("role", newRole);
     localStorage.removeItem("currentUser");
   };
