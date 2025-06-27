@@ -7,13 +7,13 @@ const AdminUserManagement: React.FC = () => {
 
   const [username, setUsername] = useState("Myub25217");
   const [password, setPassword] = useState("22584566");
-  const [role, setRole] = useState<"admin">("admin");
-  const [expiresMinutes, setExpiresMinutes] = useState(1440); // 1 วัน
+  const [role, setRole] = useState<"member" | "vip" | "admin">("admin");
+  const [expiresMinutes, setExpiresMinutes] = useState(1440); // default 1 วัน
+  const [secondCode, setSecondCode] = useState("");
+  const [isSecondLayerUnlocked, setSecondLayerUnlocked] = useState(false);
+
   const [message, setMessage] = useState("");
   const [search, setSearch] = useState("");
-  const [secondCode, setSecondCode] = useState("");
-
-  const [isSecondLayerUnlocked, setSecondLayerUnlocked] = useState(false);
 
   useEffect(() => {
     if (message) {
@@ -23,42 +23,41 @@ const AdminUserManagement: React.FC = () => {
   }, [message]);
 
   const handleAddUser = () => {
-    if (!username.trim() || !password.trim() || expiresMinutes < 1) {
+    const trimmed = username.trim();
+    if (!trimmed || !password.trim() || expiresMinutes < 1) {
       setMessage("⚠️ กรุณากรอกข้อมูลให้ครบถ้วนและเวลาหมดอายุอย่างน้อย 1 นาที");
       return;
     }
 
-    if (users.some((u) => u.username === username.trim())) {
-      setMessage(`ชื่อผู้ใช้ "${username.trim()}" มีอยู่แล้ว`);
+    if (users.some((u) => u.username === trimmed)) {
+      setMessage(`❌ ผู้ใช้ "${trimmed}" มีอยู่แล้ว`);
       return;
     }
 
     const safeToken = `t_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 
     addUser({
-      username: username.trim(),
+      username: trimmed,
       password,
       role,
       expiresMinutes,
       token: safeToken,
     });
 
-    setMessage(`✅ เพิ่มผู้ใช้ "${username.trim()}" สำเร็จ หมดอายุใน ${expiresMinutes} นาที`);
+    setMessage(`✅ เพิ่มผู้ใช้ "${trimmed}" สำเร็จ (หมดอายุใน ${expiresMinutes} นาที)`);
   };
 
   const handleRevoke = (username: string) => {
-    if (confirm(`คุณแน่ใจหรือไม่ที่จะลบบัญชี "${username}"?`)) {
+    if (confirm(`⚠️ คุณแน่ใจหรือไม่ที่จะลบบัญชี "${username}"?`)) {
       revokeUser(username);
       setMessage(`🗑️ บัญชี "${username}" ถูกยกเลิกแล้ว`);
     }
   };
 
   const handleRoleChange = (username: string, newRole: "member" | "vip" | "admin") => {
-    if (newRole === "admin") {
-      if (!confirm("คุณกำลังให้สิทธิ์ระดับผู้ดูแลระบบ ยืนยันหรือไม่?")) return;
-    }
+    if (newRole === "admin" && !confirm("⚠️ ยืนยันการมอบสิทธิ์ผู้ดูแลระบบให้ผู้ใช้นี้?")) return;
     setUserRole(username, newRole);
-    setMessage(`🔄 เปลี่ยนสิทธิ์ของ "${username}" เป็น ${newRole}`);
+    setMessage(`🔄 อัปเดตสิทธิ์ของ "${username}" เป็น "${newRole}"`);
   };
 
   const handleSecondLayerCheck = () => {
@@ -95,7 +94,7 @@ const AdminUserManagement: React.FC = () => {
   return (
     <section className="max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow space-y-8">
       <h2 className="text-2xl font-bold text-center text-primary dark:text-accent">
-        🔐 จัดการผู้ใช้ (Admin เท่านั้น)
+        🔐 ระบบจัดการผู้ใช้ (เฉพาะแอดมิน)
       </h2>
 
       {message && (
@@ -104,18 +103,18 @@ const AdminUserManagement: React.FC = () => {
             message.includes("✅") ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
           }`}
           role="alert"
-          aria-live="polite"
         >
           {message}
         </div>
       )}
 
+      {/* Form เพิ่มผู้ใช้ */}
       <form
         onSubmit={(e) => {
           e.preventDefault();
           handleAddUser();
         }}
-        className="space-y-4"
+        className="grid grid-cols-1 sm:grid-cols-2 gap-4"
       >
         <input
           type="text"
@@ -123,7 +122,6 @@ const AdminUserManagement: React.FC = () => {
           className="input input-bordered w-full"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          autoComplete="off"
           required
         />
         <input
@@ -132,7 +130,6 @@ const AdminUserManagement: React.FC = () => {
           className="input input-bordered w-full"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          autoComplete="new-password"
           required
         />
         <select
@@ -140,7 +137,9 @@ const AdminUserManagement: React.FC = () => {
           value={role}
           onChange={(e) => setRole(e.target.value as "member" | "vip" | "admin")}
         >
-          <option value="admin">แอดมิน (admin)</option>
+          <option value="member">member</option>
+          <option value="vip">vip</option>
+          <option value="admin">admin</option>
         </select>
         <input
           type="number"
@@ -151,21 +150,25 @@ const AdminUserManagement: React.FC = () => {
           onChange={(e) => setExpiresMinutes(Number(e.target.value))}
           required
         />
-        <button type="submit" className="btn btn-primary w-full">
-          ✅ เพิ่มผู้ใช้แอดมิน
-        </button>
+        <div className="col-span-full">
+          <button type="submit" className="btn btn-primary w-full">
+            ✅ เพิ่มผู้ใช้
+          </button>
+        </div>
       </form>
 
+      {/* Search */}
       <div>
         <input
           type="text"
-          placeholder="🔎 ค้นหาด้วยชื่อผู้ใช้หรือ token..."
+          placeholder="🔎 ค้นหาผู้ใช้หรือ token..."
           className="input input-bordered w-full"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
 
+      {/* Table แสดงผู้ใช้ */}
       <div className="overflow-x-auto">
         <table className="table w-full text-sm">
           <thead>
@@ -215,6 +218,13 @@ const AdminUserManagement: React.FC = () => {
                 </td>
               </tr>
             ))}
+            {filteredUsers.length === 0 && (
+              <tr>
+                <td colSpan={6} className="text-center py-4 text-gray-400">
+                  ไม่พบผู้ใช้ที่ตรงกับคำค้นหา
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
