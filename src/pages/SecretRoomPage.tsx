@@ -9,6 +9,7 @@ const SecretRoomPage: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<string>("");
   const [progress, setProgress] = useState<number>(100);
 
+  // Refs for capturing content divs
   const salaryRef = useRef<HTMLDivElement>(null);
   const businessRef = useRef<HTMLDivElement>(null);
 
@@ -21,6 +22,12 @@ const SecretRoomPage: React.FC = () => {
     const expires = new Date(currentUser.expiresAt).getTime();
     const now = Date.now();
     const duration = expires - now;
+
+    if (duration <= 0) {
+      logout();
+      navigate("/login");
+      return;
+    }
 
     const updateTimeLeft = () => {
       const now = Date.now();
@@ -39,6 +46,7 @@ const SecretRoomPage: React.FC = () => {
 
     updateTimeLeft();
     const interval = setInterval(updateTimeLeft, 1000);
+
     return () => clearInterval(interval);
   }, [currentUser, logout, navigate]);
 
@@ -52,10 +60,12 @@ const SecretRoomPage: React.FC = () => {
       const html2canvas = (await import("html2canvas")).default;
       const jsPDF = (await import("jspdf")).default;
 
+      // Capture the element as canvas
       const canvas = await html2canvas(ref.current, {
         scale: 2,
         useCORS: true,
         allowTaint: true,
+        backgroundColor: null,
       });
 
       if (type === "png") {
@@ -69,10 +79,8 @@ const SecretRoomPage: React.FC = () => {
         const pdfWidth = 210;
         const pdfHeight = 297;
 
-        const ratio = Math.min(
-          pdfWidth / canvas.width,
-          pdfHeight / canvas.height
-        );
+        // Calculate size to fit A4 preserving aspect ratio
+        const ratio = Math.min(pdfWidth / canvas.width, pdfHeight / canvas.height);
         const imgWidth = canvas.width * ratio;
         const imgHeight = canvas.height * ratio;
 
@@ -85,6 +93,7 @@ const SecretRoomPage: React.FC = () => {
     }
   };
 
+  // Guard to avoid rendering when not logged in
   if (!currentUser) return null;
 
   return (
@@ -103,8 +112,13 @@ const SecretRoomPage: React.FC = () => {
             aria-label="breadcrumb"
           >
             <div>
-              <a href="/" className="hover:underline">หน้าแรก</a> /{" "}
-              <span className="text-primary dark:text-accent">ห้องลับ</span>
+              <a href="/" className="hover:underline">
+                หน้าแรก
+              </a>{" "}
+              /{" "}
+              <span className="text-primary dark:text-accent" aria-current="page">
+                ห้องลับ
+              </span>
             </div>
             <button
               onClick={() => {
@@ -113,6 +127,7 @@ const SecretRoomPage: React.FC = () => {
               }}
               className="btn btn-sm btn-outline text-sm"
               aria-label="ออกจากระบบ"
+              type="button"
             >
               ออกจากระบบ
             </button>
@@ -150,19 +165,27 @@ const SecretRoomPage: React.FC = () => {
             </h2>
             <div className="grid gap-4 sm:grid-cols-2 text-left text-neutral-700 dark:text-neutral-200">
               <div className="flex items-start gap-3">
-                <span className="text-2xl">📄</span>
+                <span className="text-2xl" aria-hidden="true">
+                  📄
+                </span>
                 <span>ดาวน์โหลดเอกสารที่เกี่ยวข้อง</span>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-2xl">📊</span>
+                <span className="text-2xl" aria-hidden="true">
+                  📊
+                </span>
                 <span>ดูรายงานความคืบหน้าของงานบริการ</span>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-2xl">🔧</span>
+                <span className="text-2xl" aria-hidden="true">
+                  🔧
+                </span>
                 <span>เข้าถึงฟอร์มร้องขอเฉพาะสมาชิก</span>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-2xl">🧠</span>
+                <span className="text-2xl" aria-hidden="true">
+                  🧠
+                </span>
                 <span>ระบบติดต่อเจ้าหน้าที่โดยตรง (เร็วๆ นี้)</span>
               </div>
             </div>
@@ -173,7 +196,7 @@ const SecretRoomPage: React.FC = () => {
             </div>
           </section>
 
-          {/* Salary Certificate */}
+          {/* Salary Certificate Section */}
           <section className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-4 sm:p-6 space-y-4">
             <h3 className="text-lg font-semibold text-primary dark:text-accent">
               หนังสือรับรองเงินเดือน
@@ -189,16 +212,19 @@ const SecretRoomPage: React.FC = () => {
                 className="rounded"
                 title="หนังสือรับรองเงินเดือน"
                 sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                aria-label="หนังสือรับรองเงินเดือน"
               />
             </div>
             <div className="text-right space-x-2">
               <button
+                type="button"
                 className="btn btn-sm"
                 onClick={() => handleDownload(salaryRef, "png")}
               >
                 Download PNG
               </button>
               <button
+                type="button"
                 className="btn btn-sm btn-outline"
                 onClick={() => handleDownload(salaryRef, "pdf")}
               >
@@ -207,7 +233,7 @@ const SecretRoomPage: React.FC = () => {
             </div>
           </section>
 
-          {/* Business Registration */}
+          {/* Business Registration Section */}
           <section className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-4 sm:p-6 space-y-4">
             <h3 className="text-lg font-semibold text-primary dark:text-accent">
               ใบทะเบียนพาณิชย์
@@ -223,16 +249,19 @@ const SecretRoomPage: React.FC = () => {
                 className="rounded"
                 title="ใบทะเบียนพาณิชย์"
                 sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                aria-label="ใบทะเบียนพาณิชย์"
               />
             </div>
             <div className="text-right space-x-2">
               <button
+                type="button"
                 className="btn btn-sm"
                 onClick={() => handleDownload(businessRef, "png")}
               >
                 Download PNG
               </button>
               <button
+                type="button"
                 className="btn btn-sm btn-outline"
                 onClick={() => handleDownload(businessRef, "pdf")}
               >
