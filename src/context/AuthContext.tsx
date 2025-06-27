@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("users", JSON.stringify(users));
   }, [users]);
 
-  // เพิ่ม user ใหม่
+  // เพิ่ม user ใหม่ (ถ้า username ซ้ำจะไม่เพิ่ม)
   const addUser = (user: Omit<User, "expiresAt"> & { expiresMinutes: number }) => {
     const exists = users.some((u) => u.username === user.username);
     if (exists) return;
@@ -124,7 +124,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return false;
   };
 
-  // สำหรับการ loginAs (ถ้าจำเป็น)
+  // loginAs สำหรับใช้ล็อกอินแบบ role โดยไม่ต้อง user/pass (ถ้าจำเป็น)
   const loginAs = (newRole: Role) => {
     setRole(newRole);
     setIsLoggedIn(true);

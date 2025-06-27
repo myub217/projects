@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react"; import { useNavigate } from "react-router-dom"; import SEOHelmet from "@/components/SEOHelmet"; import { useAuth } from "@/context/AuthContext";
+// src/pages/SecretRoomPage.tsx import React, { useEffect, useState, useRef } from "react"; import { useNavigate } from "react-router-dom"; import SEOHelmet from "@/components/SEOHelmet"; import { useAuth } from "@/context/AuthContext";
 
 interface ApiCheckKeyResponse { success: boolean; message?: string; }
 
