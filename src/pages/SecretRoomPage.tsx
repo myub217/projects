@@ -93,7 +93,6 @@ const SecretRoomPage: React.FC = () => {
     }
   };
 
-  // Guard to avoid rendering when not logged in
   if (!currentUser) return null;
 
   return (
