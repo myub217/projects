@@ -10,26 +10,43 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS (for local dev, change for prod if needed) -->
     <link href="/dist/output.css" rel="stylesheet" />
 
-    <!-- Favicon & PWA -->
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
-    <link rel="manifest" href="/manifest.json" />
+    <!-- PWA Meta -->
+    <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="theme-color" content="#2C3E50" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" />
 
     <!-- SEO -->
-    <meta name="description" content="บริการวีซ่า การเงิน เอกสาร ระบบหลังบ้าน และการออกแบบอย่างมืออาชีพ โดยทีม JP Visual & Docs" />
-    <meta name="keywords" content="JP, JP Visual, เอกสาร, วีซ่า, การเงิน, กู้เงิน, ระบบ, ออกแบบ, บริการ, แปลภาษา, โปรไฟล์" />
+    <meta
+      name="description"
+      content="บริการวีซ่า การเงิน เอกสาร ระบบหลังบ้าน และการออกแบบอย่างมืออาชีพ โดยทีม JP Visual & Docs"
+    />
+    <meta
+      name="keywords"
+      content="JP, JP Visual, เอกสาร, วีซ่า, การเงิน, กู้เงิน, ระบบ, ออกแบบ, บริการ, แปลภาษา, โปรไฟล์"
+    />
     <meta name="author" content="JP Visual & Docs" />
     <link rel="canonical" href="https://applicationlubmobile.vercel.app" />
 
-    <!-- Open Graph for Facebook -->
+    <!-- Open Graph / Facebook -->
     <meta property="og:title" content="JP Visual & Docs" />
-    <meta property="og:description" content="บริการวีซ่า การเงิน เอกสาร โปรไฟล์ และระบบหลังบ้านครบวงจร" />
+    <meta
+      property="og:description"
+      content="บริการวีซ่า การเงิน เอกสาร โปรไฟล์ และระบบหลังบ้านครบวงจร"
+    />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://applicationlubmobile.vercel.app" />
     <meta property="og:image" content="https://applicationlubmobile.vercel.app/og-image-v2.jpg" />
@@ -42,17 +59,18 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="JP Visual & Docs" />
-    <meta name="twitter:description" content="บริการที่ครอบคลุมตั้งแต่วีซ่า การเงิน เอกสาร จนถึงระบบหลังบ้าน" />
+    <meta
+      name="twitter:description"
+      content="บริการที่ครอบคลุมตั้งแต่วีซ่า การเงิน เอกสาร จนถึงระบบหลังบ้าน"
+    />
     <meta name="twitter:image" content="https://applicationlubmobile.vercel.app/og-image-v2.jpg" />
     <meta name="twitter:creator" content="@jpdocs" />
 
-    <!-- Preload -->
+    <!-- Preload Important Assets -->
     <link rel="preload" as="image" href="/hero.webp" type="image/webp" />
 
-    <!-- Mobile App -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- Accessibility / Performance -->
+    <meta name="robots" content="index, follow" />
   </head>
 
   <body class="font-sans bg-background text-foreground antialiased transition-colors duration-300">
