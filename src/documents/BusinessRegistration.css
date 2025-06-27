@@ -1,3 +1,4 @@
+/* Import Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Sarabun&display=swap');
 
 /* Reset & Base */
@@ -15,18 +16,21 @@ body {
   line-height: 1.6;
   color: #222;
   background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* A4 Print Setup */
+/* Container for Business Document - A4 size */
 .business-doc {
-  width: 794px;      /* A4 width in pixels @ 96 DPI */
-  height: 1123px;    /* A4 height in pixels @ 96 DPI */
-  margin: auto;
+  width: 794px;          /* A4 width in pixels at 96 DPI */
+  height: 1123px;        /* A4 height in pixels at 96 DPI */
+  margin: 2rem auto;
   padding: 64px;
-  background: #fff;
+  background-color: #fff;
   position: relative;
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  user-select: none;
 }
 
 /* Watermark Background */
@@ -39,35 +43,40 @@ body {
   background-position: center;
   background-size: contain;
   opacity: 0.08;
+  pointer-events: none;
   z-index: 0;
 }
 
-/* Content Layer */
+/* Content Layer - above watermark */
 .business-doc .content {
   position: relative;
   z-index: 1;
 }
 
-/* Typography */
+/* Headings */
 .business-doc h1,
 .business-doc h2,
 .business-doc h3 {
-  font-weight: bold;
+  font-weight: 700;
   text-align: center;
   margin: 1rem 0;
+  user-select: text;
 }
 
+/* Paragraphs */
 .business-doc p {
   margin: 0.75rem 0;
+  user-select: text;
 }
 
-/* Signature Area */
+/* Signature block styling */
 .signature-block {
   margin-top: 3rem;
 }
 
 .signature-block p {
   margin: 0.5rem 0;
+  user-select: text;
 }
 
 /* Dark Mode Support */
@@ -80,6 +89,7 @@ body {
   .business-doc {
     background-color: #1a1a1a;
     color: #eee;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
   }
 
   .business-doc::before {
@@ -91,15 +101,25 @@ body {
 @media print {
   body {
     background: none !important;
+    color: #000 !important;
   }
 
   .business-doc {
     box-shadow: none;
     margin: 0;
     padding: 40px;
+    width: auto;
+    height: auto;
+    page-break-after: always;
+    user-select: none;
   }
 
   .business-doc::before {
     opacity: 0.05 !important;
+  }
+
+  /* Avoid color shifting in print */
+  h1, h2, h3, p {
+    color: #000 !important;
   }
 }
