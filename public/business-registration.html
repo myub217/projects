@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="ใบทะเบียนพาณิชย์ บริษัท นามสมมุติ จำกัด" />
+  <title>ใบไม้ทะเบียนทาซาน</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap" rel="stylesheet" />
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      background: #eee;
+      font-family: 'Sarabun', sans-serif;
+      height: 100%; width: 100%;
+      display: flex; justify-content: center; align-items: flex-start;
+      color: #000;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    #document {
+      width: 210mm; height: 297mm;
+      background: #fff;
+      box-sizing: border-box;
+      padding: 20mm 20mm 10mm;
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+      display: flex; flex-direction: column;
+      line-height: 1.4;
+      user-select: none;
+      color: #000;
+      overflow: hidden;
+    }
+    .top-info {
+      display: flex; justify-content: space-between;
+      font-size: 14px; font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: 0.03em;
+      user-select: text;
+    }
+    .top-left {
+      display: flex; flex-direction: column; gap: 3px;
+    }
+    .top-right {
+      text-align: right; user-select: text;
+    }
+    .header-center {
+      text-align: center; margin-bottom: 10px; user-select: text;
+    }
+    .krut {
+      width: 70px; margin: 0 auto 6px; display: block; user-select: none;
+    }
+    .header-center h2 {
+      font-size: 18px; margin: 0; font-weight: 600; letter-spacing: 0.05em;
+    }
+    .header-center h3 {
+      font-size: 16px; margin: 3px 0 0; font-weight: 500; color: #444;
+    }
+    .header-center h1 {
+      font-size: 24px; font-weight: 700; margin: 6px 0 0; letter-spacing: 0.1em;
+    }
+    .certify-text {
+      text-align: center; font-size: 15px; line-height: 1.4;
+      margin: 14px auto 0; max-width: 480px; user-select: text;
+    }
+    .underline-short {
+      margin: 0.25rem auto 0.4rem;
+      border-bottom: 1.5px solid #000;
+      padding: 5px 8px;
+      text-align: center;
+      max-width: 320px;
+      font-weight: 600;
+      width: 100%;
+      box-sizing: border-box;
+      user-select: text;
+    }
+    .no-underline {
+      border-bottom: none !important;
+      font-weight: 600;
+      margin: 0.3rem auto 0.6rem;
+      font-size: 15px;
+      max-width: 420px;
+      text-align: center;
+      user-select: text;
+      color: #222;
+    }
+    .normal-text {
+      font-weight: normal !important;
+      border-bottom: 1.2px solid #000;
+      margin: 0.25rem auto 0.3rem;
+      padding: 4px 8px;
+      max-width: 320px;
+      text-align: center;
+      width: fit-content;
+      user-select: text;
+    }
+    .details {
+      font-size: 15px;
+      margin: 14px auto 0;
+      text-align: center;
+      line-height: 1.4;
+      max-width: 480px;
+      user-select: text;
+    }
+    .underline-block-3 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      margin: 8px auto 18px;
+      max-width: 480px;
+    }
+    .underline-line {
+      width: 100%;
+      border-bottom: 1.2px solid #000;
+      padding: 4px 8px;
+      text-align: center;
+      min-height: 1.5em;
+      box-sizing: border-box;
+      user-select: text;
+    }
+    .section-title {
+      text-align: center;
+      font-weight: 700;
+      font-size: 16px;
+      margin: 20px auto 4px;
+      letter-spacing: 0.05em;
+      user-select: text;
+    }
+    .address-details {
+      font-size: 15px;
+      text-align: left;
+      margin: 0 auto 0;
+      line-height: 1.4;
+      max-width: 480px;
+      user-select: text;
+      white-space: pre-line;
+    }
+    .footer {
+      font-size: 15px;
+      line-height: 1.3;
+      text-align: right;
+      margin-top: auto;
+      padding-top: 12px;
+      white-space: pre-line;
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      user-select: text;
+    }
+    .footer-content {
+      max-width: 320px;
+      text-align: right;
+    }
+    .signature-block {
+      text-align: center;
+      margin-top: 3px;
+      line-height: 1.2;
+      user-select: text;
+    }
+
+    @media print {
+      html, body {
+        background: #fff;
+        margin: 0; padding: 0;
+        display: block;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      #document {
+        box-shadow: none;
+        border: none;
+        width: 210mm; height: 297mm;
+        padding: 20mm 20mm 10mm;
+        page-break-after: avoid;
+        overflow: visible;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="document" lang="th" role="document" aria-label="ใบทะเบียนพาณิชย์">
+    <div class="top-info" role="contentinfo" aria-label="ข้อมูลทะเบียนและคำขอ">
+      <div class="top-left">
+        <div><strong>ทะเบียนเลขที่:</strong> 99999999</div>
+        <div><strong>คำขอที่:</strong> 99999999</div>
+      </div>
+      <div class="top-right"><strong>แบบ:</strong> ไม่รู้. 01234</div>
+    </div>
+
+    <div class="header-center" role="banner" aria-label="หัวกระดาษ">
+      <img src="krut1.webp" alt="ตราครุฑ" class="krut" />
+      <h2>กรมพัฒนาธุรกิจกสินค้ากลางป่า</h2>
+      <h3>สำนักงานกลางทะเบียนกลางป่า</h3>
+      <h1>ใบไม้ทะเบียนทาซาน</h1>
+    </div>
+
+    <div class="certify-text" aria-label="ข้อความรับรอง">
+      ใบสำคัญนี้ออกให้เพื่อแสดงว่า
+      <div class="underline-short" aria-label="ชื่อบริษัท">บริษัท นามสมมุติ จำกัด</div>
+      <div class="no-underline">ได้จดทะเบียนใบไม้ ตามกำหนดกลางป่า ค.ศ. 1750</div>
+      <div class="normal-text" aria-label="วันที่จดทะเบียน">เมื่อวันที่ 99 กรกฎาคม ค.ศ. 1750</div>
+    </div>
+
+    <div class="details" aria-label="รายละเอียดธุรกิจ">
+      ชื่อที่ใช้ในการประกอบพาณิชยกิจ
+      <div class="underline-short" aria-label="ชื่อภาษาอังกฤษ">Namsommut.co.cld</div>
+      (เขียนเป็นอักษรโรมัน)
+      <div class="underline-short" aria-label="ชื่อภาษาอังกฤษซ้ำ">Namsommut.co.cld /</div>
+      ชนิดธุรกิจกลางป่า
+      <div class="underline-block-3" aria-label="ชนิดธุรกิจ">
+        <div class="underline-line">จำหน่ายสินค้าเทคนิค, edit & create ผ่านอินเทอร์เน็ต</div>
+        <div class="underline-line">&nbsp;</div>
+        <div class="underline-line">&nbsp;</div>
+      </div>
+    </div>
+
+    <div class="section-title">ที่ตั้งสำนักงานใหญ่</div>
+    <div class="address-details" aria-label="ที่อยู่สำนักงานใหญ่">
+      เลขที่ 123 หมู่ 7, ตรอก/ซอย กลางป่าใหญ่, ถนนทางช้างเผือก,<br />
+      ตำบล/แขวง บ้านต้นไม้, อำเภอ/เขต เมืองพงไพร, จังหวัดมหานครทาซาน
+    </div>
+
+    <div class="footer" role="contentinfo" aria-label="ข้อมูลท้ายเอกสาร">
+      <div class="footer-content">
+        ณ วันที่ ..................................................<br />
+        ลงชื่อ ..................................................<br />
+        <div class="signature-block">
+          (นาย นามสมมุติ)<br />
+          นายทะเบียนพาณิชย์
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -8,7 +8,6 @@ const SecretRoomPage: React.FC = () => {
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState<string>("");
   const [progress, setProgress] = useState<number>(100);
-  const [totalDuration, setTotalDuration] = useState<number>(0);
 
   useEffect(() => {
     if (!currentUser) {
@@ -19,7 +18,6 @@ const SecretRoomPage: React.FC = () => {
     const expires = new Date(currentUser.expiresAt).getTime();
     const now = Date.now();
     const duration = expires - now;
-    setTotalDuration(duration);
 
     const updateTimeLeft = () => {
       const now = Date.now();
@@ -92,11 +90,17 @@ const SecretRoomPage: React.FC = () => {
               <br />
               บัญชีของคุณจะหมดอายุใน: <strong>{timeLeft}</strong>
             </p>
-            <div className="w-full max-w-lg mx-auto h-2 rounded-full bg-neutral-200 dark:bg-neutral-700">
+            <div
+              className="w-full max-w-lg mx-auto h-2 rounded-full bg-neutral-200 dark:bg-neutral-700"
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round(progress)}
+              aria-label={`เหลือเวลา ${Math.round(progress)}%`}
+            >
               <div
                 className="h-full rounded-full bg-primary dark:bg-accent transition-all duration-300"
                 style={{ width: `${progress}%` }}
-                aria-label={`เหลือเวลา ${progress.toFixed(0)}%`}
               />
             </div>
           </header>
@@ -108,19 +112,27 @@ const SecretRoomPage: React.FC = () => {
             </h2>
             <div className="grid gap-4 sm:grid-cols-2 text-left text-neutral-700 dark:text-neutral-200">
               <div className="flex items-start gap-3">
-                <span className="text-2xl">📄</span>
+                <span className="text-2xl" aria-hidden="true">
+                  📄
+                </span>
                 <span>ดาวน์โหลดเอกสารที่เกี่ยวข้อง</span>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-2xl">📊</span>
+                <span className="text-2xl" aria-hidden="true">
+                  📊
+                </span>
                 <span>ดูรายงานความคืบหน้าของงานบริการ</span>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-2xl">🔧</span>
+                <span className="text-2xl" aria-hidden="true">
+                  🔧
+                </span>
                 <span>เข้าถึงฟอร์มร้องขอเฉพาะสมาชิก</span>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-2xl">🧠</span>
+                <span className="text-2xl" aria-hidden="true">
+                  🧠
+                </span>
                 <span>ระบบติดต่อเจ้าหน้าที่โดยตรง (เร็วๆ นี้)</span>
               </div>
             </div>
@@ -131,9 +143,9 @@ const SecretRoomPage: React.FC = () => {
             </div>
           </section>
 
-          {/* Document Preview */}
+          {/* Document Preview: Salary Certificate */}
           <section
-            aria-label="เอกสารหนังสือรับรองเงินเดือนตัวอย่าง"
+            aria-label="ตัวอย่างเอกสารหนังสือรับรองเงินเดือน"
             className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-4 sm:p-6 flex justify-center"
           >
             <div
@@ -147,6 +159,33 @@ const SecretRoomPage: React.FC = () => {
               <iframe
                 src="/salary-certificate.html"
                 title="หนังสือรับรองเงินเดือน"
+                width="794"
+                height="1123"
+                style={{ border: "none", display: "block" }}
+                loading="lazy"
+                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+              >
+                ขอโทษครับ, เบราว์เซอร์ของคุณไม่รองรับการแสดง iframe.
+              </iframe>
+            </div>
+          </section>
+
+          {/* Document Preview: Business Registration */}
+          <section
+            aria-label="ตัวอย่างเอกสารใบทะเบียนพาณิชย์"
+            className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-4 sm:p-6 flex justify-center"
+          >
+            <div
+              className="rounded-lg border border-gray-300 dark:border-gray-600 overflow-hidden"
+              style={{
+                width: 794,
+                height: 1123,
+                boxShadow: "0 0 15px rgba(0,0,0,0.2)",
+              }}
+            >
+              <iframe
+                src="/business-registration.html"
+                title="ใบทะเบียนพาณิชย์"
                 width="794"
                 height="1123"
                 style={{ border: "none", display: "block" }}
