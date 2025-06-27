@@ -8,7 +8,7 @@ const DEFAULT_KEYS = [
   { username: "Myub25217", password: "22584566", role: "admin" },
 ];
 
-const ADMIN_SECONDARY_CODE = "852085";
+const ADMIN_SECONDARY_CODE = "85208";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
