@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Sarabun&display=swap');
 
+/* Reset & Base */
 * {
   box-sizing: border-box;
 }
@@ -23,10 +24,11 @@ body {
   min-height: 100vh;
 }
 
+/* Page container */
 .page {
   position: relative;
-  width: 210mm;
-  height: 297mm;
+  width: 210mm;      /* A4 width */
+  height: 297mm;     /* A4 height */
   background: #fff;
   padding: 25mm 20mm;
   box-shadow: 0 0 10px rgba(0,0,0,0.15);
@@ -36,11 +38,25 @@ body {
   margin: 20px auto;
 }
 
+/* Watermark Layer */
+.page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("sensor.webp") center center no-repeat;
+  background-size: 90% auto;
+  opacity: 0.2;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Ensure content is above watermark */
 .page * {
   position: relative;
   z-index: 1;
 }
 
+/* Header */
 header.header {
   margin-bottom: 16px;
 }
@@ -60,6 +76,7 @@ header.header h2 {
   user-select: text;
 }
 
+/* Document ID */
 .document-id {
   font-size: 13pt;
   margin: 12px 0 24px 0;
@@ -67,6 +84,7 @@ header.header h2 {
   user-select: text;
 }
 
+/* Title */
 .title {
   text-align: center;
   font-size: 17pt;
@@ -76,6 +94,7 @@ header.header h2 {
   user-select: text;
 }
 
+/* Content */
 section.content {
   flex: 1;
   text-align: justify;
@@ -87,6 +106,7 @@ section.content p {
   margin: 14px 0;
 }
 
+/* Salary details list */
 ul.salary-details {
   margin-left: 60px;
   margin-bottom: 28px;
@@ -98,6 +118,7 @@ ul.salary-details li {
   margin: 6px 0;
 }
 
+/* Signature block */
 .issue-signature-wrapper {
   text-align: right;
   margin-top: 48px;
@@ -123,6 +144,7 @@ ul.salary-details li {
   margin-bottom: 12px;
 }
 
+/* Notes section */
 .notes {
   margin-top: 48px;
   padding-top: 12px;
@@ -143,6 +165,7 @@ ul.salary-details li {
   margin: 6px 0;
 }
 
+/* Footer */
 footer.footer {
   font-size: 13pt;
   line-height: 1.5;
@@ -156,7 +179,7 @@ footer.footer p {
   margin: 4px 0;
 }
 
-/* Print Styles */
+/* Print styles */
 @media print {
   html, body {
     background: none;

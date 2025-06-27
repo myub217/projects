@@ -1,10 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Sarabun&display=swap');
 
-* {
+/* Reset & Base */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   background: #eee;
@@ -15,6 +19,7 @@ html, body {
   height: 100%;
 }
 
+/* Center A4 page in browser */
 body {
   display: flex;
   justify-content: center;
@@ -23,24 +28,27 @@ body {
   min-height: 100vh;
 }
 
+/* A4 paper layout */
 .page {
   position: relative;
   width: 210mm;
   height: 297mm;
   background: #fff;
   padding: 25mm 20mm;
-  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   margin: 20px auto;
 }
 
+/* Content above watermark */
 .page * {
   position: relative;
   z-index: 1;
 }
 
+/* Header styles */
 header.header {
   margin-bottom: 16px;
 }
@@ -58,12 +66,14 @@ header.header h2 {
   color: #555;
 }
 
+/* Document ID */
 .document-id {
   font-size: 13pt;
   margin: 12px 0 24px 0;
   color: #444;
 }
 
+/* Title */
 .title {
   text-align: center;
   font-size: 17pt;
@@ -72,6 +82,7 @@ header.header h2 {
   margin-bottom: 28px;
 }
 
+/* Main content */
 section.content {
   flex: 1;
   text-align: justify;
@@ -82,6 +93,7 @@ section.content p {
   margin: 14px 0;
 }
 
+/* List of business address or salary details */
 .details-list {
   margin-left: 60px;
   margin-bottom: 28px;
@@ -92,6 +104,7 @@ section.content p {
   margin: 6px 0;
 }
 
+/* Signature section */
 .issue-signature-wrapper {
   text-align: right;
   margin-top: 48px;
@@ -116,6 +129,7 @@ section.content p {
   margin-bottom: 12px;
 }
 
+/* Notes section */
 .notes {
   margin-top: 48px;
   padding-top: 12px;
@@ -135,6 +149,7 @@ section.content p {
   margin: 6px 0;
 }
 
+/* Footer */
 footer.footer {
   font-size: 13pt;
   line-height: 1.5;
@@ -147,9 +162,10 @@ footer.footer p {
   margin: 4px 0;
 }
 
-/* Print Styles */
+/* Print styles */
 @media print {
-  html, body {
+  html,
+  body {
     background: none;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
