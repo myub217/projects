@@ -62,11 +62,9 @@ const LoginPage: React.FC = () => {
       loginAs(user.role);
       resetForm();
 
-      if (user.role === "admin") {
-        setAddingUser(true);
-      } else {
-        navigate("/secretroom", { replace: true });
-      }
+      // ไปหน้า secretroom เสมอหลังเข้าสู่ระบบ
+      navigate("/secretroom", { replace: true });
+
       setLoading(false);
     }, 400);
   };
@@ -81,20 +79,21 @@ const LoginPage: React.FC = () => {
       return;
     }
 
-    const exists = users.some((u) => u.username.toLowerCase() === username.toLowerCase());
+    const exists = users.some(
+      (u) => u.username.toLowerCase() === username.toLowerCase()
+    );
     if (exists) {
       setMessage(`❌ ผู้ใช้ "${username}" มีอยู่ในระบบแล้ว`);
       return;
     }
 
-    addUser({ username, password, role: "member" });
+    addUser({ username, password, role: "member", expiresMinutes: 60 * 24 });
     setMessage(`✅ เพิ่มผู้ใช้ "${username}" สำเร็จ`);
     setNewUser({ username: "", password: "" });
   };
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen bg-base-100 dark:bg-gray-950 px-4">
-      {/* ฟอร์มล็อกอิน */}
       {!addingUser && (
         <form
           onSubmit={handleLogin}
@@ -108,7 +107,9 @@ const LoginPage: React.FC = () => {
           {message && (
             <div
               className={`text-sm font-medium text-center ${
-                message.includes("ผิด") || message.includes("กรอก") || message.includes("มีอยู่")
+                message.includes("ผิด") ||
+                message.includes("กรอก") ||
+                message.includes("มีอยู่")
                   ? "text-red-600 dark:text-red-400"
                   : "text-green-600 dark:text-green-400"
               }`}
@@ -119,7 +120,10 @@ const LoginPage: React.FC = () => {
           )}
 
           <div className="form-control">
-            <label htmlFor="username" className="label text-sm font-semibold text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="username"
+              className="label text-sm font-semibold text-gray-700 dark:text-gray-300"
+            >
               ชื่อผู้ใช้
             </label>
             <input
@@ -137,7 +141,10 @@ const LoginPage: React.FC = () => {
           </div>
 
           <div className="form-control">
-            <label htmlFor="password" className="label text-sm font-semibold text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="password"
+              className="label text-sm font-semibold text-gray-700 dark:text-gray-300"
+            >
               รหัสผ่าน
             </label>
             <input
@@ -160,7 +167,6 @@ const LoginPage: React.FC = () => {
         </form>
       )}
 
-      {/* ฟอร์มเพิ่มผู้ใช้ใหม่ */}
       {addingUser && (
         <form
           onSubmit={handleAddUser}
@@ -171,7 +177,14 @@ const LoginPage: React.FC = () => {
           </h2>
 
           {message && (
-            <div className="text-sm font-medium text-center text-green-600 dark:text-green-400">
+            <div
+              className={`text-sm font-medium text-center ${
+                message.includes("สำเร็จ")
+                  ? "text-green-600 dark:text-green-400"
+                  : "text-red-600 dark:text-red-400"
+              }`}
+              role="alert"
+            >
               {message}
             </div>
           )}
@@ -182,7 +195,9 @@ const LoginPage: React.FC = () => {
               type="text"
               name="username"
               value={newUser.username}
-              onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
+              onChange={(e) =>
+                setNewUser({ ...newUser, username: e.target.value })
+              }
               className="input input-bordered"
               placeholder="username"
               required
@@ -195,7 +210,9 @@ const LoginPage: React.FC = () => {
               type="password"
               name="password"
               value={newUser.password}
-              onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+              onChange={(e) =>
+                setNewUser({ ...newUser, password: e.target.value })
+              }
               className="input input-bordered"
               placeholder="password"
               required
