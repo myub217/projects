@@ -2,48 +2,59 @@ import React from "react";
 
 const BusinessRegistration: React.FC = () => {
   return (
-    <div className="relative max-w-[794px] w-full mx-auto p-8 bg-white text-black font-thai text-[18px] leading-7">
-      {/* Watermark or background */}
-      <div className="absolute inset-0 opacity-10 z-0 bg-no-repeat bg-center bg-contain" style={{ backgroundImage: "url('/watermark.png')" }} />
+    <div className="relative max-w-[794px] w-full mx-auto p-8 bg-white text-black font-thai text-[18px] leading-7 border border-gray-300 rounded shadow-md">
+      {/* Background watermark */}
+      <div
+        className="absolute inset-0 opacity-10 z-0 bg-no-repeat bg-center bg-contain"
+        style={{ backgroundImage: "url('/watermark.png')" }}
+      />
 
-      {/* Content */}
+      {/* Foreground content */}
       <div className="relative z-10 space-y-4">
+        {/* Top info */}
         <p>ทะเบียนเลขที่: <strong>99999999</strong></p>
         <p>คำขอที่: <strong>99999999</strong></p>
         <p>แบบ: <strong>ไม่รู้. 01234</strong></p>
 
+        {/* Header */}
         <h1 className="text-center text-xl font-bold">ตราครุฑ</h1>
-        <p className="text-center">
-          กรมพัฒนาธุรกิจกสินค้ากลางป่า<br />
-          สำนักงานกลางทะเบียนกลางป่า<br />
-          ใบไม้ทะเบียนทาซาน
-        </p>
+        <div className="text-center">
+          <p>กรมพัฒนาธุรกิจกสินค้ากลางป่า</p>
+          <p>สำนักงานกลางทะเบียนกลางป่า</p>
+          <p>ใบไม้ทะเบียนทาซาน</p>
+        </div>
 
-        <p className="text-center text-lg mt-6">
-          ใบสำคัญนี้ออกให้เพื่อแสดงว่า<br />
-          <strong>บริษัท นามสมมุติ จำกัด</strong><br />
-          ได้จดทะเบียนใบไม้ ตามกำหนดกลางป่า ค.ศ. 1750<br />
-          เมื่อวันที่ 99 กรกฎาคม ค.ศ. 1750
-        </p>
+        {/* Certification block */}
+        <div className="text-center text-lg mt-6 leading-relaxed">
+          <p>ใบสำคัญนี้ออกให้เพื่อแสดงว่า</p>
+          <p className="text-2xl font-bold">บริษัท นามสมมุติ จำกัด</p>
+          <p>ได้จดทะเบียนใบไม้ ตามกำหนดกลางป่า ค.ศ. 1750</p>
+          <p>เมื่อวันที่ 99 กรกฎาคม ค.ศ. 1750</p>
+        </div>
 
-        <p className="mt-6">
-          <strong>ชื่อที่ใช้ในการประกอบพาณิชยกิจ:</strong><br />
-          Namsommut.co.cld<br />
-          (เขียนเป็นอักษรโรมัน)
-        </p>
+        {/* Business details */}
+        <div className="mt-6">
+          <p className="font-semibold">ชื่อที่ใช้ในการประกอบพาณิชยกิจ:</p>
+          <p>Namsommut.co.cld</p>
+          <p>(เขียนเป็นอักษรโรมัน)</p>
+        </div>
 
-        <p>
-          <strong>ชนิดธุรกิจกลางป่า:</strong><br />
-          จำหน่ายสินค้าเทคนิค, edit & create ผ่านอินเทอร์เน็ต
-        </p>
+        <div>
+          <p className="font-semibold">ชนิดธุรกิจกลางป่า:</p>
+          <p>จำหน่ายสินค้าเทคนิค, edit & create ผ่านอินเทอร์เน็ต</p>
+        </div>
 
-        <p className="mt-6">
-          <strong>ที่ตั้งสำนักงานใหญ่:</strong><br />
-          เลขที่ 123 หมู่ 7, ตรอก/ซอย กลางป่าใหญ่, ถนนทางช้างเผือก,<br />
-          ตำบล/แขวง บ้านต้นไม้, อำเภอ/เขต เมืองพงไพร, จังหวัดมหานครทาซาน
-        </p>
+        {/* Address */}
+        <div className="mt-6">
+          <p className="font-semibold">ที่ตั้งสำนักงานใหญ่:</p>
+          <p>
+            เลขที่ 123 หมู่ 7, ตรอก/ซอย กลางป่าใหญ่, ถนนทางช้างเผือก,
+            ตำบล/แขวง บ้านต้นไม้, อำเภอ/เขต เมืองพงไพร, จังหวัดมหานครทาซาน
+          </p>
+        </div>
 
-        <div className="mt-12 space-y-3">
+        {/* Signature */}
+        <div className="mt-12 space-y-2">
           <p>ณ วันที่ ..................................................</p>
           <p>ลงชื่อ ..................................................</p>
           <p>(นาย นามสมมุติ)</p>
