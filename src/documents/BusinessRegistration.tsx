@@ -1,65 +1,57 @@
-import React, { useRef } from "react"; import "./BusinessRegistration.css";
+import React from "react";
 
-interface BusinessRegistrationProps { companyThaiName: string; companyEngName: string; registrationNumber: string; registrationDate: string; ownerName: string; position: string; department: string; businessAddressLines: string[]; issueDate: string; issuerName: string; issuerPosition: string; contactPhone: string; watermarkUrl?: string; }
+const BusinessRegistration: React.FC = () => {
+  return (
+    <div className="relative max-w-[794px] w-full mx-auto p-8 bg-white text-black font-thai text-[18px] leading-7">
+      {/* Watermark or background */}
+      <div className="absolute inset-0 opacity-10 z-0 bg-no-repeat bg-center bg-contain" style={{ backgroundImage: "url('/watermark.png')" }} />
 
-const BusinessRegistration: React.FC<BusinessRegistrationProps> = ({ companyThaiName, companyEngName, registrationNumber, registrationDate, ownerName, position, department, businessAddressLines, issueDate, issuerName, issuerPosition, contactPhone, watermarkUrl = "sensor.webp", }) => { const pageRef = useRef<HTMLDivElement>(null);
+      {/* Content */}
+      <div className="relative z-10 space-y-4">
+        <p>ทะเบียนเลขที่: <strong>99999999</strong></p>
+        <p>คำขอที่: <strong>99999999</strong></p>
+        <p>แบบ: <strong>ไม่รู้. 01234</strong></p>
 
-return ( <article
-ref={pageRef}
-className="page"
-role="document"
-aria-label="ใบทะเบียนพาณิชย์"
-lang="th"
-> {/* Watermark Layer */} <div style={{ position: "absolute", inset: 0, backgroundImage: url(${watermarkUrl}), backgroundPosition: "center center", backgroundRepeat: "no-repeat", backgroundSize: "90% auto", opacity: 0.2, zIndex: 0, pointerEvents: "none", }} />
+        <h1 className="text-center text-xl font-bold">ตราครุฑ</h1>
+        <p className="text-center">
+          กรมพัฒนาธุรกิจกสินค้ากลางป่า<br />
+          สำนักงานกลางทะเบียนกลางป่า<br />
+          ใบไม้ทะเบียนทาซาน
+        </p>
 
-<header className="header" aria-label="หัวกระดาษบริษัท">
-    <h1>{companyThaiName}</h1>
-    <h2>{companyEngName}</h2>
-  </header>
+        <p className="text-center text-lg mt-6">
+          ใบสำคัญนี้ออกให้เพื่อแสดงว่า<br />
+          <strong>บริษัท นามสมมุติ จำกัด</strong><br />
+          ได้จดทะเบียนใบไม้ ตามกำหนดกลางป่า ค.ศ. 1750<br />
+          เมื่อวันที่ 99 กรกฎาคม ค.ศ. 1750
+        </p>
 
-  <div className="document-id" aria-label="เลขที่ทะเบียนพาณิชย์">
-    เลขที่ทะเบียนพาณิชย์: {registrationNumber}
-  </div>
+        <p className="mt-6">
+          <strong>ชื่อที่ใช้ในการประกอบพาณิชยกิจ:</strong><br />
+          Namsommut.co.cld<br />
+          (เขียนเป็นอักษรโรมัน)
+        </p>
 
-  <h2 className="title">ใบทะเบียนพาณิชย์</h2>
+        <p>
+          <strong>ชนิดธุรกิจกลางป่า:</strong><br />
+          จำหน่ายสินค้าเทคนิค, edit & create ผ่านอินเทอร์เน็ต
+        </p>
 
-  <section className="content" aria-label="รายละเอียดใบทะเบียนพาณิชย์">
-    <p>
-      ใบทะเบียนนี้ขอรับรองว่า <strong>{ownerName}</strong> เป็นเจ้าของกิจการบริษัท{" "}
-      <strong>{companyThaiName}</strong> โดยจดทะเบียนเมื่อวันที่{" "}
-      <strong>{registrationDate}</strong> ปัจจุบันดำเนินกิจการประเภท{" "}
-      <strong>{position}</strong> แผนก <strong>{department}</strong>
-    </p>
+        <p className="mt-6">
+          <strong>ที่ตั้งสำนักงานใหญ่:</strong><br />
+          เลขที่ 123 หมู่ 7, ตรอก/ซอย กลางป่าใหญ่, ถนนทางช้างเผือก,<br />
+          ตำบล/แขวง บ้านต้นไม้, อำเภอ/เขต เมืองพงไพร, จังหวัดมหานครทาซาน
+        </p>
 
-    <p>ที่อยู่สถานประกอบการ:</p>
-    <ul className="details-list">
-      {businessAddressLines.map((line, idx) => (
-        <li key={idx}>{line}</li>
-      ))}
-    </ul>
-
-    <div className="issue-signature-wrapper" aria-label="ลายเซ็นผู้ออกใบทะเบียน">
-      <p>ออกให้ ณ วันที่ <strong>{issueDate}</strong></p>
-      <p>{companyEngName}</p>
-      <p>({issuerName})</p>
-      <p>{issuerPosition}</p>
+        <div className="mt-12 space-y-3">
+          <p>ณ วันที่ ..................................................</p>
+          <p>ลงชื่อ ..................................................</p>
+          <p>(นาย นามสมมุติ)</p>
+          <p className="text-sm">นายทะเบียนพาณิชย์</p>
+        </div>
+      </div>
     </div>
-
-    <section className="notes" aria-label="หมายเหตุ">
-      <strong>หมายเหตุ:</strong>
-      <p>1. ใบทะเบียนนี้จัดทำขึ้นเพื่อยืนยันการจดทะเบียนพาณิชย์อย่างถูกต้อง</p>
-      <p>2. ใบทะเบียนนี้ต้องไม่มีรอยขูดขีด ลบ หรือแก้ไขใด ๆ</p>
-    </section>
-  </section>
-
-  <footer className="footer" aria-label="ข้อมูลติดต่อ">
-    <p>โทรศัพท์: {contactPhone}</p>
-    {businessAddressLines.map((line, idx) => (
-      <p key={idx}>{line}</p>
-    ))}
-  </footer>
-</article>
-
-); };
+  );
+};
 
 export default BusinessRegistration;
