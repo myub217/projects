@@ -13,7 +13,6 @@ const SecretRoomPage: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<string>("");
   const [progress, setProgress] = useState<number>(100);
 
-  // refs สำหรับอ้างอิง container เอกสาร
   const salaryRef = useRef<HTMLDivElement>(null);
   const businessRef = useRef<HTMLDivElement>(null);
 
