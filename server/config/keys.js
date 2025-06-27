@@ -1,0 +1,3 @@
+const VALID_ACCESS_KEYS = ["JP2025KEY", "ADMIN123", "SPECIALKEY"];
+
+module.exports = { VALID_ACCESS_KEYS };
