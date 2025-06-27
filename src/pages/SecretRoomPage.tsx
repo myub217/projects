@@ -3,27 +3,17 @@ import { useNavigate } from "react-router-dom";
 import SEOHelmet from "@/components/SEOHelmet";
 import { useAuth } from "@/context/AuthContext";
 
-interface ApiCheckKeyResponse {
-  success: boolean;
-  level?: string;
-  message?: string;
-}
-
 const SecretRoomPage: React.FC = () => {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
 
   const [timeLeft, setTimeLeft] = useState("");
   const [progress, setProgress] = useState(100);
-  const [accessKey, setAccessKey] = useState(localStorage.getItem("accessKey") || "");
-  const [isUnlocked, setIsUnlocked] = useState(false);
-  const [userLevel, setUserLevel] = useState("");
-  const [loadingKeyCheck, setLoadingKeyCheck] = useState(false);
 
   const salaryRef = useRef<HTMLDivElement>(null);
   const businessRef = useRef<HTMLDivElement>(null);
 
-  // ตรวจสอบสิทธิ์และนับเวลาหมดอายุ session
+  // ตรวจสอบ session หมดอายุ ถ้าไม่ใช่ redirect ไป login
   useEffect(() => {
     if (!currentUser || !currentUser.expiresAt) {
       navigate("/login");
@@ -59,49 +49,6 @@ const SecretRoomPage: React.FC = () => {
     const interval = setInterval(updateTimeLeft, 1000);
     return () => clearInterval(interval);
   }, [currentUser, logout, navigate]);
-
-  // ตรวจสอบ key จาก localStorage ตอนเริ่มต้น (optional)
-  useEffect(() => {
-    if (accessKey && !isUnlocked) {
-      handleKeySubmit();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleKeySubmit = async () => {
-    if (!accessKey.trim()) {
-      alert("กรุณากรอกรหัสปลดล็อก");
-      return;
-    }
-
-    setLoadingKeyCheck(true);
-    try {
-      const res = await fetch("/api/check-access-key", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${currentUser?.token}`,
-        },
-        body: JSON.stringify({ accessKey }),
-      });
-
-      const data: ApiCheckKeyResponse = await res.json();
-
-      if (res.ok && data.success) {
-        setIsUnlocked(true);
-        setUserLevel(data.level || "");
-        localStorage.setItem("accessKey", accessKey);
-        alert("ปลดล็อกสำเร็จ! คุณสามารถเข้าถึงฟีเจอร์พิเศษได้แล้ว");
-      } else {
-        alert(data.message || "รหัสปลดล็อกไม่ถูกต้อง");
-      }
-    } catch (error) {
-      console.error("Error checking access key:", error);
-      alert("เกิดข้อผิดพลาดในการตรวจสอบรหัส");
-    } finally {
-      setLoadingKeyCheck(false);
-    }
-  };
 
   const handleDownload = async (
     ref: React.RefObject<HTMLDivElement>,
@@ -165,11 +112,6 @@ const SecretRoomPage: React.FC = () => {
 
   if (!currentUser) return null;
 
-  const level = userLevel.toLowerCase();
-  const isMember = level === "member";
-  const isVip = level === "vip";
-  const isAdmin = level === "admin";
-
   return (
     <>
       <SEOHelmet
@@ -217,105 +159,67 @@ const SecretRoomPage: React.FC = () => {
             </div>
           </header>
 
-          <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-6">
-            <h2 className="text-xl font-semibold text-primary dark:text-accent">
-              สิทธิพิเศษสำหรับสมาชิก
-            </h2>
-            {!isUnlocked ? (
-              <div className="flex flex-wrap gap-2">
-                <input
-                  type="text"
-                  value={accessKey}
-                  onChange={(e) => setAccessKey(e.target.value)}
-                  className="input input-sm input-bordered w-64"
-                  placeholder="รหัสปลดล็อกจากแอดมิน"
-                />
-                <button
-                  onClick={handleKeySubmit}
-                  className="btn btn-sm btn-primary"
-                  disabled={loadingKeyCheck}
-                >
-                  {loadingKeyCheck ? "กำลังตรวจสอบ..." : "ปลดล็อก"}
-                </button>
-              </div>
-            ) : (
-              <div className="text-green-500">
-                ✅ ปลดล็อกแล้ว! ({userLevel}) สามารถใช้งานฟีเจอร์ตามสิทธิ์ได้
-              </div>
-            )}
+          {/* ใบทะเบียนพาณิชย์ */}
+          <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
+            <h3 className="text-xl font-semibold text-primary dark:text-accent">
+              📄 ใบทะเบียนพาณิชย์
+            </h3>
+            <div
+              ref={businessRef}
+              className="border rounded bg-white dark:bg-gray-900 flex justify-center overflow-x-auto"
+            >
+              <iframe
+                src="/business-registration.html"
+                width="794"
+                height="1123"
+                className="shadow-md"
+                title="ใบทะเบียนพาณิชย์"
+                sandbox="allow-same-origin allow-scripts allow-forms"
+              />
+            </div>
+            <div className="text-right space-x-2">
+              <button className="btn btn-sm" onClick={() => handleDownload(businessRef, "png")}>
+                ดาวน์โหลด PNG
+              </button>
+              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(businessRef, "pdf")}>
+                ดาวน์โหลด PDF
+              </button>
+              <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(businessRef)}>
+                พิมพ์เอกสาร
+              </button>
+            </div>
           </section>
 
-          {isUnlocked && (
-            <>
-              {/* ใบทะเบียนพาณิชย์ */}
-              <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
-                <h3 className="text-xl font-semibold text-primary dark:text-accent">
-                  📄 ใบทะเบียนพาณิชย์
-                </h3>
-                <div
-                  ref={businessRef}
-                  className="border rounded bg-white dark:bg-gray-900 flex justify-center overflow-x-auto"
-                >
-                  <iframe
-                    src="/business-registration.html"
-                    width="794"
-                    height="1123"
-                    className="shadow-md"
-                    title="ใบทะเบียนพาณิชย์"
-                    sandbox="allow-same-origin allow-scripts allow-forms"
-                  />
-                </div>
-                <div className="text-right space-x-2">
-                  <button className="btn btn-sm" onClick={() => handleDownload(businessRef, "png")}>
-                    ดาวน์โหลด PNG
-                  </button>
-                  <button className="btn btn-sm btn-outline" onClick={() => handleDownload(businessRef, "pdf")}>
-                    ดาวน์โหลด PDF
-                  </button>
-                  {isAdmin && (
-                    <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(businessRef)}>
-                      พิมพ์เอกสาร
-                    </button>
-                  )}
-                </div>
-              </section>
-
-              {/* หนังสือรับรองเงินเดือน */}
-              {(isVip || isAdmin) && (
-                <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
-                  <h3 className="text-xl font-semibold text-primary dark:text-accent">
-                    📄 หนังสือรับรองเงินเดือน
-                  </h3>
-                  <div
-                    ref={salaryRef}
-                    className="border rounded bg-white dark:bg-gray-900 flex justify-center overflow-x-auto"
-                  >
-                    <iframe
-                      src="/salary-certificate.html"
-                      width="794"
-                      height="1123"
-                      className="shadow-md"
-                      title="หนังสือรับรองเงินเดือน"
-                      sandbox="allow-same-origin allow-scripts allow-forms"
-                    />
-                  </div>
-                  <div className="text-right space-x-2">
-                    <button className="btn btn-sm" onClick={() => handleDownload(salaryRef, "png")}>
-                      ดาวน์โหลด PNG
-                    </button>
-                    <button className="btn btn-sm btn-outline" onClick={() => handleDownload(salaryRef, "pdf")}>
-                      ดาวน์โหลด PDF
-                    </button>
-                    {isAdmin && (
-                      <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(salaryRef)}>
-                        พิมพ์เอกสาร
-                      </button>
-                    )}
-                  </div>
-                </section>
-              )}
-            </>
-          )}
+          {/* หนังสือรับรองเงินเดือน */}
+          <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
+            <h3 className="text-xl font-semibold text-primary dark:text-accent">
+              📄 หนังสือรับรองเงินเดือน
+            </h3>
+            <div
+              ref={salaryRef}
+              className="border rounded bg-white dark:bg-gray-900 flex justify-center overflow-x-auto"
+            >
+              <iframe
+                src="/salary-certificate.html"
+                width="794"
+                height="1123"
+                className="shadow-md"
+                title="หนังสือรับรองเงินเดือน"
+                sandbox="allow-same-origin allow-scripts allow-forms"
+              />
+            </div>
+            <div className="text-right space-x-2">
+              <button className="btn btn-sm" onClick={() => handleDownload(salaryRef, "png")}>
+                ดาวน์โหลด PNG
+              </button>
+              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(salaryRef, "pdf")}>
+                ดาวน์โหลด PDF
+              </button>
+              <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(salaryRef)}>
+                พิมพ์เอกสาร
+              </button>
+            </div>
+          </section>
         </div>
       </main>
     </>
