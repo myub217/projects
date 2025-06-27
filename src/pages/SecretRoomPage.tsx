@@ -3,17 +3,17 @@ import { useNavigate } from "react-router-dom";
 import SEOHelmet from "@/components/SEOHelmet";
 import { useAuth } from "@/context/AuthContext";
 
-import BusinessRegistration from "@/documents/BusinessRegistration";
-import SalaryCertificate from "@/documents/SalaryCertificate";
+// เรียก Component เอกสารแทน iframe
+import BusinessRegistration from "@/components/BusinessRegistration";
+import SalaryCertificate from "@/components/SalaryCertificate";
 
 const SecretRoomPage: React.FC = () => {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
-
   const [timeLeft, setTimeLeft] = useState<string>("");
   const [progress, setProgress] = useState<number>(100);
 
-  // refs สำหรับอ้างอิง container เอกสาร
+  // ref ชี้ไปยัง div ที่เป็น container ของเอกสาร (BusinessRegistration, SalaryCertificate)
   const salaryRef = useRef<HTMLDivElement>(null);
   const businessRef = useRef<HTMLDivElement>(null);
 
@@ -47,7 +47,7 @@ const SecretRoomPage: React.FC = () => {
     return () => clearInterval(interval);
   }, [currentUser, logout, navigate]);
 
-  // ฟังก์ชันจับภาพและดาวน์โหลดเอกสาร (PNG หรือ PDF)
+  // ฟังก์ชันดาวน์โหลดจับภาพจาก ref (แนะนำให้จับจาก component ภายใน ref เท่านั้น)
   const handleDownload = async (
     ref: React.RefObject<HTMLDivElement>,
     type: "png" | "pdf"
@@ -58,6 +58,7 @@ const SecretRoomPage: React.FC = () => {
       const html2canvas = (await import("html2canvas")).default;
       const jsPDF = (await import("jspdf")).default;
 
+      // สั่งจับภาพ container ทั้งหมด
       const canvas = await html2canvas(ref.current, {
         scale: 2,
         useCORS: true,
@@ -93,9 +94,11 @@ const SecretRoomPage: React.FC = () => {
     }
   };
 
+  // ถ้าไม่มี currentUser ให้ return null เพื่อไม่ให้โหลดหน้า
   if (!currentUser) return null;
 
-  // ข้อมูลสำหรับ SalaryCertificate
+  // ตัวอย่างข้อมูล props สำหรับ SalaryCertificate และ BusinessRegistration
+  // กรุณาแทนที่ข้อมูลจริงตามต้องการ
   const salaryCertificateData = {
     companyThaiName: "บริษัท เจ้าป่าการตลาดนอกกรอบ จำกัด",
     companyEngName: "JOAPAAKANTARADNOKGROB CO., LTD.",
@@ -119,7 +122,6 @@ const SecretRoomPage: React.FC = () => {
     ],
   };
 
-  // ข้อมูลสำหรับ BusinessRegistration
   const businessRegistrationData = {
     companyThaiName: "บริษัท เจ้าป่าการตลาดนอกกรอบ จำกัด",
     companyEngName: "JOAPAAKANTARADNOKGROB CO., LTD.",
@@ -225,7 +227,7 @@ const SecretRoomPage: React.FC = () => {
             </div>
           </section>
 
-          {/* หนังสือรับรองเงินเดือน */}
+          {/* Salary Certificate Section */}
           <section className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-4 sm:p-6 space-y-4">
             <h3 className="text-lg font-semibold text-primary dark:text-accent">
               หนังสือรับรองเงินเดือน
@@ -253,7 +255,7 @@ const SecretRoomPage: React.FC = () => {
             </div>
           </section>
 
-          {/* ใบทะเบียนพาณิชย์ */}
+          {/* Business Registration Section */}
           <section className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-4 sm:p-6 space-y-4">
             <h3 className="text-lg font-semibold text-primary dark:text-accent">
               ใบทะเบียนพาณิชย์
