@@ -47,7 +47,6 @@ const SecretRoomPage: React.FC = () => {
     return () => clearInterval(interval);
   }, [currentUser, logout, navigate]);
 
-  // ฟังก์ชันจับภาพและดาวน์โหลดเอกสาร (PNG หรือ PDF)
   const handleDownload = async (
     ref: React.RefObject<HTMLDivElement>,
     type: "png" | "pdf"
@@ -95,7 +94,6 @@ const SecretRoomPage: React.FC = () => {
 
   if (!currentUser) return null;
 
-  // ข้อมูลสำหรับ SalaryCertificate
   const salaryCertificateData = {
     companyThaiName: "บริษัท เจ้าป่าการตลาดนอกกรอบ จำกัด",
     companyEngName: "JOAPAAKANTARADNOKGROB CO., LTD.",
@@ -119,7 +117,6 @@ const SecretRoomPage: React.FC = () => {
     ],
   };
 
-  // ข้อมูลสำหรับ BusinessRegistration
   const businessRegistrationData = {
     companyThaiName: "บริษัท เจ้าป่าการตลาดนอกกรอบ จำกัด",
     companyEngName: "JOAPAAKANTARADNOKGROB CO., LTD.",
@@ -147,6 +144,7 @@ const SecretRoomPage: React.FC = () => {
 
       <main className="min-h-screen bg-gradient-to-b from-base-100 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto space-y-12">
+          {/* Breadcrumb และปุ่มออกจากระบบ */}
           <nav
             className="text-sm text-neutral-600 dark:text-neutral-400 flex justify-between items-center"
             aria-label="breadcrumb"
@@ -164,11 +162,13 @@ const SecretRoomPage: React.FC = () => {
               }}
               className="btn btn-sm btn-outline text-sm"
               aria-label="ออกจากระบบ"
+              type="button"
             >
               ออกจากระบบ
             </button>
           </nav>
 
+          {/* Header */}
           <header className="text-center px-2 sm:px-0 space-y-3">
             <h1
               id="secret-room-title"
@@ -196,6 +196,7 @@ const SecretRoomPage: React.FC = () => {
             </div>
           </header>
 
+          {/* สิทธิพิเศษสมาชิก */}
           <section className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-8 md:p-10 space-y-6">
             <h2 className="text-xl sm:text-2xl font-semibold text-primary dark:text-accent">
               สิทธิพิเศษสำหรับสมาชิก
@@ -245,6 +246,7 @@ const SecretRoomPage: React.FC = () => {
                 className="btn btn-sm"
                 onClick={() => handleDownload(salaryRef, "png")}
                 aria-label="ดาวน์โหลดหนังสือรับรองเงินเดือนเป็นไฟล์ PNG"
+                type="button"
               >
                 Download PNG
               </button>
@@ -252,6 +254,7 @@ const SecretRoomPage: React.FC = () => {
                 className="btn btn-sm btn-outline"
                 onClick={() => handleDownload(salaryRef, "pdf")}
                 aria-label="ดาวน์โหลดหนังสือรับรองเงินเดือนเป็นไฟล์ PDF"
+                type="button"
               >
                 Download PDF
               </button>
@@ -278,6 +281,7 @@ const SecretRoomPage: React.FC = () => {
                 className="btn btn-sm"
                 onClick={() => handleDownload(businessRef, "png")}
                 aria-label="ดาวน์โหลดใบทะเบียนพาณิชย์เป็นไฟล์ PNG"
+                type="button"
               >
                 Download PNG
               </button>
@@ -285,6 +289,7 @@ const SecretRoomPage: React.FC = () => {
                 className="btn btn-sm btn-outline"
                 onClick={() => handleDownload(businessRef, "pdf")}
                 aria-label="ดาวน์โหลดใบทะเบียนพาณิชย์เป็นไฟล์ PDF"
+                type="button"
               >
                 Download PDF
               </button>
