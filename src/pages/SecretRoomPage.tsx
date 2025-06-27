@@ -1,229 +1,222 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import SEOHelmet from "@/components/SEOHelmet";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import SEOHelmet from "@/components/SEOHelmet";
 
-const SecretRoomPage: React.FC = () => {
-  const { currentUser, logout } = useAuth();
+const LoginPage: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { validateUser, users, addUser } = useAuth();
 
-  const [timeLeft, setTimeLeft] = useState("");
-  const [progress, setProgress] = useState(100);
+  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const salaryRef = useRef<HTMLDivElement>(null);
-  const businessRef = useRef<HTMLDivElement>(null);
+  const [newUser, setNewUser] = useState({ username: "", password: "" });
+  const [addingUser, setAddingUser] = useState(false);
 
-  // ตรวจสอบ session หมดอายุ ถ้าไม่ใช่ redirect ไป login
+  // รับ username/password จาก Hero.tsx ผ่าน URL params ถ้ามี
   useEffect(() => {
-    if (!currentUser || !currentUser.expiresAt) {
-      navigate("/login");
-      return;
+    const search = new URLSearchParams(location.search);
+    const username = search.get("username") || "";
+    const password = search.get("password") || "";
+    if (username && password) {
+      setFormData({ username, password });
+      handleLoginAuto(username, password);
     }
+  }, []);
 
-    const expires = new Date(currentUser.expiresAt).getTime();
-    const now = Date.now();
-    const duration = expires - now;
-
-    if (duration <= 0) {
-      logout();
-      navigate("/login");
-      return;
-    }
-
-    const updateTimeLeft = () => {
-      const now = Date.now();
-      const diff = expires - now;
-
-      if (diff <= 0) {
-        logout();
-        navigate("/login");
-      } else {
-        const minutes = Math.floor(diff / 60000);
-        const seconds = Math.floor((diff % 60000) / 1000);
-        setTimeLeft(`${minutes} นาที ${seconds} วินาที`);
-        setProgress(Math.max(0, (diff / duration) * 100));
-      }
-    };
-
-    updateTimeLeft();
-    const interval = setInterval(updateTimeLeft, 1000);
-    return () => clearInterval(interval);
-  }, [currentUser, logout, navigate]);
-
-  const handleDownload = async (
-    ref: React.RefObject<HTMLDivElement>,
-    type: "png" | "pdf"
-  ) => {
-    if (!ref.current) return;
-
-    try {
-      const html2canvas = (await import("html2canvas")).default;
-      const jsPDF = (await import("jspdf")).default;
-
-      const canvas = await html2canvas(ref.current, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: "#ffffff",
-      });
-
-      if (type === "png") {
-        const link = document.createElement("a");
-        link.download = "document.png";
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-      } else {
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("p", "mm", "a4");
-        const ratio = Math.min(210 / canvas.width, 297 / canvas.height);
-        pdf.addImage(imgData, "PNG", 0, 0, canvas.width * ratio, canvas.height * ratio);
-        pdf.save("document.pdf");
-      }
-    } catch (error) {
-      console.error("Error capturing document:", error);
-      alert("ไม่สามารถดาวน์โหลดเอกสารได้");
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setMessage("");
   };
 
-  const handlePrint = (ref: React.RefObject<HTMLDivElement>) => {
-    if (!ref.current) return;
-    const content = ref.current.innerHTML;
-    const printWindow = window.open("", "_blank", "width=800,height=1000");
-    if (!printWindow) return;
-
-    printWindow.document.open();
-    printWindow.document.write(`
-      <html>
-        <head>
-          <title>Print Document</title>
-          <style>
-            body { margin: 0; padding: 0; font-family: 'Sarabun', sans-serif; }
-          </style>
-        </head>
-        <body>${content}</body>
-      </html>
-    `);
-    printWindow.document.close();
-    printWindow.focus();
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
+    const success = validateUser(formData.username, formData.password);
     setTimeout(() => {
-      printWindow.print();
-      printWindow.close();
-    }, 800);
+      if (success) {
+        navigate("/secretroom");
+      } else {
+        setMessage("❌ ผู้ใช้หรือรหัสผ่านไม่ถูกต้องหรือหมดอายุ");
+      }
+      setLoading(false);
+    }, 300);
   };
 
-  if (!currentUser) return null;
+  // กรณี auto login จาก Hero
+  const handleLoginAuto = (username: string, password: string) => {
+    const success = validateUser(username, password);
+    if (success) {
+      navigate("/secretroom");
+    } else {
+      setMessage("❌ ไม่สามารถเข้าสู่ระบบอัตโนมัติ");
+    }
+  };
+
+  const handleAddUser = (e: React.FormEvent) => {
+    e.preventDefault();
+    setMessage("");
+
+    const name = newUser.username.trim();
+    const pass = newUser.password.trim();
+
+    if (!name || !pass) {
+      setMessage("⚠️ กรุณากรอกชื่อและรหัสผ่านให้ครบ");
+      return;
+    }
+
+    if (users.some((u) => u.username.toLowerCase() === name.toLowerCase())) {
+      setMessage(`❌ ผู้ใช้ชื่อ "${name}" มีอยู่แล้ว`);
+      return;
+    }
+
+    addUser({
+      username: name,
+      password: pass,
+      role: "member",
+      expiresMinutes: 60 * 24,
+    });
+    setMessage(`✅ เพิ่มผู้ใช้ "${name}" เรียบร้อยแล้ว`);
+    setNewUser({ username: "", password: "" });
+  };
 
   return (
     <>
       <SEOHelmet
-        title="Secret Room | JP Visual & Docs"
-        description="พื้นที่พิเศษสำหรับสมาชิกที่ได้รับอนุญาต"
-        url="https://applicationlubmobile.vercel.app/secret"
+        title="เข้าสู่ระบบ | JP Visual & Docs"
+        description="ล็อกอินเพื่อเข้าถึงบริการและฟีเจอร์พิเศษของคุณ"
+        url="https://applicationlubmobile.vercel.app/login"
       />
 
-      <main className="min-h-screen bg-gradient-to-b from-base-100 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto space-y-12">
-          <nav className="flex justify-between text-sm text-neutral-600 dark:text-neutral-400">
-            <div>
-              <a href="/" className="hover:underline">
-                หน้าแรก
-              </a>
-              <span className="text-primary dark:text-accent"> / ห้องลับ</span>
-            </div>
-            <button
-              onClick={() => {
-                if (window.confirm("ต้องการออกจากระบบ?")) {
-                  logout();
-                  navigate("/login");
+      <section className="min-h-screen flex items-center justify-center bg-base-100 px-4">
+        <div className="max-w-sm w-full">
+          {!addingUser ? (
+            <form
+              onSubmit={handleLogin}
+              className="bg-white dark:bg-gray-800 shadow-xl rounded-xl p-8 space-y-5"
+            >
+              <h1 className="text-3xl font-bold text-center text-primary dark:text-accent">
+                เข้าสู่ระบบ
+              </h1>
+
+              {message && (
+                <div
+                  className={`text-sm text-center ${
+                    message.startsWith("❌") || message.startsWith("⚠️")
+                      ? "text-red-500"
+                      : "text-green-600"
+                  }`}
+                >
+                  {message}
+                </div>
+              )}
+
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                className="input input-bordered w-full"
+                placeholder="ชื่อผู้ใช้"
+                autoComplete="username"
+                required
+                disabled={loading}
+              />
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="input input-bordered w-full"
+                placeholder="รหัสผ่าน"
+                autoComplete="current-password"
+                required
+                disabled={loading}
+              />
+              <button
+                type="submit"
+                className="btn btn-primary w-full"
+                disabled={loading}
+              >
+                {loading ? "กำลังตรวจสอบ..." : "เข้าสู่ระบบ"}
+              </button>
+
+              <button
+                type="button"
+                className="btn btn-ghost w-full mt-2"
+                onClick={() => {
+                  setAddingUser(true);
+                  setMessage("");
+                }}
+                disabled={loading}
+              >
+                เพิ่มผู้ใช้ใหม่
+              </button>
+            </form>
+          ) : (
+            <form
+              onSubmit={handleAddUser}
+              className="bg-white dark:bg-gray-800 shadow-xl rounded-xl p-8 space-y-5"
+            >
+              <h2 className="text-2xl font-bold text-center text-primary dark:text-accent">
+                เพิ่มผู้ใช้ใหม่
+              </h2>
+
+              {message && (
+                <div
+                  className={`text-sm text-center ${
+                    message.startsWith("❌") || message.startsWith("⚠️")
+                      ? "text-red-500"
+                      : "text-green-600"
+                  }`}
+                >
+                  {message}
+                </div>
+              )}
+
+              <input
+                type="text"
+                placeholder="ชื่อผู้ใช้ใหม่"
+                value={newUser.username}
+                onChange={(e) =>
+                  setNewUser({ ...newUser, username: e.target.value })
                 }
-              }}
-              className="btn btn-sm btn-outline"
-            >
-              ออกจากระบบ
-            </button>
-          </nav>
-
-          <header className="text-center space-y-3">
-            <h1 className="text-3xl sm:text-5xl font-bold text-primary dark:text-accent">
-              🔒 ห้องลับเฉพาะสมาชิก
-            </h1>
-            <p className="text-neutral-800 dark:text-neutral-300">
-              ยินดีต้อนรับ <strong>{currentUser.username}</strong>
-              <br />
-              บัญชีหมดอายุใน: <strong>{timeLeft}</strong>
-            </p>
-            <div className="h-2 w-full max-w-md mx-auto rounded-full bg-neutral-200 dark:bg-neutral-700">
-              <div
-                className="h-full rounded-full bg-primary dark:bg-accent transition-all"
-                style={{ width: `${progress}%` }}
+                className="input input-bordered w-full"
+                required
               />
-            </div>
-          </header>
-
-          {/* ใบทะเบียนพาณิชย์ */}
-          <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
-            <h3 className="text-xl font-semibold text-primary dark:text-accent">
-              📄 ใบทะเบียนพาณิชย์
-            </h3>
-            <div
-              ref={businessRef}
-              className="border rounded bg-white dark:bg-gray-900 flex justify-center overflow-x-auto"
-            >
-              <iframe
-                src="/business-registration.html"
-                width="794"
-                height="1123"
-                className="shadow-md"
-                title="ใบทะเบียนพาณิชย์"
-                sandbox="allow-same-origin allow-scripts allow-forms"
+              <input
+                type="password"
+                placeholder="รหัสผ่าน"
+                value={newUser.password}
+                onChange={(e) =>
+                  setNewUser({ ...newUser, password: e.target.value })
+                }
+                className="input input-bordered w-full"
+                required
               />
-            </div>
-            <div className="text-right space-x-2">
-              <button className="btn btn-sm" onClick={() => handleDownload(businessRef, "png")}>
-                ดาวน์โหลด PNG
+              <button type="submit" className="btn btn-success w-full">
+                เพิ่มผู้ใช้
               </button>
-              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(businessRef, "pdf")}>
-                ดาวน์โหลด PDF
-              </button>
-              <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(businessRef)}>
-                พิมพ์เอกสาร
-              </button>
-            </div>
-          </section>
 
-          {/* หนังสือรับรองเงินเดือน */}
-          <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
-            <h3 className="text-xl font-semibold text-primary dark:text-accent">
-              📄 หนังสือรับรองเงินเดือน
-            </h3>
-            <div
-              ref={salaryRef}
-              className="border rounded bg-white dark:bg-gray-900 flex justify-center overflow-x-auto"
-            >
-              <iframe
-                src="/salary-certificate.html"
-                width="794"
-                height="1123"
-                className="shadow-md"
-                title="หนังสือรับรองเงินเดือน"
-                sandbox="allow-same-origin allow-scripts allow-forms"
-              />
-            </div>
-            <div className="text-right space-x-2">
-              <button className="btn btn-sm" onClick={() => handleDownload(salaryRef, "png")}>
-                ดาวน์โหลด PNG
+              <button
+                type="button"
+                className="btn btn-ghost w-full mt-2"
+                onClick={() => {
+                  setAddingUser(false);
+                  setMessage("");
+                }}
+              >
+                กลับไปหน้าเข้าสู่ระบบ
               </button>
-              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(salaryRef, "pdf")}>
-                ดาวน์โหลด PDF
-              </button>
-              <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(salaryRef)}>
-                พิมพ์เอกสาร
-              </button>
-            </div>
-          </section>
+            </form>
+          )}
         </div>
-      </main>
+      </section>
     </>
   );
 };
 
-export default SecretRoomPage;
+export default LoginPage;
