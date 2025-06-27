@@ -27,6 +27,7 @@
     }
 
     .page {
+      position: relative;
       width: 210mm;
       height: 297mm;
       background: #fff;
@@ -40,12 +41,33 @@
       overflow: hidden;
     }
 
+    /* Watermark */
+    .page::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("sensor.webp") center center no-repeat;
+      background-size: 90% auto;
+      opacity: 0.25;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .page * {
+      position: relative;
+      z-index: 1;
+    }
+
     @media print {
       html, body {
         background: none;
         margin: 0;
         padding: 0;
         -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
       }
 
       .page {
