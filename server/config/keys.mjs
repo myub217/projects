@@ -8,7 +8,7 @@
  * ในกรณีที่ไม่ได้กำหนดใน env จะเป็น array ว่าง []
  */
 const VALID_ACCESS_KEYS = process.env.VALID_ACCESS_KEYS
-  ? process.env.VALID_ACCESS_KEYS.split(",").map(key => key.trim())
+  ? process.env.VALID_ACCESS_KEYS.split(",").map((key) => key.trim())
   : [];
 
 export { VALID_ACCESS_KEYS };

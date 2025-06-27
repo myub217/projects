@@ -1,4 +1,4 @@
-// index.mjs
+// server.mjs
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -7,7 +7,7 @@ import cors from "cors";
 import accessKeyRouter from "./routes/accessKey.mjs";
 
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 // ✅ Middleware
 app.use(cors());
@@ -16,22 +16,20 @@ app.use(express.json());
 // ✅ Routes
 app.use("/api/check-access-key", accessKeyRouter);
 
-// ✅ Default Route
+// ✅ Default route (optional)
 app.get("/", (req, res) => {
-  res.send("🌐 JP Visual & Docs API is running.");
+  res.send("✅ JP Visual & Docs API is running.");
 });
 
-// ✅ Global Error Handlers
+// ✅ Global error handlers (optional)
 process.on("uncaughtException", (err) => {
   console.error("💥 Uncaught Exception:", err);
 });
 process.on("unhandledRejection", (reason, promise) => {
-  console.error("⚠️ Unhandled Rejection at:", promise, "reason:", reason);
+  console.error("⚠️ Unhandled Rejection:", reason);
 });
 
-// ✅ Start Server
-app.listen(port, () => {
-  console.log(`🚀 Server running at http://localhost:${port}`);
+// ✅ Start server
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
-
-export default app;
