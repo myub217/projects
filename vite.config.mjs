@@ -9,47 +9,60 @@ export default defineConfig({
     react(),
     svgr(),
 
-    // PWA Support
+    // 🔋 PWA Plugin
     VitePWA({
       registerType: "autoUpdate",
-      strategies: "injectManifest", // Requires sw.ts in /src
+      strategies: "injectManifest",
       srcDir: "src",
       filename: "sw.ts",
+
       devOptions: {
         enabled: true,
         type: "module",
       },
+
       manifest: {
         name: "JP Visual & Docs",
         short_name: "JPVD",
-        description: "บริการเอกสาร ยื่นกู้ วีซ่า โปรไฟล์ และระบบหลังบ้านครบวงจร",
-        start_url: "/",
+        description:
+          "บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ และระบบหลังบ้านครบวงจร โดย JP Visual & Docs",
+        start_url: "/?source=pwa",
         scope: "/",
         display: "standalone",
-        background_color: "#ffffff",
-        theme_color: "#8c52ff",
-        orientation: "portrait",
+        orientation: "portrait-primary",
+        background_color: "#FFFFFF",
+        theme_color: "#1A237E",
+        lang: "th",
         icons: [
           {
-            src: "/icons/icon-192x192.png",
+            src: "/assets/icons/icon-192x192.png",
             sizes: "192x192",
             type: "image/png",
+            purpose: "any"
           },
           {
-            src: "/icons/icon-512x512.png",
+            src: "/assets/icons/icon-512x512.png",
             sizes: "512x512",
             type: "image/png",
+            purpose: "any"
           },
           {
-            src: "/icons/icon-512x512.png",
+            src: "/assets/icons/maskable-icon-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+            purpose: "maskable"
+          },
+          {
+            src: "/assets/icons/maskable-icon-512x512.png",
             sizes: "512x512",
             type: "image/png",
-            purpose: "any maskable",
-          },
-        ],
+            purpose: "maskable"
+          }
+        ]
       },
+
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,webp}"],
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,webp,ttf}"],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/applicationlubmobile\.vercel\.app\/.*$/,
@@ -58,43 +71,52 @@ export default defineConfig({
               cacheName: "pages",
               expiration: {
                 maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+                maxAgeSeconds: 60 * 60 * 24 * 30
               },
               cacheableResponse: {
-                statuses: [0, 200],
-              },
-            },
+                statuses: [0, 200]
+              }
+            }
           },
-        ],
-      },
-    }),
+          {
+            urlPattern: /\.(?:png|webp|jpg|jpeg|svg|woff2?)$/,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "assets",
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24 * 60
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+          }
+        ]
+      }
+    })
   ],
 
   resolve: {
     alias: {
-      // ใช้ @ เป็น alias แทน path src เพื่อให้ import สะดวกขึ้น
-      "@": path.resolve(__dirname, "src"),
-    },
+      "@": path.resolve(__dirname, "src")
+    }
   },
 
-  assetsInclude: [
-    "**/*.webp",
-    "**/*.avif",
-    "**/*.svg",
-  ],
+  assetsInclude: ["**/*.webp", "**/*.avif", "**/*.svg"],
 
   build: {
     outDir: "dist",
     sourcemap: false,
     emptyOutDir: true,
     minify: "esbuild",
-    target: "esnext",
+    target: "esnext"
   },
 
   server: {
     port: 5173,
     open: true,
     strictPort: true,
-    cors: true,
-  },
+    cors: true
+  }
 });

@@ -1,67 +1,54 @@
 // src/App.tsx
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-// Layout
+// Layout & Hooks
 import Layout from "@/layout/Layout";
+import useScrollToTop from "@/hooks/useScrollToTop";
 
 // Pages
 import HomePage from "@/pages/HomePage";
 import LoginPage from "@/pages/LoginPage";
 import SecretRoomPage from "@/pages/SecretRoomPage";
-import AdminUserManagement from "@/pages/AdminUserManagement";
-
-// Hook
-import useScrollToTop from "@/hooks/useScrollToTop";
 
 // Route protection
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
 const App: React.FC = () => {
-  useScrollToTop(); // Scroll ไปบนสุดเมื่อเปลี่ยนเส้นทาง
+  useScrollToTop(); // 🟢 เลื่อนหน้าขึ้นบนเมื่อเปลี่ยนเส้นทาง
 
   return (
-    <Routes>
-      {/* 🔓 หน้าแรก (ไม่ต้อง login) */}
-      <Route
-        path="/"
-        element={
-          <Layout>
-            <HomePage />
-          </Layout>
-        }
-      />
-
-      {/* 🔓 หน้าเข้าสู่ระบบ */}
-      <Route path="/login" element={<LoginPage />} />
-
-      {/* 🔐 Secret Room (สำหรับ member, vip, admin) */}
-      <Route
-        path="/secret"
-        element={
-          <ProtectedRoute requiredRole="member">
+    <Router>
+      <Routes>
+        {/* 🔓 หน้าแรก (สาธารณะ) */}
+        <Route
+          path="/"
+          element={
             <Layout>
-              <SecretRoomPage />
+              <HomePage />
             </Layout>
-          </ProtectedRoute>
-        }
-      />
+          }
+        />
 
-      {/* 🔐 Admin Panel (admin เท่านั้น) */}
-      <Route
-        path="/admin"
-        element={
-          <ProtectedRoute requiredRole="admin">
-            <Layout>
-              <AdminUserManagement />
-            </Layout>
-          </ProtectedRoute>
-        }
-      />
+        {/* 🔓 หน้าล็อกอิน */}
+        <Route path="/login" element={<LoginPage />} />
 
-      {/* 🔄 เส้นทางไม่พบ */}
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+        {/* 🔐 หน้าเฉพาะสมาชิก */}
+        <Route
+          path="/secret"
+          element={
+            <ProtectedRoute requiredRole="member">
+              <Layout>
+                <SecretRoomPage />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* 🔁 หากไม่พบเส้นทางใดเลย */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
 };
 

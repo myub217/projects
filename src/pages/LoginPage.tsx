@@ -23,13 +23,12 @@ const LoginPage: React.FC = () => {
     setLoading(true);
     setMessage("");
 
-    // validateUser คืนค่าผู้ใช้ (user object) หรือ null/undefined ถ้าไม่ถูกต้อง
     const user = validateUser(formData.username, formData.password);
 
     setTimeout(() => {
       if (user) {
         loginAs(user);
-        navigate("/secretroom");  // ส่งไปหน้า SecretRoomPage
+        navigate("/secret"); // ✅ แก้ตรงนี้
       } else {
         setMessage("❌ ผู้ใช้หรือรหัสผ่านไม่ถูกต้องหรือหมดอายุ");
       }
