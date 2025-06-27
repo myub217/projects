@@ -226,10 +226,7 @@ const SecretRoomPage: React.FC = () => {
           </section>
 
           {/* หนังสือรับรองเงินเดือน */}
-          <section
-            className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-4 sm:p-6 space-y-4"
-            aria-label="หนังสือรับรองเงินเดือน"
-          >
+          <section className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-4 sm:p-6 space-y-4">
             <h3 className="text-lg font-semibold text-primary dark:text-accent">
               หนังสือรับรองเงินเดือน
             </h3>
@@ -244,14 +241,12 @@ const SecretRoomPage: React.FC = () => {
               <button
                 className="btn btn-sm"
                 onClick={() => handleDownload(salaryRef, "png")}
-                aria-label="ดาวน์โหลดหนังสือรับรองเงินเดือนเป็นไฟล์ PNG"
               >
                 Download PNG
               </button>
               <button
                 className="btn btn-sm btn-outline"
                 onClick={() => handleDownload(salaryRef, "pdf")}
-                aria-label="ดาวน์โหลดหนังสือรับรองเงินเดือนเป็นไฟล์ PDF"
               >
                 Download PDF
               </button>
@@ -259,10 +254,7 @@ const SecretRoomPage: React.FC = () => {
           </section>
 
           {/* ใบทะเบียนพาณิชย์ */}
-          <section
-            className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-4 sm:p-6 space-y-4"
-            aria-label="ใบทะเบียนพาณิชย์"
-          >
+          <section className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-4 sm:p-6 space-y-4">
             <h3 className="text-lg font-semibold text-primary dark:text-accent">
               ใบทะเบียนพาณิชย์
             </h3>
@@ -277,14 +269,12 @@ const SecretRoomPage: React.FC = () => {
               <button
                 className="btn btn-sm"
                 onClick={() => handleDownload(businessRef, "png")}
-                aria-label="ดาวน์โหลดใบทะเบียนพาณิชย์เป็นไฟล์ PNG"
               >
                 Download PNG
               </button>
               <button
                 className="btn btn-sm btn-outline"
                 onClick={() => handleDownload(businessRef, "pdf")}
-                aria-label="ดาวน์โหลดใบทะเบียนพาณิชย์เป็นไฟล์ PDF"
               >
                 Download PDF
               </button>
