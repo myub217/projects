@@ -148,6 +148,7 @@ const SecretRoomPage: React.FC = () => {
 
       <main className="min-h-screen bg-gradient-to-b from-base-100 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto space-y-12">
+          {/* Breadcrumb & Logout */}
           <nav
             className="text-sm text-neutral-600 dark:text-neutral-400 flex justify-between items-center"
             aria-label="breadcrumb"
@@ -176,6 +177,7 @@ const SecretRoomPage: React.FC = () => {
             </button>
           </nav>
 
+          {/* Header */}
           <header className="text-center px-2 sm:px-0 space-y-3">
             <h1 className="text-3xl sm:text-5xl font-extrabold text-primary dark:text-accent">
               🔒 ห้องลับเฉพาะสมาชิก
@@ -200,6 +202,7 @@ const SecretRoomPage: React.FC = () => {
             </div>
           </header>
 
+          {/* Feature Access Section */}
           <section className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-8 md:p-10 space-y-6">
             <h2 className="text-xl sm:text-2xl font-semibold text-primary dark:text-accent">
               สิทธิพิเศษสำหรับสมาชิก
@@ -289,6 +292,7 @@ const SecretRoomPage: React.FC = () => {
             </div>
           </section>
 
+          {/* เอกสารที่ปลดล็อกแล้ว */}
           {isUnlocked && (
             <>
               <section className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-4 sm:p-6 space-y-4">
