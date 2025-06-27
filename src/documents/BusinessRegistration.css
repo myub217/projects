@@ -7,179 +7,99 @@
   box-sizing: border-box;
 }
 
-html,
 body {
   margin: 0;
   padding: 0;
-  background: #eee;
-  font-family: 'Sarabun', sans-serif;
-  font-size: 13.5pt;
+  font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+  font-size: 18px;
   line-height: 1.6;
-  color: #000;
-  height: 100%;
+  color: #222;
+  background-color: #fff;
 }
 
-/* Center A4 page in browser */
-body {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 20px;
-  min-height: 100vh;
-}
-
-/* A4 paper layout */
-.page {
-  position: relative;
-  width: 210mm;
-  height: 297mm;
+/* A4 Print Setup */
+.business-doc {
+  width: 794px;      /* A4 width in pixels @ 96 DPI */
+  height: 1123px;    /* A4 height in pixels @ 96 DPI */
+  margin: auto;
+  padding: 64px;
   background: #fff;
-  padding: 25mm 20mm;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-  display: flex;
-  flex-direction: column;
+  position: relative;
   overflow: hidden;
-  margin: 20px auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Content above watermark */
-.page * {
+/* Watermark Background */
+.business-doc::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/watermark.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.08;
+  z-index: 0;
+}
+
+/* Content Layer */
+.business-doc .content {
   position: relative;
   z-index: 1;
 }
 
-/* Header styles */
-header.header {
-  margin-bottom: 16px;
-}
-
-header.header h1 {
-  font-size: 16pt;
+/* Typography */
+.business-doc h1,
+.business-doc h2,
+.business-doc h3 {
   font-weight: bold;
-  margin: 0;
-}
-
-header.header h2 {
-  font-size: 14pt;
-  font-style: italic;
-  margin: 4px 0 16px 0;
-  color: #555;
-}
-
-/* Document ID */
-.document-id {
-  font-size: 13pt;
-  margin: 12px 0 24px 0;
-  color: #444;
-}
-
-/* Title */
-.title {
   text-align: center;
-  font-size: 17pt;
-  font-weight: bold;
-  text-decoration: underline;
-  margin-bottom: 28px;
+  margin: 1rem 0;
 }
 
-/* Main content */
-section.content {
-  flex: 1;
-  text-align: justify;
+.business-doc p {
+  margin: 0.75rem 0;
 }
 
-section.content p {
-  text-indent: 2em;
-  margin: 14px 0;
+/* Signature Area */
+.signature-block {
+  margin-top: 3rem;
 }
 
-/* List of business address or salary details */
-.details-list {
-  margin-left: 60px;
-  margin-bottom: 28px;
-  list-style-type: disc;
+.signature-block p {
+  margin: 0.5rem 0;
 }
 
-.details-list li {
-  margin: 6px 0;
-}
-
-/* Signature section */
-.issue-signature-wrapper {
-  text-align: right;
-  margin-top: 48px;
-  line-height: 1.8;
-}
-
-.issue-signature-wrapper p {
-  margin: 0;
-}
-
-.issue-signature-wrapper p:nth-child(1) {
-  padding-right: 20px;
-}
-
-.issue-signature-wrapper p:nth-child(2) {
-  font-weight: bold;
-  padding-right: 64px;
-}
-
-.issue-signature-wrapper p:nth-child(3) {
-  padding-right: 48px;
-  margin-bottom: 12px;
-}
-
-/* Notes section */
-.notes {
-  margin-top: 48px;
-  padding-top: 12px;
-  border-top: 1px solid #ccc;
-  font-size: 13pt;
-  color: #555;
-}
-
-.notes strong {
-  display: block;
-  margin-bottom: 8px;
-  color: #000;
-}
-
-.notes p {
-  text-indent: 2em;
-  margin: 6px 0;
-}
-
-/* Footer */
-footer.footer {
-  font-size: 13pt;
-  line-height: 1.5;
-  margin-top: auto;
-  padding-top: 20px;
-  color: #444;
-}
-
-footer.footer p {
-  margin: 4px 0;
-}
-
-/* Print styles */
-@media print {
-  html,
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
   body {
-    background: none;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-    height: auto;
+    background-color: #111;
+    color: #eee;
   }
 
-  .page {
+  .business-doc {
+    background-color: #1a1a1a;
+    color: #eee;
+  }
+
+  .business-doc::before {
+    opacity: 0.05;
+  }
+}
+
+/* Print Optimization */
+@media print {
+  body {
+    background: none !important;
+  }
+
+  .business-doc {
     box-shadow: none;
     margin: 0;
-    page-break-after: always;
+    padding: 40px;
   }
 
-  @page {
-    size: A4;
-    margin: 0;
+  .business-doc::before {
+    opacity: 0.05 !important;
   }
 }
