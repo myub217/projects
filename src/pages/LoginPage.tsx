@@ -1,23 +1,31 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { validateUser, users } = useAuth();
 
-  const [formData, setFormData] = useState({ username: "", password: "" });
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  // ฟอร์มข้อมูล login
+  const [formData, setFormData] = useState<{ username: string; password: string }>({
+    username: "",
+    password: "",
+  });
+  // ข้อความสถานะ (error/success)
+  const [message, setMessage] = useState<string>("");
+  // สถานะโหลดขณะตรวจสอบข้อมูล
+  const [loading, setLoading] = useState<boolean>(false);
 
+  // อัปเดตฟิลด์ฟอร์ม
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setMessage("");
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setMessage(""); // เคลียร์ข้อความเมื่อแก้ไขข้อมูล
   };
 
+  // ฟังก์ชันจัดการ submit ฟอร์ม
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (loading) return;
 
     const username = formData.username.trim();
@@ -30,6 +38,7 @@ const LoginPage: React.FC = () => {
 
     setLoading(true);
 
+    // จำลองการตรวจสอบข้อมูลด้วย timeout เพื่อ UX ดีขึ้น
     setTimeout(() => {
       const success = validateUser(username, password);
 
@@ -44,7 +53,7 @@ const LoginPage: React.FC = () => {
         if (userRole === "admin") {
           navigate("/admin", { replace: true });
         } else {
-          navigate("/secret", { replace: true }); // สำหรับสมาชิกทุกคน (member และอื่นๆ)
+          navigate("/secret", { replace: true });
         }
       } else {
         setMessage("❌ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง หรือหมดอายุแล้ว");
@@ -70,6 +79,7 @@ const LoginPage: React.FC = () => {
         onSubmit={handleLogin}
         className="w-full max-w-sm bg-white dark:bg-gray-800 shadow-lg rounded-2xl px-8 pt-6 pb-8 space-y-4"
         noValidate
+        aria-live="polite"
       >
         {message && (
           <div
@@ -79,7 +89,6 @@ const LoginPage: React.FC = () => {
                 : "text-red-600 dark:text-red-400"
             }`}
             role="alert"
-            aria-live="assertive"
           >
             {message}
           </div>

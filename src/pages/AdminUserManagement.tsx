@@ -23,7 +23,9 @@ const AdminUserManagement: React.FC = () => {
   const handleAddUser = () => {
     // ตรวจสอบข้อมูลเบื้องต้น
     if (!username.trim() || !password.trim() || expiresMinutes < 1) {
-      setMessage("กรุณากรอกข้อมูลให้ครบถ้วนและระบุเวลาหมดอายุให้ถูกต้อง (1 นาทีขึ้นไป)");
+      setMessage(
+        "กรุณากรอกข้อมูลให้ครบถ้วนและระบุเวลาหมดอายุให้ถูกต้อง (1 นาทีขึ้นไป)"
+      );
       return;
     }
 

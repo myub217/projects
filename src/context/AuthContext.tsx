@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 
 type Role = "guest" | "member" | "admin";
 
-interface User {
+export interface User {
   username: string;
   password: string;
   role: Role;
@@ -13,7 +13,7 @@ interface User {
 interface AuthContextType {
   role: Role;
   isLoggedIn: boolean;
-  currentUser: string | null;
+  currentUser: User | null;
   users: User[];
   loginAs: (role: Role) => void;
   logout: () => void;
@@ -37,9 +37,10 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [role, setRole] = useState<Role>("guest");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState<string | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [users, setUsers] = useState<User[]>([]);
 
+  // โหลดข้อมูลจาก localStorage ตอน mount
   useEffect(() => {
     const storedUsers = localStorage.getItem("users");
     let validUsers: User[] = [];
@@ -54,6 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     }
 
+    // สร้าง admin ถ้าไม่มี
     const adminExists = validUsers.some((u) => u.username === "admin");
     if (!adminExists) {
       const expiresAt = new Date();
@@ -70,19 +72,30 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("users", JSON.stringify(validUsers));
 
     const storedRole = localStorage.getItem("role") as Role | null;
-    const storedUser = localStorage.getItem("currentUser");
+    const storedUserStr = localStorage.getItem("currentUser");
+    let storedUser: User | null = null;
 
-    if (storedRole && storedRole !== "guest") {
+    if (storedUserStr) {
+      try {
+        storedUser = JSON.parse(storedUserStr);
+      } catch {
+        storedUser = null;
+      }
+    }
+
+    if (storedRole && storedRole !== "guest" && storedUser) {
       setRole(storedRole);
       setIsLoggedIn(true);
       setCurrentUser(storedUser);
     }
   }, []);
 
+  // เก็บ users ทุกครั้งที่มีการเปลี่ยนแปลง
   useEffect(() => {
     localStorage.setItem("users", JSON.stringify(users));
   }, [users]);
 
+  // เพิ่ม user ใหม่
   const addUser = (user: Omit<User, "expiresAt"> & { expiresMinutes: number }) => {
     const exists = users.some((u) => u.username === user.username);
     if (exists) return;
@@ -92,6 +105,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUsers((prev) => [...prev, newUser]);
   };
 
+  // ตรวจสอบ user และ login
   const validateUser = (username: string, password: string): boolean => {
     const now = new Date();
     const foundUser = users.find(
@@ -101,22 +115,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (foundUser) {
       setRole(foundUser.role);
       setIsLoggedIn(true);
-      setCurrentUser(foundUser.username);
+      setCurrentUser(foundUser);
       localStorage.setItem("role", foundUser.role);
-      localStorage.setItem("currentUser", foundUser.username);
+      localStorage.setItem("currentUser", JSON.stringify(foundUser));
       return true;
     }
 
     return false;
   };
 
+  // สำหรับการ loginAs (ถ้าจำเป็น)
   const loginAs = (newRole: Role) => {
     setRole(newRole);
     setIsLoggedIn(true);
     setCurrentUser(null);
     localStorage.setItem("role", newRole);
+    localStorage.removeItem("currentUser");
   };
 
+  // Logout ล้างข้อมูล
   const logout = () => {
     setRole("guest");
     setIsLoggedIn(false);
