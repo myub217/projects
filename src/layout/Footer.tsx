@@ -3,6 +3,8 @@ import React from "react";
 import { Facebook, Instagram, MessageCircleMore } from "lucide-react";
 import { FaTiktok } from "react-icons/fa";
 import jpLogo from "../assets/jp-logo.png";
+import { useAuth } from "@/context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 interface MenuItem {
   href: string;
@@ -20,8 +22,13 @@ interface SocialLink {
   nofollow?: boolean;
 }
 
+const ADMIN_USERNAME = "myub25217";
+
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
+
+  const { isLoggedIn, currentUser, logout } = useAuth();
+  const navigate = useNavigate();
 
   const menuItems: MenuItem[] = [
     { href: "#services", label: "บริการของเรา" },
@@ -65,6 +72,35 @@ const Footer: React.FC = () => {
     },
   ];
 
+  // ฟังก์ชันจัดการปุ่ม Login/Logout
+  const handleLoginClick = () => {
+    if (isLoggedIn) {
+      // ตรวจสอบว่าเป็น admin หรือไม่
+      if (
+        currentUser?.username.toLowerCase() === ADMIN_USERNAME.toLowerCase()
+      ) {
+        // admin logout
+        logout();
+        navigate("/login");
+      } else {
+        // logged in แต่ไม่ใช่ admin ให้ไปหน้า login (ออก)
+        navigate("/login");
+      }
+    } else {
+      // ยังไม่ login ให้ไปหน้า login
+      navigate("/login");
+    }
+  };
+
+  // ข้อความบนปุ่ม
+  const buttonLabel = (() => {
+    if (!isLoggedIn) return "เข้าสู่ระบบ";
+    if (currentUser?.username.toLowerCase() === ADMIN_USERNAME.toLowerCase()) {
+      return `ออกจากระบบ (${currentUser.username})`;
+    }
+    return "เข้าสู่ระบบ"; // logged in แต่ไม่ใช่ admin ให้ปุ่มเป็น login (ไป login ใหม่)
+  })();
+
   return (
     <footer
       id="footer"
@@ -104,6 +140,16 @@ const Footer: React.FC = () => {
             <br />
             ผู้เชี่ยวชาญด้านเอกสารและโซลูชันดิจิทัล
           </p>
+
+          {/* Login Status and Action */}
+          <button
+            onClick={handleLoginClick}
+            className="btn btn-sm btn-outline mt-3"
+            aria-label={buttonLabel}
+            type="button"
+          >
+            {buttonLabel}
+          </button>
         </section>
 
         {/* Menu */}

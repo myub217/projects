@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import SEOHelmet from "@/components/SEOHelmet";
 import { useAuth } from "@/context/AuthContext";
 
+const ADMIN_USERNAME = "myub25217";
+
 const SecretRoomPage: React.FC = () => {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
@@ -15,7 +17,12 @@ const SecretRoomPage: React.FC = () => {
   const businessRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!currentUser || !currentUser.expiresAt) {
+    // ตรวจสอบว่า login หรือไม่ และต้องเป็น admin เท่านั้น
+    if (
+      !currentUser ||
+      currentUser.username.toLowerCase() !== ADMIN_USERNAME.toLowerCase() ||
+      !currentUser.expiresAt
+    ) {
       navigate("/login", { replace: true });
       return;
     }

@@ -39,6 +39,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     }
   }, []);
 
+  // โหลด theme จาก localStorage หรือ system preference และตั้ง listener เปลี่ยน theme อัตโนมัติ
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia) return;
 
@@ -57,7 +58,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       applyTheme(e.matches ? "dark" : "light");
     };
 
-    // รองรับ browser เก่าและใหม่
     if ("addEventListener" in prefersDark) {
       prefersDark.addEventListener("change", listener);
     } else {
@@ -73,14 +73,16 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     };
   }, [applyTheme]);
 
+  // บันทึก theme ลง localStorage ทุกครั้งที่เปลี่ยนแปลง
   useEffect(() => {
     try {
       localStorage.setItem("theme", theme);
     } catch {
-      // ป้องกัน error เช่น incognito mode
+      // ป้องกัน error ในกรณี incognito หรือ localStorage ไม่พร้อมใช้งาน
     }
   }, [theme]);
 
+  // ฟังก์ชันสลับ theme
   const toggleTheme = useCallback(() => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   }, []);

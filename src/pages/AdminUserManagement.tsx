@@ -22,6 +22,14 @@ const AdminUserManagement: React.FC = () => {
     }
   }, [message]);
 
+  // ⛔ ป้องกันการเข้าถึงหน้า ถ้าไม่ใช่ admin จะ redirect ไปหน้าอื่น
+  useEffect(() => {
+    if (role !== "admin") {
+      // หากไม่มีสิทธิ์ให้ไปหน้า login หรือหน้าอื่น
+      window.location.href = "/login";
+    }
+  }, [role]);
+
   const handleAddUser = () => {
     const trimmed = username.trim();
     if (!trimmed || !password.trim() || expiresMinutes < 1) {
@@ -65,7 +73,7 @@ const AdminUserManagement: React.FC = () => {
       (u.token?.toLowerCase().includes(search.toLowerCase()) ?? false)
   );
 
-  // ⛔ ป้องกันการเข้าถึงหากไม่ใช่ admin (fallback เฉพาะ component)
+  // แสดง fallback ขณะโหลด หรือถ้าบางกรณี role ยังไม่พร้อม (optional)
   if (role !== "admin") {
     return (
       <section className="text-center text-red-500 mt-20" role="alert" aria-live="assertive">

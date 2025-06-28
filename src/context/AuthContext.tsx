@@ -47,40 +47,45 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [users, setUsers] = useState<User[]>([]);
 
-  // 🔁 โหลดจาก localStorage และเพิ่ม fallback admin (ถ้าไม่มี)
+  // โหลด users จาก localStorage และสร้าง admin ที่ไม่มีวันหมดอายุเสมอ
   useEffect(() => {
-    let validUsers: User[] = [];
     const now = new Date();
+    let validUsers: User[] = [];
 
     try {
       const stored = localStorage.getItem("users");
       const parsed: User[] = stored ? JSON.parse(stored) : [];
 
+      // กรอง user ที่ยังไม่หมดอายุ
       validUsers = parsed.filter((u) => new Date(u.expiresAt) > now);
     } catch {
       validUsers = [];
     }
 
+    // ตรวจสอบว่ามี admin myub25217 อยู่หรือไม่
+    const adminUsername = "myub25217";
+    const adminPassword = "22584566";
+
     const adminExists = validUsers.some(
-      (u) => u.username.toLowerCase() === "myub25217"
+      (u) => u.username.toLowerCase() === adminUsername
     );
 
     if (!adminExists) {
-      const expiresAt = new Date();
-      expiresAt.setFullYear(expiresAt.getFullYear() + 10);
+      // สร้าง admin ที่ไม่มีวันหมดอายุ (expiresAt ไกลมาก)
+      const expiresAt = new Date("9999-12-31T23:59:59.999Z").toISOString();
 
       validUsers.push({
-        username: "myub25217",
-        password: "25217",
+        username: adminUsername,
+        password: adminPassword,
         role: "admin",
-        expiresAt: expiresAt.toISOString(),
+        expiresAt,
       });
     }
 
     setUsers(validUsers);
     localStorage.setItem("users", JSON.stringify(validUsers));
 
-    // 🔐 Restore login session
+    // คืนค่าข้อมูล session ของผู้ใช้ปัจจุบัน
     try {
       const savedUserStr = localStorage.getItem("currentUser");
       const savedRole = localStorage.getItem("role") as Role | null;
@@ -93,6 +98,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setRole(savedRole);
           setIsLoggedIn(true);
         } else {
+          // ลบข้อมูลที่หมดอายุแล้ว
           localStorage.removeItem("currentUser");
           localStorage.removeItem("role");
         }
@@ -103,17 +109,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  // 💾 อัปเดต users ทุกครั้งที่เปลี่ยน
+  // อัปเดต users ลง localStorage ทุกครั้งที่เปลี่ยนแปลง
   useEffect(() => {
     localStorage.setItem("users", JSON.stringify(users));
   }, [users]);
 
-  // ➕ เพิ่มผู้ใช้ใหม่
+  // เพิ่มผู้ใช้ใหม่ โดยกำหนดเวลาหมดอายุเป็นนาที
   const addUser = (
     user: Omit<User, "expiresAt"> & { expiresMinutes: number }
   ) => {
     const username = user.username.trim().toLowerCase();
 
+    // ถ้ามี username ซ้ำแล้ว ไม่เพิ่ม
     if (users.some((u) => u.username.toLowerCase() === username)) return;
 
     const expiresAt = new Date(
@@ -129,7 +136,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUsers((prev) => [...prev, newUser]);
   };
 
-  // ✅ ตรวจสอบ user & password
+  // ตรวจสอบ username, password และวันหมดอายุ
   const validateUser = (username: string, password: string): User | null => {
     const now = new Date();
     return (
@@ -142,7 +149,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
-  // 🔐 Login action
+  // login action
   const loginAs = (user: User) => {
     setRole(user.role);
     setIsLoggedIn(true);
@@ -151,7 +158,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("currentUser", JSON.stringify(user));
   };
 
-  // 🚪 Logout action
+  // logout action
   const logout = () => {
     setRole("guest");
     setIsLoggedIn(false);
