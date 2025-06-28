@@ -9,6 +9,8 @@ import svgr from "vite-plugin-svgr";
 export default defineConfig({
   plugins: [
     react(),
+
+    // ✅ Progressive Web App
     VitePWA({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg", "robots.txt", "apple-touch-icon.png"],
@@ -33,12 +35,18 @@ export default defineConfig({
         ],
       },
       workbox: {
-        mode: "development", // ✅ ใน production แนะนำลบออกหรือใช้ "production"
+        mode: "development", // ⚠️ เปลี่ยนเป็น "production" ตอน build
       },
     }),
-    viteCompression(), // ✅ gzip compression
-    svgr(), // ✅ สำหรับ import SVG เป็น React Component
+
+    // ✅ บีบอัด gzip เพื่อลดขนาด bundle
+    viteCompression(),
+
+    // ✅ import SVG เป็น React component
+    svgr(),
   ],
+
+  // ✅ ตั้ง alias สำหรับ import สั้น ๆ
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
@@ -56,6 +64,8 @@ export default defineConfig({
       types: path.resolve(__dirname, "src/types"),
     },
   },
+
+  // ✅ Dev server config
   server: {
     port: 5173,
     open: true,

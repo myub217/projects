@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Sarabun&display=swap');
+
 .container {
   width: 210mm;
   height: 297mm;
@@ -80,6 +82,7 @@
   font-weight: 700;
   margin: 6px 0 0;
   letter-spacing: 0.1em;
+  user-select: text;
 }
 
 .header h2 {
@@ -87,6 +90,7 @@
   margin: 0;
   font-weight: 600;
   letter-spacing: 0.05em;
+  user-select: text;
 }
 
 .header h3 {
@@ -94,6 +98,7 @@
   margin: 3px 0 0;
   font-weight: 500;
   color: #444;
+  user-select: text;
 }
 
 .certify-section {

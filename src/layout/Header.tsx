@@ -1,8 +1,8 @@
-// src/layout/Header.tsx
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 import MobileMenu from "@/components/MobileMenu";
+import LogoApplicationlubmobile from "@/components/LogoSecretApp"; // ✅ เพิ่มโลโก้ใหม่
 
 interface NavLink {
   label: string;
@@ -71,8 +71,14 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
           aria-label="เมนูหลัก"
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16"
         >
-          {/* ลบโลโก้และชื่อ JP Visual & Docs ออกตามคำสั่ง */}
-          <div></div>
+          {/* ✅ โลโก้แสดงซ้ายบน */}
+          <a href="#" className="flex items-center h-10 w-auto">
+            <LogoApplicationlubmobile
+              className="h-10 w-auto max-w-[200px] cursor-pointer"
+              aria-label="โลโก้ Applicationlubmobile"
+              colorScheme={theme === "dark" ? "whiteGray" : "blue"}
+            />
+          </a>
 
           {/* เมนูเดสก์ท็อป */}
           <div className="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-700 dark:text-gray-300">

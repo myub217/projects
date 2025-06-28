@@ -1,10 +1,11 @@
-// src/pages/AdminUserManagement.tsx
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 
 type UserRole = "member" | "vip" | "admin";
 
 const AdminUserManagement: React.FC = () => {
+  const navigate = useNavigate();
   const { addUser, users, setUserRole, revokeUser, activeUsers, role } = useAuth();
 
   const [username, setUsername] = useState("Myub25217");
@@ -22,13 +23,12 @@ const AdminUserManagement: React.FC = () => {
     }
   }, [message]);
 
-  // ⛔ ป้องกันการเข้าถึงหน้า ถ้าไม่ใช่ admin จะ redirect ไปหน้าอื่น
+  // ⛔ Redirect ถ้าไม่ใช่ admin
   useEffect(() => {
-    if (role !== "admin") {
-      // หากไม่มีสิทธิ์ให้ไปหน้า login หรือหน้าอื่น
-      window.location.href = "/login";
+    if (role && role !== "admin") {
+      navigate("/login");
     }
-  }, [role]);
+  }, [role, navigate]);
 
   const handleAddUser = () => {
     const trimmed = username.trim();
@@ -47,7 +47,6 @@ const AdminUserManagement: React.FC = () => {
 
     setMessage(`✅ เพิ่มผู้ใช้ "${trimmed}" สำเร็จ (หมดอายุใน ${expiresMinutes} นาที)`);
 
-    // Reset inputs after adding user
     setUsername("");
     setPassword("");
     setRoleInput("member");
@@ -73,7 +72,14 @@ const AdminUserManagement: React.FC = () => {
       (u.token?.toLowerCase().includes(search.toLowerCase()) ?? false)
   );
 
-  // แสดง fallback ขณะโหลด หรือถ้าบางกรณี role ยังไม่พร้อม (optional)
+  if (!role) {
+    return (
+      <div className="text-center mt-20 text-gray-400" role="status">
+        กำลังโหลดสิทธิ์ผู้ใช้...
+      </div>
+    );
+  }
+
   if (role !== "admin") {
     return (
       <section className="text-center text-red-500 mt-20" role="alert" aria-live="assertive">
@@ -120,7 +126,6 @@ const AdminUserManagement: React.FC = () => {
           onChange={(e) => setUsername(e.target.value)}
           required
           aria-required="true"
-          aria-label="ชื่อผู้ใช้"
           autoComplete="username"
         />
         <input
@@ -131,14 +136,12 @@ const AdminUserManagement: React.FC = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
           aria-required="true"
-          aria-label="รหัสผ่าน"
           autoComplete="new-password"
         />
         <select
           className="select select-bordered w-full"
           value={roleInput}
           onChange={(e) => setRoleInput(e.target.value as UserRole)}
-          aria-label="เลือกสิทธิ์ผู้ใช้"
         >
           <option value="member">member</option>
           <option value="vip">vip</option>
@@ -152,11 +155,9 @@ const AdminUserManagement: React.FC = () => {
           value={expiresMinutes}
           onChange={(e) => setExpiresMinutes(Number(e.target.value))}
           required
-          aria-required="true"
-          aria-label="หมดอายุใน (นาที)"
         />
         <div className="col-span-full">
-          <button type="submit" className="btn btn-primary w-full" aria-label="เพิ่มผู้ใช้ใหม่">
+          <button type="submit" className="btn btn-primary w-full">
             ✅ เพิ่มผู้ใช้
           </button>
         </div>
@@ -170,23 +171,20 @@ const AdminUserManagement: React.FC = () => {
           className="input input-bordered w-full"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          aria-label="ค้นหาชื่อผู้ใช้หรือ token"
         />
       </div>
 
       {/* ตารางผู้ใช้ */}
       <div className="overflow-x-auto" role="region" aria-label="รายชื่อผู้ใช้">
-        <table className="table w-full text-sm" role="table">
+        <table className="table w-full text-sm">
           <thead>
             <tr>
-              <th scope="col">ชื่อผู้ใช้</th>
-              <th scope="col">สิทธิ์</th>
-              <th scope="col">Token</th>
-              <th scope="col">สถานะ</th>
-              <th scope="col">หมดอายุ</th>
-              <th scope="col" className="text-right">
-                จัดการ
-              </th>
+              <th>ชื่อผู้ใช้</th>
+              <th>สิทธิ์</th>
+              <th>Token</th>
+              <th>สถานะ</th>
+              <th>หมดอายุ</th>
+              <th className="text-right">จัดการ</th>
             </tr>
           </thead>
           <tbody>
@@ -199,7 +197,6 @@ const AdminUserManagement: React.FC = () => {
                       value={user.role}
                       onChange={(e) => handleRoleChange(user.username, e.target.value as UserRole)}
                       className="select select-sm select-bordered"
-                      aria-label={`เปลี่ยนสิทธิ์ของผู้ใช้ ${user.username}`}
                     >
                       <option value="member">member</option>
                       <option value="vip">vip</option>
@@ -207,15 +204,9 @@ const AdminUserManagement: React.FC = () => {
                     </select>
                   </td>
                   <td>
-                    <code className="text-xs break-all" aria-label={`Token ของผู้ใช้ ${user.username}`}>
-                      {user.token || "-"}
-                    </code>
+                    <code className="text-xs break-all">{user.token || "-"}</code>
                   </td>
-                  <td>
-                    {new Date(user.expiresAt).getTime() > Date.now()
-                      ? "✅ ใช้งานได้"
-                      : "⛔ หมดอายุ"}
-                  </td>
+                  <td>{new Date(user.expiresAt).getTime() > Date.now() ? "✅ ใช้งานได้" : "⛔ หมดอายุ"}</td>
                   <td>
                     {new Date(user.expiresAt).toLocaleString("th-TH", {
                       dateStyle: "short",
@@ -226,7 +217,6 @@ const AdminUserManagement: React.FC = () => {
                     <button
                       onClick={() => handleRevoke(user.username)}
                       className="btn btn-sm btn-outline btn-error"
-                      aria-label={`ลบบัญชีผู้ใช้ ${user.username}`}
                       type="button"
                     >
                       ลบ
@@ -236,7 +226,7 @@ const AdminUserManagement: React.FC = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="text-center text-gray-400 py-4" aria-live="polite">
+                <td colSpan={6} className="text-center text-gray-400 py-4">
                   ไม่พบผู้ใช้ที่ตรงกับคำค้นหา
                 </td>
               </tr>

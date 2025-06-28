@@ -1,69 +1,60 @@
-#!/bin/bash
+#!/data/data/com.termux/files/usr/bin/bash
 
-mkdir -p server/routes server/middleware server/config
+echo "🚀 Starting full backend setup..."
 
-cat > server/index.js <<'EOF'
-const express = require("express");
-const app = express();
+# 1. ตรวจสอบว่าอยู่ใน root โปรเจกต์
+if [ ! -d "server" ]; then
+  echo "❌ Directory 'server/' not found. กรุณารันสคริปต์จาก root ของโปรเจกต์"
+  exit 1
+fi
 
-const checkAccessKeyRouter = require("./routes/checkAccessKey");
+# 2. ติดตั้ง pnpm ถ้ายังไม่มี
+if ! command -v pnpm &> /dev/null; then
+  echo "📦 Installing pnpm globally..."
+  npm install -g pnpm
+fi
 
-app.use(express.json());
+# 3. ติดตั้ง dependencies ใน root (ถ้ามี package.json)
+if [ -f "package.json" ]; then
+  echo "📦 Installing root project dependencies..."
+  pnpm install
+fi
 
-app.use("/api/check-access-key", checkAccessKeyRouter);
+# 4. เข้าโฟลเดอร์ backend
+cd server || exit 1
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+# 5. ติดตั้ง dependencies สำหรับ backend
+echo "📦 Installing backend dependencies..."
+pnpm install
+
+# 6. สร้าง config/env.mjs หากยังไม่มี
+if [ ! -f "./config/env.mjs" ]; then
+  echo "⚙️  Creating default env.mjs file..."
+  mkdir -p config
+  cat <<EOF > ./config/env.mjs
+export const PORT = 8080;
+export const HOST = "localhost";
+export const SECRET_KEY = "my-secret-key";
 EOF
+  echo "✅ Created config/env.mjs"
+fi
 
-cat > server/routes/checkAccessKey.js <<'EOF'
-const express = require("express");
-const router = express.Router();
-const { verifyToken } = require("../middleware/auth");
-const { VALID_ACCESS_KEYS } = require("../config/keys");
+# 7. สร้าง server.log หากยังไม่มี
+touch server.log
 
-router.post("/", verifyToken, (req, res) => {
-  const { accessKey } = req.body;
-  if (!accessKey) {
-    return res.status(400).json({ success: false, message: "Missing accessKey" });
-  }
+# 8. ให้สิทธิ์ execute กับ setup.sh และไฟล์อื่นใน server/
+chmod +x setup.sh
+chmod +x *.sh
 
-  if (VALID_ACCESS_KEYS.includes(accessKey)) {
-    return res.json({ success: true, message: "Access granted" });
-  } else {
-    return res.status(401).json({ success: false, message: "Invalid access key" });
-  }
-});
+# 9. กลับไป root (ถ้าต้องการ)
+cd ..
 
-module.exports = router;
-EOF
-
-cat > server/middleware/auth.js <<'EOF'
-function verifyToken(req, res, next) {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ success: false, message: "Unauthorized" });
-  }
-
-  const token = authHeader.substring(7);
-  // TODO: ใส่ logic ตรวจสอบ token จริง เช่น JWT, session ฯลฯ
-  if (token !== "valid-user-token") {
-    return res.status(403).json({ success: false, message: "Forbidden" });
-  }
-
-  req.user = { id: "user123", username: "เจ้าป่า" };
-  next();
-}
-
-module.exports = { verifyToken };
-EOF
-
-cat > server/config/keys.js <<'EOF'
-const VALID_ACCESS_KEYS = ["JP2025KEY", "ADMIN123", "SPECIALKEY"];
-
-module.exports = { VALID_ACCESS_KEYS };
-EOF
-
-echo "สร้างโฟลเดอร์และไฟล์ backend API ในโฟลเดอร์ server เรียบร้อยแล้ว"
+# 10. สรุปการทำงาน
+echo ""
+echo "✅ Backend setup completed!"
+echo "👉 คำสั่งสำหรับรันเซิร์ฟเวอร์:"
+echo "   cd server && pnpm dev       # หรือ"
+echo "   cd server && node server.mjs"
+echo ""
+echo "📂 Config path: server/config/env.mjs"
+echo "🪵 Log file: server/server.log"

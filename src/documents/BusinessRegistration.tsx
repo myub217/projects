@@ -1,3 +1,4 @@
+// src/documents/BusinessRegistration.tsx
 import React from "react";
 
 const BusinessRegistration: React.FC = () => {
@@ -11,6 +12,8 @@ const BusinessRegistration: React.FC = () => {
         fontFamily: "'Sarabun', sans-serif",
         color: "#000",
         userSelect: "text",
+        maxWidth: 700,
+        margin: "0 auto",
       }}
     >
       {/* Watermark background (ถ้าต้องการใส่ภาพพื้นหลังแบบ watermark ให้เพิ่มใน CSS หรือต่อเติมในนี้) */}
@@ -49,10 +52,26 @@ const BusinessRegistration: React.FC = () => {
             alt="ตราครุฑ"
             style={{ width: 70, margin: "0 auto 6px", display: "block", userSelect: "none" }}
           />
-          <h2 style={{ margin: 0, fontWeight: 600, fontSize: 18, letterSpacing: "0.05em" }}>
+          <h2
+            style={{
+              margin: 0,
+              fontWeight: 600,
+              fontSize: 18,
+              letterSpacing: "0.05em",
+              userSelect: "text",
+            }}
+          >
             กรมพัฒนาธุรกิจกสินค้ากลางป่า
           </h2>
-          <h3 style={{ margin: "4px 0", fontWeight: 500, color: "#444", fontSize: 16 }}>
+          <h3
+            style={{
+              margin: "4px 0",
+              fontWeight: 500,
+              color: "#444",
+              fontSize: 16,
+              userSelect: "text",
+            }}
+          >
             สำนักงานกลางทะเบียนกลางป่า
           </h3>
           <h1
@@ -61,6 +80,7 @@ const BusinessRegistration: React.FC = () => {
               fontWeight: 700,
               fontSize: 28,
               letterSpacing: "0.1em",
+              userSelect: "text",
             }}
           >
             ใบไม้ทะเบียนทาซาน
@@ -90,7 +110,13 @@ const BusinessRegistration: React.FC = () => {
           >
             บริษัท นามสมมุติ จำกัด
           </div>
-          <div style={{ fontWeight: 600, marginBottom: 12, userSelect: "text" }}>
+          <div
+            style={{
+              fontWeight: 600,
+              marginBottom: 12,
+              userSelect: "text",
+            }}
+          >
             ได้จดทะเบียนใบไม้ ตามกำหนดกลางป่า ค.ศ. 1750
           </div>
           <div

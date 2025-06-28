@@ -1,106 +1,56 @@
 import React from "react";
 
 type LogoProps = React.SVGProps<SVGSVGElement> & {
-  colorScheme?: "blue" | "whiteGray";
+  colorScheme?: "light" | "dark";
 };
 
 const LogoApplicationlubmobile: React.FC<LogoProps> = ({
-  className = "w-full max-w-xs h-auto", // ปรับให้ขยายเต็มความกว้าง container สูงอัตโนมัติ max-width 320px (ปรับได้)
+  className = "w-full max-w-xs h-auto",
   "aria-label": ariaLabel = "Applicationlubmobile Logo",
-  colorScheme = "whiteGray",
+  colorScheme = "dark",
   ...props
 }) => {
-  const gradients = {
-    blue: {
-      stops: [
-        { offset: "0%", stopColor: "#1A237E" },
-        { offset: "50%", stopColor: "#3949AB" },
-        { offset: "100%", stopColor: "#0D47A1" },
-      ],
-      stroke: "#0D1B5B",
-      shadowColor: "#000000",
-    },
-    whiteGray: {
-      stops: [
-        { offset: "0%", stopColor: "#FFFFFF" },
-        { offset: "50%", stopColor: "#CCCCCC" },
-        { offset: "100%", stopColor: "#666666" },
-      ],
-      stroke: "#444444",
-      shadowColor: "#222222",
-    },
-  };
-
-  const grad = gradients[colorScheme];
+  const fillColor = colorScheme === "dark" ? "#FFFFFF" : "#000000";
+  const strokeColor = colorScheme === "dark" ? "#1a1a1a" : "#DDDDDD";
+  const shadowColor = colorScheme === "dark" ? "rgba(0,0,0,0.35)" : "rgba(0,0,0,0.1)";
 
   return (
     <svg
       className={className}
-      viewBox="20 10 450 80"
+      viewBox="0 0 720 100"
       xmlns="http://www.w3.org/2000/svg"
       role="img"
-      aria-label={ariaLabel}
-      preserveAspectRatio="xMinYMin meet" // ชิดซ้ายบนจริงๆ
+      aria-labelledby="logo-title logo-desc"
+      preserveAspectRatio="xMinYMin meet"
+      focusable="false"
       {...props}
-      style={{ overflow: "visible", display: "block" }}
-      // display:block ช่วยให้ svg ไม่เกิดช่องว่างใต้ภาพเวลาใช้ inline
+      style={{
+        overflow: "visible",
+        display: "block",
+        filter: `drop-shadow(2px 2px 2px ${shadowColor})`,
+        animation: "fadein 0.8s ease-out forwards",
+      }}
     >
-      <title>Applicationlubmobile Logo</title>
-      <desc>
-        โลโก้ Applicationlubmobile ตัวหนังสือแบบโมเดิร์น ฟอนต์ Poppins มี
-        เงาวาวและกราเดียนสีธีม {colorScheme}
+      <title id="logo-title">Applicationlubmobile Logo</title>
+      <desc id="logo-desc">
+        โลโก้ข้อความ JP - ViSOUL & DOC'S ตัวใหญ่ ตัวหนา คมชัด สีตามธีม พร้อมเงาละเอียด
       </desc>
 
-      <defs>
-        <linearGradient id="textGrad" x1="0" y1="0" x2="0" y2="1">
-          {grad.stops.map(({ offset, stopColor }) => (
-            <stop key={offset} offset={offset} stopColor={stopColor} />
-          ))}
-        </linearGradient>
-
-        <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow
-            dx="1"
-            dy="1"
-            stdDeviation="1"
-            floodColor={grad.shadowColor}
-            floodOpacity="0.15"
-          />
-        </filter>
-
-        <filter id="specularLighting" x="0" y="0" width="120%" height="120%">
-          <feSpecularLighting
-            result="specOut"
-            specularExponent="15"
-            specularConstant="0.6"
-            lightingColor="#FFFFFF"
-          >
-            <fePointLight x="50" y="30" z="40" />
-          </feSpecularLighting>
-          <feComposite in="specOut" in2="SourceAlpha" operator="in" />
-          <feMerge>
-            <feMergeNode />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-
       <text
-        x="225"
-        y="45"
+        x="50%"
+        y="50%"
         textAnchor="middle"
-        fontFamily="'Poppins', 'Arial', sans-serif"
-        fontWeight="900"
-        fontSize="32"
-        fill="url(#textGrad)"
-        stroke={grad.stroke}
-        strokeWidth={1}
-        strokeLinejoin="round"
-        strokeLinecap="round"
+        fontFamily="'Poppins', 'Segoe UI', 'Helvetica Neue', sans-serif"
+        fontWeight="700" // ลดความหนาจาก 900 เป็น 700 ให้ไม่อ้วนแต่ยังคม
+        fontSize="52" // เพิ่มขนาดให้เด่นขึ้นอีก
+        fill={fillColor}
+        stroke={strokeColor}
+        strokeWidth={0.9} // ลดความหนาขอบให้คม ไม่อ้วน
+        strokeLinejoin="miter" // ให้ขอบมุมคม
+        strokeLinecap="butt"
         paintOrder="stroke"
         dominantBaseline="middle"
-        letterSpacing={2}
-        filter="url(#dropShadow) url(#specularLighting)"
+        letterSpacing={3.5} // เพิ่มระยะห่างตัวอักษรให้ดูโปร่งและหรู
         textRendering="geometricPrecision"
         shapeRendering="geometricPrecision"
         style={{
@@ -108,9 +58,11 @@ const LogoApplicationlubmobile: React.FC<LogoProps> = ({
           textTransform: "uppercase",
           cursor: "default",
           whiteSpace: "nowrap",
+          transition: "fill 0.3s ease, stroke 0.3s ease",
+          // ใช้ fontWeight 700 + strokeWidth เล็กๆ ทำให้ข้อความคม ไม่อ้วน
         }}
       >
-        APPLICATIONLUBMOBILE
+        JP - ViSOUL & DOC'S
       </text>
     </svg>
   );
