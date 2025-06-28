@@ -13,7 +13,7 @@ export interface User {
   password: string;
   role: Role;
   expiresAt: string; // ISO string
-  token?: string;
+  token: string;
 }
 
 interface AuthContextType {
@@ -24,7 +24,9 @@ interface AuthContextType {
   activeUsers: User[];
   loginAs: (user: User) => void;
   logout: () => void;
-  addUser: (user: Omit<User, "expiresAt"> & { expiresMinutes: number }) => void;
+  addUser: (
+    user: Omit<User, "expiresAt" | "token"> & { expiresMinutes: number }
+  ) => void;
   setUserRole: (username: string, role: Role) => void;
   revokeUser: (username: string) => void;
   validateUser: (username: string, password: string) => User | null;
@@ -52,6 +54,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [users, setUsers] = useState<User[]>([]);
 
+  // สร้าง token แบบสุ่ม
+  const createToken = (): string =>
+    `t_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+
+  // โหลดข้อมูลตอนเริ่มต้นและตรวจสอบ user ที่หมดอายุ
   useEffect(() => {
     const now = new Date();
 
@@ -65,19 +72,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     // เพิ่ม default admin (ถ้ายังไม่มี)
-    const defaultAdmin = {
-      username: "myub25217",
-      password: "22584566",
-      role: "admin" as Role,
-      expiresAt: "9999-12-31T23:59:59.999Z",
-      token: "admin_" + Date.now().toString(36),
-    };
-    if (!storedUsers.some((u) => u.username === defaultAdmin.username)) {
-      storedUsers.push(defaultAdmin);
+    const defaultAdminUsername = "myub25217";
+    const defaultAdminExists = storedUsers.some(
+      (u) => u.username === defaultAdminUsername
+    );
+    if (!defaultAdminExists) {
+      storedUsers.push({
+        username: defaultAdminUsername,
+        password: "22584566",
+        role: "admin",
+        expiresAt: "9999-12-31T23:59:59.999Z",
+        token: createToken(),
+      });
     }
 
-    setUsers(storedUsers);
-    localStorage.setItem("users", JSON.stringify(storedUsers));
+    // กรอง user ที่หมดอายุออก
+    const validUsers = storedUsers.filter(
+      (u) => new Date(u.expiresAt) > now
+    );
+
+    setUsers(validUsers);
+    localStorage.setItem("users", JSON.stringify(validUsers));
 
     // โหลด currentUser และ role
     try {
@@ -98,12 +113,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
+  // อัพเดต localStorage ทุกครั้งที่ users เปลี่ยนแปลง
   useEffect(() => {
     localStorage.setItem("users", JSON.stringify(users));
   }, [users]);
 
+  // เพิ่ม user ใหม่ พร้อมกำหนดเวลาหมดอายุ (นาที)
   const addUser = (
-    user: Omit<User, "expiresAt"> & { expiresMinutes: number }
+    user: Omit<User, "expiresAt" | "token"> & { expiresMinutes: number }
   ) => {
     const username = user.username.trim().toLowerCase();
     if (users.some((u) => u.username.toLowerCase() === username)) return;
@@ -112,8 +129,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       Date.now() + user.expiresMinutes * 60 * 1000
     ).toISOString();
 
-    const token =
-      user.token || `t_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+    const token = createToken();
 
     const newUser: User = {
       ...user,
@@ -125,6 +141,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUsers((prev) => [...prev, newUser]);
   };
 
+  // ตรวจสอบ username/password และยังไม่หมดอายุ
   const validateUser = (username: string, password: string): User | null => {
     const now = new Date();
     return (
@@ -137,6 +154,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
+  // เข้าสู่ระบบด้วย user ที่ผ่านการ validate
   const loginAs = (user: User) => {
     setRole(user.role);
     setIsLoggedIn(true);
@@ -145,6 +163,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("currentUser", JSON.stringify(user));
   };
 
+  // ออกจากระบบ
   const logout = () => {
     setRole("guest");
     setIsLoggedIn(false);
@@ -153,6 +172,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("currentUser");
   };
 
+  // เปลี่ยน role ของ user ที่ระบุ
   const setUserRole = (username: string, newRole: Role) => {
     setUsers((prev) =>
       prev.map((u) =>
@@ -163,14 +183,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
+  // ยกเลิกสิทธิ์ user (ลบ user นั้นออกจากระบบ)
   const revokeUser = (username: string) => {
     setUsers((prev) =>
-      prev.filter(
-        (u) => u.username.toLowerCase() !== username.toLowerCase()
-      )
+      prev.filter((u) => u.username.toLowerCase() !== username.toLowerCase())
     );
   };
 
+  // กรอง user ที่ยังไม่หมดอายุ
   const activeUsers = users.filter((u) => new Date(u.expiresAt) > new Date());
 
   return (

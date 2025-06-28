@@ -11,7 +11,8 @@ import {
 import IndexPage from "@/pages"; // HomePage
 import LoginPage from "@/pages/LoginPage";
 import ServicesPage from "@/pages/ServicesPage";
-import AdminUserManagement from "@/pages/AdminUserManagement";
+// ลบ import AdminUserManagement ออก เพราะไฟล์ไม่มีแล้ว
+// import AdminUserManagement from "@/pages/AdminUserManagement";
 
 import MainLayout from "@/layout/MainLayout";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
@@ -111,7 +112,8 @@ const App: React.FC = () => (
       <Route path="/" element={<IndexPageWithRouter />} />
       <Route path="/services" element={<ServicesPage />} />
 
-      {/* Admin route with protection */}
+      {/* ลบ route /admin ที่ใช้งาน AdminUserManagement ออก */}
+      {/*
       <Route
         path="/admin"
         element={
@@ -120,6 +122,7 @@ const App: React.FC = () => (
           </ProtectedRoute>
         }
       />
+      */}
     </Route>
 
     {/* 404 fallback */}

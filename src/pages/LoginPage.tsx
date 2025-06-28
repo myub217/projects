@@ -1,17 +1,26 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+
+interface LoginResponseData {
+  success: boolean;
+  message?: string;
+  data?: {
+    username: string;
+    role: string;
+    token: string;
+  };
+}
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { loginAs } = useAuth(); // ลบ validateUser ออก
+  const { loginAs } = useAuth();
 
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const secretRoomPath = "/secret"; // เส้นทางปลายทางหลังเข้าสู่ระบบ
+  const secretRoomPath = "/secret";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -32,14 +41,22 @@ const LoginPage: React.FC = () => {
         body: JSON.stringify({ username: username.trim(), password }),
       });
 
-      const result = await res.json();
+      let result: LoginResponseData;
 
-      if (res.ok && result.success) {
+      try {
+        result = await res.json();
+      } catch {
+        setMessage("🚫 เซิร์ฟเวอร์ตอบกลับข้อมูลไม่ถูกต้อง");
+        setLoading(false);
+        return;
+      }
+
+      if (res.ok && result.success && result.data) {
         loginAs({
           username: result.data.username,
           role: result.data.role,
           token: result.data.token,
-          expiresAt: Date.now() + 60 * 60 * 1000, // optional: กำหนดหมดอายุ 1 ชม.
+          expiresAt: Date.now() + 60 * 60 * 1000, // หมดอายุ 1 ชั่วโมง
         });
 
         navigate(secretRoomPath, { replace: true });

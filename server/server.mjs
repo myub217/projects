@@ -10,8 +10,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ✅ Middleware
-app.use(cors());
-app.use(express.json());
+app.use(cors());          // เปิดใช้งาน CORS
+app.use(express.json());  // แปลง JSON body ให้อัตโนมัติ
 
 // ✅ Routes
 app.use("/api/check-access-key", accessKeyRouter);

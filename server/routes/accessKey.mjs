@@ -2,10 +2,18 @@
 
 import express from "express";
 import { verifyToken } from "../middleware/auth.mjs";
-import { VALID_ACCESS_KEYS } from "../config/env.mjs"; // เปลี่ยนชื่อไฟล์ตามที่ใช้
+import { VALID_ACCESS_KEYS } from "../config/env.mjs";
 
 const router = express.Router();
 
+// ต้องใช้ express.json() middleware ก่อนเพื่อ parse req.body เป็น JSON
+router.use(express.json());
+
+/**
+ * POST /accessKey
+ * ตรวจสอบ accessKey ที่ส่งมาใน body
+ * ต้องผ่าน verifyToken middleware ก่อน (ตรวจสอบ token)
+ */
 router.post("/", verifyToken, (req, res) => {
   const { accessKey } = req.body;
 

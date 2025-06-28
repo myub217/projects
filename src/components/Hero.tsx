@@ -24,7 +24,8 @@ const Hero: React.FC<HeroProps> = ({
       id="hero"
       role="banner"
       aria-label="ส่วนแนะนำหน้าแรก"
-      className="relative min-h-[576px] sm:min-h-screen bg-base-900 text-white overflow-hidden flex items-center justify-center px-6 sm:px-12 pt-24 sm:pt-32 pb-20"
+      tabIndex={-1}
+      className="relative min-h-[576px] sm:min-h-screen bg-gray-900 text-white overflow-hidden flex items-center justify-center px-6 sm:px-12 pt-24 sm:pt-32 pb-20"
       style={{
         backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.3), rgba(0,0,0,0.08)), url(${heroBg})`,
         backgroundSize: "cover",
@@ -33,15 +34,6 @@ const Hero: React.FC<HeroProps> = ({
         filter: "brightness(1.2) contrast(1.1)",
       }}
     >
-      <img
-        src={heroBg}
-        alt=""
-        aria-hidden="true"
-        className="sr-only"
-        loading="lazy"
-        draggable={false}
-      />
-
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
