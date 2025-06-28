@@ -7,7 +7,7 @@ import React, {
   ReactNode,
 } from "react";
 
-type Role = "guest" | "member" | "admin";
+type Role = "guest" | "member" | "vip" | "admin";
 
 export interface User {
   username: string;
@@ -22,9 +22,12 @@ interface AuthContextType {
   isLoggedIn: boolean;
   currentUser: User | null;
   users: User[];
+  activeUsers: User[];
   loginAs: (user: User) => void;
   logout: () => void;
   addUser: (user: Omit<User, "expiresAt"> & { expiresMinutes: number }) => void;
+  setUserRole: (username: string, role: Role) => void;
+  revokeUser: (username: string) => void;
   validateUser: (username: string, password: string) => User | null;
 }
 
@@ -33,9 +36,12 @@ const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
   currentUser: null,
   users: [],
+  activeUsers: [],
   loginAs: () => {},
   logout: () => {},
   addUser: () => {},
+  setUserRole: () => {},
+  revokeUser: () => {},
   validateUser: () => null,
 });
 
@@ -47,96 +53,82 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [users, setUsers] = useState<User[]>([]);
 
-  // โหลด users จาก localStorage และสร้าง admin ที่ไม่มีวันหมดอายุเสมอ
+  const now = new Date();
+
   useEffect(() => {
-    const now = new Date();
-    let validUsers: User[] = [];
+    let storedUsers: User[] = [];
 
     try {
-      const stored = localStorage.getItem("users");
-      const parsed: User[] = stored ? JSON.parse(stored) : [];
-
-      // กรอง user ที่ยังไม่หมดอายุ
-      validUsers = parsed.filter((u) => new Date(u.expiresAt) > now);
+      const raw = localStorage.getItem("users");
+      storedUsers = raw ? JSON.parse(raw) : [];
     } catch {
-      validUsers = [];
+      storedUsers = [];
     }
 
-    // ตรวจสอบว่ามี admin myub25217 อยู่หรือไม่
     const adminUsername = "myub25217";
     const adminPassword = "22584566";
-
-    const adminExists = validUsers.some(
+    const adminExists = storedUsers.some(
       (u) => u.username.toLowerCase() === adminUsername
     );
 
     if (!adminExists) {
-      // สร้าง admin ที่ไม่มีวันหมดอายุ (expiresAt ไกลมาก)
-      const expiresAt = new Date("9999-12-31T23:59:59.999Z").toISOString();
-
-      validUsers.push({
+      storedUsers.push({
         username: adminUsername,
         password: adminPassword,
         role: "admin",
-        expiresAt,
+        expiresAt: "9999-12-31T23:59:59.999Z",
+        token: "admin_" + Date.now().toString(36),
       });
     }
 
-    setUsers(validUsers);
-    localStorage.setItem("users", JSON.stringify(validUsers));
+    setUsers(storedUsers);
+    localStorage.setItem("users", JSON.stringify(storedUsers));
 
-    // คืนค่าข้อมูล session ของผู้ใช้ปัจจุบัน
     try {
       const savedUserStr = localStorage.getItem("currentUser");
       const savedRole = localStorage.getItem("role") as Role | null;
 
       if (savedUserStr && savedRole) {
         const savedUser: User = JSON.parse(savedUserStr);
-
         if (new Date(savedUser.expiresAt) > now) {
           setCurrentUser(savedUser);
           setRole(savedRole);
           setIsLoggedIn(true);
         } else {
-          // ลบข้อมูลที่หมดอายุแล้ว
-          localStorage.removeItem("currentUser");
-          localStorage.removeItem("role");
+          logout();
         }
       }
     } catch {
-      localStorage.removeItem("currentUser");
-      localStorage.removeItem("role");
+      logout();
     }
   }, []);
 
-  // อัปเดต users ลง localStorage ทุกครั้งที่เปลี่ยนแปลง
   useEffect(() => {
     localStorage.setItem("users", JSON.stringify(users));
   }, [users]);
 
-  // เพิ่มผู้ใช้ใหม่ โดยกำหนดเวลาหมดอายุเป็นนาที
   const addUser = (
     user: Omit<User, "expiresAt"> & { expiresMinutes: number }
   ) => {
     const username = user.username.trim().toLowerCase();
-
-    // ถ้ามี username ซ้ำแล้ว ไม่เพิ่ม
     if (users.some((u) => u.username.toLowerCase() === username)) return;
 
     const expiresAt = new Date(
       Date.now() + user.expiresMinutes * 60 * 1000
     ).toISOString();
 
+    const token = user.token || `t_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+
     const newUser: User = {
       ...user,
       username,
       expiresAt,
+      token,
     };
 
     setUsers((prev) => [...prev, newUser]);
   };
 
-  // ตรวจสอบ username, password และวันหมดอายุ
   const validateUser = (username: string, password: string): User | null => {
     const now = new Date();
     return (
@@ -149,7 +141,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
-  // login action
   const loginAs = (user: User) => {
     setRole(user.role);
     setIsLoggedIn(true);
@@ -158,7 +149,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("currentUser", JSON.stringify(user));
   };
 
-  // logout action
   const logout = () => {
     setRole("guest");
     setIsLoggedIn(false);
@@ -167,6 +157,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("currentUser");
   };
 
+  const setUserRole = (username: string, newRole: Role) => {
+    setUsers((prev) =>
+      prev.map((u) =>
+        u.username.toLowerCase() === username.toLowerCase()
+          ? { ...u, role: newRole }
+          : u
+      )
+    );
+  };
+
+  const revokeUser = (username: string) => {
+    setUsers((prev) =>
+      prev.filter((u) => u.username.toLowerCase() !== username.toLowerCase())
+    );
+  };
+
+  const activeUsers = users.filter((u) => new Date(u.expiresAt) > new Date());
+
   return (
     <AuthContext.Provider
       value={{
@@ -174,9 +182,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         isLoggedIn,
         currentUser,
         users,
+        activeUsers,
         loginAs,
         logout,
         addUser,
+        setUserRole,
+        revokeUser,
         validateUser,
       }}
     >
