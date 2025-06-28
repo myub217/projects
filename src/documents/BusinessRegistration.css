@@ -8,7 +8,7 @@
   font-size: 15px;
   line-height: 1.4;
   box-sizing: border-box;
-  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -75,6 +75,13 @@
   user-select: none;
 }
 
+.header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 6px 0 0;
+  letter-spacing: 0.1em;
+}
+
 .header h2 {
   font-size: 18px;
   margin: 0;
@@ -87,13 +94,6 @@
   margin: 3px 0 0;
   font-weight: 500;
   color: #444;
-}
-
-.header h1 {
-  font-size: 24px;
-  font-weight: 700;
-  margin: 6px 0 0;
-  letter-spacing: 0.1em;
 }
 
 .certify-section {
@@ -177,6 +177,7 @@
   text-align: center;
   min-height: 1.5em;
   box-sizing: border-box;
+  user-select: text;
 }
 
 .section-title {

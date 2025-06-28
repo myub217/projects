@@ -17,9 +17,14 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, currentTheme }) => {
 
       <button
         onClick={toggleTheme}
-        aria-label={`สลับโหมด ${currentTheme === "light" ? "กลางคืน" : "กลางวัน"}`}
-        title={`สลับโหมด ${currentTheme === "light" ? "กลางคืน" : "กลางวัน"}`}
+        aria-label={`สลับโหมด ${
+          currentTheme === "light" ? "กลางคืน" : "กลางวัน"
+        }`}
+        title={`สลับโหมด ${
+          currentTheme === "light" ? "กลางคืน" : "กลางวัน"
+        }`}
         className="p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary"
+        type="button"
       >
         <span className="text-xl" aria-hidden="true">
           {currentTheme === "light" ? "🌞" : "🌙"}

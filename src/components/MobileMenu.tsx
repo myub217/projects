@@ -1,14 +1,13 @@
+// src/components/MobileMenu.tsx
 import React, { useEffect, useRef, useCallback, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
   links: { label: string; href: string; highlight?: boolean }[];
   onLinkClick?: () => void;
-  initialFocusRef?: React.RefObject<HTMLElement>;
   triggerRef?: React.RefObject<HTMLElement>;
 }
 
@@ -19,12 +18,10 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   onClose,
   links,
   onLinkClick,
-  initialFocusRef,
   triggerRef,
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const [isClosing, setIsClosing] = useState(false);
-  const navigate = useNavigate();
 
   const handleClose = useCallback(() => {
     if (isClosing) return;
@@ -32,6 +29,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     onClose();
   }, [isClosing, onClose]);
 
+  // Escape key to close
   useEffect(() => {
     if (!isOpen) return;
 
@@ -41,21 +39,26 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
         handleClose();
       }
     };
+
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen, handleClose]);
 
+  // Prevent body scroll when menu is open
   useEffect(() => {
     if (isOpen) {
       scrollLockCount++;
       document.body.style.overflow = "hidden";
-      return () => {
-        scrollLockCount = Math.max(0, scrollLockCount - 1);
-        if (scrollLockCount === 0) document.body.style.overflow = "";
-      };
     }
+    return () => {
+      scrollLockCount = Math.max(0, scrollLockCount - 1);
+      if (scrollLockCount === 0) {
+        document.body.style.overflow = "";
+      }
+    };
   }, [isOpen]);
 
+  // Focus trap inside menu
   useEffect(() => {
     if (!isOpen || !menuRef.current) return;
 
@@ -82,10 +85,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     };
 
     document.addEventListener("keydown", trapFocus);
-    (initialFocusRef?.current || first)?.focus();
-    return () => document.removeEventListener("keydown", trapFocus);
-  }, [isOpen, initialFocusRef]);
+    first?.focus();
 
+    return () => document.removeEventListener("keydown", trapFocus);
+  }, [isOpen]);
+
+  // Restore focus to trigger element on close
   useEffect(() => {
     if (!isOpen) {
       setIsClosing(false);
@@ -98,9 +103,16 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
       if (isClosing) return;
       handleClose();
       onLinkClick?.();
-      navigate(href); // 👈 ใช้ React Router navigate แทน window.location
+
+      if (href.startsWith("#")) {
+        window.location.hash = href;
+      } else if (/^https?:\/\//.test(href)) {
+        window.open(href, "_blank", "noopener,noreferrer");
+      } else {
+        window.location.href = href;
+      }
     },
-    [handleClose, isClosing, onLinkClick, navigate]
+    [handleClose, isClosing, onLinkClick]
   );
 
   return (
@@ -141,6 +153,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
               className="absolute top-4 right-4 text-gray-700 dark:text-gray-300 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
               aria-label="ปิดเมนู"
               disabled={isClosing}
+              type="button"
             >
               <X size={28} />
             </button>
@@ -152,9 +165,10 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                   onClick={() => handleLinkClick(href)}
                   className={`text-left px-6 py-3 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
                     highlight
-                      ? "bg-primary text-white hover:bg-primary-focus"
+                      ? "bg-pink-600 text-white hover:bg-pink-700 dark:hover:bg-pink-500"
                       : "hover:text-primary dark:hover:text-primary"
                   }`}
+                  type="button"
                 >
                   {label}
                 </button>

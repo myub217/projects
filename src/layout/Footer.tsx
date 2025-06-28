@@ -1,3 +1,4 @@
+// src/layout/Footer.tsx
 import React from "react";
 import { Facebook, Instagram, MessageCircleMore } from "lucide-react";
 import { FaTiktok } from "react-icons/fa";
@@ -20,7 +21,6 @@ interface SocialLink {
 }
 
 const Footer: React.FC = () => {
-  // ประกาศ currentYear
   const currentYear = new Date().getFullYear();
 
   const menuItems: MenuItem[] = [
@@ -67,6 +67,7 @@ const Footer: React.FC = () => {
 
   return (
     <footer
+      id="footer"
       role="contentinfo"
       lang="th"
       itemScope
@@ -74,6 +75,7 @@ const Footer: React.FC = () => {
       className="w-full bg-base-200 text-base-content border-t border-base-300 dark:bg-gray-900 dark:text-gray-200 dark:border-base-700 px-6 py-12 sm:px-8 md:px-12"
     >
       <meta itemProp="url" content="https://jpvisualdocs.com" />
+
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
         {/* Company Info */}
         <section
@@ -92,16 +94,19 @@ const Footer: React.FC = () => {
             draggable={false}
           />
           <h2 className="text-lg font-bold" itemProp="name">
-            JP Visual & Docs
+            <strong>JP Visual & Docs</strong>
           </h2>
-          <p className="text-sm text-muted text-balance" itemProp="description">
+          <p
+            className="text-sm text-gray-500 dark:text-gray-400 text-balance"
+            itemProp="description"
+          >
             พัฒนาโดย <strong>Applicationlab</strong>
             <br />
             ผู้เชี่ยวชาญด้านเอกสารและโซลูชันดิจิทัล
           </p>
         </section>
 
-        {/* Main Menu */}
+        {/* Menu */}
         <nav
           aria-label="เมนูเว็บไซต์"
           className="text-center md:text-left text-sm space-y-2"
@@ -136,9 +141,10 @@ const Footer: React.FC = () => {
           <ul role="list" className="space-y-2">
             {socialLinks.map(
               ({ href, label, Icon, ariaLabel, external, nofollow }) => (
-                <li key={href} itemProp="sameAs">
+                <li key={href}>
                   <a
                     href={href}
+                    itemProp="sameAs"
                     target={external ? "_blank" : undefined}
                     rel={
                       external
@@ -164,7 +170,7 @@ const Footer: React.FC = () => {
             <p>
               © {currentYear} <strong>Applicationlab</strong>
             </p>
-            <p className="text-muted">All rights reserved.</p>
+            <p className="text-gray-500 dark:text-gray-400">All rights reserved.</p>
           </div>
           <div>
             <a

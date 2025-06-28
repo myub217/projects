@@ -47,16 +47,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [users, setUsers] = useState<User[]>([]);
 
+  // 🔁 โหลดจาก localStorage และเพิ่ม fallback admin (ถ้าไม่มี)
   useEffect(() => {
-    const storedUsers = localStorage.getItem("users");
     let validUsers: User[] = [];
+    const now = new Date();
 
-    if (storedUsers) {
-      try {
-        const parsed: User[] = JSON.parse(storedUsers);
-        const now = new Date();
-        validUsers = parsed.filter((u) => new Date(u.expiresAt) > now);
-      } catch {}
+    try {
+      const stored = localStorage.getItem("users");
+      const parsed: User[] = stored ? JSON.parse(stored) : [];
+
+      validUsers = parsed.filter((u) => new Date(u.expiresAt) > now);
+    } catch {
+      validUsers = [];
     }
 
     const adminExists = validUsers.some(
@@ -66,6 +68,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (!adminExists) {
       const expiresAt = new Date();
       expiresAt.setFullYear(expiresAt.getFullYear() + 10);
+
       validUsers.push({
         username: "myub25217",
         password: "25217",
@@ -77,50 +80,69 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUsers(validUsers);
     localStorage.setItem("users", JSON.stringify(validUsers));
 
-    const savedRole = localStorage.getItem("role") as Role;
-    const savedUserStr = localStorage.getItem("currentUser");
+    // 🔐 Restore login session
+    try {
+      const savedUserStr = localStorage.getItem("currentUser");
+      const savedRole = localStorage.getItem("role") as Role | null;
 
-    if (savedRole && savedUserStr) {
-      try {
+      if (savedUserStr && savedRole) {
         const savedUser: User = JSON.parse(savedUserStr);
-        if (new Date(savedUser.expiresAt) > new Date()) {
-          setRole(savedRole);
+
+        if (new Date(savedUser.expiresAt) > now) {
           setCurrentUser(savedUser);
+          setRole(savedRole);
           setIsLoggedIn(true);
+        } else {
+          localStorage.removeItem("currentUser");
+          localStorage.removeItem("role");
         }
-      } catch {
-        localStorage.removeItem("currentUser");
-        localStorage.removeItem("role");
       }
+    } catch {
+      localStorage.removeItem("currentUser");
+      localStorage.removeItem("role");
     }
   }, []);
 
+  // 💾 อัปเดต users ทุกครั้งที่เปลี่ยน
   useEffect(() => {
     localStorage.setItem("users", JSON.stringify(users));
   }, [users]);
 
+  // ➕ เพิ่มผู้ใช้ใหม่
   const addUser = (
     user: Omit<User, "expiresAt"> & { expiresMinutes: number }
   ) => {
     const username = user.username.trim().toLowerCase();
+
     if (users.some((u) => u.username.toLowerCase() === username)) return;
 
-    const expiresAt = new Date(Date.now() + user.expiresMinutes * 60000).toISOString();
-    const newUser: User = { ...user, username, expiresAt };
+    const expiresAt = new Date(
+      Date.now() + user.expiresMinutes * 60 * 1000
+    ).toISOString();
+
+    const newUser: User = {
+      ...user,
+      username,
+      expiresAt,
+    };
+
     setUsers((prev) => [...prev, newUser]);
   };
 
+  // ✅ ตรวจสอบ user & password
   const validateUser = (username: string, password: string): User | null => {
     const now = new Date();
-    const user = users.find(
-      (u) =>
-        u.username.toLowerCase() === username.toLowerCase() &&
-        u.password === password &&
-        new Date(u.expiresAt) > now
+    return (
+      users.find(
+        (u) =>
+          u.username.toLowerCase() === username.toLowerCase() &&
+          u.password === password &&
+          new Date(u.expiresAt) > now
+      ) || null
     );
-    return user || null;
   };
 
+  // 🔐 Login action
   const loginAs = (user: User) => {
     setRole(user.role);
     setIsLoggedIn(true);
@@ -129,6 +151,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("currentUser", JSON.stringify(user));
   };
 
+  // 🚪 Logout action
   const logout = () => {
     setRole("guest");
     setIsLoggedIn(false);

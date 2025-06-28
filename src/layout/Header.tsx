@@ -1,8 +1,8 @@
+// src/layout/Header.tsx
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { Menu, X } from "lucide-react";
-import jpLogo from "../assets/jp-logo.png";
-import ThemeToggle from "../components/ThemeToggle";
-import MobileMenu from "../components/MobileMenu";
+import ThemeToggle from "@/components/ThemeToggle";
+import MobileMenu from "@/components/MobileMenu";
 
 interface NavLink {
   label: string;
@@ -24,11 +24,15 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
-  const [currentHash, setCurrentHash] = useState<string>(window.location.hash || "");
+  const [currentHash, setCurrentHash] = useState<string>(
+    typeof window !== "undefined" ? window.location.hash : ""
+  );
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const updateHash = () => setCurrentHash(window.location.hash || "");
     window.addEventListener("hashchange", updateHash);
     return () => window.removeEventListener("hashchange", updateHash);
@@ -42,7 +46,6 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
     [currentHash]
   );
 
-  // Close mobile menu on navigation or Escape key press for better UX
   useEffect(() => {
     if (!isMobileMenuOpen) return;
 
@@ -52,8 +55,8 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
         menuButtonRef.current?.focus();
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
 
+    window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isMobileMenuOpen]);
 
@@ -68,25 +71,10 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
           aria-label="เมนูหลัก"
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16"
         >
-          {/* Logo */}
-          <a
-            href="#hero"
-            aria-label="กลับไปยังส่วนหัว"
-            className="flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
-          >
-            <img
-              src={jpLogo}
-              alt="โลโก้ JP Visual & Docs"
-              className="h-8 w-auto select-none"
-              loading="lazy"
-              draggable={false}
-            />
-            <span className="font-bold text-lg tracking-tight select-none text-gray-900 dark:text-gray-100">
-              JP Visual & Docs
-            </span>
-          </a>
+          {/* ลบโลโก้และชื่อ JP Visual & Docs ออกตามคำสั่ง */}
+          <div></div>
 
-          {/* Desktop Navigation */}
+          {/* เมนูเดสก์ท็อป */}
           <div className="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-700 dark:text-gray-300">
             {navLinks.map(({ label, href, highlight }) => {
               const active = isLinkActive(href);
@@ -95,10 +83,10 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
               const baseClass =
                 "px-3 py-1.5 rounded transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2";
 
-              const activeClass = highlight
-                ? "bg-pink-600 text-white hover:bg-pink-700"
-                : active
+              const activeClass = active
                 ? "text-pink-600 dark:text-pink-400 font-semibold"
+                : highlight
+                ? "bg-pink-600 text-white hover:bg-pink-700"
                 : "hover:text-pink-600 dark:hover:text-pink-400";
 
               return (
@@ -108,7 +96,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
                   role="link"
                   title={label}
                   className={`${baseClass} ${activeClass}`}
-                  aria-current={active ? "location" : undefined}
+                  aria-current={active ? "page" : undefined}
                   rel={isExternal ? "noopener noreferrer" : undefined}
                   target={isExternal ? "_blank" : undefined}
                 >
@@ -118,20 +106,17 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
             })}
           </div>
 
-          {/* Actions */}
+          {/* ปุ่มธีม + เมนูมือถือ */}
           <div className="flex items-center gap-3">
-            {/* Theme Toggle */}
             <div className="hidden sm:block">
               <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
             </div>
 
-            {/* Mobile Menu Toggle */}
             <button
               ref={menuButtonRef}
               onClick={() => setIsMobileMenuOpen((prev) => !prev)}
               type="button"
               aria-label={isMobileMenuOpen ? "ปิดเมนูมือถือ" : "เปิดเมนูมือถือ"}
-              title="เมนูมือถือ"
               aria-haspopup="true"
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
@@ -147,7 +132,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
         </nav>
       </header>
 
-      {/* Mobile Menu Component */}
+      {/* เมนูมือถือ */}
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onClose={() => {

@@ -1,3 +1,4 @@
+// src/components/PortfolioSection.tsx
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -54,7 +55,8 @@ const PortfolioSection: React.FC = () => {
           const focusableEls = lightboxRef.current.querySelectorAll<HTMLElement>(
             'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
           );
-          if (!focusableEls.length) return;
+          if (focusableEls.length === 0) return;
+
           const first = focusableEls[0];
           const last = focusableEls[focusableEls.length - 1];
 
@@ -70,6 +72,8 @@ const PortfolioSection: React.FC = () => {
             }
           }
           break;
+        default:
+          break;
       }
     },
     [lightboxIndex]
@@ -78,18 +82,22 @@ const PortfolioSection: React.FC = () => {
   useEffect(() => {
     if (lightboxIndex !== null) {
       window.addEventListener("keydown", onKeyDown);
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = "hidden"; // Lock scroll
+
+      // Focus close button after render
       setTimeout(() => {
         closeButtonRef.current?.focus();
       }, 0);
 
+      // Preload next image for smooth navigation
       const next = (lightboxIndex + 1) % portfolioImages.length;
-      new Image().src = portfolioImages[next];
+      const img = new Image();
+      img.src = portfolioImages[next];
     }
 
     return () => {
       window.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = "";
+      document.body.style.overflow = ""; // Restore scroll
     };
   }, [lightboxIndex, onKeyDown]);
 
@@ -147,9 +155,9 @@ const PortfolioSection: React.FC = () => {
             <img
               src={img}
               alt={`ภาพประกอบผลงาน ลำดับที่ ${idx + 1}`}
-              onError={(e) =>
-                ((e.target as HTMLImageElement).src = fallbackImg)
-              }
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = fallbackImg;
+              }}
               loading="lazy"
               className="w-full h-56 sm:h-64 md:h-72 object-cover rounded-lg"
               draggable={false}
@@ -161,6 +169,7 @@ const PortfolioSection: React.FC = () => {
       <AnimatePresence>
         {lightboxIndex !== null && (
           <>
+            {/* Overlay Backdrop */}
             <motion.div
               className="fixed inset-0 bg-black z-40"
               initial="hidden"
@@ -170,6 +179,7 @@ const PortfolioSection: React.FC = () => {
               onClick={() => setLightboxIndex(null)}
               aria-hidden="true"
             />
+            {/* Lightbox Modal */}
             <motion.div
               className="fixed inset-0 z-50 flex items-center justify-center p-4"
               initial="hidden"
@@ -184,61 +194,84 @@ const PortfolioSection: React.FC = () => {
               ref={lightboxRef}
             >
               <div className="relative max-w-5xl w-full bg-white dark:bg-gray-900 rounded-lg shadow-xl max-h-[90vh] overflow-auto">
-                {/* ปุ่มปิด */}
+                {/* Close Button */}
                 <button
+                  type="button"
                   onClick={() => setLightboxIndex(null)}
                   aria-label="ปิดหน้าต่างแสดงภาพ"
                   className="absolute top-3 right-3 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-accent focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-accent rounded p-1"
                   ref={closeButtonRef}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
 
-                {/* ปุ่มก่อนหน้า */}
+                {/* Previous Button */}
                 <button
+                  type="button"
                   onClick={() =>
                     setLightboxIndex((prev) =>
                       prev !== null
-                        ? (prev + portfolioImages.length - 1) %
-                          portfolioImages.length
+                        ? (prev + portfolioImages.length - 1) % portfolioImages.length
                         : null
                     )
                   }
                   aria-label="ภาพก่อนหน้า"
                   className="absolute top-1/2 left-3 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 focus:outline-none focus:ring-2 focus:ring-white"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    fill="none"
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
 
-                {/* ปุ่มถัดไป */}
+                {/* Next Button */}
                 <button
+                  type="button"
                   onClick={() =>
                     setLightboxIndex((prev) =>
-                      prev !== null
-                        ? (prev + 1) % portfolioImages.length
-                        : null
+                      prev !== null ? (prev + 1) % portfolioImages.length : null
                     )
                   }
                   aria-label="ภาพถัดไป"
                   className="absolute top-1/2 right-3 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 focus:outline-none focus:ring-2 focus:ring-white"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    fill="none"
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
 
-                {/* ภาพหลัก */}
+                {/* Main Image */}
                 <img
                   src={portfolioImages[lightboxIndex]}
                   alt={`ภาพผลงานขยายลำดับที่ ${lightboxIndex + 1}`}
                   loading="eager"
-                  className="block mx-auto max-h-[80vh] w-auto select-none"
+                  className="block mx-auto max-h-[80vh] w-auto select-none rounded-lg"
                   draggable={false}
-                  onError={(e) => ((e.target as HTMLImageElement).src = fallbackImg)}
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = fallbackImg;
+                  }}
                   id="lightbox-label"
                 />
 

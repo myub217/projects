@@ -23,8 +23,9 @@ export async function downloadElement(
     const canvas = await html2canvas(element, {
       scale: 2,
       useCORS: true,
-      allowTaint: true,
+      allowTaint: false, // false เพื่อป้องกันปัญหา CORS และเพิ่มความปลอดภัย
       scrollY: -window.scrollY, // ป้องกันปัญหา scroll เวลา capture
+      backgroundColor: "#ffffff", // กำหนดพื้นหลังเป็นสีขาว
     });
 
     if (type === "png") {
@@ -33,6 +34,7 @@ export async function downloadElement(
       link.download = `${fileName}.png`;
       link.href = canvas.toDataURL("image/png");
       link.click();
+      link.remove();
     } else if (type === "pdf") {
       // แปลง canvas เป็นภาพ
       const imgData = canvas.toDataURL("image/png");

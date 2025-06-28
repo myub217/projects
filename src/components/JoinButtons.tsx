@@ -1,3 +1,4 @@
+// src/components/JoinButtons.tsx
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaFacebookMessenger, FaLine, FaCopy, FaCheckCircle } from "react-icons/fa";
@@ -10,6 +11,11 @@ const JoinButtons: React.FC = () => {
   const [copied, setCopied] = useState(false);
 
   const handleCopyLineID = () => {
+    if (!navigator.clipboard) {
+      // Fallback if clipboard API is not supported
+      alert("ไม่สามารถคัดลอก LINE ID ได้ในเบราว์เซอร์นี้");
+      return;
+    }
     navigator.clipboard.writeText(lineID).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -42,22 +48,26 @@ const JoinButtons: React.FC = () => {
 
       {/* LINE ID + Copy */}
       <div className="flex items-center justify-center gap-3 mt-2">
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-400">
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-400 select-text">
           LINE ID: {lineID}
         </span>
         <button
           onClick={handleCopyLineID}
           className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition"
           aria-label="คัดลอก LINE ID"
+          type="button"
+          disabled={copied}
         >
           {copied ? (
             <>
-              <FaCheckCircle className="text-green-500" />
-              <span aria-live="polite">คัดลอกแล้ว</span>
+              <FaCheckCircle className="text-green-500" aria-hidden="true" />
+              <span aria-live="polite" role="status" className="sr-only">
+                คัดลอกแล้ว
+              </span>
             </>
           ) : (
             <>
-              <FaCopy />
+              <FaCopy aria-hidden="true" />
               <span>คัดลอก</span>
             </>
           )}
@@ -75,6 +85,7 @@ const JoinButtons: React.FC = () => {
           className="rounded-lg shadow-lg border border-gray-300 dark:border-gray-700 p-2"
           aria-label="QR Code สำหรับเพิ่มเพื่อนใน LINE"
           title="QR Code LINE"
+          role="img"
         />
       </div>
 

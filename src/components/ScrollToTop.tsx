@@ -1,3 +1,4 @@
+// src/components/ScrollToTop.tsx
 import React, { useEffect, useState } from "react";
 import { FaArrowUp } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
@@ -9,7 +10,7 @@ const ScrollToTop: React.FC = () => {
     let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
     const handleScroll = () => {
-      if (timeoutId) return; // debounce ง่าย ๆ ไม่ให้เรียกบ่อยเกิน
+      if (timeoutId) return; // ป้องกันการเรียกฟังก์ชันบ่อยเกิน
       timeoutId = setTimeout(() => {
         setIsVisible(window.scrollY > 300);
         timeoutId = null;
@@ -17,6 +18,10 @@ const ScrollToTop: React.FC = () => {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // ตรวจสอบสถานะตอน mount
+    handleScroll();
+
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
       window.removeEventListener("scroll", handleScroll);
@@ -36,7 +41,7 @@ const ScrollToTop: React.FC = () => {
           key="scroll-to-top"
           onClick={scrollToTop}
           className="fixed bottom-6 right-6 z-[9999] btn btn-circle btn-primary shadow-xl
-            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary
+            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/70
             dark:focus:ring-white dark:bg-primary dark:text-white"
           aria-label="เลื่อนกลับขึ้นด้านบน"
           title="เลื่อนกลับขึ้นด้านบน"
@@ -52,8 +57,9 @@ const ScrollToTop: React.FC = () => {
               scrollToTop();
             }
           }}
+          type="button"
         >
-          <FaArrowUp className="w-4 h-4" />
+          <FaArrowUp className="w-4 h-4" aria-hidden="true" />
         </motion.button>
       )}
     </AnimatePresence>

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
-type StoredTheme = Theme | null;
+type StoredTheme = string | null;
 
-export const useSystemTheme = () => {
+export const useTheme = () => {
   const [theme, setTheme] = useState<Theme | undefined>(undefined);
 
   const applyTheme = (t: Theme) => {
@@ -21,45 +21,42 @@ export const useSystemTheme = () => {
     }
 
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
-    let stored: StoredTheme = null;
+    let storedTheme: StoredTheme = null;
 
     try {
-      stored = localStorage?.getItem("theme") as StoredTheme;
+      storedTheme = localStorage.getItem("theme");
     } catch {
-      // ป้องกัน error
+      // ignore
     }
 
-    if (stored === "light" || stored === "dark") {
-      applyTheme(stored);
+    if (storedTheme === "light" || storedTheme === "dark") {
+      applyTheme(storedTheme);
     } else {
       applyTheme(prefersDark.matches ? "dark" : "light");
     }
 
-    const handleChange = (e: MediaQueryListEvent) => {
+    const handleSystemChange = (e: MediaQueryListEvent) => {
       try {
         if (!localStorage.getItem("theme")) {
           applyTheme(e.matches ? "dark" : "light");
         }
       } catch {
-        // ป้องกัน error
+        // ignore
       }
     };
 
-    prefersDark.addEventListener("change", handleChange);
-    return () => prefersDark.removeEventListener("change", handleChange);
+    prefersDark.addEventListener("change", handleSystemChange);
+    return () => prefersDark.removeEventListener("change", handleSystemChange);
   }, []);
 
   const toggle = () => {
-    setTheme((prev) => {
-      const next: Theme = prev === "dark" ? "light" : "dark";
-      try {
-        localStorage?.setItem("theme", next);
-      } catch {
-        // fallback no localStorage
-      }
-      applyTheme(next);
-      return next;
-    });
+    const nextTheme: Theme = theme === "dark" ? "light" : "dark";
+    try {
+      localStorage.setItem("theme", nextTheme);
+    } catch {
+      // fallback: no storage
+    }
+    applyTheme(nextTheme);
   };
 
   return { theme, toggle };

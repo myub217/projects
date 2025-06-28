@@ -1,3 +1,4 @@
+// src/components/About.tsx
 import React from "react";
 import { motion } from "framer-motion";
 import { FaUserTie, FaEnvelope } from "react-icons/fa";
@@ -155,7 +156,7 @@ const About: React.FC = () => {
 
           {/* แสดงโลโก้โซเชียลมีเดีย */}
           <nav
-            aria-label="Social media platforms"
+            aria-label="ช่องทางโซเชียลมีเดีย"
             className="mt-10 flex gap-6 justify-start md:justify-start flex-wrap"
           >
             {socialLinks.map(({ name, href, src, alt, className }) => (

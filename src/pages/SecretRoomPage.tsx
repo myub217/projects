@@ -14,10 +14,9 @@ const SecretRoomPage: React.FC = () => {
   const salaryRef = useRef<HTMLDivElement>(null);
   const businessRef = useRef<HTMLDivElement>(null);
 
-  // ตรวจสอบ session หมดอายุ ถ้าไม่ใช่ redirect ไป login
   useEffect(() => {
     if (!currentUser || !currentUser.expiresAt) {
-      navigate("/login");
+      navigate("/login", { replace: true });
       return;
     }
 
@@ -27,7 +26,7 @@ const SecretRoomPage: React.FC = () => {
 
     if (duration <= 0) {
       logout();
-      navigate("/login");
+      navigate("/login", { replace: true });
       return;
     }
 
@@ -37,7 +36,7 @@ const SecretRoomPage: React.FC = () => {
 
       if (diff <= 0) {
         logout();
-        navigate("/login");
+        navigate("/login", { replace: true });
       } else {
         const minutes = Math.floor(diff / 60000);
         const seconds = Math.floor((diff % 60000) / 1000);
@@ -75,8 +74,17 @@ const SecretRoomPage: React.FC = () => {
       } else {
         const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF("p", "mm", "a4");
-        const ratio = Math.min(210 / canvas.width, 297 / canvas.height);
-        pdf.addImage(imgData, "PNG", 0, 0, canvas.width * ratio, canvas.height * ratio);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const imgProps = {
+          width: canvas.width,
+          height: canvas.height,
+        };
+        const ratio = Math.min(pdfWidth / imgProps.width, pdfHeight / imgProps.height);
+        const imgWidth = imgProps.width * ratio;
+        const imgHeight = imgProps.height * ratio;
+
+        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
         pdf.save("document.pdf");
       }
     } catch (error) {
@@ -93,11 +101,29 @@ const SecretRoomPage: React.FC = () => {
 
     printWindow.document.open();
     printWindow.document.write(`
-      <html>
+      <html lang="th">
         <head>
+          <meta charset="UTF-8" />
           <title>Print Document</title>
           <style>
-            body { margin: 0; padding: 0; font-family: 'Sarabun', sans-serif; }
+            @import url('https://fonts.googleapis.com/css2?family=Sarabun&display=swap');
+            body {
+              margin: 0;
+              padding: 1rem;
+              font-family: 'Sarabun', sans-serif;
+              background: #fff;
+              color: #000;
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+            }
+            @page {
+              size: A4;
+              margin: 10mm;
+            }
+            img, iframe {
+              max-width: 100%;
+              height: auto;
+            }
           </style>
         </head>
         <body>${content}</body>
@@ -108,17 +134,14 @@ const SecretRoomPage: React.FC = () => {
     setTimeout(() => {
       printWindow.print();
       printWindow.close();
-    }, 800);
+    }, 500);
   };
-
-  if (!currentUser) return null;
 
   return (
     <>
       <SEOHelmet
         title="Secret Room | JP Visual & Docs"
         description="พื้นที่พิเศษสำหรับสมาชิกที่ได้รับอนุญาต"
-        url="https://applicationlubmobile.vercel.app/secret"
       />
 
       <main className="min-h-screen bg-gradient-to-b from-base-100 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-16 px-4 sm:px-6 lg:px-8">
@@ -134,10 +157,12 @@ const SecretRoomPage: React.FC = () => {
               onClick={() => {
                 if (window.confirm("ต้องการออกจากระบบ?")) {
                   logout();
-                  navigate("/login");
+                  navigate("/login", { replace: true });
                 }
               }}
               className="btn btn-sm btn-outline"
+              type="button"
+              aria-label="ออกจากระบบ"
             >
               ออกจากระบบ
             </button>
@@ -147,12 +172,19 @@ const SecretRoomPage: React.FC = () => {
             <h1 className="text-3xl sm:text-5xl font-bold text-primary dark:text-accent">
               🔒 ห้องลับเฉพาะสมาชิก
             </h1>
-            <p className="text-neutral-800 dark:text-neutral-300">
-              ยินดีต้อนรับ <strong>{currentUser.username}</strong>
+            <p className="text-neutral-800 dark:text-neutral-300" tabIndex={0}>
+              ยินดีต้อนรับ <strong>{currentUser?.username}</strong>
               <br />
               บัญชีหมดอายุใน: <strong>{timeLeft}</strong>
             </p>
-            <div className="h-2 w-full max-w-md mx-auto rounded-full bg-neutral-200 dark:bg-neutral-700">
+            <div
+              className="h-2 w-full max-w-md mx-auto rounded-full bg-neutral-200 dark:bg-neutral-700"
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={progress}
+              aria-label="แถบแสดงเวลาที่เหลือของบัญชี"
+            >
               <div
                 className="h-full rounded-full bg-primary dark:bg-accent transition-all"
                 style={{ width: `${progress}%` }}
@@ -161,7 +193,10 @@ const SecretRoomPage: React.FC = () => {
           </header>
 
           {/* ใบทะเบียนพาณิชย์ */}
-          <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
+          <section
+            className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4"
+            aria-label="ใบทะเบียนพาณิชย์"
+          >
             <h3 className="text-xl font-semibold text-primary dark:text-accent">
               📄 ใบทะเบียนพาณิชย์
             </h3>
@@ -175,6 +210,7 @@ const SecretRoomPage: React.FC = () => {
                 height="1123"
                 className="shadow-md"
                 title="ใบทะเบียนพาณิชย์"
+                aria-label="แสดงใบทะเบียนพาณิชย์"
                 sandbox="allow-same-origin allow-scripts allow-forms"
               />
             </div>
@@ -182,21 +218,18 @@ const SecretRoomPage: React.FC = () => {
               <button
                 className="btn btn-sm"
                 onClick={() => handleDownload(businessRef, "png")}
-                aria-label="ดาวน์โหลดใบทะเบียนพาณิชย์เป็น PNG"
               >
                 ดาวน์โหลด PNG
               </button>
               <button
                 className="btn btn-sm btn-outline"
                 onClick={() => handleDownload(businessRef, "pdf")}
-                aria-label="ดาวน์โหลดใบทะเบียนพาณิชย์เป็น PDF"
               >
                 ดาวน์โหลด PDF
               </button>
               <button
                 className="btn btn-sm btn-ghost"
                 onClick={() => handlePrint(businessRef)}
-                aria-label="พิมพ์ใบทะเบียนพาณิชย์"
               >
                 พิมพ์เอกสาร
               </button>
@@ -204,7 +237,10 @@ const SecretRoomPage: React.FC = () => {
           </section>
 
           {/* หนังสือรับรองเงินเดือน */}
-          <section className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4">
+          <section
+            className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4"
+            aria-label="หนังสือรับรองเงินเดือน"
+          >
             <h3 className="text-xl font-semibold text-primary dark:text-accent">
               📄 หนังสือรับรองเงินเดือน
             </h3>
@@ -218,6 +254,7 @@ const SecretRoomPage: React.FC = () => {
                 height="1123"
                 className="shadow-md"
                 title="หนังสือรับรองเงินเดือน"
+                aria-label="แสดงหนังสือรับรองเงินเดือน"
                 sandbox="allow-same-origin allow-scripts allow-forms"
               />
             </div>
@@ -225,21 +262,18 @@ const SecretRoomPage: React.FC = () => {
               <button
                 className="btn btn-sm"
                 onClick={() => handleDownload(salaryRef, "png")}
-                aria-label="ดาวน์โหลดหนังสือรับรองเงินเดือนเป็น PNG"
               >
                 ดาวน์โหลด PNG
               </button>
               <button
                 className="btn btn-sm btn-outline"
                 onClick={() => handleDownload(salaryRef, "pdf")}
-                aria-label="ดาวน์โหลดหนังสือรับรองเงินเดือนเป็น PDF"
               >
                 ดาวน์โหลด PDF
               </button>
               <button
                 className="btn btn-sm btn-ghost"
                 onClick={() => handlePrint(salaryRef)}
-                aria-label="พิมพ์หนังสือรับรองเงินเดือน"
               >
                 พิมพ์เอกสาร
               </button>

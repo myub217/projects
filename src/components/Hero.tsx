@@ -23,7 +23,7 @@ const Hero: React.FC<HeroProps> = ({
     <section
       id="hero"
       role="banner"
-      aria-label="JP Visual & Docs Hero Section"
+      aria-label="ส่วนแนะนำหน้าแรก"
       className="relative min-h-[576px] sm:min-h-screen bg-base-900 text-white overflow-hidden flex items-center justify-center px-6 sm:px-12 pt-24 sm:pt-32 pb-20"
       style={{
         backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.3), rgba(0,0,0,0.08)), url(${heroBg})`,
@@ -33,7 +33,6 @@ const Hero: React.FC<HeroProps> = ({
         filter: "brightness(1.2) contrast(1.1)",
       }}
     >
-      {/* ซ่อนภาพพื้นหลังจาก screen reader */}
       <img
         src={heroBg}
         alt=""
@@ -43,14 +42,12 @@ const Hero: React.FC<HeroProps> = ({
         draggable={false}
       />
 
-      {/* ลายเซ็น + ปุ่ม login */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.3 }}
         className="fixed bottom-4 right-4 flex flex-col items-center gap-1 sm:gap-2.5 z-50"
       >
-        {/* ลายเซ็นเจ้าป่า */}
         <motion.img
           src={signature}
           alt="ลายเซ็น JP Visual"
@@ -71,7 +68,6 @@ const Hero: React.FC<HeroProps> = ({
           transition={{ duration: 1.1, delay: 0.5 }}
         />
 
-        {/* ปุ่มเข้าสู่ระบบ */}
         <motion.button
           onClick={handleLoginClick}
           aria-label="เข้าสู่ระบบลับ"

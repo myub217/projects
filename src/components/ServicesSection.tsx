@@ -7,6 +7,11 @@ const ServicesSection: React.FC = () => {
   const availableServices = services.filter((s) => s.available);
   const comingSoonServices = services.filter((s) => !s.available);
 
+  const handleRequest = (service: typeof services[number]) => {
+    alert(`คุณเลือกบริการ: ${service.title}`);
+    // หรือใช้ modal / form / redirect / analytics ต่อได้ที่นี่
+  };
+
   return (
     <section
       id="services"
@@ -14,7 +19,7 @@ const ServicesSection: React.FC = () => {
       aria-labelledby="services-title"
       className="py-16 px-4 sm:px-6 lg:px-8 bg-base-200"
     >
-      {/* Section Heading */}
+      {/* Section Header */}
       <div className="max-w-7xl mx-auto text-center">
         <h2
           id="services-title"
@@ -29,7 +34,11 @@ const ServicesSection: React.FC = () => {
 
       {/* Available Services */}
       {availableServices.length > 0 && (
-        <div className="mt-12" aria-labelledby="available-services-title">
+        <div
+          className="mt-12"
+          role="region"
+          aria-labelledby="available-services-title"
+        >
           <h3
             id="available-services-title"
             className="text-xl font-semibold text-gray-900 dark:text-white mb-6 text-left"
@@ -38,7 +47,11 @@ const ServicesSection: React.FC = () => {
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {availableServices.map((service) => (
-              <ServiceCard key={service.id} service={service} />
+              <ServiceCard
+                key={service.id}
+                service={service}
+                onRequest={handleRequest}
+              />
             ))}
           </div>
         </div>
@@ -47,7 +60,8 @@ const ServicesSection: React.FC = () => {
       {/* Coming Soon Services */}
       {comingSoonServices.length > 0 && (
         <div
-          className="mt-16 opacity-70 select-none pointer-events-none"
+          className="mt-16"
+          role="region"
           aria-labelledby="coming-soon-services-title"
         >
           <h3
@@ -58,7 +72,12 @@ const ServicesSection: React.FC = () => {
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {comingSoonServices.map((service) => (
-              <ServiceCard key={service.id} service={service} disabled />
+              <ServiceCard
+                key={service.id}
+                service={service}
+                disabled={true}
+                onRequest={handleRequest}
+              />
             ))}
           </div>
         </div>

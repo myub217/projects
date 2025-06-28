@@ -1,122 +1,63 @@
+// vite.config.mjs
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { VitePWA } from "vite-plugin-pwa";
-import svgr from "vite-plugin-svgr";
 import path from "path";
+import { VitePWA } from "vite-plugin-pwa";
+import viteCompression from "vite-plugin-compression";
+import svgr from "vite-plugin-svgr";
 
 export default defineConfig({
   plugins: [
     react(),
-    svgr(),
-
-    // 🔋 PWA Plugin
     VitePWA({
       registerType: "autoUpdate",
-      strategies: "injectManifest",
-      srcDir: "src",
-      filename: "sw.ts",
-
-      devOptions: {
-        enabled: true,
-        type: "module",
-      },
-
+      includeAssets: ["favicon.svg", "robots.txt", "apple-touch-icon.png"],
       manifest: {
         name: "JP Visual & Docs",
-        short_name: "JPVD",
-        description:
-          "บริการยื่นกู้ วีซ่า เอกสาร การเงิน โปรไฟล์ และระบบหลังบ้านครบวงจร โดย JP Visual & Docs",
-        start_url: "/?source=pwa",
-        scope: "/",
+        short_name: "JPDocs",
+        start_url: "/",
         display: "standalone",
-        orientation: "portrait-primary",
-        background_color: "#FFFFFF",
-        theme_color: "#1A237E",
-        lang: "th",
+        background_color: "#ffffff",
+        theme_color: "#2563EB",
         icons: [
           {
-            src: "/assets/icons/icon-192x192.png",
+            src: "icons/icon-192x192.png",
             sizes: "192x192",
             type: "image/png",
-            purpose: "any"
           },
           {
-            src: "/assets/icons/icon-512x512.png",
+            src: "icons/icon-512x512.png",
             sizes: "512x512",
             type: "image/png",
-            purpose: "any"
           },
-          {
-            src: "/assets/icons/maskable-icon-192x192.png",
-            sizes: "192x192",
-            type: "image/png",
-            purpose: "maskable"
-          },
-          {
-            src: "/assets/icons/maskable-icon-512x512.png",
-            sizes: "512x512",
-            type: "image/png",
-            purpose: "maskable"
-          }
-        ]
+        ],
       },
-
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,webp,ttf}"],
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/applicationlubmobile\.vercel\.app\/.*$/,
-            handler: "NetworkFirst",
-            options: {
-              cacheName: "pages",
-              expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24 * 30
-              },
-              cacheableResponse: {
-                statuses: [0, 200]
-              }
-            }
-          },
-          {
-            urlPattern: /\.(?:png|webp|jpg|jpeg|svg|woff2?)$/,
-            handler: "CacheFirst",
-            options: {
-              cacheName: "assets",
-              expiration: {
-                maxEntries: 100,
-                maxAgeSeconds: 60 * 60 * 24 * 60
-              },
-              cacheableResponse: {
-                statuses: [0, 200]
-              }
-            }
-          }
-        ]
-      }
-    })
+        mode: "development", // ✅ ใน production แนะนำลบออกหรือใช้ "production"
+      },
+    }),
+    viteCompression(), // ✅ gzip compression
+    svgr(), // ✅ สำหรับ import SVG เป็น React Component
   ],
-
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src")
-    }
+      "@": path.resolve(__dirname, "src"),
+      "~": path.resolve(__dirname, "src"),
+      components: path.resolve(__dirname, "src/components"),
+      pages: path.resolve(__dirname, "src/pages"),
+      hooks: path.resolve(__dirname, "src/hooks"),
+      context: path.resolve(__dirname, "src/context"),
+      utils: path.resolve(__dirname, "src/utils"),
+      assets: path.resolve(__dirname, "src/assets"),
+      lib: path.resolve(__dirname, "src/lib"),
+      data: path.resolve(__dirname, "src/data"),
+      documents: path.resolve(__dirname, "src/documents"),
+      layout: path.resolve(__dirname, "src/layout"),
+      types: path.resolve(__dirname, "src/types"),
+    },
   },
-
-  assetsInclude: ["**/*.webp", "**/*.avif", "**/*.svg"],
-
-  build: {
-    outDir: "dist",
-    sourcemap: false,
-    emptyOutDir: true,
-    minify: "esbuild",
-    target: "esnext"
-  },
-
   server: {
     port: 5173,
     open: true,
-    strictPort: true,
-    cors: true
-  }
+  },
 });

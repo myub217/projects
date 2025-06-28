@@ -1,31 +1,40 @@
+/* src/styles/global.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ===========================
-   🌙 Dark Mode Styling
-   =========================== */
-html.dark {
-  color-scheme: dark;
+/* =========================== 🌙 Dark Mode Styling =========================== */
+@layer base {
+  html.dark {
+    color-scheme: dark;
+  }
+
+  /* =========================== 🔤 Font smoothing and base styles =========================== */
+  body {
+    @apply antialiased text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900 transition-colors duration-300;
+  }
+
+  button {
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-teal-400;
+  }
+
+  a {
+    @apply transition-colors duration-300 text-blue-600 hover:text-blue-800 dark:hover:text-teal-300;
+  }
+
+  input,
+  textarea,
+  select {
+    @apply bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-xl px-4 py-2 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-teal-400;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    @apply text-gray-400 dark:text-gray-500;
+  }
 }
 
-/* ===========================
-   🔤 Font smoothing and base styles
-   =========================== */
-body {
-  @apply antialiased text-foreground bg-background transition-colors duration-300;
-}
-
-/* ===========================
-   🔘 Button default style & focus states
-   =========================== */
-button {
-  @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-accent;
-}
-
-/* ===========================
-   🔲 Image & Video responsiveness
-   =========================== */
+/* =========================== 🔲 Image & Video responsiveness =========================== */
 img,
 video {
   max-width: 100%;
@@ -33,12 +42,14 @@ video {
   display: block;
 }
 
-/* ===========================
-   📄 Scrollbar Styling (WebKit browsers)
-   =========================== */
+/* =========================== 📄 Scrollbar Styling (WebKit browsers) =========================== */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -47,45 +58,43 @@ video {
 }
 
 html.dark ::-webkit-scrollbar-thumb {
-  background-color: rgba(24, 188, 156, 0.6); /* สี glow จากธีม secondary */
+  background-color: rgba(24, 188, 156, 0.6);
 }
 
-/* ===========================
-   🔗 Links Styling
-   =========================== */
-a {
-  @apply transition-colors duration-300 text-primary hover:text-primary-dark dark:hover:text-secondary;
+/* =========================== 🌟 Custom Fonts =========================== */
+.font-thai {
+  font-family: "Sarabun", "Kanit", sans-serif;
 }
 
-/* ===========================
-   📄 Forms Styling (input, textarea, select)
-   =========================== */
-input,
-textarea,
-select {
-  @apply
-    bg-white
-    dark:bg-neutral-900
-    border
-    border-neutral-300
-    dark:border-neutral-700
-    text-foreground
-    dark:text-foreground-dark
-    rounded-xl
-    px-4
-    py-2
-    transition
-    duration-300
-    focus:outline-none
-    focus:ring-2
-    focus:ring-primary
-    dark:focus:ring-accent;
+.font-heading {
+  font-family: "Poppins", "Roboto", sans-serif;
 }
 
-/* ===========================
-   Additional accessibility improvements
-   =========================== */
-input::placeholder,
-textarea::placeholder {
-  @apply text-neutral-400 dark:text-neutral-600;
+/* =========================== 🌈 Animations =========================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.8s ease forwards;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideInUp {
+  animation: slideInUp 0.8s ease forwards;
 }

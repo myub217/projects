@@ -6,11 +6,16 @@ import type { Service } from "@/data/services";
 interface ServiceCardProps {
   service: Service;
   disabled?: boolean;
+  onRequest?: (service: Service) => void;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ service, disabled }) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({
+  service,
+  disabled,
+  onRequest,
+}) => {
   const isComingSoon = disabled || !service.available;
-  const imageSrc = service?.image || "/images/services/placeholder.png";
+  const imageSrc = service.image || "/images/services/placeholder.png";
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const target = e.currentTarget;
@@ -34,14 +39,12 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, disabled }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.45, ease: "easeOut" }}
-      className={`relative card group card-compact border shadow-md rounded-xl overflow-hidden
-        ${isComingSoon
-          ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed"
-          : "bg-base-200 border-base-300 dark:bg-gray-800 dark:border-gray-600"}
-        focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ring-offset-2 ring-offset-base-100 dark:ring-offset-gray-900
-        transition duration-200 hover:shadow-lg`}
+      className={`relative card card-compact overflow-hidden rounded-xl shadow-md border transition hover:shadow-lg focus:outline-none focus-visible:ring-2 ring-offset-2 ${
+        isComingSoon
+          ? "bg-gray-200 dark:bg-gray-700 border-transparent cursor-not-allowed"
+          : "bg-base-200 dark:bg-gray-800 border-base-300 dark:border-gray-600 focus-visible:ring-primary dark:ring-offset-gray-900"
+      }`}
     >
-      {/* Coming Soon Overlay */}
       {isComingSoon && (
         <div
           className="absolute inset-0 bg-black/60 z-20 flex items-center justify-center text-white text-xl font-bold pointer-events-none select-none"
@@ -51,8 +54,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, disabled }) => {
         </div>
       )}
 
-      {/* Image */}
-      <figure className="w-full aspect-[4/3] bg-base-100 dark:bg-gray-700 overflow-hidden">
+      <figure className="aspect-[4/3] bg-base-100 dark:bg-gray-700 overflow-hidden">
         <img
           src={imageSrc}
           alt={service.altText?.trim() || `ภาพประกอบบริการ ${service.title}`}
@@ -62,14 +64,16 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, disabled }) => {
           draggable={false}
           width={640}
           height={480}
-          fetchPriority="auto"
-          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
         <figcaption className="sr-only">{service.title || "บริการ"}</figcaption>
       </figure>
 
-      {/* Content */}
-      <div className={`card-body p-4 flex flex-col h-full z-10 ${isComingSoon ? "pointer-events-none" : ""}`}>
+      <div
+        className={`card-body p-4 flex flex-col h-full z-10 ${
+          isComingSoon ? "pointer-events-none" : ""
+        }`}
+      >
         <h3
           id={`service-title-${service.id}`}
           className="card-title text-lg font-bold text-base-content dark:text-white"
@@ -96,7 +100,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, disabled }) => {
           <button
             type="button"
             className="btn btn-sm btn-primary w-full"
-            onClick={() => !isComingSoon && alert(`คุณเลือกบริการ: ${service.title}`)}
+            onClick={() => {
+              if (!isComingSoon) {
+                onRequest?.(service);
+              }
+            }}
             disabled={isComingSoon}
             aria-label={`ขอรับบริการ: ${service.title}`}
           >
@@ -108,12 +116,12 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, disabled }) => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => isComingSoon && e.preventDefault()}
-            className={`btn btn-sm btn-outline border-base-300 dark:border-gray-600 w-full flex items-center justify-center gap-2 transition ${
+            className={`btn btn-sm btn-outline w-full flex items-center justify-center gap-2 transition border-base-300 dark:border-gray-600 ${
               isComingSoon
                 ? "cursor-not-allowed opacity-50"
                 : "hover:bg-[#00c300]/10 hover:border-[#00c300]"
             }`}
-            aria-label={`ติดต่อ LINE สำหรับบริการ: ${service.title}`}
+            aria-label={`ติดต่อผ่าน LINE สำหรับบริการ: ${service.title}`}
           >
             <img
               src="/images/icons/line.svg"
@@ -121,8 +129,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, disabled }) => {
               aria-hidden="true"
               width={20}
               height={20}
-              draggable={false}
               className="inline-block"
+              draggable={false}
             />
             ติดต่อผ่าน LINE
           </a>

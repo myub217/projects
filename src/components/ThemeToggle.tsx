@@ -1,43 +1,41 @@
-import React from "react";
-import { FaSun, FaMoon } from "react-icons/fa";
+// src/components/ThemeToggle.tsx
+import React, { useEffect, useState } from "react";
 
-type ThemeToggleProps = {
-  theme: "light" | "dark";
-  toggleTheme: () => void;
-};
+const ThemeToggle: React.FC = () => {
+  // ดึงค่าเริ่มต้นจาก localStorage หรือ media query
+  function getInitialTheme(): "light" | "dark" {
+    if (typeof window !== "undefined") {
+      const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+      if (savedTheme === "light" || savedTheme === "dark") return savedTheme;
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      return prefersDark ? "dark" : "light";
+    }
+    return "light";
+  }
 
-const ThemeToggle: React.FC<ThemeToggleProps> = ({ theme, toggleTheme }) => {
-  const isDark = theme === "dark";
+  const [theme, setTheme] = useState<"light" | "dark">(getInitialTheme);
+
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
 
   return (
     <button
-      type="button"
       onClick={toggleTheme}
-      aria-label={`สลับไปยังโหมด${isDark ? "สว่าง" : "มืด"}`}
-      aria-pressed={isDark}
-      title={`โหมดปัจจุบัน: ${isDark ? "มืด" : "สว่าง"} (คลิกเพื่อสลับ)`}
-      data-theme={theme}
-      className={`
-        btn btn-sm btn-outline flex items-center gap-2
-        transition-all duration-300 ease-in-out
-        focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
-        dark:focus-visible:ring-offset-gray-900
-        focus-visible:ring-indigo-500 dark:focus-visible:ring-indigo-400
-        ${isDark 
-          ? "btn-primary text-white bg-gray-800 hover:bg-gray-700"
-          : "btn-neutral text-gray-900 bg-white hover:bg-gray-100"
-        }
-      `}
+      aria-label="สลับโหมดแสง/มืด"
+      className="px-4 py-2 rounded-xl bg-primary text-white hover:bg-primary-dark transition duration-300 font-thai text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+      type="button"
     >
-      <span
-        aria-hidden="true"
-        className="text-lg transition-transform duration-300 ease-in-out transform hover:rotate-12"
-      >
-        {isDark ? <FaMoon /> : <FaSun />}
-      </span>
-      <span className="font-medium select-none">
-        {isDark ? "โหมดมืด" : "โหมดสว่าง"}
-      </span>
+      {theme === "light" ? "🌙 โหมดกลางคืน" : "☀️ โหมดกลางวัน"}
     </button>
   );
 };

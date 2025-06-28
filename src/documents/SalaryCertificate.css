@@ -36,6 +36,7 @@ body {
   flex-direction: column;
   overflow: hidden;
   margin: 20px auto;
+  user-select: text;
 }
 
 /* Watermark Layer */
@@ -59,6 +60,7 @@ body {
 /* Header */
 header.header {
   margin-bottom: 16px;
+  user-select: text;
 }
 
 header.header h1 {

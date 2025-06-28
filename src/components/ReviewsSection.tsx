@@ -1,5 +1,7 @@
+// src/components/ReviewsSection.tsx
 import React from "react";
 
+// รีวิวลูกค้า (import แบบเป็นระบบ)
 import review1 from "../assets/images/review/review1.png";
 import review2 from "../assets/images/review/review2.png";
 import review3 from "../assets/images/review/review3.png";
@@ -10,6 +12,9 @@ import review7 from "../assets/images/review/review7.png";
 import review8 from "../assets/images/review/review8.png";
 import review9 from "../assets/images/review/review9.png";
 import review10 from "../assets/images/review/review10.png";
+
+// fallback สำหรับ onError
+const fallbackImage = "/assets/images/fallback-image.png";
 
 const reviews = [
   { img: review1, alt: "รีวิวลูกค้า 1" },
@@ -49,11 +54,12 @@ const ReviewsSection: React.FC = () => {
                 alt={alt || `รีวิวลูกค้า ${index + 1}`}
                 loading="lazy"
                 decoding="async"
+                draggable={false}
                 onError={(e) => {
-                  e.currentTarget.onerror = null;
-                  e.currentTarget.src = "/assets/images/fallback-image.png";
+                  e.currentTarget.onerror = null; // ป้องกัน loop error
+                  e.currentTarget.src = fallbackImage;
                 }}
-                className="w-full h-auto object-cover opacity-0 animate-fadeIn"
+                className="w-full h-auto object-cover transition-opacity duration-500 opacity-0 animate-fadeIn"
               />
               <figcaption className="sr-only">{alt}</figcaption>
             </figure>

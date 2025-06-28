@@ -15,8 +15,9 @@ export const downloadPdf = async (
     const canvas = await html2canvas(element, {
       scale,
       useCORS: true,
-      allowTaint: true,
+      allowTaint: false, // false เพื่อความปลอดภัยและป้องกันปัญหา CORS
       scrollY: -window.scrollY,
+      backgroundColor: "#ffffff", // กำหนดพื้นหลังขาว ป้องกัน background โปร่งใส
     });
 
     const imgData = canvas.toDataURL("image/png");

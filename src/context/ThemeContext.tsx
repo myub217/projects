@@ -46,36 +46,38 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
     if (savedTheme === "light" || savedTheme === "dark") {
       applyTheme(savedTheme);
-    } else {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
-      applyTheme(prefersDark.matches ? "dark" : "light");
-
-      const listener = (e: MediaQueryListEvent) => {
-        applyTheme(e.matches ? "dark" : "light");
-      };
-
-      // รองรับทั้ง browser ใหม่และเก่า
-      if ("addEventListener" in prefersDark) {
-        prefersDark.addEventListener("change", listener);
-      } else {
-        prefersDark.addListener(listener);
-      }
-
-      return () => {
-        if ("removeEventListener" in prefersDark) {
-          prefersDark.removeEventListener("change", listener);
-        } else {
-          prefersDark.removeListener(listener);
-        }
-      };
+      return;
     }
+
+    // ถ้าไม่มี saved theme ให้ใช้ prefers-color-scheme
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+    applyTheme(prefersDark.matches ? "dark" : "light");
+
+    const listener = (e: MediaQueryListEvent) => {
+      applyTheme(e.matches ? "dark" : "light");
+    };
+
+    // รองรับ browser เก่าและใหม่
+    if ("addEventListener" in prefersDark) {
+      prefersDark.addEventListener("change", listener);
+    } else {
+      prefersDark.addListener(listener);
+    }
+
+    return () => {
+      if ("removeEventListener" in prefersDark) {
+        prefersDark.removeEventListener("change", listener);
+      } else {
+        prefersDark.removeListener(listener);
+      }
+    };
   }, [applyTheme]);
 
   useEffect(() => {
     try {
       localStorage.setItem("theme", theme);
     } catch {
-      // ป้องกัน error เช่น incognito
+      // ป้องกัน error เช่น incognito mode
     }
   }, [theme]);
 

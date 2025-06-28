@@ -1,6 +1,6 @@
 import { Service } from "../data/services";
 
-const LINE_ID = "@462FQTFC";
+const LINE_ID = "462FQTFC"; // ลบเครื่องหมาย @ ออกจาก LINE ID
 const BASE_URL = `https://line.me/R/ti/p/${LINE_ID}`;
 
 /**
