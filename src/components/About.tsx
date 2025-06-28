@@ -81,10 +81,10 @@ const About: React.FC = () => {
             id="about-title"
             className="flex items-center gap-3 text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mb-4"
           >
-            <FaUserTie className="text-blue-600 dark:text-white text-2xl" />
+            <FaUserTie className="text-blue-600 dark:text-white text-2xl" aria-hidden="true" />
             JP - VISUAL & DOCS
           </h2>
-          <hr className="border-white/20 dark:border-white/10 mb-6" />
+          <hr className="border-gray-300 dark:border-gray-700 mb-6" />
 
           <div className="text-gray-700 dark:text-gray-300 text-lg space-y-5 leading-relaxed">
             <p>
@@ -109,7 +109,7 @@ const About: React.FC = () => {
             </p>
 
             <blockquote
-              className="mt-8 text-right italic font-medium text-gray-600 dark:text-white/70 border-r-4 border-white/50 pr-4 flex flex-col items-end gap-2 max-w-xs"
+              className="mt-8 text-right italic font-medium text-gray-600 dark:text-white/70 border-r-4 border-gray-300 dark:border-white/50 pr-4 flex flex-col items-end gap-2 max-w-xs"
             >
               <motion.span
                 initial={{ opacity: 0, y: 10 }}
@@ -165,7 +165,7 @@ const About: React.FC = () => {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={name}
+                aria-label={`ลิงก์ไปยัง ${name}`}
                 className="hover:opacity-80 transition-opacity hover:scale-110 transform duration-300"
               >
                 <img
