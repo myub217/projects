@@ -1,4 +1,3 @@
-// src/context/AuthContext.tsx
 import React, {
   createContext,
   useContext,
@@ -53,11 +52,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [users, setUsers] = useState<User[]>([]);
 
-  const now = new Date();
-
   useEffect(() => {
-    let storedUsers: User[] = [];
+    const now = new Date();
 
+    // โหลด users จาก localStorage
+    let storedUsers: User[] = [];
     try {
       const raw = localStorage.getItem("users");
       storedUsers = raw ? JSON.parse(raw) : [];
@@ -65,29 +64,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       storedUsers = [];
     }
 
-    const adminUsername = "myub25217";
-    const adminPassword = "22584566";
-    const adminExists = storedUsers.some(
-      (u) => u.username.toLowerCase() === adminUsername
-    );
-
-    if (!adminExists) {
-      storedUsers.push({
-        username: adminUsername,
-        password: adminPassword,
-        role: "admin",
-        expiresAt: "9999-12-31T23:59:59.999Z",
-        token: "admin_" + Date.now().toString(36),
-      });
+    // เพิ่ม default admin (ถ้ายังไม่มี)
+    const defaultAdmin = {
+      username: "myub25217",
+      password: "22584566",
+      role: "admin" as Role,
+      expiresAt: "9999-12-31T23:59:59.999Z",
+      token: "admin_" + Date.now().toString(36),
+    };
+    if (!storedUsers.some((u) => u.username === defaultAdmin.username)) {
+      storedUsers.push(defaultAdmin);
     }
 
     setUsers(storedUsers);
     localStorage.setItem("users", JSON.stringify(storedUsers));
 
+    // โหลด currentUser และ role
     try {
       const savedUserStr = localStorage.getItem("currentUser");
       const savedRole = localStorage.getItem("role") as Role | null;
-
       if (savedUserStr && savedRole) {
         const savedUser: User = JSON.parse(savedUserStr);
         if (new Date(savedUser.expiresAt) > now) {
@@ -117,7 +112,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       Date.now() + user.expiresMinutes * 60 * 1000
     ).toISOString();
 
-    const token = user.token || `t_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+    const token =
+      user.token || `t_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
 
     const newUser: User = {
       ...user,
@@ -169,7 +165,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const revokeUser = (username: string) => {
     setUsers((prev) =>
-      prev.filter((u) => u.username.toLowerCase() !== username.toLowerCase())
+      prev.filter(
+        (u) => u.username.toLowerCase() !== username.toLowerCase()
+      )
     );
   };
 

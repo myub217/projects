@@ -1,4 +1,3 @@
-// src/pages/LoginPage.tsx
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
@@ -6,41 +5,53 @@ import { useAuth } from "@/context/AuthContext";
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { validateUser, loginAs } = useAuth();
+  const { loginAs } = useAuth(); // ลบ validateUser ออก
 
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // เส้นทางปลายทางหลังล็อกอินสำเร็จ
-  const secretRoomPath = "/secret-room";
+  const secretRoomPath = "/secret"; // เส้นทางปลายทางหลังเข้าสู่ระบบ
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     setMessage("");
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
 
-    const username = formData.username.trim();
-    const password = formData.password;
+    const { username, password } = formData;
 
-    // ตรวจสอบ user กับระบบ
-    const user = validateUser(username, password);
+    try {
+      const res = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: username.trim(), password }),
+      });
 
-    setTimeout(() => {
-      if (user) {
-        loginAs(user);
-        // ทุกคนล็อกอินแล้วจะไป SecretRoomPage
+      const result = await res.json();
+
+      if (res.ok && result.success) {
+        loginAs({
+          username: result.data.username,
+          role: result.data.role,
+          token: result.data.token,
+          expiresAt: Date.now() + 60 * 60 * 1000, // optional: กำหนดหมดอายุ 1 ชม.
+        });
+
         navigate(secretRoomPath, { replace: true });
       } else {
-        setMessage("❌ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้องหรือหมดอายุ");
+        setMessage(result.message || "⚠️ ไม่สามารถเข้าสู่ระบบได้");
       }
+    } catch (err) {
+      console.error("Login error:", err);
+      setMessage("🚫 ขัดข้องในการเชื่อมต่อกับเซิร์ฟเวอร์");
+    } finally {
       setLoading(false);
-    }, 400);
+    }
   };
 
   return (
@@ -62,7 +73,9 @@ const LoginPage: React.FC = () => {
             <div
               id="login-message"
               className={`text-sm text-center ${
-                message.startsWith("❌") ? "text-red-500" : "text-green-600"
+                message.startsWith("✅")
+                  ? "text-green-600"
+                  : "text-red-500 dark:text-red-400"
               }`}
               role="alert"
               aria-live="assertive"
