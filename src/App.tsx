@@ -4,7 +4,6 @@ import {
   Routes,
   Route,
   useNavigate,
-  useLocation,
   Outlet,
 } from "react-router-dom";
 
@@ -16,7 +15,7 @@ import SecretRoomPage from "@/pages/SecretRoomPage";
 import MainLayout from "@/layout/MainLayout";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
-// ✅ 404 Not Found Page
+// ✅ หน้า 404
 const NotFoundPage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -28,21 +27,10 @@ const NotFoundPage: React.FC = () => {
       className="min-h-screen flex flex-col justify-center items-center px-4 bg-gradient-to-tr from-red-50 via-white to-red-100 dark:from-red-900 dark:via-gray-900 dark:to-red-900 transition-colors duration-700"
     >
       <div className="max-w-xl w-full text-center bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8">
-        <h1
-          id="notfound-title"
-          aria-live="assertive"
-          className="text-6xl font-extrabold text-red-600 mb-6"
-        >
-          404
-        </h1>
-        <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
-          ไม่พบหน้าที่คุณค้นหา
-        </h2>
-        <p
-          id="notfound-desc"
-          className="text-base text-gray-700 dark:text-gray-300 mb-8"
-        >
-          หน้าเว็บนี้อาจถูกลบ หรือที่อยู่ URL อาจเปลี่ยนแปลง กรุณาตรวจสอบอีกครั้ง
+        <h1 id="notfound-title" className="text-6xl font-extrabold text-red-600 mb-6">404</h1>
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">ไม่พบหน้าที่คุณค้นหา</h2>
+        <p id="notfound-desc" className="text-base text-gray-700 dark:text-gray-300 mb-8">
+          หน้าเว็บนี้อาจถูกลบ หรือที่อยู่ URL อาจเปลี่ยน กรุณาตรวจสอบอีกครั้ง
         </p>
         <button
           type="button"
@@ -57,32 +45,25 @@ const NotFoundPage: React.FC = () => {
   );
 };
 
-// ✅ Wrapper เพื่อส่ง navigate/location ให้ HomePage (ถ้าจำเป็น)
-const HomePageWithRouter: React.FC = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  return <HomePage router={{ navigate, location }} />;
-};
-
-// ✅ Layout Route Wrapper
+// ✅ Layout ครอบหน้าเพจปกติ
 const LayoutRoute: React.FC = () => (
   <MainLayout>
     <Outlet />
   </MainLayout>
 );
 
-// ✅ App Routes หลัก
+// ✅ Routes หลัก
 const App: React.FC = () => (
   <Routes>
-    {/* 🔐 Login Page (ไม่ใช้ Layout) */}
+    {/* 🔐 หน้า Login */}
     <Route path="/login" element={<LoginPage />} />
 
-    {/* 📦 Pages ที่ใช้ MainLayout ครอบ */}
+    {/* 📦 Routes ที่อยู่ใน Layout */}
     <Route element={<LayoutRoute />}>
-      <Route path="/" element={<HomePageWithRouter />} />
+      <Route path="/" element={<HomePage />} />
       <Route path="/services" element={<ServicesPage />} />
 
-      {/* 🔐 ห้องลับ - กำหนดเฉพาะ role ที่ต้องการ */}
+      {/* 🔒 Protected Route */}
       <Route
         path="/secret-room"
         element={
@@ -93,7 +74,7 @@ const App: React.FC = () => (
       />
     </Route>
 
-    {/* ❌ หน้า Not Found สำหรับ path ไม่ตรง */}
+    {/* ❌ ไม่พบหน้า */}
     <Route path="*" element={<NotFoundPage />} />
   </Routes>
 );

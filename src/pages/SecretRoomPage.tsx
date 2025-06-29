@@ -1,3 +1,4 @@
+// src/pages/SecretRoomPage.tsx
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import SEOHelmet from "@/components/SEOHelmet";
@@ -148,11 +149,10 @@ const SecretRoomPage: React.FC = () => {
 
       <main className="min-h-screen bg-gradient-to-b from-base-100 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-16 px-4">
         <div className="max-w-6xl mx-auto space-y-12">
+          {/* Breadcrumb & Logout */}
           <nav className="flex justify-between text-sm text-neutral-600 dark:text-neutral-400">
             <div>
-              <a href="/" className="hover:underline">
-                หน้าแรก
-              </a>
+              <a href="/" className="hover:underline">หน้าแรก</a>
               <span className="text-primary dark:text-accent"> / ห้องลับ</span>
             </div>
             <button
@@ -170,13 +170,13 @@ const SecretRoomPage: React.FC = () => {
             </button>
           </nav>
 
+          {/* Header */}
           <header className="text-center space-y-3">
             <h1 className="text-3xl sm:text-5xl font-bold text-primary dark:text-accent">
               🔒 ห้องลับเฉพาะสมาชิก
             </h1>
             <p className="text-neutral-800 dark:text-neutral-300" tabIndex={0}>
-              ยินดีต้อนรับ <strong>{currentUser?.username}</strong>
-              <br />
+              ยินดีต้อนรับ <strong>{currentUser?.username}</strong><br />
               บัญชีหมดอายุใน: <strong>{timeLeft}</strong>
             </p>
             <div
@@ -194,7 +194,7 @@ const SecretRoomPage: React.FC = () => {
             </div>
           </header>
 
-          {/* ทะเบียนพาณิชย์ */}
+          {/* ใบทะเบียนพาณิชย์ */}
           <section
             className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4"
             aria-label="ใบทะเบียนพาณิชย์"
@@ -216,25 +216,13 @@ const SecretRoomPage: React.FC = () => {
               />
             </div>
             <div className="text-right space-x-2">
-              <button
-                className="btn btn-sm"
-                onClick={() => handleDownload(businessRef, "png")}
-                aria-label="ดาวน์โหลดใบทะเบียนพาณิชย์เป็น PNG"
-              >
+              <button className="btn btn-sm" onClick={() => handleDownload(businessRef, "png")}>
                 ดาวน์โหลด PNG
               </button>
-              <button
-                className="btn btn-sm btn-outline"
-                onClick={() => handleDownload(businessRef, "pdf")}
-                aria-label="ดาวน์โหลดใบทะเบียนพาณิชย์เป็น PDF"
-              >
+              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(businessRef, "pdf")}>
                 ดาวน์โหลด PDF
               </button>
-              <button
-                className="btn btn-sm btn-ghost"
-                onClick={() => handlePrint(businessRef)}
-                aria-label="พิมพ์ใบทะเบียนพาณิชย์"
-              >
+              <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(businessRef)}>
                 พิมพ์เอกสาร
               </button>
             </div>
@@ -262,25 +250,13 @@ const SecretRoomPage: React.FC = () => {
               />
             </div>
             <div className="text-right space-x-2">
-              <button
-                className="btn btn-sm"
-                onClick={() => handleDownload(salaryRef, "png")}
-                aria-label="ดาวน์โหลดหนังสือรับรองเงินเดือนเป็น PNG"
-              >
+              <button className="btn btn-sm" onClick={() => handleDownload(salaryRef, "png")}>
                 ดาวน์โหลด PNG
               </button>
-              <button
-                className="btn btn-sm btn-outline"
-                onClick={() => handleDownload(salaryRef, "pdf")}
-                aria-label="ดาวน์โหลดหนังสือรับรองเงินเดือนเป็น PDF"
-              >
+              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(salaryRef, "pdf")}>
                 ดาวน์โหลด PDF
               </button>
-              <button
-                className="btn btn-sm btn-ghost"
-                onClick={() => handlePrint(salaryRef)}
-                aria-label="พิมพ์หนังสือรับรองเงินเดือน"
-              >
+              <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(salaryRef)}>
                 พิมพ์เอกสาร
               </button>
             </div>

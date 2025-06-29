@@ -1,4 +1,4 @@
-// src/main.tsx (Entry Point)
+// src/main.tsx
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
@@ -7,8 +7,9 @@ import { HelmetProvider } from "react-helmet-async";
 import App from "./App";
 
 const rootElement = document.getElementById("root");
-
-if (!rootElement) throw new Error('Root element with id "root" not found');
+if (!rootElement) {
+  throw new Error('Root element with id "root" not found');
+}
 
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
