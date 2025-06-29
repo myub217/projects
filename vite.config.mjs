@@ -35,7 +35,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        mode: "development", // ⚠️ เปลี่ยนเป็น "production" ตอน build
+        mode: process.env.NODE_ENV === "production" ? "production" : "development",
       },
     }),
 

@@ -11,6 +11,8 @@ interface LoginResponse {
   };
 }
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"; // ✅ รองรับ ENV
+
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -28,7 +30,7 @@ const LoginPage: React.FC = () => {
     setMessage("");
 
     try {
-      const res = await fetch("http://localhost:3000/api/login", {
+      const res = await fetch(`${API_BASE_URL}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -43,7 +45,7 @@ const LoginPage: React.FC = () => {
 
         setMessage("✅ เข้าสู่ระบบสำเร็จ กำลังนำทาง...");
         setTimeout(() => {
-          navigate("/user"); // นำทางไปหน้า /user
+          navigate("/secret-room"); // ✅ เปลี่ยนจาก /user เป็น /secret-room
         }, 1000);
       } else {
         setMessage(result.message || "❌ ล็อกอินไม่สำเร็จ");
@@ -72,7 +74,7 @@ const LoginPage: React.FC = () => {
             role="alert"
             className={`mb-4 text-center ${
               message.startsWith("✅")
-                ? "text-green-600"
+                ? "text-green-600 dark:text-green-400"
                 : "text-red-600 dark:text-red-400"
             }`}
             aria-live="assertive"

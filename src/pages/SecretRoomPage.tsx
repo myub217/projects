@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import SEOHelmet from "@/components/SEOHelmet";
 import { useAuth } from "@/context/AuthContext";
 
-const ADMIN_USERNAME = "admin"; // เปลี่ยนจาก myub25217 เป็น admin
+const ADMIN_USERNAME = "admin";
 
 const SecretRoomPage: React.FC = () => {
   const { currentUser, logout } = useAuth();
@@ -213,7 +213,7 @@ const SecretRoomPage: React.FC = () => {
               className="border rounded bg-white dark:bg-gray-900 flex justify-center overflow-x-auto"
             >
               <iframe
-                src={`${window.location.origin}/business-registration.html`}
+                src="/business-registration.html"
                 width="794"
                 height="1123"
                 className="shadow-md"
@@ -247,7 +247,7 @@ const SecretRoomPage: React.FC = () => {
               className="border rounded bg-white dark:bg-gray-900 flex justify-center overflow-x-auto"
             >
               <iframe
-                src={`${window.location.origin}/salary-certificate.html`}
+                src="/salary-certificate.html"
                 width="794"
                 height="1123"
                 className="shadow-md"
