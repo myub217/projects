@@ -3,15 +3,15 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
-// ✅ คอนฟิกจาก Firebase Console
+// ✅ โหลดค่า config จาก environment variables (Vite จะเริ่มต้นด้วย VITE_ เท่านั้น)
 const firebaseConfig = {
-  apiKey: "AIzaSyBBtKGbuRB4f5F6oQEywm3AX-fn5WWpzHM",
-  authDomain: "application-6de2f.firebaseapp.com",
-  projectId: "application-6de2f",
-  storageBucket: "application-6de2f.firebasestorage.app",
-  messagingSenderId: "208086903851",
-  appId: "1:208086903851:web:6e0a8e697491a18ef20e6e",
-  measurementId: "G-KFCXDPCSHC",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 // ✅ ตรวจสอบก่อน initialize เพื่อไม่ให้ซ้ำ
