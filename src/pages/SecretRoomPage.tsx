@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import SEOHelmet from "@/components/SEOHelmet";
 import { useAuth } from "@/context/AuthContext";
 
-const ADMIN_USERNAME = "myub25217";
+const ADMIN_USERNAME = "admin"; // เปลี่ยนจาก myub25217 เป็น admin
 
 const SecretRoomPage: React.FC = () => {
   const { currentUser, logout } = useAuth();
@@ -17,7 +17,6 @@ const SecretRoomPage: React.FC = () => {
   const businessRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // ตรวจสอบว่า login หรือไม่ และต้องเป็น admin เท่านั้น
     if (
       !currentUser ||
       currentUser.username.toLowerCase() !== ADMIN_USERNAME.toLowerCase() ||
@@ -83,15 +82,16 @@ const SecretRoomPage: React.FC = () => {
         const pdf = new jsPDF("p", "mm", "a4");
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = pdf.internal.pageSize.getHeight();
-        const imgProps = {
-          width: canvas.width,
-          height: canvas.height,
-        };
-        const ratio = Math.min(pdfWidth / imgProps.width, pdfHeight / imgProps.height);
-        const imgWidth = imgProps.width * ratio;
-        const imgHeight = imgProps.height * ratio;
+        const ratio = Math.min(pdfWidth / canvas.width, pdfHeight / canvas.height);
 
-        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+        pdf.addImage(
+          imgData,
+          "PNG",
+          0,
+          0,
+          canvas.width * ratio,
+          canvas.height * ratio
+        );
         pdf.save("document.pdf");
       }
     } catch (error) {
@@ -111,7 +111,8 @@ const SecretRoomPage: React.FC = () => {
       <html lang="th">
         <head>
           <meta charset="UTF-8" />
-          <title>Print Document</title>
+          <title>พิมพ์เอกสาร</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <style>
             @import url('https://fonts.googleapis.com/css2?family=Sarabun&display=swap');
             body {
@@ -151,7 +152,7 @@ const SecretRoomPage: React.FC = () => {
         description="พื้นที่พิเศษสำหรับสมาชิกที่ได้รับอนุญาต"
       />
 
-      <main className="min-h-screen bg-gradient-to-b from-base-100 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-16 px-4 sm:px-6 lg:px-8">
+      <main className="min-h-screen bg-gradient-to-b from-base-100 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-16 px-4">
         <div className="max-w-6xl mx-auto space-y-12">
           <nav className="flex justify-between text-sm text-neutral-600 dark:text-neutral-400">
             <div>
@@ -199,7 +200,7 @@ const SecretRoomPage: React.FC = () => {
             </div>
           </header>
 
-          {/* ใบทะเบียนพาณิชย์ */}
+          {/* ทะเบียนพาณิชย์ */}
           <section
             className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 space-y-4"
             aria-label="ใบทะเบียนพาณิชย์"
@@ -212,32 +213,22 @@ const SecretRoomPage: React.FC = () => {
               className="border rounded bg-white dark:bg-gray-900 flex justify-center overflow-x-auto"
             >
               <iframe
-                src="/business-registration.html"
+                src={`${window.location.origin}/business-registration.html`}
                 width="794"
                 height="1123"
                 className="shadow-md"
                 title="ใบทะเบียนพาณิชย์"
-                aria-label="แสดงใบทะเบียนพาณิชย์"
                 sandbox="allow-same-origin allow-scripts allow-forms"
               />
             </div>
             <div className="text-right space-x-2">
-              <button
-                className="btn btn-sm"
-                onClick={() => handleDownload(businessRef, "png")}
-              >
+              <button className="btn btn-sm" onClick={() => handleDownload(businessRef, "png")}>
                 ดาวน์โหลด PNG
               </button>
-              <button
-                className="btn btn-sm btn-outline"
-                onClick={() => handleDownload(businessRef, "pdf")}
-              >
+              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(businessRef, "pdf")}>
                 ดาวน์โหลด PDF
               </button>
-              <button
-                className="btn btn-sm btn-ghost"
-                onClick={() => handlePrint(businessRef)}
-              >
+              <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(businessRef)}>
                 พิมพ์เอกสาร
               </button>
             </div>
@@ -256,32 +247,22 @@ const SecretRoomPage: React.FC = () => {
               className="border rounded bg-white dark:bg-gray-900 flex justify-center overflow-x-auto"
             >
               <iframe
-                src="/salary-certificate.html"
+                src={`${window.location.origin}/salary-certificate.html`}
                 width="794"
                 height="1123"
                 className="shadow-md"
                 title="หนังสือรับรองเงินเดือน"
-                aria-label="แสดงหนังสือรับรองเงินเดือน"
                 sandbox="allow-same-origin allow-scripts allow-forms"
               />
             </div>
             <div className="text-right space-x-2">
-              <button
-                className="btn btn-sm"
-                onClick={() => handleDownload(salaryRef, "png")}
-              >
+              <button className="btn btn-sm" onClick={() => handleDownload(salaryRef, "png")}>
                 ดาวน์โหลด PNG
               </button>
-              <button
-                className="btn btn-sm btn-outline"
-                onClick={() => handleDownload(salaryRef, "pdf")}
-              >
+              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(salaryRef, "pdf")}>
                 ดาวน์โหลด PDF
               </button>
-              <button
-                className="btn btn-sm btn-ghost"
-                onClick={() => handlePrint(salaryRef)}
-              >
+              <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(salaryRef)}>
                 พิมพ์เอกสาร
               </button>
             </div>

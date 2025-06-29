@@ -4,34 +4,28 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
+import morgan from "morgan";
+
+import loginRouter from "./routes/login.mjs";
 import accessKeyRouter from "./routes/accessKey.mjs";
 
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
-// ✅ Middleware
-app.use(cors());          // เปิดใช้งาน CORS
-app.use(express.json());  // แปลง JSON body อัตโนมัติ
+app.use(cors());
+app.use(express.json());
+app.use(morgan("dev"));
 
-// ✅ Routes
+app.use("/api/login", loginRouter);
 app.use("/api/check-access-key", accessKeyRouter);
 
-// ✅ Default Route
 app.get("/", (req, res) => {
   res.send("🌐 JP Visual & Docs API is running.");
 });
 
-// ✅ Global Error Handlers
-process.on("uncaughtException", (err) => {
-  console.error("💥 Uncaught Exception:", err);
-});
-process.on("unhandledRejection", (reason, promise) => {
-  console.error("⚠️ Unhandled Rejection at:", promise, "reason:", reason);
-});
+process.on("uncaughtException", (err) => console.error("Uncaught Exception:", err));
+process.on("unhandledRejection", (reason, p) => console.error("Unhandled Rejection:", p, reason));
 
-// ✅ Start Server
-app.listen(port, () => {
-  console.log(`🚀 Server running at http://localhost:${port}`);
-});
+app.listen(PORT, () => console.log(`🚀 Server running at http://localhost:${PORT}`));
 
 export default app;
