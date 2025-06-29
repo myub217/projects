@@ -15,11 +15,14 @@ const Layout: React.FC<LayoutProps> = ({ children, className = "" }) => {
 
   // 📦 ใช้ useCallback เพื่อป้องกันการสร้างฟังก์ชันใหม่ทุก render
   const handleScroll = useCallback(() => {
+    if (typeof window === "undefined") return; // ป้องกัน SSR error
     const scrolled = window.scrollY > 100;
     setIsScrolled(scrolled);
   }, []);
 
   useEffect(() => {
+    if (typeof window === "undefined") return; // ป้องกัน SSR error
+
     // 🎯 ติดตาม scroll ทันทีที่ component mount
     window.addEventListener("scroll", handleScroll);
     handleScroll(); // ตรวจสอบ scroll ตอนแรก

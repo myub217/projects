@@ -12,16 +12,17 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole 
   const { currentUser } = useAuth();
   const location = useLocation();
 
-  // ✅ ไม่ได้ login → ส่งกลับ login พร้อม path เดิม
+  // หากยังไม่ login ให้ redirect ไปหน้า /login พร้อมเก็บ path เดิม (location)
   if (!currentUser) {
-    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // ✅ มี role ที่กำหนดไว้ และไม่ตรง → ส่งกลับหน้าหลัก
+  // ถ้ามี requiredRole กำหนดไว้ และ role ของผู้ใช้ไม่ตรงกับที่กำหนด ให้ redirect กลับหน้าแรก
   if (requiredRole && currentUser.role !== requiredRole) {
     return <Navigate to="/" replace />;
   }
 
+  // ผ่านการตรวจสอบทุกข้อ แสดง children (หน้าเป้าหมาย)
   return <>{children}</>;
 };
 

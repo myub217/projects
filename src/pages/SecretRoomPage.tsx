@@ -1,10 +1,7 @@
-// src/pages/SecretRoomPage.tsx
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import SEOHelmet from "@/components/SEOHelmet";
 import { useAuth } from "@/context/AuthContext";
-
-const ADMIN_USERNAME = "admin";
 
 const SecretRoomPage: React.FC = () => {
   const { currentUser, logout } = useAuth();
@@ -17,11 +14,8 @@ const SecretRoomPage: React.FC = () => {
   const businessRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (
-      !currentUser ||
-      currentUser.username.toLowerCase() !== ADMIN_USERNAME.toLowerCase() ||
-      !currentUser.expiresAt
-    ) {
+    if (!currentUser || !currentUser.expiresAt) {
+      logout();
       navigate("/login", { replace: true });
       return;
     }
@@ -222,13 +216,25 @@ const SecretRoomPage: React.FC = () => {
               />
             </div>
             <div className="text-right space-x-2">
-              <button className="btn btn-sm" onClick={() => handleDownload(businessRef, "png")}>
+              <button
+                className="btn btn-sm"
+                onClick={() => handleDownload(businessRef, "png")}
+                aria-label="ดาวน์โหลดใบทะเบียนพาณิชย์เป็น PNG"
+              >
                 ดาวน์โหลด PNG
               </button>
-              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(businessRef, "pdf")}>
+              <button
+                className="btn btn-sm btn-outline"
+                onClick={() => handleDownload(businessRef, "pdf")}
+                aria-label="ดาวน์โหลดใบทะเบียนพาณิชย์เป็น PDF"
+              >
                 ดาวน์โหลด PDF
               </button>
-              <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(businessRef)}>
+              <button
+                className="btn btn-sm btn-ghost"
+                onClick={() => handlePrint(businessRef)}
+                aria-label="พิมพ์ใบทะเบียนพาณิชย์"
+              >
                 พิมพ์เอกสาร
               </button>
             </div>
@@ -256,13 +262,25 @@ const SecretRoomPage: React.FC = () => {
               />
             </div>
             <div className="text-right space-x-2">
-              <button className="btn btn-sm" onClick={() => handleDownload(salaryRef, "png")}>
+              <button
+                className="btn btn-sm"
+                onClick={() => handleDownload(salaryRef, "png")}
+                aria-label="ดาวน์โหลดหนังสือรับรองเงินเดือนเป็น PNG"
+              >
                 ดาวน์โหลด PNG
               </button>
-              <button className="btn btn-sm btn-outline" onClick={() => handleDownload(salaryRef, "pdf")}>
+              <button
+                className="btn btn-sm btn-outline"
+                onClick={() => handleDownload(salaryRef, "pdf")}
+                aria-label="ดาวน์โหลดหนังสือรับรองเงินเดือนเป็น PDF"
+              >
                 ดาวน์โหลด PDF
               </button>
-              <button className="btn btn-sm btn-ghost" onClick={() => handlePrint(salaryRef)}>
+              <button
+                className="btn btn-sm btn-ghost"
+                onClick={() => handlePrint(salaryRef)}
+                aria-label="พิมพ์หนังสือรับรองเงินเดือน"
+              >
                 พิมพ์เอกสาร
               </button>
             </div>

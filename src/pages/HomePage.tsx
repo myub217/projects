@@ -1,3 +1,4 @@
+// src/pages/HomePage.tsx
 import React, {
   lazy,
   Suspense,

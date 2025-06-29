@@ -1,4 +1,3 @@
-// src/components/JoinButtons.tsx
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaFacebookMessenger, FaLine, FaCopy, FaCheckCircle } from "react-icons/fa";

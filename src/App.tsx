@@ -8,7 +8,7 @@ import {
   Outlet,
 } from "react-router-dom";
 
-import IndexPage from "@/pages";
+import HomePage from "@/pages/HomePage";
 import LoginPage from "@/pages/LoginPage";
 import ServicesPage from "@/pages/ServicesPage";
 import SecretRoomPage from "@/pages/SecretRoomPage";
@@ -16,7 +16,7 @@ import SecretRoomPage from "@/pages/SecretRoomPage";
 import MainLayout from "@/layout/MainLayout";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
-// ✅ 404 หน้าไม่พบ
+// ✅ 404 Not Found Page
 const NotFoundPage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -48,6 +48,7 @@ const NotFoundPage: React.FC = () => {
           type="button"
           onClick={() => navigate("/")}
           className="btn btn-primary"
+          aria-label="กลับสู่หน้าหลัก"
         >
           กลับสู่หน้าหลัก
         </button>
@@ -56,31 +57,32 @@ const NotFoundPage: React.FC = () => {
   );
 };
 
-// ✅ Wrapper เพื่อส่ง navigate/location ให้หน้าแรกถ้าใช้
-const IndexPageWithRouter: React.FC = () => {
+// ✅ Wrapper เพื่อส่ง navigate/location ให้ HomePage (ถ้าจำเป็น)
+const HomePageWithRouter: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  return <IndexPage router={{ navigate, location }} />;
+  return <HomePage router={{ navigate, location }} />;
 };
 
-// ✅ Layout Wrapper (MainLayout)
+// ✅ Layout Route Wrapper
 const LayoutRoute: React.FC = () => (
   <MainLayout>
     <Outlet />
   </MainLayout>
 );
 
+// ✅ App Routes หลัก
 const App: React.FC = () => (
   <Routes>
-    {/* ✅ หน้า Login (ไม่อยู่ใน Layout) */}
+    {/* 🔐 Login Page (ไม่ใช้ Layout) */}
     <Route path="/login" element={<LoginPage />} />
 
-    {/* ✅ Routes ที่ใช้ Layout */}
+    {/* 📦 Pages ที่ใช้ MainLayout ครอบ */}
     <Route element={<LayoutRoute />}>
-      <Route path="/" element={<IndexPageWithRouter />} />
+      <Route path="/" element={<HomePageWithRouter />} />
       <Route path="/services" element={<ServicesPage />} />
 
-      {/* ✅ Secret Room เฉพาะ role admin */}
+      {/* 🔐 ห้องลับ - กำหนดเฉพาะ role ที่ต้องการ */}
       <Route
         path="/secret-room"
         element={
@@ -91,7 +93,7 @@ const App: React.FC = () => (
       />
     </Route>
 
-    {/* ✅ Fallback 404 */}
+    {/* ❌ หน้า Not Found สำหรับ path ไม่ตรง */}
     <Route path="*" element={<NotFoundPage />} />
   </Routes>
 );

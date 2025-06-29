@@ -10,12 +10,11 @@ type HeroProps = {
   buttonText?: string;
 };
 
-const Hero: React.FC<HeroProps> = ({
-  buttonText = "เข้าสู่ระบบลับ",
-}) => {
+const Hero: React.FC<HeroProps> = ({ buttonText = "เข้าสู่ระบบลับ" }) => {
   const navigate = useNavigate();
 
-  const handleLoginClick = () => {
+  const handleLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     navigate("/login");
   };
 
@@ -31,7 +30,7 @@ const Hero: React.FC<HeroProps> = ({
         backgroundSize: "cover",
         backgroundPosition: "center top",
         boxShadow: "inset 0 0 100px rgb(0 0 0 / 0.5)",
-        filter: "brightness(1.2) contrast(1.1)",
+        filter: "brightness(1.15) contrast(1.1)",
       }}
     >
       <motion.div
@@ -48,8 +47,8 @@ const Hero: React.FC<HeroProps> = ({
           className="select-none pointer-events-none w-20 sm:w-40 translate-y-2 sm:translate-y-1"
           style={{
             filter: `
-              brightness(2.3)
-              contrast(2)
+              brightness(2.2)
+              contrast(1.9)
               drop-shadow(0 0 3px rgba(255,255,255,0.5))
               drop-shadow(0 0 4px rgba(255,255,255,0.25))
             `,
@@ -58,12 +57,15 @@ const Hero: React.FC<HeroProps> = ({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.1, delay: 0.5 }}
+          onError={(e) => {
+            (e.target as HTMLImageElement).style.display = "none";
+          }}
         />
 
         <motion.button
           onClick={handleLoginClick}
           aria-label="เข้าสู่ระบบลับ"
-          title="สำหรับผู้ที่รู้จักเท่านั้น"
+          title="เข้าสู่พื้นที่เฉพาะสมาชิก"
           type="button"
           className="inline-flex items-center gap-1.5 sm:gap-3 bg-white bg-opacity-90 text-gray-900 font-semibold
             px-4 py-1.5 sm:px-9 sm:py-3 rounded-full shadow-md
@@ -71,7 +73,7 @@ const Hero: React.FC<HeroProps> = ({
             transition-transform duration-300 focus:outline-none focus:ring-4 focus:ring-gray-400"
           style={{ boxShadow: "0 2px 10px rgb(0 0 0 / 0.15)" }}
           whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.98 }}
+          whileTap={{ scale: 0.97 }}
         >
           <FaLock className="text-base sm:text-xl" aria-hidden="true" />
           <span className="text-xs sm:text-base">{buttonText}</span>
