@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 interface LoginResponse {
   success: boolean;
@@ -11,10 +11,14 @@ interface LoginResponse {
   };
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"; // ✅ รองรับ ENV
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const fromPath = (location.state as { from?: string })?.from || "/secret-room";
+
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -45,7 +49,7 @@ const LoginPage: React.FC = () => {
 
         setMessage("✅ เข้าสู่ระบบสำเร็จ กำลังนำทาง...");
         setTimeout(() => {
-          navigate("/secret-room"); // ✅ เปลี่ยนจาก /user เป็น /secret-room
+          navigate(fromPath, { replace: true }); // ✅ กลับไปหน้าก่อนหน้า
         }, 1000);
       } else {
         setMessage(result.message || "❌ ล็อกอินไม่สำเร็จ");

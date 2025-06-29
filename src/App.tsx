@@ -11,12 +11,12 @@ import {
 import IndexPage from "@/pages";
 import LoginPage from "@/pages/LoginPage";
 import ServicesPage from "@/pages/ServicesPage";
-import SecretRoomPage from "@/pages/SecretRoomPage"; // ✅ เพิ่ม SecretRoomPage
+import SecretRoomPage from "@/pages/SecretRoomPage";
 
 import MainLayout from "@/layout/MainLayout";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
-// หน้า 404
+// ✅ 404 หน้าไม่พบ
 const NotFoundPage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -56,14 +56,14 @@ const NotFoundPage: React.FC = () => {
   );
 };
 
-// Wrapper เพื่อส่ง router props ให้ IndexPage ถ้าต้องการ
+// ✅ Wrapper เพื่อส่ง navigate/location ให้หน้าแรกถ้าใช้
 const IndexPageWithRouter: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   return <IndexPage router={{ navigate, location }} />;
 };
 
-// Route wrapper สำหรับ MainLayout
+// ✅ Layout Wrapper (MainLayout)
 const LayoutRoute: React.FC = () => (
   <MainLayout>
     <Outlet />
@@ -72,26 +72,26 @@ const LayoutRoute: React.FC = () => (
 
 const App: React.FC = () => (
   <Routes>
-    {/* ✅ Login route (ไม่ใช้ Layout) */}
+    {/* ✅ หน้า Login (ไม่อยู่ใน Layout) */}
     <Route path="/login" element={<LoginPage />} />
 
-    {/* ✅ Layout routes */}
+    {/* ✅ Routes ที่ใช้ Layout */}
     <Route element={<LayoutRoute />}>
       <Route path="/" element={<IndexPageWithRouter />} />
       <Route path="/services" element={<ServicesPage />} />
 
-      {/* ✅ เพิ่ม SecretRoomPage พร้อม Auth Guard */}
+      {/* ✅ Secret Room เฉพาะ role admin */}
       <Route
         path="/secret-room"
         element={
-          <ProtectedRoute requiredRole="member"> {/* หรือ "admin", "vip" ตามที่คุณกำหนด */}
+          <ProtectedRoute requiredRole="admin">
             <SecretRoomPage />
           </ProtectedRoute>
         }
       />
     </Route>
 
-    {/* ✅ 404 fallback */}
+    {/* ✅ Fallback 404 */}
     <Route path="*" element={<NotFoundPage />} />
   </Routes>
 );
