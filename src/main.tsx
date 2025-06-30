@@ -5,20 +5,20 @@ import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 
 import App from "./App";
-import { AuthProvider } from "@/context/AuthContext"; // ✅ สำคัญมาก
+import { AuthProvider } from "@/context/AuthContext"; // ✅ Auth provider
 
-// ✅ ตรวจสอบว่า root element มีอยู่ใน index.html
+// ✅ ตรวจสอบ root element
 const rootElement = document.getElementById("root");
 if (!rootElement) {
   throw new Error('❌ ไม่พบ root element ที่มี id="root" ใน index.html');
 }
 
-// ✅ Render React App ครบโครงสร้าง
+// ✅ Render
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <HelmetProvider>
       <BrowserRouter>
-        <AuthProvider> {/* ✅ เพิ่ม AuthProvider ครอบ App */}
+        <AuthProvider>
           <App />
         </AuthProvider>
       </BrowserRouter>

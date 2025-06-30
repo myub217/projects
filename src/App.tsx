@@ -1,11 +1,6 @@
 // src/App.tsx
 import React from "react";
-import {
-  Routes,
-  Route,
-  useNavigate,
-  Outlet,
-} from "react-router-dom";
+import { Routes, Route, useNavigate, Outlet } from "react-router-dom";
 
 import HomePage from "@/pages/HomePage";
 import LoginPage from "@/pages/LoginPage";
@@ -49,29 +44,26 @@ const NotFoundPage: React.FC = () => {
   );
 };
 
-// ✅ Route Wrapper ที่มี Layout ครอบ (ใช้ Outlet สำหรับ render ลูก)
+// ✅ Wrapper route สำหรับ Layout
 const LayoutRoute: React.FC = () => (
   <MainLayout>
     <Outlet />
   </MainLayout>
 );
 
-// ✅ Main App Router
+// ✅ เส้นทางทั้งหมดของแอป
 const App: React.FC = () => {
   return (
     <Routes>
-      {/* 🔐 หน้า Login (ไม่ใช้ Layout) */}
+      {/* 🔐 Login (ไม่ใช้ Layout) */}
       <Route path="/login" element={<LoginPage />} />
 
-      {/* 📦 เส้นทางหลัก ครอบด้วย Layout */}
+      {/* ✅ Routes ครอบด้วย Layout */}
       <Route element={<LayoutRoute />}>
-        {/* 🏠 หน้าหลัก */}
         <Route path="/" element={<HomePage />} />
-
-        {/* 🧾 บริการ */}
         <Route path="/services" element={<ServicesPage />} />
 
-        {/* 🔒 Secret Room (Protected Route) */}
+        {/* 🔒 Secret Room (ล็อกอินแล้วเท่านั้น) */}
         <Route
           path="/secret-room"
           element={
@@ -82,7 +74,7 @@ const App: React.FC = () => {
         />
       </Route>
 
-      {/* ❌ Fallback หน้าไม่พบ (404) */}
+      {/* ❌ ไม่พบเส้นทาง */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

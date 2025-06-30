@@ -1,18 +1,13 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
-import { USERS } from "@/data/local-users"; // ✅ ใช้ path ที่ถูกต้อง
+// src/context/AuthContext.tsx
+import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { USERS } from "@/data/local-users";
 
 type Role = "admin" | "user";
 
 interface AuthUser {
   username: string;
   role: Role;
-  expiresAt?: string; // ISO 8601 string
+  expiresAt?: string; // ISO 8601 timestamp
 }
 
 interface AuthContextProps {
@@ -30,47 +25,41 @@ const AuthContext = createContext<AuthContextProps>({
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
 
+  // โหลดข้อมูลผู้ใช้จาก localStorage เมื่อ component ถูก mount
   useEffect(() => {
-    const saved = sessionStorage.getItem("currentUser");
+    const saved = localStorage.getItem("currentUser");
     if (saved) {
       try {
         const parsed: AuthUser = JSON.parse(saved);
-        if (
-          parsed.expiresAt &&
-          new Date(parsed.expiresAt).getTime() < Date.now()
-        ) {
-          sessionStorage.removeItem("currentUser");
+        // เช็ควันหมดอายุ
+        if (parsed.expiresAt && new Date(parsed.expiresAt).getTime() < Date.now()) {
+          localStorage.removeItem("currentUser");
         } else {
           setCurrentUser(parsed);
         }
       } catch {
-        sessionStorage.removeItem("currentUser");
+        localStorage.removeItem("currentUser");
       }
     }
   }, []);
 
+  // ฟังก์ชัน login ตรวจสอบรหัสผ่านจาก USERS
   const login = (username: string, password: string): boolean => {
     const user = USERS[username];
     if (user && user.password === password) {
-      const now = Date.now();
-      const expiresInMinutes = 10080; // 7 วัน
-      const expiresAt = new Date(now + expiresInMinutes * 60 * 1000).toISOString();
-
-      const authUser: AuthUser = {
-        username,
-        role: user.role as Role,
-        expiresAt,
-      };
-
-      sessionStorage.setItem("currentUser", JSON.stringify(authUser));
-      setCurrentUser(authUser);
+      // กำหนดวันหมดอายุ 7 วันล่วงหน้า
+      const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+      const newUser: AuthUser = { username, role: user.role, expiresAt };
+      localStorage.setItem("currentUser", JSON.stringify(newUser));
+      setCurrentUser(newUser);
       return true;
     }
     return false;
   };
 
+  // ฟังก์ชัน logout ลบข้อมูลผู้ใช้
   const logout = () => {
-    sessionStorage.removeItem("currentUser");
+    localStorage.removeItem("currentUser");
     setCurrentUser(null);
   };
 
@@ -81,4 +70,5 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// Hook ใช้งาน context ได้สะดวก
 export const useAuth = () => useContext(AuthContext);

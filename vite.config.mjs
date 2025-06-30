@@ -14,17 +14,18 @@ export default defineConfig( {
   ],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(__dirname, "./src"), // ตั้ง alias @ -> ./src
     },
   },
   server: {
     port: 5173,
     open: true,
-    // host: true, // หากต้องการให้เข้าผ่าน IP ได้ ให้ uncomment บรรทัดนี้
+    // ถ้าต้องการให้เข้าจากเครือข่ายอื่น (เช่น LAN, มือถือ) ให้ uncomment
+    // host: true,
   },
   build: {
     sourcemap: true,
-    chunkSizeWarningLimit: 1000, // เพิ่ม limit เตือนจาก 500KB → 1000KB
+    chunkSizeWarningLimit: 1000, // เพิ่ม limit เตือนจาก 500KB เป็น 1000KB
     rollupOptions: {
       output: {
         manualChunks: {

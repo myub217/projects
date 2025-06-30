@@ -1,17 +1,14 @@
-// src/data/local-users.ts
-
 /**
- * USERS - บัญชีผู้ใช้ภายในระบบ (สำหรับใช้ในการเข้าสู่ระบบแบบ Local)
- * 
- * แยกเป็น:
- * - 🔑 Admins
- * - 👤 Regular Users (JPKYETONKEYxxx / CODSLOUVPJyyy)
+ * USERS - บัญชีผู้ใช้ภายในระบบ (Local authentication)
+ *
+ * 🔑 Admins:
+ *   - admin2517 / myub2517
+ *
+ * 👤 Users:
+ *   - JPKYETONKEYxxx / CODSLOUVPJyyy
  */
 
-export const USERS: Record<
-  string,
-  { password: string; role: "admin" | "user" }
-> = {
+export const USERS: Record<string, { password: string; role: "admin" | "user" }> = {
   // 🔑 Admins
   "admin2517": { password: "myub2517", role: "admin" },
 
