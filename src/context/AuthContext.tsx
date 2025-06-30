@@ -1,4 +1,3 @@
-// src/context/AuthContext.tsx
 import React, {
   createContext,
   useContext,
@@ -6,199 +5,80 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
+import { USERS } from "@/data/local-users"; // ✅ ใช้ path ที่ถูกต้อง
 
-type Role = "guest" | "member" | "vip" | "admin";
+type Role = "admin" | "user";
 
-export interface User {
+interface AuthUser {
   username: string;
-  password: string;
   role: Role;
-  expiresAt: string; // ISO string
-  token: string;
+  expiresAt?: string; // ISO 8601 string
 }
 
-interface AuthContextType {
-  role: Role;
-  isLoggedIn: boolean;
-  currentUser: User | null;
-  users: User[];
-  activeUsers: User[];
-  loginAs: (user: User) => void;
+interface AuthContextProps {
+  currentUser: AuthUser | null;
+  login: (username: string, password: string) => boolean;
   logout: () => void;
-  addUser: (
-    user: Omit<User, "expiresAt" | "token"> & { expiresMinutes: number }
-  ) => void;
-  setUserRole: (username: string, role: Role) => void;
-  revokeUser: (username: string) => void;
-  validateUser: (username: string, password: string) => User | null;
 }
 
-const AuthContext = createContext<AuthContextType>({
-  role: "guest",
-  isLoggedIn: false,
+const AuthContext = createContext<AuthContextProps>({
   currentUser: null,
-  users: [],
-  activeUsers: [],
-  loginAs: () => {},
+  login: () => false,
   logout: () => {},
-  addUser: () => {},
-  setUserRole: () => {},
-  revokeUser: () => {},
-  validateUser: () => null,
 });
 
-export const useAuth = () => useContext(AuthContext);
-
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [role, setRole] = useState<Role>("guest");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [users, setUsers] = useState<User[]>([]);
-
-  const createToken = (): string =>
-    `t_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+  const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
 
   useEffect(() => {
-    const now = new Date();
-
-    let storedUsers: User[] = [];
-    try {
-      const raw = localStorage.getItem("users");
-      storedUsers = raw ? JSON.parse(raw) : [];
-    } catch {
-      storedUsers = [];
-    }
-
-    const defaultAdminUsername = "myub25217";
-    const defaultAdminExists = storedUsers.some(
-      (u) => u.username === defaultAdminUsername
-    );
-    if (!defaultAdminExists) {
-      storedUsers.push({
-        username: defaultAdminUsername,
-        password: "22584566",
-        role: "admin",
-        expiresAt: "9999-12-31T23:59:59.999Z",
-        token: createToken(),
-      });
-    }
-
-    const validUsers = storedUsers.filter(
-      (u) => new Date(u.expiresAt) > now
-    );
-
-    setUsers(validUsers);
-    localStorage.setItem("users", JSON.stringify(validUsers));
-
-    try {
-      const savedUserStr = localStorage.getItem("currentUser");
-      const savedRole = localStorage.getItem("role") as Role | null;
-      if (savedUserStr && savedRole) {
-        const savedUser: User = JSON.parse(savedUserStr);
-        if (new Date(savedUser.expiresAt) > now) {
-          setCurrentUser(savedUser);
-          setRole(savedRole);
-          setIsLoggedIn(true);
+    const saved = sessionStorage.getItem("currentUser");
+    if (saved) {
+      try {
+        const parsed: AuthUser = JSON.parse(saved);
+        if (
+          parsed.expiresAt &&
+          new Date(parsed.expiresAt).getTime() < Date.now()
+        ) {
+          sessionStorage.removeItem("currentUser");
         } else {
-          logout();
+          setCurrentUser(parsed);
         }
+      } catch {
+        sessionStorage.removeItem("currentUser");
       }
-    } catch {
-      logout();
     }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("users", JSON.stringify(users));
-  }, [users]);
+  const login = (username: string, password: string): boolean => {
+    const user = USERS[username];
+    if (user && user.password === password) {
+      const now = Date.now();
+      const expiresInMinutes = 10080; // 7 วัน
+      const expiresAt = new Date(now + expiresInMinutes * 60 * 1000).toISOString();
 
-  const addUser = (
-    user: Omit<User, "expiresAt" | "token"> & { expiresMinutes: number }
-  ) => {
-    const username = user.username.trim().toLowerCase();
-    if (!username || users.some((u) => u.username.toLowerCase() === username)) return;
+      const authUser: AuthUser = {
+        username,
+        role: user.role as Role,
+        expiresAt,
+      };
 
-    const expiresAt = new Date(
-      Date.now() + user.expiresMinutes * 60 * 1000
-    ).toISOString();
-
-    const token = createToken();
-
-    const newUser: User = {
-      ...user,
-      username,
-      expiresAt,
-      token,
-    };
-
-    setUsers((prev) => [...prev, newUser]);
-  };
-
-  const validateUser = (username: string, password: string): User | null => {
-    const now = new Date();
-    return (
-      users.find(
-        (u) =>
-          u.username.toLowerCase() === username.toLowerCase() &&
-          u.password === password &&
-          new Date(u.expiresAt) > now
-      ) || null
-    );
-  };
-
-  const loginAs = (user: User) => {
-    setRole(user.role);
-    setIsLoggedIn(true);
-    setCurrentUser(user);
-    localStorage.setItem("role", user.role);
-    localStorage.setItem("currentUser", JSON.stringify(user));
-    localStorage.setItem("token", user.token);
+      sessionStorage.setItem("currentUser", JSON.stringify(authUser));
+      setCurrentUser(authUser);
+      return true;
+    }
+    return false;
   };
 
   const logout = () => {
-    setRole("guest");
-    setIsLoggedIn(false);
+    sessionStorage.removeItem("currentUser");
     setCurrentUser(null);
-    localStorage.removeItem("role");
-    localStorage.removeItem("currentUser");
-    localStorage.removeItem("token");
   };
-
-  const setUserRole = (username: string, newRole: Role) => {
-    setUsers((prev) =>
-      prev.map((u) =>
-        u.username.toLowerCase() === username.toLowerCase()
-          ? { ...u, role: newRole }
-          : u
-      )
-    );
-  };
-
-  const revokeUser = (username: string) => {
-    setUsers((prev) =>
-      prev.filter((u) => u.username.toLowerCase() !== username.toLowerCase())
-    );
-  };
-
-  const activeUsers = users.filter((u) => new Date(u.expiresAt) > new Date());
 
   return (
-    <AuthContext.Provider
-      value={{
-        role,
-        isLoggedIn,
-        currentUser,
-        users,
-        activeUsers,
-        loginAs,
-        logout,
-        addUser,
-        setUserRole,
-        revokeUser,
-        validateUser,
-      }}
-    >
+    <AuthContext.Provider value={{ currentUser, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export const useAuth = () => useContext(AuthContext);

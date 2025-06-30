@@ -15,7 +15,7 @@ import SecretRoomPage from "@/pages/SecretRoomPage";
 import MainLayout from "@/layout/MainLayout";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
-// ✅ หน้า 404
+// ✅ หน้า 404 ไม่พบ
 const NotFoundPage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -45,38 +45,41 @@ const NotFoundPage: React.FC = () => {
   );
 };
 
-// ✅ Layout ครอบหน้าเพจปกติ
+// ✅ Route Wrapper ที่มี Layout
 const LayoutRoute: React.FC = () => (
   <MainLayout>
     <Outlet />
   </MainLayout>
 );
 
-// ✅ Routes หลัก
-const App: React.FC = () => (
-  <Routes>
-    {/* 🔐 หน้า Login */}
-    <Route path="/login" element={<LoginPage />} />
+// ✅ Main App Router
+const App: React.FC = () => {
+  return (
+    <Routes>
+      {/* 🔐 หน้า Login */}
+      <Route path="/login" element={<LoginPage />} />
 
-    {/* 📦 Routes ที่อยู่ใน Layout */}
-    <Route element={<LayoutRoute />}>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/services" element={<ServicesPage />} />
+      {/* 📦 เส้นทางหลัก ครอบด้วย Layout */}
+      <Route element={<LayoutRoute />}>
+        {/* 🏠 หน้าหลัก */}
+        <Route path="/" element={<HomePage />} />
+        {/* 🧾 บริการ */}
+        <Route path="/services" element={<ServicesPage />} />
+        {/* 🔒 Secret Room */}
+        <Route
+          path="/secret-room"
+          element={
+            <ProtectedRoute>
+              <SecretRoomPage />
+            </ProtectedRoute>
+          }
+        />
+      </Route>
 
-      {/* 🔒 Protected Route */}
-      <Route
-        path="/secret-room"
-        element={
-          <ProtectedRoute requiredRole="admin">
-            <SecretRoomPage />
-          </ProtectedRoute>
-        }
-      />
-    </Route>
-
-    {/* ❌ ไม่พบหน้า */}
-    <Route path="*" element={<NotFoundPage />} />
-  </Routes>
-);
+      {/* ❌ Fallback หน้าไม่พบ */}
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  );
+};
 
 export default App;

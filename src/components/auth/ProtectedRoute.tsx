@@ -5,24 +5,27 @@ import { useAuth } from "@/context/AuthContext";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  requiredRole?: string;
+  requiredRole?: string; // ถ้าไม่กำหนด role ใด ๆ ผู้ใช้ที่ล็อกอินจะเข้าได้ทุกคน
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  children,
+  requiredRole,
+}) => {
   const { currentUser } = useAuth();
   const location = useLocation();
 
-  // หากยังไม่ login ให้ redirect ไปหน้า /login พร้อมเก็บ path เดิม (location)
+  // ⛔ ไม่ได้ล็อกอิน → ส่งไปที่ /login และจดจำ path ที่มาด้วย
   if (!currentUser) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // ถ้ามี requiredRole กำหนดไว้ และ role ของผู้ใช้ไม่ตรงกับที่กำหนด ให้ redirect กลับหน้าแรก
+  // ⛔ ระบุ role แต่ currentUser ไม่มีสิทธิ์ → ส่งกลับหน้าแรก
   if (requiredRole && currentUser.role !== requiredRole) {
     return <Navigate to="/" replace />;
   }
 
-  // ผ่านการตรวจสอบทุกข้อ แสดง children (หน้าเป้าหมาย)
+  // ✅ ผ่านทุกเงื่อนไข → แสดงหน้าที่ร้องขอ
   return <>{children}</>;
 };
 

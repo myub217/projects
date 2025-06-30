@@ -1,16 +1,15 @@
-import { defineConfig } from "vite";
+import {
+  defineConfig
+} from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
-export default defineConfig({
+export default defineConfig( {
   plugins: [
-    react({
-      // เปิดใช้งาน Babel Macros เช่น twin.macro
+    react( {
       babel: {
         plugins: ["macros"],
       },
-      // หากต้องการ เปิด Fast Refresh, automatic JSX runtime สามารถตั้งค่าเพิ่มได้ที่นี่
-      // jsxRuntime: "automatic",
     }),
   ],
   resolve: {
@@ -19,11 +18,20 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5173, // กำหนดพอร์ต dev server (ถ้าต้องการ)
-    open: true, // เปิด browser อัตโนมัติเมื่อสตาร์ท
-    // host: true, // ถ้าต้องการให้เข้าจาก IP ภายนอกได้
+    port: 5173,
+    open: true,
+    // host: true, // หากต้องการให้เข้าผ่าน IP ได้ ให้ uncomment บรรทัดนี้
   },
   build: {
-    sourcemap: true, // เปิด source map สำหรับดีบัก
+    sourcemap: true,
+    chunkSizeWarningLimit: 1000, // เพิ่ม limit เตือนจาก 500KB → 1000KB
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          html2canvas: ['html2canvas'],
+          jspdf: ['jspdf'],
+        },
+      },
+    },
   },
 });

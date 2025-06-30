@@ -1,57 +1,94 @@
 // src/pages/LoginPage.tsx
-import React from "react";
-import { FirebaseAuth } from "firebaseui-react";
-import "firebaseui/dist/firebaseui.css";
 
-import { firebase, auth } from "@/firebase-config"; // ✅ ใช้ named imports
-import SEOHelmet from "@/components/SEOHelmet";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 const LoginPage: React.FC = () => {
-  const uiConfig = {
-    signInFlow: "popup",
-    signInOptions: [
-      firebase.auth.EmailAuthProvider.PROVIDER_ID,
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      // ✅ เพิ่มผู้ให้บริการอื่นได้ เช่น Facebook, Phone
-    ],
-    callbacks: {
-      signInSuccessWithAuthResult: () => {
-        window.location.href = "/secret-room";
-        return false; // ป้องกัน redirect ซ้ำ
-      },
-    },
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    const trimmedUsername = username.trim();
+    const success = login(trimmedUsername, password);
+
+    if (success) {
+      navigate("/secret-room");
+    } else {
+      setError("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+
+      // 👀 Optional debug:
+      if (import.meta.env.DEV) {
+        console.warn("🛑 ล็อกอินล้มเหลว:", {
+          username: trimmedUsername,
+          password,
+        });
+      }
+    }
   };
 
   return (
-    <>
-      <SEOHelmet
-        title="เข้าสู่ระบบ | JP Visual & Docs"
-        description="เข้าสู่ระบบด้วยบัญชี Google หรืออีเมล เพื่อเข้าถึงฟีเจอร์พิเศษ"
-      />
-      <main className="min-h-screen bg-gradient-to-b from-base-100 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex justify-center items-center px-4">
-        <section
-          className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-xl w-full max-w-sm"
-          aria-labelledby="login-title"
-        >
-          <h1
-            id="login-title"
-            className="text-2xl sm:text-3xl font-bold text-center text-gray-900 dark:text-white mb-6"
+    <main className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow max-w-sm w-full"
+        aria-label="แบบฟอร์มเข้าสู่ระบบ"
+      >
+        <h1 className="text-2xl font-bold mb-4 text-center" id="login-title">
+          เข้าสู่ระบบ
+        </h1>
+
+        {error && (
+          <p
+            className="text-red-500 text-sm mb-3"
+            role="alert"
+            aria-live="assertive"
           >
-            🔐 เข้าสู่ระบบ
-          </h1>
+            {error}
+          </p>
+        )}
 
-          <div className="text-sm text-center text-gray-500 dark:text-gray-300 mb-4">
-            ใช้อีเมลหรือบัญชี Google เพื่อเข้าสู่ระบบ
-          </div>
+        <input
+          type="text"
+          placeholder="ชื่อผู้ใช้"
+          className="input input-bordered w-full mb-3"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+          aria-describedby="login-title"
+          aria-label="ชื่อผู้ใช้"
+          autoComplete="username"
+          spellCheck={false}
+        />
 
-          <FirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
+        <input
+          type="password"
+          placeholder="รหัสผ่าน"
+          className="input input-bordered w-full mb-4"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          aria-label="รหัสผ่าน"
+          autoComplete="current-password"
+          spellCheck={false}
+        />
 
-          <div className="mt-6 text-xs text-center text-gray-400 dark:text-gray-500">
-            © {new Date().getFullYear()} JP Visual & Docs
-          </div>
-        </section>
-      </main>
-    </>
+        <button
+          type="submit"
+          className="btn btn-primary w-full"
+          aria-label="ปุ่มเข้าสู่ระบบ"
+        >
+          เข้าสู่ระบบ
+        </button>
+      </form>
+    </main>
   );
 };
 
