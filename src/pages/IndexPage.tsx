@@ -1,4 +1,3 @@
-// src/pages/IndexPage.tsx
 import React, { useState, useEffect, useCallback } from "react";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
@@ -9,15 +8,12 @@ import ReviewsSection from "../components/ReviewsSection";
 import Footer from "../components/Footer";
 
 const IndexPage: React.FC = () => {
-  // จัดการธีมแบบง่าย (light/dark) พร้อม toggle function
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
-  // toggle theme function
   const toggleTheme = useCallback(() => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   }, []);
 
-  // sync theme class กับ <html> หรือ <body> (optional)
   useEffect(() => {
     const root = window.document.documentElement;
     if (theme === "dark") {
@@ -29,13 +25,26 @@ const IndexPage: React.FC = () => {
 
   return (
     <>
+      {/* แถบนำทางด้านบน */}
       <Header theme={theme} toggleTheme={toggleTheme} />
+
       <main className="bg-base-100 text-base-content min-h-screen transition-colors duration-500">
+        {/* ส่วน Hero: โลโก้, ปุ่มเข้าสู่ระบบ, ลายเซ็น */}
         <Hero />
+
+        {/* จุดเด่นของบริการ: สรุปจุดขาย */}
         <Features />
+
+        {/* บริการหลักของเรา */}
         <ServicesSection />
+
+        {/* เกี่ยวกับทีมงาน JP - ลายเซ็น, ข้อความเจ้าป่า */}
         <About />
+
+        {/* รีวิวจากลูกค้า */}
         <ReviewsSection />
+
+        {/* ท้ายเว็บไซต์ */}
         <Footer />
       </main>
     </>

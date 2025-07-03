@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { users } from "../data/users"; // import ข้อมูล user จริง
+import { users } from "../data/users";
+import { hashPassword } from "../utils/hashPassword";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -13,24 +14,22 @@ const LoginPage: React.FC = () => {
     usernameRef.current?.focus();
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const user = users[username];
-    if (user && user.password === password) {
-      // เก็บสถานะล็อกอิน (ใส่ username หรือ token จริง ๆ ได้)
+    if (!user) {
+      setError("ชื่อผู้ใช้ไม่ถูกต้อง");
+      return;
+    }
+
+    const inputHash = await hashPassword(password);
+    if (inputHash === user.passwordHash) {
       localStorage.setItem("authUser", username);
       localStorage.setItem("authRole", user.role);
-
-      // นำทางตาม role
-      if (user.role === "admin") {
-        navigate("/secret-room");
-      } else {
-        navigate("/user-home");
-      }
-      setError("");
+      navigate(user.role === "admin" ? "/secret-room" : "/user-home");
     } else {
-      setError("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+      setError("รหัสผ่านไม่ถูกต้อง");
     }
   };
 
@@ -42,18 +41,10 @@ const LoginPage: React.FC = () => {
         </h1>
 
         {error && (
-          <div className="mb-4 text-red-600 dark:text-red-400 text-center">
-            {error}
-          </div>
+          <div className="mb-4 text-red-600 dark:text-red-400 text-center">{error}</div>
         )}
 
         <form onSubmit={handleLogin} className="flex flex-col gap-4">
-          <label
-            htmlFor="username"
-            className="font-medium text-gray-700 dark:text-gray-300"
-          >
-            ชื่อผู้ใช้
-          </label>
           <input
             id="username"
             type="text"
@@ -62,15 +53,10 @@ const LoginPage: React.FC = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            className="px-3 py-2 border rounded"
+            placeholder="ชื่อผู้ใช้"
           />
 
-          <label
-            htmlFor="password"
-            className="font-medium text-gray-700 dark:text-gray-300"
-          >
-            รหัสผ่าน
-          </label>
           <input
             id="password"
             type="password"
@@ -78,12 +64,13 @@ const LoginPage: React.FC = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            className="px-3 py-2 border rounded"
+            placeholder="รหัสผ่าน"
           />
 
           <button
             type="submit"
-            className="mt-4 bg-pink-600 text-white font-semibold py-2 rounded-md hover:bg-pink-700 focus:outline-none focus:ring-4 focus:ring-pink-400 transition"
+            className="bg-black text-white py-2 rounded hover:opacity-90 transition"
           >
             เข้าสู่ระบบ
           </button>

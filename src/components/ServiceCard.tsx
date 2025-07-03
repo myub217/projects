@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-interface Service {
+export interface Service {
   id: number;
   title: string;
   description: string;
@@ -109,12 +109,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
             type="button"
             className="btn btn-sm btn-primary w-full"
             onClick={() => {
-              if (!isComingSoon) {
-                onRequest?.(service);
-              }
+              if (!isComingSoon) onRequest?.(service);
             }}
             disabled={isComingSoon}
             aria-label={`ขอรับบริการ: ${service.title}`}
+            aria-disabled={isComingSoon}
           >
             ขอรับบริการ
           </button>
@@ -143,6 +142,15 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
             ติดต่อผ่าน LINE
           </a>
         </div>
+
+        {isComingSoon && service.comingSoonNote && (
+          <p
+            className="mt-2 text-sm italic text-center text-gray-500 dark:text-gray-400"
+            aria-live="polite"
+          >
+            {service.comingSoonNote}
+          </p>
+        )}
       </div>
     </motion.article>
   );

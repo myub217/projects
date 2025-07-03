@@ -1,4 +1,3 @@
-// src/components/MobileMenu.tsx
 import React, { useEffect, useRef, useCallback, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
@@ -98,17 +97,22 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     }
   }, [isOpen, triggerRef]);
 
-  // จัดการคลิกลิงก์ในเมนู
+  // จัดการคลิกลิงก์ในเมนู (scroll to section หรือเปิดลิงก์ใหม่)
   const handleLinkClick = useCallback(
     (href: string) => {
       if (isClosing) return;
       handleClose();
       onLinkClick?.();
 
-      // ใช้ setTimeout เล็กน้อยให้ handleClose ทำงานก่อนเปลี่ยนหน้า
       setTimeout(() => {
         if (href.startsWith("#")) {
-          window.location.hash = href;
+          const targetId = href.slice(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({ behavior: "smooth" });
+            // อัปเดต URL bar แบบไม่รีโหลดหน้า
+            history.pushState(null, "", href);
+          }
         } else if (/^https?:\/\//.test(href)) {
           window.open(href, "_blank", "noopener,noreferrer");
         } else {
@@ -156,7 +160,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 text-gray-700 dark:text-gray-300 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+              className="absolute top-4 right-4 text-gray-700 dark:text-gray-300 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 rounded"
               aria-label="ปิดเมนู"
               disabled={isClosing}
               type="button"
@@ -169,10 +173,10 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                 <button
                   key={href}
                   onClick={() => handleLinkClick(href)}
-                  className={`text-left px-6 py-3 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
+                  className={`text-left px-6 py-3 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 ${
                     highlight
-                      ? "bg-pink-600 text-white hover:bg-pink-700 dark:hover:bg-pink-500"
-                      : "hover:text-primary dark:hover:text-primary"
+                      ? "bg-gray-700 text-white hover:bg-gray-800 dark:bg-gray-600 dark:hover:bg-gray-500"
+                      : "hover:text-gray-900 dark:hover:text-gray-300"
                   }`}
                   type="button"
                 >

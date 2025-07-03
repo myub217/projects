@@ -1,37 +1,96 @@
 import React from "react";
+import { CheckCircle, Star, Shield, Bolt, Users, Clock } from "lucide-react";
+import { motion } from "framer-motion";
 
 const features = [
   {
     id: 1,
-    title: "เชี่ยวชาญด้านเอกสารสำคัญ",
-    desc: "ดูแลการจัดทำ แก้ไข และเตรียมเอกสารที่ตรงข้อกำหนด ใช้งานจริงได้จริง",
+    title: "รอฟังข่าวดี",
+    desc: "Coming soon",
+    Icon: CheckCircle,
   },
   {
     id: 2,
-    title: "ยื่นวีซ่า-สินเชื่อครบวงจร",
-    desc: "วิเคราะห์ เตรียม และส่งเอกสารให้ตรงใจเจ้าหน้าที่ เพิ่มโอกาสผ่านสูง",
+    title: "รอฟังข่าวดี",
+    desc: "Coming soon",
+    Icon: Star,
   },
   {
     id: 3,
-    title: "ทีมดีไซน์ & การตลาดมืออาชีพ",
-    desc: "สร้างภาพลักษณ์ จัดการแคมเปญ และออกแบบสื่อให้ตอบโจทย์กลุ่มเป้าหมาย",
+    title: "รอฟังข่าวดี",
+    desc: "Coming soon",
+    Icon: Shield,
   },
   {
     id: 4,
-    title: "ระบบอัตโนมัติช่วยลดงานซ้ำ",
-    desc: "ใช้บอทและระบบแจ้งเตือนหลังบ้านช่วยจัดการลูกค้าแบบมืออาชีพ 24 ชม.",
+    title: "รอฟังข่าวดี",
+    desc: "Coming soon",
+    Icon: Bolt,
   },
   {
     id: 5,
-    title: "ทำงานไว ไฟล์พร้อมใช้",
-    desc: "ลูกค้าได้รับงานคุณภาพ ส่งตรงเวลา พร้อมไฟล์ที่สามารถใช้งานได้ทันที",
+    title: "รอฟังข่าวดี",
+    desc: "Coming soon",
+    Icon: Users,
   },
   {
     id: 6,
-    title: "ให้คำปรึกษาฟรี & เป็นกันเอง",
-    desc: "ไม่ว่าคุณจะเริ่มต้นใหม่หรือกำลังมีปัญหา เรายินดีช่วยเหลือทุกขั้นตอน",
+    title: "รอฟังข่าวดี",
+    desc: "Coming soon",
+    Icon: Clock,
   },
 ];
+
+const FeatureItem: React.FC<{
+  id: number;
+  title: string;
+  desc: string;
+  Icon: React.ElementType;
+}> = ({ id, title, desc, Icon }) => {
+  const handleDetailsClick = () => {
+    alert(`รายละเอียดของฟีเจอร์: ${title}`);
+  };
+
+  return (
+    <motion.li
+      key={id}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4 }}
+      className="bg-base-100 text-base-content shadow-md rounded-xl p-6 hover:shadow-lg
+                 dark:bg-base-300 dark:text-base-content cursor-pointer"
+      tabIndex={0}
+      aria-labelledby={`feature-${id}-title feature-${id}-desc`}
+      role="listitem"
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          handleDetailsClick();
+        }
+      }}
+    >
+      <div className="flex items-center mb-3 group">
+        <Icon className="w-6 h-6 text-secondary mr-2 group-hover:text-primary transition-colors" />
+        <h3
+          id={`feature-${id}-title`}
+          className="text-lg font-semibold text-secondary group-hover:text-primary transition-colors"
+        >
+          {title}
+        </h3>
+      </div>
+      <p id={`feature-${id}-desc`} className="opacity-80 dark:opacity-90">
+        {desc}
+      </p>
+      <button
+        onClick={handleDetailsClick}
+        className="mt-4 text-sm text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded"
+        type="button"
+      >
+        รายละเอียด
+      </button>
+    </motion.li>
+  );
+};
 
 const Features: React.FC = () => {
   return (
@@ -40,41 +99,24 @@ const Features: React.FC = () => {
       aria-labelledby="features-heading"
     >
       <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-10">
+        <div className="text-center mb-12">
           <h2
             id="features-heading"
-            className="text-3xl sm:text-4xl font-bold text-primary"
+            className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white"
           >
-            จุดแข็งของ Applicationlubmobile
+            รอฟังข่าวดี
           </h2>
           <p className="mt-3 text-base-content/70 dark:text-base-content/50">
-            ทำไมลูกค้าหลายพันคนถึงเลือกเรา
+            Coming soon
           </p>
         </div>
 
         <ul
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-left text-sm"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-left text-sm"
           role="list"
         >
-          {features.map(({ id, title, desc }) => (
-            <li
-              key={id}
-              className="bg-base-100 text-base-content shadow-md rounded-xl p-6 transition duration-300 hover:shadow-lg
-                         dark:bg-base-300 dark:text-base-content"
-              tabIndex={0}
-              aria-labelledby={`feature-${id}-title feature-${id}-desc`}
-              role="listitem"
-            >
-              <h3
-                id={`feature-${id}-title`}
-                className="text-lg font-semibold text-secondary mb-2"
-              >
-                {title}
-              </h3>
-              <p id={`feature-${id}-desc`} className="opacity-80 dark:opacity-90">
-                {desc}
-              </p>
-            </li>
+          {features.map(({ id, title, desc, Icon }) => (
+            <FeatureItem key={id} id={id} title={title} desc={desc} Icon={Icon} />
           ))}
         </ul>
       </div>
