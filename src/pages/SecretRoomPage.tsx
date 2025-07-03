@@ -1,91 +1,41 @@
-import React, { useState, useRef, useEffect } from "react";
-import Header from "@/components/Header";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const usernameRef = useRef<HTMLInputElement>(null);
+const SecretRoomPage: React.FC = () => {
+  const navigate = useNavigate();
 
   useEffect(() => {
-    usernameRef.current?.focus();
-  }, []);
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (username === "admin" && password === "1234") {
-      setError("");
-      alert("ล็อกอินสำเร็จ!");
-      // ทำอย่างอื่นหลังล็อกอิน เช่น เปลี่ยนหน้า
-    } else {
-      setError("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+    const authUser = localStorage.getItem("authUser");
+    if (!authUser) {
+      // ถ้าไม่เจอสถานะล็อกอิน ให้กลับไปหน้า login
+      navigate("/login");
     }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("authUser");
+    localStorage.removeItem("authRole");
+    navigate("/login");
   };
 
   return (
-    <>
-      <Header />
-      <div className="p-6 bg-white dark:bg-gray-800 border rounded shadow max-w-sm mx-auto mt-10">
-        <h2 className="text-xl font-semibold mb-4 text-center text-gray-800 dark:text-white">
-          เข้าสู่ระบบ
-        </h2>
+    <main className="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 p-6">
+      <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
+        ยินดีต้อนรับสู่ห้องลับ
+      </h1>
 
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div>
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
-              ชื่อผู้ใช้
-            </label>
-            <input
-              id="username"
-              type="text"
-              ref={usernameRef}
-              autoComplete="username"
-              placeholder="admin"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              className="mt-1 block w-full px-3 py-2 rounded-md shadow-sm border border-gray-300 dark:border-gray-600 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-700 dark:text-white"
-            />
-          </div>
+      <p className="mb-8 text-gray-700 dark:text-gray-300">
+        คุณเข้าสู่ระบบเรียบร้อยแล้ว
+      </p>
 
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
-              รหัสผ่าน
-            </label>
-            <input
-              id="password"
-              type="password"
-              autoComplete="current-password"
-              placeholder="1234"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="mt-1 block w-full px-3 py-2 rounded-md shadow-sm border border-gray-300 dark:border-gray-600 focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-700 dark:text-white"
-            />
-          </div>
-
-          {error && (
-            <p className="text-sm text-red-500" role="alert">
-              {error}
-            </p>
-          )}
-
-          <button
-            type="submit"
-            className="w-full bg-pink-600 text-white py-2 rounded-md hover:bg-pink-700 transition focus:outline-none focus:ring-2 focus:ring-pink-400"
-          >
-            เข้าสู่ระบบ
-          </button>
-        </form>
-      </div>
-    </>
+      <button
+        onClick={handleLogout}
+        className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-md focus:outline-none focus:ring-4 focus:ring-red-400 transition"
+      >
+        ออกจากระบบ
+      </button>
+    </main>
   );
 };
 
-export default LoginPage;
+export default SecretRoomPage;
