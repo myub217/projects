@@ -1,60 +1,81 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
+import { motion } from "framer-motion";
 
 const SecretRoomPage: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [username, setUsername] = useState<string | null>(null);
 
-  useEffect(() => {
-    const authUser = localStorage.getItem("authUser");
-    const authRole = localStorage.getItem("authRole");
-
-    if (!authUser) {
-      navigate("/login");
-    } else if (authRole !== "admin") {
-      alert("คุณไม่มีสิทธิ์เข้าถึงหน้านี้");
-      navigate("/login");
-    } else {
-      setLoading(false);
-    }
-  }, [navigate]);
-
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     localStorage.removeItem("authUser");
     localStorage.removeItem("authRole");
     navigate("/login");
-  };
+  }, [navigate]);
+
+  useEffect(() => {
+    const authUser = localStorage.getItem("authUser");
+
+    if (!authUser) {
+      navigate("/login");
+      return;
+    }
+
+    setUsername(authUser);
+
+    const loadData = async () => {
+      // จำลองโหลดข้อมูล
+      await new Promise((res) => setTimeout(res, 1000));
+      setLoading(false);
+    };
+    loadData();
+
+    setAuthChecked(true);
+
+    const timeout = setTimeout(() => {
+      alert("หมดเวลาการใช้งาน");
+      handleLogout();
+    }, 1000 * 60 * 10);
+
+    return () => clearTimeout(timeout);
+  }, [navigate, handleLogout]);
+
+  if (!authChecked) return null;
 
   if (loading) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 p-6">
-        <p className="text-gray-900 dark:text-white text-lg font-medium">กำลังโหลด...</p>
+        <p className="text-gray-900 dark:text-white text-lg font-medium">
+          กำลังโหลด...
+        </p>
       </main>
     );
   }
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 p-6">
-      <section className="bg-white dark:bg-gray-800 shadow-lg rounded-xl max-w-lg w-full p-10 flex flex-col items-center text-center">
-
-        {/* Header Section */}
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="bg-white dark:bg-gray-800 shadow-lg rounded-xl max-w-lg w-full p-10 flex flex-col items-center text-center"
+      >
         <header className="mb-6 w-full">
           <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white">
             ยินดีต้อนรับสู่ห้องลับ
           </h1>
           <p className="text-gray-500 dark:text-gray-400 mt-2">
-            ตัวอย่าง: ที่นี่เป็นส่วนต้อนรับหรือสโลแกนสั้น ๆ
+            คุณเข้าสู่ระบบในชื่อ <strong>{username}</strong>
           </p>
         </header>
 
-        {/* Main Content Section */}
         <section className="mb-10 w-full">
           <p className="text-gray-700 dark:text-gray-300 text-lg">
             ตัวอย่าง: ข้อความต้อนรับเพิ่มเติม หรือข้อมูลแนะนำผู้ใช้
           </p>
 
-          {/* ตัวอย่าง: เพิ่มส่วนแสดงข้อมูลอื่น ๆ เช่น สถิติ, ลิงก์, รายละเอียดเพิ่มเติม */}
           <div className="mt-6 bg-gray-100 dark:bg-gray-700 p-4 rounded-md">
             <p className="text-sm text-gray-600 dark:text-gray-300">
               ตัวอย่าง: ส่วนนี้อาจใส่ข่าวสารสำคัญ หรือปุ่มลิงก์อื่น ๆ
@@ -62,7 +83,6 @@ const SecretRoomPage: React.FC = () => {
           </div>
         </section>
 
-        {/* Logout Button Section */}
         <footer className="w-full">
           <button
             onClick={handleLogout}
@@ -73,7 +93,7 @@ const SecretRoomPage: React.FC = () => {
             ออกจากระบบ
           </button>
         </footer>
-      </section>
+      </motion.section>
     </main>
   );
 };

@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
     if (inputHash === user.passwordHash) {
       localStorage.setItem("authUser", username);
       localStorage.setItem("authRole", user.role);
-      navigate(user.role === "admin" ? "/secret-room" : "/user-home");
+      navigate("/secret-room"); // เข้า secret room ทุกคนที่ล็อกอินผ่าน
     } else {
       setError("รหัสผ่านไม่ถูกต้อง");
     }
@@ -41,7 +41,9 @@ const LoginPage: React.FC = () => {
         </h1>
 
         {error && (
-          <div className="mb-4 text-red-600 dark:text-red-400 text-center">{error}</div>
+          <div className="mb-4 text-red-600 dark:text-red-400 text-center">
+            {error}
+          </div>
         )}
 
         <form onSubmit={handleLogin} className="flex flex-col gap-4">

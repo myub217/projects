@@ -22,10 +22,10 @@ def main():
         run_command(f"rm -rf {target}")
 
     # ล้าง npm cache
-    run_command("npm cache clean --force")
+    run_command("pnpm cache clean --force")
 
     # ติดตั้ง dependencies ใหม่
-    run_command("npm install")
+    run_command("pnpm install")
 
 if __name__ == "__main__":
     main()
