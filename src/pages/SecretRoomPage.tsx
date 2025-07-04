@@ -1,13 +1,33 @@
+// src/pages/SecretRoomPage.tsx
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 import { motion } from "framer-motion";
 
+type ReportSummary = {
+  documentCount: number;
+  submittedForms: number;
+  pendingRequests: number;
+  lastDocumentStatus: string;
+};
+
+type ActivityLog = {
+  id: number;
+  detail: string;
+  time: string;
+};
+
 const SecretRoomPage: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [authChecked, setAuthChecked] = useState(false);
   const [username, setUsername] = useState<string | null>(null);
+  const [report, setReport] = useState<ReportSummary>({
+    documentCount: 0,
+    submittedForms: 0,
+    pendingRequests: 0,
+    lastDocumentStatus: "รอตรวจสอบ",
+  });
+  const [logs, setLogs] = useState<ActivityLog[]>([]);
 
   const handleLogout = useCallback(() => {
     localStorage.removeItem("authUser");
@@ -16,23 +36,33 @@ const SecretRoomPage: React.FC = () => {
   }, [navigate]);
 
   useEffect(() => {
-    const authUser = localStorage.getItem("authUser");
-
-    if (!authUser) {
+    const user = localStorage.getItem("authUser");
+    if (!user) {
       navigate("/login");
       return;
     }
+    setUsername(user);
 
-    setUsername(authUser);
+    const fetchData = async () => {
+      await new Promise((res) => setTimeout(res, 500)); // simulate delay
 
-    const loadData = async () => {
-      // จำลองโหลดข้อมูล
-      await new Promise((res) => setTimeout(res, 1000));
+      setReport({
+        documentCount: 0,
+        submittedForms: 0,
+        pendingRequests: 0,
+        lastDocumentStatus: "กำลังตรวจสอบ",
+      });
+
+      setLogs([
+        { id: 1, detail: "• รอแอดมินนำเข้าระบบ", time: "" },
+        { id: 2, detail: "• รอแอดมินนำเข้าระบบ", time: "" },
+        { id: 3, detail: "• รอแอดมินนำเข้าระบบ", time: "" },
+      ]);
+
       setLoading(false);
     };
-    loadData();
 
-    setAuthChecked(true);
+    fetchData();
 
     const timeout = setTimeout(() => {
       alert("หมดเวลาการใช้งาน");
@@ -42,13 +72,11 @@ const SecretRoomPage: React.FC = () => {
     return () => clearTimeout(timeout);
   }, [navigate, handleLogout]);
 
-  if (!authChecked) return null;
-
   if (loading) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 p-6">
-        <p className="text-gray-900 dark:text-white text-lg font-medium">
-          กำลังโหลด...
+        <p className="text-gray-800 dark:text-white text-lg font-medium">
+          กำลังโหลดข้อมูล...
         </p>
       </main>
     );
@@ -60,33 +88,83 @@ const SecretRoomPage: React.FC = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="bg-white dark:bg-gray-800 shadow-lg rounded-xl max-w-lg w-full p-10 flex flex-col items-center text-center"
+        className="bg-white dark:bg-gray-800 shadow-lg rounded-xl max-w-2xl w-full p-8 sm:p-10"
       >
-        <header className="mb-6 w-full">
-          <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white">
-            ยินดีต้อนรับสู่ห้องลับ
+        {/* Header */}
+        <header className="mb-6 text-center">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            ยินดีต้อนรับคุณ {username}
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-2">
-            คุณเข้าสู่ระบบในชื่อ <strong>{username}</strong>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+            เข้าระบบเมื่อ {new Date().toLocaleTimeString()}
           </p>
         </header>
 
-        <section className="mb-10 w-full">
-          <p className="text-gray-700 dark:text-gray-300 text-lg">
-            ตัวอย่าง: ข้อความต้อนรับเพิ่มเติม หรือข้อมูลแนะนำผู้ใช้
-          </p>
+        {/* Summary Section */}
+        <section className="grid sm:grid-cols-2 gap-4 mb-8">
+          <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-md shadow">
+            <h2 className="font-semibold text-sm text-gray-800 dark:text-white mb-2">
+              📊 รายงานสรุปผลการดำเนินงาน
+            </h2>
+            <ul className="list-disc list-inside text-sm text-gray-700 dark:text-gray-300 space-y-1">
+              <li>
+                จำนวนเอกสารทั้งหมด:{" "}
+                {report.documentCount > 0 ? `${report.documentCount} รายการ` : ""}
+              </li>
+              <li>
+                แบบฟอร์มที่ได้ดำเนินการส่งแล้ว:{" "}
+                {report.submittedForms > 0 ? `${report.submittedForms} รายการ` : ""}
+              </li>
+              <li>
+                คำขอที่กำลังรอดำเนินการ:{" "}
+                {report.pendingRequests > 0 ? `${report.pendingRequests} รายการ` : ""}
+              </li>
+              <li>สถานะล่าสุดของเอกสาร: {report.lastDocumentStatus}</li>
+            </ul>
+          </div>
 
-          <div className="mt-6 bg-gray-100 dark:bg-gray-700 p-4 rounded-md">
-            <p className="text-sm text-gray-600 dark:text-gray-300">
-              ตัวอย่าง: ส่วนนี้อาจใส่ข่าวสารสำคัญ หรือปุ่มลิงก์อื่น ๆ
-            </p>
+          {/* Navigation Links */}
+          <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-md shadow">
+            <h2 className="font-semibold text-sm text-gray-800 dark:text-white mb-2">
+              🔗 ลิงก์ด่วน
+            </h2>
+            <ul className="list-disc list-inside text-sm text-blue-600 dark:text-blue-400 space-y-1">
+              <li>
+                <a href="/profile" className="hover:underline">
+                  จัดการโปรไฟล์
+                </a>
+              </li>
+              <li>
+                <a href="/documents" className="hover:underline">
+                  เอกสารของฉัน
+                </a>
+              </li>
+              <li>
+                <a href="/forms/request" className="hover:underline">
+                  ส่งคำขอใหม่
+                </a>
+              </li>
+            </ul>
           </div>
         </section>
 
-        <footer className="w-full">
+        {/* Activity Logs */}
+        <section className="mb-8">
+          <h2 className="font-semibold text-sm text-gray-800 dark:text-white mb-2">
+            🕒 กิจกรรมล่าสุด
+          </h2>
+          <ul className="list-disc list-inside text-sm text-gray-700 dark:text-gray-300 space-y-1">
+            {logs.map((log) => (
+              <li key={log.id}>{log.detail}</li>
+            ))}
+          </ul>
+        </section>
+
+        {/* Logout Button */}
+        <footer>
           <button
             onClick={handleLogout}
-            className="w-full inline-flex justify-center items-center gap-2 bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-400 text-white font-semibold px-6 py-3 rounded-lg transition shadow-md"
+            className="w-full flex justify-center items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition"
             aria-label="ออกจากระบบ"
           >
             <FiLogOut size={20} />
