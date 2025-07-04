@@ -5,6 +5,29 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        xs: "480px",
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
+        "2xl": "1536px",
+      },
+      spacing: {
+        128: "32rem",
+        144: "36rem",
+      },
+      maxWidth: {
+        "8xl": "90rem",
+      },
+      zIndex: {
+        "-1": "-1",
+        60: "60",
+        70: "70",
+        80: "80",
+        90: "90",
+        100: "100",
+      },
       colors: {
         whiteGray: {
           DEFAULT: "#F5F5F7",
@@ -82,16 +105,25 @@ export default {
       },
       animation: {
         fadeIn: "fadeIn 0.5s ease-in forwards",
+        slideUp: "slideUp 0.5s ease-out forwards",
+        bounceSlow: "bounce 2s infinite",
       },
       keyframes: {
         fadeIn: {
           "0%": { opacity: 0 },
           "100%": { opacity: 1 },
         },
+        slideUp: {
+          "0%": { transform: "translateY(20px)", opacity: 0 },
+          "100%": { transform: "translateY(0)", opacity: 1 },
+        },
       },
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [
+    require("daisyui"),
+    require("@tailwindcss/typography"),
+  ],
   daisyui: {
     themes: [
       {
@@ -109,6 +141,27 @@ export default {
           success: "#4ADE80",
           warning: "#FACC15",
           error: "#F87171",
+          "--rounded-box": "1rem",
+          "--rounded-btn": "9999px",
+          "--animation-btn": "0.3s",
+          "--btn-text-case": "none",
+          "--btn-focus-scale": "1.05",
+        },
+      },
+      {
+        lofiDark: {
+          primary: "#222222",
+          "primary-focus": "#3A3A3A",
+          secondary: "#A3A3A8",
+          accent: "#F5F5F7",
+          neutral: "#121212",
+          "base-100": "#121212",
+          "base-200": "#1E1E1E",
+          "base-300": "#2C2C2C",
+          info: "#3B82F6",
+          success: "#22C55E",
+          warning: "#EAB308",
+          error: "#EF4444",
           "--rounded-box": "1rem",
           "--rounded-btn": "9999px",
           "--animation-btn": "0.3s",
