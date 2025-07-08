@@ -1,41 +1,41 @@
 // server.ts
-import express, { Request, Response } from "express";
-import path from "path";
-import history from "connect-history-api-fallback";
-import { fileURLToPath } from "url";
 
-// สำหรับใช้กับ ES Module
+// ✅ โหลด Express และ dependency ที่จำเป็น
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import history from "connect-history-api-fallback";
+
+// ✅ โหลด API router จากไฟล์
+import apiRouter from "./api/apiAdmin.ts";
+
+// ✅ ใช้ __dirname แบบ ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// ✅ สร้าง Express app
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ Middleware: SPA fallback (React Router)
+// ✅ รองรับ SPA Routing เช่น React Router
 app.use(history());
 
-// ✅ Middleware: body-parser
+// ✅ Middleware ทั่วไป
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// ✅ Static file: dist หลัง build ด้วย Vite
+// ✅ เสิร์ฟ static files จาก dist (หลัง Vite build)
 app.use(express.static(path.join(__dirname, "dist")));
 
-// ✅ Load API จาก TypeScript module (ESM)
-(async () => {
-  try {
-    const apiAdmin = await import("./api/apiAdmin.ts");
-    app.use("/api", apiAdmin.default); // ต้อง export default จาก apiAdmin.ts
+// ✅ เส้นทาง API (เริ่มต้นด้วย /api)
+app.use("/api", apiRouter);
 
-    // ✅ Fallback เส้นทาง frontend อื่น ๆ -> index.html
-    app.get("*", (_req: Request, res: Response) => {
-      res.sendFile(path.join(__dirname, "dist", "index.html"));
-    });
+// ✅ กรณี route ไม่ตรง ให้เสิร์ฟ index.html (SPA fallback)
+app.get("*", (_req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
 
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running at http://localhost:${PORT}`);
-    });
-  } catch (err) {
-    console.error("❌ Failed to start server:", err);
-    process.exit(1);
-  }
-})();
+// ✅ เริ่มต้นเซิร์ฟเวอร์
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
+});

@@ -6,15 +6,20 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "tsx server.ts",
+    "start": "tsx server.ts",
+    "clean": "./Clean.sh",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts,.tsx"
   },
   "dependencies": {
     "connect-history-api-fallback": "^2.0.0",
     "express": "^5.1.0",
     "framer-motion": "^12.23.0",
     "lucide-react": "^0.525.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.6.3",
     "ts-node": "^10.9.2"
@@ -23,13 +28,14 @@
     "@tailwindcss/typography": "^0.5.16",
     "@types/express": "^5.0.3",
     "@types/node": "^24.0.10",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react": "^4.6.0",
     "autoprefixer": "^10.4.21",
-    "daisyui": "^5.0.43",
+    "daisyui": "^5.0.46",
     "postcss": "^8.5.6",
     "rollup-plugin-visualizer": "^6.0.3",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.4.5",
-    "vite": "^7.0.1"
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.2"
   }
 }

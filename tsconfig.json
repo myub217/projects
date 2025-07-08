@@ -1,35 +1,37 @@
 {
   "compilerOptions": {
-    "target": "ES2020",                // โค้ดที่คอมไพล์จะเป็น ES2020 ขึ้นไป
-    "module": "ESNext",               // ใช้ ES Modules
-    "moduleResolution": "Node",       // หาโมดูลแบบ Node.js
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    // เป้าหมายการ compile เป็น JavaScript เวอร์ชันใหม่
+    "target": "ES2022",
 
-    "jsx": "react-jsx",               // สำหรับ React 17+ แบบใหม่
-    "esModuleInterop": true,          // รองรับ import แบบ CommonJS ด้วย
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,                   // เปิดโหมดตรวจสอบเข้มงวด
-    "skipLibCheck": true,             // ข้ามตรวจสอบ type ของ dependencies
+    // ใช้ระบบโมดูลแบบ ESM
+    "module": "ESNext",
 
-    "outDir": "dist",                 // โฟลเดอร์ผลลัพธ์คอมไพล์ (ถ้าคุณคอมไพล์ TS Server)
-    "rootDir": "src",                 // รากของ source
+    // ใช้ระบบแก้ path ที่เหมาะกับ Vite + TS + React
+    "moduleResolution": "bundler",
 
-    "baseUrl": ".",                  // ตั้งฐานของ path alias
+    // เปิดให้ import default จาก CommonJS module
+    "esModuleInterop": true,
+
+    // ให้สามารถ import .json ได้
+    "resolveJsonModule": true,
+
+    // บังคับ strict mode ทั้งหมดของ TS
+    "strict": true,
+
+    // กำหนด base path เป็น root ของโปรเจกต์
+    "baseUrl": ".",
+
+    // ตั้ง alias path ให้ใช้ "@/..." แทน "src/..."
     "paths": {
-      "@/*": ["src/*"]               // alias @ แทน src/
+      "@/*": ["src/*"]
     },
 
-    "resolveJsonModule": true,       // รองรับ import json
-    "noEmit": true                   // ไม่สร้างไฟล์ JS ถ้าคุณใช้ Vite ควบคุมการ build
+    // ใช้ JSX แบบ React 17+ (ไม่ต้อง import React)
+    "jsx": "react-jsx"
   },
-  "include": [
-    "src",                          // รวมไฟล์ TS/TSX ใน src
-    "server.ts",                    // รวม server.ts (API server)
-    "api/**/*.ts"                   // รวมไฟล์ api/ ทั้งหมด
-  ],
-  "exclude": [
-    "node_modules",                // ไม่รวม node_modules
-    "dist"                        // ไม่รวมไฟล์คอมไพล์ output
-  ]
+
+  // สำหรับ ts-node ให้รองรับ ESM
+  "ts-node": {
+    "esm": true
+  }
 }
