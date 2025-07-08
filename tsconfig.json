@@ -1,20 +1,35 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "useDefineForClassFields": true,
+    "target": "ES2020",                // โค้ดที่คอมไพล์จะเป็น ES2020 ขึ้นไป
+    "module": "ESNext",               // ใช้ ES Modules
+    "moduleResolution": "Node",       // หาโมดูลแบบ Node.js
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "allowJs": false,
-    "skipLibCheck": true,
-    "esModuleInterop": false,
+
+    "jsx": "react-jsx",               // สำหรับ React 17+ แบบใหม่
+    "esModuleInterop": true,          // รองรับ import แบบ CommonJS ด้วย
     "allowSyntheticDefaultImports": true,
-    "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+    "strict": true,                   // เปิดโหมดตรวจสอบเข้มงวด
+    "skipLibCheck": true,             // ข้ามตรวจสอบ type ของ dependencies
+
+    "outDir": "dist",                 // โฟลเดอร์ผลลัพธ์คอมไพล์ (ถ้าคุณคอมไพล์ TS Server)
+    "rootDir": "src",                 // รากของ source
+
+    "baseUrl": ".",                  // ตั้งฐานของ path alias
+    "paths": {
+      "@/*": ["src/*"]               // alias @ แทน src/
+    },
+
+    "resolveJsonModule": true,       // รองรับ import json
+    "noEmit": true                   // ไม่สร้างไฟล์ JS ถ้าคุณใช้ Vite ควบคุมการ build
   },
-  "include": ["src"]
+  "include": [
+    "src",                          // รวมไฟล์ TS/TSX ใน src
+    "server.ts",                    // รวม server.ts (API server)
+    "api/**/*.ts"                   // รวมไฟล์ api/ ทั้งหมด
+  ],
+  "exclude": [
+    "node_modules",                // ไม่รวม node_modules
+    "dist"                        // ไม่รวมไฟล์คอมไพล์ output
+  ]
 }
