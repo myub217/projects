@@ -22,18 +22,12 @@ app.use(history());
 
 // ✅ Middleware ทั่วไป
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// ✅ เสิร์ฟ static files จาก dist (หลัง Vite build)
+// ✅ ให้ Express เสิร์ฟไฟล์ static จาก /dist (หลัง build Vite)
 app.use(express.static(path.join(__dirname, "dist")));
 
-// ✅ เส้นทาง API (เริ่มต้นด้วย /api)
+// ✅ เส้นทาง API
 app.use("/api", apiRouter);
-
-// ✅ กรณี route ไม่ตรง ให้เสิร์ฟ index.html (SPA fallback)
-app.get("*", (_req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
-});
 
 // ✅ เริ่มต้นเซิร์ฟเวอร์
 app.listen(PORT, () => {

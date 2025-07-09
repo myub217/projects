@@ -1,5 +1,3 @@
-// src/data/users.ts
-
 export type UserRole = "admin" | "user";
 
 export interface User {
@@ -7,6 +5,7 @@ export interface User {
   role: UserRole;
 }
 
+// แปลง JSON ดิบมาใส่ role เองตามกลุ่มที่เรารู้ (admin2517 เป็น admin ส่วนที่เหลือ user)
 export const users: Record<string, User> = {
   admin2517: {
     passwordHash: "46c883f81adcbad298233e4fc0b3d84c66a4ad686d2af7153f888663f6c1d84b",
@@ -50,6 +49,10 @@ export const users: Record<string, User> = {
   },
   JPKYETONKEY300: {
     passwordHash: "42adc3026e068b28392cbdee6a70394c03a3a60caa94f94a42fe8e51032770a8",
+    role: "user",
+  },
+  JPusertest01: {
+    passwordHash: "d5154a7beb5c6f9948a8dffdc9c6748e47ce9a40be9744e2296123d7e1347f88",
     role: "user",
   },
 };
