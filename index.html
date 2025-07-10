@@ -38,6 +38,7 @@
 
     <!-- Theme Init Script -->
     <script>
+      // โหลดธีมจาก localStorage หรือใช้ "lofi" เป็นค่าเริ่มต้น
       const userTheme = localStorage.getItem("app-theme") || "lofi";
       document.documentElement.setAttribute("data-theme", userTheme);
     </script>

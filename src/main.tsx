@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -7,9 +7,6 @@ import "./style.css";
 import IndexPage from "./pages/IndexPage";
 import LoginPage from "./pages/LoginPage";
 import SecretRoomPage from "./pages/SecretRoomPage";
-
-// Theme toggle state
-import { useState } from "react";
 
 const App: React.FC = () => {
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -22,9 +19,15 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
+        <Route
+          path="/"
+          element={<IndexPage theme={theme} toggleTheme={toggleTheme} />}
+        />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/secret" element={<SecretRoomPage theme={theme} toggleTheme={toggleTheme} />} />
+        <Route
+          path="/secret"
+          element={<SecretRoomPage theme={theme} toggleTheme={toggleTheme} />}
+        />
       </Routes>
     </BrowserRouter>
   );

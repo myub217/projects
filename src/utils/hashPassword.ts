@@ -9,6 +9,10 @@ export async function hashPassword(password: string): Promise<string> {
 
   // ใช้ Web Crypto API สำหรับ hashing
   const cryptoAPI = globalThis.crypto || (window as any).crypto;
+  if (!cryptoAPI || !cryptoAPI.subtle) {
+    throw new Error("Web Crypto API ไม่พร้อมใช้งานใน environment นี้");
+  }
+
   const hashBuffer = await cryptoAPI.subtle.digest("SHA-256", data);
 
   // แปลง ArrayBuffer เป็น hex string

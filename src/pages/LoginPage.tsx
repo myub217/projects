@@ -31,7 +31,8 @@ const LoginPage: React.FC = () => {
     if (inputHash === user.passwordHash) {
       localStorage.setItem("authUser", username);
       localStorage.setItem("authRole", user.role);
-      navigate("/secret-room");
+      // แก้ไขเส้นทางให้ตรงกับ Route ที่ตั้งไว้ใน App.tsx
+      navigate("/secret");
     } else {
       setError("รหัสผ่านไม่ถูกต้อง");
     }
