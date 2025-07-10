@@ -1,3 +1,4 @@
+// src/components/ReviewsSection.tsx
 import React from "react";
 
 // รีวิวลูกค้า
@@ -55,7 +56,7 @@ const ReviewsSection: React.FC = () => {
                 decoding="async"
                 draggable={false}
                 onError={(e) => {
-                  e.currentTarget.onerror = null;
+                  e.currentTarget.onerror = null; // ป้องกัน loop error
                   e.currentTarget.src = fallbackImage;
                 }}
                 className="w-full h-auto object-cover transition-opacity duration-500"

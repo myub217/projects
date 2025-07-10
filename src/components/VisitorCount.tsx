@@ -1,3 +1,4 @@
+// src/components/VisitorCount.tsx
 import React, {
   useEffect,
   useRef,
@@ -8,21 +9,19 @@ import React, {
 } from "react";
 
 interface VisitorCountProps {
-  min?: number; // ค่าต่ำสุดของจำนวนผู้เข้าชม
-  max?: number; // ค่าสูงสุดของจำนวนผู้เข้าชม
-  className?: string; // คลาส CSS เสริม
-  label?: string; // ชื่อ label แสดง
-  updateInterval?: number; // ระยะเวลาอัพเดต (มิลลิวินาที)
-  initialCount?: number; // จำนวนเริ่มต้นที่จะแสดง
-  enableAutoUpdate?: boolean; // เปิด/ปิดการอัพเดตอัตโนมัติ
+  min?: number;
+  max?: number;
+  className?: string;
+  label?: string;
+  updateInterval?: number;
+  initialCount?: number;
+  enableAutoUpdate?: boolean;
 }
 
 const DEFAULT_MIN = 500;
 const DEFAULT_MAX = 3000;
 
-/**
- * ตรวจสอบและปรับช่วง min และ max ให้เหมาะสม
- */
+// 🧠 Ensure min-max range is logical
 const sanitizeRange = (min?: number, max?: number): [number, number] => {
   let minVal = Number.isInteger(min) && min! >= 0 ? min! : DEFAULT_MIN;
   let maxVal = Number.isInteger(max) && max! >= minVal ? max! : DEFAULT_MAX;
@@ -30,12 +29,9 @@ const sanitizeRange = (min?: number, max?: number): [number, number] => {
   return [minVal, maxVal];
 };
 
-/**
- * สุ่มค่าตัวเลขแบบสมเหตุสมผล โดยให้ค่าถัดไปใกล้เคียงกับค่าปัจจุบันไม่กระโดดมาก
- * เพื่อให้จำนวนผู้เข้าชมดูเป็นธรรมชาติ ไม่ขึ้นลงกระทันหัน
- */
+// 🎲 Random next value, close to current value
 const getSmartRandom = (current: number, min: number, max: number): number => {
-  const delta = Math.max(1, Math.floor((max - min) * 0.05)); // ขอบเขตเปลี่ยนแปลงไม่เกิน 5%
+  const delta = Math.max(1, Math.floor((max - min) * 0.05));
   const direction = Math.random() > 0.5 ? 1 : -1;
   const next = current + direction * Math.floor(Math.random() * (delta + 1));
   return Math.min(max, Math.max(min, next));
@@ -50,10 +46,8 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
   initialCount,
   enableAutoUpdate = true,
 }) => {
-  // sanitize ค่า min, max
   const [minVal, maxVal] = useMemo(() => sanitizeRange(min, max), [min, max]);
 
-  // กำหนดค่าเริ่มต้นสำหรับ count ให้ถูกต้องและอยู่ในช่วง
   const getInitial = useCallback(() => {
     if (
       typeof initialCount === "number" &&
@@ -68,16 +62,13 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
   const [count, setCount] = useState<number>(getInitial);
   const prevCountRef = useRef<number>(count);
 
-  // ตรวจสอบ locale สำหรับฟอร์แมตตัวเลข
   const locale =
     typeof navigator !== "undefined" && navigator.language
       ? navigator.language
       : "en-US";
 
-  // สร้าง Intl.NumberFormat เพื่อฟอร์แมตจำนวนผู้เข้าชมให้สวยงาม
   const numberFormatter = useMemo(() => new Intl.NumberFormat(locale), [locale]);
 
-  // ฟังก์ชันอัพเดตจำนวนผู้เข้าชม โดยสุ่มใกล้เคียงกับค่าเดิม
   const updateCount = useCallback(() => {
     const prev = prevCountRef.current;
     const next = getSmartRandom(prev, minVal, maxVal);
@@ -87,15 +78,12 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
     }
   }, [minVal, maxVal]);
 
-  // ตั้ง interval เพื่ออัพเดตจำนวนตามช่วงเวลา (ถ้าเปิดใช้)
   useEffect(() => {
     if (!enableAutoUpdate || updateInterval <= 0 || minVal === maxVal) return;
-
     const intervalId = setInterval(updateCount, updateInterval);
     return () => clearInterval(intervalId);
   }, [updateInterval, updateCount, enableAutoUpdate, minVal, maxVal]);
 
-  // ถ้ามี initialCount ใหม่ที่แตกต่างจากค่า count ปัจจุบัน ให้ตั้งค่าใหม่
   useEffect(() => {
     if (
       typeof initialCount === "number" &&
@@ -108,7 +96,6 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
     }
   }, [initialCount, minVal, maxVal, count]);
 
-  // ฟอร์แมตจำนวนผู้เข้าชมสำหรับแสดงผล
   const formatted = numberFormatter.format(count);
 
   return (
@@ -135,6 +122,7 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
   );
 };
 
+// 🧠 Memoized for performance
 const VisitorCount = memo(VisitorCountComponent);
 VisitorCount.displayName = "VisitorCount";
 

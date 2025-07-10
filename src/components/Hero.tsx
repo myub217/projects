@@ -1,3 +1,5 @@
+// src/components/Hero.tsx
+
 import React from "react";
 import { FaLock, FaDoorOpen } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -29,6 +31,7 @@ const Hero: React.FC<HeroProps> = ({ buttonText = "เข้าสู่ระ�
         filter: "brightness(1.15) contrast(1.1)",
       }}
     >
+      {/* ปุ่มและลายเซ็นลอยด้านล่างขวา */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -57,6 +60,7 @@ const Hero: React.FC<HeroProps> = ({ buttonText = "เข้าสู่ระ�
             (e.currentTarget as HTMLImageElement).style.display = "none";
           }}
         />
+
         <motion.button
           onClick={handleLoginClick}
           aria-label="เข้าสู่ระบบลับ"
@@ -71,7 +75,9 @@ const Hero: React.FC<HeroProps> = ({ buttonText = "เข้าสู่ระ�
           whileTap={{ scale: 0.97 }}
         >
           <FaLock className="text-base sm:text-xl" aria-hidden="true" />
-          <span className="text-xs sm:text-base whitespace-nowrap">{buttonText}</span>
+          <span className="text-xs sm:text-base whitespace-nowrap">
+            {buttonText}
+          </span>
           <FaDoorOpen className="text-sm sm:text-lg opacity-70" aria-hidden="true" />
         </motion.button>
       </motion.div>

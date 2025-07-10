@@ -26,7 +26,7 @@ interface LogEntry {
   time: string;
 }
 
-const LOGOUT_TIMEOUT_MS = 1000 * 60 * 10; // 10 นาที
+const LOGOUT_TIMEOUT_MS = 10 * 60 * 1000; // 10 นาที
 
 const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) => {
   const navigate = useNavigate();
@@ -50,6 +50,7 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
     navigate("/login");
   }, [navigate]);
 
+  // แปลงเวลาที่เหลือ (ms) เป็นรูปแบบ mm:ss
   const formatTime = (ms: number): string => {
     const totalSeconds = Math.floor(ms / 1000);
     const minutes = Math.floor(totalSeconds / 60);
@@ -58,6 +59,7 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
   };
 
   useEffect(() => {
+    // ตรวจสอบผู้ใช้ ถ้าไม่พบ user ให้ redirect ไป login
     const user = localStorage.getItem("authUser");
     if (!user) {
       navigate("/login");
@@ -66,8 +68,10 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
 
     setUsername(user);
 
+    // ฟังก์ชันโหลดข้อมูลจำลอง
     const fetchData = async () => {
-      await new Promise((res) => setTimeout(res, 500)); // simulate delay
+      // จำลองดีเลย์
+      await new Promise((res) => setTimeout(res, 500));
 
       setReport({
         documentCount: 42,
@@ -92,6 +96,7 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
 
     fetchData();
 
+    // ตั้งเวลานับถอยหลัง logout
     const interval = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1000) {

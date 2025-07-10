@@ -12,7 +12,8 @@ const LogoApplicationlubmobile: React.FC<LogoProps> = ({
 }) => {
   const fillColor = colorScheme === "dark" ? "#FFFFFF" : "#000000";
   const strokeColor = colorScheme === "dark" ? "#1a1a1a" : "#DDDDDD";
-  const shadowColor = colorScheme === "dark" ? "rgba(0,0,0,0.35)" : "rgba(0,0,0,0.1)";
+  const shadowColor =
+    colorScheme === "dark" ? "rgba(0,0,0,0.35)" : "rgba(0,0,0,0.1)";
 
   return (
     <svg
@@ -20,6 +21,7 @@ const LogoApplicationlubmobile: React.FC<LogoProps> = ({
       viewBox="0 0 720 100"
       xmlns="http://www.w3.org/2000/svg"
       role="img"
+      aria-label={ariaLabel}
       aria-labelledby="logo-title logo-desc"
       preserveAspectRatio="xMinYMin meet"
       focusable="false"
@@ -42,7 +44,7 @@ const LogoApplicationlubmobile: React.FC<LogoProps> = ({
         textAnchor="middle"
         fontFamily="'Poppins', 'Segoe UI', 'Helvetica Neue', sans-serif"
         fontWeight="700" /* ลดความหนาจาก 900 เป็น 700 ให้ไม่อ้วนแต่ยังคม */
-        fontSize="52" /* เพิ่มขนาดให้เด่นขึ้นอีก */
+        fontSize={52} /* เพิ่มขนาดให้เด่นขึ้นอีก */
         fill={fillColor}
         stroke={strokeColor}
         strokeWidth={0.9} /* ลดความหนาขอบให้คม ไม่อ้วน */

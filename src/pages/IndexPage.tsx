@@ -1,28 +1,40 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
-import Feature from "../components/Feature"; // ตรงกับชื่อไฟล์จริง Feature.tsx
+import Feature from "../components/Feature";
 import ServicesSection from "../components/ServicesSection";
 import About from "../components/About";
 import ReviewsSection from "../components/ReviewsSection";
 import Footer from "../components/Footer";
 
 const IndexPage: React.FC = () => {
+  // กำหนดสถานะธีม เริ่มต้นเป็น 'light' เพื่อป้องกัน flicker
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
-  // โหลดธีมจาก localStorage หรือจาก system preference หากไม่มีค่าใน localStorage
+  // โหลดค่า theme จาก localStorage หรือระบบ OS (prefers-color-scheme) ตอนแรกโหลดหน้า
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+    try {
+      const savedTheme = localStorage.getItem("theme") as
+        | "light"
+        | "dark"
+        | null;
 
-    if (savedTheme === "light" || savedTheme === "dark") {
-      setTheme(savedTheme);
-    } else {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setTheme(prefersDark ? "dark" : "light");
+      if (savedTheme === "light" || savedTheme === "dark") {
+        setTheme(savedTheme);
+      } else {
+        // ถ้าไม่มีค่าใน localStorage ใช้ prefers-color-scheme
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        setTheme(prefersDark ? "dark" : "light");
+      }
+    } catch (error) {
+      console.error("Error loading theme:", error);
+      setTheme("light");
     }
   }, []);
 
-  // ฟัง event เปลี่ยน prefers-color-scheme แบบ realtime หาก user ไม่ได้ตั้งธีมเอง
+  // ติดตาม event การเปลี่ยนแปลง prefers-color-scheme เพื่อปรับธีมแบบ realtime (ถ้า user ไม่ได้ตั้งค่าเอง)
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
@@ -33,11 +45,18 @@ const IndexPage: React.FC = () => {
       }
     };
 
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
+    // modern browsers
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener("change", handleChange);
+      return () => mediaQuery.removeEventListener("change", handleChange);
+    } else if (mediaQuery.addListener) {
+      // Safari and older browsers fallback
+      mediaQuery.addListener(handleChange);
+      return () => mediaQuery.removeListener(handleChange);
+    }
   }, []);
 
-  // ซิงค์ class .dark กับ document root และเก็บค่า theme ลง localStorage ทุกครั้งที่ theme เปลี่ยน
+  // ซิงค์ธีม class กับ <html> และเก็บลง localStorage ทุกครั้งที่ธีมเปลี่ยน
   useEffect(() => {
     const root = window.document.documentElement;
     if (theme === "dark") {
@@ -48,7 +67,7 @@ const IndexPage: React.FC = () => {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // ฟังก์ชันสลับธีมเมื่อกดปุ่ม toggle
+  // ฟังก์ชันสลับธีมแบบ memoized ป้องกัน re-render เกินจำเป็น
   const toggleTheme = useCallback(() => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   }, []);
@@ -59,7 +78,11 @@ const IndexPage: React.FC = () => {
       <Header theme={theme} toggleTheme={toggleTheme} />
 
       {/* เนื้อหาหลักของหน้า */}
-      <main className="bg-base-100 text-base-content min-h-screen transition-colors duration-500">
+      <main
+        id="main-content"
+        className="bg-base-100 text-base-content min-h-screen transition-colors duration-500"
+        tabIndex={-1} // เพิ่มให้ keyboard focus ได้หลังโหลดหน้า
+      >
         {/* ส่วน Hero: โลโก้, ปุ่มเข้าสู่ระบบ, ลายเซ็น */}
         <Hero />
 

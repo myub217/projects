@@ -2,16 +2,26 @@ import React from "react";
 
 interface SystemNoteProps {
   message: string;
-  type?: "info" | "warning" | "error"; // ประเภทของโน้ต (กำหนดสไตล์อัตโนมัติ)
+  type?: "info" | "warning" | "error"; // ประเภทของโน้ต เพื่อกำหนดสไตล์อัตโนมัติ
 }
 
-// กำหนดสไตล์ตามประเภทข้อความ
+/**
+ * กำหนดสไตล์พื้นฐานและสีตามประเภทข้อความ
+ * - รองรับ light & dark mode โดยใช้ Tailwind CSS classes
+ */
 const typeStyles = {
   info: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
   warning: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
   error: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
 };
 
+/**
+ * Component: SystemNote
+ * แสดงข้อความแจ้งเตือนหรือบันทึกระบบที่มีการเน้นตามประเภท
+ * Accessibility:
+ * - ใช้ role="alert" และ aria-live="polite" เพื่อแจ้งผู้ใช้เมื่อข้อความเปลี่ยนแปลง
+ * - ข้อความใน <p> ใช้ขนาดเล็ก (text-sm) เพื่อไม่แย่งความสนใจมากเกินไป
+ */
 export default function SystemNote({ message, type = "info" }: SystemNoteProps) {
   return (
     <section

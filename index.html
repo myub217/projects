@@ -1,9 +1,18 @@
 <!DOCTYPE html>
-<html lang="th" data-theme="lofi">
+<html lang="th" dir="ltr" data-theme="lofi">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
+    />
     <title>Applicationlubmobile</title>
+
+    <!-- Preconnect CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
@@ -32,20 +41,43 @@
     <meta name="twitter:description" content="บริการครบวงจรทั้งเอกสาร วีซ่า ออกแบบ และการตลาด" />
     <meta name="twitter:image" content="/og-image.webp" />
 
-    <!-- PWA -->
+    <!-- PWA Support -->
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="theme-color" content="#2C3E50" />
 
     <!-- Theme Init Script -->
     <script>
-      // โหลดธีมจาก localStorage หรือใช้ "lofi" เป็นค่าเริ่มต้น
-      const userTheme = localStorage.getItem("app-theme") || "lofi";
-      document.documentElement.setAttribute("data-theme", userTheme);
+      (function () {
+        try {
+          const userTheme = localStorage.getItem("app-theme") || "lofi";
+          const root = document.documentElement;
+          root.setAttribute("data-theme", userTheme);
+          if (userTheme === "lofi-dark") {
+            root.classList.add("dark");
+          } else {
+            root.classList.remove("dark");
+          }
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "lofi");
+          document.documentElement.classList.remove("dark");
+          console.warn("Cannot access localStorage to get theme:", e);
+        }
+      })();
     </script>
   </head>
 
-  <body class="bg-base-100 text-base-content transition-colors duration-300 font-sans">
+  <body
+    class="bg-base-100 text-base-content transition-colors duration-300 font-sans"
+  >
     <div id="root"></div>
+
+    <noscript>
+      <div
+        style="padding: 2rem; text-align: center; background-color: #fef3c7; color: #92400e"
+      >
+        โปรดเปิด JavaScript เพื่อใช้งานเว็บไซต์นี้
+      </div>
+    </noscript>
 
     <script type="module" src="/src/main.tsx"></script>
   </body>

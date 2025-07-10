@@ -57,7 +57,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     };
   }, [isOpen]);
 
-  // ดักจับ focus ภายในเมนูมือถือ
+  // ดักจับ focus ภายในเมนูมือถือ (focus trap)
   useEffect(() => {
     if (!isOpen || !menuRef.current) return;
 
@@ -67,24 +67,31 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
       menuRef.current.querySelectorAll<HTMLElement>(selectors)
     ).filter((el) => !el.hasAttribute("disabled") && el.offsetParent !== null);
 
+    if (focusable.length === 0) return;
+
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
 
     const trapFocus = (e: KeyboardEvent) => {
       if (e.key !== "Tab") return;
-      if (focusable.length === 0) return;
 
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
+      if (e.shiftKey) {
+        // Shift + Tab
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        // Tab
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     };
 
     document.addEventListener("keydown", trapFocus);
-    first?.focus();
+    first.focus();
 
     return () => document.removeEventListener("keydown", trapFocus);
   }, [isOpen]);

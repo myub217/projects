@@ -32,12 +32,14 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
+  // อัปเดต currentHash เมื่อ URL hash เปลี่ยน
   useEffect(() => {
     const updateHash = () => setCurrentHash(window.location.hash || "");
     window.addEventListener("hashchange", updateHash);
     return () => window.removeEventListener("hashchange", updateHash);
   }, []);
 
+  // ฟังก์ชันเช็คว่าลิงก์ active หรือไม่
   const isLinkActive = useCallback(
     (href: string) => {
       if (!href || href === "#") return false;
@@ -46,6 +48,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
     [currentHash]
   );
 
+  // ปิดเมนูมือถือเมื่อกด Escape
   useEffect(() => {
     if (!isMobileMenuOpen) return;
 
@@ -76,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
             <LogoApplicationlubmobile
               className="h-10 w-auto max-w-[200px] cursor-pointer"
               aria-label="โลโก้ Applicationlubmobile"
-              colorScheme={theme === "dark" ? "whiteGray" : "blue"}
+              colorScheme={theme === "dark" ? "dark" : "light"}
             />
           </a>
 
