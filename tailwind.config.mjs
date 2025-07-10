@@ -2,6 +2,7 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/{components,layouts,pages,tools,config}/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -80,9 +81,9 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
-        serif: ["Merriweather", "Georgia", "serif"],
-        mono: ["Fira Code", "Menlo", "Monaco", "monospace"],
+        body: ["Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
+        heading: ["Merriweather", "Georgia", "serif"],
+        code: ["Fira Code", "Menlo", "Monaco", "monospace"],
       },
       fontSize: {
         xs: ["0.75rem", { lineHeight: "1rem" }],
@@ -149,7 +150,7 @@ export default {
         },
       },
       {
-        lofiDark: {
+        "lofi-dark": {
           primary: "#222222",
           "primary-focus": "#3A3A3A",
           secondary: "#A3A3A8",

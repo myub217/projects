@@ -1,4 +1,3 @@
-// src/pages/SecretRoomPage.tsx
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
@@ -14,9 +13,17 @@ import RecentActivityLog from "./SecretRoomPageComponents/RecentActivityLog";
 import SystemNote from "./SecretRoomPageComponents/SystemNote";
 import AccessTimeout from "./SecretRoomPageComponents/AccessTimeout";
 
+import { DocumentCert } from "./SecretRoomPageComponents/DocumentCert";
+
 interface SecretRoomPageProps {
   theme: "light" | "dark";
   toggleTheme: () => void;
+}
+
+interface LogEntry {
+  id: number;
+  detail: string;
+  time: string;
 }
 
 const LOGOUT_TIMEOUT_MS = 1000 * 60 * 10; // 10 นาที
@@ -35,7 +42,7 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
     lastDocumentStatus: "รอตรวจสอบ",
   });
 
-  const [logs, setLogs] = useState<{ id: number; detail: string; time: string }[]>([]);
+  const [logs, setLogs] = useState<LogEntry[]>([]);
 
   const handleLogout = useCallback(() => {
     localStorage.removeItem("authUser");
@@ -105,7 +112,9 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
       <>
         <Header theme={theme} toggleTheme={toggleTheme} />
         <main className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 p-6">
-          <p className="text-gray-800 dark:text-white text-lg font-medium">กำลังโหลดข้อมูล...</p>
+          <p className="text-gray-800 dark:text-white text-lg font-medium">
+            กำลังโหลดข้อมูล...
+          </p>
         </main>
         <Footer />
       </>
@@ -137,10 +146,14 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
             <SystemNote message="ระบบกำลังอยู่ในช่วงทดสอบ โปรดตรวจสอบข้อมูลอย่างละเอียด" />
           </div>
 
+          {/* เอกสารใบทะเบียนพาณิชย์ */}
+          <DocumentCert />
+
           {/* Countdown & Logout */}
           <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
             <div className="text-center text-sm text-gray-500 dark:text-gray-400 mb-4">
-              ⏳ ระบบจะออกจากระบบในอีก <span className="font-semibold">{formatTime(timeLeft)}</span>
+              ⏳ ระบบจะออกจากระบบในอีก{" "}
+              <span className="font-semibold">{formatTime(timeLeft)}</span>
             </div>
             <button
               type="button"
