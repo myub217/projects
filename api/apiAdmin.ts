@@ -1,30 +1,33 @@
-import express, { Request, Response } from "express";
+import express from "express";
 
 const router = express.Router();
 
-// ตรวจสอบว่า API ยังออนไลน์หรือไม่
-router.get("/status", (_req: Request, res: Response) => {
-  res.json({
-    success: true,
-    message: "API is online ✅",
-    time: new Date().toISOString(),
-  });
-});
+router.get("/repos/:username", async (req, res) => {
+  const username = req.params.username;
+  const token = process.env.GITHUB_TOKEN;
 
-// Mock login API (admin / 1234)
-router.post("/login", (req: Request, res: Response) => {
-  const { username, password } = req.body;
+  if (!token) {
+    return res.status(500).json({ error: "GitHub token is not set." });
+  }
 
-  if (username === "admin" && password === "1234") {
-    res.json({
-      success: true,
-      token: "mock-token-abc123",
+  try {
+    const response = await fetch(`https://api.github.com/users/${username}/repos`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/vnd.github+json",
+      },
     });
-  } else {
-    res.status(401).json({
-      success: false,
-      message: "Invalid credentials",
-    });
+
+    if (!response.ok) {
+      return res.status(response.status).json({ error: "GitHub API error." });
+    }
+
+    const data = await response.json();
+    return res.json(data);
+  } catch (err) {
+    // err อาจไม่ใช่ Error object เสมอไป จึง cast และ fallback message
+    const message = err instanceof Error ? err.message : "Unknown error";
+    return res.status(500).json({ error: message });
   }
 });
 

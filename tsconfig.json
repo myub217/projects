@@ -1,36 +1,17 @@
 {
   "compilerOptions": {
-    // เป้าหมายการ compile เป็น JavaScript เวอร์ชันใหม่
     "target": "ES2022",
-
-    // ใช้ระบบโมดูลแบบ ESM
     "module": "ESNext",
-
-    // ใช้ระบบแก้ path ที่เหมาะกับ Vite + TS + React
     "moduleResolution": "bundler",
-
-    // เปิดให้ import default จาก CommonJS module
     "esModuleInterop": true,
-
-    // ให้สามารถ import .json ได้
     "resolveJsonModule": true,
-
-    // บังคับ strict mode ทั้งหมดของ TS
     "strict": true,
-
-    // กำหนด base path เป็น root ของโปรเจกต์
     "baseUrl": ".",
-
-    // ตั้ง alias path ให้ใช้ "@/..." แทน "src/..."
     "paths": {
       "@/*": ["src/*"]
     },
-
-    // ใช้ JSX แบบ React 17+ (ไม่ต้อง import React)
     "jsx": "react-jsx"
   },
-
-  // สำหรับ ts-node ให้รองรับ ESM
   "ts-node": {
     "esm": true
   }

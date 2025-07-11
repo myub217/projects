@@ -1,0 +1,51 @@
+# -------------------------------
+# General
+# -------------------------------
+node_modules/
+dist/
+build/
+.vite/
+.next/
+.turbo/
+.vercel/
+.temp/
+.cache/
+*.tsbuildinfo
+
+# -------------------------------
+# Logs
+# -------------------------------
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# -------------------------------
+# Environment variables
+# -------------------------------
+.env
+.env.*  # เช่น .env.development, .env.production
+
+# -------------------------------
+# Editor / OS-specific
+# -------------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# -------------------------------
+# Optional: Visualizer reports
+# -------------------------------
+report.html
+
+# -------------------------------
+# Optional: macOS/Linux artifacts
+# -------------------------------
+*.log
+*.pid
+*.seed
+*.tgz
+*.gz

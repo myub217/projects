@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "connect-history-api-fallback": "^2.0.0",
+    "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "framer-motion": "^12.23.0",
     "lucide-react": "^0.525.0",
