@@ -1,4 +1,3 @@
-// src/components/ServicesSection.tsx
 import React from "react";
 import ServiceCard from "./ServiceCard";
 import { services } from "../data/servicesData"; // ✅ นำเข้าข้อมูลบริการ
@@ -21,15 +20,15 @@ interface ServicesSectionProps {
 const ServicesSection: React.FC<ServicesSectionProps> = ({ onRequest }) => {
   return (
     <section
-      className="py-16 bg-base-100 dark:bg-gray-900"
+      className="py-16 bg-base-100 dark:bg-gray-900 transition-colors duration-500"
       aria-label="บริการของเรา"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-center mb-10 text-primary">
+        <h2 className="text-3xl font-extrabold text-center mb-12 text-primary tracking-wide">
           บริการของเรา
         </h2>
 
-        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {services.map((service) => (
             <div
               key={`${service.id}-${service.title}`}
@@ -44,7 +43,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ onRequest }) => {
               />
               {!service.available && service.comingSoonNote && (
                 <p
-                  className="mt-2 text-center text-sm text-gray-500 dark:text-gray-400 italic animate-pulse"
+                  className="mt-3 text-center text-sm text-gray-500 dark:text-gray-400 italic animate-pulse"
                   aria-live="polite"
                   role="note"
                 >

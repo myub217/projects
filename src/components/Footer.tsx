@@ -3,6 +3,9 @@ import { Facebook, Instagram, MessageCircleMore, ArrowUp } from "lucide-react";
 import { FaTiktok } from "react-icons/fa";
 import jpLogo from "../assets/jp-logo.png";
 
+// ==============================
+// Types
+// ==============================
 interface MenuItem {
   href: string;
   label: string;
@@ -11,14 +14,15 @@ interface MenuItem {
 interface SocialLink {
   href: string;
   label: string;
-  Icon: React.ComponentType<
-    React.SVGProps<SVGSVGElement> | React.HTMLAttributes<SVGElement>
-  >;
+  Icon: React.ComponentType<React.SVGProps<SVGSVGElement> | React.HTMLAttributes<SVGElement>>;
   ariaLabel: string;
   external?: boolean;
   nofollow?: boolean;
 }
 
+// ==============================
+// Main Component
+// ==============================
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   const [showScrollTop, setShowScrollTop] = useState(false);

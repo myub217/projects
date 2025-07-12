@@ -29,6 +29,10 @@
   --color-border: #d1d5db; /* Tailwind gray-300 equivalent */
   --color-background: var(--color-bg);
   --color-foreground: var(--color-fg);
+
+  /* Shadow for cards and elevated UI */
+  --shadow-default: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Dark Theme overrides via class */
@@ -42,6 +46,9 @@ html.dark {
   --color-border: #4b5563; /* Tailwind gray-600 equivalent */
   --color-background: var(--color-bg);
   --color-foreground: var(--color-fg);
+
+  --shadow-default: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.7);
 }
 
 /* ========== Normalize & Base ========== */
@@ -52,46 +59,95 @@ html.dark {
 
 html {
   scroll-behavior: smooth;
+  font-size: 16px; /* Base font size */
 }
 
 body {
   @apply bg-background text-foreground font-body antialiased;
   line-height: 1.6;
   transition: background-color var(--transition), color var(--transition);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ========== Typography ========== */
 
 a {
   @apply text-primary hover:underline transition-colors;
+  cursor: pointer;
+  outline-offset: 2px;
+}
+
+a:focus-visible {
+  @apply outline-none ring-2 ring-primary rounded;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   @apply font-semibold text-foreground;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
 }
 
 code, pre {
   font-family: var(--font-code);
   @apply text-sm bg-gray-100 dark:bg-gray-800 px-1 rounded;
+  tab-size: 4;
+}
+
+pre {
+  padding: 1rem;
+  overflow-x: auto;
+  border-radius: var(--radius);
 }
 
 /* ========== Form Elements ========== */
 
 button {
-  @apply rounded-lg px-4 py-2 transition;
+  @apply rounded-lg px-4 py-2 transition cursor-pointer bg-primary text-background font-semibold shadow-md;
+  border: none;
+  box-shadow: var(--shadow-default);
+  transition: background-color var(--transition), box-shadow var(--transition);
 }
 
+button:hover,
 button:focus-visible {
-  @apply ring-2 ring-primary ring-offset-2 outline-none;
+  @apply bg-yellow-500;
+  box-shadow: var(--shadow-hover);
+  outline: none;
+}
+
+button:disabled {
+  @apply opacity-50 cursor-not-allowed;
+  box-shadow: none;
 }
 
 input, textarea, select {
   border: 1px solid var(--color-border);
-  @apply px-3 py-2 rounded-md outline-none focus:ring-2 focus:ring-primary;
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+  @apply px-3 py-2 rounded-md outline-none focus:ring-2 focus:ring-primary bg-background text-foreground;
   transition: border-color var(--transition), box-shadow var(--transition);
+  width: 100%;
+  font-size: 1rem;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-secondary);
+  opacity: 1;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
 }
 
 /* ========== Scrollbar Styling ========== */
@@ -104,10 +160,29 @@ input, textarea, select {
 ::-webkit-scrollbar-thumb {
   background-color: var(--color-primary);
   border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #b38b23;
 }
 
 ::-webkit-scrollbar-track {
   background: transparent;
+}
+
+/* ========== Utility Classes ========== */
+
+.rounded {
+  border-radius: var(--radius);
+}
+
+.shadow {
+  box-shadow: var(--shadow-default);
+}
+
+.shadow-hover:hover {
+  box-shadow: var(--shadow-hover);
 }
 
 /* ========== Animations ========== */
@@ -146,4 +221,43 @@ input, textarea, select {
 [data-theme="platinum-dark"] {
   background-color: #121417;
   color: #e4e6eb;
+}
+
+/* ========== Additional Enhancements ========== */
+
+/* Buttons with focus-visible for accessibility */
+button:focus-visible {
+  outline-offset: 2px;
+  outline: 2px solid var(--color-primary);
+}
+
+/* Responsive typography adjustment */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Enhanced card style */
+.card {
+  background-color: var(--color-background);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-default);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.card:hover,
+.card:focus-within {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-4px);
+}
+
+/* Accessibility: reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

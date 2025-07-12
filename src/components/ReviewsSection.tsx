@@ -1,7 +1,7 @@
 // src/components/ReviewsSection.tsx
 import React from "react";
 
-// รีวิวลูกค้า
+// รีวิวลูกค้า (Import images ให้ถูก path ตามโครงสร้างโปรเจกต์)
 import review1 from "../assets/images/review/review1.png";
 import review2 from "../assets/images/review/review2.png";
 import review3 from "../assets/images/review/review3.png";
@@ -34,6 +34,7 @@ const ReviewsSection: React.FC = () => {
     <section
       className="py-16 bg-gray-50 dark:bg-gray-900 transition-colors duration-500"
       aria-labelledby="reviews-heading"
+      role="region"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2

@@ -1,51 +1,55 @@
-// src/main.tsx หรือ src/index.tsx (ไฟล์เริ่มต้น React + React Router + Theme toggle)
-// แก้ไขและออกแบบให้สมบูรณ์ พร้อมเชื่อมโยงกับ global.css และ Tailwind/DaisyUI theme
+// src/main.tsx
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import "./styles/global.css"; // ปรับ path ให้ถูกต้องตามโครงสร้างโปรเจกต์
+import "./styles/global.css"; // ✅ Import Global CSS (Tailwind + custom vars)
 
 import IndexPage from "./pages/IndexPage";
 import LoginPage from "./pages/LoginPage";
 import SecretRoomPage from "./pages/SecretRoomPage";
 
-// ชื่อ key สำหรับเก็บธีมใน localStorage
+// 🔑 LocalStorage Key สำหรับธีม
 const THEME_KEY = "app-theme";
 
+// 🎨 Enum หรือ Type ธีม
+type ThemeMode = "light" | "dark";
+
 const App: React.FC = () => {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<ThemeMode>("light");
 
-  // โหลด theme ที่เคยตั้งไว้ หรือใช้ค่าจาก system preference ตอนเริ่มต้น
-  useEffect(() => {
-    const stored = localStorage.getItem(THEME_KEY);
-    const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const initialTheme =
-      stored === "dark" || (!stored && systemPrefersDark) ? "dark" : "light";
-    setTheme(initialTheme);
-    applyTheme(initialTheme);
-  }, []);
-
-  // ฟังก์ชันสลับธีมและซิงค์ class กับ localStorage
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    applyTheme(newTheme);
-  };
-
-  // ฟังก์ชันตั้ง class .dark และ data-theme attribute เพื่อปรับธีมให้ TailwindCSS หรือ CSS framework ทำงาน
-  const applyTheme = (theme: "light" | "dark") => {
+  // 🧠 ตั้งค่า Theme กับ <html> tag (data-theme + .dark class)
+  const applyTheme = useCallback((mode: ThemeMode) => {
     const root = document.documentElement;
-    if (theme === "dark") {
+    if (mode === "dark") {
       root.classList.add("dark");
-      root.setAttribute("data-theme", "platinum-dark"); // ตั้งชื่อตรงกับ daisyui theme ที่ config ไว้
+      root.setAttribute("data-theme", "platinum-dark");
     } else {
       root.classList.remove("dark");
-      root.setAttribute("data-theme", "platinum"); // ตั้งชื่อตรงกับ daisyui theme ที่ config ไว้
+      root.setAttribute("data-theme", "platinum");
     }
-    localStorage.setItem(THEME_KEY, theme);
-  };
+    localStorage.setItem(THEME_KEY, mode);
+  }, []);
+
+  // 🚀 โหลดธีมเริ่มต้นจาก localStorage หรือ system preference
+  useEffect(() => {
+    const stored = localStorage.getItem(THEME_KEY) as ThemeMode | null;
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const initialTheme: ThemeMode =
+      stored === "dark" || (!stored && prefersDark) ? "dark" : "light";
+    setTheme(initialTheme);
+    applyTheme(initialTheme);
+  }, [applyTheme]);
+
+  // 🌓 ฟังก์ชันสลับธีม
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => {
+      const next = prev === "light" ? "dark" : "light";
+      applyTheme(next);
+      return next;
+    });
+  }, [applyTheme]);
 
   return (
     <BrowserRouter>
@@ -64,5 +68,5 @@ const App: React.FC = () => {
   );
 };
 
-// เริ่มเรนเดอร์แอปที่ root element (ตรวจสอบให้ใน index.html มี <div id="root"></div>)
+// 🎯 Mount root app
 ReactDOM.createRoot(document.getElementById("root")!).render(<App />);

@@ -110,8 +110,8 @@ const About: React.FC = () => {
             <blockquote
               className="mt-8 text-right italic font-medium border-r-4 pr-4 flex flex-col items-end gap-2 max-w-xs"
               style={{
-                borderColor: "var(--p)",
-                color: "var(--pc)",
+                borderColor: "var(--color-primary)",
+                color: "var(--color-primary)",
               }}
             >
               <motion.span

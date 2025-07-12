@@ -45,8 +45,24 @@ export default function QuickActions() {
     <section
       className="bg-gray-100 dark:bg-gray-700 p-4 rounded-md shadow mb-8 transition-colors duration-300"
       aria-label="ลิงก์ด่วน"
+      role="region"
     >
-      <h2 className="font-semibold text-sm text-gray-800 dark:text-white mb-2">
+      <h2 className="font-semibold text-sm text-gray-800 dark:text-white mb-2 flex items-center gap-2">
+        <svg
+          className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M13.828 10.172a4 4 0 015.656 5.656l-4.95 4.95a4 4 0 01-5.656 0l-4.95-4.95a4 4 0 015.656-5.656"
+          />
+        </svg>
         🔗 ลิงก์ด่วน
       </h2>
       <ul className="list-disc list-inside text-sm space-y-1">
@@ -54,9 +70,10 @@ export default function QuickActions() {
           <li key={to}>
             <Link
               to={to}
-              className="text-blue-600 dark:text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
+              className="text-blue-600 dark:text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded transition-colors"
               aria-label={ariaLabel}
               title={label}
+              tabIndex={0}
             >
               {label}
             </Link>

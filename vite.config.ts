@@ -1,16 +1,26 @@
 // vite.config.ts
+
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { visualizer } from "rollup-plugin-visualizer";
 
+/**
+ * ✅ Vite Config: JP Visual & Docs
+ * - React + TypeScript + Tailwind + DaisyUI
+ * - รองรับ alias `@` → `src/`
+ * - เปิดใช้งาน env variables ที่ขึ้นต้นด้วย VITE_
+ * - ใช้ visualizer ใน production build
+ * - รองรับ react-router ด้วย SPA fallback
+ */
+
 export default defineConfig(({ mode }) => {
   const isDev = mode === "development";
 
-  // โหลด .env ทุกตัวแปร
+  // โหลด .env ที่เกี่ยวข้อง
   const env = loadEnv(mode, process.cwd());
 
-  // เฉพาะตัวแปรที่ขึ้นต้นด้วย VITE_
+  // กรองเฉพาะตัวแปรที่ขึ้นต้นด้วย VITE_ สำหรับ process.env
   const defineEnv = Object.fromEntries(
     Object.entries(env)
       .filter(([key]) => key.startsWith("VITE_"))
@@ -41,7 +51,6 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 5173,
       open: true,
-      // รองรับ SPA (react-router)
       fs: {
         allow: ["."],
       },
@@ -55,6 +64,21 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: "dist",
       sourcemap: true,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes("node_modules")) {
+              if (id.includes("react")) return "vendor-react";
+              if (id.includes("tailwindcss")) return "vendor-tailwind";
+              return "vendor";
+            }
+          },
+        },
+      },
+    },
+
+    css: {
+      devSourcemap: true,
     },
   };
 });

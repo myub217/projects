@@ -1,5 +1,3 @@
-// src/components/ThemeToggle.tsx
-
 import React, { useEffect, useState } from "react";
 
 const THEME_KEY = "app-theme";

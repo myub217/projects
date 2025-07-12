@@ -1,4 +1,3 @@
-// src/components/VisitorCount.tsx
 import React, {
   useEffect,
   useRef,
@@ -101,7 +100,7 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
   return (
     <div
       suppressHydrationWarning
-      className={`fixed bottom-2 right-2 z-50 text-sm text-gray-600 dark:text-gray-300 bg-white/80 dark:bg-gray-800/80 px-3 py-1.5 rounded shadow-md font-medium select-none ${className}`}
+      className={`fixed bottom-4 right-4 z-50 flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 bg-white/90 dark:bg-gray-800/90 px-4 py-2 rounded-lg shadow-lg font-medium select-none ring-1 ring-gray-300 dark:ring-gray-700 backdrop-blur-sm ${className}`}
       role="status"
       aria-live="polite"
       aria-atomic="true"
@@ -109,15 +108,27 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
       title={`${label}: ${formatted} คน`}
       data-testid="visitor-count"
     >
-      {label}:{" "}
+      <svg
+        aria-hidden="true"
+        className="w-5 h-5 text-primary flex-shrink-0"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        viewBox="0 0 24 24"
+      >
+        <path d="M17 21v-2a4 4 0 00-3-3.87M9 21v-2a4 4 0 013-3.87M12 7a4 4 0 110-8 4 4 0 010 8z" />
+      </svg>
+      <span>{label}:</span>
       <span
         aria-hidden="true"
-        className="inline-block font-mono tracking-tight"
-        style={{ minWidth: "4ch" }}
+        className="inline-block font-mono tracking-tight min-w-[4ch]"
+        style={{ letterSpacing: "0.1em" }}
       >
         {formatted}
-      </span>{" "}
-      คน
+      </span>
+      <span>คน</span>
     </div>
   );
 };

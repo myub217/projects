@@ -113,7 +113,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
           {/* ปุ่มธีม + เมนูมือถือ */}
           <div className="flex items-center gap-3">
             <div className="hidden sm:block">
-              <ThemeToggle />
+              <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
             </div>
             <button
               ref={menuButtonRef}

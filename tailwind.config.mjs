@@ -5,23 +5,22 @@ import daisyui from "daisyui";
 import typography from "@tailwindcss/typography";
 
 /**
- * Tailwind Config: JP Visual & Docs – Platinum Grade
- * Theme: "platinum", "platinum-dark", "temp"
- * Plugins: DaisyUI + Typography
- * Notes: ใช้ร่วมกับ HTML class="dark" และ data-theme="..."
+ * 🔧 Tailwind Config: JP Visual & Docs – Platinum Grade
+ * 📌 Theme Modes: "platinum", "platinum-dark", "temp"
+ * 🎨 Plugins: DaisyUI + Typography
+ * 🌙 Dark Mode: Controlled by class="dark"
  */
 
 const config: Config = {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}", // ครอบคลุม components, layouts, pages, etc.
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
 
-  darkMode: "class", // เปิดใช้งาน dark mode ผ่าน class="dark"
+  darkMode: "class",
 
   theme: {
     extend: {
-      // Breakpoints
       screens: {
         xs: "480px",
         sm: "640px",
@@ -30,8 +29,6 @@ const config: Config = {
         xl: "1280px",
         "2xl": "1536px",
       },
-
-      // Spacing / Layout
       spacing: {
         128: "32rem",
         144: "36rem",
@@ -51,8 +48,6 @@ const config: Config = {
         110: "110",
         120: "120",
       },
-
-      // Custom Colors
       colors: {
         background: {
           DEFAULT: "#F0F2F5",
@@ -116,21 +111,15 @@ const config: Config = {
           light: "#A5D8FF",
         },
       },
-
-      // Background Gradients
       backgroundImage: {
         "platinum-gradient": "linear-gradient(135deg, #D4AF37 0%, #F0E6A1 100%)",
         "platinum-dark-gradient": "linear-gradient(135deg, #1B1F24 0%, #444A55 100%)",
       },
-
-      // Fonts
       fontFamily: {
         body: ["Inter", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
         heading: ["Playfair Display", "Merriweather", "Georgia", "serif"],
         code: ["Fira Code", "Menlo", "Monaco", "monospace"],
       },
-
-      // Font Sizes
       fontSize: {
         xs: ["0.75rem", { lineHeight: "1rem" }],
         sm: ["0.875rem", { lineHeight: "1.375rem" }],
@@ -142,22 +131,16 @@ const config: Config = {
         "4xl": ["2.25rem", { lineHeight: "2.75rem" }],
         "5xl": ["3rem", { lineHeight: "1" }],
       },
-
-      // Shadows
       boxShadow: {
         soft: "0 4px 12px rgba(212, 175, 55, 0.25)",
         medium: "0 8px 24px rgba(212, 175, 55, 0.35)",
         dark: "0 12px 32px rgba(27, 31, 36, 0.9)",
       },
-
-      // Transitions
       transitionProperty: {
         colors: "background-color, border-color, color, fill, stroke",
         shadow: "box-shadow",
         transform: "transform",
       },
-
-      // Animations
       animation: {
         fadeIn: "fadeIn 0.6s ease-in forwards",
         slideUp: "slideUp 0.6s ease-out forwards",

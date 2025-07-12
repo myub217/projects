@@ -43,7 +43,7 @@ const LogoApplicationlubmobile: React.FC<LogoProps> = ({
         y="50%"
         textAnchor="middle"
         fontFamily="'Poppins', 'Segoe UI', 'Helvetica Neue', sans-serif"
-        fontWeight="700" /* ลดความหนาจาก 900 เป็น 700 ให้ไม่อ้วนแต่ยังคม */
+        fontWeight={700} /* ลดความหนาจาก 900 เป็น 700 ให้ไม่อ้วนแต่ยังคม */
         fontSize={52} /* เพิ่มขนาดให้เด่นขึ้นอีก */
         fill={fillColor}
         stroke={strokeColor}
@@ -65,6 +65,15 @@ const LogoApplicationlubmobile: React.FC<LogoProps> = ({
       >
         JP - ViSOUL & DOC'S
       </text>
+
+      <style>
+        {`
+          @keyframes fadein {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+        `}
+      </style>
     </svg>
   );
 };

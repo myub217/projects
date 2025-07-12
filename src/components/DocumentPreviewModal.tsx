@@ -13,9 +13,10 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
   onClose,
   documentUrl,
   title,
-  id,
+  id = "document-preview-modal", // default id
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   // ปิด modal เมื่อกด Escape
   useEffect(() => {
@@ -24,18 +25,20 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
         onClose();
       }
     }
+
     if (isOpen) {
       window.addEventListener("keydown", handleKeyDown);
     }
+
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen, onClose]);
 
-  // โฟกัสแรกเมื่อ modal เปิด
+  // โฟกัสปุ่มปิดเมื่อ modal เปิด
   useEffect(() => {
-    if (isOpen && modalRef.current) {
-      modalRef.current.focus();
+    if (isOpen && closeButtonRef.current) {
+      closeButtonRef.current.focus();
     }
   }, [isOpen]);
 
@@ -49,32 +52,42 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
       tabIndex={-1}
       ref={modalRef}
       id={id}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
       onClick={(e) => {
-        // ปิด modal เมื่อคลิกรอบๆ
         if (e.target === e.currentTarget) {
           onClose();
         }
       }}
     >
-      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden">
-        <header className="flex justify-between items-center p-4 border-b border-gray-300 dark:border-gray-700">
-          <h3 id={`${id}-title`} className="text-lg font-semibold">
+      <div
+        className="bg-white dark:bg-gray-900 rounded-lg shadow-2xl max-w-5xl w-full max-h-[90vh] flex flex-col overflow-hidden animate-fade-in"
+        role="document"
+      >
+        {/* Header */}
+        <header className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
+          <h2
+            id={`${id}-title`}
+            className="text-xl font-semibold text-gray-900 dark:text-white"
+          >
             {title}
-          </h3>
+          </h2>
           <button
             onClick={onClose}
-            aria-label="ปิด"
-            className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+            ref={closeButtonRef}
+            aria-label="ปิดหน้าต่างแสดงตัวอย่างเอกสาร"
+            className="text-gray-600 hover:text-red-600 dark:text-gray-300 dark:hover:text-red-400 text-xl focus:outline-none focus:ring-2 focus:ring-red-400 rounded"
           >
-            ✕
+            &times;
           </button>
         </header>
+
+        {/* Iframe */}
         <main className="flex-1 overflow-auto">
           <iframe
             src={documentUrl}
             title={title}
-            className="w-full h-full border-0"
+            className="w-full h-full min-h-[500px] border-0"
+            loading="lazy"
             sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
           />
         </main>
