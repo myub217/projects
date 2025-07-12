@@ -1,3 +1,5 @@
+// tailwind.config.ts
+
 import type { Config } from "tailwindcss";
 import daisyui from "daisyui";
 import typography from "@tailwindcss/typography";
@@ -12,14 +14,14 @@ import typography from "@tailwindcss/typography";
 const config: Config = {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./src/{components,layouts,pages,tools,config}/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}", // ครอบคลุม components, layouts, pages, etc.
   ],
 
-  darkMode: "class", // ใช้ class-based theme switcher (html.dark)
+  darkMode: "class", // เปิดใช้งาน dark mode ผ่าน class="dark"
 
   theme: {
     extend: {
+      // Breakpoints
       screens: {
         xs: "480px",
         sm: "640px",
@@ -29,17 +31,16 @@ const config: Config = {
         "2xl": "1536px",
       },
 
+      // Spacing / Layout
       spacing: {
         128: "32rem",
         144: "36rem",
         160: "40rem",
       },
-
       maxWidth: {
         "8xl": "90rem",
         "9xl": "110rem",
       },
-
       zIndex: {
         "-1": "-1",
         60: "60",
@@ -51,6 +52,7 @@ const config: Config = {
         120: "120",
       },
 
+      // Custom Colors
       colors: {
         background: {
           DEFAULT: "#F0F2F5",
@@ -115,17 +117,20 @@ const config: Config = {
         },
       },
 
+      // Background Gradients
       backgroundImage: {
         "platinum-gradient": "linear-gradient(135deg, #D4AF37 0%, #F0E6A1 100%)",
         "platinum-dark-gradient": "linear-gradient(135deg, #1B1F24 0%, #444A55 100%)",
       },
 
+      // Fonts
       fontFamily: {
         body: ["Inter", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
         heading: ["Playfair Display", "Merriweather", "Georgia", "serif"],
         code: ["Fira Code", "Menlo", "Monaco", "monospace"],
       },
 
+      // Font Sizes
       fontSize: {
         xs: ["0.75rem", { lineHeight: "1rem" }],
         sm: ["0.875rem", { lineHeight: "1.375rem" }],
@@ -138,24 +143,26 @@ const config: Config = {
         "5xl": ["3rem", { lineHeight: "1" }],
       },
 
+      // Shadows
       boxShadow: {
         soft: "0 4px 12px rgba(212, 175, 55, 0.25)",
         medium: "0 8px 24px rgba(212, 175, 55, 0.35)",
         dark: "0 12px 32px rgba(27, 31, 36, 0.9)",
       },
 
+      // Transitions
       transitionProperty: {
         colors: "background-color, border-color, color, fill, stroke",
         shadow: "box-shadow",
         transform: "transform",
       },
 
+      // Animations
       animation: {
         fadeIn: "fadeIn 0.6s ease-in forwards",
         slideUp: "slideUp 0.6s ease-out forwards",
         bounceSlow: "bounce 2.5s infinite",
       },
-
       keyframes: {
         fadeIn: {
           "0%": { opacity: 0 },
@@ -195,6 +202,7 @@ const config: Config = {
           primary: "#D4AF37",
           "primary-focus": "#B68B1B",
           secondary: "#A3A9B4",
+          "secondary-focus": "#475569",
           accent: "#E4E6EB",
           neutral: "#121417",
           "base-100": "#121417",

@@ -27,7 +27,13 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     setError(""); // Reset error state before validation
 
-    const user = users[username];
+    const trimmedUsername = username.trim();
+    if (!trimmedUsername) {
+      setError("กรุณากรอกชื่อผู้ใช้");
+      return;
+    }
+
+    const user = users[trimmedUsername];
     if (!user) {
       setError("ชื่อผู้ใช้ไม่ถูกต้อง");
       return;
@@ -37,7 +43,7 @@ const LoginPage: React.FC = () => {
       const inputHash = await hashPassword(password);
       if (inputHash === user.passwordHash) {
         // Save auth info securely (ideally use httpOnly cookie in production)
-        localStorage.setItem("authUser", username);
+        localStorage.setItem("authUser", trimmedUsername);
         localStorage.setItem("authRole", user.role);
         navigate("/secret"); // Redirect after successful login
       } else {
@@ -66,6 +72,7 @@ const LoginPage: React.FC = () => {
 
         {error && (
           <div
+            id="login-error"
             role="alert"
             className="mb-4 text-red-600 dark:text-red-400 text-center font-medium"
           >
@@ -83,7 +90,7 @@ const LoginPage: React.FC = () => {
             ref={usernameRef}
             autoComplete="username"
             value={username}
-            onChange={(e) => setUsername(e.target.value.trim())}
+            onChange={(e) => setUsername(e.target.value)}
             required
             aria-required="true"
             aria-describedby={error ? "login-error" : undefined}

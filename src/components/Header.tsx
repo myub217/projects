@@ -1,5 +1,3 @@
-// src/components/Header.tsx
-
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -32,14 +30,12 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-  // อัปเดต currentHash เมื่อ URL hash เปลี่ยน
   useEffect(() => {
     const updateHash = () => setCurrentHash(window.location.hash || "");
     window.addEventListener("hashchange", updateHash);
     return () => window.removeEventListener("hashchange", updateHash);
   }, []);
 
-  // ฟังก์ชันเช็คว่าลิงก์ active หรือไม่
   const isLinkActive = useCallback(
     (href: string) => {
       if (!href || href === "#") return false;
@@ -48,7 +44,6 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
     [currentHash]
   );
 
-  // ปิดเมนูมือถือเมื่อกด Escape
   useEffect(() => {
     if (!isMobileMenuOpen) return;
 
@@ -118,7 +113,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
           {/* ปุ่มธีม + เมนูมือถือ */}
           <div className="flex items-center gap-3">
             <div className="hidden sm:block">
-              <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+              <ThemeToggle />
             </div>
             <button
               ref={menuButtonRef}

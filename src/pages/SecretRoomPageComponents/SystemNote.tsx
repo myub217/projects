@@ -18,9 +18,11 @@ const typeStyles = {
 /**
  * Component: SystemNote
  * แสดงข้อความแจ้งเตือนหรือบันทึกระบบที่มีการเน้นตามประเภท
+ *
  * Accessibility:
  * - ใช้ role="alert" และ aria-live="polite" เพื่อแจ้งผู้ใช้เมื่อข้อความเปลี่ยนแปลง
  * - ข้อความใน <p> ใช้ขนาดเล็ก (text-sm) เพื่อไม่แย่งความสนใจมากเกินไป
+ * - รองรับการโฟกัสสำหรับผู้ใช้คีย์บอร์ดโดยการเพิ่ม tabIndex=0
  */
 export default function SystemNote({ message, type = "info" }: SystemNoteProps) {
   return (
@@ -28,6 +30,7 @@ export default function SystemNote({ message, type = "info" }: SystemNoteProps) 
       className={`p-4 rounded-md shadow-md mb-6 ${typeStyles[type]}`}
       role="alert"
       aria-live="polite"
+      tabIndex={0}
     >
       <p className="text-sm">{message}</p>
     </section>

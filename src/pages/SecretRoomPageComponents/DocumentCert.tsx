@@ -54,7 +54,6 @@ export function DocumentCert() {
           boxSizing: 'border-box',
         }}
       >
-        {/* แก้ไขให้อยู่กึ่งกลางโดยใช้ display:block และ margin อัตโนมัติ */}
         <img
           src="/assets/krut.webp"
           alt="ตราครุฑ"

@@ -1,0 +1,149 @@
+/* ============================
+   🌟 Global Custom Style Sheet
+   Project: JP Visual & Docs
+   ============================ */
+
+/* Core Tailwind layers */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========== Root Variables ========== */
+
+/* Light Theme :root */
+:root {
+  --color-bg: #f0f2f5;
+  --color-fg: #2a2f3a;
+  --color-primary: #d4af37;
+  --color-secondary: #6b7280;
+  --color-accent: #2a2f3a;
+
+  --font-body: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: 'Playfair Display', 'Georgia', serif;
+  --font-code: 'Fira Code', Menlo, Monaco, monospace;
+
+  --radius: 0.5rem;
+  --transition: 0.3s ease;
+
+  /* Additional colors for borders and backgrounds used in form */
+  --color-border: #d1d5db; /* Tailwind gray-300 equivalent */
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-fg);
+}
+
+/* Dark Theme overrides via class */
+html.dark {
+  --color-bg: #121417;
+  --color-fg: #e4e6eb;
+  --color-primary: #d4af37;
+  --color-secondary: #a3a9b4;
+  --color-accent: #e4e6eb;
+
+  --color-border: #4b5563; /* Tailwind gray-600 equivalent */
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-fg);
+}
+
+/* ========== Normalize & Base ========== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-background text-foreground font-body antialiased;
+  line-height: 1.6;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+/* ========== Typography ========== */
+
+a {
+  @apply text-primary hover:underline transition-colors;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  @apply font-semibold text-foreground;
+}
+
+code, pre {
+  font-family: var(--font-code);
+  @apply text-sm bg-gray-100 dark:bg-gray-800 px-1 rounded;
+}
+
+/* ========== Form Elements ========== */
+
+button {
+  @apply rounded-lg px-4 py-2 transition;
+}
+
+button:focus-visible {
+  @apply ring-2 ring-primary ring-offset-2 outline-none;
+}
+
+input, textarea, select {
+  border: 1px solid var(--color-border);
+  @apply px-3 py-2 rounded-md outline-none focus:ring-2 focus:ring-primary;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+/* ========== Scrollbar Styling ========== */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ========== Animations ========== */
+
+.fade-in {
+  animation: fadeIn 0.6s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.slide-up {
+  animation: slideUp 0.6s ease-out forwards;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ========== DaisyUI fallback theme (optional) ========== */
+
+[data-theme="platinum"] {
+  background-color: #f0f2f5;
+  color: #2a2f3a;
+}
+
+[data-theme="platinum-dark"] {
+  background-color: #121417;
+  color: #e4e6eb;
+}

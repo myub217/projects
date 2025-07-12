@@ -1,14 +1,18 @@
 // src/pages/SecretRoomPageComponents/AccessTimeout.tsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 interface AccessTimeoutProps {
   timeLeft: number; // เหลือเวลาในรูปแบบมิลลิวินาที
   onTimeoutConfirm: () => void; // ฟังก์ชันที่เรียกเมื่อกดออกจากระบบ
 }
 
-export default function AccessTimeout({ timeLeft, onTimeoutConfirm }: AccessTimeoutProps) {
+export default function AccessTimeout({
+  timeLeft,
+  onTimeoutConfirm,
+}: AccessTimeoutProps) {
   const [visible, setVisible] = useState(false);
   const [countdown, setCountdown] = useState(timeLeft);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   // แสดง modal เมื่อเวลาน้อยกว่า 1 นาทีและมากกว่า 0
   useEffect(() => {
@@ -31,6 +35,13 @@ export default function AccessTimeout({ timeLeft, onTimeoutConfirm }: AccessTime
     return () => clearInterval(interval);
   }, [visible]);
 
+  // Focus trap & focus on dialog for accessibility
+  useEffect(() => {
+    if (visible && dialogRef.current) {
+      dialogRef.current.focus();
+    }
+  }, [visible]);
+
   // แปลงเวลาที่เหลือเป็น mm:ss
   const formatTime = (ms: number) => {
     const totalSeconds = Math.floor(ms / 1000);
@@ -49,6 +60,7 @@ export default function AccessTimeout({ timeLeft, onTimeoutConfirm }: AccessTime
       aria-labelledby="timeout-title"
       aria-describedby="timeout-desc"
       tabIndex={-1}
+      ref={dialogRef}
     >
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
         <h2
@@ -57,10 +69,7 @@ export default function AccessTimeout({ timeLeft, onTimeoutConfirm }: AccessTime
         >
           หมดเวลาการใช้งานในอีก {formatTime(countdown)}
         </h2>
-        <p
-          id="timeout-desc"
-          className="mb-6 text-gray-700 dark:text-gray-300"
-        >
+        <p id="timeout-desc" className="mb-6 text-gray-700 dark:text-gray-300">
           ระบบจะทำการออกจากระบบอัตโนมัติ เพื่อความปลอดภัยของบัญชีผู้ใช้
         </p>
         <button
