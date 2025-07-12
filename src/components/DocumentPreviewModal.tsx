@@ -13,7 +13,7 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
   onClose,
   documentUrl,
   title,
-  id = "document-preview-modal", // default id
+  id = "document-preview-modal",
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -24,12 +24,35 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
       if (event.key === "Escape") {
         onClose();
       }
+      if (event.key === "Tab") {
+        // Focus trap
+        const focusableElements = modalRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        );
+        if (!focusableElements || focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (event.shiftKey) {
+          // shift + tab
+          if (document.activeElement === firstElement) {
+            event.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          // tab
+          if (document.activeElement === lastElement) {
+            event.preventDefault();
+            firstElement.focus();
+          }
+        }
+      }
     }
 
     if (isOpen) {
       window.addEventListener("keydown", handleKeyDown);
     }
-
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
@@ -60,7 +83,9 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
       }}
     >
       <div
-        className="bg-white dark:bg-gray-900 rounded-lg shadow-2xl max-w-5xl w-full max-h-[90vh] flex flex-col overflow-hidden animate-fade-in"
+        className="bg-white dark:bg-gray-900 rounded-lg shadow-2xl max-w-5xl w-full max-h-[90vh] flex flex-col overflow-hidden
+          transform transition-transform duration-300 ease-out
+          animate-fade-in"
         role="document"
       >
         {/* Header */}

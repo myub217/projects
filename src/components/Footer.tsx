@@ -3,9 +3,6 @@ import { Facebook, Instagram, MessageCircleMore, ArrowUp } from "lucide-react";
 import { FaTiktok } from "react-icons/fa";
 import jpLogo from "../assets/jp-logo.png";
 
-// ==============================
-// Types
-// ==============================
 interface MenuItem {
   href: string;
   label: string;
@@ -20,19 +17,14 @@ interface SocialLink {
   nofollow?: boolean;
 }
 
-// ==============================
-// Main Component
-// ==============================
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 300);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setShowScrollTop(window.scrollY > 300);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const scrollToTop = () => {
@@ -180,11 +172,7 @@ const Footer: React.FC = () => {
                     aria-label={ariaLabel}
                     title={ariaLabel}
                   >
-                    <Icon
-                      className="w-6 h-6 flex-shrink-0"
-                      aria-hidden="true"
-                      focusable="false"
-                    />
+                    <Icon className="w-6 h-6 flex-shrink-0" aria-hidden="true" focusable={false} />
                     <span className="truncate max-w-[9rem]">{label}</span>
                   </a>
                 </li>
@@ -203,12 +191,11 @@ const Footer: React.FC = () => {
               aria-label="กลับขึ้นด้านบน"
               title="กลับขึ้นด้านบน"
               type="button"
-              tabIndex={0} // เพิ่มเพื่อให้ปุ่มโฟกัสได้ง่ายขึ้น
-              className={`flex items-center gap-2 text-primary font-semibold text-sm hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded transition-transform ${
+              className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-lg bg-white dark:bg-gray-800 px-3 py-2 shadow-lg text-primary font-semibold text-sm hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-transform duration-300 ${
                 showScrollTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6 pointer-events-none"
-              } fixed bottom-6 right-6 z-50 bg-white dark:bg-gray-800 px-3 py-2 shadow-lg rounded-lg cursor-pointer select-none transform duration-300`}
+              }`}
             >
-              <ArrowUp className="w-5 h-5" aria-hidden="true" focusable="false" />
+              <ArrowUp className="w-5 h-5" aria-hidden="true" focusable={false} />
               กลับด้านบน
             </button>
           </section>

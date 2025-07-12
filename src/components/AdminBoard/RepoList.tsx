@@ -42,6 +42,7 @@ function RepoList() {
               href={repo.html_url}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`ลิงก์ไปยัง repository ${repo.name}`}
             >
               {repo.name}
             </a>

@@ -34,7 +34,10 @@ const certData = {
 
 const SalaryCertDocument: React.FC = () => {
   const handlePrint = () => {
-    if (typeof window !== "undefined" && window.confirm("คุณต้องการพิมพ์เอกสารนี้หรือไม่?")) {
+    if (
+      typeof window !== "undefined" &&
+      window.confirm("คุณต้องการพิมพ์เอกสารนี้หรือไม่?")
+    ) {
       window.print();
     }
   };
@@ -92,6 +95,7 @@ const SalaryCertDocument: React.FC = () => {
           font-weight: bold;
           font-size: 18px;
           margin-bottom: 4px;
+          line-height: 1.3;
         }
 
         .doc-number {
@@ -111,17 +115,20 @@ const SalaryCertDocument: React.FC = () => {
           font-weight: bold;
           text-decoration: underline;
           margin: 24px 0;
+          letter-spacing: 0.05em;
         }
 
         .content {
           text-align: justify;
           text-indent: 2.5em;
           margin-bottom: 24px;
+          white-space: pre-line;
         }
 
         .list-income {
           margin-left: 3em;
           margin-bottom: 30px;
+          list-style-type: disc;
         }
 
         .list-income li {
@@ -136,12 +143,16 @@ const SalaryCertDocument: React.FC = () => {
         .note-list {
           margin-left: 3em;
           margin-bottom: 40px;
+          list-style-type: disc;
         }
 
         .signature {
           text-align: right;
           margin-top: 80px;
           min-height: 100px;
+          font-size: 16px;
+          white-space: pre-line;
+          font-family: 'Sarabun', sans-serif;
         }
 
         .signature p {
@@ -152,6 +163,7 @@ const SalaryCertDocument: React.FC = () => {
           font-size: 14px;
           line-height: 1.5;
           margin-top: 30px;
+          color: #333;
         }
 
         .contact-info p {
@@ -162,13 +174,25 @@ const SalaryCertDocument: React.FC = () => {
           border-top: 1px solid #ccc;
           margin: 12px 0;
         }
+
+        a {
+          color: #0645AD;
+          text-decoration: none;
+        }
+        a:hover, a:focus {
+          text-decoration: underline;
+          outline: none;
+        }
       `}</style>
 
-      <button className="print-btn" onClick={handlePrint}>พิมพ์เอกสาร</button>
+      <button className="print-btn" onClick={handlePrint} aria-label="พิมพ์เอกสาร">
+        พิมพ์เอกสาร
+      </button>
 
       <div className="page" role="document" aria-label="หนังสือรับรองเงินเดือน">
         <div className="company-header" aria-label="ชื่อบริษัท">
-          {certData.company.nameTh}<br />
+          {certData.company.nameTh}
+          <br />
           {certData.company.nameEn}
         </div>
 
@@ -178,12 +202,19 @@ const SalaryCertDocument: React.FC = () => {
         <div className="title">หนังสือรับรองเงินเดือน</div>
 
         <div className="content">
-          หนังสือรับรองฉบับนี้ขอรับรองว่า <strong>{certData.employee.fullName}</strong> เป็นพนักงานของ <strong>{certData.company.nameTh}</strong> โดยเริ่มปฏิบัติงานตั้งแต่วันที่ <strong>{certData.employee.startDate}</strong> จนถึงปัจจุบัน ในตำแหน่ง <strong>{certData.employee.position}</strong> แผนก/ฝ่าย <strong>{certData.employee.department}</strong> โดยมีรายได้ประจำดังต่อไปนี้
+          หนังสือรับรองฉบับนี้ขอรับรองว่า{" "}
+          <strong>{certData.employee.fullName}</strong> เป็นพนักงานของ{" "}
+          <strong>{certData.company.nameTh}</strong> โดยเริ่มปฏิบัติงานตั้งแต่วันที่{" "}
+          <strong>{certData.employee.startDate}</strong> จนถึงปัจจุบัน ในตำแหน่ง{" "}
+          <strong>{certData.employee.position}</strong> แผนก/ฝ่าย{" "}
+          <strong>{certData.employee.department}</strong> โดยมีรายได้ประจำดังต่อไปนี้
         </div>
 
         <ul className="list-income">
           {certData.incomes.map((income, i) => (
-            <li key={i}>– {income.label} เดือนละ <strong>{income.amount}</strong></li>
+            <li key={i}>
+              – {income.label} เดือนละ <strong>{income.amount}</strong>
+            </li>
           ))}
         </ul>
 
@@ -200,13 +231,33 @@ const SalaryCertDocument: React.FC = () => {
           <p>{certData.signer.position}</p>
         </div>
 
-        <div className="contact-info" aria-label="ข้อมูลติดต่อฝ่ายทรัพยากรบุคคล">
-          <p><strong>ฝ่ายทรัพยากรบุคคล</strong> โทร. {certData.company.phone} ต่อ {certData.company.hrExt}</p>
+        <div
+          className="contact-info"
+          aria-label="ข้อมูลติดต่อฝ่ายทรัพยากรบุคคล"
+        >
+          <p>
+            <strong>ฝ่ายทรัพยากรบุคคล</strong> โทร. {certData.company.phone} ต่อ{" "}
+            {certData.company.hrExt}
+          </p>
           <p>{certData.company.addressTh}</p>
-          <p>โทรศัพท์ {certData.company.phone} | แฟกซ์ {certData.company.fax}</p>
+          <p>
+            โทรศัพท์ {certData.company.phone} | แฟกซ์ {certData.company.fax}
+          </p>
           <hr />
-          <p>Website: <a href={`http://${certData.company.website}`} target="_blank" rel="noopener noreferrer">{certData.company.website}</a></p>
-          <p>Email: <a href={`mailto:${certData.company.email}`}>{certData.company.email}</a></p>
+          <p>
+            Website:{" "}
+            <a
+              href={`http://${certData.company.website}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {certData.company.website}
+            </a>
+          </p>
+          <p>
+            Email:{" "}
+            <a href={`mailto:${certData.company.email}`}>{certData.company.email}</a>
+          </p>
         </div>
       </div>
     </div>

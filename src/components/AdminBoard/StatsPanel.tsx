@@ -23,11 +23,13 @@ export default function StatsPanel() {
         <div
           key={id}
           className={`flex items-center space-x-4 p-4 rounded-lg shadow ${bgColor || "bg-base-200"} text-white`}
+          role="region"
+          aria-labelledby={`stat-label-${id}`}
         >
-          <div className="text-3xl">{icon}</div>
+          <div className="text-3xl" aria-hidden="true">{icon}</div>
           <div>
-            <p className="text-sm opacity-75">{label}</p>
-            <p className="text-xl font-bold">{value}</p>
+            <p id={`stat-label-${id}`} className="text-sm opacity-75">{label}</p>
+            <p className="text-xl font-bold" aria-live="polite">{value}</p>
           </div>
         </div>
       ))}

@@ -8,7 +8,6 @@ CYAN='\033[0;36m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # ไม่มีสี
 
-# 🧨 จัดการ error และ ctrl+c
 trap "echo -e '\n${RED}🚨 เกิดข้อผิดพลาด หรือถูกยกเลิก!${NC}'; exit 1" ERR INT
 
 # 📁 ตรวจว่ารันจาก root โปรเจกต์
@@ -19,7 +18,7 @@ fi
 
 echo -e "${CYAN}🧼 เริ่มทำความสะอาดโปรเจกต์...${NC}"
 
-# ตัวเลือก argument
+# รับ options
 SKIP_INSTALL=false
 SKIP_DEV=false
 FORCE=false
@@ -50,32 +49,45 @@ if [ "$FORCE" = false ]; then
   esac
 fi
 
-# 🔥 ลบ dependencies และ build outputs
-echo -e "${GREEN}📦 ลบ node_modules/...${NC}"
-rm -rf node_modules
+# 🧹 ฟังก์ชันลบโฟลเดอร์แบบปลอดภัย
+safe_rm() {
+  local target="$1"
+  if [ -e "$target" ]; then
+    chmod -R u+w "$target" 2>/dev/null || true
+    rm -rf "$target" 2>/dev/null && \
+      echo -e "${GREEN}✅ ลบ: $target${NC}" || \
+      echo -e "${RED}⛔ ไม่สามารถลบ: $target (Permission denied)${NC}"
+  fi
+}
 
-echo -e "${GREEN}🔒 ลบ lock files...${NC}"
-rm -f pnpm-lock.yaml yarn.lock package-lock.json
+# 🔥 ลบสิ่งต่างๆ
+safe_rm node_modules
+safe_rm dist
+safe_rm .vite
+safe_rm .next
+safe_rm .turbo
+safe_rm .vercel
+safe_rm build
 
-echo -e "${GREEN}🗑️ ลบ output folders (dist, .vite, .next, .turbo, .vercel)...${NC}"
-rm -rf dist .vite .next .turbo .vercel build
+# 🔒 Lock files
+rm -f pnpm-lock.yaml yarn.lock package-lock.json 2>/dev/null || true
 
-echo -e "${GREEN}📂 ลบ cache อื่นๆ เช่น .tsbuildinfo ...${NC}"
-find . -type f -name '*.tsbuildinfo' -delete
+# ⚙️ Cache อื่นๆ
+find . -type f -name '*.tsbuildinfo' -delete 2>/dev/null || true
 
-# 🔐 ลบ .env ถ้าระบุ
+# 🔐 .env
 if [ "$INCLUDE_ENV" = true ]; then
   echo -e "${GREEN}🧪 ลบไฟล์ .env และ .env.* ...${NC}"
-  find . -type f -name ".env*" -delete
+  find . -type f -name ".env*" -delete 2>/dev/null || true
 fi
 
-# 📋 ลบ logs ถ้าระบุ
+# 📋 logs
 if [ "$INCLUDE_LOG" = true ]; then
   echo -e "${GREEN}📋 ลบ log files (*.log, report.html)...${NC}"
-  find . -type f \( -name "*.log" -o -name "report.html" \) -delete
+  find . -type f \( -name "*.log" -o -name "report.html" \) -delete 2>/dev/null || true
 fi
 
-# 📦 ติดตั้ง dependencies ใหม่
+# 📦 ติดตั้ง dependencies
 if [ "$SKIP_INSTALL" = false ]; then
   echo -e "${CYAN}📦 ตรวจสอบ pnpm...${NC}"
   if ! command -v pnpm &> /dev/null; then
@@ -89,7 +101,7 @@ else
   echo -e "${YELLOW}⏩ ข้ามขั้นตอนติดตั้ง dependencies (--skip-install)${NC}"
 fi
 
-# 🚀 รัน dev server
+# 🚀 dev server
 if [ "$SKIP_DEV" = false ]; then
   echo -e "${GREEN}🚀 รัน dev server...${NC}"
   pnpm run dev

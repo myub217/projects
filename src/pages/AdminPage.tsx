@@ -3,7 +3,6 @@ import Dashboard from "../components/AdminBoard/Dashboard";
 import UserTable from "../components/AdminBoard/UserTable";
 import RepoList from "../components/AdminBoard/RepoList";
 
-// ข้อมูลผู้ใช้จำลอง (mock data)
 const usersData = [
   { id: 1, name: "admin", role: "superuser" },
   { id: 2, name: "tester", role: "viewer" },
@@ -20,7 +19,6 @@ const AdminPage: React.FC = () => {
 
       <Dashboard />
 
-      {/* ส่งข้อมูล usersData เป็น props ให้ UserTable */}
       <UserTable users={usersData} />
 
       <RepoList />

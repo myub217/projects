@@ -215,6 +215,8 @@ const config: Config = {
         },
       },
     ],
+    // Optional: default dark theme (ถ้าใช้ data-theme)
+    // darkTheme: "platinum-dark",
   },
 };
 

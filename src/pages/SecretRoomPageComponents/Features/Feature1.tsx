@@ -6,21 +6,15 @@ import React, { useState } from "react";
 // Types
 //-------------------------------
 
-/**
- * เอกสารที่แสดงผลแล้ว พร้อมข้อมูลเจ้าของและวันที่
- */
 interface RenderedDoc {
-  id: string;                 // รหัสเอกสาร (เช่น tax-deduction)
-  title: string;              // ชื่อเอกสาร (เช่น ใบหักภาษี ณ ที่จ่าย)
-  renderedContent: string;   // ข้อความที่เรนเดอร์เต็ม
-  name: string;               // ชื่อผู้รับ/เจ้าของเอกสาร
-  date: string;               // วันที่ในรูปแบบแสดงผล (ภาษาไทย)
-  isoDate: string;           // วันที่รูปแบบ ISO (YYYY-MM-DD) สำหรับ time tag
+  id: string;
+  title: string;
+  renderedContent: string;
+  name: string;
+  date: string;
+  isoDate: string;
 }
 
-/**
- * โครงสร้างเทมเพลตของเอกสารที่ใช้สร้าง RenderedDoc
- */
 interface TemplateDoc {
   id: string;
   title: string;
@@ -31,9 +25,6 @@ interface TemplateDoc {
 // Template Documents
 //-------------------------------
 
-/**
- * รายการเทมเพลตเอกสารที่รองรับในระบบ
- */
 const templateDocs: TemplateDoc[] = [
   {
     id: "tax-deduction",
@@ -59,9 +50,6 @@ const templateDocs: TemplateDoc[] = [
 // Utilities
 //-------------------------------
 
-/**
- * ดึงชื่อแบบสุ่มจากรายชื่อจำลอง
- */
 const getRandomName = (): string => {
   const names = [
     "คุณสมชาย ใจดี",
@@ -72,9 +60,6 @@ const getRandomName = (): string => {
   return names[Math.floor(Math.random() * names.length)];
 };
 
-/**
- * คืนวันที่ทั้งแบบแสดงผล และ ISO
- */
 const getFormattedDate = (): { display: string; iso: string } => {
   const start = new Date(2023, 0, 1).getTime();
   const end = new Date(2025, 11, 31).getTime();
@@ -91,9 +76,6 @@ const getFormattedDate = (): { display: string; iso: string } => {
   };
 };
 
-/**
- * สร้างชุดเอกสารแบบสุ่มโดยใช้ชื่อและวันที่ร่วมกัน
- */
 const generateRandomDocSet = (): RenderedDoc[] => {
   const name = getRandomName();
   const { display, iso } = getFormattedDate();
@@ -123,7 +105,11 @@ const Feature1: React.FC = () => {
   const handleDownload = async () => {
     setIsDownloading(true);
     await new Promise((res) => setTimeout(res, 1200));
-    alert(`✅ ดาวน์โหลดชุดเอกสาร (Demo):\n\n${docSet.map((d) => d.title).join(", ")}`);
+    alert(
+      `✅ ดาวน์โหลดชุดเอกสาร (Demo):\n\n${docSet
+        .map((d) => `- ${d.title} (สำหรับ ${d.name}, วันที่ ${d.date})`)
+        .join("\n")}`
+    );
     setIsDownloading(false);
   };
 
@@ -173,7 +159,6 @@ const Feature1: React.FC = () => {
             aria-label={`เอกสาร: ${doc.title}`}
             className="relative p-6 bg-surface bg-opacity-90 backdrop-blur-sm rounded-xl shadow-md border border-border hover:scale-[1.02] transition-transform duration-300"
           >
-            {/* Watermark */}
             <div
               aria-hidden="true"
               className="absolute inset-0 flex items-center justify-center text-7xl font-extrabold text-foreground opacity-10 pointer-events-none"
@@ -182,13 +167,11 @@ const Feature1: React.FC = () => {
               CONFIDENTIAL
             </div>
 
-            {/* Content */}
             <h2 className="relative text-lg font-bold mb-4">{doc.title}</h2>
             <pre className="relative whitespace-pre-wrap text-sm leading-relaxed text-foreground/90 font-mono mb-6">
               {doc.renderedContent}
             </pre>
 
-            {/* Footer */}
             <footer className="relative text-xs text-foreground/70 flex justify-between">
               <span>👤 <span className="font-medium">{doc.name}</span></span>
               <time dateTime={doc.isoDate}>📅 {doc.date}</time>

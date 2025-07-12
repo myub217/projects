@@ -1,9 +1,7 @@
 import React, { useState, useMemo } from "react";
 import CustomerAssessmentForm from "./CustomerAssessmentForm";
 
-// ==============================
 // Types
-// ==============================
 interface CustomerApproval {
   id: string;
   name: string;
@@ -12,9 +10,7 @@ interface CustomerApproval {
   status: "อนุมัติแล้ว" | "รอดำเนินการ";
 }
 
-// ==============================
 // Mock Data
-// ==============================
 const approvedCustomers: CustomerApproval[] = [
   { id: "loan-001", name: "ศรัณย์ พิทักษ์ชาญชัย", loanAmount: 750_000, approvalDate: "2025-07-09T09:15:00+07:00", status: "อนุมัติแล้ว" },
   { id: "loan-002", name: "อรินทรา ทองเจริญ", loanAmount: 1_500_000, approvalDate: "2025-07-08T10:45:00+07:00", status: "อนุมัติแล้ว" },
@@ -25,9 +21,7 @@ const approvedCustomers: CustomerApproval[] = [
   { id: "loan-007", name: "พงศกร วัฒนกิจ", loanAmount: 700_000, approvalDate: "2025-07-03T08:55:00+07:00", status: "อนุมัติแล้ว" },
 ];
 
-// ==============================
-// Utilities
-// ==============================
+// Utility
 const formatDate = (iso: string): string =>
   new Date(iso).toLocaleDateString("th-TH", { year: "numeric", month: "short", day: "numeric" });
 
@@ -48,9 +42,7 @@ const timeAgo = (iso: string): string => {
   return "เมื่อสักครู่";
 };
 
-// ==============================
 // Icons
-// ==============================
 const CheckIcon = () => (
   <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24" aria-hidden="true">
     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -64,14 +56,11 @@ const ClockIcon = () => (
   </svg>
 );
 
-// ==============================
 // Main Component
-// ==============================
 const Feature: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [sortOrder, setSortOrder] = useState<"ล่าสุด" | "วงเงิน" | "สถานะ">("ล่าสุด");
 
-  // Memoized sorted customers for performance & stability
   const sortedCustomers = useMemo(() => {
     const copy = [...approvedCustomers];
     switch (sortOrder) {
@@ -112,7 +101,7 @@ const Feature: React.FC = () => {
 
         {/* Action Bar */}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
-          <div className="flex items-center gap-3 text-sm text-zinc-600 dark:text-zinc-300">
+          <div className="flex items-center gap-3 text-sm text-zinc-600 dark:text-zinc-300" role="region" aria-label="การเลือกเรียงลำดับลูกค้า">
             ทั้งหมด <span className="font-semibold">{approvedCustomers.length}</span> รายการ
             <select
               value={sortOrder}
@@ -171,16 +160,7 @@ const Feature: React.FC = () => {
         ) : (
           <ul
             role="list"
-            className="
-              grid
-              grid-cols-1
-              sm:grid-cols-2
-              md:grid-cols-3
-              lg:grid-cols-4
-              xl:grid-cols-5
-              gap-6
-              md:gap-8
-              "
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8"
             aria-label="รายชื่อลูกค้าที่ได้รับการอนุมัติ"
           >
             {sortedCustomers.map((customer) => (
@@ -204,7 +184,7 @@ const Feature: React.FC = () => {
                   flex
                   flex-col
                   justify-between
-                  "
+                "
                 tabIndex={0}
                 aria-labelledby={`${customer.id}-name`}
                 aria-describedby={`${customer.id}-details`}

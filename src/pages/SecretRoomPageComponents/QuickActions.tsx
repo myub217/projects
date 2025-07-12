@@ -52,7 +52,7 @@ export default function QuickActions() {
           className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth={2}
           viewBox="0 0 24 24"
           aria-hidden="true"
           focusable="false"

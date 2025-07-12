@@ -42,7 +42,7 @@ export default function RecentActivityLog({ logs }: RecentActivityLogProps) {
           className="w-5 h-5 mr-2 text-gray-500 dark:text-gray-400 flex-shrink-0"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth={2}
           viewBox="0 0 24 24"
           aria-hidden="true"
           focusable="false"

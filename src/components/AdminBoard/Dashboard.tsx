@@ -17,8 +17,12 @@ const StatCard: React.FC<StatCardProps> = ({
   bgColor = "bg-primary",
 }) => {
   return (
-    <div className={`flex items-center p-4 rounded-lg shadow text-white ${bgColor}`}>
-      {icon && <div className="text-4xl mr-4">{icon}</div>}
+    <div
+      className={`flex items-center p-4 rounded-lg shadow text-white ${bgColor} select-none`}
+      role="region"
+      aria-label={`${title} statistic`}
+    >
+      {icon && <div className="text-4xl mr-4" aria-hidden="true">{icon}</div>}
       <div>
         <p className="text-sm opacity-75">{title}</p>
         <p className="text-3xl font-bold">{value}</p>
@@ -66,7 +70,10 @@ export default function Dashboard() {
   ];
 
   return (
-    <section aria-label="Dashboard Statistics" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    <section
+      aria-label="Dashboard Statistics"
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6"
+    >
       {stats.map(({ id, title, value, description, icon, bgColor }) => (
         <StatCard
           key={id}

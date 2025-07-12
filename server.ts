@@ -4,7 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import history from "connect-history-api-fallback";
 import dotenv from "dotenv";
-import apiRouter from "./api/apiAdmin.js"; // ⚠️ หากใช้ TypeScript, ต้อง compile เป็น .js ก่อนใช้งาน
+import apiRouter from "./api/apiAdmin"; // ✅ ไม่ใส่นามสกุลเพื่อรองรับ TypeScript build/dev
 
 /**
  * ✅ Express Server Config: JP Visual & Docs
@@ -23,20 +23,24 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// รองรับ Single Page Application
-app.use(history());
+// Middleware: รองรับ JSON และ form-urlencoded
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Middleware
-app.use(express.json()); // รองรับ JSON body parsing
-app.use(express.urlencoded({ extended: true })); // รองรับ form-urlencoded
+// SPA routing fallback แต่กัน /api/* ไม่ให้ fallback
+app.use(
+  history({
+    rewrites: [{ from: /^\/api\/.*$/, to: context => context.parsedUrl.pathname }],
+  })
+);
 
-// Static file serving (จาก build Vite)
+// Static file serving (จาก Vite build)
 app.use(express.static(path.join(__dirname, "dist")));
 
 // API Routes (prefix: /api)
 app.use("/api", apiRouter);
 
-// Server Start
+// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });

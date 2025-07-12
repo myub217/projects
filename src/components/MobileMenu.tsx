@@ -22,10 +22,13 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   const menuRef = useRef<HTMLDivElement>(null);
   const [isClosing, setIsClosing] = useState(false);
 
+  // ปิดเมนู รอ animation ก่อนเรียก onClose จริง
   const handleClose = useCallback(() => {
     if (isClosing) return;
     setIsClosing(true);
-    onClose();
+    setTimeout(() => {
+      onClose();
+    }, 300); // รอ animation duration = 300ms
   }, [isClosing, onClose]);
 
   // ปิดเมนูเมื่อกด Escape

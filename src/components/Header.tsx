@@ -30,12 +30,14 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
+  // อัปเดต currentHash เมื่อเปลี่ยน hash ใน URL
   useEffect(() => {
     const updateHash = () => setCurrentHash(window.location.hash || "");
     window.addEventListener("hashchange", updateHash);
     return () => window.removeEventListener("hashchange", updateHash);
   }, []);
 
+  // เช็คว่า link ไหน active
   const isLinkActive = useCallback(
     (href: string) => {
       if (!href || href === "#") return false;
@@ -44,6 +46,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
     [currentHash]
   );
 
+  // ปิดเมนูมือถือเมื่อกด Escape และคืนโฟกัสไปที่ปุ่มเมนู
   useEffect(() => {
     if (!isMobileMenuOpen) return;
 

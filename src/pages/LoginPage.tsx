@@ -7,6 +7,7 @@ import { hashPassword } from "../utils/hashPassword";
  * LoginPage Component
  * - ฟอร์มล็อกอินพื้นฐาน พร้อมระบบ hash password
  * - ปรับปรุง UX / accessibility / dark mode
+ * - ป้องกัน brute force โดย disable ปุ่ม submit ชั่วคราวหลังผิดพลาด 5 ครั้ง
  */
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ const LoginPage: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [loginAttempts, setLoginAttempts] = useState<number>(0);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const usernameRef = useRef<HTMLInputElement>(null);
 
   // Autofocus ชื่อผู้ใช้เมื่อโหลดหน้า
@@ -21,19 +24,32 @@ const LoginPage: React.FC = () => {
     usernameRef.current?.focus();
   }, []);
 
+  // โฟกัสกลับไป input username เมื่อมี error
+  useEffect(() => {
+    if (error) {
+      usernameRef.current?.focus();
+    }
+  }, [error]);
+
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(""); // ล้าง error เดิมก่อนตรวจสอบใหม่
+    if (isSubmitting) return;
+
+    setError("");
+    setIsSubmitting(true);
 
     const trimmedUsername = username.trim();
     if (!trimmedUsername) {
       setError("กรุณากรอกชื่อผู้ใช้");
+      setIsSubmitting(false);
       return;
     }
 
     const user = users[trimmedUsername];
     if (!user) {
       setError("ชื่อผู้ใช้ไม่ถูกต้อง");
+      setLoginAttempts((prev) => prev + 1);
+      setIsSubmitting(false);
       return;
     }
 
@@ -46,12 +62,17 @@ const LoginPage: React.FC = () => {
         navigate("/secret");
       } else {
         setError("รหัสผ่านไม่ถูกต้อง");
+        setLoginAttempts((prev) => prev + 1);
       }
     } catch (err) {
       console.error("Login error:", err);
       setError("เกิดข้อผิดพลาดในการเข้าสู่ระบบ กรุณาลองใหม่อีกครั้ง");
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
+  const isDisabled = isSubmitting || loginAttempts >= 5;
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-6 transition-colors duration-300">
@@ -72,9 +93,20 @@ const LoginPage: React.FC = () => {
           <div
             id="login-error"
             role="alert"
+            aria-live="assertive"
             className="mb-4 text-center text-red-600 dark:text-red-400 font-medium"
           >
             {error}
+          </div>
+        )}
+
+        {loginAttempts >= 5 && (
+          <div
+            role="alert"
+            aria-live="assertive"
+            className="mb-4 text-center text-yellow-700 dark:text-yellow-400 font-semibold"
+          >
+            เกินจำนวนครั้งที่อนุญาต กรุณาลองใหม่ภายหลัง
           </div>
         )}
 
@@ -91,7 +123,12 @@ const LoginPage: React.FC = () => {
             aria-required="true"
             aria-describedby={error ? "login-error" : undefined}
             placeholder="ชื่อผู้ใช้"
-            className="px-4 py-3 border border-gray-300 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary transition"
+            disabled={isDisabled}
+            className={`px-4 py-3 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary transition ${
+              isDisabled
+                ? "border-gray-400 cursor-not-allowed"
+                : "border-gray-300"
+            }`}
           />
 
           {/* Password Input */}
@@ -104,14 +141,24 @@ const LoginPage: React.FC = () => {
             required
             aria-required="true"
             placeholder="รหัสผ่าน"
-            className="px-4 py-3 border border-gray-300 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary transition"
+            disabled={isDisabled}
+            className={`px-4 py-3 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary transition ${
+              isDisabled
+                ? "border-gray-400 cursor-not-allowed"
+                : "border-gray-300"
+            }`}
           />
 
           {/* Submit Button */}
           <button
             type="submit"
             aria-label="เข้าสู่ระบบ"
-            className="bg-primary text-primary-contrastText py-3 rounded-md hover:bg-primary-dark focus:outline-none focus:ring-4 focus:ring-primary focus:ring-opacity-50 transition"
+            disabled={isDisabled}
+            className={`bg-primary text-primary-contrastText py-3 rounded-md hover:bg-primary-dark focus:outline-none focus:ring-4 focus:ring-primary focus:ring-opacity-50 transition ${
+              isDisabled
+                ? "opacity-50 cursor-not-allowed hover:bg-primary"
+                : ""
+            }`}
           >
             เข้าสู่ระบบ
           </button>
