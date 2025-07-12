@@ -1,5 +1,5 @@
 # -------------------------------
-# General
+# General Build & Output
 # -------------------------------
 node_modules/
 dist/
@@ -20,6 +20,11 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
+*.log
+*.pid
+*.seed
+*.tgz
+*.gz.env
 
 # -------------------------------
 # Environment variables
@@ -44,8 +49,6 @@ report.html
 # -------------------------------
 # Optional: macOS/Linux artifacts
 # -------------------------------
-*.log
-*.pid
-*.seed
-*.tgz
-*.gz
+*.orig
+*.sublime-workspace
+*.sublime-project

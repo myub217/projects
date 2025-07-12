@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # 🎨 สีสำหรับข้อความ
 GREEN='\033[0;32m'
@@ -16,7 +17,38 @@ if [ ! -f "package.json" ]; then
   exit 1
 fi
 
-echo -e "${GREEN}🧹 ล้างโปรเจกต์ทั้งหมดให้สะอาด...${NC}"
+echo -e "${CYAN}🧼 เริ่มทำความสะอาดโปรเจกต์...${NC}"
+
+# ตัวเลือก argument
+SKIP_INSTALL=false
+SKIP_DEV=false
+FORCE=false
+INCLUDE_ENV=false
+INCLUDE_LOG=false
+
+for arg in "$@"; do
+  case $arg in
+    --skip-install) SKIP_INSTALL=true ;;
+    --skip-dev) SKIP_DEV=true ;;
+    --force) FORCE=true ;;
+    --env) INCLUDE_ENV=true ;;
+    --logs) INCLUDE_LOG=true ;;
+  esac
+done
+
+# 🔥 คำเตือนก่อนลบ
+if [ "$FORCE" = false ]; then
+  echo -e "${YELLOW}⚠️  การทำความสะอาดจะลบไฟล์ต่อไปนี้:"
+  echo -e "   - node_modules, dist/, .vite/, .next/, .turbo/, .vercel/"
+  echo -e "   - lock files และ cache อื่นๆ"
+  [ "$INCLUDE_ENV" = true ] && echo -e "   - .env และไฟล์ .env.*"
+  [ "$INCLUDE_LOG" = true ] && echo -e "   - *.log, report.html"
+  read -r -p "${YELLOW}⚠️  ต้องการดำเนินการต่อหรือไม่? (y/n): ${NC}" confirm
+  case "$confirm" in
+    [yY]) ;;
+    *) echo -e "${RED}❌ ยกเลิกการทำงาน${NC}" ; exit 0 ;;
+  esac
+fi
 
 # 🔥 ลบ dependencies และ build outputs
 echo -e "${GREEN}📦 ลบ node_modules/...${NC}"
@@ -26,25 +58,22 @@ echo -e "${GREEN}🔒 ลบ lock files...${NC}"
 rm -f pnpm-lock.yaml yarn.lock package-lock.json
 
 echo -e "${GREEN}🗑️ ลบ output folders (dist, .vite, .next, .turbo, .vercel)...${NC}"
-rm -rf dist .vite .next .turbo .vercel
+rm -rf dist .vite .next .turbo .vercel build
 
-echo -e "${GREEN}📂 ลบไฟล์ cache อื่นๆ เช่น .tsbuildinfo ...${NC}"
+echo -e "${GREEN}📂 ลบ cache อื่นๆ เช่น .tsbuildinfo ...${NC}"
 find . -type f -name '*.tsbuildinfo' -delete
 
-# 🎯 ตัวเลือกจาก argument
-SKIP_INSTALL=false
-SKIP_DEV=false
+# 🔐 ลบ .env ถ้าระบุ
+if [ "$INCLUDE_ENV" = true ]; then
+  echo -e "${GREEN}🧪 ลบไฟล์ .env และ .env.* ...${NC}"
+  find . -type f -name ".env*" -delete
+fi
 
-for arg in "$@"; do
-  case $arg in
-    --skip-install)
-      SKIP_INSTALL=true
-      ;;
-    --skip-dev)
-      SKIP_DEV=true
-      ;;
-  esac
-done
+# 📋 ลบ logs ถ้าระบุ
+if [ "$INCLUDE_LOG" = true ]; then
+  echo -e "${GREEN}📋 ลบ log files (*.log, report.html)...${NC}"
+  find . -type f \( -name "*.log" -o -name "report.html" \) -delete
+fi
 
 # 📦 ติดตั้ง dependencies ใหม่
 if [ "$SKIP_INSTALL" = false ]; then
@@ -68,4 +97,4 @@ else
   echo -e "${YELLOW}⏩ ข้ามขั้นตอนรัน dev server (--skip-dev)${NC}"
 fi
 
-echo -e "${GREEN}✅ ทำความสะอาดเรียบร้อย!${NC}"
+echo -e "${GREEN}✅ ทำความสะอาดและรีเซตโปรเจกต์เรียบร้อย!${NC}"
