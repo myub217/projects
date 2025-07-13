@@ -1,26 +1,54 @@
 .
-├── Acode
-│   ├── CHANGELOG.md
-│   ├── CODE_OF_CONDUCT.md
-│   ├── _typos.toml
-│   ├── biome.json
-│   ├── build-extras.gradle
-│   ├── config.xml
-│   ├── jsconfig.json
-│   ├── license.txt
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── postcss.config.js
-│   ├── readme.md
-│   └── webpack.config.js
 ├── Clean.sh
 ├── README.md
 ├── analyze-project.sh
 ├── api
-│   └── apiAdmin.ts
+│   ├── apiAdmin.ts
+│   └── apiClient.ts
 ├── build.log
+├── dist
+│   ├── assets
+│   │   ├── about-us-IgS6mAQi.webp
+│   │   ├── hero-C1-WP8yC.webp
+│   │   ├── index-B726BqlN.css
+│   │   ├── index-DevQhSKk.js
+│   │   ├── index-DevQhSKk.js.map
+│   │   ├── jp-logo-DClkmN1r.png
+│   │   ├── krut.webp
+│   │   ├── krut1.webp
+│   │   ├── review1-7dlrv2oA.png
+│   │   ├── review10-D0SwORip.png
+│   │   ├── review2-Bz0_BXyV.png
+│   │   ├── review3-UloQNvHI.png
+│   │   ├── review4-CBioFpeu.png
+│   │   ├── review5-CAS9ctNR.png
+│   │   ├── review6-C1CShlkS.png
+│   │   ├── review7-Bt93fMFo.png
+│   │   ├── review8-kXAHO_8W.png
+│   │   ├── review9-DhFu7Jzq.png
+│   │   ├── signature-BovtCThw.webp
+│   │   ├── vendor-Bz9BtKzt.js
+│   │   ├── vendor-Bz9BtKzt.js.map
+│   │   ├── vendor-react-BK4_uHc0.js
+│   │   └── vendor-react-BK4_uHc0.js.map
+│   ├── favicon.ico
+│   ├── icons
+│   │   ├── icon-192x192.png
+│   │   └── icon-512x512.png
+│   ├── images
+│   │   ├── icons
+│   │   ├── portfolio-loan-success.jpg
+│   │   ├── portfolio-loan-success1.jpg
+│   │   ├── portfolio-loan-success2.jpg
+│   │   ├── portfolio-loan-success3.jpg
+│   │   ├── portfolio-loan-success4.jpg
+│   │   └── services
+│   ├── index.html
+│   ├── manifest.json
+│   └── report.html
 ├── env-vars.txt
 ├── index.html
+├── jest.config.js
 ├── node_modules
 │   ├── @alloc
 │   │   └── quick-lru -> ../.pnpm/@alloc+quick-lru@5.2.0/node_modules/@alloc/quick-lru
@@ -46,8 +74,6 @@
 │   │   ├── template -> ../.pnpm/@babel+template@7.27.2/node_modules/@babel/template
 │   │   ├── traverse -> ../.pnpm/@babel+traverse@7.28.0/node_modules/@babel/traverse
 │   │   └── types -> ../.pnpm/@babel+types@7.28.1/node_modules/@babel/types
-│   ├── @cspotcode
-│   │   └── source-map-support -> ../.pnpm/@cspotcode+source-map-support@0.8.1/node_modules/@cspotcode/source-map-support
 │   ├── @esbuild
 │   │   └── android-arm64 -> ../.pnpm/@esbuild+android-arm64@0.25.6/node_modules/@esbuild/android-arm64
 │   ├── @isaacs
@@ -56,7 +82,7 @@
 │   │   ├── gen-mapping -> ../.pnpm/@jridgewell+gen-mapping@0.3.12/node_modules/@jridgewell/gen-mapping
 │   │   ├── resolve-uri -> ../.pnpm/@jridgewell+resolve-uri@3.1.2/node_modules/@jridgewell/resolve-uri
 │   │   ├── sourcemap-codec -> ../.pnpm/@jridgewell+sourcemap-codec@1.5.4/node_modules/@jridgewell/sourcemap-codec
-│   │   └── trace-mapping -> ../.pnpm/@jridgewell+trace-mapping@0.3.9/node_modules/@jridgewell/trace-mapping
+│   │   └── trace-mapping -> ../.pnpm/@jridgewell+trace-mapping@0.3.29/node_modules/@jridgewell/trace-mapping
 │   ├── @nodelib
 │   │   ├── fs.scandir -> ../.pnpm/@nodelib+fs.scandir@2.1.5/node_modules/@nodelib/fs.scandir
 │   │   ├── fs.stat -> ../.pnpm/@nodelib+fs.stat@2.0.5/node_modules/@nodelib/fs.stat
@@ -70,12 +96,7 @@
 │   ├── @rollup
 │   │   └── rollup-android-arm64 -> ../.pnpm/@rollup+rollup-android-arm64@4.45.0/node_modules/@rollup/rollup-android-arm64
 │   ├── @tailwindcss
-│   │   └── typography -> ../.pnpm/@tailwindcss+typography@0.5.16_tailwindcss@3.4.17_ts-node@10.9.2_@types+node@24.0.13_typescript@5.8.3__/node_modules/@tailwindcss/typography
-│   ├── @tsconfig
-│   │   ├── node10 -> ../.pnpm/@tsconfig+node10@1.0.11/node_modules/@tsconfig/node10
-│   │   ├── node12 -> ../.pnpm/@tsconfig+node12@1.0.11/node_modules/@tsconfig/node12
-│   │   ├── node14 -> ../.pnpm/@tsconfig+node14@1.0.3/node_modules/@tsconfig/node14
-│   │   └── node16 -> ../.pnpm/@tsconfig+node16@1.0.4/node_modules/@tsconfig/node16
+│   │   └── typography -> ../.pnpm/@tailwindcss+typography@0.5.16_tailwindcss@3.4.17/node_modules/@tailwindcss/typography
 │   ├── @types
 │   │   ├── babel__core -> ../.pnpm/@types+babel__core@7.20.5/node_modules/@types/babel__core
 │   │   ├── babel__generator -> ../.pnpm/@types+babel__generator@7.27.0/node_modules/@types/babel__generator
@@ -98,8 +119,6 @@
 │   ├── @vitejs
 │   │   └── plugin-react -> ../.pnpm/@vitejs+plugin-react@4.6.0_vite@7.0.4_@types+node@24.0.13_jiti@1.21.7_tsx@4.20.3_yaml@2.8.0_/node_modules/@vitejs/plugin-react
 │   ├── accepts -> .pnpm/accepts@2.0.0/node_modules/accepts
-│   ├── acorn -> .pnpm/acorn@8.15.0/node_modules/acorn
-│   ├── acorn-walk -> .pnpm/acorn-walk@8.3.4/node_modules/acorn-walk
 │   ├── ansi-regex -> .pnpm/ansi-regex@5.0.1/node_modules/ansi-regex
 │   ├── ansi-styles -> .pnpm/ansi-styles@4.3.0/node_modules/ansi-styles
 │   ├── any-promise -> .pnpm/any-promise@1.3.0/node_modules/any-promise
@@ -128,7 +147,6 @@
 │   ├── convert-source-map -> .pnpm/convert-source-map@2.0.0/node_modules/convert-source-map
 │   ├── cookie -> .pnpm/cookie@0.7.2/node_modules/cookie
 │   ├── cookie-signature -> .pnpm/cookie-signature@1.2.2/node_modules/cookie-signature
-│   ├── create-require -> .pnpm/create-require@1.1.1/node_modules/create-require
 │   ├── cross-spawn -> .pnpm/cross-spawn@7.0.6/node_modules/cross-spawn
 │   ├── cssesc -> .pnpm/cssesc@3.0.0/node_modules/cssesc
 │   ├── csstype -> .pnpm/csstype@3.1.3/node_modules/csstype
@@ -137,7 +155,6 @@
 │   ├── define-lazy-prop -> .pnpm/define-lazy-prop@2.0.0/node_modules/define-lazy-prop
 │   ├── depd -> .pnpm/depd@2.0.0/node_modules/depd
 │   ├── didyoumean -> .pnpm/didyoumean@1.2.2/node_modules/didyoumean
-│   ├── diff -> .pnpm/diff@4.0.2/node_modules/diff
 │   ├── dlv -> .pnpm/dlv@1.1.3/node_modules/dlv
 │   ├── dotenv -> .pnpm/dotenv@17.2.0/node_modules/dotenv
 │   ├── dunder-proto -> .pnpm/dunder-proto@1.0.1/node_modules/dunder-proto
@@ -202,7 +219,6 @@
 │   ├── loose-envify -> .pnpm/loose-envify@1.4.0/node_modules/loose-envify
 │   ├── lru-cache -> .pnpm/lru-cache@5.1.1/node_modules/lru-cache
 │   ├── lucide-react -> .pnpm/lucide-react@0.525.0_react@18.3.1/node_modules/lucide-react
-│   ├── make-error -> .pnpm/make-error@1.3.6/node_modules/make-error
 │   ├── math-intrinsics -> .pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics
 │   ├── media-typer -> .pnpm/media-typer@1.1.0/node_modules/media-typer
 │   ├── merge-descriptors -> .pnpm/merge-descriptors@2.0.0/node_modules/merge-descriptors
@@ -240,7 +256,7 @@
 │   ├── postcss -> .pnpm/postcss@8.5.6/node_modules/postcss
 │   ├── postcss-import -> .pnpm/postcss-import@15.1.0_postcss@8.5.6/node_modules/postcss-import
 │   ├── postcss-js -> .pnpm/postcss-js@4.0.1_postcss@8.5.6/node_modules/postcss-js
-│   ├── postcss-load-config -> .pnpm/postcss-load-config@4.0.2_postcss@8.5.6_ts-node@10.9.2_@types+node@24.0.13_typescript@5.8.3_/node_modules/postcss-load-config
+│   ├── postcss-load-config -> .pnpm/postcss-load-config@4.0.2_postcss@8.5.6/node_modules/postcss-load-config
 │   ├── postcss-nested -> .pnpm/postcss-nested@6.2.0_postcss@8.5.6/node_modules/postcss-nested
 │   ├── postcss-selector-parser -> .pnpm/postcss-selector-parser@6.0.10/node_modules/postcss-selector-parser
 │   ├── postcss-value-parser -> .pnpm/postcss-value-parser@4.2.0/node_modules/postcss-value-parser
@@ -288,14 +304,13 @@
 │   ├── strip-ansi-cjs -> .pnpm/strip-ansi@6.0.1/node_modules/strip-ansi
 │   ├── sucrase -> .pnpm/sucrase@3.35.0/node_modules/sucrase
 │   ├── supports-preserve-symlinks-flag -> .pnpm/supports-preserve-symlinks-flag@1.0.0/node_modules/supports-preserve-symlinks-flag
-│   ├── tailwindcss -> .pnpm/tailwindcss@3.4.17_ts-node@10.9.2_@types+node@24.0.13_typescript@5.8.3_/node_modules/tailwindcss
+│   ├── tailwindcss -> .pnpm/tailwindcss@3.4.17/node_modules/tailwindcss
 │   ├── thenify -> .pnpm/thenify@3.3.1/node_modules/thenify
 │   ├── thenify-all -> .pnpm/thenify-all@1.6.0/node_modules/thenify-all
 │   ├── tinyglobby -> .pnpm/tinyglobby@0.2.14/node_modules/tinyglobby
 │   ├── to-regex-range -> .pnpm/to-regex-range@5.0.1/node_modules/to-regex-range
 │   ├── toidentifier -> .pnpm/toidentifier@1.0.1/node_modules/toidentifier
 │   ├── ts-interface-checker -> .pnpm/ts-interface-checker@0.1.13/node_modules/ts-interface-checker
-│   ├── ts-node -> .pnpm/ts-node@10.9.2_@types+node@24.0.13_typescript@5.8.3/node_modules/ts-node
 │   ├── tslib -> .pnpm/tslib@2.8.1/node_modules/tslib
 │   ├── tsx -> .pnpm/tsx@4.20.3/node_modules/tsx
 │   ├── type-is -> .pnpm/type-is@2.0.1/node_modules/type-is
@@ -304,7 +319,6 @@
 │   ├── unpipe -> .pnpm/unpipe@1.0.0/node_modules/unpipe
 │   ├── update-browserslist-db -> .pnpm/update-browserslist-db@1.1.3_browserslist@4.25.1/node_modules/update-browserslist-db
 │   ├── util-deprecate -> .pnpm/util-deprecate@1.0.2/node_modules/util-deprecate
-│   ├── v8-compile-cache-lib -> .pnpm/v8-compile-cache-lib@3.0.1/node_modules/v8-compile-cache-lib
 │   ├── vary -> .pnpm/vary@1.1.2/node_modules/vary
 │   ├── vite -> .pnpm/vite@7.0.4_@types+node@24.0.13_jiti@1.21.7_tsx@4.20.3_yaml@2.8.0/node_modules/vite
 │   ├── which -> .pnpm/which@2.0.2/node_modules/which
@@ -315,8 +329,7 @@
 │   ├── yallist -> .pnpm/yallist@3.1.1/node_modules/yallist
 │   ├── yaml -> .pnpm/yaml@2.8.0/node_modules/yaml
 │   ├── yargs -> .pnpm/yargs@17.7.2/node_modules/yargs
-│   ├── yargs-parser -> .pnpm/yargs-parser@21.1.1/node_modules/yargs-parser
-│   └── yn -> .pnpm/yn@3.1.1/node_modules/yn
+│   └── yargs-parser -> .pnpm/yargs-parser@21.1.1/node_modules/yargs-parser
 ├── package.json
 ├── pnpm-lock.yaml
 ├── pnpm-workspace.yaml
@@ -344,6 +357,9 @@
 │   └── manifest.json
 ├── server.ts
 ├── src
+│   ├── __tests__
+│   ├── api
+│   │   └── apiClient.ts
 │   ├── assets
 │   │   ├── fb.webp
 │   │   ├── hero.webp
@@ -357,6 +373,7 @@
 │   │   ├── AdminBoard
 │   │   ├── CustomerAssessmentForm.tsx
 │   │   ├── DocumentPreviewModal.tsx
+│   │   ├── ErrorBoundary.tsx
 │   │   ├── Feature.tsx
 │   │   ├── Features
 │   │   ├── Footer.tsx
@@ -392,4 +409,4 @@
 ├── vercel.json
 └── vite.config.ts
 
-320 directories, 73 files
+312 directories, 98 files

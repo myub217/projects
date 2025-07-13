@@ -3,7 +3,13 @@ import Dashboard from "../components/AdminBoard/Dashboard";
 import UserTable from "../components/AdminBoard/UserTable";
 import RepoList from "../components/AdminBoard/RepoList";
 
-const usersData = [
+type User = {
+  id: number;
+  name: string;
+  role: string;
+};
+
+const usersData: User[] = [
   { id: 1, name: "admin", role: "superuser" },
   { id: 2, name: "tester", role: "viewer" },
 ];

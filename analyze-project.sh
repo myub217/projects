@@ -89,7 +89,7 @@ fi
 # 📂 ตรวจสอบไฟล์ config สำคัญ
 # ============================
 CONFIG_STATUS=""
-for FILE in vite.config.js tailwind.config.mjs tsconfig.json; do
+for FILE in vite.config.js vite.config.mjs tailwind.config.js tailwind.config.mjs tsconfig.json tsconfig.base.json; do
   if [ -f "$FILE" ]; then
     CONFIG_STATUS+="✅ พบไฟล์ $FILE\n"
   else
@@ -109,7 +109,7 @@ SCRIPTS=$(jq -r '.scripts | keys | if length > 0 then join(", ") else "ไม่
 # ============================
 TOP_COMPONENTS=""
 if [ -d "src/components" ]; then
-  TOP_COMPONENTS=$(find src/components -name "*.tsx" 2>/dev/null | head -n 10 | sed 's/^/- /')
+  TOP_COMPONENTS=$(find src/components -type f -name "*.tsx" 2>/dev/null | head -n 10 | sed 's/^/- /')
   if [ -z "$TOP_COMPONENTS" ]; then
     TOP_COMPONENTS="(ไม่มีไฟล์ .tsx ใน src/components)"
   fi

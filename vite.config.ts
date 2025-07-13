@@ -1,5 +1,3 @@
-// vite.config.ts
-
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
@@ -16,11 +14,8 @@ import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig(({ mode }) => {
   const isDev = mode === "development";
-
-  // โหลด .env ที่เกี่ยวข้อง
   const env = loadEnv(mode, process.cwd());
 
-  // กรองเฉพาะตัวแปรที่ขึ้นต้นด้วย VITE_ สำหรับ process.env
   const defineEnv = Object.fromEntries(
     Object.entries(env)
       .filter(([key]) => key.startsWith("VITE_"))
@@ -54,6 +49,8 @@ export default defineConfig(({ mode }) => {
       fs: {
         allow: ["."],
       },
+      // แก้ชื่อ property เป็น correct option สำหรับ SPA fallback ใน Vite dev server
+      historyApiFallback: true,
     },
 
     preview: {
@@ -66,7 +63,7 @@ export default defineConfig(({ mode }) => {
       sourcemap: true,
       rollupOptions: {
         output: {
-          manualChunks(id) {
+          manualChunks(id: string) {
             if (id.includes("node_modules")) {
               if (id.includes("react")) return "vendor-react";
               if (id.includes("tailwindcss")) return "vendor-tailwind";

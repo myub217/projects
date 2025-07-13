@@ -11,7 +11,9 @@
     "start": "tsx server.ts",
     "clean": "./Clean.sh",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint . --ext .ts,.tsx"
+    "lint": "eslint . --ext .ts,.tsx",
+    "check": "pnpm run typecheck && pnpm run lint",
+    "analyze": "vite build --plugin rollup-plugin-visualizer"
   },
   "dependencies": {
     "connect-history-api-fallback": "^2.0.0",
@@ -22,8 +24,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.5.0",
-    "react-router-dom": "^6.30.1",
-    "ts-node": "^10.9.2"
+    "react-router-dom": "^6.30.1"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.16",

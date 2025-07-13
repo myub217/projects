@@ -4,7 +4,7 @@
 React, TypeScript, Vite, TailwindCSS, DaisyUI, Express, Framer Motion
 
 🔧 ไฟล์ config ที่สำคัญ:
-❌ ไม่พบไฟล์ vite.config.js\n✅ พบไฟล์ tailwind.config.mjs\n✅ พบไฟล์ tsconfig.json\n
+❌ ไม่พบไฟล์ vite.config.js\n❌ ไม่พบไฟล์ vite.config.mjs\n❌ ไม่พบไฟล์ tailwind.config.js\n✅ พบไฟล์ tailwind.config.mjs\n✅ พบไฟล์ tsconfig.json\n❌ ไม่พบไฟล์ tsconfig.base.json\n
 
 🧩 ตัวอย่าง Component หลัก:
 - src/components/About.tsx
@@ -19,38 +19,38 @@ React, TypeScript, Vite, TailwindCSS, DaisyUI, Express, Framer Motion
 - src/components/Features/Feature4.tsx
 
 📦 Dependencies หลัก:
-connect-history-api-fallback, dotenv, express, framer-motion, lucide-react, react, react-dom, react-icons, react-router-dom, ts-node
+connect-history-api-fallback, dotenv, express, framer-motion, lucide-react, react, react-dom, react-icons, react-router-dom
 
 🧰 DevDependencies:
 @tailwindcss/typography, @types/express, @types/node, @types/react, @types/react-dom, @vitejs/plugin-react, autoprefixer, daisyui, postcss, rollup-plugin-visualizer, tailwindcss, tsx, typescript, vite
 
 🛠️ สคริปต์ใน package.json:
-build, clean, dev, lint, preview, server, start, typecheck
+analyze, build, check, clean, dev, lint, preview, server, start, typecheck
 
 📂 โครงสร้างโฟลเดอร์ (ตัวอย่าง 20 บรรทัดแรก):
 .
-├── Acode
-│   ├── CHANGELOG.md
-│   ├── CODE_OF_CONDUCT.md
-│   ├── _typos.toml
-│   ├── biome.json
-│   ├── build-extras.gradle
-│   ├── config.xml
-│   ├── jsconfig.json
-│   ├── license.txt
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── postcss.config.js
-│   ├── readme.md
-│   └── webpack.config.js
 ├── Clean.sh
 ├── README.md
 ├── analyze-project.sh
 ├── api
-│   └── apiAdmin.ts
+│   ├── apiAdmin.ts
+│   └── apiClient.ts
+├── build.log
+├── dist
+│   ├── assets
+│   │   ├── about-us-IgS6mAQi.webp
+│   │   ├── hero-C1-WP8yC.webp
+│   │   ├── index-B726BqlN.css
+│   │   ├── index-DevQhSKk.js
+│   │   ├── index-DevQhSKk.js.map
+│   │   ├── jp-logo-DClkmN1r.png
+│   │   ├── krut.webp
+│   │   ├── krut1.webp
+│   │   ├── review1-7dlrv2oA.png
+│   │   ├── review10-D0SwORip.png
 
 🧪 ผลลัพธ์การ build (20 บรรทัดท้าย):
-dist/index.html                         3.59 kB │ gzip:  1.36 kB
+dist/index.html                         3.63 kB │ gzip:  1.39 kB
 dist/assets/hero-C1-WP8yC.webp         25.12 kB
 dist/assets/review9-DhFu7Jzq.png       36.39 kB
 dist/assets/signature-BovtCThw.webp    37.33 kB
@@ -65,10 +65,10 @@ dist/assets/review5-CAS9ctNR.png       68.45 kB
 dist/assets/review6-C1CShlkS.png       71.48 kB
 dist/assets/about-us-IgS6mAQi.webp    155.52 kB
 dist/assets/jp-logo-DClkmN1r.png      269.03 kB
-dist/assets/index-DRFdvl_-.css         99.70 kB │ gzip: 16.43 kB
+dist/assets/index-B726BqlN.css         99.72 kB │ gzip: 16.43 kB
 dist/assets/vendor-Bz9BtKzt.js         51.67 kB │ gzip: 19.44 kB │ map:   453.06 kB
-dist/assets/index-CaCgBn3h.js          91.54 kB │ gzip: 25.11 kB │ map:   209.28 kB
+dist/assets/index-DevQhSKk.js          91.48 kB │ gzip: 25.09 kB │ map:   207.39 kB
 dist/assets/vendor-react-BK4_uHc0.js  236.89 kB │ gzip: 76.53 kB │ map: 2,485.75 kB
-✓ built in 18.84s
+✓ built in 19.29s
 
 📌 ใช้ข้อมูลนี้สำหรับวิเคราะห์ ตรวจสอบ แนะนำ หรือช่วยพัฒนาต่อ

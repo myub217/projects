@@ -1,6 +1,6 @@
-# -------------------------------
-# General Build & Output
-# -------------------------------
+# ===============================
+# 📦 General Build & Output
+# ===============================
 node_modules/
 dist/
 build/
@@ -12,9 +12,9 @@ build/
 .cache/
 *.tsbuildinfo
 
-# -------------------------------
-# Logs
-# -------------------------------
+# ===============================
+# 🪵 Logs
+# ===============================
 npm-debug.log*
 pnpm-debug.log*
 yarn-debug.log*
@@ -26,29 +26,56 @@ lerna-debug.log*
 *.tgz
 *.gz.env
 
-# -------------------------------
-# Environment variables
-# -------------------------------
+# ===============================
+# 🔐 Environment variables
+# ===============================
 .env
-.env.*  # เช่น .env.development, .env.production
+.env.*  # เช่น .env.development, .env.production, .env.local
 
-# -------------------------------
-# Editor / OS-specific
-# -------------------------------
+# ===============================
+# 💻 Editor / OS-specific
+# ===============================
 .DS_Store
 Thumbs.db
 .idea/
 .vscode/
 *.swp
+*.bak
+*.tmp
 
-# -------------------------------
-# Optional: Visualizer reports
-# -------------------------------
+# ===============================
+# 📊 Visualizer Reports
+# ===============================
 report.html
+stats.html
 
-# -------------------------------
-# Optional: macOS/Linux artifacts
-# -------------------------------
+# ===============================
+# 🍎 macOS / Linux Artifacts
+# ===============================
 *.orig
 *.sublime-workspace
 *.sublime-project
+*.LSOverride
+
+# ===============================
+# 🚀 Deployment & CI/CD Artifacts
+# ===============================
+*.deploy.log
+*.publish.log
+*.env.backup
+server.log
+
+# ===============================
+# 🧪 Test Artifacts
+# ===============================
+coverage/
+test-output/
+jest-results/
+*.spec.ts.snap
+
+# ===============================
+# 🧠 AI Generated / LLM Cache
+# ===============================
+openai_cache/
+gpt-response.json
+ai-response-*.json

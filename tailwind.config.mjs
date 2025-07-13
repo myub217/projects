@@ -1,6 +1,3 @@
-// tailwind.config.ts
-
-import type { Config } from "tailwindcss";
 import daisyui from "daisyui";
 import typography from "@tailwindcss/typography";
 
@@ -11,7 +8,7 @@ import typography from "@tailwindcss/typography";
  * 🌙 Dark Mode: Controlled by class="dark"
  */
 
-const config: Config = {
+export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -215,9 +212,6 @@ const config: Config = {
         },
       },
     ],
-    // Optional: default dark theme (ถ้าใช้ data-theme)
-    // darkTheme: "platinum-dark",
+    darkTheme: "platinum-dark",
   },
 };
-
-export default config;

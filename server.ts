@@ -21,7 +21,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 
 // Middleware: รองรับ JSON และ form-urlencoded
 app.use(express.json());
@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 // SPA routing fallback แต่กัน /api/* ไม่ให้ fallback
 app.use(
   history({
-    rewrites: [{ from: /^\/api\/.*$/, to: context => context.parsedUrl.pathname }],
+    rewrites: [{ from: /^\/api\/.*$/, to: (context) => context.parsedUrl.pathname }],
   })
 );
 
