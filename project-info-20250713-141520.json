@@ -1,19 +1,4 @@
 {
-  "name": "modular-onepage",
-  "version": "0.0.1",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "start:api": "tsx server.ts",
-    "clean": "./Clean.sh",
-    "typecheck": "tsc --noEmit",
-    "lint": "eslint . --ext .ts,.tsx",
-    "check": "pnpm run typecheck && pnpm run lint",
-    "analyze": "vite build --plugin rollup-plugin-visualizer"
-  },
   "dependencies": {
     "connect-history-api-fallback": "^2.0.0",
     "dotenv": "^17.2.0",
@@ -43,5 +28,16 @@
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",
     "vite": "^7.0.2"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start:api": "tsx server.ts",
+    "clean": "./Clean.sh",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts,.tsx",
+    "check": "pnpm run typecheck && pnpm run lint",
+    "analyze": "vite build --plugin rollup-plugin-visualizer"
   }
 }
