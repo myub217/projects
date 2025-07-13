@@ -4,12 +4,10 @@
 React, TypeScript, Vite, TailwindCSS, DaisyUI, Express, Framer Motion
 
 🔧 ไฟล์ config ที่สำคัญ:
-❌ vite.config.js
 ✅ vite.config.mjs
-❌ tailwind.config.js
 ✅ tailwind.config.mjs
 ✅ tsconfig.json
-✅ tsconfig.base.json
+✅ eslint.config.mjs
 
 🧩 ตัวอย่าง Component หลัก:
 - src/components/About.tsx
@@ -27,10 +25,10 @@ React, TypeScript, Vite, TailwindCSS, DaisyUI, Express, Framer Motion
 connect-history-api-fallback, dotenv, express, framer-motion, lucide-react, node-fetch, react, react-dom, react-icons, react-router-dom
 
 🧰 DevDependencies:
-@eslint/js, @rollup/plugin-strip, @tailwindcss/typography, @types/express, @types/node, @types/react, @types/react-dom, @typescript-eslint/eslint-plugin, @typescript-eslint/parser, @vitejs/plugin-react, autoprefixer, concurrently, daisyui, eslint, eslint-config-prettier, eslint-plugin-react, eslint-plugin-tailwindcss, globals, postcss, prettier, rollup-plugin-visualizer, tailwindcss, tsx, typescript, vite
+@eslint/js, @rollup/plugin-strip, @tailwindcss/typography, @testing-library/jest-dom, @types/express, @types/node, @types/react, @types/react-dom, @typescript-eslint/eslint-plugin, @typescript-eslint/parser, @vitejs/plugin-react, autoprefixer, concurrently, daisyui, depcheck, eslint, eslint-config-prettier, eslint-plugin-react, eslint-plugin-tailwindcss, eslint-plugin-unused-imports, globals, jest-fetch-mock, postcss, prettier, rollup-plugin-visualizer, tailwindcss, tsx, typescript, vite
 
-🛠️ Scripts:
-analyze, build, check, clean, dev, format, lint, preview, start, start:api, typecheck
+⚙️ Scripts:
+analyze, build, check, check:dep, clean, dev, format, lint, preview, start, start:api, typecheck
 
 📂 โครงสร้างโฟลเดอร์ (ตัวอย่าง):
 .
@@ -39,7 +37,12 @@ analyze, build, check, clean, dev, format, lint, preview, start, start:api, type
 ├── api
 │   ├── apiAdmin.ts
 │   └── apiClient.ts
-├── env-vars-20250713-232933.txt
+├── depcheck-20250713-234017.json
+├── depcheck-20250713-235116.json
+├── depcheck.config.js
+├── env-vars-20250714-000345.txt
+├── eslint-unused-20250713-234017.log
+├── eslint-unused-20250713-235116.log
 ├── eslint.config.mjs
 ├── full-setup.sh
 ├── generate-info.sh
@@ -47,14 +50,9 @@ analyze, build, check, clean, dev, format, lint, preview, start, start:api, type
 ├── jest.config.js
 ├── jest.setup.js
 ├── node_modules
-│   ├── @alloc
-│   │   └── quick-lru -> ../.pnpm/@alloc+quick-lru@5.2.0/node_modules/@alloc/quick-lru
-│   ├── @ampproject
-│   │   └── remapping -> ../.pnpm/@ampproject+remapping@2.3.0/node_modules/@ampproject/remapping
-│   ├── @babel
-│   │   ├── code-frame -> ../.pnpm/@babel+code-frame@7.27.1/node_modules/@babel/code-frame
+│   ├── @adobe
 
-🧪 ผลลัพธ์ build (ท้าย log):
+📄 ผลลัพธ์ build (ท้าย log):
 dist/index.html                         3.66 kB │ gzip:  1.38 kB
 dist/assets/hero-C1-WP8yC.webp         25.12 kB
 dist/assets/review9-DhFu7Jzq.png       36.39 kB
@@ -74,6 +72,15 @@ dist/assets/index--4Hv1i_j.css         92.21 kB │ gzip: 15.31 kB
 dist/assets/vendor-Bz9BtKzt.js         51.67 kB │ gzip: 19.44 kB │ map:   453.06 kB
 dist/assets/index-BuyjGJfz.js          94.89 kB │ gzip: 25.91 kB │ map:   212.46 kB
 dist/assets/vendor-react-DEKT-ysJ.js  239.08 kB │ gzip: 77.46 kB │ map: 2,486.31 kB
-✓ built in 22.55s
+✓ built in 30.74s
 
-📌 พร้อมใช้งานสำหรับวิเคราะห์หรือ commit ต่อ
+🚫 Dependencies ที่ไม่ถูกใช้งาน (depcheck):
+
+
+❗ Missing dependencies ที่โปรเจกต์เรียกใช้ แต่ไม่ได้ติดตั้ง (depcheck):
+
+
+🧹 รายการ unused imports ตาม eslint:
+→ eslint-unused-20250714-000345.log
+
+📌 พร้อมใช้สำหรับวิเคราะห์/commit ต่อ

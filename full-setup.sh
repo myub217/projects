@@ -1,95 +1,75 @@
 #!/bin/bash
 set -euo pipefail
 
-# ============================
-# 🔧 Timestamp เพื่อแยกชุดไฟล์
-# ============================
+# 🎯 เริ่มการวิเคราะห์โปรเจกต์
+
+# 📅 Timestamp สำหรับตั้งชื่อไฟล์
 TIMESTAMP=$(LC_ALL=C date +"%Y%m%d-%H%M%S")
 
-# ============================
-# 🔧 ไฟล์ผลลัพธ์ที่จะถูกสร้าง
-# ============================
+# 📂 ชื่อไฟล์ผลลัพธ์
 INFO_JSON="project-info-$TIMESTAMP.json"
 ENV_TXT="env-vars-$TIMESTAMP.txt"
 TREE_TXT="project-structure-$TIMESTAMP.txt"
 BUILD_LOG="build-$TIMESTAMP.log"
 SUMMARY_PROMPT="project-summary-prompt-$TIMESTAMP.txt"
+DEPCHECK_JSON="depcheck-$TIMESTAMP.json"
+ESLINT_LOG="eslint-unused-$TIMESTAMP.log"
 
-echo "⏳ กำลังรวบรวมข้อมูลโปรเจกต์..."
+echo -e "\n🟦 [1/8] ตรวจสอบเครื่องมือพื้นฐาน..."
+for TOOL in jq depcheck eslint node; do
+  if ! command -v "$TOOL" &>/dev/null; then
+    echo "⚠️ ไม่พบ $TOOL → ติดตั้ง..."
+    npm install -g "$TOOL"
+  else
+    echo "✅ $TOOL พร้อมใช้งาน"
+  fi
+done
 
-# ============================
-# ✅ ตรวจสอบว่า jq ถูกติดตั้ง
-# ============================
-if ! command -v jq &> /dev/null; then
-  echo "❌ jq ไม่ถูกติดตั้ง! โปรดติดตั้งก่อน (apt install jq หรือ brew install jq)"
-  exit 1
-fi
+# ----------------------------------
 
-# ============================
-# 📦 ตรวจสอบว่า package.json อยู่หรือไม่ และสิทธิ์อ่านได้
-# ============================
-if [ ! -f "package.json" ]; then
-  echo "❌ ไม่พบไฟล์ package.json"
-  exit 1
-fi
+echo -e "\n🟦 [2/8] ตรวจสอบไฟล์สำคัญของโปรเจกต์..."
+CONFIG_FILES=(vite.config.mjs tailwind.config.mjs tsconfig.json eslint.config.mjs)
+CONFIG_STATUS=()
+for FILE in "${CONFIG_FILES[@]}"; do
+  [ -f "$FILE" ] && CONFIG_STATUS+=("✅ $FILE") || CONFIG_STATUS+=("❌ $FILE")
+done
 
 if [ ! -r "package.json" ]; then
-  echo "❌ ไม่สามารถอ่าน package.json"
-  exit 1
+  echo "❌ ไม่สามารถอ่าน package.json"; exit 1
 fi
 
-# ============================
-# 📁 Fallback ถ้าไม่มี tree ใช้ find
-# ============================
-function generate_tree {
-  local maxdepth=$1
-  if command -v tree &> /dev/null; then
-    tree -L "$maxdepth"
+PROJECT_NAME=$(jq -r '.name // "Unnamed Project"' package.json)
+jq '{dependencies, devDependencies, scripts}' package.json > "$INFO_JSON"
+echo "✅ export → $INFO_JSON"
+
+# ----------------------------------
+
+echo -e "\n🟦 [3/8] ดึง ENV และโครงสร้างโฟลเดอร์..."
+if [ -f .env ]; then
+  cp .env "$ENV_TXT"
+else
+  printenv > "$ENV_TXT"
+fi
+echo "✅ ENV → $ENV_TXT"
+
+generate_tree() {
+  if command -v tree &>/dev/null; then
+    tree -L "$1"
   else
-    echo "⚠️ ใช้ find แทน tree"
-    find . -maxdepth "$maxdepth" -print 2>/dev/null || echo "❌ สร้างโครงสร้างล้มเหลว"
+    find . -maxdepth "$1" -print
   fi
 }
-
-# ============================
-# ดึงชื่อโปรเจกต์
-# ============================
-PROJECT_NAME=$(jq -r '.name // "Unnamed Project"' package.json)
-
-# ============================
-# 📦 Export dependencies + scripts
-# ============================
-jq '{dependencies, devDependencies, scripts}' package.json > "$INFO_JSON"
-echo "✅ สร้าง $INFO_JSON"
-
-# ============================
-# 🌍 Dump env vars
-# ============================
-printenv > "$ENV_TXT"
-echo "✅ สร้าง $ENV_TXT"
-
-# ============================
-# 📁 Tree structure
-# ============================
 generate_tree 3 > "$TREE_TXT"
-echo "✅ สร้าง $TREE_TXT"
+echo "✅ โครงสร้าง → $TREE_TXT"
 
-# ============================
-# 🛠️ Build ด้วย fallback pnpm → yarn → npm
-# ============================
-BUILD_CMD=()
-if command -v pnpm &> /dev/null; then
-  BUILD_CMD=(pnpm run build)
-elif command -v yarn &> /dev/null; then
-  BUILD_CMD=(yarn build)
-elif command -v npm &> /dev/null; then
-  BUILD_CMD=(npm run build)
-else
-  echo "❌ ไม่พบคำสั่ง pnpm, yarn หรือ npm"
-  exit 1
-fi
+# ----------------------------------
 
-echo "⏳ กำลังรันคำสั่ง build: ${BUILD_CMD[*]}"
+echo -e "\n🟦 [4/8] รัน build (เลือกคำสั่งอัตโนมัติ)..."
+if command -v pnpm &>/dev/null; then BUILD_CMD=(pnpm run build)
+elif command -v yarn &>/dev/null; then BUILD_CMD=(yarn build)
+else BUILD_CMD=(npm run build); fi
+
+echo "🛠️ คำสั่ง: ${BUILD_CMD[*]}"
 if "${BUILD_CMD[@]}" > "$BUILD_LOG" 2>&1; then
   echo "✅ build สำเร็จ → $BUILD_LOG"
 else
@@ -97,45 +77,35 @@ else
   exit 1
 fi
 
-# ============================
-# 🔍 ตรวจสอบไฟล์ config สำคัญ
-# ============================
-CONFIG_FILES=(vite.config.js vite.config.mjs tailwind.config.js tailwind.config.mjs tsconfig.json tsconfig.base.json)
-CONFIG_STATUS=()
-for FILE in "${CONFIG_FILES[@]}"; do
-  if [ -f "$FILE" ]; then
-    CONFIG_STATUS+=("✅ $FILE")
-  else
-    CONFIG_STATUS+=("❌ $FILE")
-  fi
-done
+# ----------------------------------
 
-# ============================
-# 📦 ดึง dependency/script string
-# ============================
-DEPS=$(jq -r '.dependencies | keys | if length > 0 then join(", ") else "ไม่มี dependencies" end' "$INFO_JSON")
-DEV_DEPS=$(jq -r '.devDependencies | keys | if length > 0 then join(", ") else "ไม่มี devDependencies" end' "$INFO_JSON")
-SCRIPTS=$(jq -r '.scripts | keys | if length > 0 then join(", ") else "ไม่มี scripts" end' "$INFO_JSON")
+echo -e "\n🟦 [5/8] ตรวจสอบ Component ตัวอย่าง..."
+TOP_COMPONENTS=$(find src/components -type f -name "*.tsx" 2>/dev/null | head -n 10 | sed 's/^/- /' || echo "(ไม่มี)")
+echo "✅ รายการ Component: $(echo "$TOP_COMPONENTS" | wc -l) ไฟล์"
 
-# ============================
-# 🧩 Component ตัวอย่าง
-# ============================
-if [ -d "src/components" ]; then
-  TOP_COMPONENTS=$(find src/components -type f -name "*.tsx" | head -n 10 | sed 's/^/- /')
-  [ -z "$TOP_COMPONENTS" ] && TOP_COMPONENTS="(ไม่มีไฟล์ .tsx ใน src/components)"
-else
-  TOP_COMPONENTS="(ไม่มีโฟลเดอร์ src/components)"
-fi
+# ----------------------------------
 
-# ============================
-# 📄 preview log
-# ============================
+echo -e "\n🟦 [6/8] ตรวจสอบ Dependencies ที่ไม่ถูกใช้ (depcheck)..."
+depcheck --config depcheck.config.js --json > "$DEPCHECK_JSON" || echo "⚠️ depcheck มี error"
+echo "✅ depcheck → $DEPCHECK_JSON"
+
+# ----------------------------------
+
+echo -e "\n🟦 [7/8] ตรวจสอบ unused imports (eslint)..."
+eslint --ext .ts,.tsx,.js,.jsx --rule 'unused-imports/no-unused-imports: error' ./src > "$ESLINT_LOG" 2>&1 || true
+echo "✅ eslint → $ESLINT_LOG"
+
+# ----------------------------------
+
+echo -e "\n🟦 [8/8] สรุปผลทั้งหมด..."
+DEPS=$(jq -r '.dependencies | keys | join(", ")' "$INFO_JSON")
+DEV_DEPS=$(jq -r '.devDependencies | keys | join(", ")' "$INFO_JSON")
+SCRIPTS=$(jq -r '.scripts | keys | join(", ")' "$INFO_JSON")
+DEPCHECK_UNUSED=$(jq -r '.dependencies // {} | keys | join(", ")' "$DEPCHECK_JSON")
+DEPCHECK_MISSING=$(jq -r '.missing // {} | keys | join(", ")' "$DEPCHECK_JSON")
 TREE_PREVIEW=$(head -n 20 "$TREE_TXT")
 BUILD_PREVIEW=$(tail -n 20 "$BUILD_LOG")
 
-# ============================
-# 🧠 Generate summary
-# ============================
 cat > "$SUMMARY_PROMPT" <<EOF
 🧠 สรุปภาพรวมโปรเจกต์: $PROJECT_NAME
 
@@ -154,17 +124,26 @@ $DEPS
 🧰 DevDependencies:
 $DEV_DEPS
 
-🛠️ Scripts:
+⚙️ Scripts:
 $SCRIPTS
 
 📂 โครงสร้างโฟลเดอร์ (ตัวอย่าง):
 $TREE_PREVIEW
 
-🧪 ผลลัพธ์ build (ท้าย log):
+📄 ผลลัพธ์ build (ท้าย log):
 $BUILD_PREVIEW
 
-📌 พร้อมใช้งานสำหรับวิเคราะห์หรือ commit ต่อ
+🚫 Dependencies ที่ไม่ถูกใช้งาน (depcheck):
+$DEPCHECK_UNUSED
+
+❗ Missing dependencies ที่โปรเจกต์เรียกใช้ แต่ไม่ได้ติดตั้ง (depcheck):
+$DEPCHECK_MISSING
+
+🧹 รายการ unused imports ตาม eslint:
+→ $ESLINT_LOG
+
+📌 พร้อมใช้สำหรับวิเคราะห์/commit ต่อ
 EOF
 
-echo "✅ สรุปไว้ที่ $SUMMARY_PROMPT"
+echo -e "\n✅ บันทึกสรุป → $SUMMARY_PROMPT"
 echo "🎉 เสร็จสมบูรณ์!"

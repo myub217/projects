@@ -1,65 +1,37 @@
-import js from '@eslint/js';
-import tsParser from '@typescript-eslint/parser';
-import tsPlugin from '@typescript-eslint/eslint-plugin';
-import reactPlugin from 'eslint-plugin-react';
-import tailwindcssPlugin from 'eslint-plugin-tailwindcss';
-import path from 'node:path';
-import url from 'node:url';
+import js from "@eslint/js";
+import tsParser from "@typescript-eslint/parser";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
+import reactPlugin from "eslint-plugin-react";
+import tailwindPlugin from "eslint-plugin-tailwindcss";
+import prettierConfig from "eslint-config-prettier";
 
-const __filename = url.fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+export default [
+  js.configs.recommended,
 
-export default js.flatConfig([
   {
-    files: ['*.ts', '*.tsx'],
+    files: ["*.ts", "*.tsx"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: path.join(__dirname, 'tsconfig.json'),
-        tsconfigRootDir: __dirname,
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-        ecmaFeatures: { jsx: true },
+        project: "./tsconfig.json",
       },
     },
-    plugins: {
-      react: reactPlugin,
-      '@typescript-eslint': tsPlugin,
-      tailwindcss: tailwindcssPlugin,
-    },
+    plugins: { "@typescript-eslint": tsPlugin },
     rules: {
-      'react/react-in-jsx-scope': 'off',
-      'react/prop-types': 'off',
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-explicit-any': 'warn',
-      'tailwindcss/no-custom-classname': 'off',
-    },
-    settings: {
-      react: { version: 'detect' },
+      "@typescript-eslint/no-unused-vars": "warn",
+      // เพิ่ม rules ที่ต้องการ
     },
   },
+
   {
-    files: ['*.js', '*.jsx'],
-    languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-      ecmaFeatures: { jsx: true },
-    },
     plugins: {
       react: reactPlugin,
-      tailwindcss: tailwindcssPlugin,
+      tailwindcss: tailwindPlugin,
     },
     rules: {
-      'react/react-in-jsx-scope': 'off',
-      'react/prop-types': 'off',
-      'tailwindcss/no-custom-classname': 'off',
-    },
-    settings: {
-      react: { version: 'detect' },
+      // กำหนด rules react, tailwind ตามต้องการ
     },
   },
-  js.configs.recommended,
-  tsPlugin.configs.recommended,
-  reactPlugin.configs.recommended,
-  tailwindcssPlugin.configs.recommended,
-]);
+
+  prettierConfig,
+];

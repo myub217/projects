@@ -4,7 +4,12 @@
 ├── api
 │   ├── apiAdmin.ts
 │   └── apiClient.ts
-├── env-vars-20250713-232933.txt
+├── depcheck-20250713-234017.json
+├── depcheck-20250713-235116.json
+├── depcheck.config.js
+├── env-vars-20250714-000345.txt
+├── eslint-unused-20250713-234017.log
+├── eslint-unused-20250713-235116.log
 ├── eslint.config.mjs
 ├── full-setup.sh
 ├── generate-info.sh
@@ -12,6 +17,8 @@
 ├── jest.config.js
 ├── jest.setup.js
 ├── node_modules
+│   ├── @adobe
+│   │   └── css-tools -> ../.pnpm/@adobe+css-tools@4.4.3/node_modules/@adobe/css-tools
 │   ├── @alloc
 │   │   └── quick-lru -> ../.pnpm/@alloc+quick-lru@5.2.0/node_modules/@alloc/quick-lru
 │   ├── @ampproject
@@ -85,6 +92,8 @@
 │   │   └── eslint-patch -> ../.pnpm/@rushstack+eslint-patch@1.12.0/node_modules/@rushstack/eslint-patch
 │   ├── @tailwindcss
 │   │   └── typography -> ../.pnpm/@tailwindcss+typography@0.5.16_tailwindcss@3.4.17/node_modules/@tailwindcss/typography
+│   ├── @testing-library
+│   │   └── jest-dom -> ../.pnpm/@testing-library+jest-dom@6.6.3/node_modules/@testing-library/jest-dom
 │   ├── @types
 │   │   ├── babel__core -> ../.pnpm/@types+babel__core@7.20.5/node_modules/@types/babel__core
 │   │   ├── babel__generator -> ../.pnpm/@types+babel__generator@7.27.0/node_modules/@types/babel__generator
@@ -99,6 +108,7 @@
 │   │   ├── json-schema -> ../.pnpm/@types+json-schema@7.0.15/node_modules/@types/json-schema
 │   │   ├── json5 -> ../.pnpm/@types+json5@0.0.29/node_modules/@types/json5
 │   │   ├── mime -> ../.pnpm/@types+mime@1.3.5/node_modules/@types/mime
+│   │   ├── minimatch -> ../.pnpm/@types+minimatch@3.0.5/node_modules/@types/minimatch
 │   │   ├── node -> ../.pnpm/@types+node@20.19.7/node_modules/@types/node
 │   │   ├── parse-json -> ../.pnpm/@types+parse-json@4.0.2/node_modules/@types/parse-json
 │   │   ├── prop-types -> ../.pnpm/@types+prop-types@15.7.15/node_modules/@types/prop-types
@@ -123,6 +133,12 @@
 │   │   └── visitor-keys -> ../.pnpm/@typescript-eslint+visitor-keys@8.36.0/node_modules/@typescript-eslint/visitor-keys
 │   ├── @vitejs
 │   │   └── plugin-react -> ../.pnpm/@vitejs+plugin-react@4.6.0_vite@7.0.4_@types+node@20.19.7_jiti@1.21.7_tsx@4.20.3_yaml@2.8.0_/node_modules/@vitejs/plugin-react
+│   ├── @vue
+│   │   ├── compiler-core -> ../.pnpm/@vue+compiler-core@3.5.17/node_modules/@vue/compiler-core
+│   │   ├── compiler-dom -> ../.pnpm/@vue+compiler-dom@3.5.17/node_modules/@vue/compiler-dom
+│   │   ├── compiler-sfc -> ../.pnpm/@vue+compiler-sfc@3.5.17/node_modules/@vue/compiler-sfc
+│   │   ├── compiler-ssr -> ../.pnpm/@vue+compiler-ssr@3.5.17/node_modules/@vue/compiler-ssr
+│   │   └── shared -> ../.pnpm/@vue+shared@3.5.17/node_modules/@vue/shared
 │   ├── accepts -> .pnpm/accepts@2.0.0/node_modules/accepts
 │   ├── acorn -> .pnpm/acorn@8.15.0/node_modules/acorn
 │   ├── acorn-jsx -> .pnpm/acorn-jsx@5.3.2_acorn@8.15.0/node_modules/acorn-jsx
@@ -132,9 +148,10 @@
 │   ├── any-promise -> .pnpm/any-promise@1.3.0/node_modules/any-promise
 │   ├── anymatch -> .pnpm/anymatch@3.1.3/node_modules/anymatch
 │   ├── arg -> .pnpm/arg@5.0.2/node_modules/arg
-│   ├── argparse -> .pnpm/argparse@2.0.1/node_modules/argparse
+│   ├── argparse -> .pnpm/argparse@1.0.10/node_modules/argparse
 │   ├── aria-query -> .pnpm/aria-query@5.3.2/node_modules/aria-query
 │   ├── array-buffer-byte-length -> .pnpm/array-buffer-byte-length@1.0.2/node_modules/array-buffer-byte-length
+│   ├── array-differ -> .pnpm/array-differ@3.0.0/node_modules/array-differ
 │   ├── array-includes -> .pnpm/array-includes@3.1.9/node_modules/array-includes
 │   ├── array-union -> .pnpm/array-union@2.1.0/node_modules/array-union
 │   ├── array.prototype.findlast -> .pnpm/array.prototype.findlast@1.2.5/node_modules/array.prototype.findlast
@@ -143,6 +160,7 @@
 │   ├── array.prototype.flatmap -> .pnpm/array.prototype.flatmap@1.3.3/node_modules/array.prototype.flatmap
 │   ├── array.prototype.tosorted -> .pnpm/array.prototype.tosorted@1.1.4/node_modules/array.prototype.tosorted
 │   ├── arraybuffer.prototype.slice -> .pnpm/arraybuffer.prototype.slice@1.0.4/node_modules/arraybuffer.prototype.slice
+│   ├── arrify -> .pnpm/arrify@2.0.1/node_modules/arrify
 │   ├── ast-types-flow -> .pnpm/ast-types-flow@0.0.8/node_modules/ast-types-flow
 │   ├── async-function -> .pnpm/async-function@1.0.0/node_modules/async-function
 │   ├── autoprefixer -> .pnpm/autoprefixer@10.4.21_postcss@8.5.6/node_modules/autoprefixer
@@ -165,12 +183,14 @@
 │   ├── call-bind -> .pnpm/call-bind@1.0.8/node_modules/call-bind
 │   ├── call-bind-apply-helpers -> .pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers
 │   ├── call-bound -> .pnpm/call-bound@1.0.4/node_modules/call-bound
+│   ├── callsite -> .pnpm/callsite@1.0.0/node_modules/callsite
 │   ├── callsites -> .pnpm/callsites@3.1.0/node_modules/callsites
+│   ├── camelcase -> .pnpm/camelcase@6.3.0/node_modules/camelcase
 │   ├── camelcase-css -> .pnpm/camelcase-css@2.0.1/node_modules/camelcase-css
 │   ├── caniuse-lite -> .pnpm/caniuse-lite@1.0.30001727/node_modules/caniuse-lite
-│   ├── chalk -> .pnpm/chalk@4.1.2/node_modules/chalk
+│   ├── chalk -> .pnpm/chalk@3.0.0/node_modules/chalk
 │   ├── chokidar -> .pnpm/chokidar@3.6.0/node_modules/chokidar
-│   ├── cliui -> .pnpm/cliui@8.0.1/node_modules/cliui
+│   ├── cliui -> .pnpm/cliui@7.0.4/node_modules/cliui
 │   ├── color-convert -> .pnpm/color-convert@2.0.1/node_modules/color-convert
 │   ├── color-name -> .pnpm/color-name@1.1.4/node_modules/color-name
 │   ├── commander -> .pnpm/commander@4.1.1/node_modules/commander
@@ -185,7 +205,9 @@
 │   ├── cookie-signature -> .pnpm/cookie-signature@1.2.2/node_modules/cookie-signature
 │   ├── core-js-compat -> .pnpm/core-js-compat@3.44.0/node_modules/core-js-compat
 │   ├── cosmiconfig -> .pnpm/cosmiconfig@7.1.0/node_modules/cosmiconfig
+│   ├── cross-fetch -> .pnpm/cross-fetch@3.2.0/node_modules/cross-fetch
 │   ├── cross-spawn -> .pnpm/cross-spawn@7.0.6/node_modules/cross-spawn
+│   ├── css.escape -> .pnpm/css.escape@1.5.1/node_modules/css.escape
 │   ├── cssesc -> .pnpm/cssesc@3.0.0/node_modules/cssesc
 │   ├── csstype -> .pnpm/csstype@3.1.3/node_modules/csstype
 │   ├── daisyui -> .pnpm/daisyui@5.0.46/node_modules/daisyui
@@ -200,11 +222,15 @@
 │   ├── define-data-property -> .pnpm/define-data-property@1.1.4/node_modules/define-data-property
 │   ├── define-lazy-prop -> .pnpm/define-lazy-prop@2.0.0/node_modules/define-lazy-prop
 │   ├── define-properties -> .pnpm/define-properties@1.2.1/node_modules/define-properties
+│   ├── depcheck -> .pnpm/depcheck@1.4.7/node_modules/depcheck
 │   ├── depd -> .pnpm/depd@2.0.0/node_modules/depd
+│   ├── deps-regex -> .pnpm/deps-regex@0.2.0/node_modules/deps-regex
+│   ├── detect-file -> .pnpm/detect-file@1.0.0/node_modules/detect-file
 │   ├── didyoumean -> .pnpm/didyoumean@1.2.2/node_modules/didyoumean
 │   ├── dir-glob -> .pnpm/dir-glob@3.0.1/node_modules/dir-glob
 │   ├── dlv -> .pnpm/dlv@1.1.3/node_modules/dlv
 │   ├── doctrine -> .pnpm/doctrine@2.1.0/node_modules/doctrine
+│   ├── dom-accessibility-api -> .pnpm/dom-accessibility-api@0.6.3/node_modules/dom-accessibility-api
 │   ├── dotenv -> .pnpm/dotenv@17.2.0/node_modules/dotenv
 │   ├── dunder-proto -> .pnpm/dunder-proto@1.0.1/node_modules/dunder-proto
 │   ├── eastasianwidth -> .pnpm/eastasianwidth@0.2.0/node_modules/eastasianwidth
@@ -212,6 +238,7 @@
 │   ├── electron-to-chromium -> .pnpm/electron-to-chromium@1.5.182/node_modules/electron-to-chromium
 │   ├── emoji-regex -> .pnpm/emoji-regex@8.0.0/node_modules/emoji-regex
 │   ├── encodeurl -> .pnpm/encodeurl@2.0.0/node_modules/encodeurl
+│   ├── entities -> .pnpm/entities@4.5.0/node_modules/entities
 │   ├── error-ex -> .pnpm/error-ex@1.3.2/node_modules/error-ex
 │   ├── es-abstract -> .pnpm/es-abstract@1.24.0/node_modules/es-abstract
 │   ├── es-define-property -> .pnpm/es-define-property@1.0.1/node_modules/es-define-property
@@ -237,15 +264,19 @@
 │   ├── eslint-plugin-react-hooks -> .pnpm/eslint-plugin-react-hooks@4.6.2_eslint@9.31.0_jiti@1.21.7_/node_modules/eslint-plugin-react-hooks
 │   ├── eslint-plugin-tailwindcss -> .pnpm/eslint-plugin-tailwindcss@3.18.0_tailwindcss@3.4.17/node_modules/eslint-plugin-tailwindcss
 │   ├── eslint-plugin-testing-library -> .pnpm/eslint-plugin-testing-library@5.11.1_eslint@9.31.0_jiti@1.21.7__typescript@5.8.3/node_modules/eslint-plugin-testing-library
+│   ├── eslint-plugin-unused-imports -> .pnpm/eslint-plugin-unused-imports@3.2.0_@typescript-eslint+eslint-plugin@8.36.0_@typescript-_e48634055244fa6569f6a599b4a33b09/node_modules/eslint-plugin-unused-imports
+│   ├── eslint-rule-composer -> .pnpm/eslint-rule-composer@0.3.0/node_modules/eslint-rule-composer
 │   ├── eslint-scope -> .pnpm/eslint-scope@8.4.0/node_modules/eslint-scope
 │   ├── eslint-visitor-keys -> .pnpm/eslint-visitor-keys@4.2.1/node_modules/eslint-visitor-keys
 │   ├── espree -> .pnpm/espree@10.4.0/node_modules/espree
+│   ├── esprima -> .pnpm/esprima@4.0.1/node_modules/esprima
 │   ├── esquery -> .pnpm/esquery@1.6.0/node_modules/esquery
 │   ├── esrecurse -> .pnpm/esrecurse@4.3.0/node_modules/esrecurse
 │   ├── estraverse -> .pnpm/estraverse@5.3.0/node_modules/estraverse
 │   ├── estree-walker -> .pnpm/estree-walker@2.0.2/node_modules/estree-walker
 │   ├── esutils -> .pnpm/esutils@2.0.3/node_modules/esutils
 │   ├── etag -> .pnpm/etag@1.8.1/node_modules/etag
+│   ├── expand-tilde -> .pnpm/expand-tilde@2.0.2/node_modules/expand-tilde
 │   ├── express -> .pnpm/express@5.1.0/node_modules/express
 │   ├── fast-deep-equal -> .pnpm/fast-deep-equal@3.1.3/node_modules/fast-deep-equal
 │   ├── fast-glob -> .pnpm/fast-glob@3.3.3/node_modules/fast-glob
@@ -258,6 +289,7 @@
 │   ├── fill-range -> .pnpm/fill-range@7.1.1/node_modules/fill-range
 │   ├── finalhandler -> .pnpm/finalhandler@2.1.0/node_modules/finalhandler
 │   ├── find-up -> .pnpm/find-up@5.0.0/node_modules/find-up
+│   ├── findup-sync -> .pnpm/findup-sync@5.0.0/node_modules/findup-sync
 │   ├── flat-cache -> .pnpm/flat-cache@4.0.1/node_modules/flat-cache
 │   ├── flatted -> .pnpm/flatted@3.3.3/node_modules/flatted
 │   ├── for-each -> .pnpm/for-each@0.3.5/node_modules/for-each
@@ -278,6 +310,8 @@
 │   ├── get-tsconfig -> .pnpm/get-tsconfig@4.10.1/node_modules/get-tsconfig
 │   ├── glob -> .pnpm/glob@10.4.5/node_modules/glob
 │   ├── glob-parent -> .pnpm/glob-parent@6.0.2/node_modules/glob-parent
+│   ├── global-modules -> .pnpm/global-modules@1.0.0/node_modules/global-modules
+│   ├── global-prefix -> .pnpm/global-prefix@1.0.2/node_modules/global-prefix
 │   ├── globals -> .pnpm/globals@16.3.0/node_modules/globals
 │   ├── globalthis -> .pnpm/globalthis@1.0.4/node_modules/globalthis
 │   ├── globby -> .pnpm/globby@11.1.0/node_modules/globby
@@ -290,12 +324,15 @@
 │   ├── has-symbols -> .pnpm/has-symbols@1.1.0/node_modules/has-symbols
 │   ├── has-tostringtag -> .pnpm/has-tostringtag@1.0.2/node_modules/has-tostringtag
 │   ├── hasown -> .pnpm/hasown@2.0.2/node_modules/hasown
+│   ├── homedir-polyfill -> .pnpm/homedir-polyfill@1.0.3/node_modules/homedir-polyfill
 │   ├── http-errors -> .pnpm/http-errors@2.0.0/node_modules/http-errors
 │   ├── iconv-lite -> .pnpm/iconv-lite@0.6.3/node_modules/iconv-lite
 │   ├── ignore -> .pnpm/ignore@7.0.5/node_modules/ignore
 │   ├── import-fresh -> .pnpm/import-fresh@3.3.1/node_modules/import-fresh
 │   ├── imurmurhash -> .pnpm/imurmurhash@0.1.4/node_modules/imurmurhash
+│   ├── indent-string -> .pnpm/indent-string@4.0.0/node_modules/indent-string
 │   ├── inherits -> .pnpm/inherits@2.0.4/node_modules/inherits
+│   ├── ini -> .pnpm/ini@1.3.8/node_modules/ini
 │   ├── internal-slot -> .pnpm/internal-slot@1.1.0/node_modules/internal-slot
 │   ├── ipaddr.js -> .pnpm/ipaddr.js@1.9.1/node_modules/ipaddr.js
 │   ├── is-array-buffer -> .pnpm/is-array-buffer@3.0.5/node_modules/is-array-buffer
@@ -328,14 +365,16 @@
 │   ├── is-weakmap -> .pnpm/is-weakmap@2.0.2/node_modules/is-weakmap
 │   ├── is-weakref -> .pnpm/is-weakref@1.1.1/node_modules/is-weakref
 │   ├── is-weakset -> .pnpm/is-weakset@2.0.4/node_modules/is-weakset
+│   ├── is-windows -> .pnpm/is-windows@1.0.2/node_modules/is-windows
 │   ├── is-wsl -> .pnpm/is-wsl@2.2.0/node_modules/is-wsl
 │   ├── isarray -> .pnpm/isarray@2.0.5/node_modules/isarray
 │   ├── isexe -> .pnpm/isexe@2.0.0/node_modules/isexe
 │   ├── iterator.prototype -> .pnpm/iterator.prototype@1.1.5/node_modules/iterator.prototype
 │   ├── jackspeak -> .pnpm/jackspeak@3.4.3/node_modules/jackspeak
+│   ├── jest-fetch-mock -> .pnpm/jest-fetch-mock@3.0.3/node_modules/jest-fetch-mock
 │   ├── jiti -> .pnpm/jiti@1.21.7/node_modules/jiti
 │   ├── js-tokens -> .pnpm/js-tokens@4.0.0/node_modules/js-tokens
-│   ├── js-yaml -> .pnpm/js-yaml@4.1.0/node_modules/js-yaml
+│   ├── js-yaml -> .pnpm/js-yaml@3.14.1/node_modules/js-yaml
 │   ├── jsesc -> .pnpm/jsesc@3.1.0/node_modules/jsesc
 │   ├── json-buffer -> .pnpm/json-buffer@3.0.1/node_modules/json-buffer
 │   ├── json-parse-even-better-errors -> .pnpm/json-parse-even-better-errors@2.3.1/node_modules/json-parse-even-better-errors
@@ -366,12 +405,14 @@
 │   ├── micromatch -> .pnpm/micromatch@4.0.8/node_modules/micromatch
 │   ├── mime-db -> .pnpm/mime-db@1.54.0/node_modules/mime-db
 │   ├── mime-types -> .pnpm/mime-types@3.0.1/node_modules/mime-types
-│   ├── minimatch -> .pnpm/minimatch@3.1.2/node_modules/minimatch
+│   ├── min-indent -> .pnpm/min-indent@1.0.1/node_modules/min-indent
+│   ├── minimatch -> .pnpm/minimatch@7.4.6/node_modules/minimatch
 │   ├── minimist -> .pnpm/minimist@1.2.8/node_modules/minimist
 │   ├── minipass -> .pnpm/minipass@7.1.2/node_modules/minipass
 │   ├── motion-dom -> .pnpm/motion-dom@12.23.2/node_modules/motion-dom
 │   ├── motion-utils -> .pnpm/motion-utils@12.23.2/node_modules/motion-utils
 │   ├── ms -> .pnpm/ms@2.1.3/node_modules/ms
+│   ├── multimatch -> .pnpm/multimatch@5.0.0/node_modules/multimatch
 │   ├── mz -> .pnpm/mz@2.7.0/node_modules/mz
 │   ├── nanoid -> .pnpm/nanoid@3.3.11/node_modules/nanoid
 │   ├── natural-compare -> .pnpm/natural-compare@1.4.0/node_modules/natural-compare
@@ -401,6 +442,7 @@
 │   ├── package-json-from-dist -> .pnpm/package-json-from-dist@1.0.1/node_modules/package-json-from-dist
 │   ├── parent-module -> .pnpm/parent-module@1.0.1/node_modules/parent-module
 │   ├── parse-json -> .pnpm/parse-json@5.2.0/node_modules/parse-json
+│   ├── parse-passwd -> .pnpm/parse-passwd@1.0.0/node_modules/parse-passwd
 │   ├── parseurl -> .pnpm/parseurl@1.3.3/node_modules/parseurl
 │   ├── path-exists -> .pnpm/path-exists@4.0.0/node_modules/path-exists
 │   ├── path-key -> .pnpm/path-key@3.1.1/node_modules/path-key
@@ -412,6 +454,7 @@
 │   ├── picomatch -> .pnpm/picomatch@4.0.2/node_modules/picomatch
 │   ├── pify -> .pnpm/pify@2.3.0/node_modules/pify
 │   ├── pirates -> .pnpm/pirates@4.0.7/node_modules/pirates
+│   ├── please-upgrade-node -> .pnpm/please-upgrade-node@3.2.0/node_modules/please-upgrade-node
 │   ├── possible-typed-array-names -> .pnpm/possible-typed-array-names@1.1.0/node_modules/possible-typed-array-names
 │   ├── postcss -> .pnpm/postcss@8.5.6/node_modules/postcss
 │   ├── postcss-import -> .pnpm/postcss-import@15.1.0_postcss@8.5.6/node_modules/postcss-import
@@ -422,6 +465,7 @@
 │   ├── postcss-value-parser -> .pnpm/postcss-value-parser@4.2.0/node_modules/postcss-value-parser
 │   ├── prelude-ls -> .pnpm/prelude-ls@1.2.1/node_modules/prelude-ls
 │   ├── prettier -> .pnpm/prettier@3.6.2/node_modules/prettier
+│   ├── promise-polyfill -> .pnpm/promise-polyfill@8.3.0/node_modules/promise-polyfill
 │   ├── prop-types -> .pnpm/prop-types@15.8.1/node_modules/prop-types
 │   ├── proxy-addr -> .pnpm/proxy-addr@2.0.7/node_modules/proxy-addr
 │   ├── punycode -> .pnpm/punycode@2.3.1/node_modules/punycode
@@ -438,6 +482,7 @@
 │   ├── react-router-dom -> .pnpm/react-router-dom@6.30.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/react-router-dom
 │   ├── read-cache -> .pnpm/read-cache@1.0.0/node_modules/read-cache
 │   ├── readdirp -> .pnpm/readdirp@3.6.0/node_modules/readdirp
+│   ├── redent -> .pnpm/redent@3.0.0/node_modules/redent
 │   ├── reflect.getprototypeof -> .pnpm/reflect.getprototypeof@1.0.10/node_modules/reflect.getprototypeof
 │   ├── regenerate -> .pnpm/regenerate@1.4.2/node_modules/regenerate
 │   ├── regenerate-unicode-properties -> .pnpm/regenerate-unicode-properties@10.2.0/node_modules/regenerate-unicode-properties
@@ -446,8 +491,10 @@
 │   ├── regjsgen -> .pnpm/regjsgen@0.8.0/node_modules/regjsgen
 │   ├── regjsparser -> .pnpm/regjsparser@0.12.0/node_modules/regjsparser
 │   ├── require-directory -> .pnpm/require-directory@2.1.1/node_modules/require-directory
-│   ├── resolve -> .pnpm/resolve@2.0.0-next.5/node_modules/resolve
-│   ├── resolve-from -> .pnpm/resolve-from@4.0.0/node_modules/resolve-from
+│   ├── require-package-name -> .pnpm/require-package-name@2.0.1/node_modules/require-package-name
+│   ├── resolve -> .pnpm/resolve@1.22.10/node_modules/resolve
+│   ├── resolve-dir -> .pnpm/resolve-dir@1.0.1/node_modules/resolve-dir
+│   ├── resolve-from -> .pnpm/resolve-from@5.0.0/node_modules/resolve-from
 │   ├── resolve-pkg-maps -> .pnpm/resolve-pkg-maps@1.0.0/node_modules/resolve-pkg-maps
 │   ├── reusify -> .pnpm/reusify@1.1.0/node_modules/reusify
 │   ├── rollup -> .pnpm/rollup@4.45.0/node_modules/rollup
@@ -461,7 +508,8 @@
 │   ├── safe-regex-test -> .pnpm/safe-regex-test@1.1.0/node_modules/safe-regex-test
 │   ├── safer-buffer -> .pnpm/safer-buffer@2.1.2/node_modules/safer-buffer
 │   ├── scheduler -> .pnpm/scheduler@0.23.2/node_modules/scheduler
-│   ├── semver -> .pnpm/semver@6.3.1/node_modules/semver
+│   ├── semver -> .pnpm/semver@7.7.2/node_modules/semver
+│   ├── semver-compare -> .pnpm/semver-compare@1.0.0/node_modules/semver-compare
 │   ├── send -> .pnpm/send@1.2.0/node_modules/send
 │   ├── serve-static -> .pnpm/serve-static@2.2.0/node_modules/serve-static
 │   ├── set-function-length -> .pnpm/set-function-length@1.2.2/node_modules/set-function-length
@@ -480,6 +528,7 @@
 │   ├── source-map -> .pnpm/source-map@0.7.4/node_modules/source-map
 │   ├── source-map-js -> .pnpm/source-map-js@1.2.1/node_modules/source-map-js
 │   ├── spawn-command -> .pnpm/spawn-command@0.0.2/node_modules/spawn-command
+│   ├── sprintf-js -> .pnpm/sprintf-js@1.0.3/node_modules/sprintf-js
 │   ├── statuses -> .pnpm/statuses@2.0.2/node_modules/statuses
 │   ├── stop-iteration-iterator -> .pnpm/stop-iteration-iterator@1.1.0/node_modules/stop-iteration-iterator
 │   ├── string-natural-compare -> .pnpm/string-natural-compare@3.0.1/node_modules/string-natural-compare
@@ -494,6 +543,7 @@
 │   ├── strip-ansi -> .pnpm/strip-ansi@6.0.1/node_modules/strip-ansi
 │   ├── strip-ansi-cjs -> .pnpm/strip-ansi@6.0.1/node_modules/strip-ansi
 │   ├── strip-bom -> .pnpm/strip-bom@3.0.0/node_modules/strip-bom
+│   ├── strip-indent -> .pnpm/strip-indent@3.0.0/node_modules/strip-indent
 │   ├── strip-json-comments -> .pnpm/strip-json-comments@3.1.1/node_modules/strip-json-comments
 │   ├── sucrase -> .pnpm/sucrase@3.35.0/node_modules/sucrase
 │   ├── supports-color -> .pnpm/supports-color@8.1.1/node_modules/supports-color
@@ -504,6 +554,7 @@
 │   ├── tinyglobby -> .pnpm/tinyglobby@0.2.14/node_modules/tinyglobby
 │   ├── to-regex-range -> .pnpm/to-regex-range@5.0.1/node_modules/to-regex-range
 │   ├── toidentifier -> .pnpm/toidentifier@1.0.1/node_modules/toidentifier
+│   ├── tr46 -> .pnpm/tr46@0.0.3/node_modules/tr46
 │   ├── tree-kill -> .pnpm/tree-kill@1.2.2/node_modules/tree-kill
 │   ├── ts-api-utils -> .pnpm/ts-api-utils@2.1.0_typescript@5.8.3/node_modules/ts-api-utils
 │   ├── ts-interface-checker -> .pnpm/ts-interface-checker@0.1.13/node_modules/ts-interface-checker
@@ -531,6 +582,8 @@
 │   ├── vary -> .pnpm/vary@1.1.2/node_modules/vary
 │   ├── vite -> .pnpm/vite@7.0.4_@types+node@20.19.7_jiti@1.21.7_tsx@4.20.3_yaml@2.8.0/node_modules/vite
 │   ├── web-streams-polyfill -> .pnpm/web-streams-polyfill@3.3.3/node_modules/web-streams-polyfill
+│   ├── webidl-conversions -> .pnpm/webidl-conversions@3.0.1/node_modules/webidl-conversions
+│   ├── whatwg-url -> .pnpm/whatwg-url@5.0.0/node_modules/whatwg-url
 │   ├── which -> .pnpm/which@2.0.2/node_modules/which
 │   ├── which-boxed-primitive -> .pnpm/which-boxed-primitive@1.1.1/node_modules/which-boxed-primitive
 │   ├── which-builtin-type -> .pnpm/which-builtin-type@1.2.1/node_modules/which-builtin-type
@@ -544,15 +597,15 @@
 │   ├── yallist -> .pnpm/yallist@3.1.1/node_modules/yallist
 │   ├── yaml -> .pnpm/yaml@2.8.0/node_modules/yaml
 │   ├── yargs -> .pnpm/yargs@17.7.2/node_modules/yargs
-│   ├── yargs-parser -> .pnpm/yargs-parser@21.1.1/node_modules/yargs-parser
+│   ├── yargs-parser -> .pnpm/yargs-parser@20.2.9/node_modules/yargs-parser
 │   └── yocto-queue -> .pnpm/yocto-queue@0.1.0/node_modules/yocto-queue
 ├── package.json
 ├── pnpm-lock.yaml
 ├── pnpm-workspace.yaml
 ├── postcss.config.cjs
 ├── postcss.config.js
-├── project-info-20250713-232933.json
-├── project-structure-20250713-232933.txt
+├── project-info-20250714-000345.json
+├── project-structure-20250714-000345.txt
 ├── public
 │   ├── assets
 │   │   ├── krut.webp
@@ -627,4 +680,4 @@
 ├── vercel.json
 └── vite.config.mjs
 
-560 directories, 68 files
+608 directories, 73 files
