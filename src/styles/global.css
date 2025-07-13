@@ -3,20 +3,28 @@
    Project: JP Visual & Docs
    ============================ */
 
-/* Core Tailwind layers */
+/* Tailwind Core */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ========== Root Variables ========== */
+/* ========== CSS Variables ========== */
 
 /* Light Theme :root */
 :root {
   --color-bg: #f0f2f5;
   --color-fg: #2a2f3a;
   --color-primary: #d4af37;
+  --color-primary-light: #f0e6a1;
+  --color-primary-dark: #9c7a18;
   --color-secondary: #6b7280;
+  --color-secondary-light: #a3a9b4;
+  --color-secondary-dark: #4b5261;
   --color-accent: #2a2f3a;
+  --color-info: #60a5fa;
+  --color-success: #4ade80;
+  --color-warning: #facc15;
+  --color-error: #f87171;
 
   --font-body: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
   --font-heading: 'Playfair Display', 'Georgia', serif;
@@ -25,25 +33,30 @@
   --radius: 0.5rem;
   --transition: 0.3s ease;
 
-  /* Additional colors for borders and backgrounds used in form */
-  --color-border: #d1d5db; /* Tailwind gray-300 equivalent */
+  --color-border: #d1d5db;
   --color-background: var(--color-bg);
   --color-foreground: var(--color-fg);
 
-  /* Shadow for cards and elevated UI */
   --shadow-default: 0 2px 8px rgba(0, 0, 0, 0.1);
   --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Dark Theme overrides via class */
+/* Dark Theme (via .dark) */
 html.dark {
   --color-bg: #121417;
   --color-fg: #e4e6eb;
   --color-primary: #d4af37;
+  --color-primary-light: #f0e6a1;
+  --color-primary-dark: #9c7a18;
   --color-secondary: #a3a9b4;
+  --color-secondary-dark: #475569;
   --color-accent: #e4e6eb;
+  --color-info: #3b82f6;
+  --color-success: #22c55e;
+  --color-warning: #eab308;
+  --color-error: #ef4444;
 
-  --color-border: #4b5563; /* Tailwind gray-600 equivalent */
+  --color-border: #4b5563;
   --color-background: var(--color-bg);
   --color-foreground: var(--color-fg);
 
@@ -51,7 +64,7 @@ html.dark {
   --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.7);
 }
 
-/* ========== Normalize & Base ========== */
+/* ========== Base & Normalize ========== */
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -59,7 +72,7 @@ html.dark {
 
 html {
   scroll-behavior: smooth;
-  font-size: 16px; /* Base font size */
+  font-size: 16px;
 }
 
 body {
@@ -108,13 +121,12 @@ pre {
   border-radius: var(--radius);
 }
 
-/* ========== Form Elements ========== */
+/* ========== Forms ========== */
 
 button {
-  @apply rounded-lg px-4 py-2 transition cursor-pointer bg-primary text-background font-semibold shadow-md;
+  @apply rounded-lg px-4 py-2 bg-primary text-background font-semibold shadow-md transition cursor-pointer;
   border: none;
   box-shadow: var(--shadow-default);
-  transition: background-color var(--transition), box-shadow var(--transition);
 }
 
 button:hover,
@@ -131,7 +143,7 @@ button:disabled {
 
 input, textarea, select {
   border: 1px solid var(--color-border);
-  @apply px-3 py-2 rounded-md outline-none focus:ring-2 focus:ring-primary bg-background text-foreground;
+  @apply px-3 py-2 rounded-md bg-background text-foreground outline-none focus:ring-2 focus:ring-primary;
   transition: border-color var(--transition), box-shadow var(--transition);
   width: 100%;
   font-size: 1rem;
@@ -150,7 +162,7 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
 }
 
-/* ========== Scrollbar Styling ========== */
+/* ========== Scrollbars ========== */
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -171,7 +183,7 @@ select:focus {
   background: transparent;
 }
 
-/* ========== Utility Classes ========== */
+/* ========== Utility ========== */
 
 .rounded {
   border-radius: var(--radius);
@@ -193,7 +205,7 @@ select:focus {
 
 @keyframes fadeIn {
   from { opacity: 0; }
-  to   { opacity: 1; }
+  to { opacity: 1; }
 }
 
 .slide-up {
@@ -211,7 +223,7 @@ select:focus {
   }
 }
 
-/* ========== DaisyUI fallback theme (optional) ========== */
+/* ========== DaisyUI Theme Fallback ========== */
 
 [data-theme="platinum"] {
   background-color: #f0f2f5;
@@ -223,22 +235,25 @@ select:focus {
   color: #e4e6eb;
 }
 
-/* ========== Additional Enhancements ========== */
+/* ========== Responsive & Accessibility ========== */
 
-/* Buttons with focus-visible for accessibility */
-button:focus-visible {
-  outline-offset: 2px;
-  outline: 2px solid var(--color-primary);
-}
-
-/* Responsive typography adjustment */
 @media (max-width: 640px) {
   html {
     font-size: 14px;
   }
 }
 
-/* Enhanced card style */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ========== Card ========== */
+
 .card {
   background-color: var(--color-background);
   border-radius: var(--radius);
@@ -252,21 +267,8 @@ button:focus-visible {
   transform: translateY(-4px);
 }
 
-/* Accessibility: reduce motion */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
+/* ========== Modal ========== */
 
-/* ============================
-   Modal Specific Styles
-   ============================ */
-
-/* Modal overlay */
 .modal-overlay {
   background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
@@ -279,7 +281,6 @@ button:focus-visible {
   padding: 1rem;
 }
 
-/* Modal box */
 .modal-box {
   background-color: var(--color-background);
   color: var(--color-foreground);
@@ -291,11 +292,9 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transform-origin: center bottom;
   animation: modalFadeIn 0.3s var(--transition) forwards;
 }
 
-/* Fade-in animation */
 @keyframes modalFadeIn {
   from {
     opacity: 0;
@@ -307,19 +306,6 @@ button:focus-visible {
   }
 }
 
-/* Fade-out animation (optional, if you add JS toggle) */
-@keyframes modalFadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-}
-
-/* Modal header */
 .modal-header {
   padding: 1rem 1.5rem;
   border-bottom: 1px solid var(--color-border);
@@ -332,7 +318,6 @@ button:focus-visible {
   align-items: center;
 }
 
-/* Close button */
 .modal-close-button {
   background: transparent;
   border: none;
@@ -349,13 +334,11 @@ button:focus-visible {
   outline: 2px solid var(--color-primary);
 }
 
-/* Modal content area */
 .modal-content {
   flex-grow: 1;
   overflow: auto;
 }
 
-/* Iframe styling */
 .modal-content iframe {
   width: 100%;
   height: 100%;
@@ -364,7 +347,8 @@ button:focus-visible {
   border-radius: var(--radius);
 }
 
-/* Focus trap outline fallback */
+/* ========== Focus Outline Global ========== */
+
 :focus-visible {
   outline-offset: 2px;
   outline: 2px solid var(--color-primary);

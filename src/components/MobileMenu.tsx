@@ -120,7 +120,6 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           const targetElement = document.getElementById(targetId);
           if (targetElement) {
             targetElement.scrollIntoView({ behavior: "smooth" });
-            // อัปเดต URL bar แบบไม่รีโหลดหน้า
             history.pushState(null, "", href);
           }
         } else if (/^https?:\/\//.test(href)) {

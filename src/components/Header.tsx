@@ -1,3 +1,4 @@
+// src/components/Header.tsx
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -62,14 +63,14 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
     <>
       <header
         role="banner"
-        className="sticky top-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-sm"
+        className="sticky top-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-sm transition-all"
       >
         <nav
           role="navigation"
           aria-label="เมนูหลัก"
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16"
         >
-          {/* โลโก้ซ้าย */}
+          {/* โลโก้ */}
           <a href="#" className="flex items-center h-10 w-auto">
             <LogoApplicationlubmobile
               className="h-10 w-auto max-w-[200px] cursor-pointer"
@@ -78,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
             />
           </a>
 
-          {/* เมนูเดสก์ท็อป */}
+          {/* เมนู Desktop */}
           <div className="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-700 dark:text-gray-300">
             {navLinks.map(({ label, href, highlight }) => {
               const active = isLinkActive(href);
@@ -110,7 +111,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
             })}
           </div>
 
-          {/* ปุ่มธีม + เมนูมือถือ */}
+          {/* ปุ่ม Toggle และ Mobile Menu */}
           <div className="flex items-center gap-3">
             <div className="hidden sm:block">
               <ThemeToggle theme={theme} toggleTheme={toggleTheme} />

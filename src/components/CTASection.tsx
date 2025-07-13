@@ -1,4 +1,5 @@
 // src/components/CTASection.tsx
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -31,7 +32,7 @@ const CTASection: React.FC<CTASectionProps> = ({
 
   return (
     <section
-      className="relative overflow-hidden py-24 bg-gradient-to-r from-primary to-secondary text-white text-center"
+      className="relative overflow-hidden py-24 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white text-center transition-colors duration-500"
       aria-labelledby="cta-section"
       role="region"
     >
@@ -52,7 +53,7 @@ const CTASection: React.FC<CTASectionProps> = ({
         <button
           type="button"
           onClick={handleClick}
-          className="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 font-bold text-lg text-primary shadow-xl transition-transform hover:bg-gray-100 hover:shadow-2xl active:scale-95 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-white"
+          className="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 font-bold text-lg text-[var(--color-primary)] shadow-xl transition-transform hover:bg-gray-100 hover:shadow-2xl active:scale-95 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-white"
           aria-label={buttonText}
         >
           {buttonText}

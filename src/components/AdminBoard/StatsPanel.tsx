@@ -18,7 +18,10 @@ const stats: StatItem[] = [
 
 export default function StatsPanel() {
   return (
-    <section aria-label="Statistics Panel" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <section
+      aria-label="Statistics Panel"
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+    >
       {stats.map(({ id, label, value, icon, bgColor }) => (
         <div
           key={id}
@@ -26,10 +29,16 @@ export default function StatsPanel() {
           role="region"
           aria-labelledby={`stat-label-${id}`}
         >
-          <div className="text-3xl" aria-hidden="true">{icon}</div>
+          <div className="text-3xl" aria-hidden="true">
+            {icon}
+          </div>
           <div>
-            <p id={`stat-label-${id}`} className="text-sm opacity-75">{label}</p>
-            <p className="text-xl font-bold" aria-live="polite">{value}</p>
+            <p id={`stat-label-${id}`} className="text-sm opacity-75">
+              {label}
+            </p>
+            <p className="text-xl font-bold" aria-live="polite">
+              {value}
+            </p>
           </div>
         </div>
       ))}

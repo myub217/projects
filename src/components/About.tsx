@@ -88,7 +88,7 @@ const About: React.FC = () => {
           </h2>
           <hr className="border-base-content/30 mb-6" />
 
-          <div className="space-y-5 leading-relaxed">
+          <div className="space-y-5 leading-relaxed text-lg">
             <p>
               ธุรกิจสีเทาที่ออกแบบมาให้ได้มาตรฐานเท่าที่สามารถแสดงได้
               เราพร้อมร่วมงานกับทุกสายอาชีพ ทุกวงการ และพร้อมสร้างเครื่องมือที่ตอบโจทย์จริงให้ทุกคน
@@ -108,7 +108,7 @@ const About: React.FC = () => {
 
             {/* คำพูดจากหัวหน้า */}
             <blockquote
-              className="mt-8 text-right italic font-medium border-r-4 pr-4 flex flex-col items-end gap-2 max-w-xs"
+              className="mt-8 text-right italic font-medium border-r-4 pr-4 flex flex-col items-end gap-2 max-w-xs self-end"
               style={{
                 borderColor: "var(--color-primary)",
                 color: "var(--color-primary)",

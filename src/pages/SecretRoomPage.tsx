@@ -44,11 +44,9 @@ function useAuthTimeout(onTimeout: () => void, initialTimeout = LOGOUT_TIMEOUT_M
       onTimeout();
       return;
     }
-
     const interval = setInterval(() => {
       setTimeLeft((prev) => Math.max(prev - 1000, 0));
     }, 1000);
-
     return () => clearInterval(interval);
   }, [timeLeft, onTimeout]);
 
@@ -77,33 +75,26 @@ function useFetchUserData() {
       setLoading(false);
       return;
     }
-
     setUsername(user);
-
     async function simulateFetch() {
       await new Promise((r) => setTimeout(r, 500));
-
       setReport({
         documentCount: 42,
         submittedForms: 10,
         pendingRequests: 5,
         lastDocumentStatus: "กำลังตรวจสอบ",
       });
-
       const now = new Date().toLocaleTimeString("th-TH", {
         hour: "2-digit",
         minute: "2-digit",
       });
-
       setLogs([
         { id: 1, detail: "• รอแอดมินนำเข้าระบบ", time: now },
         { id: 2, detail: "• ระบบกำลังจัดเตรียมเอกสาร", time: now },
         { id: 3, detail: "• รอการยืนยันขั้นสุดท้าย", time: now },
       ]);
-
       setLoading(false);
     }
-
     simulateFetch();
   }, []);
 
@@ -150,9 +141,7 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
     );
   }
 
-  if (!username) {
-    return null;
-  }
+  if (!username) return null;
 
   return (
     <>

@@ -1,3 +1,5 @@
+// src/components/WelcomeBanner.tsx
+
 import React, { useMemo } from "react";
 
 interface WelcomeBannerProps {
@@ -17,7 +19,7 @@ const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ username }) => {
   return (
     <header
       className="mb-8 text-center animate-fade-in"
-      aria-label="ยินดีต้อนรับผู้ใช้งาน"
+      aria-label={`ยินดีต้อนรับคุณ ${displayName}`}
     >
       <div className="inline-flex items-center gap-3 justify-center px-5 py-3 bg-primary/10 rounded-xl shadow-sm">
         <svg

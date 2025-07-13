@@ -40,7 +40,7 @@ export default function Dashboard() {
       title: "Total Users",
       value: 2345,
       description: "Active users this month",
-      icon: "👥",
+      icon: <>👥</>,
       bgColor: "bg-primary",
     },
     {
@@ -48,7 +48,7 @@ export default function Dashboard() {
       title: "New Signups",
       value: 123,
       description: "Users signed up today",
-      icon: "🆕",
+      icon: <>🆕</>,
       bgColor: "bg-secondary",
     },
     {
@@ -56,7 +56,7 @@ export default function Dashboard() {
       title: "Server Load",
       value: "68%",
       description: "Current CPU usage",
-      icon: "🖥️",
+      icon: <>🖥️</>,
       bgColor: "bg-accent",
     },
     {
@@ -64,7 +64,7 @@ export default function Dashboard() {
       title: "Errors",
       value: 5,
       description: "Errors logged today",
-      icon: "❌",
+      icon: <>❌</>,
       bgColor: "bg-error",
     },
   ];

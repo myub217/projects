@@ -1,3 +1,5 @@
+// src/components/SystemNote.tsx
+
 import React from "react";
 
 interface SystemNoteProps {
@@ -67,7 +69,7 @@ const typeStyles = {
 };
 
 export default function SystemNote({ message, type = "info" }: SystemNoteProps) {
-  const { container, icon } = typeStyles[type] || typeStyles.info;
+  const { container, icon } = typeStyles[type] ?? typeStyles.info;
 
   return (
     <section

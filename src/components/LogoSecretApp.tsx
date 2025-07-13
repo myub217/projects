@@ -31,6 +31,7 @@ const LogoApplicationlubmobile: React.FC<LogoProps> = ({
         display: "block",
         filter: `drop-shadow(2px 2px 2px ${shadowColor})`,
         animation: "fadein 0.8s ease-out forwards",
+        transition: "filter 0.3s ease",
       }}
     >
       <title id="logo-title">Applicationlubmobile Logo</title>
@@ -65,6 +66,25 @@ const LogoApplicationlubmobile: React.FC<LogoProps> = ({
       >
         JP - ViSOUL & DOC'S
       </text>
+
+      {/* Optional subtle animated underline */}
+      <line
+        x1="20"
+        y1="85"
+        x2="700"
+        y2="85"
+        stroke={fillColor}
+        strokeWidth={2}
+        strokeLinecap="round"
+        style={{ opacity: 0.25 }}
+      >
+        <animate
+          attributeName="x2"
+          values="20;700;20"
+          dur="4s"
+          repeatCount="indefinite"
+        />
+      </line>
 
       <style>
         {`

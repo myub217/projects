@@ -10,8 +10,8 @@ type User = {
 };
 
 const usersData: User[] = [
-  { id: 1, name: "admin", role: "superuser" },
-  { id: 2, name: "tester", role: "viewer" },
+  { id: 1, name: "admin", role: "admin" },
+  { id: 2, name: "tester", role: "user" },
 ];
 
 const AdminPage: React.FC = () => {

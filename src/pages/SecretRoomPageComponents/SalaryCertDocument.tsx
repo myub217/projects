@@ -36,10 +36,7 @@ const certData = {
 
 const SalaryCertDocument: React.FC = () => {
   const handlePrint = () => {
-    if (
-      typeof window !== "undefined" &&
-      window.confirm("คุณต้องการพิมพ์เอกสารนี้หรือไม่?")
-    ) {
+    if (typeof window !== "undefined" && window.confirm("คุณต้องการพิมพ์เอกสารนี้หรือไม่?")) {
       window.print();
     }
   };

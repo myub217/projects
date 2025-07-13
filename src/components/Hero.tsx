@@ -75,9 +75,7 @@ const Hero: React.FC<HeroProps> = ({ buttonText = "เข้าสู่ระ�
           whileTap={{ scale: 0.97 }}
         >
           <FaLock className="text-base sm:text-xl" aria-hidden="true" />
-          <span className="text-xs sm:text-base whitespace-nowrap">
-            {buttonText}
-          </span>
+          <span className="text-xs sm:text-base whitespace-nowrap">{buttonText}</span>
           <FaDoorOpen className="text-sm sm:text-lg opacity-70" aria-hidden="true" />
         </motion.button>
       </motion.div>

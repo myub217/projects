@@ -5,7 +5,7 @@ export const documentCertConfig = {
   registrationNo: "1234567890123",
   requestNo: "REQ-20250705-0001",
   formType: "พณ. 0403",
-  issuedDate: "1 กรกฎาคม ค.ศ. 1750",
+  issuedDate: "1 กรกฎาคม พ.ศ. 2293",
   issuedYearBE: "พ.ศ. 2293",
   issuedAtCE: "ค.ศ. 1750",
   issueBy: "กรมพัฒนาธุรกิจการค้า",

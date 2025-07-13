@@ -1,3 +1,5 @@
+// src/components/DocumentPreviewModal.tsx
+
 import React, { useEffect, useRef } from "react";
 
 interface DocumentPreviewModalProps {
@@ -18,100 +20,78 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
-  // ปิด modal เมื่อกด Escape
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
         onClose();
       }
       if (event.key === "Tab") {
-        // Focus trap
-        const focusableElements = modalRef.current?.querySelectorAll<HTMLElement>(
-          'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        const focusables = modalRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
         );
-        if (!focusableElements || focusableElements.length === 0) return;
+        if (!focusables || focusables.length === 0) return;
 
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[focusableElements.length - 1];
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
 
         if (event.shiftKey) {
-          // shift + tab
-          if (document.activeElement === firstElement) {
+          if (document.activeElement === first) {
             event.preventDefault();
-            lastElement.focus();
+            last.focus();
           }
         } else {
-          // tab
-          if (document.activeElement === lastElement) {
+          if (document.activeElement === last) {
             event.preventDefault();
-            firstElement.focus();
+            first.focus();
           }
         }
       }
     }
 
-    if (isOpen) {
-      window.addEventListener("keydown", handleKeyDown);
-    }
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
+    if (isOpen) window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
-  // โฟกัสปุ่มปิดเมื่อ modal เปิด
   useEffect(() => {
-    if (isOpen && closeButtonRef.current) {
-      closeButtonRef.current.focus();
-    }
+    if (isOpen && closeButtonRef.current) closeButtonRef.current.focus();
   }, [isOpen]);
 
   if (!isOpen) return null;
 
   return (
     <div
+      id={id}
+      ref={modalRef}
       role="dialog"
       aria-modal="true"
       aria-labelledby={`${id}-title`}
       tabIndex={-1}
-      ref={modalRef}
-      id={id}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) {
-          onClose();
-        }
-      }}
+      className="modal-overlay"
+      onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <div
-        className="bg-white dark:bg-gray-900 rounded-lg shadow-2xl max-w-5xl w-full max-h-[90vh] flex flex-col overflow-hidden
-          transform transition-transform duration-300 ease-out
-          animate-fade-in"
         role="document"
+        className="modal-box max-w-5xl w-full max-h-[90vh] animate-fade-in"
       >
         {/* Header */}
-        <header className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
-          <h2
-            id={`${id}-title`}
-            className="text-xl font-semibold text-gray-900 dark:text-white"
-          >
-            {title}
-          </h2>
+        <header className="modal-header">
+          <h2 id={`${id}-title`}>{title}</h2>
           <button
-            onClick={onClose}
             ref={closeButtonRef}
+            onClick={onClose}
             aria-label="ปิดหน้าต่างแสดงตัวอย่างเอกสาร"
-            className="text-gray-600 hover:text-red-600 dark:text-gray-300 dark:hover:text-red-400 text-xl focus:outline-none focus:ring-2 focus:ring-red-400 rounded"
+            className="modal-close-button"
           >
             &times;
           </button>
         </header>
 
-        {/* Iframe */}
-        <main className="flex-1 overflow-auto">
+        {/* Content */}
+        <main className="modal-content">
           <iframe
             src={documentUrl}
             title={title}
-            className="w-full h-full min-h-[500px] border-0"
+            className="w-full h-full min-h-[500px]"
             loading="lazy"
             sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
           />
