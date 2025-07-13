@@ -35,19 +35,19 @@ analyze, build, check, clean, dev, lint, preview, start:api, typecheck
 ├── api
 │   ├── apiAdmin.ts
 │   └── apiClient.ts
-├── dist
-│   ├── assets
-│   │   ├── about-us-IgS6mAQi.webp
-│   │   ├── hero-C1-WP8yC.webp
-│   │   ├── index-Bm_YLiSk.js
-│   │   ├── index-Bm_YLiSk.js.map
-│   │   ├── index-SlHv8RJV.css
-│   │   ├── jp-logo-DClkmN1r.png
-│   │   ├── krut.webp
-│   │   ├── krut1.webp
-│   │   ├── review1-7dlrv2oA.png
-│   │   ├── review10-D0SwORip.png
-│   │   ├── review2-Bz0_BXyV.png
+├── env-vars-20250713-152433.txt
+├── index.html
+├── jest.config.js
+├── node_modules
+│   ├── @alloc
+│   │   └── quick-lru -> ../.pnpm/@alloc+quick-lru@5.2.0/node_modules/@alloc/quick-lru
+│   ├── @ampproject
+│   │   └── remapping -> ../.pnpm/@ampproject+remapping@2.3.0/node_modules/@ampproject/remapping
+│   ├── @babel
+│   │   ├── code-frame -> ../.pnpm/@babel+code-frame@7.27.1/node_modules/@babel/code-frame
+│   │   ├── compat-data -> ../.pnpm/@babel+compat-data@7.28.0/node_modules/@babel/compat-data
+│   │   ├── core -> ../.pnpm/@babel+core@7.28.0/node_modules/@babel/core
+│   │   ├── eslint-parser -> ../.pnpm/@babel+eslint-parser@7.28.0_@babel+core@7.28.0_eslint@9.31.0_jiti@1.21.7_/node_modules/@babel/eslint-parser
 
 🧪 ผลลัพธ์การ build (20 บรรทัดท้าย):
 dist/index.html                         3.63 kB │ gzip:  1.38 kB
@@ -69,6 +69,6 @@ dist/assets/index-SlHv8RJV.css        103.81 kB │ gzip: 16.78 kB
 dist/assets/vendor-Bz9BtKzt.js         51.67 kB │ gzip: 19.44 kB │ map:   453.06 kB
 dist/assets/index-Bm_YLiSk.js          94.50 kB │ gzip: 25.79 kB │ map:   212.58 kB
 dist/assets/vendor-react-BK4_uHc0.js  236.89 kB │ gzip: 76.53 kB │ map: 2,485.75 kB
-✓ built in 33.61s
+✓ built in 29.18s
 
 📌 ใช้ข้อมูลนี้สำหรับวิเคราะห์ ตรวจสอบ แนะนำ หรือช่วยพัฒนาต่อ

@@ -1,6 +1,9 @@
 // api/apiAdmin.ts
 import express from "express";
 import fetch from "node-fetch";
+import dotenv from "dotenv";
+
+dotenv.config(); // ✅ โหลด .env ให้พร้อมใช้ก่อนเรียก process.env
 
 const router = express.Router();
 
@@ -22,14 +25,15 @@ router.get("/repos/:username", async (req, res) => {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/vnd.github+json",
+        "User-Agent": "modular-onepage", // 🛡 บางกรณี GitHub API ต้องการ User-Agent
       },
     });
 
     if (!response.ok) {
       const errorBody = await response.json().catch(() => ({}));
-      return res
-        .status(response.status)
-        .json({ error: errorBody.message || "GitHub API error." });
+      return res.status(response.status).json({
+        error: errorBody.message || `GitHub API returned ${response.status}`,
+      });
     }
 
     const data = await response.json();

@@ -1,4 +1,3 @@
-// apiClient.ts
 /**
  * ✅ API Client: JP Visual & Docs
  * - ใช้งานร่วมกับ Express backend (/api)
@@ -6,7 +5,7 @@
  * - Export function สำหรับแต่ละ endpoint
  */
 
-const API_BASE = "/api"; // ใช้ relative path สำหรับ frontend
+const API_BASE = "/api"; // ใช้ relative path สำหรับ frontend (รองรับ SSR/CSR)
 
 type FetchOptions = RequestInit & {
   headers?: Record<string, string>;
@@ -20,7 +19,7 @@ async function apiFetch<T>(endpoint: string, options?: FetchOptions): Promise<T>
     ...options,
     headers: {
       "Content-Type": "application/json",
-      ...(options?.headers || {}),
+      ...(options?.headers ?? {}),
     },
   });
 
@@ -38,19 +37,32 @@ async function apiFetch<T>(endpoint: string, options?: FetchOptions): Promise<T>
 }
 
 /**
- * 📌 Example: Get current user info
+ * 📌 Get current user info
  */
-export const getCurrentUser = (): Promise<{ id: string; name: string; role: string }> =>
-  apiFetch("/user");
+export const getCurrentUser = (): Promise<{
+  id: string;
+  name: string;
+  role: string;
+}> => apiFetch("/user");
 
 /**
- * 📌 Example: Get repository list
+ * 📌 Get repository list (GitHub)
  */
-export const getRepoList = (): Promise<{ id: string; name: string; url: string }[]> =>
-  apiFetch("/repos");
+export const getRepoList = (
+  username: string
+): Promise<
+  {
+    id: number;
+    name: string;
+    html_url: string;
+    description: string;
+    stargazers_count: number;
+    forks_count: number;
+  }[]
+> => apiFetch(`/repos/${username}`);
 
 /**
- * 📌 Example: Login
+ * 📌 Login (example)
  */
 export const login = (
   username: string,

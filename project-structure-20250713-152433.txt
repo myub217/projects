@@ -5,47 +5,7 @@
 ├── api
 │   ├── apiAdmin.ts
 │   └── apiClient.ts
-├── dist
-│   ├── assets
-│   │   ├── about-us-IgS6mAQi.webp
-│   │   ├── hero-C1-WP8yC.webp
-│   │   ├── index-Bm_YLiSk.js
-│   │   ├── index-Bm_YLiSk.js.map
-│   │   ├── index-SlHv8RJV.css
-│   │   ├── jp-logo-DClkmN1r.png
-│   │   ├── krut.webp
-│   │   ├── krut1.webp
-│   │   ├── review1-7dlrv2oA.png
-│   │   ├── review10-D0SwORip.png
-│   │   ├── review2-Bz0_BXyV.png
-│   │   ├── review3-UloQNvHI.png
-│   │   ├── review4-CBioFpeu.png
-│   │   ├── review5-CAS9ctNR.png
-│   │   ├── review6-C1CShlkS.png
-│   │   ├── review7-Bt93fMFo.png
-│   │   ├── review8-kXAHO_8W.png
-│   │   ├── review9-DhFu7Jzq.png
-│   │   ├── signature-BovtCThw.webp
-│   │   ├── vendor-Bz9BtKzt.js
-│   │   ├── vendor-Bz9BtKzt.js.map
-│   │   ├── vendor-react-BK4_uHc0.js
-│   │   └── vendor-react-BK4_uHc0.js.map
-│   ├── favicon.ico
-│   ├── icons
-│   │   ├── icon-192x192.png
-│   │   └── icon-512x512.png
-│   ├── images
-│   │   ├── icons
-│   │   ├── portfolio-loan-success.jpg
-│   │   ├── portfolio-loan-success1.jpg
-│   │   ├── portfolio-loan-success2.jpg
-│   │   ├── portfolio-loan-success3.jpg
-│   │   ├── portfolio-loan-success4.jpg
-│   │   └── services
-│   ├── index.html
-│   ├── manifest.json
-│   └── report.html
-├── env-vars-20250713-151036.txt
+├── env-vars-20250713-152433.txt
 ├── index.html
 ├── jest.config.js
 ├── node_modules
@@ -673,8 +633,8 @@
 ├── pnpm-workspace.yaml
 ├── postcss.config.cjs
 ├── postcss.config.js
-├── project-info-20250713-151036.json
-├── project-structure-20250713-151036.txt
+├── project-info-20250713-152433.json
+├── project-structure-20250713-152433.txt
 ├── public
 │   ├── assets
 │   │   ├── krut.webp
@@ -748,4 +708,4 @@
 ├── vercel.json
 └── vite.config.mjs
 
-651 directories, 98 files
+645 directories, 64 files

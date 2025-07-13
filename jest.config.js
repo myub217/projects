@@ -4,7 +4,7 @@ const config = {
   testEnvironment: 'jsdom',
   roots: ['<rootDir>/src'],
   transform: {
-    '^.+\\.tsx?$': 'ts-jest'
+    '^.+\\.tsx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
@@ -17,23 +17,23 @@ const config = {
     '/src/__tests__/',
     '/src/setupTests.ts',
     '/src/mocks/',
-    '/src/types/'
+    '/src/types/',
   ],
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.json',
       diagnostics: true,
-      isolatedModules: true
-    }
+      isolatedModules: true,
+    },
   },
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
-    '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__mocks__/fileMock.js'
+    '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__mocks__/fileMock.js',
   },
   resetMocks: true,
   clearMocks: true,
-  restoreMocks: true
+  restoreMocks: true,
 };
 
 module.exports = config;
