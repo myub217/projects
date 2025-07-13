@@ -2,8 +2,8 @@ import daisyui from "daisyui";
 import typography from "@tailwindcss/typography";
 
 /**
- * 🔧 Tailwind Config: JP Visual & Docs – Platinum Grade
- * 📌 Theme Modes: "platinum", "platinum-dark", "temp"
+ * 🔧 Tailwind Config: JP Visual & Docs – Blue-White Theme
+ * 📌 Theme Modes: "bluewhite", "bluewhite-dark", "temp"
  * 🎨 Plugins: DaisyUI + Typography
  * 🌙 Dark Mode: Controlled by class="dark"
  */
@@ -47,70 +47,54 @@ export default {
       },
       colors: {
         background: {
-          DEFAULT: "#F0F2F5",
-          dark: "#121417",
-          surface: "#FFFFFF",
-          surfaceDark: "#1B1F24",
+          DEFAULT: "#FFFFFF",  // ขาวพื้นหลังหลัก
+          dark: "#1F2937",     // เทาเข้ม (background dark mode)
+          surface: "#F9FAFB",  // พื้นหลังผิวเรียบ
+          surfaceDark: "#111827",
         },
         foreground: {
-          DEFAULT: "#2A2F3A",
-          dark: "#E4E6EB",
+          DEFAULT: "#1F2937",  // เทาเข้มข้อความหลัก
+          dark: "#F3F4F6",     // สีอ่อนข้อความใน dark mode
         },
-        whiteGray: {
-          DEFAULT: "#F7F8FA",
-          light: "#FAFBFC",
-          dark: "#E9EBEE",
-        },
-        grayDark: {
-          DEFAULT: "#2C2F36",
-          light: "#444A55",
-          dark: "#121417",
-        },
-        blackSoft: {
-          DEFAULT: "#121417",
-          light: "#252A33",
-          dark: "#0D1014",
+        muted: {
+          DEFAULT: "#6B7280",  // เทาอ่อนข้อความรอง
         },
         primary: {
-          DEFAULT: "#D4AF37",
-          contrastText: "#1B1F24",
-          light: "#F0E6A1",
-          dark: "#9C7A18",
+          DEFAULT: "#1E40AF",  // ฟ้าหลัก (blue-900)
+          light: "#3B82F6",    // ฟ้าอ่อน (blue-500)
+          dark: "#1E3A8A",     // ฟ้าดำ (blue-800)
+          contrastText: "#FFFFFF", // ตัวหนังสือบนปุ่มฟ้า
         },
-        secondary: {
-          DEFAULT: "#6B7280",
-          contrastText: "#F0F2F5",
-          light: "#A3A9B4",
-          dark: "#4B5261",
+        accent: {
+          DEFAULT: "#2563EB",  // สีเน้น ปุ่ม hover หรือ highlight
         },
         border: {
-          DEFAULT: "#D1D5DB",
-          dark: "#3C4251",
+          DEFAULT: "#E5E7EB",  // เส้นขอบสีเทาอ่อน (gray-200)
         },
         success: {
-          DEFAULT: "#4ADE80",
-          dark: "#22C55E",
-          light: "#A3F7B0",
+          DEFAULT: "#22C55E",
+          dark: "#16A34A",
+          light: "#A7F3D0",
         },
         warning: {
-          DEFAULT: "#FACC15",
-          dark: "#EAB308",
-          light: "#FDE68A",
+          DEFAULT: "#F59E0B",
+          dark: "#B45309",
+          light: "#FEF3C7",
         },
         error: {
-          DEFAULT: "#F87171",
-          dark: "#EF4444",
-          light: "#FCA5A5",
+          DEFAULT: "#EF4444",
+          dark: "#B91C1C",
+          light: "#FEE2E2",
         },
         info: {
-          DEFAULT: "#60A5FA",
-          dark: "#3B82F6",
-          light: "#A5D8FF",
+          DEFAULT: "#3B82F6",
+          dark: "#2563EB",
+          light: "#BFDBFE",
         },
       },
       backgroundImage: {
-        "platinum-gradient": "linear-gradient(135deg, #D4AF37 0%, #F0E6A1 100%)",
-        "platinum-dark-gradient": "linear-gradient(135deg, #1B1F24 0%, #444A55 100%)",
+        "bluewhite-gradient": "linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%)",
+        "bluewhite-dark-gradient": "linear-gradient(135deg, #111827 0%, #1F2937 100%)",
       },
       fontFamily: {
         body: ["Inter", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
@@ -129,9 +113,9 @@ export default {
         "5xl": ["3rem", { lineHeight: "1" }],
       },
       boxShadow: {
-        soft: "0 4px 12px rgba(212, 175, 55, 0.25)",
-        medium: "0 8px 24px rgba(212, 175, 55, 0.35)",
-        dark: "0 12px 32px rgba(27, 31, 36, 0.9)",
+        soft: "0 4px 12px rgba(59, 130, 246, 0.25)", // ฟ้าใสเงานุ่ม
+        medium: "0 8px 24px rgba(59, 130, 246, 0.35)",
+        dark: "0 12px 32px rgba(31, 41, 55, 0.9)",
       },
       transitionProperty: {
         colors: "background-color, border-color, color, fill, stroke",
@@ -161,37 +145,37 @@ export default {
   daisyui: {
     themes: [
       {
-        platinum: {
-          primary: "#D4AF37",
-          "primary-focus": "#B68B1B",
+        "bluewhite": {
+          primary: "#1E40AF",
+          "primary-focus": "#1E3A8A",
           secondary: "#6B7280",
           "secondary-focus": "#4B5261",
-          accent: "#2A2F3A",
-          neutral: "#F7F8FA",
-          "base-100": "#F0F2F5",
-          "base-200": "#E9EBEE",
+          accent: "#2563EB",
+          neutral: "#F9FAFB",
+          "base-100": "#FFFFFF",
+          "base-200": "#E5E7EB",
           "base-300": "#D1D5DB",
-          info: "#60A5FA",
-          success: "#4ADE80",
-          warning: "#FACC15",
-          error: "#F87171"
+          info: "#3B82F6",
+          success: "#22C55E",
+          warning: "#F59E0B",
+          error: "#EF4444",
         },
       },
       {
-        "platinum-dark": {
-          primary: "#D4AF37",
-          "primary-focus": "#B68B1B",
+        "bluewhite-dark": {
+          primary: "#3B82F6",
+          "primary-focus": "#2563EB",
           secondary: "#A3A9B4",
           "secondary-focus": "#475569",
-          accent: "#E4E6EB",
-          neutral: "#121417",
-          "base-100": "#121417",
-          "base-200": "#1B1F24",
-          "base-300": "#444A55",
-          info: "#3B82F6",
-          success: "#22C55E",
-          warning: "#EAB308",
-          error: "#EF4444"
+          accent: "#60A5FA",
+          neutral: "#1F2937",
+          "base-100": "#1F2937",
+          "base-200": "#111827",
+          "base-300": "#374151",
+          info: "#2563EB",
+          success: "#16A34A",
+          warning: "#B45309",
+          error: "#B91C1C",
         },
       },
       {
@@ -212,6 +196,6 @@ export default {
         },
       },
     ],
-    darkTheme: "platinum-dark",
+    darkTheme: "bluewhite-dark",
   },
 };

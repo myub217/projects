@@ -4,9 +4,10 @@
 ├── api
 │   ├── apiAdmin.ts
 │   └── apiClient.ts
-├── env-vars-20250713-223029.txt
+├── env-vars-20250713-232933.txt
 ├── eslint.config.mjs
 ├── full-setup.sh
+├── generate-info.sh
 ├── index.html
 ├── jest.config.js
 ├── jest.setup.js
@@ -550,8 +551,8 @@
 ├── pnpm-workspace.yaml
 ├── postcss.config.cjs
 ├── postcss.config.js
-├── project-info-20250713-223029.json
-├── project-structure-20250713-223029.txt
+├── project-info-20250713-232933.json
+├── project-structure-20250713-232933.txt
 ├── public
 │   ├── assets
 │   │   ├── krut.webp
@@ -626,4 +627,4 @@
 ├── vercel.json
 └── vite.config.mjs
 
-560 directories, 67 files
+560 directories, 68 files

@@ -1,6 +1,6 @@
 /* ============================
    🌟 Global Custom Style Sheet
-   Project: JP Visual & Docs
+   Project: JP Visual & Docs – Blue-White Theme Update
    ============================ */
 
 /* Tailwind Core */
@@ -12,19 +12,19 @@
 
 /* Light Theme :root */
 :root {
-  --color-bg: #f0f2f5;
-  --color-fg: #2a2f3a;
-  --color-primary: #d4af37;
-  --color-primary-light: #f0e6a1;
-  --color-primary-dark: #9c7a18;
-  --color-secondary: #6b7280;
+  --color-bg: #ffffff;               /* ขาวพื้นหลัง */
+  --color-fg: #1f2937;               /* เทาเข้มข้อความหลัก */
+  --color-primary: #1e40af;          /* ฟ้าหลัก */
+  --color-primary-light: #3b82f6;    /* ฟ้าอ่อน */
+  --color-primary-dark: #1e3a8a;     /* ฟ้าดำ */
+  --color-secondary: #6b7280;        /* เทาอ่อน ข้อความรอง */
   --color-secondary-light: #a3a9b4;
   --color-secondary-dark: #4b5261;
-  --color-accent: #2a2f3a;
-  --color-info: #60a5fa;
-  --color-success: #4ade80;
-  --color-warning: #facc15;
-  --color-error: #f87171;
+  --color-accent: #2563eb;           /* สีเน้น ปุ่ม */
+  --color-info: #3b82f6;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
 
   --font-body: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
   --font-heading: 'Playfair Display', 'Georgia', serif;
@@ -33,48 +33,41 @@
   --radius: 0.5rem;
   --transition: 0.3s ease;
 
-  --color-border: #d1d5db;
+  --color-border: #e5e7eb;           /* ขอบหรือเส้นแบ่ง */
   --color-background: var(--color-bg);
   --color-foreground: var(--color-fg);
 
-  --shadow-default: 0 2px 8px rgba(0, 0, 0, 0.1);
-  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-default: 0 2px 8px rgba(59, 130, 246, 0.25);   /* ฟ้าใสเงานุ่ม */
+  --shadow-hover: 0 4px 12px rgba(59, 130, 246, 0.35);
 }
 
 /* Dark Theme (via .dark) */
 html.dark {
-  --color-bg: #121417;
-  --color-fg: #e4e6eb;
-  --color-primary: #d4af37;
-  --color-primary-light: #f0e6a1;
-  --color-primary-dark: #9c7a18;
+  --color-bg: #1f2937;              /* เทาเข้มพื้นหลัง */
+  --color-fg: #f3f4f6;              /* สีอ่อนข้อความ */
+  --color-primary: #3b82f6;
+  --color-primary-light: #60a5fa;
+  --color-primary-dark: #2563eb;
   --color-secondary: #a3a9b4;
+  --color-secondary-light: #cbd5e1;
   --color-secondary-dark: #475569;
-  --color-accent: #e4e6eb;
-  --color-info: #3b82f6;
-  --color-success: #22c55e;
-  --color-warning: #eab308;
-  --color-error: #ef4444;
+  --color-accent: #60a5fa;
+  --color-info: #2563eb;
+  --color-success: #16a34a;
+  --color-warning: #b45309;
+  --color-error: #b91c1c;
 
-  --color-border: #4b5563;
+  --color-border: #374151;
   --color-background: var(--color-bg);
   --color-foreground: var(--color-fg);
 
-  --shadow-default: 0 2px 8px rgba(0, 0, 0, 0.5);
-  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.7);
+  --shadow-default: 0 2px 8px rgba(31, 41, 55, 0.9);
+  --shadow-hover: 0 4px 12px rgba(31, 41, 55, 1);
 }
 
-/* ========== Base & Normalize ========== */
+/* ====== ปรับแก้ style ตามตัวแปรใหม่ ====== */
 
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-  font-size: 16px;
-}
-
+/* body */
 body {
   @apply bg-background text-foreground font-body antialiased;
   line-height: 1.6;
@@ -84,8 +77,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ========== Typography ========== */
-
+/* a */
 a {
   @apply text-primary hover:underline transition-colors;
   cursor: pointer;
@@ -96,33 +88,7 @@ a:focus-visible {
   @apply outline-none ring-2 ring-primary rounded;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  @apply font-semibold text-foreground;
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  line-height: 1.2;
-}
-
-p {
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
-
-code, pre {
-  font-family: var(--font-code);
-  @apply text-sm bg-gray-100 dark:bg-gray-800 px-1 rounded;
-  tab-size: 4;
-}
-
-pre {
-  padding: 1rem;
-  overflow-x: auto;
-  border-radius: var(--radius);
-}
-
-/* ========== Forms ========== */
-
+/* button */
 button {
   @apply rounded-lg px-4 py-2 bg-primary text-background font-semibold shadow-md transition cursor-pointer;
   border: none;
@@ -131,7 +97,7 @@ button {
 
 button:hover,
 button:focus-visible {
-  @apply bg-yellow-500;
+  @apply bg-primary-light;
   box-shadow: var(--shadow-hover);
   outline: none;
 }
@@ -141,7 +107,10 @@ button:disabled {
   box-shadow: none;
 }
 
-input, textarea, select {
+/* input, textarea, select */
+input,
+textarea,
+select {
   border: 1px solid var(--color-border);
   @apply px-3 py-2 rounded-md bg-background text-foreground outline-none focus:ring-2 focus:ring-primary;
   transition: border-color var(--transition), box-shadow var(--transition);
@@ -159,16 +128,10 @@ input:focus,
 textarea:focus,
 select:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
 
-/* ========== Scrollbars ========== */
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
+/* scrollbar */
 ::-webkit-scrollbar-thumb {
   background-color: var(--color-primary);
   border-radius: 4px;
@@ -176,89 +139,23 @@ select:focus {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #b38b23;
+  background-color: var(--color-primary-dark);
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
+/* focus outline */
+:focus-visible {
+  outline-offset: 2px;
+  outline: 2px solid var(--color-primary);
 }
 
-/* ========== Utility ========== */
-
-.rounded {
-  border-radius: var(--radius);
-}
-
-.shadow {
-  box-shadow: var(--shadow-default);
-}
-
-.shadow-hover:hover {
-  box-shadow: var(--shadow-hover);
-}
-
-/* ========== Animations ========== */
-
-.fade-in {
-  animation: fadeIn 0.6s ease-in forwards;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.slide-up {
-  animation: slideUp 0.6s ease-out forwards;
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(24px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* ========== DaisyUI Theme Fallback ========== */
-
-[data-theme="platinum"] {
-  background-color: #f0f2f5;
-  color: #2a2f3a;
-}
-
-[data-theme="platinum-dark"] {
-  background-color: #121417;
-  color: #e4e6eb;
-}
-
-/* ========== Responsive & Accessibility ========== */
-
-@media (max-width: 640px) {
-  html {
-    font-size: 14px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* ========== Card ========== */
-
+/* card */
 .card {
   background-color: var(--color-background);
   border-radius: var(--radius);
   box-shadow: var(--shadow-default);
   transition: box-shadow var(--transition), transform var(--transition);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .card:hover,
@@ -267,18 +164,10 @@ select:focus {
   transform: translateY(-4px);
 }
 
-/* ========== Modal ========== */
-
+/* modal */
 .modal-overlay {
   background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
 }
 
 .modal-box {
@@ -286,70 +175,128 @@ select:focus {
   color: var(--color-foreground);
   border-radius: var(--radius);
   box-shadow: var(--shadow-default);
-  max-width: 90vw;
-  max-height: 90vh;
-  width: 100%;
+  padding: 2rem;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+/* UI Action Enhancements */
+
+/* Button groups */
+.btn-group {
+  display: inline-flex;
+  gap: 0.5rem;
+}
+
+.btn-group > button {
+  border-radius: 0.375rem;
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.btn-group > button:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.btn-group > button:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.btn-group > button:hover,
+.btn-group > button:focus-visible {
+  border-color: var(--color-primary);
+}
+
+/* Form layout */
+.form-row {
   display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  animation: modalFadeIn 0.3s var(--transition) forwards;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.form-row > * {
+  flex: 1 1 200px;
+  min-width: 150px;
 }
 
-.modal-header {
-  padding: 1rem 1.5rem;
+/* Responsive container */
+.container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1rem;
+}
+
+/* Header styles */
+header.site-header {
+  padding: 1rem 0;
   border-bottom: 1px solid var(--color-border);
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 1.25rem;
-  color: var(--color-foreground);
+  background-color: var(--color-background);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.modal-close-button {
-  background: transparent;
-  border: none;
-  font-size: 1.5rem;
+/* Navigation */
+nav.site-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+nav.site-nav a {
+  @apply text-secondary hover:text-primary transition-colors;
+  font-weight: 600;
+}
+
+/* Footer */
+footer.site-footer {
+  padding: 2rem 1rem;
+  background-color: var(--color-background);
+  border-top: 1px solid var(--color-border);
+  text-align: center;
   color: var(--color-secondary);
-  cursor: pointer;
-  transition: color var(--transition);
-  border-radius: var(--radius);
-}
-.modal-close-button:hover,
-.modal-close-button:focus-visible {
-  color: var(--color-primary);
-  outline-offset: 2px;
-  outline: 2px solid var(--color-primary);
+  font-size: 0.875rem;
 }
 
-.modal-content {
-  flex-grow: 1;
-  overflow: auto;
+/* Utility classes for spacing */
+.mt-1 {
+  margin-top: 0.25rem;
 }
 
-.modal-content iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  min-height: 500px;
-  border-radius: var(--radius);
+.mt-2 {
+  margin-top: 0.5rem;
 }
 
-/* ========== Focus Outline Global ========== */
-
-:focus-visible {
-  outline-offset: 2px;
-  outline: 2px solid var(--color-primary);
+.mt-3 {
+  margin-top: 0.75rem;
 }
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-3 {
+  margin-bottom: 0.75rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+/* ==============================
+   ปรับปรุง UI, Layout, Action Design ให้ดีขึ้น
+   ================================ */

@@ -19,23 +19,45 @@
 
 ## 📁 โครงสร้างโปรเจกต์ (ตัวอย่าง)
 
-. ├── Clean.sh                       # ล้างไฟล์ build / cache ├── analyze-project.sh            # วิเคราะห์ bundle ├── api/ │   ├── apiAdmin.ts               # API ฝั่ง server │   └── apiClient.ts              # API ฝั่ง client ├── env-vars-YYYYMMDD-HHMMSS.txt  # บันทึก env vars ที่ export ไว้ ├── index.html                    # หน้า HTML หลัก ├── jest.config.js                # Jest config ├── node_modules/ ├── package.json ├── src/ │   ├── components/               # Component หลักและย่อย │   ├── App.tsx                   # Root React Component │   ├── main.tsx                  # Entry point │   └── ... ├── tailwind.config.mjs           # Tailwind config (ESM) ├── tsconfig.json                 # TypeScript config ├── tsconfig.base.json ├── vite.config.mjs               # Vite config (ESM)
+.
+├── Clean.sh
+├── README.md
+├── api/
+│   ├── apiAdmin.ts
+│   └── apiClient.ts
+├── dist/
+├── env-vars-20250713-223029.txt
+├── eslint.config.mjs
+├── full-setup.sh
+├── index.html
+├── jest.config.js
+├── jest.setup.js
+├── node_modules/
+├── package.json
+├── src/
+│   ├── components/
+│   ├── App.tsx
+│   ├── main.tsx
+├── tailwind.config.mjs
+├── tsconfig.json
+├── tsconfig.base.json
+├── vite.config.mjs
 
 ---
 
-## ⚙️ ตัวแปรสภาพแวดล้อม (.env)
+## ⚙️ ตัวแปรสภาพแวดล้อม (`.env`)
 
 ```env
-PORT=3000                             # พอร์ต Express API Server
-VITE_API_BASE_URL=http://localhost:3000/api  # Base URL client
+PORT=3000
 NODE_ENV=development
-VITE_OPEN_BROWSER=true
-VITE_OPEN_REPORT=true
+VITE_API_BASE_URL=http://localhost:3000/api
 VITE_DEV_SERVER_PORT=5173
 VITE_PREVIEW_SERVER_PORT=4173
+VITE_OPEN_BROWSER=true
+VITE_OPEN_REPORT=true
 VITE_BUILD_OUTDIR=dist
 
-> ตัวแปรขึ้นต้น VITE_ จะ inject เข้า client bundle อัตโนมัติ
+> ✅ ตัวแปรขึ้นต้น VITE_ จะถูก inject เข้าสู่ client bundle อัตโนมัติ
 
 
 
@@ -60,18 +82,7 @@ analyze	วิเคราะห์ bundle size + visualizer
 
 ---
 
-🚀 การใช้งาน
-
-pnpm install      # หรือ yarn install / npm install
-pnpm run dev      # รัน dev server SPA
-pnpm run start:api  # รัน API server
-pnpm run build    # สร้าง production build
-pnpm run preview  # Preview build
-
-
----
-
-🧱 โครงสร้าง Component หลัก (ตัวอย่าง)
+🧱 โครงสร้าง Component หลัก
 
 src/
 ├── components/
@@ -91,15 +102,24 @@ src/
 
 ---
 
+🚀 การใช้งาน
+
+pnpm install        # หรือ yarn / npm install
+pnpm run dev        # รัน dev server SPA
+pnpm run start:api  # รัน API server
+pnpm run build      # สร้าง production build
+pnpm run preview    # Preview build
+
+
+---
+
 🧠 หมายเหตุ
 
-ใช้ vite.config.mjs และ tailwind.config.mjs เพื่อรองรับ ESM
+✅ ใช้ vite.config.mjs และ tailwind.config.mjs เพื่อรองรับ ESM
 
-React Router DOM แนะนำเวอร์ชัน 6.x สำหรับความเสถียรกับ TypeScript
+✅ React Router DOM แนะนำเวอร์ชัน 6.x สำหรับความเสถียรกับ TypeScript
 
-ตัวแปร VITE_ inject เข้า client อัตโนมัติ
-
-รองรับ theme mode (light/dark) ด้วย localStorage + DaisyUI data-theme
+✅ รองรับ theme mode (light/dark) ด้วย localStorage + DaisyUI data-theme
 
 
 
@@ -116,8 +136,4 @@ Private Project — ไม่เผยแพร่ต่อสาธารณะ
 
 Email: myub25217@gmail.com
 
-GitHub: https://github.com/myub217/projects
-
-
-ต้องการไฟล์ markdown หรือไฟล์อื่นๆ แจ้งได้เลยครับ
-
+GitHub: github.com/myub217/projects
