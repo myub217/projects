@@ -1,18 +1,4 @@
 # ===============================
-# 📦 General Build & Output
-# ===============================
-node_modules/
-dist/
-build/
-.vite/
-.next/
-.turbo/
-.vercel/
-.temp/
-.cache/
-*.tsbuildinfo
-
-# ===============================
 # 🪵 Logs
 # ===============================
 npm-debug.log*
@@ -31,6 +17,7 @@ lerna-debug.log*
 # ===============================
 .env
 .env.*  # เช่น .env.development, .env.production, .env.local
+env-vars-*.txt
 
 # ===============================
 # 💻 Editor / OS-specific
