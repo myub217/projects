@@ -5,7 +5,47 @@
 ├── api
 │   ├── apiAdmin.ts
 │   └── apiClient.ts
-├── env-vars-20250713-144728.txt
+├── dist
+│   ├── assets
+│   │   ├── about-us-IgS6mAQi.webp
+│   │   ├── hero-C1-WP8yC.webp
+│   │   ├── index-Bm_YLiSk.js
+│   │   ├── index-Bm_YLiSk.js.map
+│   │   ├── index-SlHv8RJV.css
+│   │   ├── jp-logo-DClkmN1r.png
+│   │   ├── krut.webp
+│   │   ├── krut1.webp
+│   │   ├── review1-7dlrv2oA.png
+│   │   ├── review10-D0SwORip.png
+│   │   ├── review2-Bz0_BXyV.png
+│   │   ├── review3-UloQNvHI.png
+│   │   ├── review4-CBioFpeu.png
+│   │   ├── review5-CAS9ctNR.png
+│   │   ├── review6-C1CShlkS.png
+│   │   ├── review7-Bt93fMFo.png
+│   │   ├── review8-kXAHO_8W.png
+│   │   ├── review9-DhFu7Jzq.png
+│   │   ├── signature-BovtCThw.webp
+│   │   ├── vendor-Bz9BtKzt.js
+│   │   ├── vendor-Bz9BtKzt.js.map
+│   │   ├── vendor-react-BK4_uHc0.js
+│   │   └── vendor-react-BK4_uHc0.js.map
+│   ├── favicon.ico
+│   ├── icons
+│   │   ├── icon-192x192.png
+│   │   └── icon-512x512.png
+│   ├── images
+│   │   ├── icons
+│   │   ├── portfolio-loan-success.jpg
+│   │   ├── portfolio-loan-success1.jpg
+│   │   ├── portfolio-loan-success2.jpg
+│   │   ├── portfolio-loan-success3.jpg
+│   │   ├── portfolio-loan-success4.jpg
+│   │   └── services
+│   ├── index.html
+│   ├── manifest.json
+│   └── report.html
+├── env-vars-20250713-151036.txt
 ├── index.html
 ├── jest.config.js
 ├── node_modules
@@ -280,6 +320,7 @@
 │   ├── csstype -> .pnpm/csstype@3.1.3/node_modules/csstype
 │   ├── daisyui -> .pnpm/daisyui@5.0.46/node_modules/daisyui
 │   ├── damerau-levenshtein -> .pnpm/damerau-levenshtein@1.0.8/node_modules/damerau-levenshtein
+│   ├── data-uri-to-buffer -> .pnpm/data-uri-to-buffer@4.0.1/node_modules/data-uri-to-buffer
 │   ├── data-view-buffer -> .pnpm/data-view-buffer@1.0.2/node_modules/data-view-buffer
 │   ├── data-view-byte-length -> .pnpm/data-view-byte-length@1.0.2/node_modules/data-view-byte-length
 │   ├── data-view-byte-offset -> .pnpm/data-view-byte-offset@1.0.1/node_modules/data-view-byte-offset
@@ -340,6 +381,7 @@
 │   ├── fast-levenshtein -> .pnpm/fast-levenshtein@2.0.6/node_modules/fast-levenshtein
 │   ├── fastq -> .pnpm/fastq@1.19.1/node_modules/fastq
 │   ├── fdir -> .pnpm/fdir@6.4.6_picomatch@4.0.2/node_modules/fdir
+│   ├── fetch-blob -> .pnpm/fetch-blob@3.2.0/node_modules/fetch-blob
 │   ├── file-entry-cache -> .pnpm/file-entry-cache@8.0.0/node_modules/file-entry-cache
 │   ├── fill-range -> .pnpm/fill-range@7.1.1/node_modules/fill-range
 │   ├── finalhandler -> .pnpm/finalhandler@2.1.0/node_modules/finalhandler
@@ -348,6 +390,7 @@
 │   ├── flatted -> .pnpm/flatted@3.3.3/node_modules/flatted
 │   ├── for-each -> .pnpm/for-each@0.3.5/node_modules/for-each
 │   ├── foreground-child -> .pnpm/foreground-child@3.3.1/node_modules/foreground-child
+│   ├── formdata-polyfill -> .pnpm/formdata-polyfill@4.0.10/node_modules/formdata-polyfill
 │   ├── forwarded -> .pnpm/forwarded@0.2.0/node_modules/forwarded
 │   ├── fraction.js -> .pnpm/fraction.js@4.3.7/node_modules/fraction.js
 │   ├── framer-motion -> .pnpm/framer-motion@12.23.3_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/framer-motion
@@ -462,6 +505,8 @@
 │   ├── natural-compare -> .pnpm/natural-compare@1.4.0/node_modules/natural-compare
 │   ├── natural-compare-lite -> .pnpm/natural-compare-lite@1.4.0/node_modules/natural-compare-lite
 │   ├── negotiator -> .pnpm/negotiator@1.0.0/node_modules/negotiator
+│   ├── node-domexception -> .pnpm/node-domexception@1.0.0/node_modules/node-domexception
+│   ├── node-fetch -> .pnpm/node-fetch@3.3.2/node_modules/node-fetch
 │   ├── node-releases -> .pnpm/node-releases@2.0.19/node_modules/node-releases
 │   ├── normalize-path -> .pnpm/normalize-path@3.0.0/node_modules/normalize-path
 │   ├── normalize-range -> .pnpm/normalize-range@0.1.2/node_modules/normalize-range
@@ -607,6 +652,7 @@
 │   ├── util-deprecate -> .pnpm/util-deprecate@1.0.2/node_modules/util-deprecate
 │   ├── vary -> .pnpm/vary@1.1.2/node_modules/vary
 │   ├── vite -> .pnpm/vite@7.0.4_@types+node@24.0.13_jiti@1.21.7_tsx@4.20.3_yaml@2.8.0/node_modules/vite
+│   ├── web-streams-polyfill -> .pnpm/web-streams-polyfill@3.3.3/node_modules/web-streams-polyfill
 │   ├── which -> .pnpm/which@2.0.2/node_modules/which
 │   ├── which-boxed-primitive -> .pnpm/which-boxed-primitive@1.1.1/node_modules/which-boxed-primitive
 │   ├── which-builtin-type -> .pnpm/which-builtin-type@1.2.1/node_modules/which-builtin-type
@@ -627,12 +673,8 @@
 ├── pnpm-workspace.yaml
 ├── postcss.config.cjs
 ├── postcss.config.js
-├── project-info-20250713-143911.json
-├── project-info-20250713-144728.json
-├── project-info.json
-├── project-structure-20250713-143911.txt
-├── project-structure-20250713-144728.txt
-├── project-summary-prompt-20250713-143911.txt
+├── project-info-20250713-151036.json
+├── project-structure-20250713-151036.txt
 ├── public
 │   ├── assets
 │   │   ├── krut.webp
@@ -706,4 +748,4 @@
 ├── vercel.json
 └── vite.config.mjs
 
-639 directories, 68 files
+651 directories, 98 files

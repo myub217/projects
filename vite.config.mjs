@@ -8,6 +8,7 @@ export default defineConfig(({ mode }) => {
   const isDev = mode === "development";
   const env = loadEnv(mode, process.cwd());
 
+  // กำหนดตัวแปร process.env.VITE_... ให้ครบ
   const defineEnv = Object.fromEntries(
     Object.entries(env)
       .filter(([key]) => key.startsWith("VITE_"))
@@ -42,7 +43,7 @@ export default defineConfig(({ mode }) => {
     define: defineEnv,
 
     server: {
-      port: 5173,
+      port: Number(env.VITE_DEV_SERVER_PORT) || 5173,
       open: env.VITE_OPEN_BROWSER === "true",
       fs: {
         allow: ["."],
@@ -50,12 +51,12 @@ export default defineConfig(({ mode }) => {
     },
 
     preview: {
-      port: 4173,
+      port: Number(env.VITE_PREVIEW_SERVER_PORT) || 4173,
       open: env.VITE_OPEN_BROWSER === "true",
     },
 
     build: {
-      outDir: "dist",
+      outDir: env.VITE_BUILD_OUTDIR || "dist",
       sourcemap: true,
       rollupOptions: {
         output: {

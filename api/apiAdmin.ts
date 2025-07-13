@@ -1,10 +1,16 @@
+// api/apiAdmin.ts
 import express from "express";
-import fetch from "node-fetch"; // ถ้าใช้ Node.js ต้องติดตั้งและ import fetch (node-fetch หรือ cross-fetch)
+import fetch from "node-fetch";
 
 const router = express.Router();
 
+/**
+ * @route GET /api/repos/:username
+ * @desc ดึงรายการ public repos จาก GitHub โดยใช้ Bearer Token
+ * @env ต้องตั้งค่า GITHUB_TOKEN ใน .env
+ */
 router.get("/repos/:username", async (req, res) => {
-  const username = req.params.username;
+  const { username } = req.params;
   const token = process.env.GITHUB_TOKEN;
 
   if (!token) {
@@ -21,7 +27,9 @@ router.get("/repos/:username", async (req, res) => {
 
     if (!response.ok) {
       const errorBody = await response.json().catch(() => ({}));
-      return res.status(response.status).json({ error: errorBody.message || "GitHub API error." });
+      return res
+        .status(response.status)
+        .json({ error: errorBody.message || "GitHub API error." });
     }
 
     const data = await response.json();
