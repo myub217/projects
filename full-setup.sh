@@ -46,7 +46,13 @@ echo "✅ export → $INFO_JSON"
 # 🌱 Env + Tree
 echo -e "\n🟦 [3/8] ENV & โครงสร้าง"
 [[ -f .env ]] && cp .env "$ENV_TXT" || printenv > "$ENV_TXT"
-generate_tree() { command -v tree &>/dev/null && tree -L "$1" || find . -maxdepth "$1" -print | sed 's|^\./||'; }
+generate_tree() {
+  if command -v tree &>/dev/null; then
+    tree -L "$1"
+  else
+    find . -maxdepth "$1" -print | sed 's|^\./||'
+  fi
+}
 generate_tree 3 > "$TREE_TXT"
 echo "✅ ENV → $ENV_TXT, TREE → $TREE_TXT"
 

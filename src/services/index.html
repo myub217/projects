@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ติดตั้งปลั๊กอิน Acode</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background: #f0f0f0;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    button:disabled {
+      background-color: #999;
+      cursor: not-allowed;
+    }
+    #status {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>ติดตั้งปลั๊กอิน Acode</h1>
+  <button id="installBtn">ติดตั้งปลั๊กอิน</button>
+  <div id="status"></div>
+
+  <script>
+    const installBtn = document.getElementById('installBtn');
+    const status = document.getElementById('status');
+
+    installBtn.addEventListener('click', async () => {
+      const sdk = acode?.require?.("acode.sdk");
+      if (!sdk) {
+        status.textContent = "ไม่พบ acode.sdk, กรุณาเปิดใน Acode เท่านั้น";
+        return;
+      }
+
+      installBtn.disabled = true;
+      status.textContent = "กำลังติดตั้งปลั๊กอิน...";
+
+      const pluginZipUrl = "https://your-server.com/plugins/my-plugin.zip";
+      const pluginId = "my-plugin"; // ต้องตรงกับ id ใน plugin.json
+
+      try {
+        await sdk.install({ url: pluginZipUrl });
+        sdk.load(pluginId, true);
+        sdk.enable(pluginId);
+        status.textContent = "ติดตั้งปลั๊กอินสำเร็จ 🎉";
+      } catch (err) {
+        status.textContent = "ติดตั้งปลั๊กอินล้มเหลว: " + err.message;
+        installBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
