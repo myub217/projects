@@ -33,6 +33,9 @@ for arg in "$@"; do
     --dry-run) DRY_RUN=true ;;
     --force) FORCE=true ;;
     -v|--verbose) VERBOSE=true ;;
+    *) 
+      echo -e "${YELLOW}⚠️ Unknown argument: $arg${NC}"
+      ;;
   esac
 done
 
@@ -111,10 +114,10 @@ if [ "$INCLUDE_LOG" = true ]; then
 fi
 
 # 🧰 Cache cleanup
-[ "$DRY_RUN" = false ] && {
+if [ "$DRY_RUN" = false ]; then
   pnpm store prune >/dev/null 2>&1 || true
   npm cache clean --force >/dev/null 2>&1 || true
-}
+fi
 
 # 📦 Reinstall
 if [ "$SKIP_INSTALL" = false ] && [ "$DRY_RUN" = false ]; then
@@ -135,7 +138,7 @@ fi
 # 📝 Log
 LOG_FILE=".clean.log"
 {
-  echo "🧼 Clean completed at $(date)"
+  echo "🧼 Clean completed at $(date +"%Y-%m-%d %H:%M:%S")"
   echo "Mode: FORCE=$FORCE, DRY_RUN=$DRY_RUN, ENV=$INCLUDE_ENV, LOGS=$INCLUDE_LOG, ONLY_CACHE=$ONLY_CACHE"
 } >> "$LOG_FILE"
 

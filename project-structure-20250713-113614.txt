@@ -46,6 +46,7 @@
 │   ├── index.html
 │   ├── manifest.json
 │   └── report.html
+├── env-vars-20250713-113614.txt
 ├── env-vars.txt
 ├── index.html
 ├── jest.config.js
@@ -663,7 +664,9 @@
 ├── pnpm-workspace.yaml
 ├── postcss.config.cjs
 ├── postcss.config.js
+├── project-info-20250713-113614.json
 ├── project-info.json
+├── project-structure-20250713-113614.txt
 ├── project-structure.txt
 ├── project-summary-prompt.txt
 ├── public
@@ -737,4 +740,4 @@
 ├── vercel.json
 └── vite.config.ts
 
-640 directories, 98 files
+640 directories, 101 files
