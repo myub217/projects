@@ -1,11 +1,11 @@
 .
 ├── Clean.sh
-├── READM.md
+├── README.md
 ├── analyze-project.sh
 ├── api
 │   ├── apiAdmin.ts
 │   └── apiClient.ts
-├── env-vars-20250713-161837.txt
+├── env-vars-20250713-164019.txt
 ├── index.html
 ├── jest.config.js
 ├── node_modules
@@ -633,8 +633,8 @@
 ├── pnpm-workspace.yaml
 ├── postcss.config.cjs
 ├── postcss.config.js
-├── project-info-20250713-161837.json
-├── project-structure-20250713-161837.txt
+├── project-info-20250713-164019.json
+├── project-structure-20250713-164019.txt
 ├── public
 │   ├── assets
 │   │   ├── krut.webp

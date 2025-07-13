@@ -35,12 +35,12 @@ analyze, build, check, clean, dev, lint, preview, start:api, typecheck
 📂 โครงสร้างโฟลเดอร์ (ตัวอย่าง):
 .
 ├── Clean.sh
-├── READM.md
+├── README.md
 ├── analyze-project.sh
 ├── api
 │   ├── apiAdmin.ts
 │   └── apiClient.ts
-├── env-vars-20250713-161837.txt
+├── env-vars-20250713-164019.txt
 ├── index.html
 ├── jest.config.js
 ├── node_modules
@@ -74,6 +74,6 @@ dist/assets/index-uCF-PWuk.css         95.59 kB │ gzip: 15.97 kB
 dist/assets/vendor-Bz9BtKzt.js         51.67 kB │ gzip: 19.44 kB │ map:   453.06 kB
 dist/assets/index-DTg12upL.js          94.32 kB │ gzip: 25.83 kB │ map:   212.08 kB
 dist/assets/vendor-react-BK4_uHc0.js  236.89 kB │ gzip: 76.53 kB │ map: 2,485.75 kB
-✓ built in 25.76s
+✓ built in 26.57s
 
 📌 พร้อมใช้งานสำหรับวิเคราะห์หรือ commit ต่อ

@@ -100,8 +100,9 @@ fi
 # ============================
 # 🔍 ตรวจสอบไฟล์ config สำคัญ
 # ============================
+CONFIG_FILES=(vite.config.js vite.config.mjs tailwind.config.js tailwind.config.mjs tsconfig.json tsconfig.base.json)
 CONFIG_STATUS=()
-for FILE in vite.config.js vite.config.mjs tailwind.config.js tailwind.config.mjs tsconfig.json tsconfig.base.json; do
+for FILE in "${CONFIG_FILES[@]}"; do
   if [ -f "$FILE" ]; then
     CONFIG_STATUS+=("✅ $FILE")
   else

@@ -27,12 +27,19 @@
 
 สร้างไฟล์ `.env` ใน root โปรเจกต์ (ไม่ควร commit ลง Git)
 
-ตัวอย่างไฟล์ `.env`:
-
 ```env
-PORT=3000                       # พอร์ต API server
-VITE_API_BASE_URL=http://localhost:3000/api  # URL base ของ API ฝั่ง client
-NODE_ENV=development            # โหมด development หรือ production
+# พอร์ต API server
+PORT=3000
+
+# URL base ของ API ฝั่ง client (ต้องลงท้ายด้วย /api)
+VITE_API_BASE_URL=http://localhost:3000/api
+
+# โหมด development หรือ production
+NODE_ENV=development
+
+> หมายเหตุ: ตัวแปรที่ขึ้นต้นด้วย VITE_ จะถูก inject เข้า client bundle อัตโนมัติ
+
+
 
 
 ---
@@ -48,7 +55,7 @@ start:api	รัน API server (Express)
 clean	ล้างไฟล์ build และ cache
 typecheck	ตรวจสอบ TypeScript โดยไม่ compile
 lint	ตรวจสอบโค้ดด้วย ESLint
-check	run typecheck + lint พร้อมกัน
+check	รัน typecheck + lint พร้อมกัน
 analyze	สร้างรายงานวิเคราะห์ bundle
 
 
@@ -79,6 +86,7 @@ pnpm run build
 ดูผลลัพธ์ production build:
 
 pnpm run preview
+
 
 
 ---
@@ -135,3 +143,7 @@ License
 Email: myub25217@gmail.com
 
 GitHub: https://github.com/myub217/projects
+
+
+พร้อมแก้ไขให้ถูกต้อง ครบถ้วน และ format เรียบร้อยตามที่ต้องการครับ
+
