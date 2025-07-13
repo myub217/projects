@@ -156,9 +156,7 @@ const CustomerAssessmentForm: React.FC = () => {
           error ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-blue-400"
         }`}
       />
-      {helpText && (
-        <p className="mt-1 text-xs text-gray-500">{helpText}</p>
-      )}
+      {helpText && <p className="mt-1 text-xs text-gray-500">{helpText}</p>}
       {error && (
         <p id={`error-${name}`} className="mt-1 text-red-600 text-sm">
           {error}
@@ -213,7 +211,6 @@ const CustomerAssessmentForm: React.FC = () => {
     </div>
   );
 
-  // UI when form is successfully submitted
   if (submitted) {
     return (
       <div
@@ -241,7 +238,6 @@ const CustomerAssessmentForm: React.FC = () => {
     );
   }
 
-  // Main form UI
   return (
     <form
       onSubmit={handleSubmit}

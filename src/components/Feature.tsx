@@ -3,7 +3,6 @@
 import React, { useState, useMemo } from "react";
 import CustomerAssessmentForm from "./CustomerAssessmentForm";
 
-// Types
 interface CustomerApproval {
   id: string;
   name: string;
@@ -12,7 +11,6 @@ interface CustomerApproval {
   status: "อนุมัติแล้ว" | "รอดำเนินการ";
 }
 
-// Mock Data
 const approvedCustomers: CustomerApproval[] = [
   { id: "loan-001", name: "ศรัณย์ พิทักษ์ชาญชัย", loanAmount: 750_000, approvalDate: "2025-07-09T09:15:00+07:00", status: "อนุมัติแล้ว" },
   { id: "loan-002", name: "อรินทรา ทองเจริญ", loanAmount: 1_500_000, approvalDate: "2025-07-08T10:45:00+07:00", status: "อนุมัติแล้ว" },
@@ -23,7 +21,6 @@ const approvedCustomers: CustomerApproval[] = [
   { id: "loan-007", name: "พงศกร วัฒนกิจ", loanAmount: 700_000, approvalDate: "2025-07-03T08:55:00+07:00", status: "อนุมัติแล้ว" },
 ];
 
-// Utils
 const formatDate = (iso: string): string =>
   new Date(iso).toLocaleDateString("th-TH", { year: "numeric", month: "short", day: "numeric" });
 
@@ -44,21 +41,19 @@ const timeAgo = (iso: string): string => {
   return "เมื่อสักครู่";
 };
 
-// Icons
-const CheckIcon: React.FC = () => (
+const CheckIcon = () => (
   <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
   </svg>
 );
 
-const ClockIcon: React.FC = () => (
+const ClockIcon = () => (
   <svg className="w-5 h-5 text-yellow-600 animate-pulse" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
     <circle cx="12" cy="12" r="10" />
     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2" />
   </svg>
 );
 
-// Component
 const Feature: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [sortOrder, setSortOrder] = useState<"ล่าสุด" | "วงเงิน" | "สถานะ">("ล่าสุด");
@@ -141,8 +136,7 @@ const Feature: React.FC = () => {
                   </h3>
 
                   <p id={`${customer.id}-details`} className="text-sm text-black/70 dark:text-white/70">
-                    วันที่อนุมัติ:{" "}
-                    <time dateTime={customer.approvalDate} title={formatDate(customer.approvalDate)}>
+                    วันที่อนุมัติ: <time dateTime={customer.approvalDate} title={formatDate(customer.approvalDate)}>
                       {formatDate(customer.approvalDate)} ({timeAgo(customer.approvalDate)})
                     </time>
                   </p>

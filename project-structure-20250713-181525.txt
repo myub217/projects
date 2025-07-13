@@ -5,7 +5,7 @@
 ├── api
 │   ├── apiAdmin.ts
 │   └── apiClient.ts
-├── env-vars-20250713-164019.txt
+├── env-vars-20250713-181525.txt
 ├── index.html
 ├── jest.config.js
 ├── node_modules
@@ -634,7 +634,8 @@
 ├── postcss.config.cjs
 ├── postcss.config.js
 ├── project-info-20250713-164019.json
-├── project-structure-20250713-164019.txt
+├── project-info-20250713-181525.json
+├── project-structure-20250713-181525.txt
 ├── public
 │   ├── assets
 │   │   ├── krut.webp
@@ -685,6 +686,7 @@
 │   │   ├── ThemeToggle.tsx
 │   │   └── VisitorCount.tsx
 │   ├── config
+│   │   ├── contact.ts
 │   │   └── themes.ts
 │   ├── data
 │   │   ├── servicesData.ts
@@ -708,4 +710,4 @@
 ├── vercel.json
 └── vite.config.mjs
 
-645 directories, 64 files
+645 directories, 66 files

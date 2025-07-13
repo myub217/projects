@@ -52,5 +52,13 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ]
+  ],
+  "categories": ["productivity", "utilities"],
+  "dir": "ltr",
+  "description": "A modular modern one-page app built with React, Vite, TailwindCSS, and Express API.",
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "screenshots": [],
+  "shortcuts": [],
+  "iar": {}
 }

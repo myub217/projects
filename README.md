@@ -1,10 +1,10 @@
-# modular-onepage
+# Modular OnePage
 
-โปรเจกต์ Modular OnePage SPA ด้วย React + TypeScript + Vite + TailwindCSS + DaisyUI + Express + Framer Motion
+โปรเจกต์ **Modular OnePage SPA** ด้วยเทคโนโลยีสมัยใหม่: **React + TypeScript + Vite + TailwindCSS + DaisyUI + Express + Framer Motion**
 
 ---
 
-## เทคโนโลยีหลัก
+## 🔧 เทคโนโลยีหลัก
 
 - React 18.x
 - TypeScript 5.x
@@ -12,138 +12,147 @@
 - TailwindCSS 3.x + DaisyUI 5.x
 - Express 5.x (API Server)
 - Framer Motion 12.x (Animation)
-- React Router DOM 6.x (แนะนำ downgrade เป็น 6.x จาก 7.x เพื่อความเสถียร TS)
+- React Router DOM 6.x *(แนะนำ downgrade จาก 7.x เพื่อความเสถียรกับ TypeScript)*
 - Lucide React, React Icons
 
 ---
 
-## โครงสร้างโปรเจกต์ (ตัวอย่าง)
+## 📁 โครงสร้างโปรเจกต์ (ตัวอย่าง)
 
-. ├── Clean.sh                  # สคริปต์ล้างไฟล์ build / cache ├── analyze-project.sh        # สคริปต์วิเคราะห์ bundle ├── api │   ├── apiAdmin.ts           # API ฝั่ง server สำหรับ admin │   └── apiClient.ts          # API ฝั่ง client ├── env-vars-YYYYMMDD-HHMMSS.txt # ไฟล์เก็บ env vars (generated) ├── index.html                # หน้า HTML หลัก ├── jest.config.js            # config สำหรับ jest ├── node_modules              # ไฟล์ dependencies ├── package.json              # config npm/yarn/pnpm + scripts ├── src │   ├── components            # Component หลักและย่อย │   ├── App.tsx               # Root React Component │   ├── main.tsx              # entry point React │   └── ... ├── tailwind.config.mjs       # config TailwindCSS (ESM) ├── tsconfig.json             # config TypeScript ├── tsconfig.base.json        # base config TypeScript ├── vite.config.mjs           # config Vite (ESM) └── ...
+. ├── Clean.sh                       # ล้างไฟล์ build / cache ├── analyze-project.sh            # วิเคราะห์ bundle ├── api/ │   ├── apiAdmin.ts               # API ฝั่ง server │   └── apiClient.ts              # API ฝั่ง client ├── env-vars-YYYYMMDD-HHMMSS.txt  # บันทึก env vars ที่ export ไว้ ├── index.html                    # หน้า HTML หลัก ├── jest.config.js                # Jest config ├── node_modules/ ├── package.json ├── src/ │   ├── components/               # Component หลักและย่อย │   ├── App.tsx                   # Root React Component │   ├── main.tsx                  # Entry point │   └── ... ├── tailwind.config.mjs           # Tailwind config (ESM) ├── tsconfig.json                 # TypeScript config ├── tsconfig.base.json ├── vite.config.mjs               # Vite config (ESM)
 
 ---
 
-## ตัวแปรสภาพแวดล้อม (Environment Variables)
+## ⚙️ ตัวแปรสภาพแวดล้อม (.env)
 
-สร้างไฟล์ `.env` ใน root โปรเจกต์ (ไม่ควร commit ลง Git)
+สร้างไฟล์ `.env` ใน root (ไม่ควร commit ขึ้น Git)
 
 ```env
-# พอร์ต API server
+# พอร์ตสำหรับ Express API Server
 PORT=3000
 
-# URL base ของ API ฝั่ง client (ต้องลงท้ายด้วย /api)
+# Base URL สำหรับ client (ลงท้ายด้วย /api)
 VITE_API_BASE_URL=http://localhost:3000/api
 
-# โหมด development หรือ production
+# ระบุโหมดปัจจุบัน (dev, production)
 NODE_ENV=development
 
-> หมายเหตุ: ตัวแปรที่ขึ้นต้นด้วย VITE_ จะถูก inject เข้า client bundle อัตโนมัติ
+# เปิดอัตโนมัติใน browser
+VITE_OPEN_BROWSER=true
+
+# เปิด report visualizer หรือไม่
+VITE_OPEN_REPORT=true
+
+# พอร์ต dev server
+VITE_DEV_SERVER_PORT=5173
+
+# พอร์ต preview server
+VITE_PREVIEW_SERVER_PORT=4173
+
+# โฟลเดอร์ output ของ build
+VITE_BUILD_OUTDIR=dist
+
+> 🔐 ตัวแปรขึ้นต้น VITE_ จะถูก inject เข้า client bundle โดยอัตโนมัติ
 
 
 
 
 ---
 
-สคริปต์สำคัญใน package.json
+📦 สคริปต์สำคัญใน package.json
 
 คำสั่ง	คำอธิบาย
 
 dev	รัน Vite dev server (React SPA)
-build	สร้างไฟล์ build สำหรับ production
-preview	preview build production
-start:api	รัน API server (Express)
+build	สร้าง production build
+preview	Preview build ที่สร้าง
+start:api	รัน Express API server
 clean	ล้างไฟล์ build และ cache
 typecheck	ตรวจสอบ TypeScript โดยไม่ compile
 lint	ตรวจสอบโค้ดด้วย ESLint
 check	รัน typecheck + lint พร้อมกัน
-analyze	สร้างรายงานวิเคราะห์ bundle
+analyze	วิเคราะห์ bundle size และ visualizer
 
 
 
 ---
 
-การติดตั้ง
+🚀 การใช้งาน
 
-pnpm install   # หรือ yarn install / npm install
+ติดตั้ง Dependency
 
+pnpm install
+# หรือ
+yarn install
+# หรือ
+npm install
 
----
-
-การรันโปรเจกต์
-
-รัน SPA development server:
+Development (SPA)
 
 pnpm run dev
 
-รัน API server (แยก process):
+Start API Server
 
 pnpm run start:api
 
-สร้างไฟล์ production build:
+Build Production
 
 pnpm run build
 
-ดูผลลัพธ์ production build:
+Preview Production Build
 
 pnpm run preview
 
 
+---
+
+🧱 โครงสร้าง Component หลัก (ตัวอย่าง)
+
+src/
+├── components/
+│   ├── About.tsx
+│   ├── Feature.tsx
+│   ├── AdminBoard/
+│   │   ├── Dashboard.tsx
+│   │   ├── RepoList.tsx
+│   │   ├── StatsPanel.tsx
+│   │   └── UserTable.tsx
+│   └── Features/
+│       ├── Feature1.tsx
+│       ├── Feature2.tsx
+│       ├── Feature3.tsx
+│       └── Feature4.tsx
+
 
 ---
 
-หมายเหตุ
+🧠 หมายเหตุ
 
-โปรเจกต์นี้ใช้ vite.config.mjs และ tailwind.config.mjs เป็นไฟล์ config แทน .js เพื่อรองรับ ESM
+ใช้ vite.config.mjs และ tailwind.config.mjs เพื่อรองรับ ESM
 
-ควร downgrade react-router-dom เป็นเวอร์ชัน 6.x เพราะ API และ typing ที่ใช้งานร่วมกับ TypeScript จะเสถียรกว่า
+React Router DOM ควรใช้เวอร์ชัน 6.x สำหรับความเสถียรกับ TypeScript
 
-ตัวแปร environment ที่ขึ้นต้นด้วย VITE_ จะถูก inject เข้า client bundle อัตโนมัติ
+ค่าที่ขึ้นต้น VITE_ จะถูกแปลงเข้าสู่ client-side โดยอัตโนมัติ
 
-
-
----
-
-โครงสร้าง Component หลัก (ตัวอย่าง)
-
-src/components/About.tsx
-
-src/components/AdminBoard/Dashboard.tsx
-
-src/components/AdminBoard/RepoList.tsx
-
-src/components/AdminBoard/StatsPanel.tsx
-
-src/components/AdminBoard/UserTable.tsx
-
-src/components/Feature.tsx
-
-src/components/Features/Feature1.tsx
-
-src/components/Features/Feature2.tsx
-
-src/components/Features/Feature3.tsx
-
-src/components/Features/Feature4.tsx
+รองรับ theme mode (light/dark) ด้วย localStorage และ DaisyUI data-theme
 
 
 
 ---
 
-License
+📄 License
 
-โปรเจกต์นี้เป็น private project ไม่เปิดเผยสาธารณะ
+Private Project — ไม่เผยแพร่ต่อสาธารณะ
 
 
 ---
 
-ติดต่อ
-
-หากมีคำถามหรือข้อเสนอแนะ ติดต่อได้ที่
+📬 ติดต่อ
 
 Email: myub25217@gmail.com
 
-GitHub: https://github.com/myub217/projects
+GitHub: myub217/projects
 
 
-พร้อมแก้ไขให้ถูกต้อง ครบถ้วน และ format เรียบร้อยตามที่ต้องการครับ
+
 

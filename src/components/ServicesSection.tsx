@@ -49,7 +49,8 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ onRequest }) => {
               <ServiceCard
                 service={service}
                 disabled={!service.available}
-                onRequest={onRequest ? () => onRequest(service) : undefined}
+                // ลบ onRequest เพื่อให้ลิงก์ไป LINE OA โดยตรง
+                // onRequest={onRequest ? () => onRequest(service) : undefined}
               />
               {!service.available && service.comingSoonNote && (
                 <p

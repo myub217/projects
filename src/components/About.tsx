@@ -5,42 +5,28 @@ import { motion } from "framer-motion";
 import { FaUserTie, FaEnvelope } from "react-icons/fa";
 import aboutImage from "../assets/images/about-us.webp";
 import signature from "../assets/signature.webp";
+import { contactLinks } from "../config/contact";
 
-// ข้อมูลช่องทางโซเชียล
 const socialLinks = [
   {
     name: "LINE",
-    href: "https://lin.ee/yourLineOA",
+    href: contactLinks.line,
     src: "/images/icons/line.svg",
     alt: "LINE Official Account",
     className: "w-8 h-8",
   },
   {
     name: "Facebook",
-    href: "https://facebook.com/yourpage",
+    href: contactLinks.facebook,
     src: "/images/icons/Facebook.svg",
     alt: "Facebook Page",
     className: "w-8 h-8",
   },
   {
-    name: "Instagram",
-    href: "https://instagram.com/yourpage",
-    src: "/images/icons/Instagram.svg",
-    alt: "Instagram",
-    className: "w-8 h-8",
-  },
-  {
-    name: "Telegram",
-    href: "https://t.me/yourtelegram",
-    src: "/images/icons/Telegram.svg",
-    alt: "Telegram",
-    className: "w-8 h-8",
-  },
-  {
-    name: "TikTok",
-    href: "https://tiktok.com/@yourprofile",
-    src: "/images/icons/Tiktok.svg",
-    alt: "TikTok",
+    name: "Messenger",
+    href: contactLinks.messenger,
+    src: "/images/icons/Messenger.svg",
+    alt: "Messenger",
     className: "w-8 h-8",
   },
 ];
@@ -53,7 +39,6 @@ const About: React.FC = () => {
       className="py-16 px-4 sm:px-6 lg:px-8 bg-base-100 text-base-content transition-colors duration-500"
     >
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
-        {/* รูปภาพทีมงาน */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -71,7 +56,6 @@ const About: React.FC = () => {
           />
         </motion.div>
 
-        {/* เนื้อหา */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -106,7 +90,6 @@ const About: React.FC = () => {
               รับรองว่าคุณจะรู้สึกปลอดภัย และสบายใจที่ได้คุยแน่นอน
             </p>
 
-            {/* คำพูดจากหัวหน้า */}
             <blockquote
               className="mt-8 text-right italic font-medium border-r-4 pr-4 flex flex-col items-end gap-2 max-w-xs self-end"
               style={{
@@ -144,46 +127,43 @@ const About: React.FC = () => {
             </blockquote>
           </div>
 
-          {/* ปุ่มติดต่อ */}
-          <div className="mt-10">
+          <div className="mt-10 flex flex-col sm:flex-row sm:items-center sm:gap-6">
             <a
-              href="mailto:contact@yourdomain.com"
-              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-focus text-primary-content font-semibold px-5 py-3 rounded-full shadow-lg transition-colors duration-300"
+              href={`mailto:${contactLinks.email}`}
+              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-focus text-primary-content font-semibold px-5 py-3 rounded-full shadow-lg transition-colors duration-300 mb-4 sm:mb-0 justify-center"
               aria-label="ติดต่อเรา ผ่านอีเมล"
               title="ติดต่อเรา"
             >
               <FaEnvelope className="text-lg" aria-hidden="true" />
               ติดต่อเรา
             </a>
+
+            <nav
+              aria-label="ช่องทางโซเชียลมีเดีย"
+              className="flex gap-6 flex-wrap justify-center"
+            >
+              {socialLinks.map(({ name, href, src, alt, className }) => (
+                <a
+                  key={name}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`ลิงก์ไปยัง ${name}`}
+                  className="hover:opacity-80 transition-opacity hover:scale-110 transform duration-300"
+                >
+                  <img
+                    src={src}
+                    alt={alt}
+                    className={className}
+                    loading="lazy"
+                    draggable={false}
+                  />
+                </a>
+              ))}
+            </nav>
           </div>
 
-          {/* ลิงก์โซเชียลมีเดีย */}
-          <nav
-            aria-label="ช่องทางโซเชียลมีเดีย"
-            className="mt-10 flex gap-6 flex-wrap"
-          >
-            {socialLinks.map(({ name, href, src, alt, className }) => (
-              <a
-                key={name}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`ลิงก์ไปยัง ${name}`}
-                className="hover:opacity-80 transition-opacity hover:scale-110 transform duration-300"
-              >
-                <img
-                  src={src}
-                  alt={alt}
-                  className={className}
-                  loading="lazy"
-                  draggable={false}
-                />
-              </a>
-            ))}
-          </nav>
-
-          {/* หมายเหตุ */}
-          <p className="text-sm mt-6 opacity-70">
+          <p className="text-sm mt-6 opacity-70 text-center sm:text-left">
             * ข้อมูลทั้งหมดเป็นความจริงตามสถานการณ์ปัจจุบัน และไม่มีการเก็บข้อมูลใดๆ โดยไม่ได้รับอนุญาต
           </p>
         </motion.div>

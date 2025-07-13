@@ -1,3 +1,5 @@
+// src/components/MobileMenu.tsx
+
 import React, { useEffect, useRef, useCallback, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
@@ -22,31 +24,26 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   const menuRef = useRef<HTMLDivElement>(null);
   const [isClosing, setIsClosing] = useState(false);
 
-  // ปิดเมนู รอ animation ก่อนเรียก onClose จริง
   const handleClose = useCallback(() => {
     if (isClosing) return;
     setIsClosing(true);
     setTimeout(() => {
       onClose();
-    }, 300); // รอ animation duration = 300ms
+    }, 300);
   }, [isClosing, onClose]);
 
-  // ปิดเมนูเมื่อกด Escape
   useEffect(() => {
     if (!isOpen) return;
-
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.preventDefault();
         handleClose();
       }
     };
-
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen, handleClose]);
 
-  // ล็อก scroll เมื่อเมนูเปิด
   useEffect(() => {
     if (isOpen) {
       scrollLockCount++;
@@ -60,7 +57,6 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     };
   }, [isOpen]);
 
-  // ดักจับ focus ภายในเมนูมือถือ (focus trap)
   useEffect(() => {
     if (!isOpen || !menuRef.current) return;
 
@@ -78,18 +74,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     const trapFocus = (e: KeyboardEvent) => {
       if (e.key !== "Tab") return;
 
-      if (e.shiftKey) {
-        // Shift + Tab
-        if (document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        }
-      } else {
-        // Tab
-        if (document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
       }
     };
 
@@ -99,7 +89,6 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     return () => document.removeEventListener("keydown", trapFocus);
   }, [isOpen]);
 
-  // คืนโฟกัสให้ปุ่มเปิดเมนูเมื่อเมนูปิด
   useEffect(() => {
     if (!isOpen) {
       setIsClosing(false);
@@ -107,7 +96,6 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     }
   }, [isOpen, triggerRef]);
 
-  // จัดการคลิกลิงก์ในเมนู (scroll to section หรือเปิดลิงก์ใหม่)
   const handleLinkClick = useCallback(
     (href: string) => {
       if (isClosing) return;
@@ -121,6 +109,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           if (targetElement) {
             targetElement.scrollIntoView({ behavior: "smooth" });
             history.pushState(null, "", href);
+          } else {
+            window.scrollTo({ top: 0, behavior: "smooth" });
           }
         } else if (/^https?:\/\//.test(href)) {
           window.open(href, "_blank", "noopener,noreferrer");
@@ -132,11 +122,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     [handleClose, isClosing, onLinkClick]
   );
 
+  const currentHash = typeof window !== "undefined" ? window.location.hash : "";
+
   return (
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop คลิกปิดเมนู */}
           <motion.div
             key="backdrop"
             initial={{ opacity: 0 }}
@@ -148,7 +139,6 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             onClick={handleClose}
           />
 
-          {/* เมนูมือถือ */}
           <motion.div
             key="menu"
             ref={menuRef}
@@ -178,20 +168,25 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             </button>
 
             <nav aria-label="ลิงก์เมนูหลัก" className="flex flex-col gap-2">
-              {links.map(({ label, href, highlight }) => (
-                <button
-                  key={href}
-                  onClick={() => handleLinkClick(href)}
-                  className={`text-left px-6 py-3 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 ${
-                    highlight
-                      ? "bg-gray-700 text-white hover:bg-gray-800 dark:bg-gray-600 dark:hover:bg-gray-500"
-                      : "hover:text-gray-900 dark:hover:text-gray-300"
-                  }`}
-                  type="button"
-                >
-                  {label}
-                </button>
-              ))}
+              {links.map(({ label, href, highlight }) => {
+                const active = href === currentHash;
+                return (
+                  <button
+                    key={href}
+                    onClick={() => handleLinkClick(href)}
+                    type="button"
+                    role="menuitem"
+                    aria-current={active ? "page" : undefined}
+                    className={`text-left px-6 py-3 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 ${
+                      highlight
+                        ? "bg-gray-700 text-white hover:bg-gray-800 dark:bg-gray-600 dark:hover:bg-gray-500"
+                        : "hover:text-gray-900 dark:hover:text-gray-300"
+                    } ${active ? "font-semibold text-pink-600 dark:text-pink-400" : ""}`}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
             </nav>
           </motion.div>
         </>

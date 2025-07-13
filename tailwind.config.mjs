@@ -1,5 +1,3 @@
-// tailwind.config.mjs
-
 import daisyui from "daisyui";
 import typography from "@tailwindcss/typography";
 

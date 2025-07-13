@@ -1,5 +1,7 @@
+// src/components/ServiceCard.tsx
 import React from "react";
 import { Service } from "./ServicesSection";
+import { getContactHref } from "../config/contact";
 
 interface ServiceCardProps {
   service: Service;
@@ -12,6 +14,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   disabled = false,
   onRequest,
 }) => {
+  const lineLink = getContactHref("line");
+
   return (
     <div
       className={`flex flex-col h-full rounded-lg overflow-hidden shadow-md border
@@ -46,17 +50,31 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         <p className="text-sm text-primary mt-3 font-semibold tracking-wide">
           ราคา: {service.price}
         </p>
-        {onRequest && !disabled && (
-          <button
-            type="button"
-            onClick={onRequest}
-            className="mt-5 inline-block px-5 py-2 bg-primary text-white rounded-md text-sm font-semibold
-              hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary
-              transition-colors"
-            aria-label={`ขอใช้บริการ ${service.title}`}
-          >
-            ขอใช้บริการ
-          </button>
+        {!disabled && (
+          onRequest ? (
+            <button
+              type="button"
+              onClick={onRequest}
+              className="mt-5 inline-block px-5 py-2 bg-primary text-white rounded-md text-sm font-semibold
+                hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary
+                transition-colors"
+              aria-label={`ขอใช้บริการ ${service.title}`}
+            >
+              ขอใช้บริการ
+            </button>
+          ) : (
+            <a
+              href={lineLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-5 inline-block px-5 py-2 bg-primary text-white rounded-md text-sm font-semibold
+                hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary
+                transition-colors text-center"
+              aria-label={`ขอใช้บริการ ${service.title} ผ่าน LINE`}
+            >
+              ขอใช้บริการ
+            </a>
+          )
         )}
       </div>
     </div>
