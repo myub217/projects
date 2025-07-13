@@ -47,29 +47,29 @@ export default {
       },
       colors: {
         background: {
-          DEFAULT: "#FFFFFF",  // ขาวพื้นหลังหลัก
-          dark: "#1F2937",     // เทาเข้ม (background dark mode)
-          surface: "#F9FAFB",  // พื้นหลังผิวเรียบ
+          DEFAULT: "#FFFFFF",
+          dark: "#1F2937",
+          surface: "#F9FAFB",
           surfaceDark: "#111827",
         },
         foreground: {
-          DEFAULT: "#1F2937",  // เทาเข้มข้อความหลัก
-          dark: "#F3F4F6",     // สีอ่อนข้อความใน dark mode
+          DEFAULT: "#1F2937",
+          dark: "#F3F4F6",
         },
         muted: {
-          DEFAULT: "#6B7280",  // เทาอ่อนข้อความรอง
+          DEFAULT: "#6B7280",
         },
         primary: {
-          DEFAULT: "#1E40AF",  // ฟ้าหลัก (blue-900)
-          light: "#3B82F6",    // ฟ้าอ่อน (blue-500)
-          dark: "#1E3A8A",     // ฟ้าดำ (blue-800)
-          contrastText: "#FFFFFF", // ตัวหนังสือบนปุ่มฟ้า
+          DEFAULT: "#1E40AF",
+          light: "#3B82F6",
+          dark: "#1E3A8A",
+          contrastText: "#FFFFFF",
         },
         accent: {
-          DEFAULT: "#2563EB",  // สีเน้น ปุ่ม hover หรือ highlight
+          DEFAULT: "#2563EB",
         },
         border: {
-          DEFAULT: "#E5E7EB",  // เส้นขอบสีเทาอ่อน (gray-200)
+          DEFAULT: "#E5E7EB",
         },
         success: {
           DEFAULT: "#22C55E",
@@ -113,7 +113,7 @@ export default {
         "5xl": ["3rem", { lineHeight: "1" }],
       },
       boxShadow: {
-        soft: "0 4px 12px rgba(59, 130, 246, 0.25)", // ฟ้าใสเงานุ่ม
+        soft: "0 4px 12px rgba(59, 130, 246, 0.25)",
         medium: "0 8px 24px rgba(59, 130, 246, 0.35)",
         dark: "0 12px 32px rgba(31, 41, 55, 0.9)",
       },

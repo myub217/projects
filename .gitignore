@@ -1,18 +1,4 @@
 # ===============================
-# 📦 General Build & Output
-# ===============================
-node_modules/
-dist/
-build/
-.vite/
-.next/
-.turbo/
-.vercel/
-.temp/
-.cache/
-*.tsbuildinfo
-
-# ===============================
 # 🪵 Logs
 # ===============================
 npm-debug.log*

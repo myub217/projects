@@ -21,10 +21,10 @@ const App: React.FC = () => {
     const root = document.documentElement;
     if (mode === "dark") {
       root.classList.add("dark");
-      root.setAttribute("data-theme", "platinum-dark");
+      root.setAttribute("data-theme", "bluewhite-dark");
     } else {
       root.classList.remove("dark");
-      root.setAttribute("data-theme", "platinum");
+      root.setAttribute("data-theme", "bluewhite");
     }
     localStorage.setItem(THEME_KEY, mode);
   }, []);
