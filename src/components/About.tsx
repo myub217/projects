@@ -5,31 +5,9 @@ import { motion } from "framer-motion";
 import { FaUserTie, FaEnvelope } from "react-icons/fa";
 import aboutImage from "../assets/images/about-us.webp";
 import signature from "../assets/signature.webp";
-import { contactLinks } from "../config/contact";
+import { contactLinks, getContactHref } from "../config/contact";
 
-const socialLinks = [
-  {
-    name: "LINE",
-    href: contactLinks.line,
-    src: "/images/icons/line.svg",
-    alt: "LINE Official Account",
-    className: "w-8 h-8",
-  },
-  {
-    name: "Facebook",
-    href: contactLinks.facebook,
-    src: "/images/icons/Facebook.svg",
-    alt: "Facebook Page",
-    className: "w-8 h-8",
-  },
-  {
-    name: "Messenger",
-    href: contactLinks.messenger,
-    src: "/images/icons/Messenger.svg",
-    alt: "Messenger",
-    className: "w-8 h-8",
-  },
-];
+const socialLinks = contactLinks.filter((c) => c.type !== "email");
 
 const About: React.FC = () => {
   return (
@@ -129,7 +107,7 @@ const About: React.FC = () => {
 
           <div className="mt-10 flex flex-col sm:flex-row sm:items-center sm:gap-6">
             <a
-              href={`mailto:${contactLinks.email}`}
+              href={getContactHref("email")}
               className="inline-flex items-center gap-2 bg-primary hover:bg-primary-focus text-primary-content font-semibold px-5 py-3 rounded-full shadow-lg transition-colors duration-300 mb-4 sm:mb-0 justify-center"
               aria-label="ติดต่อเรา ผ่านอีเมล"
               title="ติดต่อเรา"
@@ -142,19 +120,19 @@ const About: React.FC = () => {
               aria-label="ช่องทางโซเชียลมีเดีย"
               className="flex gap-6 flex-wrap justify-center"
             >
-              {socialLinks.map(({ name, href, src, alt, className }) => (
+              {socialLinks.map(({ type, href, label }) => (
                 <a
-                  key={name}
+                  key={type}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`ลิงก์ไปยัง ${name}`}
+                  aria-label={`ลิงก์ไปยัง ${label}`}
                   className="hover:opacity-80 transition-opacity hover:scale-110 transform duration-300"
                 >
                   <img
-                    src={src}
-                    alt={alt}
-                    className={className}
+                    src={`/images/icons/${label}.svg`}
+                    alt={`${label} Icon`}
+                    className="w-8 h-8"
                     loading="lazy"
                     draggable={false}
                   />

@@ -1,4 +1,4 @@
-// ✅ ปรับ IndexPage รองรับทั้ง Mobile & Desktop พร้อม Theme และ Modal UX
+// src/pages/IndexPage.tsx
 
 import React, { useState, useEffect, useCallback } from "react";
 import Header from "../components/Header";
@@ -10,40 +10,13 @@ import ReviewsSection from "../components/ReviewsSection";
 import CTASection from "../components/CTASection";
 import Footer from "../components/Footer";
 
-const IndexPage: React.FC = () => {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+interface IndexPageProps {
+  theme: "light" | "dark";
+  toggleTheme: () => void;
+}
+
+const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
   const [selectedService, setSelectedService] = useState<Service | null>(null);
-
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem("theme") as "light" | "dark" | null;
-      if (saved === "light" || saved === "dark") {
-        setTheme(saved);
-      } else {
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        setTheme(prefersDark ? "dark" : "light");
-      }
-    } catch {
-      setTheme("light");
-    }
-  }, []);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleChange = (e: MediaQueryListEvent) => {
-      const saved = localStorage.getItem("theme");
-      if (!saved) setTheme(e.matches ? "dark" : "light");
-    };
-    mediaQuery.addEventListener?.("change", handleChange);
-    return () => mediaQuery.removeEventListener?.("change", handleChange);
-  }, []);
-
-  useEffect(() => {
-    const root = window.document.documentElement;
-    root.classList.toggle("dark", theme === "dark");
-    root.setAttribute("data-theme", theme === "dark" ? "platinum-dark" : "platinum");
-    localStorage.setItem("theme", theme);
-  }, [theme]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -60,10 +33,6 @@ const IndexPage: React.FC = () => {
     };
   }, [selectedService]);
 
-  const toggleTheme = useCallback(() => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
-  }, []);
-
   const handleRequestService = useCallback((service: Service) => {
     setSelectedService(service);
   }, []);
@@ -78,14 +47,14 @@ const IndexPage: React.FC = () => {
       >
         <Hero />
         <Feature />
-        <ServicesSection id="services" onRequest={handleRequestService} />
+        <ServicesSection onRequest={handleRequestService} />
         <About />
         <ReviewsSection />
         <CTASection />
         <Footer />
       </main>
 
-      {/* 🔘 Toggle Theme Floating Button (Mobile + Desktop) */}
+      {/* Toggle Theme Floating Button */}
       <button
         aria-label={`สลับเป็นโหมด ${theme === "light" ? "มืด" : "สว่าง"}`}
         onClick={toggleTheme}
@@ -94,17 +63,33 @@ const IndexPage: React.FC = () => {
         type="button"
       >
         {theme === "light" ? (
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m8.66-11h-1M4.34 12h-1m15.07 6.07l-.7-.7M6.34 6.34l-.7-.7m12.02 12.02l-.7-.7M6.34 17.66l-.7-.7M12 7a5 5 0 000 10 5 5 0 000-10z" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 3v1m0 16v1m8.66-11h-1M4.34 12h-1m15.07 6.07l-.7-.7M6.34 6.34l-.7-.7m12.02 12.02l-.7-.7M6.34 17.66l-.7-.7M12 7a5 5 0 000 10 5 5 0 000-10z"
+            />
           </svg>
         ) : (
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
             <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
           </svg>
         )}
       </button>
 
-      {/* 🔒 Modal Service Request */}
+      {/* Modal Service Request */}
       {selectedService && (
         <div
           className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 md:p-6"
@@ -119,10 +104,16 @@ const IndexPage: React.FC = () => {
             onClick={(e) => e.stopPropagation()}
             tabIndex={0}
           >
-            <h3 id="service-modal-title" className="text-lg md:text-xl font-bold text-primary mb-4">
+            <h3
+              id="service-modal-title"
+              className="text-lg md:text-xl font-bold text-primary mb-4"
+            >
               ขอใช้บริการ
             </h3>
-            <p id="service-modal-desc" className="text-base-content text-sm md:text-base">
+            <p
+              id="service-modal-desc"
+              className="text-base-content text-sm md:text-base"
+            >
               บริการที่เลือก: <strong>{selectedService.title}</strong>
             </p>
             <div className="mt-6 flex justify-end gap-2">

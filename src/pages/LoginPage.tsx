@@ -115,9 +115,7 @@ const LoginPage: React.FC = () => {
             placeholder="ชื่อผู้ใช้"
             disabled={isDisabled}
             className={`px-4 py-3 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary transition ${
-              isDisabled
-                ? "border-gray-400 cursor-not-allowed"
-                : "border-gray-300"
+              isDisabled ? "border-gray-400 cursor-not-allowed" : "border-gray-300"
             }`}
           />
 
@@ -132,9 +130,7 @@ const LoginPage: React.FC = () => {
             placeholder="รหัสผ่าน"
             disabled={isDisabled}
             className={`px-4 py-3 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary transition ${
-              isDisabled
-                ? "border-gray-400 cursor-not-allowed"
-                : "border-gray-300"
+              isDisabled ? "border-gray-400 cursor-not-allowed" : "border-gray-300"
             }`}
           />
 

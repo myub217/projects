@@ -12,7 +12,7 @@ import SecretRoomPage from "./pages/SecretRoomPage";
 
 const THEME_KEY = "app-theme";
 
-type ThemeMode = "light" | "dark";
+export type ThemeMode = "light" | "dark";
 
 const App: React.FC = () => {
   const [theme, setTheme] = useState<ThemeMode>("light");

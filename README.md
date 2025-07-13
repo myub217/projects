@@ -1,19 +1,19 @@
 # Modular OnePage
 
-โปรเจกต์ **Modular OnePage SPA** ด้วยเทคโนโลยีสมัยใหม่: **React + TypeScript + Vite + TailwindCSS + DaisyUI + Express + Framer Motion**
+โปรเจกต์ Modular OnePage SPA ด้วย React + TypeScript + Vite + TailwindCSS + DaisyUI + Express + Framer Motion
 
 ---
 
 ## 🔧 เทคโนโลยีหลัก
 
-- React 18.x
-- TypeScript 5.x
-- Vite 7.x
-- TailwindCSS 3.x + DaisyUI 5.x
-- Express 5.x (API Server)
-- Framer Motion 12.x (Animation)
-- React Router DOM 6.x *(แนะนำ downgrade จาก 7.x เพื่อความเสถียรกับ TypeScript)*
-- Lucide React, React Icons
+- React 18.x  
+- TypeScript 5.x  
+- Vite 7.x  
+- TailwindCSS 3.x + DaisyUI 5.x  
+- Express 5.x (API Server)  
+- Framer Motion 12.x (Animation)  
+- React Router DOM 6.x (downgrade จาก 7.x เพื่อความเสถียรกับ TypeScript)  
+- Lucide React, React Icons  
 
 ---
 
@@ -25,34 +25,17 @@
 
 ## ⚙️ ตัวแปรสภาพแวดล้อม (.env)
 
-สร้างไฟล์ `.env` ใน root (ไม่ควร commit ขึ้น Git)
-
 ```env
-# พอร์ตสำหรับ Express API Server
-PORT=3000
-
-# Base URL สำหรับ client (ลงท้ายด้วย /api)
-VITE_API_BASE_URL=http://localhost:3000/api
-
-# ระบุโหมดปัจจุบัน (dev, production)
+PORT=3000                             # พอร์ต Express API Server
+VITE_API_BASE_URL=http://localhost:3000/api  # Base URL client
 NODE_ENV=development
-
-# เปิดอัตโนมัติใน browser
 VITE_OPEN_BROWSER=true
-
-# เปิด report visualizer หรือไม่
 VITE_OPEN_REPORT=true
-
-# พอร์ต dev server
 VITE_DEV_SERVER_PORT=5173
-
-# พอร์ต preview server
 VITE_PREVIEW_SERVER_PORT=4173
-
-# โฟลเดอร์ output ของ build
 VITE_BUILD_OUTDIR=dist
 
-> 🔐 ตัวแปรขึ้นต้น VITE_ จะถูก inject เข้า client bundle โดยอัตโนมัติ
+> ตัวแปรขึ้นต้น VITE_ จะ inject เข้า client bundle อัตโนมัติ
 
 
 
@@ -68,10 +51,10 @@ build	สร้าง production build
 preview	Preview build ที่สร้าง
 start:api	รัน Express API server
 clean	ล้างไฟล์ build และ cache
-typecheck	ตรวจสอบ TypeScript โดยไม่ compile
+typecheck	ตรวจสอบ TypeScript ไม่ compile
 lint	ตรวจสอบโค้ดด้วย ESLint
 check	รัน typecheck + lint พร้อมกัน
-analyze	วิเคราะห์ bundle size และ visualizer
+analyze	วิเคราะห์ bundle size + visualizer
 
 
 
@@ -79,29 +62,11 @@ analyze	วิเคราะห์ bundle size และ visualizer
 
 🚀 การใช้งาน
 
-ติดตั้ง Dependency
-
-pnpm install
-# หรือ
-yarn install
-# หรือ
-npm install
-
-Development (SPA)
-
-pnpm run dev
-
-Start API Server
-
-pnpm run start:api
-
-Build Production
-
-pnpm run build
-
-Preview Production Build
-
-pnpm run preview
+pnpm install      # หรือ yarn install / npm install
+pnpm run dev      # รัน dev server SPA
+pnpm run start:api  # รัน API server
+pnpm run build    # สร้าง production build
+pnpm run preview  # Preview build
 
 
 ---
@@ -130,11 +95,11 @@ src/
 
 ใช้ vite.config.mjs และ tailwind.config.mjs เพื่อรองรับ ESM
 
-React Router DOM ควรใช้เวอร์ชัน 6.x สำหรับความเสถียรกับ TypeScript
+React Router DOM แนะนำเวอร์ชัน 6.x สำหรับความเสถียรกับ TypeScript
 
-ค่าที่ขึ้นต้น VITE_ จะถูกแปลงเข้าสู่ client-side โดยอัตโนมัติ
+ตัวแปร VITE_ inject เข้า client อัตโนมัติ
 
-รองรับ theme mode (light/dark) ด้วย localStorage และ DaisyUI data-theme
+รองรับ theme mode (light/dark) ด้วย localStorage + DaisyUI data-theme
 
 
 
@@ -151,8 +116,8 @@ Private Project — ไม่เผยแพร่ต่อสาธารณะ
 
 Email: myub25217@gmail.com
 
-GitHub: myub217/projects
+GitHub: https://github.com/myub217/projects
 
 
-
+ต้องการไฟล์ markdown หรือไฟล์อื่นๆ แจ้งได้เลยครับ
 

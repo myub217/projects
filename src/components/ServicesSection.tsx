@@ -1,3 +1,4 @@
+// src/components/ServicesSection.tsx
 import React from "react";
 import ServiceCard from "./ServiceCard";
 import { services } from "../data/servicesData";
@@ -10,7 +11,7 @@ export interface Service {
   image: string;
   altText?: string;
   available: boolean;
-  comingSoonNote?: string;
+  comingSoonNote?: string | null; // allow null for compatibility with data
 }
 
 interface ServicesSectionProps {
@@ -49,7 +50,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ onRequest }) => {
               <ServiceCard
                 service={service}
                 disabled={!service.available}
-                // ลบ onRequest เพื่อให้ลิงก์ไป LINE OA โดยตรง
+                // onRequest prop intentionally removed to let ServiceCard handle direct link
                 // onRequest={onRequest ? () => onRequest(service) : undefined}
               />
               {!service.available && service.comingSoonNote && (

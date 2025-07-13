@@ -3,12 +3,13 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import { visualizer } from "rollup-plugin-visualizer";
 import strip from "@rollup/plugin-strip";
+import history from "connect-history-api-fallback";
 
 export default defineConfig(({ mode }) => {
-  const isDev = mode === "development";
   const env = loadEnv(mode, process.cwd());
+  const isDev = mode === "development";
 
-  // กำหนดตัวแปร process.env.VITE_... ให้ครบ
+  // แปลง .env → process.env.VITE_*
   const defineEnv = Object.fromEntries(
     Object.entries(env)
       .filter(([key]) => key.startsWith("VITE_"))
@@ -16,7 +17,8 @@ export default defineConfig(({ mode }) => {
   );
 
   return {
-    base: "/",
+    base: env.VITE_BASE_URL || "/",
+
     plugins: [
       react(),
       !isDev &&
@@ -48,6 +50,10 @@ export default defineConfig(({ mode }) => {
       fs: {
         allow: ["."],
       },
+      middlewareMode: false,
+      configureServer(server) {
+        server.middlewares.use(history());
+      },
     },
 
     preview: {
@@ -58,6 +64,7 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: env.VITE_BUILD_OUTDIR || "dist",
       sourcemap: true,
+      assetsInlineLimit: 4096,
       rollupOptions: {
         output: {
           manualChunks(id) {

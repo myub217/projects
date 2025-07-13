@@ -2,21 +2,33 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "moduleResolution": "bundler",
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
     "jsx": "react-jsx",
-
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "types": ["vite/client"]
   },
+  "include": [
+    "src",
+    "vite.config.mjs",
+    "tailwind.config.mjs",
+    "eslint.config.js"
+  ],
+  "exclude": ["node_modules", "dist"],
   "ts-node": {
-    "esm": true
+    "esm": true,
+    "compilerOptions": {
+      "module": "ESNext",
+      "target": "ES2022"
+    }
   }
 }

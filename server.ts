@@ -4,43 +4,41 @@ import path from "path";
 import { fileURLToPath } from "url";
 import history from "connect-history-api-fallback";
 import dotenv from "dotenv";
-import apiRouter from "./api/apiAdmin"; // ✅ ไม่ใส่นามสกุลเพื่อรองรับ TypeScript build/dev
+import apiRouter from "./api/apiAdmin"; // ไม่ใส่นามสกุล รองรับ TS build/dev
 
 /**
- * ✅ Express Server Config: JP Visual & Docs
- * - ใช้ร่วมกับ Vite build output (dist)
- * - รองรับ React SPA (react-router)
- * - โหลด environment variables จาก .env
- * - รองรับ API routing ที่ /api
+ * Express Server Config: JP Visual & Docs
+ * - รองรับ Vite build output (dist)
+ * - React SPA routing fallback (react-router)
+ * - โหลด env variables จาก .env
+ * - API routing prefix /api
  */
 
-dotenv.config(); // โหลดตัวแปรจาก .env
+dotenv.config();
 
-// แปลง ESM __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 
-// Middleware: รองรับ JSON และ form-urlencoded
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// SPA routing fallback แต่กัน /api/* ไม่ให้ fallback
+// SPA fallback ยกเว้น /api/*
 app.use(
   history({
-    rewrites: [{ from: /^\/api\/.*$/, to: (context) => context.parsedUrl.pathname }],
+    rewrites: [{ from: /^\/api\/.*$/, to: (context) => context.parsedUrl.pathname || "" }],
   })
 );
 
-// Static file serving (จาก Vite build)
+// Static files from Vite build
 app.use(express.static(path.join(__dirname, "dist")));
 
-// API Routes (prefix: /api)
+// API routes prefix /api
 app.use("/api", apiRouter);
 
-// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 
 interface MobileMenuProps {
+  id?: string; // เพิ่ม id เพื่อรองรับ aria-controls
   isOpen: boolean;
   onClose: () => void;
   links: { label: string; href: string; highlight?: boolean }[];
@@ -15,6 +16,7 @@ interface MobileMenuProps {
 let scrollLockCount = 0;
 
 const MobileMenu: React.FC<MobileMenuProps> = ({
+  id,
   isOpen,
   onClose,
   links,
@@ -141,6 +143,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 
           <motion.div
             key="menu"
+            id={id}
             ref={menuRef}
             initial={{ x: "100%" }}
             animate={{ x: 0 }}

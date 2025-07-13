@@ -2,12 +2,15 @@
 const config = {
   displayName: 'modular-onepage',
   testEnvironment: 'jsdom',
+  testEnvironmentOptions: {
+    resources: 'usable', // จัดการ resource lifecycle jsdom
+  },
   roots: ['<rootDir>/src'],
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'], // ถ้า setup เป็น TS
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   collectCoverage: true,
   coverageDirectory: '<rootDir>/coverage',

@@ -2,7 +2,7 @@
   "name": "Modular OnePage",
   "short_name": "OnePage",
   "version": "1.0.0",
-  "description": "A modular modern one-page app using React, Vite, TailwindCSS, and Express API",
+  "description": "A modular modern one-page app built with React, Vite, TailwindCSS, and Express API.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -54,11 +54,20 @@
     }
   ],
   "categories": ["productivity", "utilities"],
-  "dir": "ltr",
-  "description": "A modular modern one-page app built with React, Vite, TailwindCSS, and Express API.",
   "prefer_related_applications": false,
   "related_applications": [],
   "screenshots": [],
   "shortcuts": [],
-  "iar": {}
+  "iar": {},
+  "description_long": "Modular OnePage is a performant, scalable single-page application (SPA) built with React 18, Vite 4, TailwindCSS 3, DaisyUI, and an Express backend API. It supports light/dark themes, localization, analytics, and GitHub integration.",
+  "developer": {
+    "name": "Ohmydevhack",
+    "url": "https://github.com/myub217"
+  },
+  "serviceworker": {
+    "src": "/service-worker.js",
+    "scope": "/",
+    "type": "module",
+    "update_via_cache": "none"
+  }
 }

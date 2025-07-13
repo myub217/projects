@@ -174,7 +174,7 @@ export default {
           info: "#60A5FA",
           success: "#4ADE80",
           warning: "#FACC15",
-          error: "#F87171",
+          error: "#F87171"
         },
       },
       {
@@ -191,7 +191,7 @@ export default {
           info: "#3B82F6",
           success: "#22C55E",
           warning: "#EAB308",
-          error: "#EF4444",
+          error: "#EF4444"
         },
       },
       {
@@ -208,7 +208,7 @@ export default {
           info: "#3B82F6",
           success: "#22C55E",
           warning: "#F59E0B",
-          error: "#EF4444",
+          error: "#EF4444"
         },
       },
     ],

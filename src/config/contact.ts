@@ -43,4 +43,4 @@ export const contactLinks: ContactLink[] = [
 ];
 
 export const getContactHref = (type: ContactType): string =>
-  contactLinks.find((c) => c.type === type)?.href || "#";
+  contactLinks.find((c) => c.type === type)?.href || "";

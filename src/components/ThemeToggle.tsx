@@ -1,40 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-const THEME_KEY = "app-theme";
-type Theme = "platinum" | "platinum-dark";
+export type Theme = "light" | "dark" | "platinum" | "platinum-dark";
 
-// ดึง theme เริ่มต้นจาก localStorage หรือ system preference
-const getInitialTheme = (): Theme => {
-  if (typeof window === "undefined") return "platinum";
-  const stored = localStorage.getItem(THEME_KEY);
-  if (stored === "platinum" || stored === "platinum-dark") {
-    return stored as Theme;
-  }
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "platinum-dark"
-    : "platinum";
-};
+interface ThemeToggleProps {
+  theme: Theme;
+  toggleTheme: () => void;
+}
 
-// ตั้งค่า theme: class + data-theme
-const applyTheme = (theme: Theme) => {
-  const root = document.documentElement;
-  root.setAttribute("data-theme", theme);
-  root.classList.toggle("dark", theme === "platinum-dark");
-};
-
-const ThemeToggle: React.FC = () => {
-  const [theme, setTheme] = useState<Theme>(() => getInitialTheme());
-
-  useEffect(() => {
-    applyTheme(theme);
-    localStorage.setItem(THEME_KEY, theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "platinum" ? "platinum-dark" : "platinum"));
-  };
-
-  const isLight = theme === "platinum";
+const ThemeToggle: React.FC<ThemeToggleProps> = ({ theme, toggleTheme }) => {
+  // ให้ isLight ตรวจแค่ light, platinum เป็นสว่าง
+  const isLight = theme === "light" || theme === "platinum";
 
   return (
     <button

@@ -1,7 +1,7 @@
 // src/components/Header.tsx
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { Menu, X } from "lucide-react";
-import ThemeToggle from "@/components/ThemeToggle";
+import ThemeToggle, { Theme } from "@/components/ThemeToggle";
 import MobileMenu from "@/components/MobileMenu";
 import LogoApplicationlubmobile from "@/components/LogoSecretApp";
 
@@ -20,7 +20,7 @@ const navLinks: NavLink[] = [
 ];
 
 interface HeaderProps {
-  theme: "light" | "dark";
+  theme: Theme;
   toggleTheme: () => void;
 }
 
@@ -75,7 +75,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
             <LogoApplicationlubmobile
               className="h-10 w-auto max-w-[200px] cursor-pointer"
               aria-label="โลโก้ Applicationlubmobile"
-              colorScheme={theme === "dark" ? "dark" : "light"}
+              colorScheme={theme === "platinum-dark" ? "dark" : "light"}
             />
           </a>
 
