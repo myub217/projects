@@ -31,6 +31,7 @@ lerna-debug.log*
 # ===============================
 .env
 .env.*  # เช่น .env.development, .env.production, .env.local
+env-vars-*.txt
 
 # ===============================
 # 💻 Editor / OS-specific
