@@ -1,0 +1,97 @@
+🧠 สรุปภาพรวมโปรเจกต์: modular-onepage
+
+📦 Stack:
+React, TypeScript, Vite, TailwindCSS, DaisyUI, Express, Framer Motion
+
+🔧 Config:
+✅ vite.config.mjs
+✅ tailwind.config.mjs
+✅ tsconfig.json
+✅ eslint.config.mjs
+
+🧩 Components:
+- src/components/About.tsx
+- src/components/AdminBoard/Dashboard.tsx
+- src/components/AdminBoard/RepoList.tsx
+- src/components/AdminBoard/StatsPanel.tsx
+- src/components/AdminBoard/UserTable.tsx
+- src/components/Feature.tsx
+- src/components/Features/Feature1.tsx
+- src/components/Features/Feature2.tsx
+- src/components/Features/Feature3.tsx
+- src/components/Features/Feature4.tsx
+
+📦 Dependencies:
+connect-history-api-fallback, dotenv, express, framer-motion, lucide-react, node-fetch, react, react-dom, react-icons, react-router-dom
+
+🧰 DevDependencies:
+@eslint/js, @rollup/plugin-strip, @tailwindcss/typography, @testing-library/jest-dom, @types/express, @types/node, @types/react, @types/react-dom, @typescript-eslint/eslint-plugin, @typescript-eslint/parser, @vitejs/plugin-react, autoprefixer, concurrently, daisyui, depcheck, eslint, eslint-config-prettier, eslint-plugin-react, eslint-plugin-tailwindcss, eslint-plugin-unused-imports, globals, jest-fetch-mock, postcss, prettier, rollup-plugin-visualizer, tailwindcss, tsx, typescript, vite
+
+⚙️ Scripts:
+analyze, build, check, check:dep, clean, dev, format, lint, preview, start, start:api, typecheck
+
+📂 โครงสร้าง:
+.
+├── Clean.sh
+├── README.md
+├── api
+│   ├── apiAdmin.ts
+│   └── apiClient.ts
+├── build-20250714-023030.log
+├── depcheck.config.js
+├── env-20250714-023030.txt
+├── env-20250714-023532.txt
+├── eslint.config.mjs
+├── full-setup.sh
+├── generate-info.sh
+├── index.html
+├── jest.config.js
+├── jest.setup.js
+├── node_modules
+│   ├── @adobe
+│   │   └── css-tools -> ../.pnpm/@adobe+css-tools@4.4.3/node_modules/@adobe/css-tools
+│   ├── @alloc
+
+📄 Build log:
+dist/index.html                         3.66 kB │ gzip:   1.39 kB
+dist/assets/hero-C1-WP8yC.webp         25.12 kB
+dist/assets/review9-DhFu7Jzq.png       36.39 kB
+dist/assets/signature-BovtCThw.webp    37.33 kB
+dist/assets/review4-CBioFpeu.png       45.74 kB
+dist/assets/review2-Bz0_BXyV.png       52.89 kB
+dist/assets/review8-kXAHO_8W.png       55.52 kB
+dist/assets/review10-D0SwORip.png      55.55 kB
+dist/assets/review1-7dlrv2oA.png       55.60 kB
+dist/assets/review7-Bt93fMFo.png       59.97 kB
+dist/assets/review3-UloQNvHI.png       65.21 kB
+dist/assets/review5-CAS9ctNR.png       68.45 kB
+dist/assets/review6-C1CShlkS.png       71.48 kB
+dist/assets/about-us-IgS6mAQi.webp    155.52 kB
+dist/assets/jp-logo-DClkmN1r.png      269.03 kB
+dist/assets/index--4Hv1i_j.css         92.21 kB │ gzip:  15.31 kB
+dist/assets/vendor-7MNLQXq8.js         54.09 kB │ gzip:  20.52 kB │ map:   471.31 kB
+dist/assets/index-i7fNLzYr.js         153.92 kB │ gzip:  30.39 kB │ map:   236.74 kB
+dist/assets/vendor-react-CzfVloZR.js  446.94 kB │ gzip: 139.24 kB │ map: 3,875.91 kB
+✓ built in 26.91s
+
+🚫 Unused:
+N/A
+
+❗ Missing:
+N/A
+
+🧹 Unused imports:
+→ eslint-unused-20250714-023532.log
+
+--------------------------------------------------
+🔁 AI Dev Partner Instructions:
+
+1. วิเคราะห์ config, dependencies, โครงสร้าง และผลลัพธ์ build
+2. ลิสต์ไฟล์สำคัญตามลำดับ (เช่น entry point, core config, logic, routing)
+3. ร้องขอไฟล์ที่จำเป็นจากมนุษย์ก่อนลงลึก (อย่าคาดเดา)
+4. แก้ไขทันทีถ้ามี input พอ — ไม่อธิบายเกินความจำเป็น
+5. หากแก้ไม่ได้ ให้วนต่อจากผลลัพธ์เดิม
+6. คำตอบต้อง Dev-to-Dev — ตรง ประชิด ชัด ไม่อ้อม
+
+📌 พร้อมสำหรับ Dev ร่วมกับ AI อย่างแท้จริง
+--------------------------------------------------

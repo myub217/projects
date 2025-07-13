@@ -9,7 +9,6 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
   const isDev = mode === "development";
 
-  // แปลง .env → process.env.VITE_*
   const defineEnv = Object.fromEntries(
     Object.entries(env)
       .filter(([key]) => key.startsWith("VITE_"))
@@ -65,17 +64,31 @@ export default defineConfig(({ mode }) => {
       outDir: env.VITE_BUILD_OUTDIR || "dist",
       sourcemap: true,
       assetsInlineLimit: 4096,
+      preloadModules: true,
       rollupOptions: {
         output: {
+          entryFileNames: "assets/[name]-[hash].js",
+          chunkFileNames: "assets/[name]-[hash].js",
+          assetFileNames: "assets/[name]-[hash][extname]",
           manualChunks(id) {
             if (id.includes("node_modules")) {
               if (id.includes("react")) return "vendor-react";
+              if (id.includes("framer-motion")) return "vendor-framer";
               if (id.includes("tailwindcss")) return "vendor-tailwind";
               return "vendor";
             }
           },
         },
       },
+    },
+
+    optimizeDeps: {
+      include: [
+        "react",
+        "react-dom",
+        "react-router-dom",
+        "framer-motion",
+      ],
     },
 
     css: {

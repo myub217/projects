@@ -4,6 +4,7 @@ import tsPlugin from "@typescript-eslint/eslint-plugin";
 import reactPlugin from "eslint-plugin-react";
 import tailwindPlugin from "eslint-plugin-tailwindcss";
 import prettierConfig from "eslint-config-prettier";
+import unusedImportsPlugin from "eslint-plugin-unused-imports";
 
 export default [
   js.configs.recommended,
@@ -16,10 +17,17 @@ export default [
         project: "./tsconfig.json",
       },
     },
-    plugins: { "@typescript-eslint": tsPlugin },
+    plugins: { 
+      "@typescript-eslint": tsPlugin,
+      "unused-imports": unusedImportsPlugin,
+    },
     rules: {
       "@typescript-eslint/no-unused-vars": "warn",
-      // เพิ่ม rules ที่ต้องการ
+      "unused-imports/no-unused-imports": "error",
+      "unused-imports/no-unused-vars": [
+        "warn",
+        { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+      ],
     },
   },
 

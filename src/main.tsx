@@ -11,7 +11,6 @@ import LoginPage from "./pages/LoginPage";
 import SecretRoomPage from "./pages/SecretRoomPage";
 
 const THEME_KEY = "app-theme";
-
 export type ThemeMode = "light" | "dark";
 
 const App: React.FC = () => {
@@ -19,13 +18,8 @@ const App: React.FC = () => {
 
   const applyTheme = useCallback((mode: ThemeMode) => {
     const root = document.documentElement;
-    if (mode === "dark") {
-      root.classList.add("dark");
-      root.setAttribute("data-theme", "bluewhite-dark");
-    } else {
-      root.classList.remove("dark");
-      root.setAttribute("data-theme", "bluewhite");
-    }
+    root.classList.toggle("dark", mode === "dark");
+    root.setAttribute("data-theme", mode === "dark" ? "bluewhite-dark" : "bluewhite");
     localStorage.setItem(THEME_KEY, mode);
   }, []);
 
@@ -63,4 +57,9 @@ const App: React.FC = () => {
   );
 };
 
-ReactDOM.createRoot(document.getElementById("root")!).render(<App />);
+const rootEl = document.getElementById("root");
+if (rootEl) {
+  ReactDOM.createRoot(rootEl).render(<App />);
+} else {
+  console.error("⚠️ Root element not found: #root");
+}

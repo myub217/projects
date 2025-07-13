@@ -1,22 +1,23 @@
 #!/bin/bash
 set -euo pipefail
+IFS=$'\n\t'
 
-# 🎯 เริ่มการวิเคราะห์โปรเจกต์
+# 📅 Timestamp
+NOW=$(date +"%Y%m%d-%H%M%S")
 
-# 📅 Timestamp สำหรับตั้งชื่อไฟล์
-TIMESTAMP=$(LC_ALL=C date +"%Y%m%d-%H%M%S")
+# 📄 Output files
+INFO_JSON="project-info-${NOW}.json"
+ENV_TXT="env-${NOW}.txt"
+TREE_TXT="tree-${NOW}.txt"
+BUILD_LOG="build-${NOW}.log"
+SUMMARY_PROMPT="summary-${NOW}.txt"
+DEPCHECK_JSON="depcheck-${NOW}.json"
+ESLINT_LOG="eslint-unused-${NOW}.log"
 
-# 📂 ชื่อไฟล์ผลลัพธ์
-INFO_JSON="project-info-$TIMESTAMP.json"
-ENV_TXT="env-vars-$TIMESTAMP.txt"
-TREE_TXT="project-structure-$TIMESTAMP.txt"
-BUILD_LOG="build-$TIMESTAMP.log"
-SUMMARY_PROMPT="project-summary-prompt-$TIMESTAMP.txt"
-DEPCHECK_JSON="depcheck-$TIMESTAMP.json"
-ESLINT_LOG="eslint-unused-$TIMESTAMP.log"
-
+# ✅ Tools check
 echo -e "\n🟦 [1/8] ตรวจสอบเครื่องมือพื้นฐาน..."
-for TOOL in jq depcheck eslint node; do
+REQUIRED_TOOLS=(jq depcheck eslint node)
+for TOOL in "${REQUIRED_TOOLS[@]}"; do
   if ! command -v "$TOOL" &>/dev/null; then
     echo "⚠️ ไม่พบ $TOOL → ติดตั้ง..."
     npm install -g "$TOOL"
@@ -25,51 +26,40 @@ for TOOL in jq depcheck eslint node; do
   fi
 done
 
-# ----------------------------------
-
-echo -e "\n🟦 [2/8] ตรวจสอบไฟล์สำคัญของโปรเจกต์..."
-CONFIG_FILES=(vite.config.mjs tailwind.config.mjs tsconfig.json eslint.config.mjs)
+# 🔧 Config check
+echo -e "\n🟦 [2/8] ตรวจสอบ config..."
+CONFIG_FILES=(vite.config.mjs tailwind.config.mjs tsconfig.json eslint.config.mjs depcheck.config.js)
 CONFIG_STATUS=()
 for FILE in "${CONFIG_FILES[@]}"; do
-  [ -f "$FILE" ] && CONFIG_STATUS+=("✅ $FILE") || CONFIG_STATUS+=("❌ $FILE")
+  [[ -f "$FILE" ]] && CONFIG_STATUS+=("✅ $FILE") || CONFIG_STATUS+=("❌ $FILE")
 done
 
-if [ ! -r "package.json" ]; then
-  echo "❌ ไม่สามารถอ่าน package.json"; exit 1
+if [[ ! -f package.json ]]; then
+  echo "❌ ไม่พบ package.json"
+  exit 1
 fi
 
 PROJECT_NAME=$(jq -r '.name // "Unnamed Project"' package.json)
 jq '{dependencies, devDependencies, scripts}' package.json > "$INFO_JSON"
 echo "✅ export → $INFO_JSON"
 
-# ----------------------------------
-
-echo -e "\n🟦 [3/8] ดึง ENV และโครงสร้างโฟลเดอร์..."
-if [ -f .env ]; then
-  cp .env "$ENV_TXT"
-else
-  printenv > "$ENV_TXT"
-fi
-echo "✅ ENV → $ENV_TXT"
-
-generate_tree() {
-  if command -v tree &>/dev/null; then
-    tree -L "$1"
-  else
-    find . -maxdepth "$1" -print
-  fi
-}
+# 🌱 Env + Tree
+echo -e "\n🟦 [3/8] ENV & โครงสร้าง"
+[[ -f .env ]] && cp .env "$ENV_TXT" || printenv > "$ENV_TXT"
+generate_tree() { command -v tree &>/dev/null && tree -L "$1" || find . -maxdepth "$1" -print | sed 's|^\./||'; }
 generate_tree 3 > "$TREE_TXT"
-echo "✅ โครงสร้าง → $TREE_TXT"
+echo "✅ ENV → $ENV_TXT, TREE → $TREE_TXT"
 
-# ----------------------------------
-
-echo -e "\n🟦 [4/8] รัน build (เลือกคำสั่งอัตโนมัติ)..."
-if command -v pnpm &>/dev/null; then BUILD_CMD=(pnpm run build)
-elif command -v yarn &>/dev/null; then BUILD_CMD=(yarn build)
-else BUILD_CMD=(npm run build); fi
-
-echo "🛠️ คำสั่ง: ${BUILD_CMD[*]}"
+# ⚙️ Build
+echo -e "\n🟦 [4/8] Build..."
+if command -v pnpm &>/dev/null; then
+  BUILD_CMD=(pnpm run build)
+elif command -v yarn &>/dev/null; then
+  BUILD_CMD=(yarn build)
+else
+  BUILD_CMD=(npm run build)
+fi
+echo "▶️ ${BUILD_CMD[*]}"
 if "${BUILD_CMD[@]}" > "$BUILD_LOG" 2>&1; then
   echo "✅ build สำเร็จ → $BUILD_LOG"
 else
@@ -77,45 +67,47 @@ else
   exit 1
 fi
 
-# ----------------------------------
+# 🧩 Components
+echo -e "\n🟦 [5/8] ตัวอย่าง Components..."
+if [[ -d src/components ]]; then
+  TOP_COMPONENTS=$(find src/components -type f -name "*.tsx" | head -n 10 | sed 's/^/- /')
+  COMPONENT_COUNT=$(echo "$TOP_COMPONENTS" | wc -l)
+else
+  TOP_COMPONENTS="(ไม่มี)"
+  COMPONENT_COUNT=0
+fi
+echo "✅ $COMPONENT_COUNT ไฟล์"
 
-echo -e "\n🟦 [5/8] ตรวจสอบ Component ตัวอย่าง..."
-TOP_COMPONENTS=$(find src/components -type f -name "*.tsx" 2>/dev/null | head -n 10 | sed 's/^/- /' || echo "(ไม่มี)")
-echo "✅ รายการ Component: $(echo "$TOP_COMPONENTS" | wc -l) ไฟล์"
-
-# ----------------------------------
-
-echo -e "\n🟦 [6/8] ตรวจสอบ Dependencies ที่ไม่ถูกใช้ (depcheck)..."
-depcheck --config depcheck.config.js --json > "$DEPCHECK_JSON" || echo "⚠️ depcheck มี error"
+# 📦 depcheck
+echo -e "\n🟦 [6/8] depcheck..."
+depcheck --json --config=depcheck.config.js > "$DEPCHECK_JSON" 2>/dev/null || echo "{}" > "$DEPCHECK_JSON"
 echo "✅ depcheck → $DEPCHECK_JSON"
 
-# ----------------------------------
-
-echo -e "\n🟦 [7/8] ตรวจสอบ unused imports (eslint)..."
+# 🧹 ESLint
+echo -e "\n🟦 [7/8] unused imports..."
 eslint --ext .ts,.tsx,.js,.jsx --rule 'unused-imports/no-unused-imports: error' ./src > "$ESLINT_LOG" 2>&1 || true
-echo "✅ eslint → $ESLINT_LOG"
+echo "✅ eslint log → $ESLINT_LOG"
 
-# ----------------------------------
-
-echo -e "\n🟦 [8/8] สรุปผลทั้งหมด..."
-DEPS=$(jq -r '.dependencies | keys | join(", ")' "$INFO_JSON")
-DEV_DEPS=$(jq -r '.devDependencies | keys | join(", ")' "$INFO_JSON")
-SCRIPTS=$(jq -r '.scripts | keys | join(", ")' "$INFO_JSON")
-DEPCHECK_UNUSED=$(jq -r '.dependencies // {} | keys | join(", ")' "$DEPCHECK_JSON")
-DEPCHECK_MISSING=$(jq -r '.missing // {} | keys | join(", ")' "$DEPCHECK_JSON")
-TREE_PREVIEW=$(head -n 20 "$TREE_TXT")
-BUILD_PREVIEW=$(tail -n 20 "$BUILD_LOG")
+# 📄 Summary
+echo -e "\n🟦 [8/8] สร้าง summary prompt..."
+DEPS=$(jq -r '.dependencies | keys | join(", ")' "$INFO_JSON" 2>/dev/null || echo "N/A")
+DEV_DEPS=$(jq -r '.devDependencies | keys | join(", ")' "$INFO_JSON" 2>/dev/null || echo "N/A")
+SCRIPTS=$(jq -r '.scripts | keys | join(", ")' "$INFO_JSON" 2>/dev/null || echo "N/A")
+DEPCHECK_UNUSED=$(jq -r '.dependencies | keys | join(", ")' "$DEPCHECK_JSON" 2>/dev/null || echo "N/A")
+DEPCHECK_MISSING=$(jq -r '.missing | keys | join(", ")' "$DEPCHECK_JSON" 2>/dev/null || echo "N/A")
+TREE_PREVIEW=$(head -n 20 "$TREE_TXT" || echo "(แสดงไม่ได้)")
+BUILD_PREVIEW=$(tail -n 20 "$BUILD_LOG" || echo "(แสดงไม่ได้)")
 
 cat > "$SUMMARY_PROMPT" <<EOF
 🧠 สรุปภาพรวมโปรเจกต์: $PROJECT_NAME
 
-📦 เทคโนโลยีที่ใช้:
+📦 Stack:
 React, TypeScript, Vite, TailwindCSS, DaisyUI, Express, Framer Motion
 
-🔧 ไฟล์ config ที่สำคัญ:
+🔧 Config:
 $(printf '%s\n' "${CONFIG_STATUS[@]}")
 
-🧩 ตัวอย่าง Component หลัก:
+🧩 Components:
 $TOP_COMPONENTS
 
 📦 Dependencies:
@@ -127,23 +119,34 @@ $DEV_DEPS
 ⚙️ Scripts:
 $SCRIPTS
 
-📂 โครงสร้างโฟลเดอร์ (ตัวอย่าง):
+📂 โครงสร้าง:
 $TREE_PREVIEW
 
-📄 ผลลัพธ์ build (ท้าย log):
+📄 Build log:
 $BUILD_PREVIEW
 
-🚫 Dependencies ที่ไม่ถูกใช้งาน (depcheck):
+🚫 Unused:
 $DEPCHECK_UNUSED
 
-❗ Missing dependencies ที่โปรเจกต์เรียกใช้ แต่ไม่ได้ติดตั้ง (depcheck):
+❗ Missing:
 $DEPCHECK_MISSING
 
-🧹 รายการ unused imports ตาม eslint:
+🧹 Unused imports:
 → $ESLINT_LOG
 
-📌 พร้อมใช้สำหรับวิเคราะห์/commit ต่อ
+--------------------------------------------------
+🔁 AI Dev Partner Instructions:
+
+1. วิเคราะห์ config, dependencies, โครงสร้าง และผลลัพธ์ build
+2. ลิสต์ไฟล์สำคัญตามลำดับ (เช่น entry point, core config, logic, routing)
+3. ร้องขอไฟล์ที่จำเป็นจากมนุษย์ก่อนลงลึก (อย่าคาดเดา)
+4. แก้ไขทันทีถ้ามี input พอ — ไม่อธิบายเกินความจำเป็น
+5. หากแก้ไม่ได้ ให้วนต่อจากผลลัพธ์เดิม
+6. คำตอบต้อง Dev-to-Dev — ตรง ประชิด ชัด ไม่อ้อม
+
+📌 พร้อมสำหรับ Dev ร่วมกับ AI อย่างแท้จริง
+--------------------------------------------------
 EOF
 
-echo -e "\n✅ บันทึกสรุป → $SUMMARY_PROMPT"
+echo "✅ export → $SUMMARY_PROMPT"
 echo "🎉 เสร็จสมบูรณ์!"

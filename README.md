@@ -19,29 +19,7 @@
 
 ## 📁 โครงสร้างโปรเจกต์ (ตัวอย่าง)
 
-.
-├── Clean.sh
-├── README.md
-├── api/
-│   ├── apiAdmin.ts
-│   └── apiClient.ts
-├── dist/
-├── env-vars-20250713-223029.txt
-├── eslint.config.mjs
-├── full-setup.sh
-├── index.html
-├── jest.config.js
-├── jest.setup.js
-├── node_modules/
-├── package.json
-├── src/
-│   ├── components/
-│   ├── App.tsx
-│   ├── main.tsx
-├── tailwind.config.mjs
-├── tsconfig.json
-├── tsconfig.base.json
-├── vite.config.mjs
+. ├── Clean.sh ├── README.md ├── api/ │   ├── apiAdmin.ts │   └── apiClient.ts ├── dist/ ├── env-vars-20250713-223029.txt ├── eslint.config.mjs ├── full-setup.sh ├── index.html ├── jest.config.js ├── jest.setup.js ├── node_modules/ ├── package.json ├── src/ │   ├── components/ │   ├── App.tsx │   ├── main.tsx ├── tailwind.config.mjs ├── tsconfig.json ├── tsconfig.base.json ├── vite.config.mjs
 
 ---
 
@@ -57,7 +35,7 @@ VITE_OPEN_BROWSER=true
 VITE_OPEN_REPORT=true
 VITE_BUILD_OUTDIR=dist
 
-> ✅ ตัวแปรขึ้นต้น VITE_ จะถูก inject เข้าสู่ client bundle อัตโนมัติ
+> ✅ ตัวแปรที่ขึ้นต้นด้วย VITE_ จะถูก inject เข้าสู่ client bundle อัตโนมัติ
 
 
 
@@ -137,3 +115,7 @@ Private Project — ไม่เผยแพร่ต่อสาธารณะ
 Email: myub25217@gmail.com
 
 GitHub: github.com/myub217/projects
+
+
+
+

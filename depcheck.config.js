@@ -1,6 +1,7 @@
 // depcheck.config.js
+const depcheck = require("depcheck");
+
 module.exports = {
-  // 📁 โฟลเดอร์ที่ไม่ต้องตรวจสอบ
   ignoreDirs: [
     "dist",
     "build",
@@ -14,10 +15,9 @@ module.exports = {
     "scripts",
     "Acode",
     "tmp",
-    "logs"
+    "logs",
   ],
 
-  // 📦 Dependencies ที่แม้จะไม่ได้ import โดยตรง แต่ก็ถูกใช้งานผ่าน config/tools
   ignoreMatches: [
     // TypeScript & ESLint
     "typescript",
@@ -50,6 +50,22 @@ module.exports = {
     // CLI Tools
     "depcheck",
     "prettier",
-    "dotenv"
-  ]
+    "dotenv",
+  ],
+
+  detectors: [
+    "importDeclaration",
+    "requireCallExpression",
+    "importCallExpression",
+    "exportDeclaration",
+    "jsxElement",
+    "tsconfigPaths",
+  ],
+
+  resolvePaths: ["./src"],
+
+  parsers: {
+    "**/*.ts": depcheck.parser.typescript,
+    "**/*.tsx": depcheck.parser.typescript,
+  },
 };
