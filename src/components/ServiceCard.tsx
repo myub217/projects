@@ -26,10 +26,15 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
     >
       <img
         src={service.image}
-        alt={service.altText || `ภาพบริการ: ${service.title}`}
+        alt={service.altText ?? `ภาพบริการ: ${service.title}`}
         className="w-full h-40 object-cover select-none"
         loading="lazy"
+        decoding="async"
         draggable={false}
+        onError={(e) => {
+          e.currentTarget.onerror = null;
+          e.currentTarget.src = "/assets/images/fallback-image.png";
+        }}
       />
       <div className="p-4 flex flex-col flex-grow">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">

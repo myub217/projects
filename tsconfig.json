@@ -12,7 +12,6 @@
     },
     "jsx": "react-jsx",
 
-    // ✅ เสริมเพื่อความเสถียรและลด warning ในโปรเจกต์ใหญ่
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true

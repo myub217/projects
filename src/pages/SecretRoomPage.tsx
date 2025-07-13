@@ -34,7 +34,7 @@ interface Report {
   lastDocumentStatus: string;
 }
 
-const LOGOUT_TIMEOUT_MS = 10 * 60 * 1000; // 10 นาที
+const LOGOUT_TIMEOUT_MS = 10 * 60 * 1000;
 
 function useAuthTimeout(onTimeout: () => void, initialTimeout = LOGOUT_TIMEOUT_MS) {
   const [timeLeft, setTimeLeft] = useState(initialTimeout);
@@ -81,7 +81,7 @@ function useFetchUserData() {
     setUsername(user);
 
     async function simulateFetch() {
-      await new Promise((r) => setTimeout(r, 500)); // ดีเลย์จำลอง
+      await new Promise((r) => setTimeout(r, 500));
 
       setReport({
         documentCount: 42,
@@ -128,6 +128,12 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
 
   const { timeLeft, reset } = useAuthTimeout(handleLogout);
 
+  useEffect(() => {
+    if (!username && !loading) {
+      navigate("/login");
+    }
+  }, [username, loading, navigate]);
+
   if (loading) {
     return (
       <>
@@ -145,7 +151,6 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
   }
 
   if (!username) {
-    navigate("/login");
     return null;
   }
 
@@ -168,26 +173,20 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
         >
           <WelcomeBanner username={username} />
 
-          {/* แสดงรายงานเอกสารและการกระทำด่วนใน grid 2 คอลัมน์ */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <DocumentSummaryPanel report={report} />
             <QuickActions />
           </div>
 
-          {/* บันทึกกิจกรรมล่าสุดและหมายเหตุระบบ */}
           <div className="space-y-6">
             <RecentActivityLog logs={logs} />
             <SystemNote message="ระบบกำลังอยู่ในช่วงทดสอบ โปรดตรวจสอบข้อมูลอย่างละเอียด" />
           </div>
 
-          {/* เอกสารหลัก */}
           <DocumentCert />
           <SalaryCertDocument />
-
-          {/* ฟีเจอร์เสริม */}
           <LayeredDocBlender />
 
-          {/* Section ออกจากระบบ พร้อมแสดงนับถอยหลัง */}
           <div className="pt-8 border-t border-gray-200 dark:border-gray-700">
             <div
               className="text-center text-sm text-gray-500 dark:text-gray-400 mb-5"
@@ -209,7 +208,6 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
           </div>
         </motion.section>
       </main>
-
       <AccessTimeout timeLeft={timeLeft} onTimeoutConfirm={handleLogout} />
       <Footer />
     </>

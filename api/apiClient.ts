@@ -25,7 +25,12 @@ async function apiFetch<T>(endpoint: string, options?: FetchOptions): Promise<T>
   });
 
   if (!res.ok) {
-    const errorText = await res.text();
+    let errorText = "";
+    try {
+      errorText = await res.text();
+    } catch {
+      errorText = "Unknown error";
+    }
     throw new Error(`API Error: ${res.status} ${res.statusText} - ${errorText}`);
   }
 
@@ -35,18 +40,23 @@ async function apiFetch<T>(endpoint: string, options?: FetchOptions): Promise<T>
 /**
  * 📌 Example: Get current user info
  */
-export const getCurrentUser = () => apiFetch<{ id: string; name: string; role: string }>("/user");
+export const getCurrentUser = (): Promise<{ id: string; name: string; role: string }> =>
+  apiFetch("/user");
 
 /**
  * 📌 Example: Get repository list
  */
-export const getRepoList = () => apiFetch<{ id: string; name: string; url: string }[]>("/repos");
+export const getRepoList = (): Promise<{ id: string; name: string; url: string }[]> =>
+  apiFetch("/repos");
 
 /**
  * 📌 Example: Login
  */
-export const login = (username: string, password: string) =>
-  apiFetch<{ token: string }>("/login", {
+export const login = (
+  username: string,
+  password: string
+): Promise<{ token: string }> =>
+  apiFetch("/login", {
     method: "POST",
     body: JSON.stringify({ username, password }),
   });

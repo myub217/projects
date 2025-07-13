@@ -3,12 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { users } from "../data/users";
 import { hashPassword } from "../utils/hashPassword";
 
-/**
- * LoginPage Component
- * - ฟอร์มล็อกอินพื้นฐาน พร้อมระบบ hash password
- * - ปรับปรุง UX / accessibility / dark mode
- * - ป้องกัน brute force โดย disable ปุ่ม submit ชั่วคราวหลังผิดพลาด 5 ครั้ง
- */
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -19,12 +13,10 @@ const LoginPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const usernameRef = useRef<HTMLInputElement>(null);
 
-  // Autofocus ชื่อผู้ใช้เมื่อโหลดหน้า
   useEffect(() => {
     usernameRef.current?.focus();
   }, []);
 
-  // โฟกัสกลับไป input username เมื่อมี error
   useEffect(() => {
     if (error) {
       usernameRef.current?.focus();
@@ -56,7 +48,6 @@ const LoginPage: React.FC = () => {
     try {
       const inputHash = await hashPassword(password);
       if (inputHash === user.passwordHash) {
-        // จำลองการล็อกอิน - โปรดเปลี่ยนเป็น cookie หรือ token จริงในระบบ production
         localStorage.setItem("authUser", trimmedUsername);
         localStorage.setItem("authRole", user.role);
         navigate("/secret");
@@ -111,7 +102,6 @@ const LoginPage: React.FC = () => {
         )}
 
         <form onSubmit={handleLogin} className="flex flex-col gap-5" noValidate>
-          {/* Username Input */}
           <input
             id="username"
             ref={usernameRef}
@@ -131,7 +121,6 @@ const LoginPage: React.FC = () => {
             }`}
           />
 
-          {/* Password Input */}
           <input
             id="password"
             type="password"
@@ -149,15 +138,12 @@ const LoginPage: React.FC = () => {
             }`}
           />
 
-          {/* Submit Button */}
           <button
             type="submit"
             aria-label="เข้าสู่ระบบ"
             disabled={isDisabled}
             className={`bg-primary text-primary-contrastText py-3 rounded-md hover:bg-primary-dark focus:outline-none focus:ring-4 focus:ring-primary focus:ring-opacity-50 transition ${
-              isDisabled
-                ? "opacity-50 cursor-not-allowed hover:bg-primary"
-                : ""
+              isDisabled ? "opacity-50 cursor-not-allowed hover:bg-primary" : ""
             }`}
           >
             เข้าสู่ระบบ

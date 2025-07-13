@@ -20,6 +20,7 @@ const AdminPage: React.FC = () => {
       className="p-6 space-y-6 bg-base-100 min-h-screen"
       aria-label="Admin Control Panel"
       tabIndex={-1}
+      role="main"
     >
       <h1 className="text-3xl font-bold text-primary">🛡️ Admin Control Panel</h1>
 

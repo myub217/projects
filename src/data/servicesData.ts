@@ -1,5 +1,15 @@
 // src/data/servicesData.ts
-import { Service } from "../components/ServicesSection";
+
+export interface Service {
+  id: number;
+  title: string;
+  description: string;
+  price: string;
+  image: string;
+  altText: string;
+  available: boolean;
+  comingSoonNote?: string | null;
+}
 
 export const services: Service[] = [
   {
@@ -11,7 +21,7 @@ export const services: Service[] = [
     image: "/images/services/service1.webp",
     altText: "ภาพประกอบบริการที่ปรึกษายื่นกู้สินเชื่อ",
     available: true,
-    comingSoonNote: undefined,
+    comingSoonNote: null,
   },
   {
     id: 2,
@@ -22,7 +32,7 @@ export const services: Service[] = [
     image: "/images/services/service2.webp",
     altText: "ภาพประกอบบริการดูแลเอกสารยื่นวีซ่า",
     available: true,
-    comingSoonNote: undefined,
+    comingSoonNote: null,
   },
   {
     id: 3,
@@ -33,7 +43,7 @@ export const services: Service[] = [
     image: "/images/services/service3.webp",
     altText: "ภาพประกอบบริการแก้ไขสร้างใหม่สลิปเอกสาร",
     available: true,
-    comingSoonNote: undefined,
+    comingSoonNote: null,
   },
   {
     id: 4,
@@ -44,7 +54,7 @@ export const services: Service[] = [
     image: "/images/services/service4.webp",
     altText: "ภาพประกอบบริการแก้ไขสร้างใหม่จัดหาเอกสาร",
     available: true,
-    comingSoonNote: undefined,
+    comingSoonNote: null,
   },
   {
     id: 5,
@@ -55,7 +65,7 @@ export const services: Service[] = [
     image: "/images/services/service5.webp",
     altText: "ภาพประกอบชิ้นงานจริงบัตรแข็งและอ่อน",
     available: true,
-    comingSoonNote: undefined,
+    comingSoonNote: null,
   },
   {
     id: 6,
@@ -66,7 +76,7 @@ export const services: Service[] = [
     image: "/images/services/service6.webp",
     altText: "ภาพประกอบบริการดูแลการตลาดครบวงจร",
     available: true,
-    comingSoonNote: undefined,
+    comingSoonNote: null,
   },
   {
     id: 7,
@@ -77,7 +87,7 @@ export const services: Service[] = [
     image: "/images/services/service7.webp",
     altText: "ภาพประกอบบริการออกแบบโลโก้และแบนเนอร์",
     available: true,
-    comingSoonNote: undefined,
+    comingSoonNote: null,
   },
   {
     id: 8,
@@ -88,7 +98,7 @@ export const services: Service[] = [
     image: "/images/services/service8.webp",
     altText: "ภาพประกอบระบบหลังบ้านธุรกิจ",
     available: true,
-    comingSoonNote: undefined,
+    comingSoonNote: null,
   },
   {
     id: 9,
@@ -99,7 +109,7 @@ export const services: Service[] = [
     image: "/images/services/service9.webp",
     altText: "ภาพประกอบโครงการให้น้องได้พักผ่อน",
     available: true,
-    comingSoonNote: undefined,
+    comingSoonNote: null,
   },
   {
     id: 10,
@@ -110,7 +120,7 @@ export const services: Service[] = [
     image: "/images/services/service10.webp",
     altText: "ภาพประกอบบริการสร้างภาพลักษณ์และทำลายภาพลักษณ์",
     available: true,
-    comingSoonNote: undefined,
+    comingSoonNote: null,
   },
   {
     id: 11,

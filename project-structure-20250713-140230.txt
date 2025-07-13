@@ -5,48 +5,7 @@
 ├── api
 │   ├── apiAdmin.ts
 │   └── apiClient.ts
-├── build.log
-├── dist
-│   ├── assets
-│   │   ├── about-us-IgS6mAQi.webp
-│   │   ├── hero-C1-WP8yC.webp
-│   │   ├── index-B726BqlN.css
-│   │   ├── index-DevQhSKk.js
-│   │   ├── index-DevQhSKk.js.map
-│   │   ├── jp-logo-DClkmN1r.png
-│   │   ├── krut.webp
-│   │   ├── krut1.webp
-│   │   ├── review1-7dlrv2oA.png
-│   │   ├── review10-D0SwORip.png
-│   │   ├── review2-Bz0_BXyV.png
-│   │   ├── review3-UloQNvHI.png
-│   │   ├── review4-CBioFpeu.png
-│   │   ├── review5-CAS9ctNR.png
-│   │   ├── review6-C1CShlkS.png
-│   │   ├── review7-Bt93fMFo.png
-│   │   ├── review8-kXAHO_8W.png
-│   │   ├── review9-DhFu7Jzq.png
-│   │   ├── signature-BovtCThw.webp
-│   │   ├── vendor-Bz9BtKzt.js
-│   │   ├── vendor-Bz9BtKzt.js.map
-│   │   ├── vendor-react-BK4_uHc0.js
-│   │   └── vendor-react-BK4_uHc0.js.map
-│   ├── favicon.ico
-│   ├── icons
-│   │   ├── icon-192x192.png
-│   │   └── icon-512x512.png
-│   ├── images
-│   │   ├── icons
-│   │   ├── portfolio-loan-success.jpg
-│   │   ├── portfolio-loan-success1.jpg
-│   │   ├── portfolio-loan-success2.jpg
-│   │   ├── portfolio-loan-success3.jpg
-│   │   ├── portfolio-loan-success4.jpg
-│   │   └── services
-│   ├── index.html
-│   ├── manifest.json
-│   └── report.html
-├── env-vars.txt
+├── env-vars-20250713-140230.txt
 ├── index.html
 ├── jest.config.js
 ├── node_modules
@@ -210,6 +169,8 @@
 │   ├── @rolldown
 │   │   └── pluginutils -> ../.pnpm/@rolldown+pluginutils@1.0.0-beta.19/node_modules/@rolldown/pluginutils
 │   ├── @rollup
+│   │   ├── plugin-strip -> ../.pnpm/@rollup+plugin-strip@3.0.4_rollup@4.45.0/node_modules/@rollup/plugin-strip
+│   │   ├── pluginutils -> ../.pnpm/@rollup+pluginutils@5.2.0_rollup@4.45.0/node_modules/@rollup/pluginutils
 │   │   └── rollup-android-arm64 -> ../.pnpm/@rollup+rollup-android-arm64@4.45.0/node_modules/@rollup/rollup-android-arm64
 │   ├── @rtsao
 │   │   └── scc -> ../.pnpm/@rtsao+scc@1.1.0/node_modules/@rtsao/scc
@@ -368,6 +329,7 @@
 │   ├── esquery -> .pnpm/esquery@1.6.0/node_modules/esquery
 │   ├── esrecurse -> .pnpm/esrecurse@4.3.0/node_modules/esrecurse
 │   ├── estraverse -> .pnpm/estraverse@5.3.0/node_modules/estraverse
+│   ├── estree-walker -> .pnpm/estree-walker@2.0.2/node_modules/estree-walker
 │   ├── esutils -> .pnpm/esutils@2.0.3/node_modules/esutils
 │   ├── etag -> .pnpm/etag@1.8.1/node_modules/etag
 │   ├── express -> .pnpm/express@5.1.0/node_modules/express
@@ -480,6 +442,7 @@
 │   ├── loose-envify -> .pnpm/loose-envify@1.4.0/node_modules/loose-envify
 │   ├── lru-cache -> .pnpm/lru-cache@5.1.1/node_modules/lru-cache
 │   ├── lucide-react -> .pnpm/lucide-react@0.525.0_react@18.3.1/node_modules/lucide-react
+│   ├── magic-string -> .pnpm/magic-string@0.30.17/node_modules/magic-string
 │   ├── math-intrinsics -> .pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics
 │   ├── media-typer -> .pnpm/media-typer@1.1.0/node_modules/media-typer
 │   ├── merge-descriptors -> .pnpm/merge-descriptors@2.0.0/node_modules/merge-descriptors
@@ -663,9 +626,9 @@
 ├── pnpm-workspace.yaml
 ├── postcss.config.cjs
 ├── postcss.config.js
+├── project-info-20250713-140230.json
 ├── project-info.json
-├── project-structure.txt
-├── project-summary-prompt.txt
+├── project-structure-20250713-140230.txt
 ├── public
 │   ├── assets
 │   │   ├── krut.webp
@@ -699,6 +662,7 @@
 │   ├── components
 │   │   ├── About.tsx
 │   │   ├── AdminBoard
+│   │   ├── CTASection.tsx
 │   │   ├── CustomerAssessmentForm.tsx
 │   │   ├── DocumentPreviewModal.tsx
 │   │   ├── ErrorBoundary.tsx
@@ -735,6 +699,6 @@
 ├── tailwind.config.mjs
 ├── tsconfig.json
 ├── vercel.json
-└── vite.config.ts
+└── vite.config.mjs
 
-640 directories, 98 files
+638 directories, 64 files

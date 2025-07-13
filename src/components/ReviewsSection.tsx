@@ -1,4 +1,3 @@
-// src/components/ReviewsSection.tsx
 import React from "react";
 
 // รีวิวลูกค้า (Import images ให้ถูก path ตามโครงสร้างโปรเจกต์)
@@ -16,7 +15,12 @@ import review10 from "../assets/images/review/review10.png";
 // fallback หากโหลดภาพไม่สำเร็จ
 const fallbackImage = "/assets/images/fallback-image.png";
 
-const reviews = [
+interface Review {
+  img: string;
+  alt: string;
+}
+
+const reviews: Review[] = [
   { img: review1, alt: "รีวิวลูกค้า 1" },
   { img: review2, alt: "รีวิวลูกค้า 2" },
   { img: review3, alt: "รีวิวลูกค้า 3" },
@@ -32,10 +36,10 @@ const reviews = [
 const ReviewsSection: React.FC = () => {
   return (
     <section
-      className="py-16 bg-gray-50 dark:bg-gray-900 transition-colors duration-500"
-      aria-labelledby="reviews-heading"
-      role="region"
       id="reviews"
+      role="region"
+      aria-labelledby="reviews-heading"
+      className="py-16 bg-gray-50 dark:bg-gray-900 transition-colors duration-500"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2

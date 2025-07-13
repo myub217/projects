@@ -1,5 +1,11 @@
+// src/pages/SecretRoomPageComponents/DocumentCert.tsx
+
 import React from 'react';
 import { documentCertConfig } from '../config/documentCert.config';
+
+//-------------------------------
+// Component
+//-------------------------------
 
 export function DocumentCert() {
   const config = documentCertConfig;
@@ -21,10 +27,10 @@ export function DocumentCert() {
         boxSizing: 'border-box',
         userSelect: 'text',
         position: 'relative',
-        margin: 'auto', // กึ่งกลางหน้าจอ
+        margin: 'auto',
       }}
     >
-      {/* Identifiers - ด้านบนซ้าย/ขวา */}
+      {/* Identifiers */}
       <section
         style={{
           display: 'flex',
@@ -35,25 +41,17 @@ export function DocumentCert() {
           letterSpacing: '0.03em',
           marginBottom: 10,
           padding: '0 5mm',
-          boxSizing: 'border-box',
         }}
       >
-        <div style={{ textAlign: 'left' }}>
+        <div>
           <div>ทะเบียนเลขที่: {config.registrationNo}</div>
           <div>คำขอที่: {config.requestNo}</div>
         </div>
-        <div style={{ textAlign: 'right' }}>แบบ: {config.formType}</div>
+        <div>แบบ: {config.formType}</div>
       </section>
 
       {/* Header */}
-      <header
-        style={{
-          textAlign: 'center',
-          marginBottom: 10,
-          marginTop: 4,
-          boxSizing: 'border-box',
-        }}
-      >
+      <header style={{ textAlign: 'center', marginBottom: 10, marginTop: 4 }}>
         <img
           src="/assets/krut.webp"
           alt="ตราครุฑ"
@@ -65,24 +63,10 @@ export function DocumentCert() {
             marginRight: 'auto',
           }}
         />
-        <h2
-          style={{
-            fontSize: 18,
-            fontWeight: 600,
-            letterSpacing: '0.05em',
-            margin: 0,
-          }}
-        >
+        <h2 style={{ fontSize: 18, fontWeight: 600, letterSpacing: '0.05em', margin: 0 }}>
           {config.issueBy}
         </h2>
-        <h3
-          style={{
-            fontSize: 16,
-            fontWeight: 500,
-            color: '#444',
-            marginTop: 3,
-          }}
-        >
+        <h3 style={{ fontSize: 16, fontWeight: 500, color: '#444', marginTop: 3 }}>
           {config.subIssuedBy}
         </h3>
         <h1
@@ -108,7 +92,6 @@ export function DocumentCert() {
           margin: '20px auto 0',
           fontSize: 14,
           lineHeight: 1.6,
-          boxSizing: 'border-box',
         }}
       >
         <p>{config.certPurpose}</p>
@@ -124,8 +107,7 @@ export function DocumentCert() {
           {config.companyName}
         </p>
         <p style={{ marginBottom: 12 }}>
-          ได้จดทะเบียนพาณิชย์ถูกต้องตามระเบียบราชการกลางป่า เมื่อปี{' '}
-          {config.issuedYearBE}
+          ได้จดทะเบียนพาณิชย์ถูกต้องตามระเบียบราชการกลางป่า เมื่อปี {config.issuedYearBE}
         </p>
         <p
           style={{
@@ -147,7 +129,6 @@ export function DocumentCert() {
           margin: '20px auto 0',
           fontSize: 14,
           lineHeight: 1.5,
-          boxSizing: 'border-box',
         }}
       >
         <div style={{ fontWeight: 600, marginBottom: 6 }}>
@@ -206,7 +187,6 @@ export function DocumentCert() {
           fontSize: 14,
           lineHeight: 1.4,
           paddingLeft: 10,
-          boxSizing: 'border-box',
         }}
       >
         <div
@@ -237,7 +217,6 @@ export function DocumentCert() {
           marginLeft: 'auto',
           whiteSpace: 'pre-line',
           lineHeight: 1.6,
-          boxSizing: 'border-box',
         }}
       >
         <div>ณ วันที่ {config.issuedDate}</div>

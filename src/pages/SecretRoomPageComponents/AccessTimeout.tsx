@@ -1,10 +1,19 @@
 // src/pages/SecretRoomPageComponents/AccessTimeout.tsx
+
 import React, { useEffect, useState, useRef } from "react";
+
+//-------------------------------
+// Props
+//-------------------------------
 
 interface AccessTimeoutProps {
   timeLeft: number; // เหลือเวลาในรูปแบบมิลลิวินาที
   onTimeoutConfirm: () => void; // ฟังก์ชันที่เรียกเมื่อกดออกจากระบบ
 }
+
+//-------------------------------
+// Component
+//-------------------------------
 
 export default function AccessTimeout({
   timeLeft,
@@ -27,34 +36,32 @@ export default function AccessTimeout({
   // อัปเดต countdown ทุก 1 วินาที เมื่อ modal แสดงอยู่
   useEffect(() => {
     if (!visible) return;
-
     const interval = setInterval(() => {
       setCountdown((prev) => (prev > 1000 ? prev - 1000 : 0));
     }, 1000);
-
     return () => clearInterval(interval);
   }, [visible]);
 
-  // Focus trap & focus on dialog for accessibility
+  // Focus trap & focus on dialog
   useEffect(() => {
     if (visible && dialogRef.current) {
       dialogRef.current.focus();
     }
   }, [visible]);
 
-  // แปลงเวลาที่เหลือเป็น mm:ss
-  const formatTime = (ms: number) => {
-    const totalSeconds = Math.floor(ms / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  // Format mm:ss
+  const formatTime = (ms: number): string => {
+    const total = Math.floor(ms / 1000);
+    const m = Math.floor(total / 60);
+    const s = total % 60;
+    return `${m}:${s.toString().padStart(2, "0")}`;
   };
 
   if (!visible) return null;
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
       role="alertdialog"
       aria-modal="true"
       aria-labelledby="timeout-title"
@@ -70,7 +77,7 @@ export default function AccessTimeout({
           หมดเวลาการใช้งานในอีก {formatTime(countdown)}
         </h2>
         <p id="timeout-desc" className="mb-6 text-gray-700 dark:text-gray-300">
-          ระบบจะทำการออกจากระบบอัตโนมัติ เพื่อความปลอดภัยของบัญชีผู้ใช้
+          ระบบจะทำการออกจากระบบอัตโนมัติเพื่อความปลอดภัยของบัญชีผู้ใช้
         </p>
         <button
           onClick={onTimeoutConfirm}

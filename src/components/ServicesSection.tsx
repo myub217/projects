@@ -1,6 +1,6 @@
 import React from "react";
 import ServiceCard from "./ServiceCard";
-import { services } from "../data/servicesData"; // ✅ นำเข้าข้อมูลบริการ
+import { services } from "../data/servicesData";
 
 export interface Service {
   id: number;
@@ -22,19 +22,29 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ onRequest }) => {
     <section
       className="py-16 bg-base-100 dark:bg-gray-900 transition-colors duration-500"
       aria-label="บริการของเรา"
+      role="region"
+      id="services"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-extrabold text-center mb-12 text-primary tracking-wide">
+        <h2
+          className="text-3xl font-extrabold text-center mb-12 text-primary tracking-wide"
+          id="services-heading"
+        >
           บริการของเรา
         </h2>
 
-        <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div
+          className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+          role="list"
+          aria-labelledby="services-heading"
+        >
           {services.map((service) => (
             <div
               key={`${service.id}-${service.title}`}
               className="flex flex-col"
               data-testid={`service-card-${service.id}`}
               aria-label={`บริการ: ${service.title}`}
+              role="listitem"
             >
               <ServiceCard
                 service={service}

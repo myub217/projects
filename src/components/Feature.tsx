@@ -43,14 +43,28 @@ const timeAgo = (iso: string): string => {
 };
 
 // Icons
-const CheckIcon = () => (
-  <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24" aria-hidden="true">
+const CheckIcon: React.FC = () => (
+  <svg
+    className="w-5 h-5 text-emerald-500"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2.5}
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
   </svg>
 );
 
-const ClockIcon = () => (
-  <svg className="w-5 h-5 text-yellow-600 animate-pulse" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24" aria-hidden="true">
+const ClockIcon: React.FC = () => (
+  <svg
+    className="w-5 h-5 text-yellow-600 animate-pulse"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2.5}
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
     <circle cx="12" cy="12" r="10" />
     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2" />
   </svg>
@@ -74,7 +88,9 @@ const Feature: React.FC = () => {
         });
       case "ล่าสุด":
       default:
-        return copy.sort((a, b) => new Date(b.approvalDate).getTime() - new Date(a.approvalDate).getTime());
+        return copy.sort(
+          (a, b) => new Date(b.approvalDate).getTime() - new Date(a.approvalDate).getTime()
+        );
     }
   }, [sortOrder]);
 
@@ -91,7 +107,10 @@ const Feature: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 sm:px-10">
         {/* Header */}
         <header className="text-center max-w-xl mx-auto mb-10 space-y-4">
-          <h2 id="feature-heading" className="text-3xl sm:text-4xl font-extrabold text-black dark:text-white">
+          <h2
+            id="feature-heading"
+            className="text-3xl sm:text-4xl font-extrabold text-black dark:text-white"
+          >
             ลูกค้าที่ได้รับการอนุมัติล่าสุด
           </h2>
           <p className="text-base text-zinc-600 dark:text-zinc-400">
@@ -101,7 +120,11 @@ const Feature: React.FC = () => {
 
         {/* Action Bar */}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
-          <div className="flex items-center gap-3 text-sm text-zinc-600 dark:text-zinc-300" role="region" aria-label="การเลือกเรียงลำดับลูกค้า">
+          <div
+            className="flex items-center gap-3 text-sm text-zinc-600 dark:text-zinc-300"
+            role="region"
+            aria-label="การเลือกเรียงลำดับลูกค้า"
+          >
             ทั้งหมด <span className="font-semibold">{approvedCustomers.length}</span> รายการ
             <select
               value={sortOrder}
@@ -150,11 +173,7 @@ const Feature: React.FC = () => {
 
         {/* Conditional View */}
         {showForm ? (
-          <div
-            id="customer-assessment-form"
-            className="max-w-xl mx-auto"
-            aria-live="polite"
-          >
+          <div id="customer-assessment-form" className="max-w-xl mx-auto" aria-live="polite">
             <CustomerAssessmentForm />
           </div>
         ) : (
@@ -201,24 +220,16 @@ const Feature: React.FC = () => {
                     {customer.name}
                   </h3>
 
-                  <p
-                    id={`${customer.id}-details`}
-                    className="text-sm text-black/70 dark:text-white/70"
-                  >
+                  <p id={`${customer.id}-details`} className="text-sm text-black/70 dark:text-white/70">
                     วันที่อนุมัติ:{" "}
-                    <time
-                      dateTime={customer.approvalDate}
-                      title={formatDate(customer.approvalDate)}
-                    >
+                    <time dateTime={customer.approvalDate} title={formatDate(customer.approvalDate)}>
                       {formatDate(customer.approvalDate)} ({timeAgo(customer.approvalDate)})
                     </time>
                   </p>
 
                   <p className="text-base text-black dark:text-white">
                     วงเงิน:{" "}
-                    <span className="font-semibold">
-                      {formatCurrency(customer.loanAmount)}
-                    </span>
+                    <span className="font-semibold">{formatCurrency(customer.loanAmount)}</span>
                   </p>
 
                   <div className="flex items-center justify-between mt-auto">

@@ -10,15 +10,15 @@ export type ThemeMode = "light" | "dark";
  */
 export type AppTheme = {
   name: string;                // internal name เช่น "platinum-dark"
-  displayName: string;        // ชื่อที่แสดงให้ผู้ใช้
-  dataTheme: string;          // ค่าที่ใช้กับ data-theme
-  mode: ThemeMode;            // light หรือ dark
-  primaryColor: string;       // สีหลัก (primary)
-  secondaryColor: string;     // สีรอง
-  accentColor: string;        // สีเสริม
-  backgroundColor?: string;   // สีพื้นหลัง (optional)
-  textColor?: string;         // สีตัวอักษรหลัก (optional)
-  borderColor?: string;       // สีขอบหรือเส้นแบ่ง (optional)
+  displayName: string;         // ชื่อที่แสดงให้ผู้ใช้
+  dataTheme: string;           // ค่าที่ใช้กับ data-theme
+  mode: ThemeMode;             // light หรือ dark
+  primaryColor: string;        // สีหลัก (primary)
+  secondaryColor: string;      // สีรอง
+  accentColor: string;         // สีเสริม
+  backgroundColor?: string;    // สีพื้นหลัง (optional)
+  textColor?: string;          // สีตัวอักษรหลัก (optional)
+  borderColor?: string;        // สีขอบหรือเส้นแบ่ง (optional)
 };
 
 /**

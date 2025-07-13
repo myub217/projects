@@ -1,3 +1,5 @@
+// src/pages/SecretRoomPageComponents/SalaryCertDocument.tsx
+
 import React from "react";
 
 const certData = {
@@ -50,15 +52,15 @@ const SalaryCertDocument: React.FC = () => {
         body { margin: 0; padding: 0; background: #eee; font-family: 'Sarabun', sans-serif; }
 
         .page {
-          width: 210mm;      /* A4 width */
-          height: 297mm;     /* A4 height */
-          margin: 20px auto; /* กึ่งกลางแนวนอน มี margin บนล่างนิดหน่อย */
-          padding: 30mm 25mm 25mm 30mm; /* ตามมาตรฐานเอกสารราชการ */
+          width: 210mm;
+          height: 297mm;
+          margin: 20px auto;
+          padding: 30mm 25mm 25mm 30mm;
           background: white;
           color: black;
           font-size: 16px;
           line-height: 1.65;
-          box-shadow: 0 0 8px rgba(0,0,0,0.1); /* เงาเล็กน้อยเวลาดูบนจอ */
+          box-shadow: 0 0 8px rgba(0,0,0,0.1);
           overflow: hidden;
           position: relative;
         }
@@ -73,7 +75,7 @@ const SalaryCertDocument: React.FC = () => {
           .page {
             margin: 0;
             box-shadow: none;
-            page-break-after: always; /* แยกหน้าหลังพิมพ์ */
+            page-break-after: always;
           }
         }
 
@@ -152,7 +154,6 @@ const SalaryCertDocument: React.FC = () => {
           min-height: 100px;
           font-size: 16px;
           white-space: pre-line;
-          font-family: 'Sarabun', sans-serif;
         }
 
         .signature p {
@@ -179,6 +180,7 @@ const SalaryCertDocument: React.FC = () => {
           color: #0645AD;
           text-decoration: none;
         }
+
         a:hover, a:focus {
           text-decoration: underline;
           outline: none;
@@ -190,7 +192,7 @@ const SalaryCertDocument: React.FC = () => {
       </button>
 
       <div className="page" role="document" aria-label="หนังสือรับรองเงินเดือน">
-        <div className="company-header" aria-label="ชื่อบริษัท">
+        <div className="company-header">
           {certData.company.nameTh}
           <br />
           {certData.company.nameEn}
@@ -231,10 +233,7 @@ const SalaryCertDocument: React.FC = () => {
           <p>{certData.signer.position}</p>
         </div>
 
-        <div
-          className="contact-info"
-          aria-label="ข้อมูลติดต่อฝ่ายทรัพยากรบุคคล"
-        >
+        <div className="contact-info">
           <p>
             <strong>ฝ่ายทรัพยากรบุคคล</strong> โทร. {certData.company.phone} ต่อ{" "}
             {certData.company.hrExt}
