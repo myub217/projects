@@ -21,7 +21,7 @@ export default defineConfig(({ mode }) => {
       !isDev &&
         visualizer({
           filename: "dist/report.html",
-          open: true,
+          open: env.VITE_OPEN_REPORT === "true",
           gzipSize: true,
           brotliSize: true,
           template: "sunburst",
@@ -43,7 +43,7 @@ export default defineConfig(({ mode }) => {
 
     server: {
       port: 5173,
-      open: true,
+      open: env.VITE_OPEN_BROWSER === "true",
       fs: {
         allow: ["."],
       },
@@ -51,7 +51,7 @@ export default defineConfig(({ mode }) => {
 
     preview: {
       port: 4173,
-      open: true,
+      open: env.VITE_OPEN_BROWSER === "true",
     },
 
     build: {

@@ -62,7 +62,7 @@ check_pnpm() {
 
 # 🔥 Confirm delete
 if [ "$FORCE" = false ]; then
-  echo -e "${YELLOW}⚠️ จะลบ: node_modules, dist/, .vite/, lockfiles, cache"
+  echo -e "${YELLOW}⚠️ จะลบ: node_modules, dist, .vite, .next, .turbo, .vercel, build, .output, .nuxt, .cache, .eslintcache"
   [ "$INCLUDE_ENV" = true ] && echo -e "   + .env และ .env.*"
   [ "$INCLUDE_LOG" = true ] && echo -e "   + *.log, report.html"
   [ "$ONLY_CACHE" = true ] && echo -e "   (Only cache mode)"

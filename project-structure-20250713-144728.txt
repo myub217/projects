@@ -1,10 +1,11 @@
 .
 ├── Clean.sh
+├── READM.md
 ├── analyze-project.sh
 ├── api
 │   ├── apiAdmin.ts
 │   └── apiClient.ts
-├── env-vars-20250713-141520.txt
+├── env-vars-20250713-144728.txt
 ├── index.html
 ├── jest.config.js
 ├── node_modules
@@ -163,6 +164,8 @@
 │   │   └── fs.walk -> ../.pnpm/@nodelib+fs.walk@1.2.8/node_modules/@nodelib/fs.walk
 │   ├── @pkgjs
 │   │   └── parseargs -> ../.pnpm/@pkgjs+parseargs@0.11.0/node_modules/@pkgjs/parseargs
+│   ├── @remix-run
+│   │   └── router -> ../.pnpm/@remix-run+router@1.23.0/node_modules/@remix-run/router
 │   ├── @rolldown
 │   │   └── pluginutils -> ../.pnpm/@rolldown+pluginutils@1.0.0-beta.19/node_modules/@rolldown/pluginutils
 │   ├── @rollup
@@ -183,8 +186,8 @@
 │   │   ├── body-parser -> ../.pnpm/@types+body-parser@1.19.6/node_modules/@types/body-parser
 │   │   ├── connect -> ../.pnpm/@types+connect@3.4.38/node_modules/@types/connect
 │   │   ├── estree -> ../.pnpm/@types+estree@1.0.8/node_modules/@types/estree
-│   │   ├── express -> ../.pnpm/@types+express@5.0.3/node_modules/@types/express
-│   │   ├── express-serve-static-core -> ../.pnpm/@types+express-serve-static-core@5.0.7/node_modules/@types/express-serve-static-core
+│   │   ├── express -> ../.pnpm/@types+express@4.17.23/node_modules/@types/express
+│   │   ├── express-serve-static-core -> ../.pnpm/@types+express-serve-static-core@4.19.6/node_modules/@types/express-serve-static-core
 │   │   ├── http-errors -> ../.pnpm/@types+http-errors@2.0.5/node_modules/@types/http-errors
 │   │   ├── json-schema -> ../.pnpm/@types+json-schema@7.0.15/node_modules/@types/json-schema
 │   │   ├── json5 -> ../.pnpm/@types+json5@0.0.29/node_modules/@types/json5
@@ -347,7 +350,7 @@
 │   ├── foreground-child -> .pnpm/foreground-child@3.3.1/node_modules/foreground-child
 │   ├── forwarded -> .pnpm/forwarded@0.2.0/node_modules/forwarded
 │   ├── fraction.js -> .pnpm/fraction.js@4.3.7/node_modules/fraction.js
-│   ├── framer-motion -> .pnpm/framer-motion@12.23.3_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/framer-motion
+│   ├── framer-motion -> .pnpm/framer-motion@12.23.3_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/framer-motion
 │   ├── fresh -> .pnpm/fresh@2.0.0/node_modules/fresh
 │   ├── function-bind -> .pnpm/function-bind@1.1.2/node_modules/function-bind
 │   ├── function.prototype.name -> .pnpm/function.prototype.name@1.1.8/node_modules/function.prototype.name
@@ -439,7 +442,7 @@
 │   ├── lodash.merge -> .pnpm/lodash.merge@4.6.2/node_modules/lodash.merge
 │   ├── loose-envify -> .pnpm/loose-envify@1.4.0/node_modules/loose-envify
 │   ├── lru-cache -> .pnpm/lru-cache@5.1.1/node_modules/lru-cache
-│   ├── lucide-react -> .pnpm/lucide-react@0.525.0_react@19.1.0/node_modules/lucide-react
+│   ├── lucide-react -> .pnpm/lucide-react@0.525.0_react@18.3.1/node_modules/lucide-react
 │   ├── magic-string -> .pnpm/magic-string@0.30.17/node_modules/magic-string
 │   ├── math-intrinsics -> .pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics
 │   ├── media-typer -> .pnpm/media-typer@1.1.0/node_modules/media-typer
@@ -508,13 +511,13 @@
 │   ├── queue-microtask -> .pnpm/queue-microtask@1.2.3/node_modules/queue-microtask
 │   ├── range-parser -> .pnpm/range-parser@1.2.1/node_modules/range-parser
 │   ├── raw-body -> .pnpm/raw-body@3.0.0/node_modules/raw-body
-│   ├── react -> .pnpm/react@19.1.0/node_modules/react
-│   ├── react-dom -> .pnpm/react-dom@19.1.0_react@19.1.0/node_modules/react-dom
-│   ├── react-icons -> .pnpm/react-icons@5.5.0_react@19.1.0/node_modules/react-icons
+│   ├── react -> .pnpm/react@18.3.1/node_modules/react
+│   ├── react-dom -> .pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom
+│   ├── react-icons -> .pnpm/react-icons@5.5.0_react@18.3.1/node_modules/react-icons
 │   ├── react-is -> .pnpm/react-is@16.13.1/node_modules/react-is
 │   ├── react-refresh -> .pnpm/react-refresh@0.17.0/node_modules/react-refresh
-│   ├── react-router -> .pnpm/react-router@7.6.3_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/react-router
-│   ├── react-router-dom -> .pnpm/react-router-dom@7.6.3_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/react-router-dom
+│   ├── react-router -> .pnpm/react-router@6.30.1_react@18.3.1/node_modules/react-router
+│   ├── react-router-dom -> .pnpm/react-router-dom@6.30.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/react-router-dom
 │   ├── read-cache -> .pnpm/read-cache@1.0.0/node_modules/read-cache
 │   ├── readdirp -> .pnpm/readdirp@3.6.0/node_modules/readdirp
 │   ├── reflect.getprototypeof -> .pnpm/reflect.getprototypeof@1.0.10/node_modules/reflect.getprototypeof
@@ -538,11 +541,10 @@
 │   ├── safe-push-apply -> .pnpm/safe-push-apply@1.0.0/node_modules/safe-push-apply
 │   ├── safe-regex-test -> .pnpm/safe-regex-test@1.1.0/node_modules/safe-regex-test
 │   ├── safer-buffer -> .pnpm/safer-buffer@2.1.2/node_modules/safer-buffer
-│   ├── scheduler -> .pnpm/scheduler@0.26.0/node_modules/scheduler
+│   ├── scheduler -> .pnpm/scheduler@0.23.2/node_modules/scheduler
 │   ├── semver -> .pnpm/semver@6.3.1/node_modules/semver
 │   ├── send -> .pnpm/send@1.2.0/node_modules/send
 │   ├── serve-static -> .pnpm/serve-static@2.2.0/node_modules/serve-static
-│   ├── set-cookie-parser -> .pnpm/set-cookie-parser@2.7.1/node_modules/set-cookie-parser
 │   ├── set-function-length -> .pnpm/set-function-length@1.2.2/node_modules/set-function-length
 │   ├── set-function-name -> .pnpm/set-function-name@2.0.2/node_modules/set-function-name
 │   ├── set-proto -> .pnpm/set-proto@1.0.0/node_modules/set-proto
@@ -625,9 +627,12 @@
 ├── pnpm-workspace.yaml
 ├── postcss.config.cjs
 ├── postcss.config.js
-├── project-info-20250713-141520.json
+├── project-info-20250713-143911.json
+├── project-info-20250713-144728.json
 ├── project-info.json
-├── project-structure-20250713-141520.txt
+├── project-structure-20250713-143911.txt
+├── project-structure-20250713-144728.txt
+├── project-summary-prompt-20250713-143911.txt
 ├── public
 │   ├── assets
 │   │   ├── krut.webp
@@ -696,8 +701,9 @@
 │   └── utils
 │       └── hashPassword.ts
 ├── tailwind.config.mjs
+├── tsconfig.base.json
 ├── tsconfig.json
 ├── vercel.json
 └── vite.config.mjs
 
-638 directories, 63 files
+639 directories, 68 files
