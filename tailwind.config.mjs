@@ -1,18 +1,19 @@
-import daisyui from "daisyui";
+// tailwind.config.ts
+
+import type { Config } from "tailwindcss";
 import typography from "@tailwindcss/typography";
+import daisyui from "daisyui";
 
 /**
- * 🔧 Tailwind Config: JP Visual & Docs – Blue-White Theme
- * 📌 Theme Modes: "bluewhite", "bluewhite-dark", "temp"
- * 🎨 Plugins: DaisyUI + Typography
- * 🌙 Dark Mode: Controlled by class="dark"
+ * 💠 Tailwind Config: JP Visual System
+ * 📐 Design Scale + Extended Utilities
+ * 🌙 Dark Mode: class-based
+ * 🎨 Theme Presets: bluewhite / bluewhite-dark / temp
+ * 🔌 Plugins: DaisyUI, Typography
  */
 
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+const config: Config = {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 
   darkMode: "class",
 
@@ -129,27 +130,27 @@ export default {
       },
       keyframes: {
         fadeIn: {
-          "0%": { opacity: 0 },
-          "100%": { opacity: 1 },
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
         },
         slideUp: {
-          "0%": { transform: "translateY(24px)", opacity: 0 },
-          "100%": { transform: "translateY(0)", opacity: 1 },
+          "0%": { transform: "translateY(24px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
         },
       },
     },
   },
 
-  plugins: [daisyui, typography],
+  plugins: [typography, daisyui],
 
   daisyui: {
     themes: [
       {
-        "bluewhite": {
+        bluewhite: {
           primary: "#1E40AF",
           "primary-focus": "#1E3A8A",
           secondary: "#6B7280",
-          "secondary-focus": "#4B5261",
+          "secondary-focus": "#4B5563",
           accent: "#2563EB",
           neutral: "#F9FAFB",
           "base-100": "#FFFFFF",
@@ -192,10 +193,12 @@ export default {
           info: "#3B82F6",
           success: "#22C55E",
           warning: "#F59E0B",
-          error: "#EF4444"
+          error: "#EF4444",
         },
       },
     ],
     darkTheme: "bluewhite-dark",
   },
 };
+
+export default config;

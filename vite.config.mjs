@@ -1,13 +1,17 @@
+// vite.config.mjs
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { visualizer } from "rollup-plugin-visualizer";
-import strip from "@rollup/plugin-strip";
 import history from "connect-history-api-fallback";
+import fs from "fs";
+import { VitePWA } from "vite-plugin-pwa";
 
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd());
+export default defineConfig(({ mode, command }) => {
+  const env = loadEnv(mode, process.cwd(), "");
+
   const isDev = mode === "development";
+  const isBuild = command === "build";
 
   const defineEnv = Object.fromEntries(
     Object.entries(env)
@@ -15,24 +19,54 @@ export default defineConfig(({ mode }) => {
       .map(([key, val]) => [`process.env.${key}`, JSON.stringify(val)])
   );
 
+  const base = env.VITE_BASE_URL?.trim() || "/";
+  const outDir = env.VITE_BUILD_OUTDIR?.trim() || "dist";
+  const devPort = Number(env.VITE_DEV_SERVER_PORT) || 5173;
+  const previewPort = Number(env.VITE_PREVIEW_SERVER_PORT) || 4173;
+  const openBrowser = env.VITE_OPEN_BROWSER === "true";
+  const openReport = env.VITE_OPEN_REPORT === "true";
+
   return {
-    base: env.VITE_BASE_URL || "/",
+    base,
 
     plugins: [
       react(),
-      !isDev &&
+      VitePWA({
+        registerType: "autoUpdate",
+        injectRegister: "script",
+        devOptions: {
+          enabled: isDev,
+        },
+        manifest: {
+          name: "Modular Onepage App",
+          short_name: "ModularOne",
+          start_url: base,
+          display: "standalone",
+          background_color: "#ffffff",
+          theme_color: "#0f172a",
+          icons: [
+            {
+              src: "/icons/icon-192x192.png",
+              sizes: "192x192",
+              type: "image/png",
+            },
+            {
+              src: "/icons/icon-512x512.png",
+              sizes: "512x512",
+              type: "image/png",
+            },
+          ],
+        },
+      }),
+      isBuild &&
         visualizer({
-          filename: "dist/report.html",
-          open: env.VITE_OPEN_REPORT === "true",
+          filename: `${outDir}/report.html`,
+          open: openReport,
           gzipSize: true,
           brotliSize: true,
           template: "sunburst",
         }),
-      !isDev &&
-        strip({
-          include: ["**/*.ts", "**/*.tsx"],
-          functions: ["console.log", "debug"],
-        }),
+      // @rollup/plugin-strip ถูกถอดออก เพราะไม่มีใน dependencies แล้ว
     ].filter(Boolean),
 
     resolve: {
@@ -44,8 +78,8 @@ export default defineConfig(({ mode }) => {
     define: defineEnv,
 
     server: {
-      port: Number(env.VITE_DEV_SERVER_PORT) || 5173,
-      open: env.VITE_OPEN_BROWSER === "true",
+      port: devPort,
+      open: openBrowser,
       fs: {
         allow: ["."],
       },
@@ -56,12 +90,12 @@ export default defineConfig(({ mode }) => {
     },
 
     preview: {
-      port: Number(env.VITE_PREVIEW_SERVER_PORT) || 4173,
-      open: env.VITE_OPEN_BROWSER === "true",
+      port: previewPort,
+      open: openBrowser,
     },
 
     build: {
-      outDir: env.VITE_BUILD_OUTDIR || "dist",
+      outDir,
       sourcemap: true,
       assetsInlineLimit: 4096,
       preloadModules: true,

@@ -1,30 +1,24 @@
-// /data/data/com.termux/files/home/projects/jest.setup.js
+// /data/data/com.termux/files/home/projects/jest.setup.ts
 
-// Setup file for Jest testing environment
+import '@testing-library/jest-dom/extend-expect';
+import fetchMock from 'jest-fetch-mock';
 
-import '@testing-library/jest-dom/extend-expect'; // เพิ่ม matchers สำหรับ DOM testing-library
+// เปิด mock fetch ทุกกรณี
+fetchMock.enableMocks();
 
-// Mock global fetch ถ้าต้องใช้ใน tests
-if (!global.fetch) {
-  global.fetch = require('jest-fetch-mock');
-  global.fetch.enableMocks();
-}
+// กรอง console.error ที่ไม่จำเป็นระหว่าง test
+const originalConsoleError = console.error;
 
-// ตั้งค่าเพิ่มเติมอื่นๆ เช่น mock ฟังก์ชัน, polyfill, หรือ global variables ตามที่ต้องการ
-
-// ตัวอย่าง: suppress console.error warnings ใน test
-const originalError = console.error;
 beforeAll(() => {
-  console.error = (...args) => {
-    if (
-      typeof args[0] === 'string' &&
-      args[0].includes('Warning:') // กรอง warnings เฉพาะบางประเภท
-    ) {
-      return;
+  console.error = (...args: unknown[]) => {
+    const [firstArg] = args;
+    if (typeof firstArg === 'string' && firstArg.startsWith('Warning:')) {
+      return; // skip React warnings
     }
-    originalError(...args);
+    originalConsoleError(...args);
   };
 });
+
 afterAll(() => {
-  console.error = originalError;
+  console.error = originalConsoleError;
 });

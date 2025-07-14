@@ -1,32 +1,43 @@
-#!/bin/bash
+#!/data/data/com.termux/files/usr/bin/bash
 set -euo pipefail
+IFS=$'\n\t'
 
-# Paths and patterns
+# === 🗑️ CLEANUP SCRIPT ===
+NOW=$(date +"%Y%m%d-%H%M%S")
+ROOT_DIR="$(pwd)"
+
+echo -e "\n🧹 เริ่มลบไฟล์ขยะที่สร้างจากสคริปต์หลัก..."
+
+# === 📂 TARGET FILE PATTERNS ===
+PATTERNS=(
+  "build-*.log"
+  "env-*.txt"
+  "project-info-*.json"
+  "tree-*.txt"
+  "summary-*.md"
+  "summary-prompt-*.md"
+  "summary-*.txt"
+  "depcheck-*.json"
+  "eslint-unused-*.log"
+  "coverage-summary-*.txt"
+  "docker-info-*.txt"
+  "gitignore-*.txt"
+  "ci-info-*.txt"
+)
+
+# === 📦 BUILD OUTPUT DIR ===
 VITE_BUILD_OUTDIR="dist"
-LOG_PATTERN="build-*.log"
-ENV_PATTERN="env-vars-*.txt"
-INFO_PATTERN="project-info-*.json"
-TREE_PATTERN="project-structure-*.txt"
-SUMMARY_PATTERN="project-summary-prompt-*.txt"
-DEPCHECK_PATTERN="depcheck-*.json"
-ESLINT_PATTERN="eslint-unused-*.log"
+[[ -d "$VITE_BUILD_OUTDIR" ]] && rm -rf -- "$VITE_BUILD_OUTDIR" && echo "✅ ลบ $VITE_BUILD_OUTDIR แล้ว" || echo "ℹ️ ไม่มี $VITE_BUILD_OUTDIR"
 
-echo "🧼 Cleaning build output directory if exists: $VITE_BUILD_OUTDIR"
-if [[ -d "$VITE_BUILD_OUTDIR" ]]; then
-  rm -rf -- "$VITE_BUILD_OUTDIR"
-  echo "✅ Removed $VITE_BUILD_OUTDIR"
-else
-  echo "ℹ️ $VITE_BUILD_OUTDIR not found, skipping."
-fi
-
-echo "🧼 Removing generated temp/log files"
-for pattern in $LOG_PATTERN $ENV_PATTERN $INFO_PATTERN $TREE_PATTERN $SUMMARY_PATTERN $DEPCHECK_PATTERN $ESLINT_PATTERN; do
+# === 🔄 LOOP DELETE PATTERNS ===
+for pattern in "${PATTERNS[@]}"; do
+  FILES=($ROOT_DIR/$pattern)
   if compgen -G "$pattern" > /dev/null; then
-    rm -f -- $pattern
-    echo "✅ Removed files matching: $pattern"
+    rm -f -- "${FILES[@]}"
+    echo "✅ ลบ pattern: $pattern (${#FILES[@]} ไฟล์)"
   else
-    echo "ℹ️ No files match pattern: $pattern"
+    echo "ℹ️ ไม่พบไฟล์ที่ตรงกับ pattern: $pattern"
   fi
 done
 
-echo "🧼 Clean complete."
+echo -e "\n🧼 เสร็จสิ้นการลบไฟล์ขยะเรียบร้อย"
