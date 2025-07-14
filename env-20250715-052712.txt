@@ -1,0 +1,70 @@
+# ======================================
+# 🌐 GitHub Integration
+# ======================================
+
+# ✅ GitHub Personal Access Token (ใช้ใน backend สำหรับเรียก GitHub API)
+VITE_GITHUB_TOKEN=ghp_yourRealTokenHere1234567890abcdef
+
+# ✅ GitHub Repo URL แบบเต็ม (ใช้สำหรับ backend หรือ dashboard reference)
+VITE_GITHUB_REPO_URL=https://github.com/myub217/projects
+
+# ✅ GitHub Repo Name แบบ owner/repo (ใช้เรียก API)
+VITE_GITHUB_REPO_NAME=myub217/projects
+
+# ======================================
+# 🌐 Server Config (Backend)
+# ======================================
+
+# ✅ พอร์ต Express server
+PORT=3000
+
+# ✅ เปิด/ปิด CORS
+VITE_CORS_ENABLED=true
+
+# ✅ base URL สำหรับ Frontend ใช้เรียก API
+VITE_API_BASE_URL=http://localhost:3000
+
+# ======================================
+# 💻 Frontend Settings (Vite)
+# ======================================
+
+# ✅ Default Theme Mode (light | dark | system)
+VITE_DEFAULT_THEME=light
+
+# ✅ DaisyUI Theme ชื่อ platinum
+VITE_DATA_THEME=platinum
+
+# ✅ Enable PWA support (ใช้ร่วมกับ Vite plugin)
+VITE_ENABLE_PWA=true
+
+# ======================================
+# 📊 Analytics / Logging / Telemetry
+# ======================================
+
+# ✅ URL สำหรับ telemetry API
+VITE_ANALYTICS_URL=https://your-analytics-endpoint.com
+
+# ✅ เปิด log จาก client-side
+VITE_ENABLE_LOGGING=true
+
+# ✅ เปิด log debug (optional)
+VITE_DEBUG_MODE=true
+
+# ======================================
+# ⚠️ Environment Flags
+# ======================================
+
+# ✅ Node environment
+NODE_ENV=development
+
+# ✅ Build target (client | server | fullstack)
+VITE_APP_TARGET=fullstack
+
+# ✅ ใช้ mock data สำหรับ dev
+VITE_USE_MOCK=true
+
+# ✅ ใช้งาน runtime inspector
+VITE_ENABLE_INSPECT=true
+
+# ✅ เปิด ESLint ใน runtime (vite-plugin-eslint)
+VITE_ENABLE_ESLINT=true

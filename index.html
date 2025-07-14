@@ -1,91 +1,101 @@
 <!DOCTYPE html>
-<html lang="th" dir="ltr" data-theme="lofi">
+<html lang="th" dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
     />
-    <title>Applicationlubmobile</title>
+    <title>Applicationlubmobile | ครบวงจรเอกสาร วีซ่า และการตลาด</title>
 
-    <!-- Preconnect CDN -->
+    <!-- Preconnect & DNS Prefetch -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 
+    <!-- Google Fonts: Kanit -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
-    <!-- SEO Meta Tags -->
+    <!-- Primary Meta -->
     <meta
       name="description"
-      content="บริการเอกสาร วีซ่า สินเชื่อ การตลาด และออกแบบโปรไฟล์ครบวงจร"
+      content="บริการเอกสาร วีซ่า สินเชื่อ การตลาด ออกแบบโปรไฟล์ และแปลเอกสารครบวงจร โดยเจ้าป่า"
     />
     <meta
       name="keywords"
-      content="applicationlubmobile, วีซ่า, สินเชื่อ, เอกสาร, ออกแบบโปรไฟล์, แปลเอกสาร, ธุรกิจ"
+      content="เจ้าป่า, Applicationlubmobile, วีซ่า, สินเชื่อ, เอกสาร, โปรไฟล์, แปลเอกสาร, ออกแบบ, การตลาด, ไทย"
     />
     <meta name="author" content="เจ้าป่า" />
+    <meta name="theme-color" content="#1e40af" />
 
     <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://applicationlubmobile.vercel.app/" />
     <meta property="og:title" content="Applicationlubmobile" />
     <meta
       property="og:description"
-      content="ที่เดียวจบ ครบเรื่องเอกสาร วีซ่า และการตลาด"
+      content="ที่เดียวจบ ครบทุกเรื่องเอกสาร วีซ่า และการตลาด"
     />
     <meta property="og:image" content="/og-image.webp" />
-    <meta property="og:url" content="https://applicationlubmobile.vercel.app/" />
-    <meta property="og:type" content="website" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://applicationlubmobile.vercel.app/" />
     <meta name="twitter:title" content="Applicationlubmobile" />
     <meta
       name="twitter:description"
-      content="บริการครบวงจรทั้งเอกสาร วีซ่า ออกแบบ และการตลาด"
+      content="บริการครบวงจรด้านเอกสาร วีซ่า การตลาด และออกแบบ"
     />
     <meta name="twitter:image" content="/og-image.webp" />
 
-    <!-- PWA Support -->
+    <!-- Web App / PWA -->
     <link rel="manifest" href="/manifest.webmanifest" />
-    <meta name="theme-color" content="#2C3E50" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
 
-    <!-- Theme Init Script -->
+    <!-- Dark Mode & Theme Init -->
     <script>
-      (function () {
+      (() => {
         try {
-          const userTheme = localStorage.getItem("app-theme") || "lofi";
-          const root = document.documentElement;
-          root.setAttribute("data-theme", userTheme);
-          if (userTheme === "lofi-dark") {
-            root.classList.add("dark");
-          } else {
-            root.classList.remove("dark");
-          }
+          const theme = localStorage.getItem('app-theme') || 'lofi';
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.classList.toggle('dark', theme.includes('dark'));
         } catch (e) {
-          document.documentElement.setAttribute("data-theme", "lofi");
-          document.documentElement.classList.remove("dark");
-          console.warn("Cannot access localStorage to get theme:", e);
+          document.documentElement.setAttribute('data-theme', 'lofi');
+          console.warn('Theme fallback:', e);
         }
       })();
     </script>
 
-    <!-- ✅ Use Vite Dev Entry -->
+    <!-- Vite Main Entry -->
     <script type="module" src="/src/main.tsx"></script>
   </head>
 
   <body
     class="bg-base-100 text-base-content transition-colors duration-300 font-sans"
+    style="font-family: 'Kanit', sans-serif;"
   >
     <div id="root"></div>
 
     <noscript>
-      <div
-        style="padding: 2rem; text-align: center; background-color: #fef3c7; color: #92400e"
+      <section
+        style="
+          padding: 2rem;
+          text-align: center;
+          background-color: #fef3c7;
+          color: #92400e;
+          font-family: 'Kanit', sans-serif;
+        "
       >
-        โปรดเปิด JavaScript เพื่อใช้งานเว็บไซต์นี้
-      </div>
+        ⚠️ โปรดเปิดใช้งาน JavaScript เพื่อแสดงผลเว็บไซต์นี้อย่างสมบูรณ์
+      </section>
     </noscript>
   </body>
 </html>

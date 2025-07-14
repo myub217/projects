@@ -1,14 +1,12 @@
 // postcss.config.js
 
-import tailwindcss from "tailwindcss";
-import autoprefixer from "autoprefixer";
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
 
-/**
- * 🔧 PostCSS Config
- * 📦 Plugins: TailwindCSS + Autoprefixer
- * 🚀 Compatible with Vite / Next / CRA
- */
-
+/** @type {import('postcss').ProcessOptions} */
 export default {
-  plugins: [tailwindcss, autoprefixer],
+  plugins: [
+    tailwindcss(), // ไม่ต้องใส่ path
+    autoprefixer(),
+  ],
 };

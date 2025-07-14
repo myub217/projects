@@ -81,10 +81,10 @@ define(['./workbox-c6c6fb7c'], (function (workbox) { 'use strict';
    * See https://goo.gl/S9QRab
    */
   workbox.precacheAndRoute([{
-    "url": "assets/index-BSkcFizE.css",
+    "url": "assets/index-D5mL3a5E.css",
     "revision": null
   }, {
-    "url": "assets/index-CvUvf0UO.js",
+    "url": "assets/index-DdcMbShk.js",
     "revision": null
   }, {
     "url": "assets/vendor-B0T0T1rU.js",
@@ -93,14 +93,14 @@ define(['./workbox-c6c6fb7c'], (function (workbox) { 'use strict';
     "url": "assets/vendor-react-CA3tHcxm.js",
     "revision": null
   }, {
+    "url": "build-report.html",
+    "revision": "12e323c905a52de638bc5a5ace962849"
+  }, {
     "url": "index.html",
-    "revision": "a19876efc6ca325f4f71a8ab6e04aa3e"
+    "revision": "4d4c898cf2a726aac461ae05eff93d7d"
   }, {
     "url": "registerSW.js",
     "revision": "1872c500de691dce40960bb85481de07"
-  }, {
-    "url": "report.html",
-    "revision": "2e6b4497c3375ffa8209763c9b0ff5aa"
   }, {
     "url": "icons/icon-192x192.png",
     "revision": "1cdb8f9932a2c4f5f5e9d3349343dea9"
@@ -109,7 +109,7 @@ define(['./workbox-c6c6fb7c'], (function (workbox) { 'use strict';
     "revision": "04b0fbd18e65949ff16e274966b8e4e7"
   }, {
     "url": "manifest.webmanifest",
-    "revision": "eb06ba569ea0e48272fef44ab8416a8c"
+    "revision": "836366307f146aaea2c47a81c2532c41"
   }], {});
   workbox.cleanupOutdatedCaches();
   workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html")));

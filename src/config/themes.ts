@@ -9,16 +9,24 @@ export type ThemeMode = "light" | "dark";
  * 🎨 AppTheme: โครงสร้างข้อมูลของธีมที่ระบบรองรับ
  */
 export type AppTheme = {
-  name: string;                // ชื่อภายใน เช่น "jp-light"
-  displayName: string;         // ชื่อที่แสดงให้ผู้ใช้ เช่น "JP Light Theme"
-  dataTheme: string;           // ค่าที่ใช้กับ data-theme (เช่นใน <html data-theme="...">)
-  mode: ThemeMode;             // "light" หรือ "dark"
-  primaryColor: string;        // สีหลัก (primary)
-  secondaryColor: string;      // สีรอง (secondary)
-  accentColor: string;         // สีเสริม (accent)
-  backgroundColor: string;     // สีพื้นหลัง
-  textColor: string;           // สีข้อความหลัก
-  borderColor: string;         // สีขอบหรือเส้นแบ่ง
+  name: string;
+  displayName: string;
+  dataTheme: string;
+  mode: ThemeMode;
+  primaryColor: string;
+  primaryLightColor: string;
+  primaryDarkColor: string;
+  secondaryColor: string;
+  secondaryLightColor: string;
+  secondaryDarkColor: string;
+  accentColor: string;
+  backgroundColor: string;
+  textColor: string;
+  borderColor: string;
+  infoColor: string;
+  successColor: string;
+  warningColor: string;
+  errorColor: string;
 };
 
 /**
@@ -40,24 +48,40 @@ export const themes: AppTheme[] = [
     displayName: "JP Light Theme",
     dataTheme: "jp-light",
     mode: "light",
-    primaryColor: "#1e40af",         // --color-primary
-    secondaryColor: "#6b7280",       // --color-secondary
-    accentColor: "#2563eb",          // --color-accent
-    backgroundColor: "#ffffff",      // --color-bg
-    textColor: "#1f2937",            // --color-fg
-    borderColor: "#e5e7eb",          // --color-border
+    primaryColor: "#1e40af",
+    primaryLightColor: "#3b82f6",
+    primaryDarkColor: "#1e3a8a",
+    secondaryColor: "#6b7280",
+    secondaryLightColor: "#a3a9b4",
+    secondaryDarkColor: "#4b5261",
+    accentColor: "#2563eb",
+    backgroundColor: "#ffffff",
+    textColor: "#1f2937",
+    borderColor: "#e5e7eb",
+    infoColor: "#3b82f6",
+    successColor: "#22c55e",
+    warningColor: "#f59e0b",
+    errorColor: "#ef4444",
   },
   {
     name: themeNames.JP_DARK,
     displayName: "JP Dark Theme",
     dataTheme: "jp-dark",
     mode: "dark",
-    primaryColor: "#3b82f6",         // --color-primary
-    secondaryColor: "#a3a9b4",       // --color-secondary
-    accentColor: "#60a5fa",          // --color-accent
-    backgroundColor: "#1f2937",      // --color-bg
-    textColor: "#f3f4f6",            // --color-fg
-    borderColor: "#374151",          // --color-border
+    primaryColor: "#3b82f6",
+    primaryLightColor: "#60a5fa",
+    primaryDarkColor: "#2563eb",
+    secondaryColor: "#a3a9b4",
+    secondaryLightColor: "#cbd5e1",
+    secondaryDarkColor: "#475569",
+    accentColor: "#60a5fa",
+    backgroundColor: "#1f2937",
+    textColor: "#f3f4f6",
+    borderColor: "#374151",
+    infoColor: "#2563eb",
+    successColor: "#16a34a",
+    warningColor: "#b45309",
+    errorColor: "#b91c1c",
   },
 ];
 

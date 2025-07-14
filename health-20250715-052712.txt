@@ -1,0 +1,9 @@
+Node: v24.4.0
+NPM: 11.4.2
+PNPM: 10.13.1
+CPU: aarch64
+OS: Linux
+Memory:
+               total        used        free      shared  buff/cache   available
+Mem:           5.6Gi       3.1Gi       297Mi        14Mi       2.2Gi       2.2Gi
+Swap:          6.0Gi       2.0Gi       4.0Gi

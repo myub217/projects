@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Modular Onepage App built with Vite, React, TailwindCSS, Express, and TypeScript",
+  "description": "Modular Onepage App built with Vite, React, TailwindCSS, Express, and TypeScript. Fullstack SPA with PWA support and clean modular structure.",
   "author": "myub217 <myub25217@gmail.com>",
   "license": "MIT",
   "repository": {
@@ -20,43 +20,39 @@
     "modular",
     "spa",
     "frontend",
-    "backend"
+    "backend",
+    "fullstack"
   ],
   "engines": {
     "node": ">=18.0.0"
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
     "start:api": "tsx server.ts",
     "start": "concurrently \"pnpm start:api\" \"pnpm dev\"",
+    "preview": "vite preview",
     "start:preview": "concurrently \"pnpm start:api\" \"pnpm preview\"",
-    "clean": "sh ./Clean.sh",
+    "build": "vite build",
+    "analyze": "vite build --plugin rollup-plugin-visualizer",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --ext .ts,.tsx",
     "check": "pnpm typecheck && pnpm lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
-    "analyze": "vite build --plugin rollup-plugin-visualizer",
+    "clean": "sh ./Clean.sh",
     "prepare": "husky install",
     "upgrade": "ncu -u && pnpm install"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.56.0",
-    "clsx": "^2.1.1",
     "connect-history-api-fallback": "^2.0.0",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "framer-motion": "^12.23.3",
-    "jszip": "^3.10.1",
     "lucide-react": "^0.525.0",
     "node-fetch": "^3.3.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-helmet-async": "^2.0.5",
     "react-icons": "^5.5.0",
-    "react-router-dom": "^6.30.1",
-    "zod": "^3.22.4"
+    "react-router-dom": "^6.30.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.31.0",
@@ -70,16 +66,15 @@
     "@typescript-eslint/eslint-plugin": "^8.36.0",
     "@typescript-eslint/parser": "^8.36.0",
     "@vitejs/plugin-react": "^4.6.0",
+    "vite": "^7.0.4",
+    "vite-plugin-pwa": "^1.0.1",
     "autoprefixer": "^10.4.21",
     "concurrently": "^8.2.2",
     "daisyui": "^5.0.46",
     "depcheck": "^1.4.3",
     "eslint": "^9.31.0",
     "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-tailwindcss": "^3.18.0",
     "eslint-plugin-unused-imports": "^4.1.4",
     "husky": "^9.0.11",
@@ -91,9 +86,6 @@
     "rollup-plugin-visualizer": "^6.0.3",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.20.3",
-    "typescript": "^5.8.3",
-    "vite": "^7.0.4",
-    "vite-plugin-eslint": "^1.8.1",
-    "vite-plugin-pwa": "^1.0.1"
+    "typescript": "^5.8.3"
   }
 }

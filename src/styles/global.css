@@ -3,28 +3,38 @@
    Project: JP Visual & Docs – Blue-White Theme
    ============================ */
 
-/* Tailwind Base */
+/* === Tailwind Setup === */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ========== CSS Variables ========== */
+/* ============================
+   🎨 CSS Variables
+   ============================ */
 
 /* Light Theme */
 :root {
   --color-bg: #ffffff;
   --color-fg: #1f2937;
+
   --color-primary: #1e40af;
   --color-primary-light: #3b82f6;
   --color-primary-dark: #1e3a8a;
+
   --color-secondary: #6b7280;
   --color-secondary-light: #a3a9b4;
   --color-secondary-dark: #4b5261;
+
   --color-accent: #2563eb;
+
   --color-info: #3b82f6;
   --color-success: #22c55e;
   --color-warning: #f59e0b;
   --color-error: #ef4444;
+
+  --color-border: #e5e7eb;
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-fg);
 
   --font-body: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
   --font-heading: 'Playfair Display', 'Georgia', serif;
@@ -32,10 +42,6 @@
 
   --radius: 0.5rem;
   --transition: 0.3s ease;
-
-  --color-border: #e5e7eb;
-  --color-background: var(--color-bg);
-  --color-foreground: var(--color-fg);
 
   --shadow-default: 0 2px 8px rgba(59, 130, 246, 0.25);
   --shadow-hover: 0 4px 12px rgba(59, 130, 246, 0.35);
@@ -45,13 +51,17 @@
 html.dark {
   --color-bg: #1f2937;
   --color-fg: #f3f4f6;
+
   --color-primary: #3b82f6;
   --color-primary-light: #60a5fa;
   --color-primary-dark: #2563eb;
+
   --color-secondary: #a3a9b4;
   --color-secondary-light: #cbd5e1;
   --color-secondary-dark: #475569;
+
   --color-accent: #60a5fa;
+
   --color-info: #2563eb;
   --color-success: #16a34a;
   --color-warning: #b45309;
@@ -66,14 +76,14 @@ html.dark {
 }
 
 /* ============================
-   Base Element Styling
+   🧱 Base Elements
    ============================ */
 
 body {
   @apply bg-background text-foreground font-body antialiased;
   transition: background-color var(--transition), color var(--transition);
-  line-height: 1.6;
   min-height: 100vh;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -98,7 +108,6 @@ button:hover,
 button:focus-visible {
   @apply bg-primary-light;
   box-shadow: var(--shadow-hover);
-  outline: none;
 }
 
 button:disabled {
@@ -111,9 +120,9 @@ textarea,
 select {
   border: 1px solid var(--color-border);
   @apply px-3 py-2 rounded-md bg-background text-foreground outline-none focus:ring-2 focus:ring-primary;
-  transition: border-color var(--transition), box-shadow var(--transition);
   width: 100%;
   font-size: 1rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
 input::placeholder,
@@ -135,16 +144,17 @@ select:focus {
 }
 
 /* ============================
-   Custom Components & Layouts
+   🧩 Components
    ============================ */
 
 .card {
   background-color: var(--color-background);
+  color: var(--color-foreground);
   border-radius: var(--radius);
   box-shadow: var(--shadow-default);
-  transition: box-shadow var(--transition), transform var(--transition);
   padding: 1.5rem;
   margin-bottom: 1.5rem;
+  transition: box-shadow var(--transition), transform var(--transition);
 }
 
 .card:hover,
@@ -168,7 +178,10 @@ select:focus {
   margin: 2rem auto;
 }
 
-/* Button Group */
+/* ============================
+   🔘 Button Group
+   ============================ */
+
 .btn-group {
   display: inline-flex;
   gap: 0.5rem;
@@ -195,7 +208,10 @@ select:focus {
   border-color: var(--color-primary);
 }
 
-/* Form Layout */
+/* ============================
+   🧾 Form Layout
+   ============================ */
+
 .form-row {
   display: flex;
   flex-wrap: wrap;
@@ -208,14 +224,20 @@ select:focus {
   min-width: 150px;
 }
 
-/* Container */
+/* ============================
+   📦 Container
+   ============================ */
+
 .container {
   max-width: 1200px;
   margin-inline: auto;
   padding-inline: 1rem;
 }
 
-/* Header */
+/* ============================
+   📌 Header & Nav
+   ============================ */
+
 header.site-header {
   padding-block: 1rem;
   border-bottom: 1px solid var(--color-border);
@@ -225,7 +247,6 @@ header.site-header {
   align-items: center;
 }
 
-/* Navigation */
 nav.site-nav ul {
   list-style: none;
   display: flex;
@@ -239,7 +260,10 @@ nav.site-nav a {
   font-weight: 600;
 }
 
-/* Footer */
+/* ============================
+   📎 Footer
+   ============================ */
+
 footer.site-footer {
   padding: 2rem 1rem;
   background-color: var(--color-background);
@@ -250,7 +274,7 @@ footer.site-footer {
 }
 
 /* ============================
-   Utility Spacing
+   🧱 Utilities
    ============================ */
 
 .mt-1 { margin-top: 0.25rem; }
@@ -264,7 +288,7 @@ footer.site-footer {
 .mb-4 { margin-bottom: 1rem; }
 
 /* ============================
-   Scrollbar Styling
+   🖱️ Scrollbar
    ============================ */
 
 ::-webkit-scrollbar-thumb {

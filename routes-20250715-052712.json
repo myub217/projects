@@ -1,0 +1,5 @@
+ROUTE: ./src/main.tsx:      <Routes>
+ROUTE: ./src/main.tsx:        <Route path="/" element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
+ROUTE: ./src/main.tsx:        <Route path="/login" element={<LoginPage />} />
+ROUTE: ./src/main.tsx:        <Route path="/secret" element={<SecretRoomPage theme={theme} toggleTheme={toggleTheme} />} />
+ROUTE: ./src/main.tsx:        <Route path="*" element={<div className="p-8 text-center text-xl text-red-600">404 - Not Found</div>} />

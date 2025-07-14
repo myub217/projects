@@ -1,4 +1,3 @@
-// src/components/ServicesSection.tsx
 import React from "react";
 import ServiceCard from "./ServiceCard";
 import { services } from "../data/servicesData";
@@ -11,7 +10,7 @@ export interface Service {
   image: string;
   altText?: string;
   available: boolean;
-  comingSoonNote?: string | null; // allow null for compatibility with data
+  comingSoonNote?: string | null;
 }
 
 interface ServicesSectionProps {
@@ -21,15 +20,15 @@ interface ServicesSectionProps {
 const ServicesSection: React.FC<ServicesSectionProps> = ({ onRequest }) => {
   return (
     <section
-      className="bg-base-100 py-16 transition-colors duration-500 dark:bg-gray-900"
-      aria-label="บริการของเรา"
-      role="region"
       id="services"
+      role="region"
+      aria-label="บริการของเรา"
+      className="bg-base-100 py-16 transition-colors duration-500 dark:bg-gray-900"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2
-          className="mb-12 text-center text-3xl font-extrabold tracking-wide text-primary"
           id="services-heading"
+          className="mb-12 text-center text-3xl font-extrabold tracking-wide text-primary"
         >
           บริการของเรา
         </h2>
@@ -39,31 +38,40 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ onRequest }) => {
           role="list"
           aria-labelledby="services-heading"
         >
-          {services.map((service) => (
-            <div
-              key={`${service.id}-${service.title}`}
-              className="flex flex-col"
-              data-testid={`service-card-${service.id}`}
-              aria-label={`บริการ: ${service.title}`}
-              role="listitem"
-            >
-              <ServiceCard
-                service={service}
-                disabled={!service.available}
-                // onRequest prop intentionally removed to let ServiceCard handle direct link
-                // onRequest={onRequest ? () => onRequest(service) : undefined}
-              />
-              {!service.available && service.comingSoonNote && (
-                <p
-                  className="mt-3 animate-pulse text-center text-sm italic text-gray-500 dark:text-gray-400"
-                  aria-live="polite"
-                  role="note"
-                >
-                  🚧 {service.comingSoonNote}
-                </p>
-              )}
-            </div>
-          ))}
+          {services.map((service) => {
+            const isDisabled = !service.available;
+            const showNote = isDisabled && service.comingSoonNote;
+
+            return (
+              <div
+                key={`${service.id}-${service.title}`}
+                className="flex flex-col"
+                role="listitem"
+                aria-label={`บริการ: ${service.title}`}
+                data-testid={`service-card-${service.id}`}
+              >
+                <ServiceCard
+                  service={service}
+                  disabled={isDisabled}
+                  onRequest={
+                    !isDisabled && onRequest
+                      ? () => onRequest(service)
+                      : undefined
+                  }
+                />
+
+                {showNote && (
+                  <p
+                    className="mt-3 animate-pulse text-center text-sm italic text-gray-500 dark:text-gray-400"
+                    role="note"
+                    aria-live="polite"
+                  >
+                    🚧 {service.comingSoonNote}
+                  </p>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

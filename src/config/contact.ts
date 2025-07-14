@@ -1,4 +1,3 @@
-// src/config/contact.ts
 import {
   FaLine,
   FaFacebook,
@@ -6,41 +5,64 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 
+// ประเภทช่องทางติดต่อที่รองรับ
 export type ContactType = "line" | "facebook" | "messenger" | "email";
 
+// โครงสร้างลิงก์ติดต่อ
 export interface ContactLink {
   type: ContactType;
-  href: string;
   label: string;
   icon: React.ComponentType<{ className?: string }>;
 }
 
+// ข้อมูลลิงก์ติดต่อที่แสดงใน UI
 export const contactLinks: ContactLink[] = [
   {
     type: "line",
-    href: "https://lin.ee/Z5ofPAu",
     label: "LINE",
     icon: FaLine,
   },
   {
     type: "facebook",
-    href: "https://www.facebook.com/profile.php?id=61573307616115&mibextid=kFxxJD",
     label: "Facebook",
     icon: FaFacebook,
   },
   {
     type: "messenger",
-    href: "https://m.me/61573307616115?hash=AbZf0L5cSZ8XvIYw&source=qr_link_share",
     label: "Messenger",
     icon: FaFacebookMessenger,
   },
   {
     type: "email",
-    href: "mailto:contact@yourdomain.com",
     label: "Email",
     icon: FaEnvelope,
   },
 ];
 
-export const getContactHref = (type: ContactType): string =>
-  contactLinks.find((c) => c.type === type)?.href || "";
+// ฟังก์ชันสำหรับสร้าง href ที่จะใช้งานจริง
+export const getContactHref = (
+  type: ContactType,
+  message?: string
+): string => {
+  switch (type) {
+    case "line": {
+      const lineOAID = "@462fqtfc"; // ✅ OA ID จริง
+      const encodedMsg = message ? `?text=${encodeURIComponent(message)}` : "";
+      const directURL = `https://line.me/R/oaMessage/${lineOAID}/${encodedMsg}`;
+      const fallbackURL = "https://lin.ee/uhMtuSB";
+      return message ? directURL : fallbackURL;
+    }
+
+    case "facebook":
+      return "https://www.facebook.com/profile.php?id=61573307616115&mibextid=kFxxJD";
+
+    case "messenger":
+      return "https://m.me/61573307616115?hash=AbZf0L5cSZ8XvIYw&source=qr_link_share";
+
+    case "email":
+      return "mailto:contact@bannerdigital.co";
+
+    default:
+      return "";
+  }
+};

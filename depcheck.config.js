@@ -1,87 +1,59 @@
 // depcheck.config.js
 
-/**
- * ✅ Depcheck Config for Modular Onepage Project
- * - รองรับ ESM, TypeScript, React, JSX/TSX
- * - ข้ามไฟล์และไดเรกทอรี dev-only
- * - ปรับจูนสำหรับ fullstack project ที่ใช้ Vite + Express
- */
-
 const depcheck = require('depcheck');
 
 module.exports = {
-  ignoreDirs: [
+  ignoreBinPackage: false,
+  skipMissing: false,
+
+  // ไฟล์หรือโฟลเดอร์ที่ไม่ต้องสแกน
+  ignorePatterns: [
     'dist',
     'build',
+    '.vite',
+    '.next',
     'coverage',
     'node_modules',
     'public',
-    '.git',
-    '.vscode',
-    '.next',
-    '.expo',
-    '.turbo',
     '.output',
-    '.cache',
-    'android',
-    'ios',
-    '.summary',
-    '.husky'
   ],
+
+  // ชื่อ dependencies ที่ไม่ต้องรายงานว่าไม่ได้ใช้งาน
   ignoreMatches: [
-    // ⚙️ Dev-only tools
-    'eslint*',
-    '@types/*',
+    // dev tools
+    'eslint',
+    'eslint-*',
+    'prettier',
+    'typescript',
+    'tslib',
+
+    // Vite + Tailwind + DaisyUI
     'vite',
     '@vitejs/*',
     'vite-plugin-*',
-    'typescript',
-    'ts-node',
-    'tsx',
-    'vitest',
-    'jest*',
-    'prettier',
-    'postcss',
-    'autoprefixer',
     'tailwindcss',
+    'autoprefixer',
+    'postcss',
     'daisyui',
-    'nodemon',
-    'rollup*',
-    'babel*',
-    'identity-obj-proxy',
-    'connect-history-api-fallback',
-    'jest-fetch-mock',
-    'husky',
-    'depcheck',
-    'concurrently',
-    'ncu'
+
+    // React + Types
+    '@types/*',
+    'react-refresh',
+    'web-vitals',
+
+    // Testing (ถ้าใช้)
+    'vitest',
+    '@vitest/*',
+    'jsdom',
   ],
+
+  // วิธีพิเศษในการตรวจจับการใช้งาน dependencies
   specials: [
     depcheck.special.babel,
-    depcheck.special.typescript,
-    depcheck.special.webpack,
     depcheck.special.eslint,
-    depcheck.special.jest,
+    depcheck.special.webpack,
+    depcheck.special.typescript,
     depcheck.special.vue,
-    depcheck.special.bin
+    depcheck.special.bin, // ตรวจ binary CLI
   ],
-  parsers: {
-    '**/*.js': depcheck.parser.es6,
-    '**/*.cjs': depcheck.parser.es6,
-    '**/*.mjs': depcheck.parser.es6,
-    '**/*.jsx': depcheck.parser.jsx,
-    '**/*.ts': depcheck.parser.typescript,
-    '**/*.tsx': depcheck.parser.typescript
-  },
-  detectors: [
-    depcheck.detector.requireCallExpression,
-    depcheck.detector.importDeclaration,
-    depcheck.detector.exportDeclaration,
-    depcheck.detector.dynamicImport,
-    depcheck.detector.tsTypeReference,
-    depcheck.detector.typescriptEnum,
-    depcheck.detector.typescriptImportType,
-    depcheck.detector.propertyAccess,
-    depcheck.detector.memberExpression
-  ]
 };
