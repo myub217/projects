@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 import { motion } from "framer-motion";
 
+// Components
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-
 import WelcomeBanner from "./SecretRoomPageComponents/WelcomeBanner";
 import DocumentSummaryPanel from "./SecretRoomPageComponents/DocumentSummaryPanel";
 import QuickActions from "./SecretRoomPageComponents/QuickActions";
@@ -15,6 +15,9 @@ import AccessTimeout from "./SecretRoomPageComponents/AccessTimeout";
 import { DocumentCert } from "./SecretRoomPageComponents/DocumentCert";
 import SalaryCertDocument from "./SecretRoomPageComponents/SalaryCertDocument";
 import LayeredDocBlender from "./SecretRoomPageComponents/Features/Feature1";
+
+// Constants
+const LOGOUT_TIMEOUT_MS = 10 * 60 * 1000;
 
 interface SecretRoomPageProps {
   theme: "light" | "dark";
@@ -34,8 +37,7 @@ interface Report {
   lastDocumentStatus: string;
 }
 
-const LOGOUT_TIMEOUT_MS = 10 * 60 * 1000;
-
+// Hook: Auth Timeout
 function useAuthTimeout(onTimeout: () => void, initialTimeout = LOGOUT_TIMEOUT_MS) {
   const [timeLeft, setTimeLeft] = useState(initialTimeout);
 
@@ -57,6 +59,7 @@ function useAuthTimeout(onTimeout: () => void, initialTimeout = LOGOUT_TIMEOUT_M
   return { timeLeft, reset };
 }
 
+// Hook: Fetch User Data
 function useFetchUserData() {
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState<string | null>(null);
@@ -76,25 +79,31 @@ function useFetchUserData() {
       return;
     }
     setUsername(user);
+
     async function simulateFetch() {
       await new Promise((r) => setTimeout(r, 500));
+
       setReport({
-        documentCount: 42,
-        submittedForms: 10,
-        pendingRequests: 5,
+        documentCount: 12,
+        submittedForms: 7,
+        pendingRequests: 3,
         lastDocumentStatus: "กำลังตรวจสอบ",
       });
+
       const now = new Date().toLocaleTimeString("th-TH", {
         hour: "2-digit",
         minute: "2-digit",
       });
+
       setLogs([
         { id: 1, detail: "• รอแอดมินนำเข้าระบบ", time: now },
         { id: 2, detail: "• ระบบกำลังจัดเตรียมเอกสาร", time: now },
         { id: 3, detail: "• รอการยืนยันขั้นสุดท้าย", time: now },
       ]);
+
       setLoading(false);
     }
+
     simulateFetch();
   }, []);
 
@@ -134,7 +143,9 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
           aria-busy="true"
           aria-live="polite"
         >
-          <p className="text-lg font-medium text-gray-800 dark:text-white">กำลังโหลดข้อมูล...</p>
+          <p className="text-lg font-medium text-gray-800 dark:text-white">
+            กำลังโหลดข้อมูล...
+          </p>
         </main>
         <Footer />
       </>
@@ -150,7 +161,7 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
         className="min-h-screen bg-gray-100 p-4 dark:bg-gray-900 sm:p-6"
         onMouseMove={reset}
         onKeyDown={reset}
-        tabIndex={-1}
+        tabIndex={0}
         role="main"
         aria-label="หน้าหลักของระบบ"
       >
@@ -191,7 +202,7 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
               className="flex w-full items-center justify-center gap-3 rounded-lg bg-red-600 px-6 py-3 font-semibold text-white shadow-lg transition hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-offset-2"
               aria-label="ออกจากระบบ"
             >
-              <FiLogOut size={24} />
+              <FiLogOut size={22} />
               ออกจากระบบ
             </button>
           </div>

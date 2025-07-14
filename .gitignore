@@ -16,7 +16,7 @@ lerna-debug.log*
 # 🔐 Environment variables
 # ===============================
 .env
-.env.*  # เช่น .env.development, .env.production, .env.local
+.env.*
 env-vars-*.txt
 
 # ===============================

@@ -1,0 +1,251 @@
+.
+├──  
+├── .env
+├── .env.example
+├── .env.local
+├── .env.production
+├── .eslintrc.cjs
+├── .gitignore
+├── .husky
+│   └── _
+│       ├── .gitignore
+│       ├── applypatch-msg
+│       ├── commit-msg
+│       ├── h
+│       ├── husky.sh
+│       ├── post-applypatch
+│       ├── post-checkout
+│       ├── post-commit
+│       ├── post-merge
+│       ├── post-rewrite
+│       ├── pre-applypatch
+│       ├── pre-auto-gc
+│       ├── pre-commit
+│       ├── pre-merge-commit
+│       ├── pre-push
+│       ├── pre-rebase
+│       └── prepare-commit-msg
+├── .pnpmrc
+├── .prettierrc
+├── .summary
+│   ├── build-20250714-183412.log
+│   ├── build-20250714-183622.log
+│   ├── build-20250714-194515.log
+│   ├── coverage-summary-20250714-183412.txt
+│   ├── coverage-summary-20250714-183622.txt
+│   ├── coverage-summary-20250714-194515.txt
+│   ├── depcheck-20250714-183412.json
+│   ├── depcheck-20250714-183622.json
+│   ├── depcheck-20250714-194515.json
+│   ├── env-20250714-183412.txt
+│   ├── env-20250714-183622.txt
+│   ├── env-20250714-194515.txt
+│   ├── env-example-20250714-183412.txt
+│   ├── env-example-20250714-183622.txt
+│   ├── env-example-20250714-194515.txt
+│   ├── eslint-unused-20250714-183412.log
+│   ├── eslint-unused-20250714-183622.log
+│   ├── eslint-unused-20250714-194515.log
+│   ├── eslint.log
+│   ├── git-info-20250714-183412.txt
+│   ├── git-info-20250714-183622.txt
+│   ├── git-info-20250714-194515.txt
+│   ├── jest-config-20250714-183412.txt
+│   ├── jest-config-20250714-183622.txt
+│   ├── jest-config-20250714-194515.txt
+│   ├── project-info-20250714-183412.json
+│   ├── project-info-20250714-183622.json
+│   ├── project-info-20250714-194515.json
+│   ├── project-info-20250714-204753.json
+│   ├── server-preview-20250714-183412.txt
+│   ├── server-preview-20250714-183622.txt
+│   ├── server-preview-20250714-194515.txt
+│   ├── tree-20250714-183412.txt
+│   ├── tree-20250714-183622.txt
+│   ├── tree-20250714-194515.txt
+│   ├── tree-20250714-204753.txt
+│   ├── tsconfig-20250714-183412.txt
+│   ├── tsconfig-20250714-183622.txt
+│   ├── tsconfig-20250714-194515.txt
+│   ├── vite-config-20250714-183412.txt
+│   ├── vite-config-20250714-183622.txt
+│   └── vite-config-20250714-194515.txt
+├── Clean.sh
+├── README.md
+├── api
+│   ├── apiAdmin.ts
+│   └── apiClient.ts
+├── build
+├── config
+├── depcheck.config.js
+├── dev-dist
+│   ├── registerSW.js
+│   ├── sw.js
+│   ├── sw.js.map
+│   ├── workbox-c6c6fb7c.js
+│   └── workbox-c6c6fb7c.js.map
+├── eslint.config.mjs
+├── full-setup.sh
+├── generate-project-info.sh
+├── index.html
+├── jest.config.js
+├── jest.setup.js
+├── package.json
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+├── postcss.config.cjs
+├── postcss.config.js
+├── public
+│   ├── assets
+│   │   ├── krut.webp
+│   │   └── krut1.webp
+│   ├── favicon.ico
+│   ├── icons
+│   │   ├── icon-192x192.png
+│   │   └── icon-512x512.png
+│   ├── images
+│   │   ├── icons
+│   │   │   ├── Facebook.svg
+│   │   │   ├── Instagram.svg
+│   │   │   ├── Telegram.svg
+│   │   │   ├── Tiktok.svg
+│   │   │   └── line.svg
+│   │   ├── portfolio-loan-success.jpg
+│   │   ├── portfolio-loan-success1.jpg
+│   │   ├── portfolio-loan-success2.jpg
+│   │   ├── portfolio-loan-success3.jpg
+│   │   ├── portfolio-loan-success4.jpg
+│   │   └── services
+│   │       ├── service1.webp
+│   │       ├── service10.webp
+│   │       ├── service11.webp
+│   │       ├── service12.webp
+│   │       ├── service2.webp
+│   │       ├── service3.webp
+│   │       ├── service4.webp
+│   │       ├── service5.webp
+│   │       ├── service6.webp
+│   │       ├── service7.webp
+│   │       ├── service8.webp
+│   │       └── service9.webp
+│   └── manifest.json
+├── server.ts
+├── src
+│   ├── __tests__
+│   ├── api
+│   │   └── apiClient.ts
+│   ├── assets
+│   │   ├── fb.webp
+│   │   ├── hero.webp
+│   │   ├── icons
+│   │   │   ├── icon-192x192.png
+│   │   │   ├── icon-512x512.png
+│   │   │   ├── react.svg
+│   │   │   └── vite.svg
+│   │   ├── images
+│   │   │   ├── about-us.jpg
+│   │   │   ├── about-us.webp
+│   │   │   ├── backend.jpg
+│   │   │   ├── consulting.jpg
+│   │   │   ├── fallback-image.png
+│   │   │   ├── financial-docs.png
+│   │   │   ├── jp-logo.png
+│   │   │   ├── loan.png
+│   │   │   ├── logo1.png
+│   │   │   ├── nf98Hfe.png
+│   │   │   ├── pro-team.jpg
+│   │   │   ├── profile.jpg
+│   │   │   ├── repository-open-graph-template.png
+│   │   │   ├── review
+│   │   │   │   ├── about-us.jpg
+│   │   │   │   ├── review1.png
+│   │   │   │   ├── review10.png
+│   │   │   │   ├── review2.png
+│   │   │   │   ├── review3.png
+│   │   │   │   ├── review4.png
+│   │   │   │   ├── review5.png
+│   │   │   │   ├── review6.png
+│   │   │   │   ├── review7.png
+│   │   │   │   ├── review8.png
+│   │   │   │   └── review9.png
+│   │   │   ├── service-visa.webp
+│   │   │   ├── special.jpg
+│   │   │   └── visa.png
+│   │   ├── jp-logo.png
+│   │   ├── krut.webp
+│   │   └── signature.webp
+│   ├── components
+│   │   ├── About.tsx
+│   │   ├── AdminBoard
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── RepoList.tsx
+│   │   │   ├── StatsPanel.tsx
+│   │   │   └── UserTable.tsx
+│   │   ├── CTASection.tsx
+│   │   ├── CustomerAssessmentForm.tsx
+│   │   ├── DocumentPreviewModal.tsx
+│   │   ├── ErrorBoundary.tsx
+│   │   ├── Feature.tsx
+│   │   ├── Features
+│   │   │   ├── Feature1.tsx
+│   │   │   ├── Feature2.tsx
+│   │   │   ├── Feature3.tsx
+│   │   │   ├── Feature4.tsx
+│   │   │   ├── Feature5.tsx
+│   │   │   └── Feature6.tsx
+│   │   ├── Footer.tsx
+│   │   ├── Header.tsx
+│   │   ├── Hero.tsx
+│   │   ├── LogoSecretApp.tsx
+│   │   ├── MobileMenu.tsx
+│   │   ├── ReviewsSection.tsx
+│   │   ├── ServiceCard.tsx
+│   │   ├── ServicesSection.tsx
+│   │   ├── ThemeToggle.tsx
+│   │   └── VisitorCount.tsx
+│   ├── config
+│   │   ├── contact.ts
+│   │   └── themes.ts
+│   ├── data
+│   │   ├── servicesData.ts
+│   │   └── users.ts
+│   ├── hooks
+│   ├── layouts
+│   ├── main.tsx
+│   ├── pages
+│   │   ├── AdminPage.tsx
+│   │   ├── IndexPage.tsx
+│   │   ├── LoginPage.tsx
+│   │   ├── SecretRoomPage.tsx
+│   │   ├── SecretRoomPageComponents
+│   │   │   ├── AccessTimeout.tsx
+│   │   │   ├── DocumentCert.tsx
+│   │   │   ├── DocumentSummaryPanel.tsx
+│   │   │   ├── Features
+│   │   │   │   ├── Feature1.tsx
+│   │   │   │   ├── Feature2.tsx
+│   │   │   │   ├── Feature3.tsx
+│   │   │   │   ├── Feature4.tsx
+│   │   │   │   ├── Feature5.tsx
+│   │   │   │   └── Feature6.tsx
+│   │   │   ├── QuickActions.tsx
+│   │   │   ├── RecentActivityLog.tsx
+│   │   │   ├── SalaryCertDocument.tsx
+│   │   │   ├── SystemNote.tsx
+│   │   │   └── WelcomeBanner.tsx
+│   │   └── config
+│   │       └── documentCert.config.ts
+│   ├── services
+│   ├── styles
+│   │   └── global.css
+│   ├── tools
+│   ├── types
+│   └── utils
+│       └── hashPassword.ts
+├── tailwind.config.mjs
+├── tsconfig.base.json
+├── tsconfig.json
+├── vercel.json
+└── vite.config.mjs
+
+38 directories, 211 files

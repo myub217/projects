@@ -2,18 +2,10 @@
 
 import React, { useEffect, useState, useRef } from "react";
 
-//-------------------------------
-// Props
-//-------------------------------
-
 interface AccessTimeoutProps {
-  timeLeft: number; // เหลือเวลาในรูปแบบมิลลิวินาที
-  onTimeoutConfirm: () => void; // ฟังก์ชันที่เรียกเมื่อกดออกจากระบบ
+  timeLeft: number; // เวลาเหลือก่อน logout (ms)
+  onTimeoutConfirm: () => void; // callback เมื่อ user กดยืนยันออกจากระบบ
 }
-
-//-------------------------------
-// Component
-//-------------------------------
 
 export default function AccessTimeout({
   timeLeft,
@@ -23,17 +15,17 @@ export default function AccessTimeout({
   const [countdown, setCountdown] = useState(timeLeft);
   const dialogRef = useRef<HTMLDivElement>(null);
 
-  // แสดง modal เมื่อเวลาน้อยกว่า 1 นาทีและมากกว่า 0
+  // Toggle modal visibility
   useEffect(() => {
-    if (timeLeft <= 60 * 1000 && timeLeft > 0) {
-      setVisible(true);
+    if (timeLeft > 0 && timeLeft <= 60_000) {
       setCountdown(timeLeft);
+      setVisible(true);
     } else {
       setVisible(false);
     }
   }, [timeLeft]);
 
-  // อัปเดต countdown ทุก 1 วินาที เมื่อ modal แสดงอยู่
+  // Countdown timer tick
   useEffect(() => {
     if (!visible) return;
     const interval = setInterval(() => {
@@ -42,19 +34,18 @@ export default function AccessTimeout({
     return () => clearInterval(interval);
   }, [visible]);
 
-  // Focus trap & focus on dialog
+  // Focus on dialog when visible
   useEffect(() => {
     if (visible && dialogRef.current) {
       dialogRef.current.focus();
     }
   }, [visible]);
 
-  // Format mm:ss
   const formatTime = (ms: number): string => {
-    const total = Math.floor(ms / 1000);
-    const m = Math.floor(total / 60);
-    const s = total % 60;
-    return `${m}:${s.toString().padStart(2, "0")}`;
+    const totalSec = Math.floor(ms / 1000);
+    const min = Math.floor(totalSec / 60);
+    const sec = totalSec % 60;
+    return `${min}:${sec.toString().padStart(2, "0")}`;
   };
 
   if (!visible) return null;
@@ -69,21 +60,23 @@ export default function AccessTimeout({
       tabIndex={-1}
       ref={dialogRef}
     >
-      <div className="w-full max-w-sm rounded-lg bg-white p-6 text-center shadow-lg dark:bg-gray-800">
+      <div className="w-full max-w-sm rounded-xl bg-white p-6 text-center shadow-xl dark:bg-gray-800">
         <h2
           id="timeout-title"
-          className="mb-4 text-xl font-semibold text-gray-900 dark:text-white"
+          className="mb-3 text-lg font-semibold text-gray-900 dark:text-white"
         >
-          หมดเวลาการใช้งานในอีก {formatTime(countdown)}
+          ⏳ ออกจากระบบภายใน {formatTime(countdown)}
         </h2>
-        <p id="timeout-desc" className="mb-6 text-gray-700 dark:text-gray-300">
-          ระบบจะทำการออกจากระบบอัตโนมัติเพื่อความปลอดภัยของบัญชีผู้ใช้
+        <p
+          id="timeout-desc"
+          className="mb-6 text-sm text-gray-700 dark:text-gray-300"
+        >
+          ระบบจะออกจากระบบโดยอัตโนมัติเพื่อความปลอดภัย
         </p>
         <button
           onClick={onTimeoutConfirm}
-          className="rounded-md bg-red-600 px-4 py-2 font-semibold text-white transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+          className="w-full rounded-md bg-red-600 px-4 py-2 font-medium text-white transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
           aria-label="ยืนยันการออกจากระบบ"
-          autoFocus
         >
           ออกจากระบบตอนนี้
         </button>

@@ -22,14 +22,14 @@ interface TemplateDoc {
 }
 
 //-------------------------------
-// Template Documents
+// Templates
 //-------------------------------
 
 const templateDocs: TemplateDoc[] = [
   {
     id: "tax-deduction",
     title: "ใบหักภาษี ณ ที่จ่าย",
-    contentTemplate: (name, date) =>
+    contentTemplate: (name, date) => 
       `เรียนคุณ ${name}\n\nตามที่ท่านได้รับเงินเดือนในเดือนนี้ ทางบริษัทขอแจ้งหักภาษี ณ ที่จ่าย จำนวนเงิน 5,000 บาท\nวันที่ ${date}\n\nขอแสดงความนับถือ`,
   },
   {
@@ -94,7 +94,7 @@ const generateRandomDocSet = (): RenderedDoc[] => {
 // Component
 //-------------------------------
 
-const Feature1: React.FC = () => {
+export default function Feature1() {
   const [docSet, setDocSet] = useState<RenderedDoc[]>(generateRandomDocSet);
   const [isDownloading, setIsDownloading] = useState(false);
 
@@ -159,6 +159,7 @@ const Feature1: React.FC = () => {
             aria-label={`เอกสาร: ${doc.title}`}
             className="bg-surface relative rounded-xl border border-border bg-opacity-90 p-6 shadow-md backdrop-blur-sm transition-transform duration-300 hover:scale-[1.02]"
           >
+            {/* Watermark */}
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 flex items-center justify-center text-7xl font-extrabold text-foreground opacity-10"
@@ -167,11 +168,11 @@ const Feature1: React.FC = () => {
               CONFIDENTIAL
             </div>
 
+            {/* Content */}
             <h2 className="relative mb-4 text-lg font-bold">{doc.title}</h2>
             <pre className="relative mb-6 whitespace-pre-wrap font-mono text-sm leading-relaxed text-foreground/90">
               {doc.renderedContent}
             </pre>
-
             <footer className="relative flex justify-between text-xs text-foreground/70">
               <span>👤 <span className="font-medium">{doc.name}</span></span>
               <time dateTime={doc.isoDate}>📅 {doc.date}</time>
@@ -181,6 +182,4 @@ const Feature1: React.FC = () => {
       </div>
     </section>
   );
-};
-
-export default Feature1;
+}

@@ -1,17 +1,21 @@
+// src/pages/LoginPage.tsx
+
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { users } from "../data/users";
-import { hashPassword } from "../utils/hashPassword";
+import { users } from "@/data/users";
+import { hashPassword } from "@/utils/hashPassword";
+
+const MAX_ATTEMPTS = 5;
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
-  const [loginAttempts, setLoginAttempts] = useState<number>(0);
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const usernameRef = useRef<HTMLInputElement>(null);
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loginAttempts, setLoginAttempts] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     usernameRef.current?.focus();
@@ -46,8 +50,8 @@ const LoginPage: React.FC = () => {
     }
 
     try {
-      const inputHash = await hashPassword(password);
-      if (inputHash === user.passwordHash) {
+      const hashed = await hashPassword(password);
+      if (hashed === user.passwordHash) {
         localStorage.setItem("authUser", trimmedUsername);
         localStorage.setItem("authRole", user.role);
         navigate("/secret");
@@ -63,15 +67,14 @@ const LoginPage: React.FC = () => {
     }
   };
 
-  const isDisabled = isSubmitting || loginAttempts >= 5;
+  const isDisabled = isSubmitting || loginAttempts >= MAX_ATTEMPTS;
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gray-50 p-6 transition-colors duration-300 dark:bg-gray-900">
+    <main className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900 p-6">
       <section
         role="region"
         aria-labelledby="login-title"
-        aria-live="polite"
-        className="w-full max-w-md rounded-xl bg-white p-8 shadow-lg dark:bg-gray-800"
+        className="w-full max-w-md rounded-xl bg-white dark:bg-gray-800 p-8 shadow-lg"
       >
         <h1
           id="login-title"
@@ -91,7 +94,7 @@ const LoginPage: React.FC = () => {
           </div>
         )}
 
-        {loginAttempts >= 5 && (
+        {loginAttempts >= MAX_ATTEMPTS && (
           <div
             role="alert"
             aria-live="assertive"
@@ -103,8 +106,8 @@ const LoginPage: React.FC = () => {
 
         <form onSubmit={handleLogin} className="flex flex-col gap-5" noValidate>
           <input
-            id="username"
             ref={usernameRef}
+            id="username"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -114,8 +117,8 @@ const LoginPage: React.FC = () => {
             aria-describedby={error ? "login-error" : undefined}
             placeholder="ชื่อผู้ใช้"
             disabled={isDisabled}
-            className={`rounded-md border bg-white px-4 py-3 text-gray-900 placeholder-gray-500 transition focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
-              isDisabled ? "cursor-not-allowed border-gray-400" : "border-gray-300"
+            className={`rounded-md border px-4 py-3 transition placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary ${
+              isDisabled ? "cursor-not-allowed border-gray-400 bg-gray-100 dark:bg-gray-600" : "border-gray-300 bg-white"
             }`}
           />
 
@@ -129,8 +132,8 @@ const LoginPage: React.FC = () => {
             aria-required="true"
             placeholder="รหัสผ่าน"
             disabled={isDisabled}
-            className={`rounded-md border bg-white px-4 py-3 text-gray-900 placeholder-gray-500 transition focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
-              isDisabled ? "cursor-not-allowed border-gray-400" : "border-gray-300"
+            className={`rounded-md border px-4 py-3 transition placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary ${
+              isDisabled ? "cursor-not-allowed border-gray-400 bg-gray-100 dark:bg-gray-600" : "border-gray-300 bg-white"
             }`}
           />
 
@@ -138,8 +141,10 @@ const LoginPage: React.FC = () => {
             type="submit"
             aria-label="เข้าสู่ระบบ"
             disabled={isDisabled}
-            className={`rounded-md bg-primary py-3 text-primary-contrastText transition hover:bg-primary-dark focus:outline-none focus:ring-4 focus:ring-primary focus:ring-opacity-50 ${
-              isDisabled ? "cursor-not-allowed opacity-50 hover:bg-primary" : ""
+            className={`rounded-md py-3 text-primary-contrastText transition focus:outline-none focus:ring-4 focus:ring-primary focus:ring-opacity-50 ${
+              isDisabled
+                ? "bg-primary opacity-50 cursor-not-allowed"
+                : "bg-primary hover:bg-primary-dark"
             }`}
           >
             เข้าสู่ระบบ

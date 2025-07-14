@@ -1,13 +1,13 @@
 // depcheck.config.js
 
-const depcheck = require('depcheck');
-
 /**
  * ✅ Depcheck Config for Modular Onepage Project
- * - Supports ESM, TypeScript, React, JSX/TSX
- * - Skips common dev-only tools and configs
- * - Fine-tuned for modern monorepo/fullstack setup
+ * - รองรับ ESM, TypeScript, React, JSX/TSX
+ * - ข้ามไฟล์และไดเรกทอรี dev-only
+ * - ปรับจูนสำหรับ fullstack project ที่ใช้ Vite + Express
  */
+
+const depcheck = require('depcheck');
 
 module.exports = {
   ignoreDirs: [
@@ -24,10 +24,12 @@ module.exports = {
     '.output',
     '.cache',
     'android',
-    'ios'
+    'ios',
+    '.summary',
+    '.husky'
   ],
   ignoreMatches: [
-    // ⚙️ Tooling & DevDependencies
+    // ⚙️ Dev-only tools
     'eslint*',
     '@types/*',
     'vite',
@@ -35,6 +37,7 @@ module.exports = {
     'vite-plugin-*',
     'typescript',
     'ts-node',
+    'tsx',
     'vitest',
     'jest*',
     'prettier',
@@ -47,14 +50,20 @@ module.exports = {
     'babel*',
     'identity-obj-proxy',
     'connect-history-api-fallback',
-    'jest-fetch-mock'
+    'jest-fetch-mock',
+    'husky',
+    'depcheck',
+    'concurrently',
+    'ncu'
   ],
   specials: [
     depcheck.special.babel,
     depcheck.special.typescript,
     depcheck.special.webpack,
     depcheck.special.eslint,
-    depcheck.special.jest
+    depcheck.special.jest,
+    depcheck.special.vue,
+    depcheck.special.bin
   ],
   parsers: {
     '**/*.js': depcheck.parser.es6,
@@ -72,6 +81,7 @@ module.exports = {
     depcheck.detector.tsTypeReference,
     depcheck.detector.typescriptEnum,
     depcheck.detector.typescriptImportType,
-    depcheck.detector.propertyAccess
+    depcheck.detector.propertyAccess,
+    depcheck.detector.memberExpression
   ]
 };

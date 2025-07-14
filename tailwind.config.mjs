@@ -8,13 +8,12 @@ import daisyui from "daisyui";
  * 💠 Tailwind Config: JP Visual System
  * 📐 Design Scale + Extended Utilities
  * 🌙 Dark Mode: class-based
- * 🎨 Theme Presets: bluewhite / bluewhite-dark / temp
+ * 🎨 Theme Presets: platinum / platinum-dark / temp
  * 🔌 Plugins: DaisyUI, Typography
  */
 
 const config: Config = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-
   darkMode: "class",
 
   theme: {
@@ -61,13 +60,13 @@ const config: Config = {
           DEFAULT: "#6B7280",
         },
         primary: {
-          DEFAULT: "#1E40AF",
-          light: "#3B82F6",
-          dark: "#1E3A8A",
+          DEFAULT: "#D4AF37", // Gold
+          light: "#F6E27F",
+          dark: "#B8860B",
           contrastText: "#FFFFFF",
         },
         accent: {
-          DEFAULT: "#2563EB",
+          DEFAULT: "#2A2F3A",
         },
         border: {
           DEFAULT: "#E5E7EB",
@@ -94,8 +93,8 @@ const config: Config = {
         },
       },
       backgroundImage: {
-        "bluewhite-gradient": "linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%)",
-        "bluewhite-dark-gradient": "linear-gradient(135deg, #111827 0%, #1F2937 100%)",
+        "platinum-gradient": "linear-gradient(135deg, #D4AF37 0%, #2A2F3A 100%)",
+        "platinum-dark-gradient": "linear-gradient(135deg, #1F2937 0%, #111827 100%)",
       },
       fontFamily: {
         body: ["Inter", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
@@ -146,16 +145,16 @@ const config: Config = {
   daisyui: {
     themes: [
       {
-        bluewhite: {
-          primary: "#1E40AF",
-          "primary-focus": "#1E3A8A",
+        platinum: {
+          primary: "#D4AF37",
+          "primary-focus": "#B8860B",
           secondary: "#6B7280",
           "secondary-focus": "#4B5563",
-          accent: "#2563EB",
+          accent: "#2A2F3A",
           neutral: "#F9FAFB",
           "base-100": "#FFFFFF",
-          "base-200": "#E5E7EB",
-          "base-300": "#D1D5DB",
+          "base-200": "#F3F4F6",
+          "base-300": "#E5E7EB",
           info: "#3B82F6",
           success: "#22C55E",
           warning: "#F59E0B",
@@ -163,17 +162,17 @@ const config: Config = {
         },
       },
       {
-        "bluewhite-dark": {
-          primary: "#3B82F6",
-          "primary-focus": "#2563EB",
+        "platinum-dark": {
+          primary: "#D4AF37",
+          "primary-focus": "#F6E27F",
           secondary: "#A3A9B4",
-          "secondary-focus": "#475569",
-          accent: "#60A5FA",
+          "secondary-focus": "#6B7280",
+          accent: "#E4E6EB",
           neutral: "#1F2937",
           "base-100": "#1F2937",
           "base-200": "#111827",
           "base-300": "#374151",
-          info: "#2563EB",
+          info: "#60A5FA",
           success: "#16A34A",
           warning: "#B45309",
           error: "#B91C1C",
@@ -197,7 +196,7 @@ const config: Config = {
         },
       },
     ],
-    darkTheme: "bluewhite-dark",
+    darkTheme: "platinum-dark",
   },
 };
 

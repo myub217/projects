@@ -1,0 +1,170 @@
+.
+├──  
+├── Clean.sh
+├── README.md
+├── api
+│   ├── apiAdmin.ts
+│   └── apiClient.ts
+├── build
+├── config
+├── depcheck.config.js
+├── dev-dist
+│   ├── registerSW.js
+│   ├── sw.js
+│   ├── sw.js.map
+│   ├── workbox-c6c6fb7c.js
+│   └── workbox-c6c6fb7c.js.map
+├── env-20250715-000724.txt
+├── eslint.config.mjs
+├── index.html
+├── jest.config.js
+├── jest.setup.js
+├── node_modules
+│   ├── @eslint
+│   │   └── js -> ../.pnpm/@eslint+js@9.31.0/node_modules/@eslint/js
+│   ├── @tailwindcss
+│   │   └── typography -> ../.pnpm/@tailwindcss+typography@0.5.16_tailwindcss@3.4.17/node_modules/@tailwindcss/typography
+│   ├── @tanstack
+│   │   └── react-query -> ../.pnpm/@tanstack+react-query@5.83.0_react@18.3.1/node_modules/@tanstack/react-query
+│   ├── @testing-library
+│   │   └── jest-dom -> ../.pnpm/@testing-library+jest-dom@6.6.3/node_modules/@testing-library/jest-dom
+│   ├── @types
+│   │   ├── connect-history-api-fallback -> ../.pnpm/@types+connect-history-api-fallback@1.5.4/node_modules/@types/connect-history-api-fallback
+│   │   ├── express -> ../.pnpm/@types+express@4.17.23/node_modules/@types/express
+│   │   ├── node -> ../.pnpm/@types+node@20.19.7/node_modules/@types/node
+│   │   ├── react -> ../.pnpm/@types+react@18.3.23/node_modules/@types/react
+│   │   └── react-dom -> ../.pnpm/@types+react-dom@18.3.7_@types+react@18.3.23/node_modules/@types/react-dom
+│   ├── @typescript-eslint
+│   │   ├── eslint-plugin -> ../.pnpm/@typescript-eslint+eslint-plugin@8.36.0_@typescript-eslint+parser@8.36.0_eslint@9.31.0__03e40b4ddd798be6fda8d144cb6bd4df/node_modules/@typescript-eslint/eslint-plugin
+│   │   └── parser -> ../.pnpm/@typescript-eslint+parser@8.36.0_eslint@9.31.0_jiti@1.21.7__typescript@5.8.3/node_modules/@typescript-eslint/parser
+│   ├── @vitejs
+│   │   └── plugin-react -> ../.pnpm/@vitejs+plugin-react@4.6.0_vite@7.0.4_@types+node@20.19.7_jiti@1.21.7_terser@5.43.1_tsx@4.20.3_yaml@2.8.0_/node_modules/@vitejs/plugin-react
+│   ├── autoprefixer -> .pnpm/autoprefixer@10.4.21_postcss@8.5.6/node_modules/autoprefixer
+│   ├── clsx -> .pnpm/clsx@2.1.1/node_modules/clsx
+│   ├── concurrently -> .pnpm/concurrently@8.2.2/node_modules/concurrently
+│   ├── connect-history-api-fallback -> .pnpm/connect-history-api-fallback@2.0.0/node_modules/connect-history-api-fallback
+│   ├── daisyui -> .pnpm/daisyui@5.0.46/node_modules/daisyui
+│   ├── depcheck -> .pnpm/depcheck@1.4.7/node_modules/depcheck
+│   ├── dotenv -> .pnpm/dotenv@17.2.0/node_modules/dotenv
+│   ├── eslint -> .pnpm/eslint@9.31.0_jiti@1.21.7/node_modules/eslint
+│   ├── eslint-config-prettier -> .pnpm/eslint-config-prettier@10.1.5_eslint@9.31.0_jiti@1.21.7_/node_modules/eslint-config-prettier
+│   ├── eslint-plugin-jsx-a11y -> .pnpm/eslint-plugin-jsx-a11y@6.10.2_eslint@9.31.0_jiti@1.21.7_/node_modules/eslint-plugin-jsx-a11y
+│   ├── eslint-plugin-react -> .pnpm/eslint-plugin-react@7.37.5_eslint@9.31.0_jiti@1.21.7_/node_modules/eslint-plugin-react
+│   ├── eslint-plugin-react-hooks -> .pnpm/eslint-plugin-react-hooks@5.2.0_eslint@9.31.0_jiti@1.21.7_/node_modules/eslint-plugin-react-hooks
+│   ├── eslint-plugin-simple-import-sort -> .pnpm/eslint-plugin-simple-import-sort@12.1.1_eslint@9.31.0_jiti@1.21.7_/node_modules/eslint-plugin-simple-import-sort
+│   ├── eslint-plugin-tailwindcss -> .pnpm/eslint-plugin-tailwindcss@3.18.0_tailwindcss@3.4.17/node_modules/eslint-plugin-tailwindcss
+│   ├── eslint-plugin-unused-imports -> .pnpm/eslint-plugin-unused-imports@4.1.4_@typescript-eslint+eslint-plugin@8.36.0_@typescript-_75d93761a46758b40ce80a5159871047/node_modules/eslint-plugin-unused-imports
+│   ├── express -> .pnpm/express@5.1.0/node_modules/express
+│   ├── framer-motion -> .pnpm/framer-motion@12.23.5_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/framer-motion
+│   ├── husky -> .pnpm/husky@9.1.7/node_modules/husky
+│   ├── jest -> .pnpm/jest@29.7.0_@types+node@20.19.7/node_modules/jest
+│   ├── jest-fetch-mock -> .pnpm/jest-fetch-mock@3.0.3_encoding@0.1.13/node_modules/jest-fetch-mock
+│   ├── jszip -> .pnpm/jszip@3.10.1/node_modules/jszip
+│   ├── lucide-react -> .pnpm/lucide-react@0.525.0_react@18.3.1/node_modules/lucide-react
+│   ├── node-fetch -> .pnpm/node-fetch@3.3.2/node_modules/node-fetch
+│   ├── npm-check-updates -> .pnpm/npm-check-updates@16.14.20/node_modules/npm-check-updates
+│   ├── postcss -> .pnpm/postcss@8.5.6/node_modules/postcss
+│   ├── prettier -> .pnpm/prettier@3.6.2/node_modules/prettier
+│   ├── react -> .pnpm/react@18.3.1/node_modules/react
+│   ├── react-dom -> .pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom
+│   ├── react-helmet-async -> .pnpm/react-helmet-async@2.0.5_react@18.3.1/node_modules/react-helmet-async
+│   ├── react-icons -> .pnpm/react-icons@5.5.0_react@18.3.1/node_modules/react-icons
+│   ├── react-router-dom -> .pnpm/react-router-dom@6.30.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/react-router-dom
+│   ├── rollup-plugin-visualizer -> .pnpm/rollup-plugin-visualizer@6.0.3_rollup@2.79.2/node_modules/rollup-plugin-visualizer
+│   ├── tailwindcss -> .pnpm/tailwindcss@3.4.17/node_modules/tailwindcss
+│   ├── tsx -> .pnpm/tsx@4.20.3/node_modules/tsx
+│   ├── typescript -> .pnpm/typescript@5.8.3/node_modules/typescript
+│   ├── vite -> .pnpm/vite@7.0.4_@types+node@20.19.7_jiti@1.21.7_terser@5.43.1_tsx@4.20.3_yaml@2.8.0/node_modules/vite
+│   ├── vite-plugin-eslint -> .pnpm/vite-plugin-eslint@1.8.1_eslint@9.31.0_jiti@1.21.7__vite@7.0.4_@types+node@20.19.7_jiti_c1357f8e6ae904f059dadcf0860d9dcc/node_modules/vite-plugin-eslint
+│   ├── vite-plugin-pwa -> .pnpm/vite-plugin-pwa@1.0.1_vite@7.0.4_@types+node@20.19.7_jiti@1.21.7_terser@5.43.1_tsx@4.20_a8cc30502f1d948ab16b36b0b45972a5/node_modules/vite-plugin-pwa
+│   └── zod -> .pnpm/zod@3.25.76/node_modules/zod
+├── package.json
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+├── postcss.config.cjs
+├── postcss.config.js
+├── project-info
+│   ├── _temp.log
+│   ├── project-summary.md
+│   └── project-summary.txt
+├── public
+│   ├── assets
+│   │   ├── krut.webp
+│   │   └── krut1.webp
+│   ├── favicon.ico
+│   ├── icons
+│   │   ├── icon-192x192.png
+│   │   └── icon-512x512.png
+│   ├── images
+│   │   ├── icons
+│   │   ├── portfolio-loan-success.jpg
+│   │   ├── portfolio-loan-success1.jpg
+│   │   ├── portfolio-loan-success2.jpg
+│   │   ├── portfolio-loan-success3.jpg
+│   │   ├── portfolio-loan-success4.jpg
+│   │   └── services
+│   └── manifest.json
+├── server.ts
+├── setup.sh
+├── src
+│   ├── __tests__
+│   ├── api
+│   │   └── apiClient.ts
+│   ├── assets
+│   │   ├── fb.webp
+│   │   ├── hero.webp
+│   │   ├── icons
+│   │   ├── images
+│   │   ├── jp-logo.png
+│   │   ├── krut.webp
+│   │   └── signature.webp
+│   ├── components
+│   │   ├── About.tsx
+│   │   ├── AdminBoard
+│   │   ├── CTASection.tsx
+│   │   ├── CustomerAssessmentForm.tsx
+│   │   ├── DocumentPreviewModal.tsx
+│   │   ├── ErrorBoundary.tsx
+│   │   ├── Feature.tsx
+│   │   ├── Features
+│   │   ├── Footer.tsx
+│   │   ├── Header.tsx
+│   │   ├── Hero.tsx
+│   │   ├── LogoSecretApp.tsx
+│   │   ├── MobileMenu.tsx
+│   │   ├── ReviewsSection.tsx
+│   │   ├── ServiceCard.tsx
+│   │   ├── ServicesSection.tsx
+│   │   ├── ThemeToggle.tsx
+│   │   └── VisitorCount.tsx
+│   ├── config
+│   │   ├── contact.ts
+│   │   └── themes.ts
+│   ├── data
+│   │   ├── servicesData.ts
+│   │   └── users.ts
+│   ├── hooks
+│   ├── layouts
+│   ├── main.tsx
+│   ├── pages
+│   │   ├── AdminPage.tsx
+│   │   ├── IndexPage.tsx
+│   │   ├── LoginPage.tsx
+│   │   ├── SecretRoomPage.tsx
+│   │   ├── SecretRoomPageComponents
+│   │   └── config
+│   ├── services
+│   ├── styles
+│   │   └── global.css
+│   ├── tools
+│   ├── types
+│   └── utils
+│       └── hashPassword.ts
+├── tailwind.config.mjs
+├── tree-20250715-000724.txt
+├── tsconfig.base.json
+├── tsconfig.json
+├── vercel.json
+└── vite.config.mjs
+
+93 directories, 75 files

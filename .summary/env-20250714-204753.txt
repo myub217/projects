@@ -1,0 +1,49 @@
+# ===============================
+# 🌐 GitHub Integration
+# ===============================
+
+# ✅ GitHub Personal Access Token (ใช้สำหรับ backend เชื่อม GitHub API)
+VITE_GITHUB_TOKEN=ghp_YourRealTokenHere1234567890abcdef
+
+# ✅ URL Repository หลัก (owner/repo บน GitHub)
+VITE_GITHUB_REPO=https://github.com/myub217/projects
+
+# ===============================
+# 🌐 Server Config
+# ===============================
+
+# ✅ พอร์ต Express server
+PORT=3000
+
+# ✅ เปิดใช้งาน CORS สำหรับ frontend เรียก backend ได้
+VITE_CORS_ENABLED=true
+
+# ✅ base URL สำหรับ frontend เชื่อม API
+VITE_API_BASE_URL=http://localhost:3000
+
+# ===============================
+# 🌗 UI Theme Preferences
+# ===============================
+
+# ✅ โหมดธีม default
+VITE_DEFAULT_THEME=light
+
+# ✅ DaisyUI theme ชื่อ platinum
+VITE_DATA_THEME=platinum
+
+# ===============================
+# 📊 Analytics / Telemetry
+# ===============================
+
+# ✅ URL สำหรับ telemetry (ยังเป็น dummy)
+VITE_ANALYTICS_URL=https://your-analytics-endpoint.com
+
+# ✅ เปิดการเก็บ log
+VITE_ENABLE_LOGGING=true
+
+# ===============================
+# ⚠️ Environment
+# ===============================
+
+# ✅ โหมดการรัน dev
+NODE_ENV=development

@@ -6,8 +6,8 @@ interface WelcomeBannerProps {
   username: string | null;
 }
 
-const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ username }) => {
-  const displayName = username || "ผู้ใช้งาน";
+export default function WelcomeBanner({ username }: WelcomeBannerProps) {
+  const displayName = username?.trim() || "ผู้ใช้งาน";
 
   const loginTime = useMemo(() => {
     return new Date().toLocaleTimeString("th-TH", {
@@ -21,7 +21,7 @@ const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ username }) => {
       className="animate-fade-in mb-8 text-center"
       aria-label={`ยินดีต้อนรับคุณ ${displayName}`}
     >
-      <div className="inline-flex items-center justify-center gap-3 rounded-xl bg-primary/10 px-5 py-3 shadow-sm">
+      <div className="inline-flex items-center justify-center gap-3 rounded-xl bg-primary/10 px-5 py-3 shadow-sm dark:bg-primary/20">
         <svg
           className="h-6 w-6 text-primary"
           fill="none"
@@ -29,7 +29,6 @@ const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ username }) => {
           strokeWidth={2}
           viewBox="0 0 24 24"
           aria-hidden="true"
-          focusable="false"
         >
           <path
             strokeLinecap="round"
@@ -46,13 +45,11 @@ const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ username }) => {
           <h1 className="text-2xl font-semibold text-primary">
             ยินดีต้อนรับคุณ {displayName}
           </h1>
-          <p className="text-muted-foreground mt-1 text-xs">
+          <p className="mt-1 text-xs text-muted-foreground">
             เข้าระบบเมื่อ {loginTime}
           </p>
         </div>
       </div>
     </header>
   );
-};
-
-export default WelcomeBanner;
+}

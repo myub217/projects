@@ -1,3 +1,6 @@
+// eslint.config.js
+
+/** @type {import('eslint').Linter.Config} */
 module.exports = {
   env: {
     browser: true,
@@ -24,7 +27,9 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
-    ecmaFeatures: { jsx: true },
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
   plugins: ["react", "@typescript-eslint", "unused-imports"],
   extends: [
@@ -34,8 +39,13 @@ module.exports = {
     "plugin:unused-imports/recommended",
   ],
   rules: {
+    // ปิด eslint default เพื่อใช้ rule จาก unused-imports แทน
     "no-unused-vars": "off",
+
+    // ใช้ของ typescript
     "@typescript-eslint/no-unused-vars": ["error"],
+
+    // ใช้ plugin ที่จัดการ unused import + ตัวแปร ได้สะอาดกว่า
     "unused-imports/no-unused-vars": [
       "warn",
       {
@@ -46,6 +56,14 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ["*.ts", "*.tsx"],
+      parserOptions: {
+        project: ["./tsconfig.json"],
+      },
+    },
+  ],
   settings: {
     react: {
       version: "detect",

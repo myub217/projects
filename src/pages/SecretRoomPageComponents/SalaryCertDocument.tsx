@@ -1,5 +1,4 @@
 // src/pages/SecretRoomPageComponents/SalaryCertDocument.tsx
-
 import React from "react";
 
 const certData = {
@@ -42,59 +41,41 @@ const SalaryCertDocument: React.FC = () => {
   };
 
   return (
-    <div>
+    <div lang="th">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Sarabun&display=swap');
         * { box-sizing: border-box; }
-        body { margin: 0; padding: 0; background: #eee; font-family: 'Sarabun', sans-serif; }
+        body { margin: 0; font-family: 'Sarabun', sans-serif; background: #eee; }
 
         .page {
           width: 210mm;
-          height: 297mm;
+          min-height: 297mm;
           margin: 20px auto;
           padding: 30mm 25mm 25mm 30mm;
-          background: white;
-          color: black;
+          background: #fff;
+          color: #000;
           font-size: 16px;
           line-height: 1.65;
           box-shadow: 0 0 8px rgba(0,0,0,0.1);
-          overflow: hidden;
           position: relative;
-        }
-
-        @media print {
-          body {
-            background: white;
-            margin: 0;
-            padding: 0;
-          }
-          .print-btn { display: none; }
-          .page {
-            margin: 0;
-            box-shadow: none;
-            page-break-after: always;
-          }
         }
 
         .print-btn {
           position: fixed;
           top: 10px;
           right: 10px;
-          background: #444;
-          color: white;
+          background: #333;
+          color: #fff;
           padding: 8px 16px;
-          border: none;
           border-radius: 4px;
-          cursor: pointer;
-          z-index: 999;
           font-size: 14px;
+          z-index: 999;
         }
 
         .company-header {
           font-weight: bold;
           font-size: 18px;
-          margin-bottom: 4px;
-          line-height: 1.3;
+          line-height: 1.4;
         }
 
         .doc-number {
@@ -114,7 +95,6 @@ const SalaryCertDocument: React.FC = () => {
           font-weight: bold;
           text-decoration: underline;
           margin: 24px 0;
-          letter-spacing: 0.05em;
         }
 
         .content {
@@ -124,37 +104,17 @@ const SalaryCertDocument: React.FC = () => {
           white-space: pre-line;
         }
 
-        .list-income {
-          margin-left: 3em;
-          margin-bottom: 30px;
-          list-style-type: disc;
-        }
-
-        .list-income li {
-          margin-bottom: 8px;
-        }
-
-        .note-title {
-          font-weight: bold;
-          margin-bottom: 6px;
-        }
-
+        .list-income,
         .note-list {
           margin-left: 3em;
-          margin-bottom: 40px;
+          margin-bottom: 30px;
           list-style-type: disc;
         }
 
         .signature {
           text-align: right;
           margin-top: 80px;
-          min-height: 100px;
-          font-size: 16px;
           white-space: pre-line;
-        }
-
-        .signature p {
-          margin: 4px 0;
         }
 
         .contact-info {
@@ -164,23 +124,16 @@ const SalaryCertDocument: React.FC = () => {
           color: #333;
         }
 
-        .contact-info p {
-          margin: 2px 0;
-        }
-
         .contact-info hr {
+          border: none;
           border-top: 1px solid #ccc;
           margin: 12px 0;
         }
 
-        a {
-          color: #0645AD;
-          text-decoration: none;
-        }
-
-        a:hover, a:focus {
-          text-decoration: underline;
-          outline: none;
+        @media print {
+          .print-btn { display: none; }
+          body, .page { background: #fff; box-shadow: none; margin: 0; padding: 0; }
+          .page { page-break-after: always; }
         }
       `}</style>
 
@@ -189,25 +142,23 @@ const SalaryCertDocument: React.FC = () => {
       </button>
 
       <div className="page" role="document" aria-label="หนังสือรับรองเงินเดือน">
-        <div className="company-header">
-          {certData.company.nameTh}
-          <br />
-          {certData.company.nameEn}
-        </div>
+        <header className="company-header">
+          <div>{certData.company.nameTh}</div>
+          <div>{certData.company.nameEn}</div>
+        </header>
 
         <div className="doc-number">เลขที่เอกสาร: {certData.documentNumber}</div>
         <div className="issue-date">วันที่ออกเอกสาร: {certData.issueDate}</div>
 
-        <div className="title">หนังสือรับรองเงินเดือน</div>
+        <h1 className="title">หนังสือรับรองเงินเดือน</h1>
 
-        <div className="content">
-          หนังสือรับรองฉบับนี้ขอรับรองว่า{" "}
-          <strong>{certData.employee.fullName}</strong> เป็นพนักงานของ{" "}
-          <strong>{certData.company.nameTh}</strong> โดยเริ่มปฏิบัติงานตั้งแต่วันที่{" "}
+        <p className="content">
+          หนังสือรับรองฉบับนี้ขอรับรองว่า <strong>{certData.employee.fullName}</strong>{" "}
+          เป็นพนักงานของ <strong>{certData.company.nameTh}</strong> โดยเริ่มปฏิบัติงานตั้งแต่วันที่{" "}
           <strong>{certData.employee.startDate}</strong> จนถึงปัจจุบัน ในตำแหน่ง{" "}
           <strong>{certData.employee.position}</strong> แผนก/ฝ่าย{" "}
-          <strong>{certData.employee.department}</strong> โดยมีรายได้ประจำดังต่อไปนี้
-        </div>
+          <strong>{certData.employee.department}</strong> โดยมีรายได้ประจำดังต่อไปนี้:
+        </p>
 
         <ul className="list-income">
           {certData.incomes.map((income, i) => (
@@ -217,7 +168,7 @@ const SalaryCertDocument: React.FC = () => {
           ))}
         </ul>
 
-        <div className="note-title">หมายเหตุ:</div>
+        <div className="note-title"><strong>หมายเหตุ:</strong></div>
         <ul className="note-list">
           <li>หนังสือรับรองฉบับนี้ใช้ยืนยันการเป็นพนักงานของบริษัทฯ เท่านั้น</li>
           <li>หนังสือรับรองฉบับนี้จะต้องไม่มีรอยขูด ขีด ลบ แต่อย่างใด จึงจะถือว่าสมบูรณ์</li>
@@ -225,28 +176,18 @@ const SalaryCertDocument: React.FC = () => {
 
         <div className="signature" aria-label="ลายเซ็นผู้จัดการ">
           <p>ลงชื่อ ......................................................</p>
-          <br />
           <p>({certData.signer.name})</p>
           <p>{certData.signer.position}</p>
         </div>
 
-        <div className="contact-info">
-          <p>
-            <strong>ฝ่ายทรัพยากรบุคคล</strong> โทร. {certData.company.phone} ต่อ{" "}
-            {certData.company.hrExt}
-          </p>
+        <footer className="contact-info">
+          <p><strong>ฝ่ายทรัพยากรบุคคล</strong> โทร. {certData.company.phone} ต่อ {certData.company.hrExt}</p>
           <p>{certData.company.addressTh}</p>
-          <p>
-            โทรศัพท์ {certData.company.phone} | แฟกซ์ {certData.company.fax}
-          </p>
+          <p>โทรศัพท์ {certData.company.phone} | แฟกซ์ {certData.company.fax}</p>
           <hr />
           <p>
             Website:{" "}
-            <a
-              href={`http://${certData.company.website}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={`http://${certData.company.website}`} target="_blank" rel="noopener noreferrer">
               {certData.company.website}
             </a>
           </p>
@@ -254,7 +195,7 @@ const SalaryCertDocument: React.FC = () => {
             Email:{" "}
             <a href={`mailto:${certData.company.email}`}>{certData.company.email}</a>
           </p>
-        </div>
+        </footer>
       </div>
     </div>
   );

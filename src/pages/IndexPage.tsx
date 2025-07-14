@@ -18,6 +18,7 @@ interface IndexPageProps {
 const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
   const [selectedService, setSelectedService] = useState<Service | null>(null);
 
+  // Escape key to close modal
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setSelectedService(null);
@@ -26,6 +27,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
+  // Prevent scroll when modal is open
   useEffect(() => {
     document.body.style.overflow = selectedService ? "hidden" : "";
     return () => {
@@ -37,13 +39,18 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
     setSelectedService(service);
   }, []);
 
+  const handleThemeToggle = useCallback(() => {
+    toggleTheme();
+  }, [toggleTheme]);
+
   return (
     <>
-      <Header theme={theme} toggleTheme={toggleTheme} />
+      <Header theme={theme} toggleTheme={handleThemeToggle} />
       <main
         id="main-content"
         className="min-h-screen bg-base-100 font-sans text-base-content transition-colors duration-500"
         role="main"
+        aria-label="เนื้อหาหลักของเว็บไซต์"
       >
         <Hero />
         <Feature />
@@ -54,13 +61,13 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
         <Footer />
       </main>
 
-      {/* Toggle Theme Floating Button */}
+      {/* Theme Toggle Button */}
       <button
-        aria-label={`สลับเป็นโหมด ${theme === "light" ? "มืด" : "สว่าง"}`}
-        onClick={toggleTheme}
-        className="fixed bottom-6 right-6 z-40 rounded-full bg-gray-200 p-3 text-gray-800 shadow-lg transition hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 md:bottom-8 md:right-8"
-        title={`สลับเป็นโหมด ${theme === "light" ? "มืด" : "สว่าง"}`}
         type="button"
+        aria-label={`สลับเป็นโหมด ${theme === "light" ? "มืด" : "สว่าง"}`}
+        title={`สลับเป็นโหมด ${theme === "light" ? "มืด" : "สว่าง"}`}
+        onClick={handleThemeToggle}
+        className="fixed bottom-6 right-6 z-40 rounded-full bg-gray-200 p-3 text-gray-800 shadow-lg transition hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 md:bottom-8 md:right-8"
       >
         {theme === "light" ? (
           <svg
@@ -89,19 +96,19 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
         )}
       </button>
 
-      {/* Modal Service Request */}
+      {/* Modal: Request Service */}
       {selectedService && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 md:p-6"
           role="dialog"
           aria-modal="true"
           aria-labelledby="service-modal-title"
           aria-describedby="service-modal-desc"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 md:p-6"
           onClick={() => setSelectedService(null)}
         >
           <div
-            className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-gray-900 md:max-w-lg md:p-8"
             onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-gray-900 md:max-w-lg md:p-8"
             tabIndex={0}
           >
             <h3
@@ -118,19 +125,19 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
             </p>
             <div className="mt-6 flex justify-end gap-2">
               <button
-                className="rounded bg-gray-300 px-4 py-2 text-sm hover:bg-gray-400"
-                onClick={() => setSelectedService(null)}
                 type="button"
+                onClick={() => setSelectedService(null)}
+                className="rounded bg-gray-300 px-4 py-2 text-sm hover:bg-gray-400"
               >
                 ปิด
               </button>
               <button
-                className="rounded bg-primary px-4 py-2 text-sm text-white hover:bg-primary/90"
+                type="button"
                 onClick={() => {
                   alert(`ขอใช้บริการ: ${selectedService.title}`);
                   setSelectedService(null);
                 }}
-                type="button"
+                className="rounded bg-primary px-4 py-2 text-sm text-white hover:bg-primary/90"
               >
                 ยืนยัน
               </button>

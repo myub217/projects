@@ -1,0 +1,26 @@
+# Git Info
+Branch: main
+Remote:
+origin	git@github.com:myub217/projects.git (fetch)
+origin	git@github.com:myub217/projects.git (push)
+
+Last 5 commits:
+4b06bf37 project
+e502bd84 project
+182a0474 project
+b83ff2d9 project
+a6d65bb7 Merge branch 'main' of github.com:myub217/projects
+
+Status:
+ M dist/sw.js.map
+?? .summary/coverage-summary-20250714-194515.txt
+?? .summary/depcheck-20250714-194515.json
+?? .summary/env-20250714-194515.txt
+?? .summary/env-example-20250714-194515.txt
+?? .summary/git-info-20250714-194515.txt
+?? .summary/jest-config-20250714-194515.txt
+?? .summary/project-info-20250714-194515.json
+?? .summary/server-preview-20250714-194515.txt
+?? .summary/tree-20250714-194515.txt
+?? .summary/tsconfig-20250714-194515.txt
+?? .summary/vite-config-20250714-194515.txt

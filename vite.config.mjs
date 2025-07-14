@@ -1,11 +1,13 @@
 // vite.config.mjs
+
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { visualizer } from "rollup-plugin-visualizer";
 import history from "connect-history-api-fallback";
-import fs from "fs";
 import { VitePWA } from "vite-plugin-pwa";
+
+// 🔧 Modular Onepage App – Vite Config
 
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd(), "");
@@ -28,15 +30,21 @@ export default defineConfig(({ mode, command }) => {
 
   return {
     base,
+    define: defineEnv,
+
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "src"),
+      },
+    },
 
     plugins: [
       react(),
+
       VitePWA({
         registerType: "autoUpdate",
         injectRegister: "script",
-        devOptions: {
-          enabled: isDev,
-        },
+        devOptions: { enabled: isDev },
         manifest: {
           name: "Modular Onepage App",
           short_name: "ModularOne",
@@ -58,6 +66,7 @@ export default defineConfig(({ mode, command }) => {
           ],
         },
       }),
+
       isBuild &&
         visualizer({
           filename: `${outDir}/report.html`,
@@ -66,23 +75,12 @@ export default defineConfig(({ mode, command }) => {
           brotliSize: true,
           template: "sunburst",
         }),
-      // @rollup/plugin-strip ถูกถอดออก เพราะไม่มีใน dependencies แล้ว
     ].filter(Boolean),
-
-    resolve: {
-      alias: {
-        "@": path.resolve(__dirname, "src"),
-      },
-    },
-
-    define: defineEnv,
 
     server: {
       port: devPort,
       open: openBrowser,
-      fs: {
-        allow: ["."],
-      },
+      fs: { allow: ["."] },
       middlewareMode: false,
       configureServer(server) {
         server.middlewares.use(history());

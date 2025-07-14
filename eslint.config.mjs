@@ -12,14 +12,14 @@ import unusedImportsPlugin from "eslint-plugin-unused-imports";
  * ✅ ESLint config สำหรับ Modular OnePage
  * - รองรับ TS + React + Tailwind + Prettier
  * - ลบ unused import/var อัตโนมัติ
- * - ปิด rule ที่ไม่จำเป็นสำหรับ modern React
+ * - รองรับ environment browser (เช่น window, document, fetch)
  */
 
 export default [
   js.configs.recommended,
 
   {
-    files: ["**/*.ts", "**/*.tsx"],
+    files: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -27,6 +27,24 @@ export default [
         tsconfigRootDir: process.cwd(),
         sourceType: "module",
         ecmaVersion: "latest",
+      },
+      globals: {
+        window: "readonly",
+        document: "readonly",
+        fetch: "readonly",
+        console: "readonly",
+        alert: "readonly",
+        localStorage: "readonly",
+        navigator: "readonly",
+        setTimeout: "readonly",
+        clearTimeout: "readonly",
+        setInterval: "readonly",
+        clearInterval: "readonly",
+        history: "readonly",
+      },
+      env: {
+        browser: true,
+        es2021: true,
       },
     },
     plugins: {

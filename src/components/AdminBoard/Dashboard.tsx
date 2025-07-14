@@ -1,13 +1,18 @@
 // src/components/AdminBoard/Dashboard.tsx
-import React from "react";
 
-interface StatCardProps {
+import React, { useEffect, useState } from "react";
+import apiClient from "@/api/apiClient";
+
+interface StatItem {
+  id: number;
   title: string;
   value: number | string;
   description?: string;
   icon?: React.ReactNode;
-  bgColor?: string; // Tailwind color class เช่น bg-primary, bg-success
+  bgColor?: string;
 }
+
+interface StatCardProps extends Omit<StatItem, "id"> {}
 
 const StatCard: React.FC<StatCardProps> = ({
   title,
@@ -15,32 +20,50 @@ const StatCard: React.FC<StatCardProps> = ({
   description,
   icon,
   bgColor = "bg-primary",
-}) => {
-  return (
-    <div
-      className={`flex items-center rounded-lg p-4 text-white shadow ${bgColor} select-none`}
-      role="region"
-      aria-label={`${title} statistic`}
-    >
-      {icon && <div className="mr-4 text-4xl" aria-hidden="true">{icon}</div>}
-      <div>
-        <p className="text-sm opacity-75">{title}</p>
-        <p className="text-3xl font-bold">{value}</p>
-        {description && <p className="text-xs opacity-60">{description}</p>}
+}) => (
+  <div
+    className={`flex items-start gap-4 rounded-xl p-4 shadow text-white ${bgColor} select-none`}
+    role="region"
+    aria-label={`${title} statistic`}
+  >
+    {icon && (
+      <div className="text-3xl pt-1" aria-hidden="true">
+        {icon}
       </div>
+    )}
+    <div>
+      <h3 className="text-sm font-medium opacity-80">{title}</h3>
+      <p className="text-2xl font-bold mt-1">{value}</p>
+      {description && (
+        <p className="text-xs mt-1 opacity-70">{description}</p>
+      )}
     </div>
-  );
-};
+  </div>
+);
 
 export default function Dashboard() {
-  // ตัวอย่างข้อมูลสถิติ สามารถดึงจาก API จริงได้
-  const stats = [
+  const [userCount, setUserCount] = useState<number | null>(null);
+  const [errorCount, setErrorCount] = useState<number | null>(null);
+
+  const loggingEnabled = import.meta.env.VITE_ENABLE_LOGGING === "true";
+  const analyticsUrl = import.meta.env.VITE_ANALYTICS_URL;
+
+  useEffect(() => {
+    // Mock API call (ใช้จริง: เปลี่ยนเป็น `apiClient.getStats()`)
+    const timeout = setTimeout(() => {
+      setUserCount(2345);
+      setErrorCount(5);
+    }, 500);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  const stats: StatItem[] = [
     {
       id: 1,
       title: "Total Users",
-      value: 2345,
+      value: userCount ?? "⏳",
       description: "Active users this month",
-      icon: <>👥</>,
+      icon: "👥",
       bgColor: "bg-primary",
     },
     {
@@ -48,7 +71,7 @@ export default function Dashboard() {
       title: "New Signups",
       value: 123,
       description: "Users signed up today",
-      icon: <>🆕</>,
+      icon: "🆕",
       bgColor: "bg-secondary",
     },
     {
@@ -56,33 +79,42 @@ export default function Dashboard() {
       title: "Server Load",
       value: "68%",
       description: "Current CPU usage",
-      icon: <>🖥️</>,
+      icon: "🖥️",
       bgColor: "bg-accent",
     },
     {
       id: 4,
       title: "Errors",
-      value: 5,
+      value: errorCount ?? "⏳",
       description: "Errors logged today",
-      icon: <>❌</>,
+      icon: "❌",
       bgColor: "bg-error",
+    },
+    {
+      id: 5,
+      title: "Analytics",
+      value: analyticsUrl ? "✅ Enabled" : "❌ Disabled",
+      description: analyticsUrl || "No analytics endpoint configured",
+      icon: "📊",
+      bgColor: "bg-success",
+    },
+    {
+      id: 6,
+      title: "Logging",
+      value: loggingEnabled ? "✅ On" : "❌ Off",
+      description: "Controlled by VITE_ENABLE_LOGGING",
+      icon: "📝",
+      bgColor: loggingEnabled ? "bg-info" : "bg-warning",
     },
   ];
 
   return (
     <section
       aria-label="Dashboard Statistics"
-      className="mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+      className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"
     >
-      {stats.map(({ id, title, value, description, icon, bgColor }) => (
-        <StatCard
-          key={id}
-          title={title}
-          value={value}
-          description={description}
-          icon={icon}
-          bgColor={bgColor}
-        />
+      {stats.map(({ id, ...card }) => (
+        <StatCard key={id} {...card} />
       ))}
     </section>
   );
