@@ -18,12 +18,12 @@ const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ username }) => {
 
   return (
     <header
-      className="mb-8 text-center animate-fade-in"
+      className="animate-fade-in mb-8 text-center"
       aria-label={`ยินดีต้อนรับคุณ ${displayName}`}
     >
-      <div className="inline-flex items-center gap-3 justify-center px-5 py-3 bg-primary/10 rounded-xl shadow-sm">
+      <div className="inline-flex items-center justify-center gap-3 rounded-xl bg-primary/10 px-5 py-3 shadow-sm">
         <svg
-          className="w-6 h-6 text-primary"
+          className="h-6 w-6 text-primary"
           fill="none"
           stroke="currentColor"
           strokeWidth={2}
@@ -46,7 +46,7 @@ const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ username }) => {
           <h1 className="text-2xl font-semibold text-primary">
             ยินดีต้อนรับคุณ {displayName}
           </h1>
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-muted-foreground mt-1 text-xs">
             เข้าระบบเมื่อ {loginTime}
           </p>
         </div>

@@ -21,14 +21,14 @@ interface ServicesSectionProps {
 const ServicesSection: React.FC<ServicesSectionProps> = ({ onRequest }) => {
   return (
     <section
-      className="py-16 bg-base-100 dark:bg-gray-900 transition-colors duration-500"
+      className="bg-base-100 py-16 transition-colors duration-500 dark:bg-gray-900"
       aria-label="บริการของเรา"
       role="region"
       id="services"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2
-          className="text-3xl font-extrabold text-center mb-12 text-primary tracking-wide"
+          className="mb-12 text-center text-3xl font-extrabold tracking-wide text-primary"
           id="services-heading"
         >
           บริการของเรา
@@ -55,7 +55,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ onRequest }) => {
               />
               {!service.available && service.comingSoonNote && (
                 <p
-                  className="mt-3 text-center text-sm text-gray-500 dark:text-gray-400 italic animate-pulse"
+                  className="mt-3 animate-pulse text-center text-sm italic text-gray-500 dark:text-gray-400"
                   aria-live="polite"
                   role="note"
                 >

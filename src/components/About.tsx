@@ -14,22 +14,22 @@ const About: React.FC = () => {
     <section
       id="about"
       aria-labelledby="about-title"
-      className="py-16 px-4 sm:px-6 lg:px-8 bg-base-100 text-base-content transition-colors duration-500"
+      className="bg-base-100 px-4 py-16 text-base-content transition-colors duration-500 sm:px-6 lg:px-8"
     >
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-12 md:flex-row">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
           viewport={{ once: true }}
-          className="md:w-1/2 w-full"
+          className="w-full md:w-1/2"
         >
           <img
             src={aboutImage}
             alt="ทีมงาน JP - Visual & Docs"
             loading="lazy"
             decoding="async"
-            className="rounded-2xl shadow-xl w-full h-auto object-cover"
+            className="h-auto w-full rounded-2xl object-cover shadow-xl"
             draggable={false}
           />
         </motion.div>
@@ -39,18 +39,18 @@ const About: React.FC = () => {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
           viewport={{ once: true }}
-          className="md:w-1/2 w-full flex flex-col"
+          className="flex w-full flex-col md:w-1/2"
         >
           <h2
             id="about-title"
-            className="flex items-center gap-3 text-3xl sm:text-4xl font-extrabold text-primary mb-4"
+            className="mb-4 flex items-center gap-3 text-3xl font-extrabold text-primary sm:text-4xl"
           >
-            <FaUserTie className="text-primary text-2xl" aria-hidden="true" />
+            <FaUserTie className="text-2xl text-primary" aria-hidden="true" />
             JP - VISUAL & DOCS
           </h2>
           <hr className="border-base-content/30 mb-6" />
 
-          <div className="space-y-5 leading-relaxed text-lg">
+          <div className="space-y-5 text-lg leading-relaxed">
             <p>
               ธุรกิจสีเทาที่ออกแบบมาให้ได้มาตรฐานเท่าที่สามารถแสดงได้
               เราพร้อมร่วมงานกับทุกสายอาชีพ ทุกวงการ และพร้อมสร้างเครื่องมือที่ตอบโจทย์จริงให้ทุกคน
@@ -69,7 +69,7 @@ const About: React.FC = () => {
             </p>
 
             <blockquote
-              className="mt-8 text-right italic font-medium border-r-4 pr-4 flex flex-col items-end gap-2 max-w-xs self-end"
+              className="mt-8 flex max-w-xs flex-col items-end gap-2 self-end border-r-4 pr-4 text-right font-medium italic"
               style={{
                 borderColor: "var(--color-primary)",
                 color: "var(--color-primary)",
@@ -88,7 +88,7 @@ const About: React.FC = () => {
               <motion.img
                 src={signature}
                 alt="ลายเซ็นเจ้าป่า"
-                className="w-28 sm:w-36 h-auto select-none pointer-events-none"
+                className="pointer-events-none h-auto w-28 select-none sm:w-36"
                 loading="lazy"
                 style={{
                   filter: `
@@ -108,7 +108,7 @@ const About: React.FC = () => {
           <div className="mt-10 flex flex-col sm:flex-row sm:items-center sm:gap-6">
             <a
               href={getContactHref("email")}
-              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-focus text-primary-content font-semibold px-5 py-3 rounded-full shadow-lg transition-colors duration-300 mb-4 sm:mb-0 justify-center"
+              className="hover:bg-primary-focus mb-4 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 font-semibold text-primary-content shadow-lg transition-colors duration-300 sm:mb-0"
               aria-label="ติดต่อเรา ผ่านอีเมล"
               title="ติดต่อเรา"
             >
@@ -118,7 +118,7 @@ const About: React.FC = () => {
 
             <nav
               aria-label="ช่องทางโซเชียลมีเดีย"
-              className="flex gap-6 flex-wrap justify-center"
+              className="flex flex-wrap justify-center gap-6"
             >
               {socialLinks.map(({ type, href, label }) => (
                 <a
@@ -127,12 +127,12 @@ const About: React.FC = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`ลิงก์ไปยัง ${label}`}
-                  className="hover:opacity-80 transition-opacity hover:scale-110 transform duration-300"
+                  className="transform transition-opacity duration-300 hover:scale-110 hover:opacity-80"
                 >
                   <img
                     src={`/images/icons/${label}.svg`}
                     alt={`${label} Icon`}
-                    className="w-8 h-8"
+                    className="h-8 w-8"
                     loading="lazy"
                     draggable={false}
                   />
@@ -141,7 +141,7 @@ const About: React.FC = () => {
             </nav>
           </div>
 
-          <p className="text-sm mt-6 opacity-70 text-center sm:text-left">
+          <p className="mt-6 text-center text-sm opacity-70 sm:text-left">
             * ข้อมูลทั้งหมดเป็นความจริงตามสถานการณ์ปัจจุบัน และไม่มีการเก็บข้อมูลใดๆ โดยไม่ได้รับอนุญาต
           </p>
         </motion.div>

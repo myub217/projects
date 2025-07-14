@@ -12,22 +12,22 @@ interface UserTableProps {
 
 const UserTable: React.FC<UserTableProps> = ({ users }) => {
   return (
-    <div className="border rounded p-4 overflow-x-auto">
-      <h2 className="text-xl font-semibold mb-2">👥 Users</h2>
+    <div className="overflow-x-auto rounded border p-4">
+      <h2 className="mb-2 text-xl font-semibold">👥 Users</h2>
       <table
-        className="table-auto w-full min-w-[400px]"
+        className="w-full min-w-[400px] table-auto"
         role="table"
         aria-label="User List"
       >
         <thead>
           <tr>
-            <th className="text-left px-3 py-2" scope="col">
+            <th className="px-3 py-2 text-left" scope="col">
               ID
             </th>
-            <th className="text-left px-3 py-2" scope="col">
+            <th className="px-3 py-2 text-left" scope="col">
               Name
             </th>
-            <th className="text-left px-3 py-2" scope="col">
+            <th className="px-3 py-2 text-left" scope="col">
               Role
             </th>
           </tr>

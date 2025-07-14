@@ -149,7 +149,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "tween", duration: 0.3 }}
-            className="fixed top-0 right-0 bottom-0 z-[60] w-4/5 max-w-xs bg-white dark:bg-gray-900 shadow-xl flex flex-col pt-20 gap-8 text-lg font-medium text-gray-800 dark:text-gray-200 px-6"
+            className="fixed bottom-0 right-0 top-0 z-[60] flex w-4/5 max-w-xs flex-col gap-8 bg-white px-6 pt-20 text-lg font-medium text-gray-800 shadow-xl dark:bg-gray-900 dark:text-gray-200"
             role="dialog"
             aria-modal="true"
             aria-labelledby="mobile-menu-label"
@@ -162,7 +162,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 text-gray-700 dark:text-gray-300 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 rounded"
+              className="absolute right-4 top-4 rounded text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 dark:text-gray-300"
               aria-label="ปิดเมนู"
               disabled={isClosing}
               type="button"
@@ -180,7 +180,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                     type="button"
                     role="menuitem"
                     aria-current={active ? "page" : undefined}
-                    className={`text-left px-6 py-3 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 ${
+                    className={`rounded px-6 py-3 text-left transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 ${
                       highlight
                         ? "bg-gray-700 text-white hover:bg-gray-800 dark:bg-gray-600 dark:hover:bg-gray-500"
                         : "hover:text-gray-900 dark:hover:text-gray-300"

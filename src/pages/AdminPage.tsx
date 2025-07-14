@@ -17,7 +17,7 @@ const usersData: User[] = [
 const AdminPage: React.FC = () => {
   return (
     <main
-      className="p-6 space-y-6 bg-base-100 min-h-screen"
+      className="min-h-screen space-y-6 bg-base-100 p-6"
       aria-label="Admin Control Panel"
       tabIndex={-1}
       role="main"

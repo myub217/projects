@@ -8,7 +8,7 @@ const Feature1: React.FC = () => {
 
   return (
     <div
-      className="bg-base-100 text-base-content shadow-md rounded-xl p-6 hover:shadow-lg dark:bg-base-300 cursor-pointer"
+      className="cursor-pointer rounded-xl bg-base-100 p-6 text-base-content shadow-md hover:shadow-lg dark:bg-base-300"
       tabIndex={0}
       role="button"
       onClick={handleClick}
@@ -16,9 +16,9 @@ const Feature1: React.FC = () => {
         if (e.key === "Enter" || e.key === " ") handleClick();
       }}
     >
-      <div className="flex items-center mb-3 group">
-        <ShieldCheck className="w-6 h-6 text-secondary mr-2 group-hover:text-primary transition-colors" />
-        <h3 className="text-lg font-semibold text-secondary group-hover:text-primary transition-colors">
+      <div className="group mb-3 flex items-center">
+        <ShieldCheck className="mr-2 h-6 w-6 text-secondary transition-colors group-hover:text-primary" />
+        <h3 className="text-lg font-semibold text-secondary transition-colors group-hover:text-primary">
           ระบบความปลอดภัย
         </h3>
       </div>
@@ -28,7 +28,7 @@ const Feature1: React.FC = () => {
           e.stopPropagation();
           handleClick();
         }}
-        className="mt-4 text-sm text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded"
+        className="mt-4 rounded text-sm text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-primary"
         type="button"
       >
         รายละเอียด

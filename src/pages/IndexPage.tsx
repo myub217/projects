@@ -42,7 +42,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
       <Header theme={theme} toggleTheme={toggleTheme} />
       <main
         id="main-content"
-        className="bg-base-100 text-base-content min-h-screen transition-colors duration-500 font-sans"
+        className="min-h-screen bg-base-100 font-sans text-base-content transition-colors duration-500"
         role="main"
       >
         <Hero />
@@ -58,7 +58,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
       <button
         aria-label={`สลับเป็นโหมด ${theme === "light" ? "มืด" : "สว่าง"}`}
         onClick={toggleTheme}
-        className="fixed bottom-6 right-6 md:bottom-8 md:right-8 p-3 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-lg hover:bg-gray-300 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition z-40"
+        className="fixed bottom-6 right-6 z-40 rounded-full bg-gray-200 p-3 text-gray-800 shadow-lg transition hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 md:bottom-8 md:right-8"
         title={`สลับเป็นโหมด ${theme === "light" ? "มืด" : "สว่าง"}`}
         type="button"
       >
@@ -92,7 +92,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
       {/* Modal Service Request */}
       {selectedService && (
         <div
-          className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 md:p-6"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 md:p-6"
           role="dialog"
           aria-modal="true"
           aria-labelledby="service-modal-title"
@@ -100,32 +100,32 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
           onClick={() => setSelectedService(null)}
         >
           <div
-            className="bg-white dark:bg-gray-900 p-6 md:p-8 rounded-xl w-full max-w-md md:max-w-lg shadow-xl"
+            className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-gray-900 md:max-w-lg md:p-8"
             onClick={(e) => e.stopPropagation()}
             tabIndex={0}
           >
             <h3
               id="service-modal-title"
-              className="text-lg md:text-xl font-bold text-primary mb-4"
+              className="mb-4 text-lg font-bold text-primary md:text-xl"
             >
               ขอใช้บริการ
             </h3>
             <p
               id="service-modal-desc"
-              className="text-base-content text-sm md:text-base"
+              className="text-sm text-base-content md:text-base"
             >
               บริการที่เลือก: <strong>{selectedService.title}</strong>
             </p>
             <div className="mt-6 flex justify-end gap-2">
               <button
-                className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-sm rounded"
+                className="rounded bg-gray-300 px-4 py-2 text-sm hover:bg-gray-400"
                 onClick={() => setSelectedService(null)}
                 type="button"
               >
                 ปิด
               </button>
               <button
-                className="px-4 py-2 bg-primary text-white hover:bg-primary/90 text-sm rounded"
+                className="rounded bg-primary px-4 py-2 text-sm text-white hover:bg-primary/90"
                 onClick={() => {
                   alert(`ขอใช้บริการ: ${selectedService.title}`);
                   setSelectedService(null);

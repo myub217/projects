@@ -1,4 +1,5 @@
 // api/apiAdmin.ts
+
 import express from "express";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
@@ -12,6 +13,7 @@ const router = express.Router();
  * @desc ดึงรายการ public repos จาก GitHub โดยใช้ Bearer Token
  * @env ต้องตั้งค่า GITHUB_TOKEN ใน .env
  */
+
 router.get("/repos/:username", async (req, res) => {
   const { username } = req.params;
   const token = process.env.GITHUB_TOKEN;
@@ -25,15 +27,26 @@ router.get("/repos/:username", async (req, res) => {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/vnd.github+json",
-        "User-Agent": "modular-onepage", // 🛡 บางกรณี GitHub API ต้องการ User-Agent
+        "User-Agent": "modular-onepage",
       },
     });
 
     if (!response.ok) {
-      const errorBody = await response.json().catch(() => ({}));
-      return res.status(response.status).json({
-        error: errorBody.message || `GitHub API returned ${response.status}`,
-      });
+      let errorMessage = `GitHub API returned ${response.status}`;
+      try {
+        const errorBody: unknown = await response.json();
+        if (
+          typeof errorBody === "object" &&
+          errorBody !== null &&
+          "message" in errorBody &&
+          typeof (errorBody as any).message === "string"
+        ) {
+          errorMessage = (errorBody as any).message;
+        }
+      } catch {
+        // fallback
+      }
+      return res.status(response.status).json({ error: errorMessage });
     }
 
     const data = await response.json();

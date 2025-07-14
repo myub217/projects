@@ -100,7 +100,7 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
   return (
     <div
       suppressHydrationWarning
-      className={`fixed bottom-4 right-4 z-50 flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 bg-white/90 dark:bg-gray-800/90 px-4 py-2 rounded-lg shadow-lg font-medium select-none ring-1 ring-gray-300 dark:ring-gray-700 backdrop-blur-sm ${className}`}
+      className={`fixed bottom-4 right-4 z-50 flex select-none items-center gap-2 rounded-lg bg-white/90 px-4 py-2 text-sm font-medium text-gray-700 shadow-lg ring-1 ring-gray-300 backdrop-blur-sm dark:bg-gray-800/90 dark:text-gray-300 dark:ring-gray-700 ${className}`}
       role="status"
       aria-live="polite"
       aria-atomic="true"
@@ -110,7 +110,7 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
     >
       <svg
         aria-hidden="true"
-        className="w-5 h-5 text-primary flex-shrink-0"
+        className="h-5 w-5 flex-shrink-0 text-primary"
         fill="none"
         stroke="currentColor"
         strokeWidth={2}
@@ -123,7 +123,7 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
       <span>{label}:</span>
       <span
         aria-hidden="true"
-        className="inline-block font-mono tracking-tight min-w-[4ch]"
+        className="inline-block min-w-[4ch] font-mono tracking-tight"
         style={{ letterSpacing: "0.1em" }}
       >
         {formatted}

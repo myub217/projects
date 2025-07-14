@@ -39,21 +39,21 @@ const ReviewsSection: React.FC = () => {
       id="reviews"
       role="region"
       aria-labelledby="reviews-heading"
-      className="py-16 bg-gray-50 dark:bg-gray-900 transition-colors duration-500"
+      className="bg-gray-50 py-16 transition-colors duration-500 dark:bg-gray-900"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <h2
           id="reviews-heading"
-          className="text-3xl sm:text-4xl font-bold text-center text-gray-800 dark:text-white mb-12"
+          className="mb-12 text-center text-3xl font-bold text-gray-800 dark:text-white sm:text-4xl"
         >
           รวมรีวิวลูกค้าบางส่วน
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
           {reviews.map(({ img, alt }, index) => (
             <figure
               key={index}
-              className="rounded-xl overflow-hidden shadow-md hover:shadow-xl transition duration-300 ease-in-out transform hover:scale-[1.02] bg-white dark:bg-gray-800"
+              className="transform overflow-hidden rounded-xl bg-white shadow-md transition duration-300 ease-in-out hover:scale-[1.02] hover:shadow-xl dark:bg-gray-800"
             >
               <img
                 src={img}
@@ -65,7 +65,7 @@ const ReviewsSection: React.FC = () => {
                   e.currentTarget.onerror = null; // ป้องกัน loop error
                   e.currentTarget.src = fallbackImage;
                 }}
-                className="w-full h-auto object-cover transition-opacity duration-500"
+                className="h-auto w-full object-cover transition-opacity duration-500"
               />
             </figure>
           ))}

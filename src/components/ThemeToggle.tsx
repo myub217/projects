@@ -17,7 +17,7 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ theme, toggleTheme }) => {
       aria-label={`เปลี่ยนเป็นโหมด${isLight ? "มืด" : "สว่าง"}`}
       title={`สลับเป็นโหมด${isLight ? "มืด" : "สว่าง"}`}
       type="button"
-      className="p-2 rounded-full transition-colors duration-300 bg-base-200 hover:bg-base-300 text-base-content focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+      className="rounded-full bg-base-200 p-2 text-base-content transition-colors duration-300 hover:bg-base-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
     >
       {isLight ? (
         <svg

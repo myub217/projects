@@ -61,7 +61,7 @@ export default function AccessTimeout({
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
       role="alertdialog"
       aria-modal="true"
       aria-labelledby="timeout-title"
@@ -69,10 +69,10 @@ export default function AccessTimeout({
       tabIndex={-1}
       ref={dialogRef}
     >
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+      <div className="w-full max-w-sm rounded-lg bg-white p-6 text-center shadow-lg dark:bg-gray-800">
         <h2
           id="timeout-title"
-          className="text-xl font-semibold mb-4 text-gray-900 dark:text-white"
+          className="mb-4 text-xl font-semibold text-gray-900 dark:text-white"
         >
           หมดเวลาการใช้งานในอีก {formatTime(countdown)}
         </h2>
@@ -81,7 +81,7 @@ export default function AccessTimeout({
         </p>
         <button
           onClick={onTimeoutConfirm}
-          className="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition"
+          className="rounded-md bg-red-600 px-4 py-2 font-semibold text-white transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
           aria-label="ยืนยันการออกจากระบบ"
           autoFocus
         >

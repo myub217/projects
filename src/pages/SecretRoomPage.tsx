@@ -130,7 +130,7 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
       <>
         <Header theme={theme} toggleTheme={toggleTheme} />
         <main
-          className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 p-6"
+          className="flex min-h-screen items-center justify-center bg-gray-100 p-6 dark:bg-gray-900"
           aria-busy="true"
           aria-live="polite"
         >
@@ -147,7 +147,7 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
     <>
       <Header theme={theme} toggleTheme={toggleTheme} />
       <main
-        className="min-h-screen bg-gray-100 dark:bg-gray-900 p-4 sm:p-6"
+        className="min-h-screen bg-gray-100 p-4 dark:bg-gray-900 sm:p-6"
         onMouseMove={reset}
         onKeyDown={reset}
         tabIndex={-1}
@@ -158,11 +158,11 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 sm:p-10 space-y-8"
+          className="mx-auto max-w-4xl space-y-8 rounded-2xl bg-white p-6 shadow-lg dark:bg-gray-800 sm:p-10"
         >
           <WelcomeBanner username={username} />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <DocumentSummaryPanel report={report} />
             <QuickActions />
           </div>
@@ -176,9 +176,9 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
           <SalaryCertDocument />
           <LayeredDocBlender />
 
-          <div className="pt-8 border-t border-gray-200 dark:border-gray-700">
+          <div className="border-t border-gray-200 pt-8 dark:border-gray-700">
             <div
-              className="text-center text-sm text-gray-500 dark:text-gray-400 mb-5"
+              className="mb-5 text-center text-sm text-gray-500 dark:text-gray-400"
               role="timer"
               aria-live="polite"
             >
@@ -188,7 +188,7 @@ const SecretRoomPage: React.FC<SecretRoomPageProps> = ({ theme, toggleTheme }) =
 
             <button
               onClick={handleLogout}
-              className="w-full flex items-center justify-center gap-3 bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-red-500"
+              className="flex w-full items-center justify-center gap-3 rounded-lg bg-red-600 px-6 py-3 font-semibold text-white shadow-lg transition hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-offset-2"
               aria-label="ออกจากระบบ"
             >
               <FiLogOut size={24} />

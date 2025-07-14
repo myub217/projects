@@ -71,7 +71,7 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
     >
       <div
         role="document"
-        className="modal-box max-w-5xl w-full max-h-[90vh] animate-fade-in"
+        className="animate-fade-in modal-box max-h-[90vh] w-full max-w-5xl"
       >
         {/* Header */}
         <header className="modal-header">
@@ -91,7 +91,7 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
           <iframe
             src={documentUrl}
             title={title}
-            className="w-full h-full min-h-[500px]"
+            className="h-full min-h-[500px] w-full"
             loading="lazy"
             sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
           />

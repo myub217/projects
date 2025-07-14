@@ -25,13 +25,20 @@
   },
 
   "include": [
-    "src",
-    "vite.config.mjs",
-    "tailwind.config.mjs",
-    "eslint.config.js",
-    "jest.setup.ts"
+    "src/**/*",              // ✅ Source code ทั้งหมด
+    "api/**/*",              // ✅ สำหรับ serverless / backend API
+    "server.ts",             // ✅ Backend entry file
+    "vite.config.mjs",       // ✅ Vite config
+    "tailwind.config.mjs",   // ✅ Tailwind config
+    "eslint.config.js",      // ✅ ESLint config (ใช้ใน parserOptions.project)
+    "jest.setup.ts"          // ✅ Jest setup
   ],
-  "exclude": ["node_modules", "dist", "coverage"],
+
+  "exclude": [
+    "node_modules",
+    "dist",
+    "coverage"
+  ],
 
   "ts-node": {
     "esm": true,

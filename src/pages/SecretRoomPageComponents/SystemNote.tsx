@@ -12,7 +12,7 @@ const typeStyles = {
     container: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
     icon: (
       <svg
-        className="w-5 h-5 mr-2 flex-shrink-0"
+        className="mr-2 h-5 w-5 flex-shrink-0"
         fill="none"
         stroke="currentColor"
         strokeWidth="2"
@@ -30,7 +30,7 @@ const typeStyles = {
     container: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
     icon: (
       <svg
-        className="w-5 h-5 mr-2 flex-shrink-0"
+        className="mr-2 h-5 w-5 flex-shrink-0"
         fill="none"
         stroke="currentColor"
         strokeWidth="2"
@@ -52,7 +52,7 @@ const typeStyles = {
     container: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
     icon: (
       <svg
-        className="w-5 h-5 mr-2 flex-shrink-0"
+        className="mr-2 h-5 w-5 flex-shrink-0"
         fill="none"
         stroke="currentColor"
         strokeWidth="2"
@@ -73,7 +73,7 @@ export default function SystemNote({ message, type = "info" }: SystemNoteProps) 
 
   return (
     <section
-      className={`flex items-center p-4 rounded-md shadow-md mb-6 ${container}`}
+      className={`mb-6 flex items-center rounded-md p-4 shadow-md ${container}`}
       role="alert"
       aria-live="polite"
       tabIndex={0}

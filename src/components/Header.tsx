@@ -63,15 +63,15 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
     <>
       <header
         role="banner"
-        className="sticky top-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-sm transition-all"
+        className="sticky top-0 z-50 border-b border-gray-200 bg-white/90 shadow-sm backdrop-blur-md transition-all dark:border-gray-700 dark:bg-gray-900/90"
       >
         <nav
           role="navigation"
           aria-label="เมนูหลัก"
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16"
+          className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
         >
           {/* โลโก้ */}
-          <a href="#" className="flex items-center h-10 w-auto">
+          <a href="#" className="flex h-10 w-auto items-center">
             <LogoApplicationlubmobile
               className="h-10 w-auto max-w-[200px] cursor-pointer"
               aria-label="โลโก้ Applicationlubmobile"
@@ -80,7 +80,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
           </a>
 
           {/* เมนู Desktop */}
-          <div className="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-700 dark:text-gray-300">
+          <div className="hidden items-center gap-6 text-sm font-medium text-gray-700 dark:text-gray-300 lg:flex">
             {navLinks.map(({ label, href, highlight }) => {
               const active = isLinkActive(href);
               const isExternal = /^https?:\/\//.test(href);
@@ -124,7 +124,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
               aria-haspopup="true"
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
-              className="lg:hidden p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
+              className="rounded p-2 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2 dark:hover:bg-gray-700 lg:hidden"
             >
               {isMobileMenuOpen ? (
                 <X size={22} aria-hidden="true" />

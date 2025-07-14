@@ -36,18 +36,18 @@ const DocumentSummaryPanel: React.FC<DocumentSummaryPanelProps> = ({ report }) =
 
   return (
     <section
-      className="grid sm:grid-cols-2 gap-4 mb-8"
+      className="mb-8 grid gap-4 sm:grid-cols-2"
       aria-label="รายงานสรุปผลการดำเนินงานเอกสาร"
     >
       <div
-        className="bg-gray-100 dark:bg-gray-700 p-4 rounded-md shadow transition-colors duration-300"
+        className="rounded-md bg-gray-100 p-4 shadow transition-colors duration-300 dark:bg-gray-700"
         role="region"
         aria-live="polite"
       >
-        <h2 className="font-semibold text-sm text-gray-800 dark:text-white mb-2">
+        <h2 className="mb-2 text-sm font-semibold text-gray-800 dark:text-white">
           📊 รายงานสรุปผลการดำเนินงาน
         </h2>
-        <ul className="list-disc list-inside text-sm text-gray-700 dark:text-gray-300 space-y-1">
+        <ul className="list-inside list-disc space-y-1 text-sm text-gray-700 dark:text-gray-300">
           <li>
             จำนวนเอกสารทั้งหมด:{" "}
             {documentCount > 0 ? documentCount : <span className="italic text-gray-500">ไม่มีข้อมูล</span>}

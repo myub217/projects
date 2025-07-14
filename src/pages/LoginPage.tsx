@@ -66,16 +66,16 @@ const LoginPage: React.FC = () => {
   const isDisabled = isSubmitting || loginAttempts >= 5;
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-6 transition-colors duration-300">
+    <main className="flex min-h-screen items-center justify-center bg-gray-50 p-6 transition-colors duration-300 dark:bg-gray-900">
       <section
         role="region"
         aria-labelledby="login-title"
         aria-live="polite"
-        className="w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8"
+        className="w-full max-w-md rounded-xl bg-white p-8 shadow-lg dark:bg-gray-800"
       >
         <h1
           id="login-title"
-          className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6"
+          className="mb-6 text-center text-2xl font-bold text-gray-900 dark:text-white"
         >
           เข้าสู่ระบบ
         </h1>
@@ -85,7 +85,7 @@ const LoginPage: React.FC = () => {
             id="login-error"
             role="alert"
             aria-live="assertive"
-            className="mb-4 text-center text-red-600 dark:text-red-400 font-medium"
+            className="mb-4 text-center font-medium text-red-600 dark:text-red-400"
           >
             {error}
           </div>
@@ -95,7 +95,7 @@ const LoginPage: React.FC = () => {
           <div
             role="alert"
             aria-live="assertive"
-            className="mb-4 text-center text-yellow-700 dark:text-yellow-400 font-semibold"
+            className="mb-4 text-center font-semibold text-yellow-700 dark:text-yellow-400"
           >
             เกินจำนวนครั้งที่อนุญาต กรุณาลองใหม่ภายหลัง
           </div>
@@ -114,8 +114,8 @@ const LoginPage: React.FC = () => {
             aria-describedby={error ? "login-error" : undefined}
             placeholder="ชื่อผู้ใช้"
             disabled={isDisabled}
-            className={`px-4 py-3 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary transition ${
-              isDisabled ? "border-gray-400 cursor-not-allowed" : "border-gray-300"
+            className={`rounded-md border bg-white px-4 py-3 text-gray-900 placeholder-gray-500 transition focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
+              isDisabled ? "cursor-not-allowed border-gray-400" : "border-gray-300"
             }`}
           />
 
@@ -129,8 +129,8 @@ const LoginPage: React.FC = () => {
             aria-required="true"
             placeholder="รหัสผ่าน"
             disabled={isDisabled}
-            className={`px-4 py-3 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary transition ${
-              isDisabled ? "border-gray-400 cursor-not-allowed" : "border-gray-300"
+            className={`rounded-md border bg-white px-4 py-3 text-gray-900 placeholder-gray-500 transition focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 ${
+              isDisabled ? "cursor-not-allowed border-gray-400" : "border-gray-300"
             }`}
           />
 
@@ -138,8 +138,8 @@ const LoginPage: React.FC = () => {
             type="submit"
             aria-label="เข้าสู่ระบบ"
             disabled={isDisabled}
-            className={`bg-primary text-primary-contrastText py-3 rounded-md hover:bg-primary-dark focus:outline-none focus:ring-4 focus:ring-primary focus:ring-opacity-50 transition ${
-              isDisabled ? "opacity-50 cursor-not-allowed hover:bg-primary" : ""
+            className={`rounded-md bg-primary py-3 text-primary-contrastText transition hover:bg-primary-dark focus:outline-none focus:ring-4 focus:ring-primary focus:ring-opacity-50 ${
+              isDisabled ? "cursor-not-allowed opacity-50 hover:bg-primary" : ""
             }`}
           >
             เข้าสู่ระบบ

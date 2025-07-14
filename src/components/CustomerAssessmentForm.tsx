@@ -139,7 +139,7 @@ const CustomerAssessmentForm: React.FC = () => {
     helpText?: string;
   }) => (
     <div className="mb-5">
-      <label htmlFor={name} className="block mb-1 font-medium text-gray-700">
+      <label htmlFor={name} className="mb-1 block font-medium text-gray-700">
         {label} {required && <span className="text-red-600">*</span>}
       </label>
       <input
@@ -152,13 +152,13 @@ const CustomerAssessmentForm: React.FC = () => {
         required={required}
         aria-invalid={!!error}
         aria-describedby={error ? `error-${name}` : undefined}
-        className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 ${
+        className={`w-full rounded border px-4 py-2 focus:outline-none focus:ring-2 ${
           error ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-blue-400"
         }`}
       />
       {helpText && <p className="mt-1 text-xs text-gray-500">{helpText}</p>}
       {error && (
-        <p id={`error-${name}`} className="mt-1 text-red-600 text-sm">
+        <p id={`error-${name}`} className="mt-1 text-sm text-red-600">
           {error}
         </p>
       )}
@@ -186,7 +186,7 @@ const CustomerAssessmentForm: React.FC = () => {
     rows?: number;
   }) => (
     <div className="mb-5">
-      <label htmlFor={name} className="block mb-1 font-medium text-gray-700">
+      <label htmlFor={name} className="mb-1 block font-medium text-gray-700">
         {label} {required && <span className="text-red-600">*</span>}
       </label>
       <textarea
@@ -199,12 +199,12 @@ const CustomerAssessmentForm: React.FC = () => {
         required={required}
         aria-invalid={!!error}
         aria-describedby={error ? `error-${name}` : undefined}
-        className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 resize-y ${
+        className={`w-full resize-y rounded border px-4 py-2 focus:outline-none focus:ring-2 ${
           error ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-blue-400"
         }`}
       />
       {error && (
-        <p id={`error-${name}`} className="mt-1 text-red-600 text-sm">
+        <p id={`error-${name}`} className="mt-1 text-sm text-red-600">
           {error}
         </p>
       )}
@@ -214,13 +214,13 @@ const CustomerAssessmentForm: React.FC = () => {
   if (submitted) {
     return (
       <div
-        className="max-w-3xl mx-auto p-8 bg-green-50 rounded-lg border border-green-300 text-green-900 text-center shadow"
+        className="mx-auto max-w-3xl rounded-lg border border-green-300 bg-green-50 p-8 text-center text-green-900 shadow"
         role="alert"
         aria-live="polite"
       >
-        <h3 className="text-2xl font-semibold mb-4">ขอบคุณสำหรับการส่งข้อมูลค่ะ</h3>
+        <h3 className="mb-4 text-2xl font-semibold">ขอบคุณสำหรับการส่งข้อมูลค่ะ</h3>
         <p className="mb-2">ทีมงานจะติดต่อกลับโดยเร็วที่สุด</p>
-        <p className="text-sm italic text-gray-600 max-w-md mx-auto">
+        <p className="mx-auto max-w-md text-sm italic text-gray-600">
           คุณมั่นใจว่าข้อมูลของคุณจะเป็นความลับ เพราะกฎของเราความลับของลูกค้าคือสิ่งสำคัญ
           <br />
           ผมไม่ใช่คนเก่งแต่ทีมงานผมเก่งแน่นอน
@@ -229,7 +229,7 @@ const CustomerAssessmentForm: React.FC = () => {
         </p>
         <button
           onClick={handleReset}
-          className="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded shadow focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="mt-6 rounded bg-blue-600 px-6 py-3 text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
           aria-label="ส่งข้อมูลใหม่"
         >
           ส่งข้อมูลใหม่
@@ -241,17 +241,17 @@ const CustomerAssessmentForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md"
+      className="mx-auto max-w-3xl rounded-lg bg-white p-8 shadow-md"
       noValidate
       aria-label="แบบฟอร์มประเมินเบื้องต้นสำหรับลูกค้ายื่นกู้"
     >
-      <h2 className="text-3xl font-bold mb-8 text-center text-gray-900">
+      <h2 className="mb-8 text-center text-3xl font-bold text-gray-900">
         แบบฟอร์มประเมินเบื้องต้นสำหรับลูกค้ายื่นกู้
       </h2>
 
       {/* Personal Information */}
-      <fieldset className="mb-8 border border-gray-200 rounded-lg p-6">
-        <legend className="text-xl font-semibold mb-4">ข้อมูลส่วนตัว</legend>
+      <fieldset className="mb-8 rounded-lg border border-gray-200 p-6">
+        <legend className="mb-4 text-xl font-semibold">ข้อมูลส่วนตัว</legend>
         <InputField
           label="ชื่อ-นามสกุล"
           name="fullName"
@@ -293,8 +293,8 @@ const CustomerAssessmentForm: React.FC = () => {
       </fieldset>
 
       {/* Business & Finance */}
-      <fieldset className="mb-8 border border-gray-200 rounded-lg p-6">
-        <legend className="text-xl font-semibold mb-4">ข้อมูลธุรกิจ/การเงิน</legend>
+      <fieldset className="mb-8 rounded-lg border border-gray-200 p-6">
+        <legend className="mb-4 text-xl font-semibold">ข้อมูลธุรกิจ/การเงิน</legend>
         <TextareaField
           label="สินทรัพย์ค้ำประกัน / จำนอง"
           name="collateralAssets"
@@ -327,8 +327,8 @@ const CustomerAssessmentForm: React.FC = () => {
       </fieldset>
 
       {/* Legal History & Requests */}
-      <fieldset className="mb-8 border border-gray-200 rounded-lg p-6">
-        <legend className="text-xl font-semibold mb-4">ประวัติและความต้องการ</legend>
+      <fieldset className="mb-8 rounded-lg border border-gray-200 p-6">
+        <legend className="mb-4 text-xl font-semibold">ประวัติและความต้องการ</legend>
         <TextareaField
           label="ประวัติการฟ้องร้องทางแพ่งและอาญาใน 3 ปีที่ผ่านมา"
           name="legalIssues"
@@ -363,7 +363,7 @@ const CustomerAssessmentForm: React.FC = () => {
 
       {submitError && (
         <p
-          className="text-red-600 mb-6 text-center font-semibold"
+          className="mb-6 text-center font-semibold text-red-600"
           role="alert"
           aria-live="assertive"
         >
@@ -373,8 +373,8 @@ const CustomerAssessmentForm: React.FC = () => {
 
       <button
         type="submit"
-        className={`w-full bg-blue-600 text-white py-3 rounded shadow-md transition-colors flex justify-center items-center ${
-          submitting ? "opacity-60 cursor-not-allowed" : "hover:bg-blue-700"
+        className={`flex w-full items-center justify-center rounded bg-blue-600 py-3 text-white shadow-md transition-colors ${
+          submitting ? "cursor-not-allowed opacity-60" : "hover:bg-blue-700"
         }`}
         disabled={submitting}
         aria-busy={submitting}
@@ -382,7 +382,7 @@ const CustomerAssessmentForm: React.FC = () => {
       >
         {submitting && (
           <svg
-            className="animate-spin h-5 w-5 mr-3 text-white"
+            className="mr-3 h-5 w-5 animate-spin text-white"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"

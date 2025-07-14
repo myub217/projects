@@ -32,15 +32,15 @@ const CTASection: React.FC<CTASectionProps> = ({
 
   return (
     <section
-      className="relative overflow-hidden py-24 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white text-center transition-colors duration-500"
+      className="relative overflow-hidden bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] py-24 text-center text-white transition-colors duration-500"
       aria-labelledby="cta-section"
       role="region"
     >
       {/* Background decorative circles */}
-      <div className="pointer-events-none absolute -top-12 -left-12 w-48 h-48 rounded-full bg-white opacity-10 blur-3xl"></div>
-      <div className="pointer-events-none absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-white opacity-10 blur-3xl"></div>
+      <div className="pointer-events-none absolute -left-12 -top-12 h-48 w-48 rounded-full bg-white opacity-10 blur-3xl"></div>
+      <div className="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-white opacity-10 blur-3xl"></div>
 
-      <div className="relative z-10 max-w-3xl mx-auto px-6 sm:px-8 lg:px-12">
+      <div className="relative z-10 mx-auto max-w-3xl px-6 sm:px-8 lg:px-12">
         <h2
           id="cta-section"
           className="mb-6 text-4xl font-extrabold drop-shadow-md sm:text-5xl"
@@ -53,7 +53,7 @@ const CTASection: React.FC<CTASectionProps> = ({
         <button
           type="button"
           onClick={handleClick}
-          className="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 font-bold text-lg text-[var(--color-primary)] shadow-xl transition-transform hover:bg-gray-100 hover:shadow-2xl active:scale-95 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-white"
+          className="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-lg font-bold text-[var(--color-primary)] shadow-xl transition-transform hover:bg-gray-100 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-white focus:ring-offset-2 active:scale-95"
           aria-label={buttonText}
         >
           {buttonText}

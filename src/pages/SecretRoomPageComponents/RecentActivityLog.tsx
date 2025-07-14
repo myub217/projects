@@ -37,9 +37,9 @@ export default function RecentActivityLog({ logs }: RecentActivityLogProps) {
       aria-live="polite"
       role="region"
     >
-      <h2 className="flex items-center font-semibold text-sm text-gray-800 dark:text-white mb-3">
+      <h2 className="mb-3 flex items-center text-sm font-semibold text-gray-800 dark:text-white">
         <svg
-          className="w-5 h-5 mr-2 text-gray-500 dark:text-gray-400 flex-shrink-0"
+          className="mr-2 h-5 w-5 flex-shrink-0 text-gray-500 dark:text-gray-400"
           fill="none"
           stroke="currentColor"
           strokeWidth={2}
@@ -55,7 +55,7 @@ export default function RecentActivityLog({ logs }: RecentActivityLogProps) {
         </svg>
         🕒 กิจกรรมล่าสุด
       </h2>
-      <ul className="list-disc list-inside text-sm text-gray-700 dark:text-gray-300 space-y-2 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-700">
+      <ul className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-700 max-h-48 list-inside list-disc space-y-2 overflow-y-auto text-sm text-gray-700 dark:text-gray-300">
         {logs.length === 0 ? (
           <li
             className="italic text-gray-500 dark:text-gray-400"
@@ -70,11 +70,11 @@ export default function RecentActivityLog({ logs }: RecentActivityLogProps) {
               key={id}
               title={`${detail} (${time})`}
               tabIndex={0}
-              className="border-b border-gray-200 dark:border-gray-700 pb-1"
+              className="border-b border-gray-200 pb-1 dark:border-gray-700"
             >
               <span>{detail} </span>
               <time
-                className="text-xs text-gray-500 dark:text-gray-400 ml-1"
+                className="ml-1 text-xs text-gray-500 dark:text-gray-400"
                 dateTime={time}
               >
                 ({time})

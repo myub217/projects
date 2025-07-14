@@ -43,13 +43,13 @@ const quickLinks: QuickLink[] = [
 export default function QuickActions() {
   return (
     <section
-      className="bg-gray-100 dark:bg-gray-700 p-4 rounded-md shadow mb-8 transition-colors duration-300"
+      className="mb-8 rounded-md bg-gray-100 p-4 shadow transition-colors duration-300 dark:bg-gray-700"
       aria-label="ลิงก์ด่วน"
       role="region"
     >
-      <h2 className="font-semibold text-sm text-gray-800 dark:text-white mb-2 flex items-center gap-2">
+      <h2 className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-white">
         <svg
-          className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0"
+          className="h-5 w-5 flex-shrink-0 text-blue-600 dark:text-blue-400"
           fill="none"
           stroke="currentColor"
           strokeWidth={2}
@@ -65,12 +65,12 @@ export default function QuickActions() {
         </svg>
         🔗 ลิงก์ด่วน
       </h2>
-      <ul className="list-disc list-inside text-sm space-y-1">
+      <ul className="list-inside list-disc space-y-1 text-sm">
         {quickLinks.map(({ label, to, ariaLabel }) => (
           <li key={to}>
             <Link
               to={to}
-              className="text-blue-600 dark:text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 rounded transition-colors"
+              className="rounded text-blue-600 transition-colors hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 dark:text-blue-400"
               aria-label={ariaLabel}
               title={label}
               tabIndex={0}

@@ -92,14 +92,14 @@ const Footer: React.FC = () => {
         lang="th"
         itemScope
         itemType="https://schema.org/Organization"
-        className="relative w-full bg-gradient-to-tr from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 text-gray-800 dark:text-gray-200 border-t border-gray-300 dark:border-gray-700 px-6 py-12 sm:px-12 md:px-16 select-none"
+        className="relative w-full select-none border-t border-gray-300 bg-gradient-to-tr from-gray-50 to-gray-100 px-6 py-12 text-gray-800 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800 dark:text-gray-200 sm:px-12 md:px-16"
       >
         <meta itemProp="url" content="https://jpvisualdocs.com" />
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-16">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-4 md:gap-16">
           <section
             aria-label="ข้อมูลบริษัท"
-            className="flex flex-col items-center md:items-start text-center md:text-left space-y-3"
+            className="flex flex-col items-center space-y-3 text-center md:items-start md:text-left"
             itemProp="publisher"
             itemScope
             itemType="https://schema.org/Organization"
@@ -108,7 +108,7 @@ const Footer: React.FC = () => {
               src={jpLogo}
               alt="โลโก้ JP Visual & Docs"
               loading="lazy"
-              className="w-28 h-auto rounded-xl shadow-md transition-transform duration-300 hover:scale-105"
+              className="h-auto w-28 rounded-xl shadow-md transition-transform duration-300 hover:scale-105"
               itemProp="logo"
               draggable={false}
               onError={(e) =>
@@ -120,7 +120,7 @@ const Footer: React.FC = () => {
               JP Visual & Docs
             </h2>
             <p
-              className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-xs"
+              className="max-w-xs text-sm leading-relaxed text-gray-600 dark:text-gray-400"
               itemProp="description"
             >
               พัฒนาโดย <strong>Applicationlab</strong>
@@ -131,19 +131,19 @@ const Footer: React.FC = () => {
 
           <nav
             aria-label="เมนูเว็บไซต์"
-            className="text-center md:text-left text-sm space-y-3"
+            className="space-y-3 text-center text-sm md:text-left"
           >
-            <h3 className="text-lg font-semibold mb-4 tracking-wide text-gray-700 dark:text-gray-300">
+            <h3 className="mb-4 text-lg font-semibold tracking-wide text-gray-700 dark:text-gray-300">
               เมนู
             </h3>
-            <ul role="list" className="space-y-2 max-w-xs mx-auto md:mx-0" tabIndex={-1}>
+            <ul role="list" className="mx-auto max-w-xs space-y-2 md:mx-0" tabIndex={-1}>
               {menuItems.map(({ href, label }) => {
                 const isExternal = href.startsWith("http");
                 return (
                   <li key={href}>
                     <a
                       href={href}
-                      className="block rounded-md px-3 py-2 hover:bg-primary hover:text-white dark:hover:bg-primary transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                      className="block rounded-md px-3 py-2 transition-colors duration-300 hover:bg-primary hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:hover:bg-primary"
                       title={label}
                       target={isExternal ? "_blank" : undefined}
                       rel={isExternal ? "noopener noreferrer" : undefined}
@@ -158,12 +158,12 @@ const Footer: React.FC = () => {
 
           <section
             aria-label="ช่องทางติดต่อและโซเชียลมีเดีย"
-            className="text-center md:text-left text-sm space-y-3"
+            className="space-y-3 text-center text-sm md:text-left"
           >
-            <h3 className="text-lg font-semibold mb-4 tracking-wide text-gray-700 dark:text-gray-300">
+            <h3 className="mb-4 text-lg font-semibold tracking-wide text-gray-700 dark:text-gray-300">
               ติดต่อ
             </h3>
-            <ul role="list" className="space-y-3 max-w-xs mx-auto md:mx-0" tabIndex={-1}>
+            <ul role="list" className="mx-auto max-w-xs space-y-3 md:mx-0" tabIndex={-1}>
               {socialLinks.map(
                 ({ href, label, Icon, ariaLabel, external, nofollow }) => (
                   <li key={href}>
@@ -182,16 +182,16 @@ const Footer: React.FC = () => {
                               .join(" ")
                           : undefined
                       }
-                      className="inline-flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-primary hover:text-white dark:hover:bg-primary transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                      className="inline-flex items-center gap-3 rounded-lg px-3 py-2 transition-colors duration-300 hover:bg-primary hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:hover:bg-primary"
                       aria-label={ariaLabel}
                       title={ariaLabel}
                     >
                       <Icon
-                        className="w-6 h-6 flex-shrink-0"
+                        className="h-6 w-6 flex-shrink-0"
                         aria-hidden="true"
                         focusable={false}
                       />
-                      <span className="truncate max-w-[9rem]">{label}</span>
+                      <span className="max-w-[9rem] truncate">{label}</span>
                     </a>
                   </li>
                 )
@@ -199,23 +199,23 @@ const Footer: React.FC = () => {
             </ul>
           </section>
 
-          <section className="flex flex-col items-center md:items-end text-center md:text-right text-sm justify-between space-y-6">
+          <section className="flex flex-col items-center justify-between space-y-6 text-center text-sm md:items-end md:text-right">
             <div className="select-text">
               <p className="font-semibold tracking-wide">© {currentYear} Applicationlab</p>
-              <p className="text-gray-500 dark:text-gray-400 tracking-wide">All rights reserved.</p>
+              <p className="tracking-wide text-gray-500 dark:text-gray-400">All rights reserved.</p>
             </div>
             <button
               onClick={scrollToTop}
               aria-label="กลับขึ้นด้านบน"
               title="กลับขึ้นด้านบน"
               type="button"
-              className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-lg bg-white dark:bg-gray-800 px-3 py-2 shadow-lg text-primary font-semibold text-sm hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-transform duration-300 ${
+              className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm font-semibold text-primary shadow-lg transition-transform duration-300 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:bg-gray-800 ${
                 showScrollTop
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-6 pointer-events-none"
+                  ? "translate-y-0 opacity-100"
+                  : "pointer-events-none translate-y-6 opacity-0"
               }`}
             >
-              <ArrowUp className="w-5 h-5" aria-hidden="true" focusable={false} />
+              <ArrowUp className="h-5 w-5" aria-hidden="true" focusable={false} />
               กลับด้านบน
             </button>
           </section>

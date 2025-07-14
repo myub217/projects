@@ -115,35 +115,35 @@ const Feature1: React.FC = () => {
 
   return (
     <section
-      className="p-8 max-w-5xl mx-auto mt-12 bg-background rounded-2xl shadow-lg text-foreground font-sarabun"
+      className="font-sarabun mx-auto mt-12 max-w-5xl rounded-2xl bg-background p-8 text-foreground shadow-lg"
       aria-label="พื้นที่ห้องลับสำหรับสมาชิก VIP"
     >
       {/* Header */}
       <header className="mb-8 text-center">
-        <h1 className="text-3xl font-extrabold text-primary drop-shadow-sm mb-2">
+        <h1 className="mb-2 text-3xl font-extrabold text-primary drop-shadow-sm">
           🔐 ห้องลับเฉพาะสมาชิก VIP
         </h1>
-        <p className="text-lg max-w-xl mx-auto leading-relaxed text-secondary">
+        <p className="mx-auto max-w-xl text-lg leading-relaxed text-secondary">
           พื้นที่พิเศษสำหรับสมาชิกระดับ VIP ทดลองสุ่มชุดเอกสารที่จัดเตรียมไว้อย่างมืออาชีพ
           พร้อมใช้งานและดาวน์โหลดได้ทันที
         </p>
       </header>
 
       {/* Buttons */}
-      <div className="flex flex-col sm:flex-row justify-center gap-6 mb-10">
+      <div className="mb-10 flex flex-col justify-center gap-6 sm:flex-row">
         <button
           onClick={handleRandomize}
-          className="flex-1 py-3 bg-primary hover:bg-primary-dark text-white rounded-md font-semibold shadow transition duration-300"
+          className="flex-1 rounded-md bg-primary py-3 font-semibold text-white shadow transition duration-300 hover:bg-primary-dark"
         >
           🔄 สุ่มชุดเอกสารใหม่
         </button>
         <button
           onClick={handleDownload}
           disabled={isDownloading}
-          className={`flex-1 py-3 rounded-md font-semibold shadow transition duration-300 ${
+          className={`flex-1 rounded-md py-3 font-semibold shadow transition duration-300 ${
             isDownloading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-success hover:bg-success-dark text-white"
+              ? "cursor-not-allowed bg-gray-400"
+              : "bg-success text-white hover:bg-success-dark"
           }`}
         >
           {isDownloading ? "⏳ กำลังดาวน์โหลด..." : "⬇️ ดาวน์โหลดเอกสาร PDF"}
@@ -151,28 +151,28 @@ const Feature1: React.FC = () => {
       </div>
 
       {/* Documents */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
         {docSet.map((doc) => (
           <article
             key={doc.id}
             role="region"
             aria-label={`เอกสาร: ${doc.title}`}
-            className="relative p-6 bg-surface bg-opacity-90 backdrop-blur-sm rounded-xl shadow-md border border-border hover:scale-[1.02] transition-transform duration-300"
+            className="bg-surface relative rounded-xl border border-border bg-opacity-90 p-6 shadow-md backdrop-blur-sm transition-transform duration-300 hover:scale-[1.02]"
           >
             <div
               aria-hidden="true"
-              className="absolute inset-0 flex items-center justify-center text-7xl font-extrabold text-foreground opacity-10 pointer-events-none"
+              className="pointer-events-none absolute inset-0 flex items-center justify-center text-7xl font-extrabold text-foreground opacity-10"
               style={{ userSelect: "none", filter: "blur(2px)" }}
             >
               CONFIDENTIAL
             </div>
 
-            <h2 className="relative text-lg font-bold mb-4">{doc.title}</h2>
-            <pre className="relative whitespace-pre-wrap text-sm leading-relaxed text-foreground/90 font-mono mb-6">
+            <h2 className="relative mb-4 text-lg font-bold">{doc.title}</h2>
+            <pre className="relative mb-6 whitespace-pre-wrap font-mono text-sm leading-relaxed text-foreground/90">
               {doc.renderedContent}
             </pre>
 
-            <footer className="relative text-xs text-foreground/70 flex justify-between">
+            <footer className="relative flex justify-between text-xs text-foreground/70">
               <span>👤 <span className="font-medium">{doc.name}</span></span>
               <time dateTime={doc.isoDate}>📅 {doc.date}</time>
             </footer>
