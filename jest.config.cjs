@@ -15,15 +15,9 @@ const config = {
   },
 
   // ✅ ใช้งานจริงได้ทันที (มี fallback ไปยัง js ถ้า .ts ไม่มี)
-  setupFilesAfterEnv: [
-    '<rootDir>/jest.setup.ts',
-    '<rootDir>/jest.setup.ts',
-  ],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts', '<rootDir>/jest.setup.ts'],
 
-  testMatch: [
-    '**/__tests__/**/*.(spec|test).(ts|tsx|js)',
-    '**/?(*.)+(spec|test).[jt]s?(x)',
-  ],
+  testMatch: ['**/__tests__/**/*.(spec|test).(ts|tsx|js)', '**/?(*.)+(spec|test).[jt]s?(x)'],
 
   testPathIgnorePatterns: ['/node_modules/', '/dist/', '/coverage/', '/build/'],
 

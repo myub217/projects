@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/data/data/com.termux/files/usr/bin/bash
 set -euo pipefail
 IFS=$'\n\t'
 
@@ -8,74 +8,58 @@ mkdir -p "$OUTDIR"
 
 log() { echo -e "[$(date +%H:%M:%S)] $*"; }
 
-log "🚀 Start full setup"
+log "🚀 setup.sh: FULL PROJECT DIAGNOSTIC START"
 
-# ────────────────────────────────────────────────
-# 🔍 Check tools
-REQUIRED_TOOLS=(node pnpm jq depcheck eslint prettier tsc tree)
-for TOOL in "${REQUIRED_TOOLS[@]}"; do
-  command -v "$TOOL" &>/dev/null || {
-    echo "❌ Missing: $TOOL" >&2
-    exit 1
-  }
+# ── 🔧 Require tools
+TOOLS=(node pnpm jq depcheck eslint prettier tsc tree git)
+for t in "${TOOLS[@]}"; do
+  if ! command -v "$t" &>/dev/null; then
+    echo "❌ Missing: $t"
+    case "$t" in
+      prettier) pnpm add -D prettier && log "📦 Installed: prettier";;
+      eslint) pnpm add -D eslint && log "📦 Installed: eslint";;
+    esac
+    command -v "$t" &>/dev/null || exit 1
+  fi
+  log "✅ Found: $t"
 done
 
-# ────────────────────────────────────────────────
-# 📄 Patch missing type shims
-log "📄 Patch types → types/assets.d.ts, types/vite-env.d.ts"
-mkdir -p types
-cat <<EOF > types/assets.d.ts
-declare module '*.webp';
-declare module '*.png';
-declare module '*.jpg';
+# ── 📄 Patch types
+dir_types="types"
+log "📄 $dir_types/"
+mkdir -p "$dir_types"
+cat <<EOF > "$dir_types/assets.d.ts"
+declare module '*.webp'; declare module '*.png'; declare module '*.jpg';
 EOF
-
-cat <<EOF > types/vite-env.d.ts
+cat <<EOF > "$dir_types/vite-env.d.ts"
 interface ImportMetaEnv {
   VITE_API_BASE_URL: string;
-  VITE_DEV_SERVER_PORT?: string;
-  VITE_PREVIEW_SERVER_PORT?: string;
-  VITE_BUILD_OUTDIR?: string;
-  VITE_OPEN_BROWSER?: string;
-  VITE_OPEN_REPORT?: string;
-  NODE_ENV?: string;
   [key: string]: any;
 }
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
-}
+interface ImportMeta { readonly env: ImportMetaEnv; }
 EOF
 
-# 🔧 Ensure tsconfig includes type folder and vite/client
-log "🛠️ Patch tsconfig.json for types + vite/client"
-TMP="tsconfig.tmp.json"
-jq '(.compilerOptions.types //= []) + ["vite/client"] |
-    (.include //= []) + ["types"]' tsconfig.json > "$TMP" && mv "$TMP" tsconfig.json
+# ── 🛠️ tsconfig patch
+log "🛠️ tsconfig.json"
+jq '(.compilerOptions //= {})
+  | (.compilerOptions.types //= [])
+  | .compilerOptions.types += ["vite/client"]
+  | (.include //= [])
+  | .include |= unique + ["types"]' tsconfig.json > tsconfig.tmp.json && mv tsconfig.tmp.json tsconfig.json
 
-# ────────────────────────────────────────────────
-# 📦 Optional: auto-install @types/cors if 'cors' found in server.ts
-grep -q "cors" server.ts && pnpm add -D @types/cors && log "📦 Installed: @types/cors"
+# ── 📦 install @types/cors if needed
+grep -q "cors" server.ts && pnpm add -D @types/cors && log "📦 + @types/cors"
 
-# ────────────────────────────────────────────────
-# 🧹 Clean previous installs
-log "🧹 Clean"
+# ── 🧹 Clean
+log "🧹 clean node_modules/dist/cache"
 rm -rf node_modules dist .cache pnpm-lock.yaml || true
 
-# 📦 Install dependencies
-log "📦 Installing..."
+# ── 📦 Install
+log "📦 pnpm install"
 pnpm install
 
-# ⚙️ .env setup
-[ ! -f .env ] && cp .env.example .env && log "⚠️ Created .env from example"
-log "✅ .env ready"
-
-# 🔧 Check main config files
-for f in vite.config.ts tailwind.config.mjs tsconfig.json eslint.config.mjs; do
-  [ -f "$f" ] && log "✅ $f" || log "⚠️ Missing: $f"
-done
-
-# 🔐 Git init if needed
-[ ! -d .git ] && git init && log "✅ Git initialized"
+# ── 🔐 Git init
+[ ! -d .git ] && git init && log "✅ git init"
 [ ! -f .gitignore ] && cat <<EOF > .gitignore
 node_modules
 dist
@@ -86,31 +70,30 @@ pnpm-lock.yaml
 .DS_Store
 .idea
 EOF
-log "✅ .gitignore ready"
+log "✅ .gitignore"
 
-# 🧼 Format
-log "🧼 Prettier"
-pnpm prettier --write . || log "❌ Prettier failed"
+# ── ⚙️ .env
+[ ! -f .env ] && cp .env.example .env && log "⚠️ .env created from .env.example"
 
-# 🧹 Lint
-log "🧹 ESLint"
-pnpm exec eslint . --ext .ts,.tsx || log "❌ ESLint failed"
+# ── 🧼 Format + Lint
+log "🧼 prettier"
+pnpm exec prettier --write . || log "❌ prettier failed"
 
-# 🧪 Type Check
-log "🧪 TypeCheck"
-pnpm typecheck || log "❌ TypeCheck failed"
+log "🧹 eslint"
+pnpm exec eslint . || log "❌ eslint failed"
 
-# 🧪 Test
-log "🧪 Test"
-pnpm test || log "❌ Test failed"
+# ── 🧪 Type check + test + build
+log "🧪 typecheck"
+pnpm typecheck || log "❌ typecheck failed"
 
-# 🧱 Build
-log "🧱 Build"
-pnpm build || log "❌ Build failed"
+log "🧪 test"
+pnpm test || log "❌ test failed"
 
-# ────────────────────────────────────────────────
-# 📊 Export diagnostics
-log "📊 Export"
+log "🧱 build"
+pnpm build || log "❌ build failed"
+
+# ── 📊 Export diagnostics
+log "📊 export: $OUTDIR"
 tree -L 3 > "$OUTDIR/tree.txt"
 cp .env "$OUTDIR/env.txt"
 pnpm exec depcheck --json > "$OUTDIR/depcheck.json" || echo "{}" > "$OUTDIR/depcheck.json"
@@ -120,7 +103,56 @@ git log --oneline -n 5 >> "$OUTDIR/git.log"
 lsof -i -P -n | grep LISTEN > "$OUTDIR/ports.txt" || echo "no ports" > "$OUTDIR/ports.txt"
 du -ah ./src | sort -rh | head -n 50 > "$OUTDIR/filesizes.txt"
 pnpm exec ts-unused-exports tsconfig.json > "$OUTDIR/unused-exports.txt" 2>&1 || true
+log "✅ DONE → $OUTDIR"
 
-log "✅ Export complete → $OUTDIR"
-log "🎉 Setup done!"
-log "📁 Full output saved in: $OUTDIR"
+# ── 📦 Save all .env* files
+log "🧾 Merge all .env* → $OUTDIR/env-all.txt"
+find . -maxdepth 1 -type f -name ".env*" -exec echo -e "\n## {}" \; -exec cat {} \; > "$OUTDIR/env-all.txt"
+
+# ── 🧠 Generate AI-ready Markdown summary
+SUMMARY="$OUTDIR/project-summary.md"
+log "🧠 Markdown summary → $SUMMARY"
+
+{
+  echo "# 🧠 Project Diagnostic Summary"
+  echo
+  echo "- 📅 Date: $(date)"
+  echo "- 📁 Output Directory: \`$OUTDIR\`"
+  echo "- 🧪 Type Check: \`tsc --noEmit\`"
+  echo "- 📦 Dependencies: \`pnpm install\`"
+  echo "- 🔧 Lint / Format: \`eslint\`, \`prettier\`"
+  echo "- 🧪 Test: \`pnpm test\`"
+  echo "- 🧱 Build: \`pnpm build\`"
+  echo
+  echo "## 🔍 Tree (Level 3)"
+  echo '```'
+  cat "$OUTDIR/tree.txt"
+  echo '```'
+  echo
+  echo "## 🧩 Dependency Check (depcheck)"
+  echo '```json'
+  cat "$OUTDIR/depcheck.json"
+  echo '```'
+  echo
+  echo "## 🐛 TS Errors"
+  echo '```'
+  cat "$OUTDIR/ts-errors.log"
+  echo '```'
+  echo
+  echo "## 🚥 Git"
+  echo '```'
+  cat "$OUTDIR/git.log"
+  echo '```'
+  echo
+  echo "## 📦 File Sizes (Top 50)"
+  echo '```'
+  cat "$OUTDIR/filesizes.txt"
+  echo '```'
+  echo
+  echo "## ⚠️ Unused Exports"
+  echo '```'
+  cat "$OUTDIR/unused-exports.txt"
+  echo '```'
+} > "$SUMMARY"
+
+log "✅ Summary ready"

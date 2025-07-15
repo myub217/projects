@@ -16,15 +16,18 @@
       "@/*": ["src/*"]
     },
     "jsx": "react-jsx",
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["vite/client", "vite/client"]
   },
   "include": [
-    "src",
     "api",
+    "eslint.config.mjs",
     "server.ts",
-    "vite.config.ts",
+    "src",
     "tailwind.config.mjs",
-    "eslint.config.mjs"
+    "types",
+    "vite.config.ts",
+    "types"
   ],
   "exclude": ["dist", "node_modules", "coverage"]
 }

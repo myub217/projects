@@ -1,10 +1,7 @@
-
 ---
-
 # 🚀 Modular OnePage
 
 SPA โปรเจกต์ด้วย **React + TypeScript + Vite + TailwindCSS + DaisyUI + Express + Framer Motion**
-
 ---
 
 ## 🔧 เทคโนโลยีหลัก
@@ -22,13 +19,13 @@ SPA โปรเจกต์ด้วย **React + TypeScript + Vite + TailwindC
 | Lucide React     | latest  |
 | React Icons      | latest  |
 
-> ✅ *React Router DOM ใช้เวอร์ชัน 6.x เพื่อความเสถียรสูงสุดกับ TypeScript*
+> ✅ _React Router DOM ใช้เวอร์ชัน 6.x เพื่อความเสถียรสูงสุดกับ TypeScript_
 
 ---
 
 ## 📁 โครงสร้างโปรเจกต์ (ย่อ)
 
-. ├── Clean.sh ├── README.md ├── api/ │   ├── apiAdmin.ts │   └── apiClient.ts ├── dist/ ├── eslint.config.mjs ├── full-setup.sh ├── index.html ├── jest.config.js ├── jest.setup.js ├── node_modules/ ├── package.json ├── src/ │   ├── App.tsx │   ├── main.tsx │   └── components/ │       ├── About.tsx │       ├── Feature.tsx │       ├── AdminBoard/ │       │   ├── Dashboard.tsx │       │   ├── RepoList.tsx │       │   ├── StatsPanel.tsx │       │   └── UserTable.tsx │       └── Features/ │           ├── Feature1.tsx │           ├── Feature2.tsx │           ├── Feature3.tsx │           └── Feature4.tsx ├── tailwind.config.mjs ├── tsconfig.json ├── tsconfig.base.json └── vite.config.mjs
+. ├── Clean.sh ├── README.md ├── api/ │ ├── apiAdmin.ts │ └── apiClient.ts ├── dist/ ├── eslint.config.mjs ├── full-setup.sh ├── index.html ├── jest.config.js ├── jest.setup.js ├── node_modules/ ├── package.json ├── src/ │ ├── App.tsx │ ├── main.tsx │ └── components/ │ ├── About.tsx │ ├── Feature.tsx │ ├── AdminBoard/ │ │ ├── Dashboard.tsx │ │ ├── RepoList.tsx │ │ ├── StatsPanel.tsx │ │ └── UserTable.tsx │ └── Features/ │ ├── Feature1.tsx │ ├── Feature2.tsx │ ├── Feature3.tsx │ └── Feature4.tsx ├── tailwind.config.mjs ├── tsconfig.json ├── tsconfig.base.json └── vite.config.mjs
 
 ---
 
@@ -172,3 +169,4 @@ Format พร้อม deploy / share ได้
 
 บอกได้ทันที ✅
 
+```
