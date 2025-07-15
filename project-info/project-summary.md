@@ -1,6 +1,7 @@
 # Project Summary - projects1
 
 ## Project Path
+
 /data/data/com.termux/files/home/projects/projects1
 
 ## Git Info
@@ -1641,7 +1642,7 @@ dist/assets/vendor-react-CA3tHcxm.js  446.94 kB │ gzip: 139.24 kB │ map: 3,8
 
 ```bash
 .
-├──  
+├──
 ├── Clean.sh
 ├── README.md
 ├── api
@@ -1698,7 +1699,7 @@ dist/assets/vendor-react-CA3tHcxm.js  446.94 kB │ gzip: 139.24 kB │ map: 3,8
 
 ## Vite Config
 
-```bash
+````bash
 // vite.config.mjs
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
@@ -2208,3 +2209,4 @@ export default {
     }
   }
 }```
+````

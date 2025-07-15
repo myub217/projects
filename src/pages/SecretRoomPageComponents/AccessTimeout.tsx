@@ -1,16 +1,13 @@
 // src/pages/SecretRoomPageComponents/AccessTimeout.tsx
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 
 interface AccessTimeoutProps {
   timeLeft: number; // เวลาเหลือก่อน logout (ms)
   onTimeoutConfirm: () => void; // callback เมื่อ user กดยืนยันออกจากระบบ
 }
 
-export default function AccessTimeout({
-  timeLeft,
-  onTimeoutConfirm,
-}: AccessTimeoutProps) {
+export default function AccessTimeout({ timeLeft, onTimeoutConfirm }: AccessTimeoutProps) {
   const [visible, setVisible] = useState(false);
   const [countdown, setCountdown] = useState(timeLeft);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -45,7 +42,7 @@ export default function AccessTimeout({
     const totalSec = Math.floor(ms / 1000);
     const min = Math.floor(totalSec / 60);
     const sec = totalSec % 60;
-    return `${min}:${sec.toString().padStart(2, "0")}`;
+    return `${min}:${sec.toString().padStart(2, '0')}`;
   };
 
   if (!visible) return null;
@@ -61,16 +58,10 @@ export default function AccessTimeout({
       ref={dialogRef}
     >
       <div className="w-full max-w-sm rounded-xl bg-white p-6 text-center shadow-xl dark:bg-gray-800">
-        <h2
-          id="timeout-title"
-          className="mb-3 text-lg font-semibold text-gray-900 dark:text-white"
-        >
+        <h2 id="timeout-title" className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
           ⏳ ออกจากระบบภายใน {formatTime(countdown)}
         </h2>
-        <p
-          id="timeout-desc"
-          className="mb-6 text-sm text-gray-700 dark:text-gray-300"
-        >
+        <p id="timeout-desc" className="mb-6 text-sm text-gray-700 dark:text-gray-300">
           ระบบจะออกจากระบบโดยอัตโนมัติเพื่อความปลอดภัย
         </p>
         <button

@@ -1,6 +1,6 @@
-import React from "react";
-import ServiceCard from "./ServiceCard";
-import { services } from "../data/servicesData";
+import React from 'react';
+import ServiceCard from './ServiceCard';
+import { services } from '../data/servicesData';
 
 export interface Service {
   id: number;
@@ -53,11 +53,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ onRequest }) => {
                 <ServiceCard
                   service={service}
                   disabled={isDisabled}
-                  onRequest={
-                    !isDisabled && onRequest
-                      ? () => onRequest(service)
-                      : undefined
-                  }
+                  onRequest={!isDisabled && onRequest ? () => onRequest(service) : undefined}
                 />
 
                 {showNote && (

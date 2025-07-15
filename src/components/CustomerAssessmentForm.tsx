@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 interface FormData {
   fullName: string;
@@ -15,16 +15,16 @@ interface FormData {
 
 const CustomerAssessmentForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
-    fullName: "",
-    phone: "",
-    occupation: "",
-    income: "",
-    collateralAssets: "",
-    businessManagement: "",
-    requestedAmount: "",
-    legalIssues: "",
-    creditIssues: "",
-    teamRequirements: "",
+    fullName: '',
+    phone: '',
+    occupation: '',
+    income: '',
+    collateralAssets: '',
+    businessManagement: '',
+    requestedAmount: '',
+    legalIssues: '',
+    creditIssues: '',
+    teamRequirements: '',
   });
 
   const [errors, setErrors] = useState<Partial<FormData>>({});
@@ -36,33 +36,30 @@ const CustomerAssessmentForm: React.FC = () => {
   const validate = (): boolean => {
     const newErrors: Partial<FormData> = {};
 
-    if (!formData.fullName.trim()) newErrors.fullName = "กรุณากรอกชื่อ-นามสกุล";
-    if (!formData.phone.trim()) newErrors.phone = "กรุณากรอกเบอร์โทรศัพท์";
+    if (!formData.fullName.trim()) newErrors.fullName = 'กรุณากรอกชื่อ-นามสกุล';
+    if (!formData.phone.trim()) newErrors.phone = 'กรุณากรอกเบอร์โทรศัพท์';
     else if (!/^[0-9+() -]{7,20}$/.test(formData.phone.trim()))
-      newErrors.phone = "กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง";
-    if (!formData.occupation.trim()) newErrors.occupation = "กรุณาระบุอาชีพ";
-    if (!formData.income.trim()) newErrors.income = "กรุณาระบุรายได้โดยประมาณ";
+      newErrors.phone = 'กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง';
+    if (!formData.occupation.trim()) newErrors.occupation = 'กรุณาระบุอาชีพ';
+    if (!formData.income.trim()) newErrors.income = 'กรุณาระบุรายได้โดยประมาณ';
     if (!formData.collateralAssets.trim())
-      newErrors.collateralAssets = "กรุณาระบุสินทรัพย์ค้ำประกันหรือจำนอง";
+      newErrors.collateralAssets = 'กรุณาระบุสินทรัพย์ค้ำประกันหรือจำนอง';
     if (!formData.businessManagement.trim())
-      newErrors.businessManagement = "กรุณาระบุสถานะการบริหารธุรกิจหรือการทำงาน";
-    if (!formData.requestedAmount.trim())
-      newErrors.requestedAmount = "กรุณาระบุยอดเงินที่ต้องการ";
+      newErrors.businessManagement = 'กรุณาระบุสถานะการบริหารธุรกิจหรือการทำงาน';
+    if (!formData.requestedAmount.trim()) newErrors.requestedAmount = 'กรุณาระบุยอดเงินที่ต้องการ';
     if (!formData.legalIssues.trim())
-      newErrors.legalIssues = "กรุณาระบุประวัติการฟ้องร้องใน 3 ปีที่ผ่านมา";
+      newErrors.legalIssues = 'กรุณาระบุประวัติการฟ้องร้องใน 3 ปีที่ผ่านมา';
     if (!formData.creditIssues.trim())
-      newErrors.creditIssues = "กรุณาระบุปัญหาบูโรหรือ blacklist หากมี";
+      newErrors.creditIssues = 'กรุณาระบุปัญหาบูโรหรือ blacklist หากมี';
     if (!formData.teamRequirements.trim())
-      newErrors.teamRequirements = "กรุณาระบุสิ่งที่ต้องการจากทีมงานเรา";
+      newErrors.teamRequirements = 'กรุณาระบุสิ่งที่ต้องการจากทีมงานเรา';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   // Handle input change and clear errors on change
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: undefined }));
@@ -71,16 +68,16 @@ const CustomerAssessmentForm: React.FC = () => {
   // Reset form state to initial
   const handleReset = () => {
     setFormData({
-      fullName: "",
-      phone: "",
-      occupation: "",
-      income: "",
-      collateralAssets: "",
-      businessManagement: "",
-      requestedAmount: "",
-      legalIssues: "",
-      creditIssues: "",
-      teamRequirements: "",
+      fullName: '',
+      phone: '',
+      occupation: '',
+      income: '',
+      collateralAssets: '',
+      businessManagement: '',
+      requestedAmount: '',
+      legalIssues: '',
+      creditIssues: '',
+      teamRequirements: '',
     });
     setErrors({});
     setSubmitError(null);
@@ -98,11 +95,11 @@ const CustomerAssessmentForm: React.FC = () => {
 
     try {
       // *** กำหนด URL API ของคุณที่นี่ ***
-      const API_ENDPOINT = "https://your-api-endpoint.example.com/submit-form";
+      const API_ENDPOINT = 'https://your-api-endpoint.example.com/submit-form';
 
       const response = await fetch(API_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
@@ -110,7 +107,7 @@ const CustomerAssessmentForm: React.FC = () => {
 
       setSubmitted(true);
     } catch (error: any) {
-      setSubmitError(error.message || "เกิดข้อผิดพลาดไม่ทราบสาเหตุ");
+      setSubmitError(error.message || 'เกิดข้อผิดพลาดไม่ทราบสาเหตุ');
     } finally {
       setSubmitting(false);
     }
@@ -120,7 +117,7 @@ const CustomerAssessmentForm: React.FC = () => {
   const InputField = ({
     label,
     name,
-    type = "text",
+    type = 'text',
     value,
     onChange,
     error,
@@ -153,7 +150,7 @@ const CustomerAssessmentForm: React.FC = () => {
         aria-invalid={!!error}
         aria-describedby={error ? `error-${name}` : undefined}
         className={`w-full rounded border px-4 py-2 focus:outline-none focus:ring-2 ${
-          error ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-blue-400"
+          error ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-blue-400'
         }`}
       />
       {helpText && <p className="mt-1 text-xs text-gray-500">{helpText}</p>}
@@ -200,7 +197,7 @@ const CustomerAssessmentForm: React.FC = () => {
         aria-invalid={!!error}
         aria-describedby={error ? `error-${name}` : undefined}
         className={`w-full resize-y rounded border px-4 py-2 focus:outline-none focus:ring-2 ${
-          error ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-blue-400"
+          error ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-blue-400'
         }`}
       />
       {error && (
@@ -374,7 +371,7 @@ const CustomerAssessmentForm: React.FC = () => {
       <button
         type="submit"
         className={`flex w-full items-center justify-center rounded bg-blue-600 py-3 text-white shadow-md transition-colors ${
-          submitting ? "cursor-not-allowed opacity-60" : "hover:bg-blue-700"
+          submitting ? 'cursor-not-allowed opacity-60' : 'hover:bg-blue-700'
         }`}
         disabled={submitting}
         aria-busy={submitting}
@@ -403,7 +400,7 @@ const CustomerAssessmentForm: React.FC = () => {
             />
           </svg>
         )}
-        {submitting ? "กำลังส่งข้อมูล..." : "ส่งข้อมูลประเมิน"}
+        {submitting ? 'กำลังส่งข้อมูล...' : 'ส่งข้อมูลประเมิน'}
       </button>
     </form>
   );

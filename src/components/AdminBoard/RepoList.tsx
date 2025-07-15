@@ -1,7 +1,5 @@
-// src/pages/RepoList.tsx
-
-import { useEffect, useState, useMemo } from "react";
-import apiClient from "@/api/apiClient";
+import { useEffect, useState, useMemo } from 'react';
+import apiClient from '@/api/apiClient';
 
 /**
  * ✅ Repo Interface
@@ -17,11 +15,10 @@ interface Repo {
 }
 
 /**
- * ✅ ดึง GitHub username จาก VITE_GITHUB_REPO
+ * ✅ GitHub username & repo name from env
  */
-const githubRepoUrl = import.meta.env.VITE_GITHUB_REPO || "";
-const githubUsername =
-  githubRepoUrl.split("https://github.com/")[1]?.split("/")[0] || "myub217";
+const repoName = import.meta.env.VITE_GITHUB_REPO_NAME || 'myub217/projects';
+const githubUsername = repoName.split('/')[0];
 
 /**
  * ✅ RepoList Component
@@ -29,39 +26,43 @@ const githubUsername =
 function RepoList() {
   const [repos, setRepos] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [search, setSearch] = useState("");
-  const [languageFilter, setLanguageFilter] = useState("All");
+  const [error, setError] = useState('');
+  const [search, setSearch] = useState('');
+  const [languageFilter, setLanguageFilter] = useState('All');
 
-  // Fetch repos
   useEffect(() => {
     apiClient
       .getRepoList(githubUsername)
-      .then((data) => {
-        setRepos(data);
-        setLoading(false);
+      .then((data: any[]) => {
+        const formatted = data.map((r) => ({
+          id: r.id,
+          name: r.name,
+          html_url: r.html_url || r.url,
+          description: r.description,
+          language: r.language,
+          stargazers_count: r.stargazers_count,
+          forks_count: r.forks_count,
+        }));
+        setRepos(formatted);
       })
       .catch((err) => {
-        console.error("❌ Error fetching repos:", err);
-        setError("เกิดข้อผิดพลาดในการโหลดข้อมูล");
-        setLoading(false);
-      });
+        console.error('❌ Error fetching repos:', err);
+        setError('เกิดข้อผิดพลาดในการโหลดข้อมูล');
+      })
+      .finally(() => setLoading(false));
   }, []);
 
-  // Extract language options
   const languages = useMemo(() => {
     const set = new Set<string>();
     repos.forEach((r) => r.language && set.add(r.language));
-    return ["All", ...Array.from(set).sort()];
+    return ['All', ...Array.from(set).sort()];
   }, [repos]);
 
-  // Filtered + searched result
   const filteredRepos = useMemo(() => {
     return repos.filter((repo) => {
-      const matchesLang =
-        languageFilter === "All" || repo.language === languageFilter;
-      const matchesSearch = repo.name.toLowerCase().includes(search.toLowerCase());
-      return matchesLang && matchesSearch;
+      const matchLang = languageFilter === 'All' || repo.language === languageFilter;
+      const matchSearch = repo.name.toLowerCase().includes(search.toLowerCase());
+      return matchLang && matchSearch;
     });
   }, [repos, search, languageFilter]);
 
@@ -86,19 +87,14 @@ function RepoList() {
         >
           {languages.map((lang) => (
             <option key={lang} value={lang}>
-              {lang === "All" ? "🌐 ทุกภาษา" : lang}
+              {lang === 'All' ? '🌐 ทุกภาษา' : lang}
             </option>
           ))}
         </select>
       </div>
 
-      {/* 🔄 Loading */}
       {loading && <div className="animate-pulse">🔄 กำลังโหลดข้อมูล...</div>}
-
-      {/* ❌ Error */}
       {error && <div className="text-red-600">❌ {error}</div>}
-
-      {/* 📭 No result */}
       {!loading && !error && filteredRepos.length === 0 && (
         <div className="text-gray-500">📭 ไม่พบ repository ที่ตรงกับเงื่อนไข</div>
       )}
@@ -106,10 +102,7 @@ function RepoList() {
       {/* ✅ Repo List */}
       <ul className="space-y-4">
         {filteredRepos.map((repo) => (
-          <li
-            key={repo.id}
-            className="rounded-xl border p-4 shadow transition hover:shadow-lg"
-          >
+          <li key={repo.id} className="rounded-xl border p-4 shadow transition hover:shadow-lg">
             <a
               href={repo.html_url}
               target="_blank"
@@ -118,17 +111,11 @@ function RepoList() {
             >
               {repo.name}
             </a>
-            {repo.description && (
-              <p className="mt-1 text-sm text-gray-700">{repo.description}</p>
-            )}
+            {repo.description && <p className="mt-1 text-sm text-gray-700">{repo.description}</p>}
             <div className="mt-2 text-sm text-gray-500 flex flex-wrap items-center gap-4">
               {repo.language && <span>🧠 {repo.language}</span>}
-              {typeof repo.stargazers_count === "number" && (
-                <span>⭐ {repo.stargazers_count}</span>
-              )}
-              {typeof repo.forks_count === "number" && (
-                <span>🍴 {repo.forks_count}</span>
-              )}
+              {typeof repo.stargazers_count === 'number' && <span>⭐ {repo.stargazers_count}</span>}
+              {typeof repo.forks_count === 'number' && <span>🍴 {repo.forks_count}</span>}
             </div>
           </li>
         ))}

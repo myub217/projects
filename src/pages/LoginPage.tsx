@@ -1,9 +1,9 @@
 // src/pages/LoginPage.tsx
 
-import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { users } from "@/data/users";
-import { hashPassword } from "@/utils/hashPassword";
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { users } from '@/data/users';
+import { hashPassword } from '@/utils/hashPassword';
 
 const MAX_ATTEMPTS = 5;
 
@@ -11,9 +11,9 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const usernameRef = useRef<HTMLInputElement>(null);
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -31,19 +31,19 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     if (isSubmitting) return;
 
-    setError("");
+    setError('');
     setIsSubmitting(true);
 
     const trimmedUsername = username.trim();
     if (!trimmedUsername) {
-      setError("กรุณากรอกชื่อผู้ใช้");
+      setError('กรุณากรอกชื่อผู้ใช้');
       setIsSubmitting(false);
       return;
     }
 
     const user = users[trimmedUsername];
     if (!user) {
-      setError("ชื่อผู้ใช้ไม่ถูกต้อง");
+      setError('ชื่อผู้ใช้ไม่ถูกต้อง');
       setLoginAttempts((prev) => prev + 1);
       setIsSubmitting(false);
       return;
@@ -52,16 +52,16 @@ const LoginPage: React.FC = () => {
     try {
       const hashed = await hashPassword(password);
       if (hashed === user.passwordHash) {
-        localStorage.setItem("authUser", trimmedUsername);
-        localStorage.setItem("authRole", user.role);
-        navigate("/secret");
+        localStorage.setItem('authUser', trimmedUsername);
+        localStorage.setItem('authRole', user.role);
+        navigate('/secret');
       } else {
-        setError("รหัสผ่านไม่ถูกต้อง");
+        setError('รหัสผ่านไม่ถูกต้อง');
         setLoginAttempts((prev) => prev + 1);
       }
     } catch (err) {
-      console.error("Login error:", err);
-      setError("เกิดข้อผิดพลาดในการเข้าสู่ระบบ กรุณาลองใหม่อีกครั้ง");
+      console.error('Login error:', err);
+      setError('เกิดข้อผิดพลาดในการเข้าสู่ระบบ กรุณาลองใหม่อีกครั้ง');
     } finally {
       setIsSubmitting(false);
     }
@@ -114,11 +114,13 @@ const LoginPage: React.FC = () => {
             autoComplete="username"
             required
             aria-required="true"
-            aria-describedby={error ? "login-error" : undefined}
+            aria-describedby={error ? 'login-error' : undefined}
             placeholder="ชื่อผู้ใช้"
             disabled={isDisabled}
             className={`rounded-md border px-4 py-3 transition placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary ${
-              isDisabled ? "cursor-not-allowed border-gray-400 bg-gray-100 dark:bg-gray-600" : "border-gray-300 bg-white"
+              isDisabled
+                ? 'cursor-not-allowed border-gray-400 bg-gray-100 dark:bg-gray-600'
+                : 'border-gray-300 bg-white'
             }`}
           />
 
@@ -133,7 +135,9 @@ const LoginPage: React.FC = () => {
             placeholder="รหัสผ่าน"
             disabled={isDisabled}
             className={`rounded-md border px-4 py-3 transition placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary ${
-              isDisabled ? "cursor-not-allowed border-gray-400 bg-gray-100 dark:bg-gray-600" : "border-gray-300 bg-white"
+              isDisabled
+                ? 'cursor-not-allowed border-gray-400 bg-gray-100 dark:bg-gray-600'
+                : 'border-gray-300 bg-white'
             }`}
           />
 
@@ -143,8 +147,8 @@ const LoginPage: React.FC = () => {
             disabled={isDisabled}
             className={`rounded-md py-3 text-primary-contrastText transition focus:outline-none focus:ring-4 focus:ring-primary focus:ring-opacity-50 ${
               isDisabled
-                ? "bg-primary opacity-50 cursor-not-allowed"
-                : "bg-primary hover:bg-primary-dark"
+                ? 'bg-primary opacity-50 cursor-not-allowed'
+                : 'bg-primary hover:bg-primary-dark'
             }`}
           >
             เข้าสู่ระบบ

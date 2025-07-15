@@ -1,9 +1,9 @@
-import React from "react";
-import { Bolt } from "lucide-react";
+import React from 'react';
+import { Bolt } from 'lucide-react';
 
 const Feature4: React.FC = () => {
   const handleClick = () => {
-    alert("รายละเอียด: ระบบประมวลผลรวดเร็วและเสถียร");
+    alert('รายละเอียด: ระบบประมวลผลรวดเร็วและเสถียร');
   };
 
   return (
@@ -13,7 +13,7 @@ const Feature4: React.FC = () => {
       role="button"
       onClick={handleClick}
       onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") handleClick();
+        if (e.key === 'Enter' || e.key === ' ') handleClick();
       }}
     >
       <div className="group mb-3 flex items-center">

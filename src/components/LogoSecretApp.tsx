@@ -1,19 +1,18 @@
-import React from "react";
+import React from 'react';
 
 type LogoProps = React.SVGProps<SVGSVGElement> & {
-  colorScheme?: "light" | "dark";
+  colorScheme?: 'light' | 'dark';
 };
 
 const LogoApplicationlubmobile: React.FC<LogoProps> = ({
-  className = "w-full max-w-xs h-auto",
-  "aria-label": ariaLabel = "Applicationlubmobile Logo",
-  colorScheme = "dark",
+  className = 'w-full max-w-xs h-auto',
+  'aria-label': ariaLabel = 'Applicationlubmobile Logo',
+  colorScheme = 'dark',
   ...props
 }) => {
-  const fillColor = colorScheme === "dark" ? "#FFFFFF" : "#000000";
-  const strokeColor = colorScheme === "dark" ? "#1a1a1a" : "#DDDDDD";
-  const shadowColor =
-    colorScheme === "dark" ? "rgba(0,0,0,0.35)" : "rgba(0,0,0,0.1)";
+  const fillColor = colorScheme === 'dark' ? '#FFFFFF' : '#000000';
+  const strokeColor = colorScheme === 'dark' ? '#1a1a1a' : '#DDDDDD';
+  const shadowColor = colorScheme === 'dark' ? 'rgba(0,0,0,0.35)' : 'rgba(0,0,0,0.1)';
 
   return (
     <svg
@@ -27,11 +26,11 @@ const LogoApplicationlubmobile: React.FC<LogoProps> = ({
       focusable="false"
       {...props}
       style={{
-        overflow: "visible",
-        display: "block",
+        overflow: 'visible',
+        display: 'block',
         filter: `drop-shadow(2px 2px 2px ${shadowColor})`,
-        animation: "fadein 0.8s ease-out forwards",
-        transition: "filter 0.3s ease",
+        animation: 'fadein 0.8s ease-out forwards',
+        transition: 'filter 0.3s ease',
       }}
     >
       <title id="logo-title">Applicationlubmobile Logo</title>
@@ -57,11 +56,11 @@ const LogoApplicationlubmobile: React.FC<LogoProps> = ({
         textRendering="geometricPrecision"
         shapeRendering="geometricPrecision"
         style={{
-          userSelect: "none",
-          textTransform: "uppercase",
-          cursor: "default",
-          whiteSpace: "nowrap",
-          transition: "fill 0.3s ease, stroke 0.3s ease",
+          userSelect: 'none',
+          textTransform: 'uppercase',
+          cursor: 'default',
+          whiteSpace: 'nowrap',
+          transition: 'fill 0.3s ease, stroke 0.3s ease',
         }}
       >
         JP - ViSOUL & DOC'S
@@ -78,12 +77,7 @@ const LogoApplicationlubmobile: React.FC<LogoProps> = ({
         strokeLinecap="round"
         style={{ opacity: 0.25 }}
       >
-        <animate
-          attributeName="x2"
-          values="20;700;20"
-          dur="4s"
-          repeatCount="indefinite"
-        />
+        <animate attributeName="x2" values="20;700;20" dur="4s" repeatCount="indefinite" />
       </line>
 
       <style>

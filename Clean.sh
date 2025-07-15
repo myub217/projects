@@ -2,13 +2,13 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# === 🗑️ CLEANUP SCRIPT — FULL VERSION ===
+# === 🧹 CLEANUP SCRIPT (SAFE MODE) ===
 NOW=$(date +"%Y%m%d-%H%M%S")
 ROOT_DIR="$(pwd)"
 
-echo -e "\n🧹 เริ่มลบไฟล์ขยะที่สร้างจากสคริปต์หลัก..."
+echo -e "\n🧹 เริ่มลบไฟล์ขยะ..."
 
-# === 📂 TARGET FILE PATTERNS ===
+# === 🎯 SAFE FILE PATTERNS ===
 PATTERNS=(
   "build-*.log"
   "env-*.txt"
@@ -23,39 +23,41 @@ PATTERNS=(
   "docker-info-*.txt"
   "gitignore-*.txt"
   "ci-info-*.txt"
-  "*.txt"  # ลบ .txt ที่สคริปต์หลักรันแล้วไม่ได้จับ pattern เฉพาะ
+  "ts-error-*.log"
+  "routes-*.json"
+  "i18n-*.json"
 )
 
-# === 📦 BUILD OUTPUT DIRS ===
+# === 📦 BUILD-LIKE OUTPUT DIRS ===
 BUILD_DIRS=(
   "dist"
   "coverage"
   ".vite"
+  "dev-dist"
+  "diagnostic-"*
 )
 
 for dir in "${BUILD_DIRS[@]}"; do
-  if [[ -d "$dir" ]]; then
+  if [[ -e "$dir" ]]; then
     rm -rf -- "$dir"
-    echo "✅ ลบไดเรกทอรี: $dir"
+    echo "✅ ลบ: $dir"
   else
-    echo "ℹ️ ไม่มีไดเรกทอรี: $dir"
+    echo "ℹ️ ไม่พบ: $dir"
   fi
 done
 
-# === 🔄 LOOP DELETE PATTERNS ===
+# === 🔁 LOOP DELETE FILES ===
 for pattern in "${PATTERNS[@]}"; do
-  MATCHED_FILES=($(compgen -G "$pattern" || true))
-  if [[ ${#MATCHED_FILES[@]} -gt 0 ]]; then
-    rm -f -- "${MATCHED_FILES[@]}"
-    echo "✅ ลบ pattern: $pattern (${#MATCHED_FILES[@]} ไฟล์)"
+  MATCHED=($(compgen -G "$pattern" || true))
+  if [[ ${#MATCHED[@]} -gt 0 ]]; then
+    rm -f -- "${MATCHED[@]}"
+    echo "✅ ลบ: $pattern (${#MATCHED[@]} ไฟล์)"
   else
-    echo "ℹ️ ไม่พบไฟล์ที่ตรงกับ pattern: $pattern"
+    echo "ℹ️ ไม่พบ: $pattern"
   fi
 done
 
-# === 📄 รายงานการลบ ===
-echo -e "\n📋 รายงานการลบไฟล์และโฟลเดอร์ขยะ:"
-echo "📍 เวลาทำงาน: $NOW"
-echo "📍 โฟลเดอร์ที่ทำงาน: $ROOT_DIR"
-
-echo -e "\n🧼 เสร็จสิ้นการลบไฟล์ขยะเรียบร้อย"
+# === 📋 REPORT ===
+echo -e "\n📋 ล้างไฟล์เสร็จแล้ว:"
+echo "📍 เวลา: $NOW"
+echo "📍 ที่: $ROOT_DIR"

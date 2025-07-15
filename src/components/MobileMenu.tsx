@@ -1,8 +1,8 @@
 // src/components/MobileMenu.tsx
 
-import React, { useEffect, useRef, useCallback, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import React, { useEffect, useRef, useCallback, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X } from 'lucide-react';
 
 interface MobileMenuProps {
   id?: string; // เพิ่ม id เพื่อรองรับ aria-controls
@@ -37,24 +37,24 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   useEffect(() => {
     if (!isOpen) return;
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         e.preventDefault();
         handleClose();
       }
     };
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, handleClose]);
 
   useEffect(() => {
     if (isOpen) {
       scrollLockCount++;
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     }
     return () => {
       scrollLockCount = Math.max(0, scrollLockCount - 1);
       if (scrollLockCount === 0) {
-        document.body.style.overflow = "";
+        document.body.style.overflow = '';
       }
     };
   }, [isOpen]);
@@ -64,9 +64,9 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 
     const selectors =
       'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
-    const focusable = Array.from(
-      menuRef.current.querySelectorAll<HTMLElement>(selectors)
-    ).filter((el) => !el.hasAttribute("disabled") && el.offsetParent !== null);
+    const focusable = Array.from(menuRef.current.querySelectorAll<HTMLElement>(selectors)).filter(
+      (el) => !el.hasAttribute('disabled') && el.offsetParent !== null
+    );
 
     if (focusable.length === 0) return;
 
@@ -74,7 +74,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     const last = focusable[focusable.length - 1];
 
     const trapFocus = (e: KeyboardEvent) => {
-      if (e.key !== "Tab") return;
+      if (e.key !== 'Tab') return;
 
       if (e.shiftKey && document.activeElement === first) {
         e.preventDefault();
@@ -85,10 +85,10 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
       }
     };
 
-    document.addEventListener("keydown", trapFocus);
+    document.addEventListener('keydown', trapFocus);
     first.focus();
 
-    return () => document.removeEventListener("keydown", trapFocus);
+    return () => document.removeEventListener('keydown', trapFocus);
   }, [isOpen]);
 
   useEffect(() => {
@@ -105,17 +105,17 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
       onLinkClick?.();
 
       setTimeout(() => {
-        if (href.startsWith("#")) {
+        if (href.startsWith('#')) {
           const targetId = href.slice(1);
           const targetElement = document.getElementById(targetId);
           if (targetElement) {
-            targetElement.scrollIntoView({ behavior: "smooth" });
-            history.pushState(null, "", href);
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+            history.pushState(null, '', href);
           } else {
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
           }
         } else if (/^https?:\/\//.test(href)) {
-          window.open(href, "_blank", "noopener,noreferrer");
+          window.open(href, '_blank', 'noopener,noreferrer');
         } else {
           window.location.href = href;
         }
@@ -124,7 +124,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     [handleClose, isClosing, onLinkClick]
   );
 
-  const currentHash = typeof window !== "undefined" ? window.location.hash : "";
+  const currentHash = typeof window !== 'undefined' ? window.location.hash : '';
 
   return (
     <AnimatePresence>
@@ -145,10 +145,10 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             key="menu"
             id={id}
             ref={menuRef}
-            initial={{ x: "100%" }}
+            initial={{ x: '100%' }}
             animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "tween", duration: 0.3 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'tween', duration: 0.3 }}
             className="fixed bottom-0 right-0 top-0 z-[60] flex w-4/5 max-w-xs flex-col gap-8 bg-white px-6 pt-20 text-lg font-medium text-gray-800 shadow-xl dark:bg-gray-900 dark:text-gray-200"
             role="dialog"
             aria-modal="true"
@@ -179,12 +179,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                     onClick={() => handleLinkClick(href)}
                     type="button"
                     role="menuitem"
-                    aria-current={active ? "page" : undefined}
+                    aria-current={active ? 'page' : undefined}
                     className={`rounded px-6 py-3 text-left transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 ${
                       highlight
-                        ? "bg-gray-700 text-white hover:bg-gray-800 dark:bg-gray-600 dark:hover:bg-gray-500"
-                        : "hover:text-gray-900 dark:hover:text-gray-300"
-                    } ${active ? "font-semibold text-pink-600 dark:text-pink-400" : ""}`}
+                        ? 'bg-gray-700 text-white hover:bg-gray-800 dark:bg-gray-600 dark:hover:bg-gray-500'
+                        : 'hover:text-gray-900 dark:hover:text-gray-300'
+                    } ${active ? 'font-semibold text-pink-600 dark:text-pink-400' : ''}`}
                   >
                     {label}
                   </button>

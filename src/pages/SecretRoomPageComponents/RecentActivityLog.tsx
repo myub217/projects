@@ -1,6 +1,6 @@
 // src/components/RecentActivityLog.tsx
 
-import React from "react";
+import React from 'react';
 
 export interface ActivityLog {
   id: number;
@@ -20,12 +20,7 @@ interface RecentActivityLogProps {
  */
 export default function RecentActivityLog({ logs }: RecentActivityLogProps) {
   return (
-    <section
-      className="mb-8"
-      aria-label="กิจกรรมล่าสุด"
-      aria-live="polite"
-      role="region"
-    >
+    <section className="mb-8" aria-label="กิจกรรมล่าสุด" aria-live="polite" role="region">
       <h2 className="mb-3 flex items-center text-sm font-semibold text-gray-800 dark:text-white">
         <svg
           className="mr-2 h-5 w-5 text-gray-500 dark:text-gray-400"
@@ -63,10 +58,7 @@ export default function RecentActivityLog({ logs }: RecentActivityLogProps) {
               className="border-b border-gray-200 pb-1 dark:border-gray-700"
             >
               <span>{detail}</span>
-              <time
-                className="ml-1 text-xs text-gray-500 dark:text-gray-400"
-                dateTime={time}
-              >
+              <time className="ml-1 text-xs text-gray-500 dark:text-gray-400" dateTime={time}>
                 ({formatLocalTime(time)})
               </time>
             </li>
@@ -83,9 +75,9 @@ export default function RecentActivityLog({ logs }: RecentActivityLogProps) {
 
 function formatLocalTime(iso: string): string {
   const d = new Date(iso);
-  return d.toLocaleString("th-TH", {
-    dateStyle: "short",
-    timeStyle: "short",
+  return d.toLocaleString('th-TH', {
+    dateStyle: 'short',
+    timeStyle: 'short',
     hour12: false,
   });
 }

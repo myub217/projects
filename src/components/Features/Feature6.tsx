@@ -1,9 +1,9 @@
-import React from "react";
-import { Clock } from "lucide-react";
+import React from 'react';
+import { Clock } from 'lucide-react';
 
 const Feature6: React.FC = () => {
   const handleClick = () => {
-    alert("รายละเอียด: ระบบติดตามเวลาการทำงานและสถิติ");
+    alert('รายละเอียด: ระบบติดตามเวลาการทำงานและสถิติ');
   };
 
   return (
@@ -13,7 +13,7 @@ const Feature6: React.FC = () => {
       role="button"
       onClick={handleClick}
       onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") handleClick();
+        if (e.key === 'Enter' || e.key === ' ') handleClick();
       }}
     >
       <div className="group mb-3 flex items-center">

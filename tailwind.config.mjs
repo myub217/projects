@@ -47,15 +47,21 @@ const config: Config = {
           DEFAULT: '#1f2937',
           dark: '#f3f4f6',
         },
-        muted: { DEFAULT: '#6b7280' },
+        muted: {
+          DEFAULT: '#6b7280',
+        },
         primary: {
           DEFAULT: '#2563eb',
           light: '#3b82f6',
           dark: '#1e3a8a',
           contrastText: '#ffffff',
         },
-        accent: { DEFAULT: '#f59e0b' },
-        border: { DEFAULT: '#e5e7eb' },
+        accent: {
+          DEFAULT: '#f59e0b',
+        },
+        border: {
+          DEFAULT: '#e5e7eb',
+        },
         success: {
           DEFAULT: '#10b981',
           dark: '#059669',
@@ -118,15 +124,20 @@ const config: Config = {
           to: { opacity: '1' },
         },
         slideUp: {
-          from: { transform: 'translateY(24px)', opacity: '0' },
-          to: { transform: 'translateY(0)', opacity: '1' },
+          from: {
+            transform: 'translateY(24px)',
+            opacity: '0',
+          },
+          to: {
+            transform: 'translateY(0)',
+            opacity: '1',
+          },
         },
       },
     },
   },
   plugins: [typography, daisyui],
   daisyui: {
-    darkTheme: 'business-dark',
     themes: [
       {
         business: {
@@ -163,6 +174,7 @@ const config: Config = {
         },
       },
     ],
+    darkTheme: 'business-dark',
   },
 };
 

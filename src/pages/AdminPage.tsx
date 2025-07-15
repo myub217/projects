@@ -1,7 +1,7 @@
-import React from "react";
-import Dashboard from "../components/AdminBoard/Dashboard";
-import UserTable from "../components/AdminBoard/UserTable";
-import RepoList from "../components/AdminBoard/RepoList";
+import React from 'react';
+import Dashboard from '../components/AdminBoard/Dashboard';
+import UserTable from '../components/AdminBoard/UserTable';
+import RepoList from '../components/AdminBoard/RepoList';
 
 type User = {
   id: number;
@@ -10,8 +10,8 @@ type User = {
 };
 
 const usersData: User[] = [
-  { id: 1, name: "admin", role: "admin" },
-  { id: 2, name: "tester", role: "user" },
+  { id: 1, name: 'admin', role: 'admin' },
+  { id: 2, name: 'tester', role: 'user' },
 ];
 
 const AdminPage: React.FC = () => {

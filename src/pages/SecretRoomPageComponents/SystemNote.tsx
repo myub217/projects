@@ -1,10 +1,10 @@
 // src/components/SystemNote.tsx
 
-import React from "react";
+import React from 'react';
 
 interface SystemNoteProps {
   message: string;
-  type?: "info" | "warning" | "error";
+  type?: 'info' | 'warning' | 'error';
 }
 
 const ICONS = {
@@ -57,12 +57,12 @@ const ICONS = {
 };
 
 const STYLES = {
-  info: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
-  warning: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
-  error: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
+  info: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+  warning: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+  error: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
 };
 
-export default function SystemNote({ message, type = "info" }: SystemNoteProps) {
+export default function SystemNote({ message, type = 'info' }: SystemNoteProps) {
   const style = STYLES[type] || STYLES.info;
   const icon = ICONS[type] || ICONS.info;
 

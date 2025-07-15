@@ -1,6 +1,6 @@
-import React from "react";
-import { Service } from "./ServicesSection";
-import { getContactHref } from "../config/contact";
+import React from 'react';
+import { Service } from './ServicesSection';
+import { getContactHref } from '../config/contact';
 
 interface ServiceCardProps {
   service: Service;
@@ -8,13 +8,9 @@ interface ServiceCardProps {
   onRequest?: () => void;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({
-  service,
-  disabled = false,
-  onRequest,
-}) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({ service, disabled = false, onRequest }) => {
   const serviceTitle = service.title.trim();
-  const lineHref = getContactHref("line", `สนใจบริการ: ${serviceTitle}`);
+  const lineHref = getContactHref('line', `สนใจบริการ: ${serviceTitle}`);
 
   const handleLineClick = () => {
     console.log(`💬 ทัก LINE สนใจบริการ: ${serviceTitle}`);
@@ -26,10 +22,10 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
     <div
       className={`flex h-full flex-col overflow-hidden rounded-xl border bg-white shadow-md transition-transform
         focus-within:scale-[1.03] focus-within:shadow-xl hover:scale-[1.03] hover:shadow-xl dark:bg-gray-800
-        ${disabled ? "pointer-events-none opacity-50" : "cursor-pointer"}`}
+        ${disabled ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
       aria-disabled={disabled}
       role="region"
-      aria-label={`บริการ: ${serviceTitle}${disabled ? " (ปิดใช้งาน)" : ""}`}
+      aria-label={`บริการ: ${serviceTitle}${disabled ? ' (ปิดใช้งาน)' : ''}`}
     >
       <img
         src={service.image}
@@ -40,22 +36,18 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         draggable={false}
         onError={(e) => {
           e.currentTarget.onerror = null;
-          e.currentTarget.src = "/assets/images/fallback-image.png";
+          e.currentTarget.src = '/assets/images/fallback-image.png';
         }}
       />
       <div className="flex flex-grow flex-col p-4">
-        <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
-          {serviceTitle}
-        </h3>
+        <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">{serviceTitle}</h3>
         <p className="flex-grow text-sm leading-relaxed text-gray-700 dark:text-gray-300">
           {service.description}
         </p>
-        <p className="mt-3 text-sm font-semibold text-primary">
-          ราคา: {service.price}
-        </p>
+        <p className="mt-3 text-sm font-semibold text-primary">ราคา: {service.price}</p>
 
-        {!disabled && (
-          onRequest ? (
+        {!disabled &&
+          (onRequest ? (
             <button
               type="button"
               onClick={onRequest}
@@ -79,8 +71,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
             >
               ขอใช้บริการ
             </a>
-          )
-        )}
+          ))}
       </div>
     </div>
   );

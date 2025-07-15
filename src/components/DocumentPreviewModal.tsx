@@ -1,6 +1,6 @@
 // src/components/DocumentPreviewModal.tsx
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
 
 interface DocumentPreviewModalProps {
   isOpen: boolean;
@@ -15,17 +15,17 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
   onClose,
   documentUrl,
   title,
-  id = "document-preview-modal",
+  id = 'document-preview-modal',
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         onClose();
       }
-      if (event.key === "Tab") {
+      if (event.key === 'Tab') {
         const focusables = modalRef.current?.querySelectorAll<HTMLElement>(
           'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
         );
@@ -48,8 +48,8 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
       }
     }
 
-    if (isOpen) window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    if (isOpen) window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
   useEffect(() => {
@@ -69,10 +69,7 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
       className="modal-overlay"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div
-        role="document"
-        className="animate-fade-in modal-box max-h-[90vh] w-full max-w-5xl"
-      >
+      <div role="document" className="animate-fade-in modal-box max-h-[90vh] w-full max-w-5xl">
         {/* Header */}
         <header className="modal-header">
           <h2 id={`${id}-title`}>{title}</h2>

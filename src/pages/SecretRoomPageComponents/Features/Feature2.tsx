@@ -1,26 +1,68 @@
-import React from "react";
+import React from 'react';
 
 const mockData = [
-  { id: "a1", name: "ศรัณย์ พิทักษ์ชาญชัย", amount: 135000, date: "2025-07-09T09:15:00+07:00", status: "อนุมัติแล้ว" },
-  { id: "a2", name: "อรินทรา ทองเจริญ", amount: 84500, date: "2025-07-08T10:45:00+07:00", status: "อนุมัติแล้ว" },
-  { id: "a3", name: "ณัฐวัฒน์ ชัยวรรณ", amount: 102000, date: "2025-07-07T14:20:00+07:00", status: "รอดำเนินการ" },
-  { id: "a4", name: "ปรียานุช ศรีทอง", amount: 67000, date: "2025-07-06T11:05:00+07:00", status: "อนุมัติแล้ว" },
-  { id: "a5", name: "ธีรภัทร์ เจริญสุข", amount: 119000, date: "2025-07-05T15:40:00+07:00", status: "อนุมัติแล้ว" },
-  { id: "a6", name: "สุนิสา ไชยพงศ์", amount: 93000, date: "2025-07-04T13:25:00+07:00", status: "รอดำเนินการ" },
-  { id: "a7", name: "พงศกร วัฒนกิจ", amount: 58000, date: "2025-07-03T08:55:00+07:00", status: "อนุมัติแล้ว" },
+  {
+    id: 'a1',
+    name: 'ศรัณย์ พิทักษ์ชาญชัย',
+    amount: 135000,
+    date: '2025-07-09T09:15:00+07:00',
+    status: 'อนุมัติแล้ว',
+  },
+  {
+    id: 'a2',
+    name: 'อรินทรา ทองเจริญ',
+    amount: 84500,
+    date: '2025-07-08T10:45:00+07:00',
+    status: 'อนุมัติแล้ว',
+  },
+  {
+    id: 'a3',
+    name: 'ณัฐวัฒน์ ชัยวรรณ',
+    amount: 102000,
+    date: '2025-07-07T14:20:00+07:00',
+    status: 'รอดำเนินการ',
+  },
+  {
+    id: 'a4',
+    name: 'ปรียานุช ศรีทอง',
+    amount: 67000,
+    date: '2025-07-06T11:05:00+07:00',
+    status: 'อนุมัติแล้ว',
+  },
+  {
+    id: 'a5',
+    name: 'ธีรภัทร์ เจริญสุข',
+    amount: 119000,
+    date: '2025-07-05T15:40:00+07:00',
+    status: 'อนุมัติแล้ว',
+  },
+  {
+    id: 'a6',
+    name: 'สุนิสา ไชยพงศ์',
+    amount: 93000,
+    date: '2025-07-04T13:25:00+07:00',
+    status: 'รอดำเนินการ',
+  },
+  {
+    id: 'a7',
+    name: 'พงศกร วัฒนกิจ',
+    amount: 58000,
+    date: '2025-07-03T08:55:00+07:00',
+    status: 'อนุมัติแล้ว',
+  },
 ];
 
 const formatDate = (isoDate: string) => {
   const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
   };
-  return new Date(isoDate).toLocaleDateString("th-TH", options);
+  return new Date(isoDate).toLocaleDateString('th-TH', options);
 };
 
 const formatAmount = (amount: number) =>
-  amount.toLocaleString("th-TH", { style: "currency", currency: "THB" });
+  amount.toLocaleString('th-TH', { style: 'currency', currency: 'THB' });
 
 const CheckIcon = () => (
   <svg
@@ -52,14 +94,12 @@ const ClockIcon = () => (
 );
 
 const StatusBadge = ({ status }: { status: string }) => {
-  const isApproved = status === "อนุมัติแล้ว";
+  const isApproved = status === 'อนุมัติแล้ว';
 
   const baseClasses =
-    "inline-flex items-center space-x-2 px-3 py-1 rounded-full font-semibold text-xs uppercase select-none";
-  const approvedClasses =
-    "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
-  const pendingClasses =
-    "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
+    'inline-flex items-center space-x-2 px-3 py-1 rounded-full font-semibold text-xs uppercase select-none';
+  const approvedClasses = 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
+  const pendingClasses = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
 
   return (
     <span

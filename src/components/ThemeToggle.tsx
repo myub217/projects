@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-export type Theme = "light" | "dark" | "platinum" | "platinum-dark";
+export type Theme = 'light' | 'dark' | 'platinum' | 'platinum-dark';
 
 interface ThemeToggleProps {
   theme: Theme;
@@ -9,13 +9,13 @@ interface ThemeToggleProps {
 
 const ThemeToggle: React.FC<ThemeToggleProps> = ({ theme, toggleTheme }) => {
   // ให้ isLight ตรวจแค่ light, platinum เป็นสว่าง
-  const isLight = theme === "light" || theme === "platinum";
+  const isLight = theme === 'light' || theme === 'platinum';
 
   return (
     <button
       onClick={toggleTheme}
-      aria-label={`เปลี่ยนเป็นโหมด${isLight ? "มืด" : "สว่าง"}`}
-      title={`สลับเป็นโหมด${isLight ? "มืด" : "สว่าง"}`}
+      aria-label={`เปลี่ยนเป็นโหมด${isLight ? 'มืด' : 'สว่าง'}`}
+      title={`สลับเป็นโหมด${isLight ? 'มืด' : 'สว่าง'}`}
       type="button"
       className="rounded-full bg-base-200 p-2 text-base-content transition-colors duration-300 hover:bg-base-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
     >

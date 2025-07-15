@@ -1,13 +1,13 @@
 // src/components/About.tsx
 
-import React from "react";
-import { motion } from "framer-motion";
-import { FaUserTie, FaEnvelope } from "react-icons/fa";
-import aboutImage from "../assets/images/about-us.webp";
-import signature from "../assets/signature.webp";
-import { contactLinks, getContactHref } from "../config/contact";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { FaUserTie, FaEnvelope } from 'react-icons/fa';
+import aboutImage from '../assets/images/about-us.webp';
+import signature from '../assets/signature.webp';
+import { contactLinks, getContactHref } from '../config/contact';
 
-const socialLinks = contactLinks.filter((c) => c.type !== "email");
+const socialLinks = contactLinks.filter((c) => c.type !== 'email');
 
 const About: React.FC = () => {
   return (
@@ -20,7 +20,7 @@ const About: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
           viewport={{ once: true }}
           className="w-full md:w-1/2"
         >
@@ -37,7 +37,7 @@ const About: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
           viewport={{ once: true }}
           className="flex w-full flex-col md:w-1/2"
         >
@@ -52,8 +52,8 @@ const About: React.FC = () => {
 
           <div className="space-y-5 text-lg leading-relaxed">
             <p>
-              ธุรกิจสีเทาที่ออกแบบมาให้ได้มาตรฐานเท่าที่สามารถแสดงได้
-              เราพร้อมร่วมงานกับทุกสายอาชีพ ทุกวงการ และพร้อมสร้างเครื่องมือที่ตอบโจทย์จริงให้ทุกคน
+              ธุรกิจสีเทาที่ออกแบบมาให้ได้มาตรฐานเท่าที่สามารถแสดงได้ เราพร้อมร่วมงานกับทุกสายอาชีพ
+              ทุกวงการ และพร้อมสร้างเครื่องมือที่ตอบโจทย์จริงให้ทุกคน
             </p>
             <p>
               เรายินดีให้คำปรึกษาแบบตรงไปตรงมา ด้วยข้อมูลจริง
@@ -71,8 +71,8 @@ const About: React.FC = () => {
             <blockquote
               className="mt-8 flex max-w-xs flex-col items-end gap-2 self-end border-r-4 pr-4 text-right font-medium italic"
               style={{
-                borderColor: "var(--color-primary)",
-                color: "var(--color-primary)",
+                borderColor: 'var(--color-primary)',
+                color: 'var(--color-primary)',
               }}
             >
               <motion.span
@@ -107,7 +107,7 @@ const About: React.FC = () => {
 
           <div className="mt-10 flex flex-col sm:flex-row sm:items-center sm:gap-6">
             <a
-              href={getContactHref("email")}
+              href={getContactHref('email')}
               className="hover:bg-primary-focus mb-4 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 font-semibold text-primary-content shadow-lg transition-colors duration-300 sm:mb-0"
               aria-label="ติดต่อเรา ผ่านอีเมล"
               title="ติดต่อเรา"
@@ -116,10 +116,7 @@ const About: React.FC = () => {
               ติดต่อเรา
             </a>
 
-            <nav
-              aria-label="ช่องทางโซเชียลมีเดีย"
-              className="flex flex-wrap justify-center gap-6"
-            >
+            <nav aria-label="ช่องทางโซเชียลมีเดีย" className="flex flex-wrap justify-center gap-6">
               {socialLinks.map(({ type, href, label }) => (
                 <a
                   key={type}
@@ -142,7 +139,8 @@ const About: React.FC = () => {
           </div>
 
           <p className="mt-6 text-center text-sm opacity-70 sm:text-left">
-            * ข้อมูลทั้งหมดเป็นความจริงตามสถานการณ์ปัจจุบัน และไม่มีการเก็บข้อมูลใดๆ โดยไม่ได้รับอนุญาต
+            * ข้อมูลทั้งหมดเป็นความจริงตามสถานการณ์ปัจจุบัน และไม่มีการเก็บข้อมูลใดๆ
+            โดยไม่ได้รับอนุญาต
           </p>
         </motion.div>
       </div>

@@ -1,11 +1,4 @@
-import React, {
-  useEffect,
-  useRef,
-  useState,
-  useMemo,
-  useCallback,
-  memo,
-} from "react";
+import React, { useEffect, useRef, useState, useMemo, useCallback, memo } from 'react';
 
 interface VisitorCountProps {
   min?: number;
@@ -39,8 +32,8 @@ const getSmartRandom = (current: number, min: number, max: number): number => {
 const VisitorCountComponent: React.FC<VisitorCountProps> = ({
   min,
   max,
-  className = "",
-  label = "ยอดเข้าชม",
+  className = '',
+  label = 'ยอดเข้าชม',
   updateInterval = 10000,
   initialCount,
   enableAutoUpdate = true,
@@ -48,11 +41,7 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
   const [minVal, maxVal] = useMemo(() => sanitizeRange(min, max), [min, max]);
 
   const getInitial = useCallback(() => {
-    if (
-      typeof initialCount === "number" &&
-      initialCount >= minVal &&
-      initialCount <= maxVal
-    ) {
+    if (typeof initialCount === 'number' && initialCount >= minVal && initialCount <= maxVal) {
       return initialCount;
     }
     return getSmartRandom(minVal, minVal, maxVal);
@@ -62,9 +51,7 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
   const prevCountRef = useRef<number>(count);
 
   const locale =
-    typeof navigator !== "undefined" && navigator.language
-      ? navigator.language
-      : "en-US";
+    typeof navigator !== 'undefined' && navigator.language ? navigator.language : 'en-US';
 
   const numberFormatter = useMemo(() => new Intl.NumberFormat(locale), [locale]);
 
@@ -85,7 +72,7 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
 
   useEffect(() => {
     if (
-      typeof initialCount === "number" &&
+      typeof initialCount === 'number' &&
       initialCount >= minVal &&
       initialCount <= maxVal &&
       initialCount !== count
@@ -124,7 +111,7 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
       <span
         aria-hidden="true"
         className="inline-block min-w-[4ch] font-mono tracking-tight"
-        style={{ letterSpacing: "0.1em" }}
+        style={{ letterSpacing: '0.1em' }}
       >
         {formatted}
       </span>
@@ -135,6 +122,6 @@ const VisitorCountComponent: React.FC<VisitorCountProps> = ({
 
 // 🧠 Memoized for performance
 const VisitorCount = memo(VisitorCountComponent);
-VisitorCount.displayName = "VisitorCount";
+VisitorCount.displayName = 'VisitorCount';
 
 export default VisitorCount;

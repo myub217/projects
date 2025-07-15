@@ -27,16 +27,18 @@ export function DocumentCert() {
       }}
     >
       {/* Identifiers */}
-      <section style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        fontWeight: 600,
-        fontSize: 14,
-        letterSpacing: '0.03em',
-        marginBottom: 10,
-        padding: '0 5mm',
-      }}>
+      <section
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+          fontWeight: 600,
+          fontSize: 14,
+          letterSpacing: '0.03em',
+          marginBottom: 10,
+          padding: '0 5mm',
+        }}
+      >
         <div>
           <div>ทะเบียนเลขที่: {config.registrationNo}</div>
           <div>คำขอที่: {config.requestNo}</div>
@@ -63,81 +65,91 @@ export function DocumentCert() {
         <h3 style={{ fontSize: 16, fontWeight: 500, color: '#444', marginTop: 3 }}>
           {config.subIssuedBy}
         </h3>
-        <h1 style={{
-          fontSize: 24,
-          fontWeight: 700,
-          letterSpacing: '0.15em',
-          marginTop: 6,
-          paddingBottom: 4,
-          borderBottom: '1px solid #000',
-          display: 'inline-block',
-        }}>
+        <h1
+          style={{
+            fontSize: 24,
+            fontWeight: 700,
+            letterSpacing: '0.15em',
+            marginTop: 6,
+            paddingBottom: 4,
+            borderBottom: '1px solid #000',
+            display: 'inline-block',
+          }}
+        >
           {config.documentTitle}
         </h1>
       </header>
 
       {/* Certification Text */}
-      <section style={{
-        textAlign: 'center',
-        maxWidth: 480,
-        margin: '20px auto 0',
-        fontSize: 14,
-        lineHeight: 1.6,
-      }}>
+      <section
+        style={{
+          textAlign: 'center',
+          maxWidth: 480,
+          margin: '20px auto 0',
+          fontSize: 14,
+          lineHeight: 1.6,
+        }}
+      >
         <p>{config.certPurpose}</p>
-        <p style={{
-          display: 'inline-block',
-          padding: '4px 8px',
-          margin: '6px 0 12px',
-          borderBottom: '1.5px solid #000',
-          fontWeight: 600,
-        }}>
+        <p
+          style={{
+            display: 'inline-block',
+            padding: '4px 8px',
+            margin: '6px 0 12px',
+            borderBottom: '1.5px solid #000',
+            fontWeight: 600,
+          }}
+        >
           {config.companyName}
         </p>
         <p style={{ marginBottom: 12 }}>
           ได้จดทะเบียนพาณิชย์ถูกต้องตามระเบียบราชการกลางป่า เมื่อปี {config.issuedYearBE}
         </p>
-        <p style={{
-          display: 'inline-block',
-          padding: '4px 8px',
-          marginBottom: 12,
-          borderBottom: '1.5px solid #000',
-        }}>
+        <p
+          style={{
+            display: 'inline-block',
+            padding: '4px 8px',
+            marginBottom: 12,
+            borderBottom: '1.5px solid #000',
+          }}
+        >
           เมื่อวันที่ {config.issuedDate}
         </p>
       </section>
 
       {/* Business Details */}
-      <section style={{
-        textAlign: 'center',
-        maxWidth: 480,
-        margin: '20px auto 0',
-        fontSize: 14,
-        lineHeight: 1.5,
-      }}>
-        <div style={{ fontWeight: 600, marginBottom: 6 }}>
-          ชื่อที่ใช้ในการประกอบพาณิชยกิจ
-        </div>
-        <div style={{
-          borderBottom: '1.5px solid #000',
-          padding: '4px 8px',
-          marginBottom: 6,
-          fontWeight: 600,
-          display: 'inline-block',
-        }}>
+      <section
+        style={{
+          textAlign: 'center',
+          maxWidth: 480,
+          margin: '20px auto 0',
+          fontSize: 14,
+          lineHeight: 1.5,
+        }}
+      >
+        <div style={{ fontWeight: 600, marginBottom: 6 }}>ชื่อที่ใช้ในการประกอบพาณิชยกิจ</div>
+        <div
+          style={{
+            borderBottom: '1.5px solid #000',
+            padding: '4px 8px',
+            marginBottom: 6,
+            fontWeight: 600,
+            display: 'inline-block',
+          }}
+        >
           {config.businessName}
         </div>
-        <div style={{
-          borderBottom: '1.5px solid #000',
-          padding: '4px 8px',
-          marginBottom: 12,
-          display: 'inline-block',
-        }}>
+        <div
+          style={{
+            borderBottom: '1.5px solid #000',
+            padding: '4px 8px',
+            marginBottom: 12,
+            display: 'inline-block',
+          }}
+        >
           ({config.businessName})
         </div>
-        <div style={{ fontWeight: 600, marginTop: 16, marginBottom: 8 }}>
-          ชนิดธุรกิจ:
-        </div>
+        <div style={{ fontWeight: 600, marginTop: 16, marginBottom: 8 }}>ชนิดธุรกิจ:</div>
         {config.businessTypes.map((type, i) => (
           <div
             key={i}
@@ -154,25 +166,29 @@ export function DocumentCert() {
       </section>
 
       {/* Address */}
-      <section style={{
-        fontWeight: 600,
-        textAlign: 'left',
-        marginTop: 30,
-        maxWidth: 480,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        whiteSpace: 'pre-line',
-        color: '#222',
-        fontSize: 14,
-        lineHeight: 1.4,
-        paddingLeft: 10,
-      }}>
-        <div style={{
-          textAlign: 'center',
-          fontWeight: 700,
-          marginBottom: 8,
-          fontSize: 16,
-        }}>
+      <section
+        style={{
+          fontWeight: 600,
+          textAlign: 'left',
+          marginTop: 30,
+          maxWidth: 480,
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          whiteSpace: 'pre-line',
+          color: '#222',
+          fontSize: 14,
+          lineHeight: 1.4,
+          paddingLeft: 10,
+        }}
+      >
+        <div
+          style={{
+            textAlign: 'center',
+            fontWeight: 700,
+            marginBottom: 8,
+            fontSize: 16,
+          }}
+        >
           ที่อยู่สำนักงานใหญ่
         </div>
         {config.addressLine1 && <div>{config.addressLine1}</div>}
@@ -183,16 +199,18 @@ export function DocumentCert() {
       </section>
 
       {/* Footer / Signature */}
-      <footer style={{
-        marginTop: 40,
-        textAlign: 'right',
-        fontSize: 14,
-        fontFamily: "'Sarabun', sans-serif",
-        maxWidth: 320,
-        marginLeft: 'auto',
-        whiteSpace: 'pre-line',
-        lineHeight: 1.6,
-      }}>
+      <footer
+        style={{
+          marginTop: 40,
+          textAlign: 'right',
+          fontSize: 14,
+          fontFamily: "'Sarabun', sans-serif",
+          maxWidth: 320,
+          marginLeft: 'auto',
+          whiteSpace: 'pre-line',
+          lineHeight: 1.6,
+        }}
+      >
         <div>ณ วันที่ {config.issuedDate}</div>
         <br />
         <div>( {config.registrarName} )</div>

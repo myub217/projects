@@ -6,14 +6,14 @@
  * - รองรับ fetch wrapper พร้อม error handling
  */
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL?.trim() || "/api";
+const API_BASE = import.meta.env.VITE_API_BASE_URL?.trim() || '/api';
 
 type FetchOptions = RequestInit & {
   headers?: Record<string, string>;
 };
 
 function buildUrl(endpoint: string): string {
-  return `${API_BASE}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
+  return `${API_BASE}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
 }
 
 /**
@@ -26,13 +26,13 @@ async function apiFetch<T>(endpoint: string, options?: FetchOptions): Promise<T>
     const res = await fetch(url, {
       ...options,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         ...(options?.headers ?? {}),
       },
     });
 
     if (!res.ok) {
-      const errorText = await res.text().catch(() => "Unknown error");
+      const errorText = await res.text().catch(() => 'Unknown error');
       throw new Error(`API Error: ${res.status} ${res.statusText} - ${errorText}`);
     }
 
@@ -45,30 +45,21 @@ async function apiFetch<T>(endpoint: string, options?: FetchOptions): Promise<T>
 /**
  * 📌 API Endpoints
  */
-export const getCurrentUser = () =>
-  apiFetch<{ id: string; name: string; role: string }>("/user");
+export const getCurrentUser = () => apiFetch<{ id: string; name: string; role: string }>('/user');
 
-export const getRepoList = () =>
-  apiFetch<{ id: string; name: string; url: string }[]>("/repos");
+export const getRepoList = () => apiFetch<{ id: string; name: string; url: string }[]>('/repos');
 
 export const login = (username: string, password: string) =>
-  apiFetch<{ token: string }>("/login", {
-    method: "POST",
+  apiFetch<{ token: string }>('/login', {
+    method: 'POST',
     body: JSON.stringify({ username, password }),
   });
 
-export const getRepoSummary = (repo: string) =>
-  apiFetch(`/repos/${repo}/summary`);
+export const getRepoSummary = (repo: string) => apiFetch(`/repos/${repo}/summary`);
 
-export const triggerSync = () =>
-  apiFetch<{ status: string }>("/sync", { method: "POST" });
+export const triggerSync = () => apiFetch<{ status: string }>('/sync', { method: 'POST' });
 
-export const getGithubRawFile = (
-  owner: string,
-  repo: string,
-  path: string,
-  branch = "main"
-) =>
+export const getGithubRawFile = (owner: string, repo: string, path: string, branch = 'main') =>
   apiFetch(
     `/github/raw?owner=${owner}&repo=${repo}&path=${encodeURIComponent(path)}&branch=${branch}`
   );

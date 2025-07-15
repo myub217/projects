@@ -1,7 +1,4 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Modular Onepage Project",
-
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
@@ -14,38 +11,20 @@
     "skipLibCheck": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
-
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
-
     "jsx": "react-jsx",
-    "types": ["vite/client", "jest", "jest-fetch-mock"]
+    "typeRoots": ["./node_modules/@types"]
   },
-
   "include": [
-    "src/**/*",              // ✅ Source code ทั้งหมด
-    "api/**/*",              // ✅ สำหรับ serverless / backend API
-    "server.ts",             // ✅ Backend entry file
-    "vite.config.mjs",       // ✅ Vite config
-    "tailwind.config.mjs",   // ✅ Tailwind config
-    "eslint.config.js",      // ✅ ESLint config (ใช้ใน parserOptions.project)
-    "jest.setup.ts"          // ✅ Jest setup
+    "src",
+    "api",
+    "server.ts",
+    "vite.config.ts",
+    "tailwind.config.mjs",
+    "eslint.config.mjs"
   ],
-
-  "exclude": [
-    "node_modules",
-    "dist",
-    "coverage"
-  ],
-
-  "ts-node": {
-    "esm": true,
-    "experimentalSpecifierResolution": "node",
-    "compilerOptions": {
-      "module": "ESNext",
-      "target": "ES2022"
-    }
-  }
+  "exclude": ["dist", "node_modules", "coverage"]
 }

@@ -1,7 +1,7 @@
 // src/components/CTASection.tsx
 
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface CTASectionProps {
   heading?: string;
@@ -11,19 +11,19 @@ interface CTASectionProps {
 }
 
 const CTASection: React.FC<CTASectionProps> = ({
-  heading = "พร้อมเริ่มต้นใช้งานหรือยัง?",
-  subheading = "เลือกบริการที่เหมาะกับคุณ แล้วให้เราช่วยดูแลทุกขั้นตอน",
-  buttonText = "ดูบริการทั้งหมด",
-  buttonHref = "#services",
+  heading = 'พร้อมเริ่มต้นใช้งานหรือยัง?',
+  subheading = 'เลือกบริการที่เหมาะกับคุณ แล้วให้เราช่วยดูแลทุกขั้นตอน',
+  buttonText = 'ดูบริการทั้งหมด',
+  buttonHref = '#services',
 }) => {
   const navigate = useNavigate();
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (buttonHref.startsWith("#")) {
-      const id = buttonHref.replace("#", "");
+    if (buttonHref.startsWith('#')) {
+      const id = buttonHref.replace('#', '');
       const el = document.getElementById(id);
       if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
+        el.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
       navigate(buttonHref);
@@ -41,10 +41,7 @@ const CTASection: React.FC<CTASectionProps> = ({
       <div className="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-white opacity-10 blur-3xl"></div>
 
       <div className="relative z-10 mx-auto max-w-3xl px-6 sm:px-8 lg:px-12">
-        <h2
-          id="cta-section"
-          className="mb-6 text-4xl font-extrabold drop-shadow-md sm:text-5xl"
-        >
+        <h2 id="cta-section" className="mb-6 text-4xl font-extrabold drop-shadow-md sm:text-5xl">
           {heading}
         </h2>
         <p className="mx-auto mb-10 max-w-xl text-xl opacity-95 drop-shadow-sm sm:text-2xl">

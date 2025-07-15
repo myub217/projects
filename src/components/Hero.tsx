@@ -1,19 +1,19 @@
 // src/components/Hero.tsx
 
-import React from "react";
-import { FaLock, FaDoorOpen, FaLine, FaFacebookMessenger } from "react-icons/fa";
-import { motion } from "framer-motion";
-import heroBg from "@/assets/hero.webp";
-import signature from "@/assets/signature.webp";
+import React from 'react';
+import { FaLock, FaDoorOpen, FaLine, FaFacebookMessenger } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import heroBg from '@/assets/hero.webp';
+import signature from '@/assets/signature.webp';
 
 type HeroProps = {
   buttonText?: string;
 };
 
-const Hero: React.FC<HeroProps> = ({ buttonText = "เข้าสู่ระบบลับ" }) => {
+const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระบบลับ' }) => {
   const handleLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    window.location.href = "/login";
+    window.location.href = '/login';
   };
 
   return (
@@ -25,10 +25,10 @@ const Hero: React.FC<HeroProps> = ({ buttonText = "เข้าสู่ระ�
       className="relative flex min-h-[576px] items-center justify-center overflow-hidden bg-gray-900 px-6 pb-20 pt-24 text-white sm:min-h-screen sm:px-12 sm:pt-32"
       style={{
         backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.3), rgba(0,0,0,0.08)), url(${heroBg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center top",
-        boxShadow: "inset 0 0 100px rgba(0, 0, 0, 0.5)",
-        filter: "brightness(1.15) contrast(1.1)",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        boxShadow: 'inset 0 0 100px rgba(0, 0, 0, 0.5)',
+        filter: 'brightness(1.15) contrast(1.1)',
       }}
     >
       {/* กลุ่ม action ด้านล่างขวา */}
@@ -57,7 +57,7 @@ const Hero: React.FC<HeroProps> = ({ buttonText = "เข้าสู่ระ�
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.1, delay: 0.5 }}
           onError={(e) => {
-            (e.currentTarget as HTMLImageElement).style.display = "none";
+            (e.currentTarget as HTMLImageElement).style.display = 'none';
           }}
         />
 

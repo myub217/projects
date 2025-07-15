@@ -1,17 +1,17 @@
 // src/pages/IndexPage.tsx
 
-import React, { useState, useEffect, useCallback } from "react";
-import Header from "../components/Header";
-import Hero from "../components/Hero";
-import Feature from "../components/Feature";
-import ServicesSection, { Service } from "../components/ServicesSection";
-import About from "../components/About";
-import ReviewsSection from "../components/ReviewsSection";
-import CTASection from "../components/CTASection";
-import Footer from "../components/Footer";
+import React, { useState, useEffect, useCallback } from 'react';
+import Header from '../components/Header';
+import Hero from '../components/Hero';
+import Feature from '../components/Feature';
+import ServicesSection, { Service } from '../components/ServicesSection';
+import About from '../components/About';
+import ReviewsSection from '../components/ReviewsSection';
+import CTASection from '../components/CTASection';
+import Footer from '../components/Footer';
 
 interface IndexPageProps {
-  theme: "light" | "dark";
+  theme: 'light' | 'dark';
   toggleTheme: () => void;
 }
 
@@ -21,17 +21,17 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
   // Escape key to close modal
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setSelectedService(null);
+      if (e.key === 'Escape') setSelectedService(null);
     };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
 
   // Prevent scroll when modal is open
   useEffect(() => {
-    document.body.style.overflow = selectedService ? "hidden" : "";
+    document.body.style.overflow = selectedService ? 'hidden' : '';
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     };
   }, [selectedService]);
 
@@ -64,12 +64,12 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
       {/* Theme Toggle Button */}
       <button
         type="button"
-        aria-label={`สลับเป็นโหมด ${theme === "light" ? "มืด" : "สว่าง"}`}
-        title={`สลับเป็นโหมด ${theme === "light" ? "มืด" : "สว่าง"}`}
+        aria-label={`สลับเป็นโหมด ${theme === 'light' ? 'มืด' : 'สว่าง'}`}
+        title={`สลับเป็นโหมด ${theme === 'light' ? 'มืด' : 'สว่าง'}`}
         onClick={handleThemeToggle}
         className="fixed bottom-6 right-6 z-40 rounded-full bg-gray-200 p-3 text-gray-800 shadow-lg transition hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 md:bottom-8 md:right-8"
       >
-        {theme === "light" ? (
+        {theme === 'light' ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -111,16 +111,10 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
             className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl dark:bg-gray-900 md:max-w-lg md:p-8"
             tabIndex={0}
           >
-            <h3
-              id="service-modal-title"
-              className="mb-4 text-lg font-bold text-primary md:text-xl"
-            >
+            <h3 id="service-modal-title" className="mb-4 text-lg font-bold text-primary md:text-xl">
               ขอใช้บริการ
             </h3>
-            <p
-              id="service-modal-desc"
-              className="text-sm text-base-content md:text-base"
-            >
+            <p id="service-modal-desc" className="text-sm text-base-content md:text-base">
               บริการที่เลือก: <strong>{selectedService.title}</strong>
             </p>
             <div className="mt-6 flex justify-end gap-2">

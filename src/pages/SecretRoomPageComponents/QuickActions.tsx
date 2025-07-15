@@ -1,7 +1,7 @@
 // src/components/QuickActions.tsx
 
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 //-------------------------------
 // Config: Quick Links
@@ -15,19 +15,19 @@ type QuickLink = {
 
 const quickLinks: QuickLink[] = [
   {
-    label: "จัดการโปรไฟล์",
-    to: "/profile",
-    ariaLabel: "ไปยังหน้าจัดการโปรไฟล์",
+    label: 'จัดการโปรไฟล์',
+    to: '/profile',
+    ariaLabel: 'ไปยังหน้าจัดการโปรไฟล์',
   },
   {
-    label: "เอกสารของฉัน",
-    to: "/documents",
-    ariaLabel: "ไปยังหน้าเอกสารของฉัน",
+    label: 'เอกสารของฉัน',
+    to: '/documents',
+    ariaLabel: 'ไปยังหน้าเอกสารของฉัน',
   },
   {
-    label: "ส่งคำขอใหม่",
-    to: "/forms/request",
-    ariaLabel: "ไปยังหน้าส่งคำขอใหม่",
+    label: 'ส่งคำขอใหม่',
+    to: '/forms/request',
+    ariaLabel: 'ไปยังหน้าส่งคำขอใหม่',
   },
 ];
 

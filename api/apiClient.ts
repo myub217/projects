@@ -5,7 +5,7 @@
  * - Export function สำหรับแต่ละ endpoint
  */
 
-const API_BASE = "/api"; // ใช้ relative path สำหรับ frontend (รองรับ SSR/CSR)
+const API_BASE = '/api'; // ใช้ relative path สำหรับ frontend (SSR/CSR รองรับ)
 
 type FetchOptions = RequestInit & {
   headers?: Record<string, string>;
@@ -18,17 +18,17 @@ async function apiFetch<T>(endpoint: string, options?: FetchOptions): Promise<T>
   const res = await fetch(`${API_BASE}${endpoint}`, {
     ...options,
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       ...(options?.headers ?? {}),
     },
   });
 
   if (!res.ok) {
-    let errorText = "";
+    let errorText = '';
     try {
       errorText = await res.text();
     } catch {
-      errorText = "Unknown error";
+      errorText = 'Unknown error';
     }
     throw new Error(`API Error: ${res.status} ${res.statusText} - ${errorText}`);
   }
@@ -43,7 +43,18 @@ export const getCurrentUser = (): Promise<{
   id: string;
   name: string;
   role: string;
-}> => apiFetch("/user");
+}> => apiFetch('/user');
+
+/**
+ * 📌 Get list of users
+ */
+export const getUsers = (): Promise<
+  {
+    id: number;
+    name: string;
+    role: string;
+  }[]
+> => apiFetch('/users');
 
 /**
  * 📌 Get repository list (GitHub)
@@ -64,17 +75,15 @@ export const getRepoList = (
 /**
  * 📌 Login (example)
  */
-export const login = (
-  username: string,
-  password: string
-): Promise<{ token: string }> =>
-  apiFetch("/login", {
-    method: "POST",
+export const login = (username: string, password: string): Promise<{ token: string }> =>
+  apiFetch('/login', {
+    method: 'POST',
     body: JSON.stringify({ username, password }),
   });
 
 export default {
   getCurrentUser,
+  getUsers,
   getRepoList,
   login,
 };

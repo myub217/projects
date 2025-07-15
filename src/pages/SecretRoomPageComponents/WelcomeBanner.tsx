@@ -1,18 +1,18 @@
 // src/components/WelcomeBanner.tsx
 
-import React, { useMemo } from "react";
+import React, { useMemo } from 'react';
 
 interface WelcomeBannerProps {
   username: string | null;
 }
 
 export default function WelcomeBanner({ username }: WelcomeBannerProps) {
-  const displayName = username?.trim() || "ผู้ใช้งาน";
+  const displayName = username?.trim() || 'ผู้ใช้งาน';
 
   const loginTime = useMemo(() => {
-    return new Date().toLocaleTimeString("th-TH", {
-      hour: "2-digit",
-      minute: "2-digit",
+    return new Date().toLocaleTimeString('th-TH', {
+      hour: '2-digit',
+      minute: '2-digit',
     });
   }, []);
 
@@ -42,12 +42,8 @@ export default function WelcomeBanner({ username }: WelcomeBannerProps) {
           />
         </svg>
         <div className="text-left">
-          <h1 className="text-2xl font-semibold text-primary">
-            ยินดีต้อนรับคุณ {displayName}
-          </h1>
-          <p className="mt-1 text-xs text-muted-foreground">
-            เข้าระบบเมื่อ {loginTime}
-          </p>
+          <h1 className="text-2xl font-semibold text-primary">ยินดีต้อนรับคุณ {displayName}</h1>
+          <p className="mt-1 text-xs text-muted-foreground">เข้าระบบเมื่อ {loginTime}</p>
         </div>
       </div>
     </header>

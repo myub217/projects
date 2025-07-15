@@ -1,9 +1,9 @@
-import React from "react";
-import { ShieldCheck } from "lucide-react";
+import React from 'react';
+import { ShieldCheck } from 'lucide-react';
 
 const Feature1: React.FC = () => {
   const handleClick = () => {
-    alert("รายละเอียด: ระบบความปลอดภัยกำลังพัฒนา");
+    alert('รายละเอียด: ระบบความปลอดภัยกำลังพัฒนา');
   };
 
   return (
@@ -13,7 +13,7 @@ const Feature1: React.FC = () => {
       role="button"
       onClick={handleClick}
       onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") handleClick();
+        if (e.key === 'Enter' || e.key === ' ') handleClick();
       }}
     >
       <div className="group mb-3 flex items-center">

@@ -1,9 +1,9 @@
 // src/components/Header.tsx
-import React, { useEffect, useState, useCallback, useRef } from "react";
-import { Menu, X } from "lucide-react";
-import ThemeToggle, { Theme } from "@/components/ThemeToggle";
-import MobileMenu from "@/components/MobileMenu";
-import LogoApplicationlubmobile from "@/components/LogoSecretApp";
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { Menu, X } from 'lucide-react';
+import ThemeToggle, { Theme } from '@/components/ThemeToggle';
+import MobileMenu from '@/components/MobileMenu';
+import LogoApplicationlubmobile from '@/components/LogoSecretApp';
 
 interface NavLink {
   label: string;
@@ -12,11 +12,11 @@ interface NavLink {
 }
 
 const navLinks: NavLink[] = [
-  { label: "เกี่ยวกับเรา", href: "#about" },
-  { label: "บริการ", href: "#services" },
-  { label: "ผลงาน", href: "#portfolio" },
-  { label: "รีวิว", href: "#reviews" },
-  { label: "ติดต่อเรา", href: "#contact", highlight: true },
+  { label: 'เกี่ยวกับเรา', href: '#about' },
+  { label: 'บริการ', href: '#services' },
+  { label: 'ผลงาน', href: '#portfolio' },
+  { label: 'รีวิว', href: '#reviews' },
+  { label: 'ติดต่อเรา', href: '#contact', highlight: true },
 ];
 
 interface HeaderProps {
@@ -26,21 +26,21 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
   const [currentHash, setCurrentHash] = useState<string>(
-    typeof window !== "undefined" ? window.location.hash : ""
+    typeof window !== 'undefined' ? window.location.hash : ''
   );
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const updateHash = () => setCurrentHash(window.location.hash || "");
-    window.addEventListener("hashchange", updateHash);
-    return () => window.removeEventListener("hashchange", updateHash);
+    const updateHash = () => setCurrentHash(window.location.hash || '');
+    window.addEventListener('hashchange', updateHash);
+    return () => window.removeEventListener('hashchange', updateHash);
   }, []);
 
   const isLinkActive = useCallback(
     (href: string) => {
-      if (!href || href === "#") return false;
-      return currentHash === href || currentHash.startsWith(href + "/");
+      if (!href || href === '#') return false;
+      return currentHash === href || currentHash.startsWith(href + '/');
     },
     [currentHash]
   );
@@ -49,14 +49,14 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
     if (!isMobileMenuOpen) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         setIsMobileMenuOpen(false);
         menuButtonRef.current?.focus();
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isMobileMenuOpen]);
 
   return (
@@ -75,7 +75,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
             <LogoApplicationlubmobile
               className="h-10 w-auto max-w-[200px] cursor-pointer"
               aria-label="โลโก้ Applicationlubmobile"
-              colorScheme={theme === "platinum-dark" ? "dark" : "light"}
+              colorScheme={theme === 'platinum-dark' ? 'dark' : 'light'}
             />
           </a>
 
@@ -86,13 +86,13 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
               const isExternal = /^https?:\/\//.test(href);
 
               const baseClass =
-                "px-3 py-1.5 rounded transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2";
+                'px-3 py-1.5 rounded transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2';
 
               const activeClass = active
-                ? "text-pink-600 dark:text-pink-400 font-semibold"
+                ? 'text-pink-600 dark:text-pink-400 font-semibold'
                 : highlight
-                ? "bg-pink-600 text-white hover:bg-pink-700"
-                : "hover:text-pink-600 dark:hover:text-pink-400";
+                  ? 'bg-pink-600 text-white hover:bg-pink-700'
+                  : 'hover:text-pink-600 dark:hover:text-pink-400';
 
               return (
                 <a
@@ -101,9 +101,9 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
                   title={label}
                   role="link"
                   className={`${baseClass} ${activeClass}`}
-                  aria-current={active ? "page" : undefined}
-                  rel={isExternal ? "noopener noreferrer" : undefined}
-                  target={isExternal ? "_blank" : undefined}
+                  aria-current={active ? 'page' : undefined}
+                  rel={isExternal ? 'noopener noreferrer' : undefined}
+                  target={isExternal ? '_blank' : undefined}
                 >
                   {label}
                 </a>
@@ -120,7 +120,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
               ref={menuButtonRef}
               onClick={() => setIsMobileMenuOpen((prev) => !prev)}
               type="button"
-              aria-label={isMobileMenuOpen ? "ปิดเมนูมือถือ" : "เปิดเมนูมือถือ"}
+              aria-label={isMobileMenuOpen ? 'ปิดเมนูมือถือ' : 'เปิดเมนูมือถือ'}
               aria-haspopup="true"
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"

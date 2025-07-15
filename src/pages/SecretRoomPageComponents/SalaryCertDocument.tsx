@@ -1,41 +1,41 @@
 // src/pages/SecretRoomPageComponents/SalaryCertDocument.tsx
-import React from "react";
+import React from 'react';
 
 const certData = {
-  documentNumber: "HR.Cer 2024/00047",
-  issueDate: "12 กรกฎาคม 2567",
-  locale: "th",
+  documentNumber: 'HR.Cer 2024/00047',
+  issueDate: '12 กรกฎาคม 2567',
+  locale: 'th',
   company: {
-    nameTh: "บริษัท ไทยแลนด์แอนทราไซท์ จำกัด",
-    nameEn: "Thailand Anthracite Co., Ltd.",
+    nameTh: 'บริษัท ไทยแลนด์แอนทราไซท์ จำกัด',
+    nameEn: 'Thailand Anthracite Co., Ltd.',
     addressTh:
-      "240/40 อาคารอโยธยาทาวเวอร์ ชั้น 20 ถนนรัชดาภิเษก แขวงห้วยขวาง เขตห้วยขวาง กรุงเทพฯ 10310",
-    phone: "02-274-1455",
-    fax: "02-274-1904",
-    website: "www.thailandanthracite.com",
-    email: "info@thailandanthracite.com",
-    hrExt: "501",
+      '240/40 อาคารอโยธยาทาวเวอร์ ชั้น 20 ถนนรัชดาภิเษก แขวงห้วยขวาง เขตห้วยขวาง กรุงเทพฯ 10310',
+    phone: '02-274-1455',
+    fax: '02-274-1904',
+    website: 'www.thailandanthracite.com',
+    email: 'info@thailandanthracite.com',
+    hrExt: '501',
   },
   employee: {
-    fullName: "นางสาวสิริเพ็ญ วรสุนทรากร",
-    startDate: "26 สิงหาคม 2562",
-    position: "หัวหน้างาน Ship Operator",
-    department: "Ship Operator",
+    fullName: 'นางสาวสิริเพ็ญ วรสุนทรากร',
+    startDate: '26 สิงหาคม 2562',
+    position: 'หัวหน้างาน Ship Operator',
+    department: 'Ship Operator',
   },
   incomes: [
-    { label: "เงินเดือน", amount: "62,399 บาท" },
-    { label: "ค่าตำแหน่ง", amount: "1,500 บาท" },
-    { label: "ค่าครองชีพ", amount: "600 บาท" },
+    { label: 'เงินเดือน', amount: '62,399 บาท' },
+    { label: 'ค่าตำแหน่ง', amount: '1,500 บาท' },
+    { label: 'ค่าครองชีพ', amount: '600 บาท' },
   ],
   signer: {
-    name: "นายศักดิ์ชัย มั่นคง",
-    position: "ผู้จัดการฝ่ายทรัพยากรบุคคล",
+    name: 'นายศักดิ์ชัย มั่นคง',
+    position: 'ผู้จัดการฝ่ายทรัพยากรบุคคล',
   },
 };
 
 const SalaryCertDocument: React.FC = () => {
   const handlePrint = () => {
-    if (typeof window !== "undefined" && window.confirm("คุณต้องการพิมพ์เอกสารนี้หรือไม่?")) {
+    if (typeof window !== 'undefined' && window.confirm('คุณต้องการพิมพ์เอกสารนี้หรือไม่?')) {
       window.print();
     }
   };
@@ -153,10 +153,10 @@ const SalaryCertDocument: React.FC = () => {
         <h1 className="title">หนังสือรับรองเงินเดือน</h1>
 
         <p className="content">
-          หนังสือรับรองฉบับนี้ขอรับรองว่า <strong>{certData.employee.fullName}</strong>{" "}
-          เป็นพนักงานของ <strong>{certData.company.nameTh}</strong> โดยเริ่มปฏิบัติงานตั้งแต่วันที่{" "}
-          <strong>{certData.employee.startDate}</strong> จนถึงปัจจุบัน ในตำแหน่ง{" "}
-          <strong>{certData.employee.position}</strong> แผนก/ฝ่าย{" "}
+          หนังสือรับรองฉบับนี้ขอรับรองว่า <strong>{certData.employee.fullName}</strong>{' '}
+          เป็นพนักงานของ <strong>{certData.company.nameTh}</strong> โดยเริ่มปฏิบัติงานตั้งแต่วันที่{' '}
+          <strong>{certData.employee.startDate}</strong> จนถึงปัจจุบัน ในตำแหน่ง{' '}
+          <strong>{certData.employee.position}</strong> แผนก/ฝ่าย{' '}
           <strong>{certData.employee.department}</strong> โดยมีรายได้ประจำดังต่อไปนี้:
         </p>
 
@@ -168,7 +168,9 @@ const SalaryCertDocument: React.FC = () => {
           ))}
         </ul>
 
-        <div className="note-title"><strong>หมายเหตุ:</strong></div>
+        <div className="note-title">
+          <strong>หมายเหตุ:</strong>
+        </div>
         <ul className="note-list">
           <li>หนังสือรับรองฉบับนี้ใช้ยืนยันการเป็นพนักงานของบริษัทฯ เท่านั้น</li>
           <li>หนังสือรับรองฉบับนี้จะต้องไม่มีรอยขูด ขีด ลบ แต่อย่างใด จึงจะถือว่าสมบูรณ์</li>
@@ -181,19 +183,27 @@ const SalaryCertDocument: React.FC = () => {
         </div>
 
         <footer className="contact-info">
-          <p><strong>ฝ่ายทรัพยากรบุคคล</strong> โทร. {certData.company.phone} ต่อ {certData.company.hrExt}</p>
+          <p>
+            <strong>ฝ่ายทรัพยากรบุคคล</strong> โทร. {certData.company.phone} ต่อ{' '}
+            {certData.company.hrExt}
+          </p>
           <p>{certData.company.addressTh}</p>
-          <p>โทรศัพท์ {certData.company.phone} | แฟกซ์ {certData.company.fax}</p>
+          <p>
+            โทรศัพท์ {certData.company.phone} | แฟกซ์ {certData.company.fax}
+          </p>
           <hr />
           <p>
-            Website:{" "}
-            <a href={`http://${certData.company.website}`} target="_blank" rel="noopener noreferrer">
+            Website:{' '}
+            <a
+              href={`http://${certData.company.website}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {certData.company.website}
             </a>
           </p>
           <p>
-            Email:{" "}
-            <a href={`mailto:${certData.company.email}`}>{certData.company.email}</a>
+            Email: <a href={`mailto:${certData.company.email}`}>{certData.company.email}</a>
           </p>
         </footer>
       </div>

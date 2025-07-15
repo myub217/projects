@@ -1,6 +1,6 @@
 // src/pages/SecretRoomPageComponents/Features/Feature1.tsx
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 //-------------------------------
 // Types
@@ -27,20 +27,20 @@ interface TemplateDoc {
 
 const templateDocs: TemplateDoc[] = [
   {
-    id: "tax-deduction",
-    title: "ใบหักภาษี ณ ที่จ่าย",
-    contentTemplate: (name, date) => 
+    id: 'tax-deduction',
+    title: 'ใบหักภาษี ณ ที่จ่าย',
+    contentTemplate: (name, date) =>
       `เรียนคุณ ${name}\n\nตามที่ท่านได้รับเงินเดือนในเดือนนี้ ทางบริษัทขอแจ้งหักภาษี ณ ที่จ่าย จำนวนเงิน 5,000 บาท\nวันที่ ${date}\n\nขอแสดงความนับถือ`,
   },
   {
-    id: "contract",
-    title: "สัญญาจ้างงาน",
+    id: 'contract',
+    title: 'สัญญาจ้างงาน',
     contentTemplate: (name, date) =>
       `สัญญาฉบับนี้จัดทำขึ้น ณ วันที่ ${date} ระหว่างบริษัทและคุณ ${name} โดยมีข้อตกลงดังต่อไปนี้\n1. ระยะเวลาการทำงาน 1 ปี\n2. เงินเดือนตามที่ตกลง\n\nลงชื่อ..................................................`,
   },
   {
-    id: "quotation",
-    title: "ใบเสนอราคา",
+    id: 'quotation',
+    title: 'ใบเสนอราคา',
     contentTemplate: (name, date) =>
       `เรียนคุณ ${name}\n\nทางบริษัทขอเสนอราคาดังต่อไปนี้\n1. บริการออกแบบเว็บไซต์ 50,000 บาท\n2. พัฒนา Web App 100,000 บาท\nวันที่เสนอราคา ${date}\n\nขอขอบพระคุณที่ให้ความไว้วางใจ`,
   },
@@ -51,12 +51,7 @@ const templateDocs: TemplateDoc[] = [
 //-------------------------------
 
 const getRandomName = (): string => {
-  const names = [
-    "คุณสมชาย ใจดี",
-    "คุณสมหญิง แสนสุข",
-    "คุณสมศักดิ์ เก่งงาน",
-    "คุณสมฤดี รักงาน",
-  ];
+  const names = ['คุณสมชาย ใจดี', 'คุณสมหญิง แสนสุข', 'คุณสมศักดิ์ เก่งงาน', 'คุณสมฤดี รักงาน'];
   return names[Math.floor(Math.random() * names.length)];
 };
 
@@ -67,12 +62,12 @@ const getFormattedDate = (): { display: string; iso: string } => {
   const date = new Date(randomTime);
 
   return {
-    display: date.toLocaleDateString("th-TH", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    display: date.toLocaleDateString('th-TH', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     }),
-    iso: date.toISOString().split("T")[0],
+    iso: date.toISOString().split('T')[0],
   };
 };
 
@@ -108,7 +103,7 @@ export default function Feature1() {
     alert(
       `✅ ดาวน์โหลดชุดเอกสาร (Demo):\n\n${docSet
         .map((d) => `- ${d.title} (สำหรับ ${d.name}, วันที่ ${d.date})`)
-        .join("\n")}`
+        .join('\n')}`
     );
     setIsDownloading(false);
   };
@@ -142,11 +137,11 @@ export default function Feature1() {
           disabled={isDownloading}
           className={`flex-1 rounded-md py-3 font-semibold shadow transition duration-300 ${
             isDownloading
-              ? "cursor-not-allowed bg-gray-400"
-              : "bg-success text-white hover:bg-success-dark"
+              ? 'cursor-not-allowed bg-gray-400'
+              : 'bg-success text-white hover:bg-success-dark'
           }`}
         >
-          {isDownloading ? "⏳ กำลังดาวน์โหลด..." : "⬇️ ดาวน์โหลดเอกสาร PDF"}
+          {isDownloading ? '⏳ กำลังดาวน์โหลด...' : '⬇️ ดาวน์โหลดเอกสาร PDF'}
         </button>
       </div>
 
@@ -163,7 +158,7 @@ export default function Feature1() {
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 flex items-center justify-center text-7xl font-extrabold text-foreground opacity-10"
-              style={{ userSelect: "none", filter: "blur(2px)" }}
+              style={{ userSelect: 'none', filter: 'blur(2px)' }}
             >
               CONFIDENTIAL
             </div>
@@ -174,7 +169,9 @@ export default function Feature1() {
               {doc.renderedContent}
             </pre>
             <footer className="relative flex justify-between text-xs text-foreground/70">
-              <span>👤 <span className="font-medium">{doc.name}</span></span>
+              <span>
+                👤 <span className="font-medium">{doc.name}</span>
+              </span>
               <time dateTime={doc.isoDate}>📅 {doc.date}</time>
             </footer>
           </article>
