@@ -95,3 +95,10 @@ export const getThemeByName = (name: string): AppTheme | undefined =>
  * 🌘 isDarkMode: เช็คว่า theme นั้นเป็น dark mode หรือไม่
  */
 export const isDarkMode = (theme: AppTheme): boolean => theme.mode === 'dark';
+
+export default {
+  themeNames,
+  themes,
+  getThemeByName,
+  isDarkMode,
+};

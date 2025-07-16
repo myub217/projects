@@ -1,49 +1,126 @@
-#!/data/data/com.termux/files/usr/bin/bash
-set -euo pipefail
-IFS=$'\n\t'
+#!/bin/bash
+set -e
 
-echo "🔧 Normalizing project structure..."
-
-# ✅ จัดระเบียบ Jest setup
-if [ -f "jest.setup.js" ] && [ ! -f "jest.setup.ts" ]; then
-  mv jest.setup.js jest.setup.ts
-  echo "✅ Renamed jest.setup.js -> jest.setup.ts"
-fi
-
-# ✅ ปรับ jest.config ให้ใช้ .ts
-if [ -f "jest.config.cjs" ]; then
-  sed -i 's/jest.setup.js/jest.setup.ts/g' jest.config.cjs
-  echo "✅ Updated jest.config.cjs to use setup.ts"
-fi
-
-# ✅ สร้าง jest.setup.ts ถ้ายังไม่มี
-if [ ! -f "jest.setup.ts" ]; then
-  echo "import '@testing-library/jest-dom';" > jest.setup.ts
-  echo "✅ Created jest.setup.ts"
-fi
-
-# ✅ ตรวจสอบ types และ mocks
-mkdir -p types
-[ -f types/connect-history-api-fallback.d.ts ] || echo "// custom types here" > types/connect-history-api-fallback.d.ts
-
-mkdir -p __mocks__
-[ -f __mocks__/fileMock.js ] || echo "module.exports = 'file-mock';" > __mocks__/fileMock.js
-
-# ✅ เคลียร์ build/coverage/dist/dev-dist
-rm -rf build dist dev-dist coverage .turbo .next .cache || true
-mkdir -p build dist coverage
-
-# ✅ husky fix
-if [ -f ".husky/pre-commit" ]; then
-  sed -i '1,2d' .husky/pre-commit || true
-  echo "✅ Fixed .husky/pre-commit"
-fi
-
-# ✅ Install deps
+# 1. ติดตั้ง dependencies
 pnpm install
 
-# ✅ Build + test check
-pnpm run build || echo "⚠️ build failed but continuing"
-pnpm run test --passWithNoTests || echo "⚠️ test skipped"
+# 2. สร้าง/แก้ไขไฟล์ eslint.config.mjs ให้แก้ปัญหา parserOptions.project กับ globals process no-undef
+cat > eslint.config.mjs << 'EOF'
+import eslintJsPkg from '@eslint/js';
+const { configs: jsConfigs } = eslintJsPkg;
+import tsParser from '@typescript-eslint/parser';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import reactPlugin from 'eslint-plugin-react';
+import tailwindPlugin from 'eslint-plugin-tailwindcss';
+import prettierConfig from 'eslint-config-prettier';
+import unusedImportsPlugin from 'eslint-plugin-unused-imports';
 
-echo "✅ Project structure normalized and ready."
+const browserGlobals = {
+  window: 'readonly',
+  document: 'readonly',
+  fetch: 'readonly',
+  console: 'readonly',
+  alert: 'readonly',
+  localStorage: 'readonly',
+  navigator: 'readonly',
+  setTimeout: 'readonly',
+  clearTimeout: 'readonly',
+  setInterval: 'readonly',
+  clearInterval: 'readonly',
+  history: 'readonly',
+  self: 'readonly',
+  importScripts: 'readonly',
+  caches: 'readonly',
+  clients: 'readonly',
+  registration: 'readonly',
+  process: 'readonly',
+  module: 'readonly',
+};
+
+export default [
+  jsConfigs.recommended,
+
+  {
+    files: ['src/**/*.{ts,tsx,js,jsx}', 'api/**/*.{ts,tsx,js,jsx}', 'src/pages/**/*.{ts,tsx}'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        project: './tsconfig.json',
+        tsconfigRootDir: process.cwd(),
+        sourceType: 'module',
+        ecmaVersion: 'latest',
+      },
+      globals: browserGlobals,
+    },
+    plugins: {
+      '@typescript-eslint': tsPlugin,
+      'unused-imports': unusedImportsPlugin,
+    },
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
+        'warn',
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_',
+        },
+      ],
+    },
+  },
+
+  {
+    files: ['**/*.js', '**/*.jsx', '**/*.json', '**/*.d.ts'],
+    languageOptions: {
+      globals: browserGlobals,
+    },
+  },
+
+  {
+    files: ['**/*.jsx', '**/*.tsx'],
+    languageOptions: {
+      globals: browserGlobals,
+    },
+    plugins: {
+      react: reactPlugin,
+      tailwindcss: tailwindPlugin,
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
+    rules: {
+      'react/jsx-uses-react': 'off',
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
+      'tailwindcss/no-custom-classname': 'off',
+      'tailwindcss/classnames-order': 'warn',
+    },
+  },
+
+  prettierConfig,
+];
+EOF
+
+# 3. สร้าง .env จาก .env.example ถ้ายังไม่มี
+[ ! -f .env ] && cp .env.example .env
+
+# 4. เรียก format, lint, typecheck (lint ถ้าผิดให้หยุด)
+pnpm format
+pnpm lint
+pnpm typecheck
+
+# 5. ตรวจสอบ dependencies ที่ไม่ใช้ (depcheck)
+pnpm depcheck || true
+
+# 6. สร้างข้อมูลโปรเจกต์ลง .summary/
+sh ./generate-project-info.sh || true
+
+# 7. เตรียม husky (ถ้ามี)
+pnpm prepare || true
+
+# 8. เสร็จแล้ว
+echo "✅ Setup complete"

@@ -179,3 +179,40 @@ const config: Config = {
 };
 
 export default config;
+
+/* ============================
+   🔧 UI Action & Layout Styles
+   ============================ */
+
+export const uiStyles = {
+  primaryButton: `
+    @apply bg-primary text-white font-semibold rounded-lg px-5 py-2 shadow-md
+    hover:bg-primary-focus transition duration-300 ease-in-out
+    focus:outline-none focus:ring-2 focus:ring-primary-focus focus:ring-opacity-50
+  `,
+  secondaryButton: `
+    @apply bg-secondary text-white font-medium rounded-lg px-4 py-2 shadow-sm
+    hover:bg-secondary-focus transition duration-300 ease-in-out
+    focus:outline-none focus:ring-2 focus:ring-secondary-focus focus:ring-opacity-50
+  `,
+  card: `
+    @apply bg-base-100 text-foreground rounded-lg shadow-soft p-6
+    transition-transform duration-300 ease-in-out hover:shadow-medium hover:-translate-y-1
+  `,
+  modalOverlay: `
+    @apply fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm
+  `,
+  modalBox: `
+    @apply bg-base-100 text-foreground rounded-lg shadow-medium p-8 max-w-lg mx-auto my-10
+  `,
+  layoutContainer: `
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8
+  `,
+  formInput: `
+    @apply border border-border rounded-md px-3 py-2 text-foreground
+    focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition
+    w-full
+  `,
+  spacingMarginTopSmall: `@apply mt-2;`,
+  spacingMarginBottomSmall: `@apply mb-2;`,
+};
