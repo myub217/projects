@@ -1,3 +1,5 @@
+// jest.config.cjs
+
 /** @type {import('jest').Config} */
 const config = {
   displayName: 'modular-onepage',
@@ -14,12 +16,20 @@ const config = {
     '^.+\\.(ts|tsx|js|jsx)$': 'ts-jest',
   },
 
-  // ✅ ใช้งานจริงได้ทันที (มี fallback ไปยัง js ถ้า .ts ไม่มี)
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts', '<rootDir>/jest.setup.ts'],
+  // ✅ ใช้งานจริงได้ทันที (fallback ไป .js ถ้า .ts ไม่มี)
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 
-  testMatch: ['**/__tests__/**/*.(spec|test).(ts|tsx|js)', '**/?(*.)+(spec|test).[jt]s?(x)'],
+  testMatch: [
+    '**/__tests__/**/*.(spec|test).(ts|tsx|js)',
+    '**/?(*.)+(spec|test).[jt]s?(x)',
+  ],
 
-  testPathIgnorePatterns: ['/node_modules/', '/dist/', '/coverage/', '/build/'],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/dist/',
+    '/coverage/',
+    '/build/',
+  ],
 
   collectCoverage: true,
   coverageDirectory: '<rootDir>/coverage',
@@ -29,7 +39,6 @@ const config = {
     '/__tests__/',
     '/__mocks__/',
     '/types/',
-    'jest.setup.ts',
     'jest.setup.ts',
     'setupTests.ts',
     'test-utils.tsx',

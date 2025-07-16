@@ -1,126 +1,48 @@
 #!/bin/bash
-set -e
 
-# 1. ติดตั้ง dependencies
-pnpm install
+# Root path
+PROJECT_DIR="src"
 
-# 2. สร้าง/แก้ไขไฟล์ eslint.config.mjs ให้แก้ปัญหา parserOptions.project กับ globals process no-undef
-cat > eslint.config.mjs << 'EOF'
-import eslintJsPkg from '@eslint/js';
-const { configs: jsConfigs } = eslintJsPkg;
-import tsParser from '@typescript-eslint/parser';
-import tsPlugin from '@typescript-eslint/eslint-plugin';
-import reactPlugin from 'eslint-plugin-react';
-import tailwindPlugin from 'eslint-plugin-tailwindcss';
-import prettierConfig from 'eslint-config-prettier';
-import unusedImportsPlugin from 'eslint-plugin-unused-imports';
+# โฟลเดอร์ที่ควรมี
+DIRS=(
+  "$PROJECT_DIR/api"
+  "$PROJECT_DIR/assets/icons"
+  "$PROJECT_DIR/assets/images/review"
+  "$PROJECT_DIR/components/AdminBoard"
+  "$PROJECT_DIR/components/Features"
+  "$PROJECT_DIR/config"
+  "$PROJECT_DIR/constants"
+  "$PROJECT_DIR/data"
+  "$PROJECT_DIR/pages/SecretRoomPageComponents/Features"
+  "$PROJECT_DIR/pages/config"
+  "$PROJECT_DIR/styles"
+  "$PROJECT_DIR/types"
+  "$PROJECT_DIR/utils"
+)
 
-const browserGlobals = {
-  window: 'readonly',
-  document: 'readonly',
-  fetch: 'readonly',
-  console: 'readonly',
-  alert: 'readonly',
-  localStorage: 'readonly',
-  navigator: 'readonly',
-  setTimeout: 'readonly',
-  clearTimeout: 'readonly',
-  setInterval: 'readonly',
-  clearInterval: 'readonly',
-  history: 'readonly',
-  self: 'readonly',
-  importScripts: 'readonly',
-  caches: 'readonly',
-  clients: 'readonly',
-  registration: 'readonly',
-  process: 'readonly',
-  module: 'readonly',
-};
+# สร้างโฟลเดอร์ถ้ายังไม่มี
+for dir in "${DIRS[@]}"; do
+  [ ! -d "$dir" ] && mkdir -p "$dir" && echo "สร้าง: $dir"
+done
 
-export default [
-  jsConfigs.recommended,
+# สร้างไฟล์ถ้าไม่มี (เปล่าไว้ก่อน)
+FILES=(
+  "$PROJECT_DIR/api/apiClient.ts"
+  "$PROJECT_DIR/constants/env.ts"
+  "$PROJECT_DIR/config/contact.ts"
+  "$PROJECT_DIR/config/themes.ts"
+  "$PROJECT_DIR/data/servicesData.ts"
+  "$PROJECT_DIR/data/users.ts"
+  "$PROJECT_DIR/styles/global.css"
+  "$PROJECT_DIR/utils/hashPassword.ts"
+  "$PROJECT_DIR/types/assets.d.ts"
+  "$PROJECT_DIR/types/connect-history-api-fallback.d.ts"
+  "$PROJECT_DIR/types/index.d.ts"
+  "$PROJECT_DIR/types/vite-env.d.ts"
+)
 
-  {
-    files: ['src/**/*.{ts,tsx,js,jsx}', 'api/**/*.{ts,tsx,js,jsx}', 'src/pages/**/*.{ts,tsx}'],
-    languageOptions: {
-      parser: tsParser,
-      parserOptions: {
-        project: './tsconfig.json',
-        tsconfigRootDir: process.cwd(),
-        sourceType: 'module',
-        ecmaVersion: 'latest',
-      },
-      globals: browserGlobals,
-    },
-    plugins: {
-      '@typescript-eslint': tsPlugin,
-      'unused-imports': unusedImportsPlugin,
-    },
-    rules: {
-      '@typescript-eslint/no-unused-vars': 'off',
-      'unused-imports/no-unused-imports': 'error',
-      'unused-imports/no-unused-vars': [
-        'warn',
-        {
-          vars: 'all',
-          varsIgnorePattern: '^_',
-          args: 'after-used',
-          argsIgnorePattern: '^_',
-        },
-      ],
-    },
-  },
+for file in "${FILES[@]}"; do
+  [ ! -f "$file" ] && touch "$file" && echo "สร้างไฟล์เปล่า: $file"
+done
 
-  {
-    files: ['**/*.js', '**/*.jsx', '**/*.json', '**/*.d.ts'],
-    languageOptions: {
-      globals: browserGlobals,
-    },
-  },
-
-  {
-    files: ['**/*.jsx', '**/*.tsx'],
-    languageOptions: {
-      globals: browserGlobals,
-    },
-    plugins: {
-      react: reactPlugin,
-      tailwindcss: tailwindPlugin,
-    },
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
-    rules: {
-      'react/jsx-uses-react': 'off',
-      'react/react-in-jsx-scope': 'off',
-      'react/prop-types': 'off',
-      'tailwindcss/no-custom-classname': 'off',
-      'tailwindcss/classnames-order': 'warn',
-    },
-  },
-
-  prettierConfig,
-];
-EOF
-
-# 3. สร้าง .env จาก .env.example ถ้ายังไม่มี
-[ ! -f .env ] && cp .env.example .env
-
-# 4. เรียก format, lint, typecheck (lint ถ้าผิดให้หยุด)
-pnpm format
-pnpm lint
-pnpm typecheck
-
-# 5. ตรวจสอบ dependencies ที่ไม่ใช้ (depcheck)
-pnpm depcheck || true
-
-# 6. สร้างข้อมูลโปรเจกต์ลง .summary/
-sh ./generate-project-info.sh || true
-
-# 7. เตรียม husky (ถ้ามี)
-pnpm prepare || true
-
-# 8. เสร็จแล้ว
-echo "✅ Setup complete"
+echo "✅ เสร็จสิ้น"
