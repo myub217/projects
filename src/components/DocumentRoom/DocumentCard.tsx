@@ -17,27 +17,33 @@ const DocumentCard: React.FC<DocumentItem> = ({
       href={fileUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="bg-base-100 border border-base-300 rounded-xl p-4 hover:shadow-md transition w-full block"
+      className="bg-base-100 border border-border rounded-xl p-4 hover:shadow-lg transition w-full block"
     >
-      <h3 className="text-base font-semibold text-primary mb-1 line-clamp-2">{title}</h3>
-      <p className="text-xs text-muted-content truncate">รหัส: {id}</p>
+      <h3 className="text-lg font-semibold text-primary mb-1 line-clamp-2">
+        📄 {title}
+      </h3>
 
-      <div className="mt-2 text-xs space-y-1 text-base-content">
+      <p className="text-xs text-muted-content mb-2">รหัสเอกสาร: <span className="font-medium">{id}</span></p>
+
+      <div className="text-sm text-base-content space-y-1">
         <p>
-          🗓️ ออกเมื่อ: <span className="font-medium">{issueDate}</span>
+          🗓️ วันที่ออก: <span className="font-medium">{issueDate}</span>
         </p>
         {validUntil && (
           <p>
-            📅 ใช้ได้ถึง: <span className="font-medium">{validUntil}</span>
+            ⏳ ใช้ได้ถึง: <span className="font-medium">{validUntil}</span>
           </p>
         )}
         <p>
-          🏢 ออกโดย: <span className="font-medium">{issuedBy}</span>
+          🏢 หน่วยงานผู้ออก: <span className="font-medium">{issuedBy}</span>
         </p>
-        {note && (
-          <p className="text-muted-content mt-1 italic">📌 {note}</p>
-        )}
       </div>
+
+      {note && (
+        <p className="text-xs text-muted-content italic mt-3">
+          📌 {note}
+        </p>
+      )}
     </a>
   );
 };

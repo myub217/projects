@@ -1,7 +1,8 @@
 // src/hooks/useAuth.ts
 
 import { useEffect, useState, useCallback } from 'react';
-import { UserRole } from '@types/user';
+
+export type UserRole = 'admin' | 'staff' | 'auditor' | 'customer';
 
 export interface AuthUser {
   id: string;
@@ -19,7 +20,7 @@ export const useAuth = () => {
       const raw = localStorage.getItem('auth');
       if (!raw) return setAuthUser(null);
       const parsed: AuthUser = JSON.parse(raw);
-      if (parsed?.username && parsed?.role) {
+      if (parsed?.username && parsed?.role && parsed?.token) {
         setAuthUser(parsed);
       } else {
         setAuthUser(null);

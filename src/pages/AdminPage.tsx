@@ -32,24 +32,23 @@ const AdminPage: React.FC = () => {
 
   return (
     <main
-      className="min-h-screen bg-base-100 px-4 py-8 sm:px-6 lg:px-10"
+      className="min-h-screen bg-base-100 px-4 py-6 sm:px-6 lg:px-10 text-base-content transition-colors duration-300"
       aria-label="JP Visual Admin Panel"
       role="main"
       tabIndex={-1}
     >
       <div className="mx-auto max-w-7xl space-y-10">
-        {/* 🔹 Page Title */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        {/* 🔹 Header */}
+        <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-primary tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-primary tracking-tight">
               🛡️ JP Visual Admin Panel
             </h1>
-            <p className="text-sm text-muted-content">
+            <p className="text-sm text-muted-content leading-snug">
               ระบบบริหารจัดการหลังบ้านสำหรับทีมงาน JP Visual
             </p>
           </div>
-
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
             <button
               className="btn btn-sm btn-error"
@@ -62,35 +61,39 @@ const AdminPage: React.FC = () => {
               🚪 ออกจากระบบ
             </button>
           </div>
-        </div>
+        </header>
 
         {/* 🔸 Dashboard Summary */}
-        <section aria-label="ภาพรวมระบบ">
+        <section aria-label="ภาพรวมระบบ" className="rounded-xl bg-base-200 p-5 shadow-md">
           <Dashboard />
         </section>
 
         {/* 🔸 User Management */}
-        <section aria-label="การจัดการผู้ใช้งาน">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-            <h2 className="text-xl font-semibold text-base-content flex items-center gap-2">
+        <section aria-label="การจัดการผู้ใช้งาน" className="space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <h2 className="text-xl font-bold text-base-content flex items-center gap-2">
               👥 ผู้ดูแลระบบ
             </h2>
             <button
               type="button"
-              className="inline-flex items-center gap-2 rounded-md bg-primary text-white text-sm font-medium px-4 py-2 shadow hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+              className="btn btn-sm btn-primary"
             >
               ➕ เพิ่มผู้ดูแล
             </button>
           </div>
-          <UserTable />
+          <div className="overflow-x-auto bg-base-200 rounded-xl p-4 shadow-sm">
+            <UserTable />
+          </div>
         </section>
 
         {/* 🔸 Repo List */}
-        <section aria-label="รายการโปรเจกต์">
-          <h2 className="text-xl font-semibold text-base-content mb-4 flex items-center gap-2">
+        <section aria-label="รายการโปรเจกต์" className="space-y-4">
+          <h2 className="text-xl font-bold text-base-content flex items-center gap-2">
             📦 โปรเจกต์ที่ดูแล
           </h2>
-          <RepoList />
+          <div className="overflow-x-auto bg-base-200 rounded-xl p-4 shadow-sm">
+            <RepoList />
+          </div>
         </section>
       </div>
     </main>

@@ -1,10 +1,10 @@
-// src/data/approvedCustomers.ts
+// ✅ /data/data/com.termux/files/home/projects/projects1/src/data/approvedCustomers.ts
 
 export interface CustomerApproval {
   id: string;
   name: string;
-  documentTitle: string; // ชื่องานหรือเอกสารที่ดูแล
-  receivedDate: string;  // วันที่ได้รับมอบหมายงาน ISO 8601 format
+  documentTitle: string;
+  receivedDate: string; // ISO 8601
   status: 'เสร็จสมบูรณ์' | 'กำลังดำเนินการ';
 }
 

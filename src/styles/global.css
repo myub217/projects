@@ -1,17 +1,19 @@
 /* src/styles/global.css */
 
-/* 🔹 Import TailwindCSS directives */
+/* 🔹 Tailwind Base Directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* 🔸 Base font & color settings */
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   @apply bg-base-100 text-base text-foreground antialiased m-0 p-0;
 }
 
-/* 🔹 Typography improvements */
+/* 🔹 Typography */
 h1, h2, h3, h4, h5, h6 {
   @apply font-heading text-primary font-bold leading-snug tracking-tight;
 }
@@ -33,7 +35,7 @@ button {
   @apply font-medium rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition duration-150;
 }
 
-/* 🔹 Utility enhancements */
+/* 🔹 Container / Sections */
 .container {
   @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
 }
@@ -42,6 +44,7 @@ button {
   @apply py-16 md:py-24;
 }
 
+/* 🔹 Card Design */
 .card {
   @apply rounded-2xl bg-white shadow-lg p-6 dark:bg-base-200;
 }
@@ -50,10 +53,7 @@ button {
   @apply text-gray-500 dark:text-gray-400;
 }
 
-/* ⛔️ Removed: .text-primary-light with @apply to avoid circular error */
-/* ✅ ใช้ class `text-primary-light` ตรง ๆ ใน JSX/HTML ได้เลย */
-
-/* 🔹 Forms (optional improvements) */
+/* 🔹 Forms */
 input, select, textarea {
   @apply w-full border border-border rounded-md px-4 py-2 text-sm text-foreground bg-white dark:bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition;
 }
@@ -62,26 +62,65 @@ label {
   @apply block mb-1 text-sm font-semibold text-gray-700 dark:text-gray-300;
 }
 
-/* 🔹 Responsive tweaks */
+/* 🔹 Responsive Typography */
 @media (max-width: 640px) {
-  h1 {
-    @apply text-2xl;
-  }
-
-  h2 {
-    @apply text-xl;
-  }
-
-  .card {
-    @apply p-4;
-  }
+  h1 { @apply text-2xl; }
+  h2 { @apply text-xl; }
+  .card { @apply p-4; }
 }
 
-/* 🔹 Transitions / Effects */
-.fade-in {
-  @apply animate-fadeIn;
+/* 🔹 Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.slide-up {
-  @apply animate-slideUp;
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+/* 🔹 Document Center UI */
+.doc-card {
+  @apply card bg-base-200 p-6 transition hover:shadow-xl hover:bg-base-300;
+}
+
+.doc-grid {
+  @apply grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4;
+}
+
+.doc-title {
+  @apply font-semibold text-lg truncate text-primary;
+}
+
+.doc-actions {
+  @apply mt-3 flex gap-2 justify-between items-center;
+}
+
+.doc-upload {
+  @apply w-full max-w-md mx-auto p-6 bg-base-100 rounded-xl shadow-md border border-base-300;
+}
+
+/* 🔹 Utility Buttons */
+.btn-primary {
+  @apply bg-primary text-white hover:bg-primary/90; /* ✅ hover ถูกต้อง */
+}
+
+.btn-outline {
+  @apply border border-primary text-primary hover:bg-primary hover:text-white;
+}
+
+/* 🔹 Responsive Doc Grid */
+@media (max-width: 768px) {
+  .doc-grid {
+    @apply grid-cols-1;
+  }
 }

@@ -40,42 +40,42 @@ export default function StatsPanel() {
       id: 1,
       label: '👥 ผู้ใช้งาน',
       value: users ?? '⏳',
-      icon: <span aria-hidden="true">👥</span>,
+      icon: <span>👥</span>,
       bgColor: 'bg-primary',
     },
     {
       id: 2,
       label: '⚡ เซสชัน',
       value: sessions ?? '⏳',
-      icon: <span aria-hidden="true">⚡</span>,
+      icon: <span>⚡</span>,
       bgColor: 'bg-secondary',
     },
     {
       id: 3,
       label: '🖥️ โหลดเซิร์ฟเวอร์',
       value: '75%',
-      icon: <span aria-hidden="true">🖥️</span>,
+      icon: <span>🖥️</span>,
       bgColor: 'bg-accent',
     },
     {
       id: 4,
       label: '❌ ข้อผิดพลาด',
       value: errors ?? '⏳',
-      icon: <span aria-hidden="true">❌</span>,
+      icon: <span>❌</span>,
       bgColor: 'bg-error',
     },
     {
       id: 5,
       label: '📈 Analytics',
       value: analyticsUrl ? '✅ เปิดใช้งาน' : '❌ ปิดอยู่',
-      icon: <span aria-hidden="true">📈</span>,
+      icon: <span>📈</span>,
       bgColor: analyticsUrl ? 'bg-success' : 'bg-warning',
     },
     {
       id: 6,
       label: '📝 Logging',
       value: loggingEnabled ? '✅ On' : '❌ Off',
-      icon: <span aria-hidden="true">📝</span>,
+      icon: <span>📝</span>,
       bgColor: loggingEnabled ? 'bg-info' : 'bg-base-300',
     },
   ];
@@ -83,35 +83,37 @@ export default function StatsPanel() {
   return (
     <section
       aria-label="สถิติระบบ"
-      className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 p-4 md:p-8 max-w-7xl mx-auto"
+      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6"
     >
-      {stats.map(({ id, label, value, icon, bgColor }) => (
-        <div
-          key={id}
-          className={`${bgColor} flex items-center gap-4 rounded-xl p-6 shadow-lg text-white transition-transform hover:scale-[1.03]`}
-          role="region"
-          aria-labelledby={`stat-label-${id}`}
-        >
-          <div className="text-4xl" aria-hidden="true">
-            {icon}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {stats.map(({ id, label, value, icon, bgColor }) => (
+          <div
+            key={id}
+            className={`${bgColor} flex flex-col sm:flex-row items-center sm:items-start gap-4 rounded-xl p-6 shadow-lg text-white transition-transform hover:scale-[1.02] duration-200`}
+            role="region"
+            aria-labelledby={`stat-label-${id}`}
+          >
+            <div className="text-5xl sm:text-4xl" aria-hidden="true">
+              {icon}
+            </div>
+            <div className="text-center sm:text-left">
+              <p
+                id={`stat-label-${id}`}
+                className="text-base font-semibold tracking-wide opacity-90"
+              >
+                {label}
+              </p>
+              <p
+                className="text-3xl font-bold mt-1 leading-tight"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                {value}
+              </p>
+            </div>
           </div>
-          <div>
-            <p
-              id={`stat-label-${id}`}
-              className="text-sm font-medium opacity-90 tracking-wide"
-            >
-              {label}
-            </p>
-            <p
-              className="text-3xl font-extrabold mt-1 leading-none"
-              aria-live="polite"
-              aria-atomic="true"
-            >
-              {value}
-            </p>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </section>
   );
 }

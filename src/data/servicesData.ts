@@ -1,4 +1,4 @@
-// src/data/servicesData.ts
+// ✅ /data/data/com.termux/files/home/projects/projects1/src/data/servicesData.ts
 
 export interface Service {
   id: number;
@@ -25,7 +25,8 @@ export const services: Service[] = [
   {
     id: 2,
     title: 'รับดูแลเอกสารยื่นวีซ่า',
-    description: 'ออกแบบและตรวจเอกสารยื่นวีซ่าสำหรับสาวสายทำงาน ปรับแต่งครบถ้วนตรงข้อกำหนด',
+    description:
+      'ออกแบบและตรวจเอกสารยื่นวีซ่าสำหรับสาวสายทำงาน ปรับแต่งครบถ้วนตรงข้อกำหนด',
     price: '4,000 บาทขึ้นไป',
     image: '/images/services/service2.webp',
     altText: 'ภาพประกอบบริการดูแลเอกสารยื่นวีซ่า',
@@ -44,7 +45,8 @@ export const services: Service[] = [
   {
     id: 4,
     title: 'แก้ไข-สร้างใหม่-จัดหาเอกสาร',
-    description: 'รวมบริการทุกแบบ: แก้ไข สร้างใหม่ และจัดหาเอกสารตามต้องการ ครอบคลุมทุกความจำเป็น',
+    description:
+      'รวมบริการทุกแบบ: แก้ไข สร้างใหม่ และจัดหาเอกสารตามต้องการ ครอบคลุมทุกความจำเป็น',
     price: 'เริ่มต้น 400 - 600 บาท',
     image: '/images/services/service4.webp',
     altText: 'ภาพประกอบบริการแก้ไขสร้างใหม่จัดหาเอกสาร',
@@ -53,7 +55,8 @@ export const services: Service[] = [
   {
     id: 5,
     title: 'ชิ้นงานจริงบัตรแข็ง/อ่อน',
-    description: 'งานจริงพร้อมลายน้ำแมว จัดส่งผ่านบริการมืออาชีพ ลดความเสี่ยง ปลอดภัยแน่นอน',
+    description:
+      'งานจริงพร้อมลายน้ำแมว จัดส่งผ่านบริการมืออาชีพ ลดความเสี่ยง ปลอดภัยแน่นอน',
     price: 'เริ่มต้น 4,500 บาท',
     image: '/images/services/service5.webp',
     altText: 'ภาพประกอบชิ้นงานจริงบัตรแข็งและอ่อน',
@@ -72,7 +75,8 @@ export const services: Service[] = [
   {
     id: 7,
     title: 'ออกแบบโลโก้/แบนเนอร์/ทีม',
-    description: 'สร้างภาพลักษณ์ด้วยโลโก้และแบนเนอร์คุณภาพสูง รองรับทุกช่องทาง พร้อมไฟล์โปร่งใส',
+    description:
+      'สร้างภาพลักษณ์ด้วยโลโก้และแบนเนอร์คุณภาพสูง รองรับทุกช่องทาง พร้อมไฟล์โปร่งใส',
     price: 'เริ่มต้น 300 บาท',
     image: '/images/services/service7.webp',
     altText: 'ภาพประกอบบริการออกแบบโลโก้และแบนเนอร์',
@@ -110,8 +114,8 @@ export const services: Service[] = [
   },
   {
     id: 11,
-    title: 'Coming Soon',
-    description: '-',
+    title: 'บริการใหม่กำลังจะมา',
+    description: 'เรากำลังเตรียมบริการใหม่ที่ตอบโจทย์มากขึ้น โปรดติดตาม!',
     price: '-',
     image: '/images/services/service11.webp',
     altText: 'ภาพประกอบบริการใหม่ที่จะมาเร็วๆ นี้',
@@ -121,7 +125,7 @@ export const services: Service[] = [
   {
     id: 12,
     title: 'Coming Soon',
-    description: '-',
+    description: 'กำลังอัปเดตข้อมูลบริการใหม่ โปรดติดตาม!',
     price: '-',
     image: '/images/services/service12.webp',
     altText: 'ภาพประกอบบริการใหม่ที่จะมาเร็วๆ นี้',

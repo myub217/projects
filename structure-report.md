@@ -208,6 +208,7 @@ export default config;
 ## ⚙️ Vite Config (Full)
 ```ts
 // vite.config.mts
+
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -246,6 +247,7 @@ export default defineConfig({
       '@styles': path.resolve(__dirname, 'src/styles'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@config': path.resolve(__dirname, 'src/config'),
+      '@features': path.resolve(__dirname, 'src/features'), // ✅ เพิ่ม alias ที่จำเป็น
     },
   },
   server: {
@@ -258,7 +260,7 @@ export default defineConfig({
 
 ## 🧩 main.tsx (Full)
 ```tsx
-// src/main.tsx
+// ✅ src/main.tsx
 
 import React, { useState, useEffect, useCallback } from 'react'
 import ReactDOM from 'react-dom/client'
@@ -270,6 +272,9 @@ import IndexPage from '@pages/IndexPage'
 import LoginPage from '@pages/LoginPage'
 import SecretRoomPage from '@pages/SecretRoomPage'
 import ProtectedRoute from '@components/ProtectedRoute'
+
+// ✅ DocumentCenter พร้อม alias
+import DocumentCenter from '@features/DocumentCenter/DocumentCenter'
 
 const THEME_KEY = 'app-theme'
 export type ThemeMode = 'light' | 'dark'
@@ -306,17 +311,28 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
+        {/* ✅ หน้าแรก */}
         <Route
           path="/"
           element={<IndexPage theme={theme} toggleTheme={toggleTheme} />}
         />
+
+        {/* ✅ หน้า Login */}
         <Route path="/login" element={<LoginPage />} />
+
+        {/* ✅ Protected routes */}
         <Route element={<ProtectedRoute />}>
           <Route
             path="/secret"
             element={<SecretRoomPage theme={theme} toggleTheme={toggleTheme} />}
           />
+          <Route
+            path="/documents"
+            element={<DocumentCenter />}
+          />
         </Route>
+
+        {/* ✅ Fallback 404 */}
         <Route
           path="*"
           element={
@@ -363,11 +379,14 @@ if (rootEl) {
 │   ├── assets
 │   │   ├── about-IgS6mAQi.webp
 │   │   ├── hero-BRaXPQvd.webp
-│   │   ├── index-DOXT8SdD.js
-│   │   ├── index-bSqWk5Cu.css
+│   │   ├── index-Bi-SSbTi.js
+│   │   ├── index-BpKncbU6.css
 │   │   ├── jp-logo-CH0zBIqT.webp
 │   │   └── signature-BovtCThw.webp
 │   ├── docs
+│   │   ├── certificate.pdf
+│   │   ├── contract.pdf
+│   │   └── registration.pdf
 │   ├── images
 │   │   ├── review
 │   │   └── services
@@ -382,6 +401,9 @@ if (rootEl) {
 ├── postcss.config.cjs
 ├── public
 │   ├── docs
+│   │   ├── certificate.pdf
+│   │   ├── contract.pdf
+│   │   └── registration.pdf
 │   └── images
 │       ├── review
 │       └── services
@@ -406,6 +428,7 @@ if (rootEl) {
 │   │   ├── CustomerAssessmentForm.tsx
 │   │   ├── CustomerCard.tsx
 │   │   ├── DocumentRoom
+│   │   ├── DocumentRoom.tsx
 │   │   ├── Feature.tsx
 │   │   ├── Footer.tsx
 │   │   ├── Header.tsx
@@ -424,12 +447,15 @@ if (rootEl) {
 │   │   ├── documentsList.ts
 │   │   ├── servicesData.ts
 │   │   └── users.ts
+│   ├── features
+│   │   └── DocumentCenter
 │   ├── hooks
 │   │   └── useAuth.ts
 │   ├── main.tsx
 │   ├── pages
 │   │   ├── AdminPage.tsx
 │   │   ├── DocumentRoomPage.tsx
+│   │   ├── Documents
 │   │   ├── IndexPage.tsx
 │   │   ├── LoginPage.tsx
 │   │   └── SecretRoomPage.tsx
@@ -454,7 +480,7 @@ if (rootEl) {
 ├── ต้องอยู่ที่
 └── ส่ง
 
-31 directories, 78 files
+34 directories, 85 files
 
 ```
 

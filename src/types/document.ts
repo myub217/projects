@@ -1,4 +1,4 @@
-// src/types/document.ts
+// ✅ src/types/document.ts – เวอร์ชันสมบูรณ์ พร้อมใช้งานจริง
 
 // ประเภทเอกสารในระบบ JP - Visual & Docs
 export type DocumentType =
@@ -14,12 +14,12 @@ export interface DocumentMeta {
   id: string;                         // รหัสเอกสาร เช่น "doc-00123"
   type: DocumentType;                // ประเภทเอกสาร
   title: string;                     // ชื่อแสดง เช่น "ใบรับรองเงินเดือน ประจำปี 2025"
-  description?: string;             // คำอธิบาย เช่น "สำหรับยื่นกู้ธนาคาร"
-  fileName: string;                 // ชื่อไฟล์จริง เช่น "salary_2025_john_doe.pdf"
-  fileUrl: string;                  // URL หรือ path เช่น "/documents/salary_2025_john_doe.pdf"
-  createdAt: string;                // วันที่สร้าง เช่น "2025-07-01T10:00:00Z"
-  updatedAt?: string;               // วันที่อัปเดตล่าสุด
-  tags?: string[];                  // แท็ก เช่น ["pdf", "confidential"]
+  description?: string;              // คำอธิบาย เช่น "สำหรับยื่นกู้ธนาคาร"
+  fileName: string;                  // ชื่อไฟล์จริง เช่น "salary_2025_john_doe.pdf"
+  fileUrl: string;                   // URL หรือ path เช่น "/documents/salary_2025_john_doe.pdf"
+  createdAt: string;                 // วันที่สร้าง เช่น "2025-07-01T10:00:00Z"
+  updatedAt?: string;                // วันที่อัปเดตล่าสุด
+  tags?: string[];                   // แท็ก เช่น ["pdf", "confidential"]
   isPublic?: boolean;               // เอกสารถูกเปิดให้สาธารณะดาวน์โหลดหรือไม่
   requiresAuth?: boolean;           // ต้อง login ก่อนดูหรือไม่
 }

@@ -1,36 +1,52 @@
-// src/components/SecretRoom/ThemeToggleButton.tsx
+// ✅ src/components/SecretRoom/ThemeToggleButton.tsx – เวอร์ชันสมบูรณ์พร้อมใช้งานจริง
 
 import React, { useEffect, useState } from 'react';
 
-const ThemeToggleButton: React.FC = () => {
+type ThemeToggleButtonProps = {
+  theme?: 'light' | 'dark';
+  toggleTheme?: () => void;
+};
+
+const ThemeToggleButton: React.FC<ThemeToggleButtonProps> = ({
+  theme: externalTheme,
+  toggleTheme: externalToggle,
+}) => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   useEffect(() => {
-    const stored = localStorage.getItem('theme') as 'light' | 'dark' | null;
+    if (externalTheme) {
+      setTheme(externalTheme);
+      return;
+    }
+
+    const storedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-    const initial = stored || (prefersDark ? 'dark' : 'light');
+    const initial = storedTheme || (prefersDark ? 'dark' : 'light');
+
     setTheme(initial);
     document.documentElement.setAttribute('data-theme', initial);
-  }, []);
+  }, [externalTheme]);
 
-  const toggleTheme = () => {
+  const internalToggle = () => {
     const next = theme === 'light' ? 'dark' : 'light';
     setTheme(next);
     localStorage.setItem('theme', next);
     document.documentElement.setAttribute('data-theme', next);
   };
 
+  const toggle = externalToggle || internalToggle;
   const isDark = theme === 'dark';
   const label = isDark ? 'โหมดสว่าง' : 'โหมดมืด';
   const icon = isDark ? '🌞' : '🌙';
 
   return (
     <button
-      onClick={toggleTheme}
+      onClick={toggle}
       title={`สลับไปยัง ${label}`}
-      className="btn bg-primary text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg font-medium text-sm sm:text-base shadow-md hover:shadow-lg transition duration-300 flex items-center gap-2"
+      aria-label={`Toggle theme to ${label}`}
+      className="btn btn-primary text-white rounded-xl px-4 sm:px-6 py-2 sm:py-2.5 text-sm sm:text-base font-medium shadow transition-all duration-300 flex items-center gap-2"
     >
-      <span>{icon}</span>
+      <span className="text-lg sm:text-xl">{icon}</span>
       <span className="hidden sm:inline">{`เปลี่ยนเป็น ${label}`}</span>
       <span className="inline sm:hidden">{label}</span>
     </button>

@@ -1,16 +1,24 @@
-// src/utils/pdfHelper.ts
+// ✅ src/utils/pdfHelper.ts – พร้อมใช้งาน สร้าง/เซฟ PDF ภาษาไทยด้วย @react-pdf/renderer + file-saver
 
 import { saveAs } from 'file-saver';
-import { pdf, Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
+import {
+  pdf,
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Font,
+} from '@react-pdf/renderer';
 import React from 'react';
 
-// ✅ กรณีต้องใช้ฟอนต์ภาษาไทย ต้องให้แน่ใจว่าไฟล์ TTF อยู่ใน public path จริง
+// ✅ Register ฟอนต์ภาษาไทย
 Font.register({
   family: 'THSarabunNew',
   src: '/assets/fonts/THSarabunNew.ttf',
 });
 
-// 🎨 Style สำหรับ PDF
+// ✅ สไตล์ PDF
 const styles = StyleSheet.create({
   page: {
     padding: 30,
@@ -36,19 +44,19 @@ const styles = StyleSheet.create({
   },
 });
 
-// 📄 โครงสร้างข้อมูลที่ใช้สร้างใบรับรองเงินเดือน
+// ✅ โครงสร้างข้อมูลเอกสาร
 export interface CertificateData {
-  employeeName: string;      // ชื่อพนักงาน
-  position: string;          // ตำแหน่ง
-  salary: string;            // เงินเดือน (เช่น "30,000")
-  issueDate: string;         // วันที่ออกเอกสาร
-  companyName: string;       // ชื่อบริษัท
-  companyAddress: string;    // ที่อยู่บริษัท
-  signerName: string;        // ผู้ลงนาม
-  signerPosition: string;    // ตำแหน่งผู้ลงนาม
+  employeeName: string;
+  position: string;
+  salary: string;
+  issueDate: string;
+  companyName: string;
+  companyAddress: string;
+  signerName: string;
+  signerPosition: string;
 }
 
-// ✅ Component ที่ใช้สร้าง PDF ด้วย react-pdf
+// ✅ Template PDF
 const SalaryCertificatePDF: React.FC<CertificateData> = ({
   employeeName,
   position,
@@ -65,20 +73,27 @@ const SalaryCertificatePDF: React.FC<CertificateData> = ({
         <Text style={styles.title}>หนังสือรับรองเงินเดือน</Text>
       </View>
       <View style={styles.section}>
-        <Text><Text style={styles.label}>บริษัท:</Text> {companyName}</Text>
-        <Text><Text style={styles.label}>ที่อยู่:</Text> {companyAddress}</Text>
-      </View>
-      <View style={styles.section}>
         <Text>
-          ข้าพเจ้าในฐานะตัวแทนบริษัท ขอรับรองว่า {employeeName} ปฏิบัติงานในตำแหน่ง {position} 
-          และได้รับเงินเดือนประจำเดือนละ {salary} บาท
+          <Text style={styles.label}>บริษัท:</Text> {companyName}
+        </Text>
+        <Text>
+          <Text style={styles.label}>ที่อยู่:</Text> {companyAddress}
         </Text>
       </View>
       <View style={styles.section}>
-        <Text>หนังสือฉบับนี้ออกให้เพื่อใช้เป็นหลักฐานประกอบการดำเนินการต่าง ๆ ตามความจำเป็น</Text>
+        <Text>
+          ข้าพเจ้าในฐานะตัวแทนบริษัท ขอรับรองว่า {employeeName} ปฏิบัติงานในตำแหน่ง {position} และได้รับเงินเดือนประจำเดือนละ {salary} บาท
+        </Text>
       </View>
       <View style={styles.section}>
-        <Text><Text style={styles.label}>วันที่ออกหนังสือ:</Text> {issueDate}</Text>
+        <Text>
+          หนังสือฉบับนี้ออกให้เพื่อใช้เป็นหลักฐานประกอบการดำเนินการต่าง ๆ ตามความจำเป็น
+        </Text>
+      </View>
+      <View style={styles.section}>
+        <Text>
+          <Text style={styles.label}>วันที่ออกหนังสือ:</Text> {issueDate}
+        </Text>
       </View>
       <View style={styles.signature}>
         <Text>ลงชื่อ.....................................................</Text>
@@ -89,7 +104,7 @@ const SalaryCertificatePDF: React.FC<CertificateData> = ({
   </Document>
 );
 
-// 📦 ฟังก์ชันสำหรับสร้างไฟล์ PDF และบันทึกลงเครื่อง
+// ✅ ฟังก์ชันสร้างและบันทึก PDF
 export async function generateSalaryCertificatePDF(
   data: CertificateData,
   fileName: string = 'salary-certificate.pdf'

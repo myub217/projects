@@ -1,4 +1,4 @@
-// src/main.tsx
+// ✅ src/main.tsx
 
 import React, { useState, useEffect, useCallback } from 'react'
 import ReactDOM from 'react-dom/client'
@@ -10,6 +10,9 @@ import IndexPage from '@pages/IndexPage'
 import LoginPage from '@pages/LoginPage'
 import SecretRoomPage from '@pages/SecretRoomPage'
 import ProtectedRoute from '@components/ProtectedRoute'
+
+// ✅ DocumentCenter พร้อม alias
+import DocumentCenter from '@features/DocumentCenter/DocumentCenter'
 
 const THEME_KEY = 'app-theme'
 export type ThemeMode = 'light' | 'dark'
@@ -46,17 +49,28 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
+        {/* ✅ หน้าแรก */}
         <Route
           path="/"
           element={<IndexPage theme={theme} toggleTheme={toggleTheme} />}
         />
+
+        {/* ✅ หน้า Login */}
         <Route path="/login" element={<LoginPage />} />
+
+        {/* ✅ Protected routes */}
         <Route element={<ProtectedRoute />}>
           <Route
             path="/secret"
             element={<SecretRoomPage theme={theme} toggleTheme={toggleTheme} />}
           />
+          <Route
+            path="/documents"
+            element={<DocumentCenter />}
+          />
         </Route>
+
+        {/* ✅ Fallback 404 */}
         <Route
           path="*"
           element={

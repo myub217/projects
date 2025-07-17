@@ -1,25 +1,32 @@
-<!-- /index.html -->
+<!-- ✅ /index.html – พร้อมใช้งานเต็มระบบ PWA, React, Tailwind, DaisyUI, Meta SEO -->
+
 <!DOCTYPE html>
-<html lang="en" data-theme="business">
+<html lang="th" data-theme="business">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" href="/images/logo.svg" type="image/svg+xml" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0d1117" />
 
+    <!-- ✅ PWA Manifest & Icons -->
     <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="apple-touch-icon" href="/images/icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/images/icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/images/icons/icon-512x512.png" />
 
+    <!-- ✅ SEO Metadata -->
     <meta name="description" content="JP Visual & Docs: Interactive Secure Visualization & PDF Toolkit" />
     <meta name="keywords" content="JP Visual, Document Security, PDF, React, Visualization, PWA" />
+    <meta name="author" content="JP Visual & Docs Team" />
+    <meta name="robots" content="index, follow" />
 
+    <!-- ✅ Title -->
     <title>JP Visual & Docs</title>
   </head>
 
   <body>
     <div id="root"></div>
 
-    <!-- main app entry -->
+    <!-- ✅ App Entry -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

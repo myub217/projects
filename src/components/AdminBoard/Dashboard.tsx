@@ -2,7 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import apiClient from '@/api/apiClient';
-import { FaUsers, FaUserPlus, FaServer, FaExclamationCircle, FaChartBar, FaClipboard } from 'react-icons/fa';
+import {
+  FaUsers,
+  FaUserPlus,
+  FaServer,
+  FaExclamationCircle,
+  FaChartBar,
+  FaClipboard,
+} from 'react-icons/fa';
 
 interface StatItem {
   id: number;
@@ -23,24 +30,22 @@ const StatCard: React.FC<StatCardProps> = ({
   bgColor = 'bg-primary',
 }) => (
   <article
-    className={`flex items-center gap-4 rounded-xl p-5 shadow-lg text-white select-none ${bgColor} transition-transform transform hover:scale-[1.03]`}
+    className={`flex items-center gap-4 rounded-2xl p-4 sm:p-5 shadow-md sm:shadow-lg text-white ${bgColor} transition-transform hover:scale-[1.02] duration-200`}
     role="region"
     aria-label={`${title} statistic`}
     tabIndex={0}
   >
-    {icon && (
-      <div
-        className="flex h-12 w-12 items-center justify-center rounded-lg bg-white/25 text-2xl"
-        aria-hidden="true"
-      >
-        {icon}
-      </div>
-    )}
+    <div
+      className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/25 text-xl sm:text-2xl"
+      aria-hidden="true"
+    >
+      {icon}
+    </div>
     <div className="flex flex-col">
-      <h3 className="text-sm font-semibold opacity-90">{title}</h3>
-      <p className="text-3xl font-extrabold mt-1">{value}</p>
+      <h3 className="text-xs sm:text-sm font-semibold opacity-90">{title}</h3>
+      <p className="text-2xl sm:text-3xl font-extrabold mt-1">{value}</p>
       {description && (
-        <p className="mt-1 text-xs opacity-75 leading-tight">{description}</p>
+        <p className="mt-1 text-[10px] sm:text-xs opacity-75 leading-tight">{description}</p>
       )}
     </div>
   </article>
@@ -48,6 +53,8 @@ const StatCard: React.FC<StatCardProps> = ({
 
 export default function Dashboard() {
   const [userCount, setUserCount] = useState<number | null>(null);
+  const [newUsersToday, setNewUsersToday] = useState<number | null>(null);
+  const [serverLoad, setServerLoad] = useState<string>('⏳');
   const [errorCount, setErrorCount] = useState<number | null>(null);
 
   const loggingEnabled = import.meta.env.VITE_ENABLE_LOGGING === 'true';
@@ -58,11 +65,15 @@ export default function Dashboard() {
       .getStats()
       .then((res) => {
         setUserCount(res.userCount ?? 0);
+        setNewUsersToday(res.newUsersToday ?? 0);
+        setServerLoad(res.serverLoad ?? '0%');
         setErrorCount(res.errorCount ?? 0);
       })
       .catch((err) => {
         console.error('❌ Error loading stats:', err);
         setUserCount(0);
+        setNewUsersToday(0);
+        setServerLoad('0%');
         setErrorCount(0);
       });
   }, []);
@@ -72,14 +83,14 @@ export default function Dashboard() {
       id: 1,
       title: 'ผู้ใช้งานทั้งหมด',
       value: userCount ?? '⏳',
-      description: 'ผู้ใช้งานในเดือนนี้',
+      description: 'ผู้ใช้งานที่มีอยู่ในระบบ',
       icon: <FaUsers />,
       bgColor: 'bg-primary',
     },
     {
       id: 2,
       title: 'ผู้สมัครใหม่',
-      value: 123, // TODO: replace with real data
+      value: newUsersToday ?? '⏳',
       description: 'จำนวนผู้สมัครวันนี้',
       icon: <FaUserPlus />,
       bgColor: 'bg-secondary',
@@ -87,7 +98,7 @@ export default function Dashboard() {
     {
       id: 3,
       title: 'โหลดเซิร์ฟเวอร์',
-      value: '68%', // TODO: fetch from real stats
+      value: serverLoad,
       description: 'การใช้งาน CPU ปัจจุบัน',
       icon: <FaServer />,
       bgColor: 'bg-accent',
@@ -96,7 +107,7 @@ export default function Dashboard() {
       id: 4,
       title: 'ข้อผิดพลาด',
       value: errorCount ?? '⏳',
-      description: 'Error วันนี้',
+      description: 'Error ที่เกิดขึ้นวันนี้',
       icon: <FaExclamationCircle />,
       bgColor: 'bg-error',
     },
@@ -112,7 +123,7 @@ export default function Dashboard() {
       id: 6,
       title: 'Logging',
       value: loggingEnabled ? '✅ เปิดอยู่' : '❌ ปิดอยู่',
-      description: 'ดูจาก VITE_ENABLE_LOGGING',
+      description: 'VITE_ENABLE_LOGGING',
       icon: <FaClipboard />,
       bgColor: loggingEnabled ? 'bg-info' : 'bg-warning',
     },
@@ -121,7 +132,7 @@ export default function Dashboard() {
   return (
     <section
       aria-label="แดชบอร์ดสถิติ"
-      className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"
+      className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 px-2 sm:px-0"
     >
       {stats.map(({ id, ...card }) => (
         <StatCard key={id} {...card} />

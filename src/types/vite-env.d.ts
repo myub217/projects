@@ -1,4 +1,4 @@
-// src/types/vite-env.d.ts
+// ✅ src/types/vite-env.d.ts – เวอร์ชันสมบูรณ์ พร้อมใช้งานจริง
 
 /// <reference types="vite/client" />
 
@@ -7,11 +7,13 @@
  * โดยตัวแปรทั้งหมดจะถูกอ่านจาก `.env` หรือ `vite.config.ts`
  */
 interface ImportMetaEnv {
-  readonly VITE_API_BASE_URL: string;      // URL สำหรับเรียก API หลัก เช่น "https://api.example.com"
-  readonly VITE_APP_TITLE: string;         // ชื่อแอปหรือโปรเจกต์ เช่น "JP Visual & Docs"
-  readonly VITE_ORGANIZATION_NAME?: string; // ชื่อองค์กรเพิ่มเติม (optional)
-  readonly VITE_USE_MOCK_API?: 'true' | 'false'; // ใช้ mock API หรือไม่
-  // เพิ่ม environment variables เพิ่มเติมได้ที่นี่ตามต้องการ
+  readonly VITE_API_BASE_URL: string;             // เช่น "https://api.jpdocs.com"
+  readonly VITE_APP_TITLE: string;                // เช่น "JP Visual & Docs"
+  readonly VITE_ORGANIZATION_NAME?: string;       // เช่น "JP Technologies Co., Ltd."
+  readonly VITE_USE_MOCK_API?: 'true' | 'false';  // ใช้ mock API หรือไม่
+  readonly VITE_APP_ENV?: 'development' | 'production' | 'staging'; // ระบุสภาพแวดล้อม
+  readonly VITE_ENABLE_PWA?: 'true' | 'false';    // เปิดใช้งาน PWA หรือไม่
+  readonly VITE_ANALYTICS_ID?: string;            // เช่น Google Analytics ID
 }
 
 interface ImportMeta {

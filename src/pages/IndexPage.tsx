@@ -1,49 +1,45 @@
-// src/pages/IndexPage.tsx
+// ✅ src/pages/IndexPage.tsx
 
-import React, { useState, useEffect, useCallback } from 'react';
-import Header from '@components/Header';
-import Hero from '@components/Hero';
-import Feature from '@components/Feature';
-import ServicesSection, { Service } from '@components/ServicesSection';
-import About from '@components/About';
-import ReviewsSection from '@components/ReviewsSection';
-import CTASection from '@components/CTASection';
-import Footer from '@components/Footer';
+import React, { useState, useEffect, useCallback } from 'react'
+import Header from '@components/Header'
+import Hero from '@components/Hero'
+import Feature from '@components/Feature'
+import ServicesSection, { Service } from '@components/ServicesSection'
+import About from '@components/About'
+import ReviewsSection from '@components/ReviewsSection'
+import CTASection from '@components/CTASection'
+import Footer from '@components/Footer'
 
 interface IndexPageProps {
-  theme: 'light' | 'dark';
-  toggleTheme: () => void;
+  theme: 'light' | 'dark'
+  toggleTheme: () => void
 }
 
 const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
-  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [selectedService, setSelectedService] = useState<Service | null>(null)
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSelectedService(null);
-    };
-    window.addEventListener('keydown', handleEsc);
-    return () => window.removeEventListener('keydown', handleEsc);
-  }, []);
+      if (e.key === 'Escape') setSelectedService(null)
+    }
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [])
 
   useEffect(() => {
-    document.body.style.overflow = selectedService ? 'hidden' : '';
+    document.body.style.overflow = selectedService ? 'hidden' : ''
     return () => {
-      document.body.style.overflow = '';
-    };
-  }, [selectedService]);
+      document.body.style.overflow = ''
+    }
+  }, [selectedService])
 
   const handleRequestService = useCallback((service: Service) => {
-    setSelectedService(service);
-  }, []);
-
-  const handleThemeToggle = useCallback(() => {
-    toggleTheme();
-  }, [toggleTheme]);
+    setSelectedService(service)
+  }, [])
 
   return (
     <div className="min-h-screen bg-base-100 text-base-content transition-colors duration-500 flex flex-col font-sans">
-      <Header theme={theme} toggleTheme={handleThemeToggle} />
+      <Header theme={theme} toggleTheme={toggleTheme} />
 
       <main
         id="main-content"
@@ -61,11 +57,12 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
 
       <Footer />
 
+      {/* Theme Toggle Button */}
       <button
         type="button"
         aria-label={`สลับเป็นโหมด ${theme === 'light' ? 'มืด' : 'สว่าง'}`}
         title={`สลับเป็นโหมด ${theme === 'light' ? 'มืด' : 'สว่าง'}`}
-        onClick={handleThemeToggle}
+        onClick={toggleTheme}
         className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 bg-base-200 text-base-content p-3 rounded-full shadow-xl backdrop-blur-md transition hover:bg-base-300 dark:bg-neutral dark:text-gray-200 dark:hover:bg-gray-700"
       >
         {theme === 'light' ? (
@@ -79,6 +76,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
         )}
       </button>
 
+      {/* Modal Dialog */}
       {selectedService && (
         <div
           role="dialog"
@@ -127,7 +125,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default IndexPage;
+export default IndexPage

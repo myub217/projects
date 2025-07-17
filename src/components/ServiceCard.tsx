@@ -1,72 +1,56 @@
-// src/components/ServiceCard.tsx
+// ✅ /data/data/com.termux/files/home/projects/projects1/src/components/ServiceCard.tsx
 
-import React from 'react';
-import { Service } from '@/data/servicesData';
-import { FaTag } from 'react-icons/fa';
+import React from 'react'
+import { IconType } from 'react-icons'
 
-interface ServiceCardProps {
-  service: Service;
-  onRequest?: () => void;
-  disabled?: boolean;
+type ServiceCardProps = {
+  icon: IconType
+  title: string
+  description: string
+  link?: string
+  imageUrl?: string
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ service, onRequest, disabled = false }) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({
+  icon: Icon,
+  title,
+  description,
+  link,
+  imageUrl,
+}) => {
   return (
-    <div
-      className={`group flex flex-col overflow-hidden rounded-2xl border border-base-300 bg-base-100 shadow-md transition-all duration-300 hover:shadow-xl ${
-        disabled ? 'opacity-60 grayscale cursor-not-allowed' : 'cursor-pointer'
-      }`}
-      aria-disabled={disabled}
-    >
-      <div className="relative w-full pb-[75%] bg-base-200">
+    <div className="group flex flex-col justify-between h-full bg-base-100 dark:bg-base-300 border border-base-200 dark:border-base-300 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out text-center sm:text-left">
+      {/* Image or Icon */}
+      {imageUrl ? (
         <img
-          src={service.image}
-          alt={service.altText}
-          className="absolute top-0 left-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
+          src={imageUrl}
+          alt={title}
+          className="w-full h-40 sm:h-48 object-cover object-center"
         />
-      </div>
-
-      <div className="flex flex-col justify-between p-4 sm:p-5 h-full">
-        <div className="flex-1">
-          <h3 className="text-lg font-bold text-primary mb-2 leading-tight line-clamp-2">
-            {service.title}
-          </h3>
-          <p className="text-sm text-base-content/80 leading-snug line-clamp-3">
-            {service.description}
-          </p>
+      ) : (
+        <div className="flex items-center justify-center sm:justify-start w-16 h-16 mx-auto sm:mx-0 mt-6 mb-4 rounded-full bg-primary/10 text-primary text-3xl">
+          <Icon />
         </div>
+      )}
 
-        <div className="mt-4 flex items-center justify-between">
-          <span className="inline-flex items-center gap-1 text-sm text-base-content font-medium">
-            <FaTag className="text-base-content/70" />
-            {service.price}
-          </span>
+      {/* Content */}
+      <div className="flex flex-col flex-grow px-6 pb-6 pt-2 sm:pt-0">
+        <h3 className="text-lg sm:text-xl font-bold text-base-content mb-2">{title}</h3>
+        <p className="text-sm sm:text-base text-base-content/80 mb-4 line-clamp-4">{description}</p>
 
-          {!disabled && onRequest && (
-            <button
-              type="button"
-              onClick={onRequest}
-              className="btn btn-sm btn-primary hover:scale-105 transition-transform"
-              aria-label={`ขอใช้บริการ: ${service.title}`}
+        {link && (
+          <div className="mt-auto">
+            <a
+              href={link}
+              className="inline-block text-sm sm:text-base font-medium text-primary hover:text-primary-focus transition duration-200"
             >
-              ขอใช้บริการ
-            </button>
-          )}
-        </div>
-
-        {disabled && service.comingSoonNote && (
-          <p
-            className="mt-3 text-xs italic text-center text-warning animate-pulse"
-            role="note"
-            aria-live="polite"
-          >
-            🚧 {service.comingSoonNote}
-          </p>
+              อ่านเพิ่มเติม →
+            </a>
+          </div>
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ServiceCard;
+export default ServiceCard

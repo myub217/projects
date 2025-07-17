@@ -66,11 +66,11 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ customer, loading = false }
 
   return (
     <div
-      className="flex flex-col justify-between rounded-2xl border border-base-300 bg-base-100 p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:bg-base-200"
+      className="flex flex-col justify-between rounded-2xl border border-base-300 bg-base-100 p-6 shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-xl dark:bg-base-200"
       role="group"
       aria-label={`ลูกค้า: ${customer.name}`}
     >
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <h3 className="text-lg font-bold text-primary truncate">{customer.name}</h3>
         <span
           className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold ${getStatusBadgeStyle(
@@ -83,18 +83,18 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ customer, loading = false }
       </div>
 
       <div className="mt-5 space-y-4 text-sm text-base-content/80">
-        <div className="flex items-start gap-2">
+        <div className="flex items-start gap-3">
           <FaFileAlt className="mt-1 shrink-0 text-blue-500" />
           <p className="leading-snug break-words">
-            <span className="font-semibold">บริการ: </span>
+            <span className="font-semibold">บริการ:</span>{' '}
             {customer.documentTitle || 'จัดการเอกสารทั่วไป'}
           </p>
         </div>
 
-        <div className="flex items-start gap-2">
+        <div className="flex items-start gap-3">
           <FaCalendarCheck className="mt-1 shrink-0 text-teal-500" />
           <p className="leading-snug break-words">
-            <span className="font-semibold">อัปเดตล่าสุด: </span>
+            <span className="font-semibold">อัปเดตล่าสุด:</span>{' '}
             {formatDate(customer.receivedDate)}
           </p>
         </div>

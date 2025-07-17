@@ -48,14 +48,14 @@ const DocumentRoom: React.FC = () => {
   });
 
   return (
-    <section className="w-full max-w-4xl mx-auto space-y-8">
+    <section className="w-full max-w-6xl mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
       {/* 🔍 Search Input */}
       <div className="flex items-center gap-3">
         <FiSearch className="w-5 h-5 text-base-content/60" />
         <input
           type="text"
           placeholder="ค้นหาเอกสาร เช่น สัญญา หรือ ทะเบียน"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full max-w-2xl"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -63,29 +63,32 @@ const DocumentRoom: React.FC = () => {
 
       {/* 📄 Document List */}
       {filtered.length > 0 ? (
-        <div className="grid sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((doc) => (
             <article
               key={doc.id}
-              className="card bg-base-200 text-base-content p-5 rounded-xl shadow-md space-y-3"
+              className="card bg-base-100 shadow-lg transition hover:shadow-xl border border-base-200 dark:border-base-300 rounded-xl p-6 flex flex-col justify-between"
             >
-              <h2 className="text-lg font-semibold">{doc.title}</h2>
-              {doc.description && (
-                <p className="text-sm text-base-content/70">{doc.description}</p>
-              )}
-              {doc.tags && (
-                <div className="flex flex-wrap gap-2 text-xs text-primary/80">
-                  {doc.tags.map((tag) => (
-                    <span key={tag} className="badge badge-outline">{tag}</span>
-                  ))}
-                </div>
-              )}
-              <div className="flex gap-3 pt-3">
+              <div className="space-y-2">
+                <h2 className="text-lg font-semibold text-base-content">{doc.title}</h2>
+                {doc.description && (
+                  <p className="text-sm text-base-content/70">{doc.description}</p>
+                )}
+                {doc.tags && (
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {doc.tags.map((tag) => (
+                      <span key={tag} className="badge badge-outline text-xs">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-4 flex gap-3">
                 <a
                   href={doc.fileUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn-sm btn-primary"
+                  className="btn btn-sm btn-primary flex-1"
                   title="ดูเอกสาร"
                 >
                   <FiEye className="mr-1" />
@@ -94,7 +97,7 @@ const DocumentRoom: React.FC = () => {
                 <a
                   href={doc.fileUrl}
                   download
-                  className="btn btn-sm btn-outline"
+                  className="btn btn-sm btn-outline flex-1"
                   title="ดาวน์โหลดเอกสาร"
                 >
                   <FiDownload className="mr-1" />

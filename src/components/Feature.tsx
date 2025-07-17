@@ -48,12 +48,15 @@ const Feature: React.FC = () => {
           </p>
         </header>
 
-        <div className="mb-8 flex flex-col-reverse items-start justify-between gap-4 sm:flex-row sm:items-center">
+        <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          {/* 🔸 Left Filter */}
           <div className="flex flex-wrap items-center gap-4 text-sm text-zinc-600 dark:text-zinc-300">
-            <FaListUl className="text-base text-zinc-500" />
-            <span>
-              ทั้งหมด <strong>{customers.length}</strong> รายการ
-            </span>
+            <div className="flex items-center gap-2">
+              <FaListUl className="text-base text-zinc-500" />
+              <span>
+                ทั้งหมด <strong>{customers.length}</strong> รายการ
+              </span>
+            </div>
 
             <label className="inline-flex items-center gap-2">
               <FaSortAmountDownAlt />
@@ -69,7 +72,8 @@ const Feature: React.FC = () => {
             </label>
           </div>
 
-          <div className="flex flex-wrap gap-3">
+          {/* 🔹 Right Buttons */}
+          <div className="flex flex-wrap justify-start sm:justify-end gap-3">
             <button
               onClick={() => setShowForm((prev) => !prev)}
               className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white shadow transition hover:bg-blue-700 focus:ring-4 focus:ring-blue-400"
@@ -105,7 +109,7 @@ const Feature: React.FC = () => {
         {showForm ? (
           <div
             id="customer-assessment-form"
-            className="mx-auto max-w-3xl rounded-lg bg-white p-6 shadow-md dark:bg-zinc-900"
+            className="mx-auto max-w-3xl rounded-xl border border-zinc-200 bg-white p-6 shadow-md dark:border-zinc-800 dark:bg-zinc-900"
             aria-live="polite"
             tabIndex={-1}
           >

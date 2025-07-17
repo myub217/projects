@@ -16,7 +16,7 @@ interface Repo {
 const repoName = import.meta.env.VITE_GITHUB_REPO_NAME || 'myub217/projects';
 const githubUsername = repoName.split('/')[0];
 
-function RepoList() {
+export default function RepoList() {
   const [repos, setRepos] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -68,19 +68,18 @@ function RepoList() {
         GitHub Repositories
       </h2>
 
-      {/* 🔍 Search & Filter */}
-      <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <input
           type="search"
           placeholder="🔎 ค้นหา repository..."
-          className="input input-bordered w-full sm:w-1/2 rounded-md border border-border bg-base-100 text-foreground placeholder:text-muted px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary transition"
+          className="input input-bordered w-full md:w-1/2 rounded-md bg-base-100 text-foreground px-4 py-2"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           aria-label="ค้นหา repository"
           spellCheck={false}
         />
         <select
-          className="select select-bordered w-full sm:w-44 rounded-md border border-border bg-base-100 text-foreground px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary transition"
+          className="select select-bordered w-full md:w-48 rounded-md bg-base-100 text-foreground px-4 py-2"
           value={languageFilter}
           onChange={(e) => setLanguageFilter(e.target.value)}
           aria-label="กรองตามภาษาโปรแกรม"
@@ -94,9 +93,7 @@ function RepoList() {
       </div>
 
       {loading && (
-        <p className="animate-pulse text-center text-muted">
-          🔄 กำลังโหลดข้อมูล...
-        </p>
+        <p className="animate-pulse text-center text-muted">🔄 กำลังโหลดข้อมูล...</p>
       )}
 
       {error && (
@@ -107,49 +104,39 @@ function RepoList() {
         <p className="text-center text-muted">📭 ไม่พบ repository ที่ตรงกับเงื่อนไข</p>
       )}
 
-      {/* 📃 Repo List */}
-      <ul className="space-y-4">
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredRepos.map((repo) => (
           <li
             key={repo.id}
-            className="rounded-xl border border-border p-5 shadow-sm bg-base-100 dark:bg-base-200 transition hover:shadow-md"
+            className="rounded-xl border border-border p-5 bg-base-100 shadow-md hover:shadow-lg transition-all"
           >
             <a
               href={repo.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-lg font-semibold text-primary hover:underline transition"
+              className="text-lg font-semibold text-primary hover:underline break-words"
             >
               {repo.name}
             </a>
             {repo.description && (
-              <p className="mt-1 text-sm text-muted line-clamp-3">
+              <p className="mt-2 text-sm text-muted line-clamp-3">
                 {repo.description}
               </p>
             )}
-            <div className="mt-2 flex flex-wrap items-center gap-4 text-sm text-muted">
+            <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-muted">
               {repo.language && (
                 <span className="flex items-center gap-1">
-                  <span role="img" aria-label="language">
-                    🧠
-                  </span>{' '}
-                  {repo.language}
+                  🧠 {repo.language}
                 </span>
               )}
               {typeof repo.stargazers_count === 'number' && (
                 <span className="flex items-center gap-1">
-                  <span role="img" aria-label="stars">
-                    ⭐
-                  </span>{' '}
-                  {repo.stargazers_count}
+                  ⭐ {repo.stargazers_count}
                 </span>
               )}
               {typeof repo.forks_count === 'number' && (
                 <span className="flex items-center gap-1">
-                  <span role="img" aria-label="forks">
-                    🍴
-                  </span>{' '}
-                  {repo.forks_count}
+                  🍴 {repo.forks_count}
                 </span>
               )}
             </div>
@@ -159,5 +146,3 @@ function RepoList() {
     </section>
   );
 }
-
-export default RepoList;

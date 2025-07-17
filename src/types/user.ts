@@ -1,4 +1,4 @@
-// src/types/user.ts
+// ✅ src/types/user.ts – เวอร์ชันสมบูรณ์ พร้อมใช้งานจริง
 
 // 🔹 Role ของผู้ใช้งานในระบบ JP - Visual & Docs
 export type UserRole = 'admin' | 'staff' | 'auditor' | 'customer';

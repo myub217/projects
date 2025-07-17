@@ -1,9 +1,17 @@
-// src/components/SecretRoom/SystemCheckCard.tsx
+// ✅ src/components/SecretRoom/SystemCheckCard.tsx – เวอร์ชันสมบูรณ์ พร้อมใช้งานจริง
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+type SystemItem = {
+  label: string;
+  value: string;
+  highlight?: boolean;
+};
 
 const SystemCheckCard: React.FC = () => {
-  const systemStatus = [
+  const [lastUpdated, setLastUpdated] = useState<string>('กำลังโหลด...');
+
+  const systemStatus: SystemItem[] = [
     { label: 'สถานะ API (JP-Docs)', value: 'ตอบสนองภายใน 123ms', highlight: true },
     { label: 'Token ยืนยันตัวตน', value: 'ยังไม่หมดอายุ' },
     { label: 'ฐานข้อมูลลูกค้า', value: 'MongoDB Atlas (JP-Vault)' },
@@ -11,26 +19,50 @@ const SystemCheckCard: React.FC = () => {
     { label: 'CDN เอกสาร', value: 'Cache เปิดใช้งาน' },
   ];
 
-  return (
-    <div className="bg-base-100 rounded-xl p-4 sm:p-6 shadow-sm border border-border w-full h-full">
-      <h2 className="text-xl font-semibold text-foreground mb-4">
-        🧭 สถานะระบบ JP - Visual & Docs
-      </h2>
+  useEffect(() => {
+    const now = new Date();
+    const formatted = now.toLocaleTimeString('th-TH', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+    setLastUpdated(`อัปเดตล่าสุด: ${formatted}`);
+  }, []);
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
+  return (
+    <section
+      role="status"
+      aria-label="System Health"
+      className="bg-base-100 rounded-2xl p-5 sm:p-6 shadow-md border border-border w-full max-w-4xl mx-auto transition-all duration-300"
+    >
+      <header className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <h2 className="text-lg sm:text-xl font-semibold text-primary-content">
+          🧭 สถานะระบบ JP - Visual & Docs
+        </h2>
+        <span className="text-xs text-base-content/60 mt-2 sm:mt-0">{lastUpdated}</span>
+      </header>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-sm">
         {systemStatus.map(({ label, value, highlight }, idx) => (
-          <div key={idx} className="flex items-start sm:items-center gap-2">
-            <span className="text-success font-bold">✓</span>
-            <div>
-              <span>{label} </span>
-              <span className={highlight ? 'text-primary font-semibold' : 'text-base-content'}>
+          <div
+            key={idx}
+            className="flex items-start gap-3 bg-base-200 rounded-lg p-3 hover:bg-base-300 transition"
+          >
+            <span className="text-success text-lg">✓</span>
+            <div className="space-y-0.5">
+              <p className="font-medium text-base-content">{label}</p>
+              <p
+                className={`text-sm ${
+                  highlight ? 'text-primary font-semibold' : 'text-base-content/80'
+                }`}
+              >
                 {value}
-              </span>
+              </p>
             </div>
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

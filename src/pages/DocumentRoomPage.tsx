@@ -1,4 +1,4 @@
-// src/pages/DocumentRoomPage.tsx
+// ✅ src/pages/DocumentRoomPage.tsx – เวอร์ชันสมบูรณ์พร้อมใช้งานจริง รองรับ Theme + Responsive
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -25,10 +25,10 @@ const DocumentRoomPage: React.FC = () => {
   }, [navigate]);
 
   const toggleTheme = () => {
-    const next = theme === 'light' ? 'dark' : 'light';
-    setTheme(next);
-    localStorage.setItem('theme', next);
-    document.documentElement.setAttribute('data-theme', next);
+    const nextTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(nextTheme);
+    localStorage.setItem('theme', nextTheme);
+    document.documentElement.setAttribute('data-theme', nextTheme);
   };
 
   const handleLogout = () => {
@@ -37,31 +37,31 @@ const DocumentRoomPage: React.FC = () => {
   };
 
   return (
-    <main className="min-h-screen bg-base-100 text-base-content px-4 py-8 sm:px-6 lg:px-10 transition-colors duration-300">
-      <section className="max-w-6xl mx-auto space-y-10">
+    <main className="min-h-screen bg-base-100 text-base-content px-4 py-8 sm:px-6 lg:px-12 transition-colors duration-300">
+      <section className="max-w-7xl mx-auto space-y-12">
         {/* 🔹 Header */}
-        <header className="text-center">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
+        <header className="text-center space-y-3">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary">
             📄 ห้องขอเอกสารธุรกิจ – JP Visual
           </h1>
-          <p className="text-sm sm:text-base text-muted-content">
-            สำหรับขอเอกสารที่ออกโดยบริษัท เช่น หนังสือรับรอง, รายการจดทะเบียน, สัญญาทางธุรกิจ ฯลฯ
+          <p className="text-sm sm:text-base text-muted-content max-w-2xl mx-auto">
+            สำหรับขอเอกสารที่ออกโดยบริษัท เช่น หนังสือรับรอง รายการจดทะเบียน สัญญาทางธุรกิจ ฯลฯ
           </p>
         </header>
 
         {/* 🔸 Document Section */}
         <DocumentRoom />
 
-        {/* 🔸 Footer */}
-        <footer className="pt-10 flex flex-col sm:flex-row justify-between items-center gap-4 border-t border-base-300 text-xs text-muted-content">
+        {/* 🔻 Footer */}
+        <footer className="pt-10 border-t border-base-300 text-xs text-muted-content flex flex-col sm:flex-row justify-between items-center gap-4">
           <p>
-            © {new Date().getFullYear()} JP Visual & Docs — ข้อมูลภายใน ใช้เฉพาะผู้ได้รับอนุญาต
+            © {new Date().getFullYear()} JP Visual & Docs — สำหรับผู้ได้รับสิทธิ์เท่านั้น
           </p>
           <div className="flex items-center gap-4">
             <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
             <button
-              className="btn btn-sm btn-error"
               onClick={handleLogout}
+              className="btn btn-sm btn-error"
               aria-label="Logout"
             >
               🚪 ออกจากระบบ
