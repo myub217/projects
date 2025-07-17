@@ -1,6 +1,6 @@
-// ✅ src/main.tsx – Entry Point สำหรับ JP Visual & Docs
+// src/main.tsx
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
@@ -13,66 +13,31 @@ import ProtectedRoute from '@components/ProtectedRoute'
 import DocumentCenter from '@features/DocumentCenter/DocumentCenter'
 import AdminPage from '@pages/AdminPage'
 
-const THEME_KEY = 'app-theme'
-export type ThemeMode = 'light' | 'dark'
+const App = () => (
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<IndexPage theme="light" toggleTheme={() => {}} />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/secret" element={<SecretRoomPage />} />
+        <Route path="/documents" element={<DocumentCenter />} />
+        <Route path="/admin" element={<AdminPage />} />
+      </Route>
+      <Route
+        path="*"
+        element={
+          <div className="flex items-center justify-center min-h-screen text-xl font-semibold text-error">
+            404 Not Found
+          </div>
+        }
+      />
+    </Routes>
+  </BrowserRouter>
+)
 
-const App: React.FC = () => {
-  const [theme, setTheme] = useState<ThemeMode>('light')
-
-  const applyTheme = useCallback((mode: ThemeMode) => {
-    const root = document.documentElement
-    const isDark = mode === 'dark'
-    root.classList.toggle('dark', isDark)
-    root.setAttribute('data-theme', isDark ? 'business-dark' : 'business')
-    localStorage.setItem(THEME_KEY, mode)
-  }, [])
-
-  useEffect(() => {
-    const stored = localStorage.getItem(THEME_KEY) as ThemeMode | null
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    const initialTheme: ThemeMode = stored || (prefersDark ? 'dark' : 'light')
-    setTheme(initialTheme)
-    applyTheme(initialTheme)
-  }, [applyTheme])
-
-  const toggleTheme = useCallback(() => {
-    setTheme((prev) => {
-      const next: ThemeMode = prev === 'light' ? 'dark' : 'light'
-      applyTheme(next)
-      return next
-    })
-  }, [applyTheme])
-
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="/secret" element={<SecretRoomPage theme={theme} toggleTheme={toggleTheme} />} />
-          <Route path="/documents" element={<DocumentCenter />} />
-          <Route path="/admin" element={<AdminPage />} />
-        </Route>
-        <Route
-          path="*"
-          element={
-            <div className="p-8 text-center text-xl text-error">
-              404 - ไม่พบหน้าที่คุณร้องขอ
-            </div>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
-  )
-}
-
-const rootEl = document.getElementById('root')
-if (rootEl) {
-  ReactDOM.createRoot(rootEl).render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  )
+const root = document.getElementById('root')
+if (root) {
+  ReactDOM.createRoot(root).render(<App />)
 } else {
-  console.error('⚠️ Root element not found: #root')
+  console.error('Root #root element not found')
 }

@@ -1,37 +1,22 @@
 // src/components/ProtectedRoute.tsx
 
-import React, { useEffect, useState } from 'react'
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import React from 'react'
+import { Navigate, Outlet } from 'react-router-dom'
 
-type Role = 'admin' | 'user'
+const ProtectedRoute: React.FC = () => {
+  const user = localStorage.getItem('loggedInUser')
+  const role = localStorage.getItem('userRole')
 
-type ProtectedRouteProps = {
-  allowedRoles?: Role[]
-  redirectTo?: string
-}
+  if (!user || !role) {
+    return <Navigate to="/login" replace />
+  }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
-  allowedRoles = ['admin', 'user'],
-  redirectTo = '/login',
-}) => {
-  const location = useLocation()
-  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null)
+  // อนุญาตเฉพาะ role 'user' หรือ 'admin'
+  if (role !== 'user' && role !== 'admin') {
+    return <Navigate to="/login" replace />
+  }
 
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    const authRole = localStorage.getItem('authRole') as Role | null
-
-    const valid = !!token && !!authRole && allowedRoles.includes(authRole)
-    setIsAuthorized(valid)
-  }, [allowedRoles])
-
-  if (isAuthorized === null) return null
-
-  return isAuthorized ? (
-    <Outlet />
-  ) : (
-    <Navigate to={redirectTo} replace state={{ from: location }} />
-  )
+  return <Outlet />
 }
 
 export default ProtectedRoute

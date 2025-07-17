@@ -1,76 +1,91 @@
 // src/pages/Documents/DocumentFormPage.tsx
+import React, { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+interface DocumentForm {
+  title: string
+  content: string
+}
 
 const DocumentFormPage: React.FC = () => {
+  const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const [file, setFile] = useState<File | null>(null)
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
+  const [form, setForm] = useState<DocumentForm>({
+    title: '',
+    content: '',
+  })
+  const [error, setError] = useState('')
 
-  const handleUpload = async (e: React.FormEvent) => {
+  useEffect(() => {
+    if (id) {
+      // fetch document detail by id (simulate)
+      // แก้ไขเป็นเรียก API จริงได้
+      const fetchDocument = () => {
+        const mockDoc = {
+          title: 'ตัวอย่างเอกสาร',
+          content: 'เนื้อหาเอกสารที่นี่...',
+        }
+        setForm(mockDoc)
+      }
+      fetchDocument()
+    }
+  }, [id])
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    setError('')
+    if (!form.title || !form.content) {
+      setError('กรุณากรอกข้อมูลให้ครบ')
+      return
+    }
 
-    if (!file) return alert('กรุณาเลือกไฟล์ PDF')
+    // Save logic here (API call)
 
-    const formData = new FormData()
-    formData.append('file', file)
-    formData.append('title', title)
-    formData.append('description', description)
-
-    // 🔸 Replace with real API later
-    console.log('[UPLOAD]:', { file, title, description })
-    alert('✔️ อัปโหลดสำเร็จ (mock)')
+    // Redirect back to list
     navigate('/documents')
   }
 
   return (
-    <div className="min-h-screen container py-12">
-      <h1 className="text-3xl font-bold text-primary mb-8 text-center">
-        อัปโหลดเอกสารใหม่
-      </h1>
-
-      <form onSubmit={handleUpload} className="doc-upload space-y-6">
+    <div className="p-6 max-w-3xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6">{id ? 'แก้ไขเอกสาร' : 'สร้างเอกสารใหม่'}</h1>
+      {error && <div className="mb-4 text-error font-semibold">{error}</div>}
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label>ชื่อเอกสาร</label>
+          <label className="label">
+            <span className="label-text">ชื่อเอกสาร</span>
+          </label>
           <input
             type="text"
-            placeholder="ระบุชื่อเอกสาร"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            name="title"
+            value={form.title}
+            onChange={handleChange}
+            className="input input-bordered w-full"
             required
           />
         </div>
-
         <div>
-          <label>คำอธิบายเอกสาร</label>
+          <label className="label">
+            <span className="label-text">เนื้อหาเอกสาร</span>
+          </label>
           <textarea
-            rows={3}
-            placeholder="สรุปเนื้อหาโดยย่อ"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label>เลือกไฟล์ PDF</label>
-          <input
-            type="file"
-            accept="application/pdf"
-            onChange={(e) => {
-              const selected = e.target.files?.[0]
-              setFile(selected || null)
-            }}
+            name="content"
+            value={form.content}
+            onChange={handleChange}
+            className="textarea textarea-bordered w-full"
+            rows={8}
             required
           />
         </div>
-
-        <div className="flex justify-end">
-          <button type="submit" className="btn btn-primary">
-            📤 อัปโหลดเอกสาร
-          </button>
-        </div>
+        <button type="submit" className="btn btn-primary">
+          {id ? 'บันทึกการแก้ไข' : 'สร้างเอกสาร'}
+        </button>
       </form>
     </div>
   )

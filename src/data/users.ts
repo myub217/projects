@@ -1,23 +1,16 @@
-// ✅ src/data/users.ts – Static user data สำหรับระบบ Auth/Role base
-
-export type UserRole = 'admin' | 'user';
+// src/data/users.ts
 
 export interface User {
-  passwordHash: string; // SHA-256 hashed password
-  role: UserRole;
+  passwordHash: string
+  role: 'admin' | 'user'
 }
 
-/**
- * 🔐 Static user map with SHA-256 hashed passwords
- * Roles:
- * - 'admin2517' = admin
- * - All others = user
- */
 export const users: Record<string, User> = {
   admin2517: {
     passwordHash: '46c883f81adcbad298233e4fc0b3d84c66a4ad686d2af7153f888663f6c1d84b',
     role: 'admin',
   },
+
   JPKYETONKEY201: {
     passwordHash: '22becba9ac05f53d1dea3afb1cf9e7c71096598e3e138b678746ee33e53e3111',
     role: 'user',
@@ -62,4 +55,4 @@ export const users: Record<string, User> = {
     passwordHash: 'd5154a7beb5c6f9948a8dffdc9c6748e47ce9a40be9744e2296123d7e1347f88',
     role: 'user',
   },
-};
+}

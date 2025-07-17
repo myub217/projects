@@ -1,4 +1,4 @@
-// ✅ src/components/Header.tsx
+// src/components/Header.tsx
 
 import React from 'react';
 import { Link } from 'react-scroll';
@@ -85,6 +85,7 @@ const Header: React.FC = () => {
           onClick={() => setMenuOpen(!menuOpen)}
           className="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary"
           aria-label="Toggle Menu"
+          aria-expanded={menuOpen}
         >
           <FaBars className="h-5 w-5" />
         </button>
@@ -92,7 +93,7 @@ const Header: React.FC = () => {
 
       {/* 🔹 Mobile Menu */}
       {menuOpen && (
-        <div className="sm:hidden px-4 pb-4 pt-2 bg-base-100 dark:bg-gray-900 border-t border-base-300 dark:border-gray-700 space-y-3">
+        <nav className="sm:hidden px-4 pb-4 pt-2 bg-base-100 dark:bg-gray-900 border-t border-base-300 dark:border-gray-700 space-y-3">
           <Link
             to="services"
             smooth
@@ -141,7 +142,7 @@ const Header: React.FC = () => {
               <span>095-663-6615</span>
             </a>
           </div>
-        </div>
+        </nav>
       )}
     </header>
   );

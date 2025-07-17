@@ -1,92 +1,56 @@
-// ✅ src/components/AdminBoard/UserTable.tsx – ตารางผู้ใช้ (เชื่อมต่อ API จริง)
-
-import React, { useEffect, useState } from 'react';
-import apiClient from '@/api/apiClient';
+// src/components/AdminBoard/UserTable.tsx
+import React from 'react'
 
 interface User {
-  id: number;
-  name: string;
-  role: string;
+  id: string
+  username: string
+  role: string
+  status: 'active' | 'inactive'
 }
 
-export default function UserTable() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+interface UserTableProps {
+  users: User[]
+}
 
-  useEffect(() => {
-    apiClient
-      .get('/api/admin/users')
-      .then((res) => {
-        setUsers(res.data ?? []);
-        setError(null);
-      })
-      .catch((err) => {
-        console.error('❌ Failed to load users:', err);
-        setError('เกิดข้อผิดพลาดในการโหลดข้อมูลผู้ใช้');
-        setUsers([]);
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
+const UserTable: React.FC<UserTableProps> = ({ users }) => {
   return (
-    <section
-      className="w-full max-w-7xl mx-auto bg-base-100 dark:bg-base-200 border border-border rounded-2xl p-6 shadow-lg"
-      aria-label="ตารางรายชื่อผู้ใช้"
-    >
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <div>
-          <h2 className="text-2xl font-bold text-primary flex items-center gap-2">
-            <span role="img" aria-label="user icon">👥</span>
-            ระบบจัดการผู้ใช้
-          </h2>
-          <p className="text-sm text-muted-content mt-1">
-            ตรวจสอบและจัดการบัญชีผู้ใช้ภายในระบบ
-          </p>
-        </div>
-      </div>
-
-      {loading ? (
-        <p className="text-center text-gray-500 dark:text-gray-400 animate-pulse">
-          🔄 กำลังโหลดข้อมูลผู้ใช้...
-        </p>
-      ) : error ? (
-        <p className="text-center text-red-600 dark:text-red-400 font-medium">
-          {error}
-        </p>
-      ) : users.length === 0 ? (
-        <p className="text-center text-gray-500 dark:text-gray-400">
-          📭 ยังไม่มีผู้ใช้ในระบบ
-        </p>
-      ) : (
-        <div className="overflow-auto rounded-lg border border-base-200">
-          <table
-            className="w-full min-w-[340px] sm:min-w-[600px] table-auto text-sm sm:text-base"
-            role="table"
-            aria-label="User Table"
-          >
-            <thead>
-              <tr className="bg-base-200 dark:bg-base-300 text-base-content">
-                <th className="px-4 py-3 text-left font-semibold whitespace-nowrap">#</th>
-                <th className="px-4 py-3 text-left font-semibold whitespace-nowrap">ชื่อ</th>
-                <th className="px-4 py-3 text-left font-semibold whitespace-nowrap">บทบาท</th>
+    <div className="overflow-x-auto p-4">
+      <table className="table w-full table-zebra">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.length === 0 ? (
+            <tr>
+              <td colSpan={3} className="text-center py-4">
+                ไม่มีข้อมูลผู้ใช้
+              </td>
+            </tr>
+          ) : (
+            users.map(({ id, username, role, status }) => (
+              <tr key={id}>
+                <td>{username}</td>
+                <td>{role}</td>
+                <td>
+                  <span
+                    className={`badge ${
+                      status === 'active' ? 'badge-success' : 'badge-warning'
+                    }`}
+                  >
+                    {status}
+                  </span>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {users.map((u) => (
-                <tr
-                  key={u.id}
-                  className="even:bg-base-100 dark:even:bg-base-300 hover:bg-base-200 dark:hover:bg-base-100 transition-colors"
-                >
-                  <td className="px-4 py-3 whitespace-nowrap font-mono text-sm">{u.id}</td>
-                  <td className="px-4 py-3 whitespace-nowrap">{u.name}</td>
-                  <td className="px-4 py-3 whitespace-nowrap capitalize">{u.role}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </section>
-  );
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  )
 }
+
+export default UserTable

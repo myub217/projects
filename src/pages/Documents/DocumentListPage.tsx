@@ -1,76 +1,40 @@
-// ✅ src/pages/Documents/DocumentListPage.tsx – เวอร์ชันสมบูรณ์ Responsive พร้อมใช้งานจริง
-
+// src/pages/Documents/DocumentListPage.tsx
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { documentsList } from '@data/documentsList';
+import { documentsList, DocumentItem } from '@data/documentsList';
 
-type DocumentItem = {
-  id: string;
-  title: string;
-  description?: string;
-  url: string;
-  uploadedAt: string;
+const DocumentCard: React.FC<{ doc: DocumentItem }> = ({ doc }) => {
+  return (
+    <div className="border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-200">
+      <h3 className="text-lg font-semibold mb-1">{doc.title}</h3>
+      <p className="text-sm text-muted mb-2">{doc.description}</p>
+      <p className="text-xs text-gray-500 mb-2">
+        หมวดหมู่: {doc.category || '-'} | ผู้จัดทำ: {doc.author || '-'}
+      </p>
+      <p className="text-xs text-gray-400 mb-4">
+        อัปเดตล่าสุด: {doc.updatedAt ? new Date(doc.updatedAt).toLocaleDateString() : '-'}
+      </p>
+      <a
+        href={doc.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="btn btn-primary btn-sm"
+      >
+        ดาวน์โหลด
+      </a>
+    </div>
+  );
 };
 
 const DocumentListPage: React.FC = () => {
-  const docs: DocumentItem[] = documentsList;
-
   return (
-    <main className="min-h-screen bg-base-100 text-base-content px-4 py-8 md:py-12 max-w-7xl mx-auto">
-      {/* 🔺 Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-primary">
-          📄 รายการเอกสารทั้งหมด
-        </h1>
-        <Link
-          to="/documents/new"
-          className="btn btn-primary btn-outline self-end md:self-auto"
-        >
-          ➕ เพิ่มเอกสารใหม่
-        </Link>
-      </div>
-
-      {/* 📑 List */}
+    <section className="max-w-6xl mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">รายการเอกสารธุรกิจ</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {docs && docs.length > 0 ? (
-          docs.map((doc) => (
-            <div
-              key={doc.id}
-              className="card bg-base-200 shadow-lg p-5 rounded-xl transition-transform hover:scale-[1.01]"
-            >
-              <div className="flex flex-col gap-2">
-                <h2 className="text-lg md:text-xl font-semibold text-primary">
-                  {doc.title}
-                </h2>
-                {doc.description && (
-                  <p className="text-sm text-base-content/70">{doc.description}</p>
-                )}
-                <p className="text-xs text-muted">
-                  📅 อัปโหลด: {doc.uploadedAt}
-                </p>
-                <div className="flex flex-wrap gap-2 pt-3">
-                  <a
-                    href={doc.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-sm btn-outline"
-                  >
-                    👁️‍🗨️ ดูเอกสาร
-                  </a>
-                  <a href={doc.url} download className="btn btn-sm btn-primary">
-                    ⬇️ ดาวน์โหลด
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className="col-span-full text-center py-12 text-error text-lg">
-            ❌ ไม่มีรายการเอกสาร
-          </div>
-        )}
+        {documentsList.map((doc) => (
+          <DocumentCard key={doc.id} doc={doc} />
+        ))}
       </div>
-    </main>
+    </section>
   );
 };
 

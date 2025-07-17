@@ -6,8 +6,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "tsx index.ts",       
-    "serve": "vite preview"       
+    "start": "tsx index.ts",
+    "serve": "vite preview"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
@@ -45,7 +45,9 @@
     "@types/react": "^18.2.72",
     "@types/react-dom": "^18.2.21",
     "@vitejs/plugin-react": "^4.2.1",
-    "tsx": "^4.20.3",                    
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "tsx": "^4.20.3",
     "typescript": "^5.4.5",
     "vite": "^7.0.4",
     "vite-plugin-pwa": "^1.0.1",

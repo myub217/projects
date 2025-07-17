@@ -207,13 +207,12 @@ export default config;
 
 ## ⚙️ Vite Config (Full)
 ```ts
-// vite.config.mts
-
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import path from 'node:path'
+import fs from 'fs'
 
 export default defineConfig({
   plugins: [
@@ -234,6 +233,22 @@ export default defineConfig({
         { src: 'public/images', dest: '' },
       ],
     }),
+    {
+      name: 'mock-api',
+      configureServer(server) {
+        server.middlewares.use('/api/repos', (req, res) => {
+          const filePath = path.resolve(__dirname, 'src/data/repos.json')
+          if (fs.existsSync(filePath)) {
+            const data = fs.readFileSync(filePath, 'utf-8')
+            res.setHeader('Content-Type', 'application/json')
+            res.end(data)
+          } else {
+            res.statusCode = 404
+            res.end(JSON.stringify({ error: 'Not found' }))
+          }
+        })
+      },
+    },
   ],
   resolve: {
     alias: {
@@ -252,6 +267,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
+      // ✅ ใช้ API จริงตอนรัน Express
       '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,
@@ -269,89 +285,48 @@ export default defineConfig({
 
 ## 🧩 main.tsx (Full)
 ```tsx
-// ✅ src/main.tsx – Entry Point สำหรับ JP Visual & Docs
+// src/main.tsx
 
-import React, { useState, useEffect, useCallback } from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import '@/styles/global.css';
+import '@/styles/global.css'
 
-import IndexPage from '@pages/IndexPage';
-import LoginPage from '@pages/LoginPage';
-import SecretRoomPage from '@pages/SecretRoomPage';
-import ProtectedRoute from '@components/ProtectedRoute';
-import DocumentCenter from '@features/DocumentCenter/DocumentCenter';
+import IndexPage from '@pages/IndexPage'
+import LoginPage from '@pages/LoginPage'
+import SecretRoomPage from '@pages/SecretRoomPage'
+import ProtectedRoute from '@components/ProtectedRoute'
+import DocumentCenter from '@features/DocumentCenter/DocumentCenter'
+import AdminPage from '@pages/AdminPage'
 
-const THEME_KEY = 'app-theme';
-export type ThemeMode = 'light' | 'dark';
+const App = () => (
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<IndexPage theme="light" toggleTheme={() => {}} />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/secret" element={<SecretRoomPage />} />
+        <Route path="/documents" element={<DocumentCenter />} />
+        <Route path="/admin" element={<AdminPage />} />
+      </Route>
+      <Route
+        path="*"
+        element={
+          <div className="flex items-center justify-center min-h-screen text-xl font-semibold text-error">
+            404 Not Found
+          </div>
+        }
+      />
+    </Routes>
+  </BrowserRouter>
+)
 
-const App: React.FC = () => {
-  const [theme, setTheme] = useState<ThemeMode>('light');
-
-  const applyTheme = useCallback((mode: ThemeMode) => {
-    const root = document.documentElement;
-    const isDark = mode === 'dark';
-    root.classList.toggle('dark', isDark);
-    root.setAttribute('data-theme', isDark ? 'business-dark' : 'business');
-    localStorage.setItem(THEME_KEY, mode);
-  }, []);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(THEME_KEY) as ThemeMode | null;
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme: ThemeMode =
-      stored === 'dark' || (!stored && prefersDark) ? 'dark' : 'light';
-
-    setTheme(initialTheme);
-    applyTheme(initialTheme);
-  }, [applyTheme]);
-
-  const toggleTheme = useCallback(() => {
-    setTheme((prev) => {
-      const next: ThemeMode = prev === 'light' ? 'dark' : 'light';
-      applyTheme(next);
-      return next;
-    });
-  }, [applyTheme]);
-
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={<IndexPage theme={theme} toggleTheme={toggleTheme} />}
-        />
-        <Route path="/login" element={<LoginPage />} />
-        <Route element={<ProtectedRoute />}>
-          <Route
-            path="/secret"
-            element={<SecretRoomPage theme={theme} toggleTheme={toggleTheme} />}
-          />
-          <Route path="/documents" element={<DocumentCenter />} />
-        </Route>
-        <Route
-          path="*"
-          element={
-            <div className="p-8 text-center text-xl text-error">
-              404 - ไม่พบหน้าที่คุณร้องขอ
-            </div>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
-  );
-};
-
-const rootEl = document.getElementById('root');
-if (rootEl) {
-  ReactDOM.createRoot(rootEl).render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  );
+const root = document.getElementById('root')
+if (root) {
+  ReactDOM.createRoot(root).render(<App />)
 } else {
-  console.error('⚠️ Root element not found: #root');
+  console.error('Root #root element not found')
 }
 ```
 
@@ -381,10 +356,9 @@ if (rootEl) {
 │   └── images
 │       ├── review
 │       └── services
+├── setup.sh
 ├── src
 │   ├── api
-│   │   ├── apiAdmin.ts
-│   │   ├── apiClient.ts
 │   │   ├── auth.ts
 │   │   └── document.ts
 │   ├── assets
@@ -413,9 +387,9 @@ if (rootEl) {
 │   │   ├── ServiceCard.tsx
 │   │   └── ServicesSection.tsx
 │   ├── config
+│   │   ├── BusinessConfigDocumentRequest.tsx
+│   │   ├── adminConfig.ts
 │   │   └── contact.ts
-│   ├── constants
-│   │   └── env.ts
 │   ├── data
 │   │   ├── approvedCustomers.ts
 │   │   ├── documentsList.ts
@@ -429,7 +403,6 @@ if (rootEl) {
 │   ├── main.tsx
 │   ├── pages
 │   │   ├── AdminPage.tsx
-│   │   ├── DocumentRoomPage.tsx
 │   │   ├── Documents
 │   │   ├── IndexPage.tsx
 │   │   ├── LoginPage.tsx
@@ -455,112 +428,17 @@ if (rootEl) {
 ├── ต้องอยู่ที่
 └── ส่ง
 
-27 directories, 70 files
+26 directories, 69 files
 
 ```
 
 ## 📌 Final Note
-
-# ✅ สถานะโปรเจกต์: `modular-onepage@0.1.0`
-
-## ✅ เสร็จสมบูรณ์แล้ว
-
-### 🔧 Stack + โครงสร้าง
-- [x] Vite 7 + React 18 + TypeScript
-- [x] TailwindCSS 3 + DaisyUI 4 (`business`/`business-dark`)
-- [x] Routing + ProtectedRoute
-- [x] Express Server (`server/index.ts`)
-- [x] PWA แบบ `injectManifest` + `sw.ts`
-- [x] Static Assets พร้อมใช้งาน (SVG, WebP)
-- [x] Hero Section + framer-motion
-- [x] Document Viewer (PDF) + Dropzone Upload
-- [x] ENV config (`dotenv`) ทำงานครบ
-
-### 🔌 Dependencies ครบ (via `pnpm list`)
-- React Ecosystem, Tailwind, DaisyUI, Express
-- react-pdf, file-saver, workbox, etc.
-- devDeps: types, vite plugins, tsx, typescript
-
-### 🛠️ Build System ทำงานครบ
-- [x] `vite build`
-- [x] `vite preview` (http://localhost:4173)
-- [x] `pnpm start` → Express (http://localhost:3000)
-- [x] PWA sw.js build สมบูรณ์
-
----
-
-## ⏭️ สิ่งที่จะทำต่อ
-
-### 🔐 ระบบ Authentication
-- [ ] API `/api/auth/login` ส่ง JWT
-- [ ] Client เก็บ token (localStorage/cookie)
-- [ ] Hook: `useAuth`, `useLogin`, `useLogout`
-- [ ] Guard `/api/admin/*` ด้วย JWT middleware
-- [ ] Redirect + ProtectedRoute
-
-### 📄 Document Center
-- [ ] แสดงรายการไฟล์จาก backend
-- [ ] API สำหรับ upload → `/api/admin/upload`
-- [ ] ปุ่ม Download (ผ่าน FileSaver หรือ link)
-- [ ] Split public/private document
-
-### ⚙️ Admin Tool
-- [ ] สร้าง UI ที่ `/admin`
-- [ ] จัดการไฟล์ (upload/delete)
-- [ ] Protected route ด้วย JWT
-
-### 🚀 Deployment & Optimization
-- [ ] Gzip/Brotli + Static caching headers
-- [ ] Workbox runtime caching strategy
-- [ ] Deploy: Surge / Vercel / CF Pages
-- [ ] ตรวจสอบ Offline Mode
-
----
-
-## 📁 Suggested File Structure (ต่อยอด)
-plaintext
-src/
-├─ api/
-│  ├─ apiAdmin.ts
-│  └─ apiAuth.ts     ← [new]
-├─ features/
-│  └─ AuthFeature.tsx  ← [new]
-├─ pages/
-│  ├─ DocumentsPage.tsx
-│  ├─ AdminPage.tsx     ← [new]
-│  └─ LoginPage.tsx     ← [new]
-├─ hooks/
-│  └─ useAuth.ts        ← [new]
-└─ sw.ts
-
-
----
-
-☑️ ถัดไปให้เริ่มที่:
-
-[ ] apiAuth.ts → สร้าง /api/auth/login (JWT)
-
-[ ] LoginPage.tsx + form login
-
-[ ] useAuth.ts → ใช้กับ ProtectedRoute
-
-[ ] ทดสอบ /admin + token auth
-
-
-🧠 พร้อมทำงานต่อ Dev-to-Dev
-สั่งแก้/ขยาย/เพิ่ม component ได้
-ทันที
-## 🧭 Business Overview
-- บริการทั้งหมด 9 รายการ (ตั้งแต่เอกสารจนถึง AI + branding)
-- จุดแข็งคือ “จริง ไม่แต่งเรื่อง” + ระบบปลอดภัย + ทีมเฉพาะทาง
-- เน้นติดต่อผ่านช่องทางตรง (LINE/FB/Messenger)
-
 🧠 คำสั่งโหมด Dev Partner สำหรับ AI
 
 คุณคือ Dev Partner ที่ทำงานร่วมกับผมในการพัฒนาโปรเจกต์นี้อย่างแม่นยำและรวดเร็ว โดยมีหน้าที่ดังนี้
 
 รับรู้โครงสร้างโปรเจกต์ทั้งหมด เช่น โฟลเดอร์, config, main.tsx และไฟล์สำคัญอื่น ๆ ที่ผมให้ไว้
-
+# CONFIG: ใช้ไฟล์นี้ตลอด -> src/pages/SecretRoomPage.tsx
 ใช้ข้อมูลทั้งหมดเป็นบริบทหลักตลอดการสนทนา
 
 ตอบแบบ Dev-to-Dev: ตรงประเด็น สั้น กระชับ ไม่อธิบายเยิ่นเย้อ

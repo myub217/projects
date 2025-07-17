@@ -1,22 +1,22 @@
-// ✅ src/components/Hero.tsx
+// src/components/Hero.tsx
 
-import React from 'react';
-import { FaLock, FaDoorOpen, FaLine, FaFacebookMessenger } from 'react-icons/fa';
-import { motion } from 'framer-motion';
-import heroBg from '@/assets/hero.webp';
+import React from 'react'
+import { FaLock, FaDoorOpen, FaLine, FaFacebookMessenger } from 'react-icons/fa'
+import { motion } from 'framer-motion'
+import heroBg from '@/assets/hero.webp'
 
 type HeroProps = {
-  buttonText?: string;
-};
+  buttonText?: string
+}
 
 const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระบบลับ' }) => {
   const handleLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    window.location.href = '/login';
-  };
+    e.preventDefault()
+    window.location.href = '/login'
+  }
 
-  const LINE_URL = 'https://lin.ee/BSkkcTR';
-  const MESSENGER_URL = 'https://m.me/JPVisualDocs';
+  const LINE_URL = 'https://lin.ee/BSkkcTR'
+  const MESSENGER_URL = 'https://m.me/JPVisualDocs'
 
   return (
     <section
@@ -56,6 +56,7 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
           className="mt-8 inline-flex items-center justify-center gap-3 rounded-full bg-white/90 px-6 py-3 sm:px-8 sm:py-4 font-semibold text-gray-900 shadow-xl backdrop-blur-lg transition-all duration-300 hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-gray-300"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
+          aria-label="เข้าสู่ระบบ"
         >
           <FaLock className="text-xl sm:text-2xl" />
           <span className="text-base sm:text-lg">{buttonText}</span>
@@ -78,6 +79,7 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
           className="rounded-full text-green-600 hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-400 focus-visible:ring-offset-2 transition-transform"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
+          aria-label="ติดต่อผ่าน LINE"
         >
           <FaLine className="h-6 w-6 sm:h-7 sm:w-7" />
         </motion.a>
@@ -90,12 +92,13 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
           className="rounded-full text-blue-600 hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 transition-transform"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
+          aria-label="ติดต่อผ่าน Messenger"
         >
           <FaFacebookMessenger className="h-6 w-6 sm:h-7 sm:w-7" />
         </motion.a>
       </motion.div>
     </section>
-  );
-};
+  )
+}
 
-export default Hero;
+export default Hero

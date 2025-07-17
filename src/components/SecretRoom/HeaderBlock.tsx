@@ -1,28 +1,28 @@
-// ✅ src/components/SecretRoom/HeaderBlock.tsx – เวอร์ชันสมบูรณ์ พร้อมใช้งานจริง
+// src/components/SecretRoom/HeaderBlock.tsx
 
-import React from 'react';
+import React from 'react'
+import { FaUserShield } from 'react-icons/fa'
 
-const HeaderBlock: React.FC = () => {
+interface HeaderBlockProps {
+  title: string
+  subtitle?: string
+  icon?: React.ReactNode
+}
+
+const HeaderBlock: React.FC<HeaderBlockProps> = ({ title, subtitle, icon }) => {
   return (
-    <header className="w-full text-center sm:text-left mb-6 sm:mb-10 px-3 sm:px-0">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 sm:gap-4">
-        <div className="space-y-1.5">
-          <h1 className="text-2xl sm:text-4xl font-heading font-bold text-primary leading-snug tracking-tight">
-            🛡️ เข้าถึงพื้นที่ลับ (Secret Room)
-          </h1>
-          <p className="text-sm sm:text-base text-base-content/70 max-w-2xl">
-            พื้นที่นี้สำหรับผู้มีสิทธิ์เข้าถึงเท่านั้น การดำเนินการทั้งหมดมีการบันทึกเพื่อตรวจสอบความปลอดภัยอย่างละเอียด
-          </p>
-        </div>
-
-        <div className="flex justify-center sm:justify-end">
-          <span className="badge badge-primary text-xs sm:text-sm px-4 py-1.5 rounded-full shadow-md uppercase tracking-wide">
-            Secure Zone
-          </span>
-        </div>
-      </div>
+    <header className="flex flex-col items-center md:items-start space-y-2 md:space-y-3 mb-6 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <h1 className="text-4xl font-extrabold flex items-center gap-3 text-secondary">
+        {icon ?? <FaUserShield size={36} />}
+        {title}
+      </h1>
+      {subtitle && (
+        <p className="text-center md:text-left text-base leading-relaxed text-neutral-content/80 max-w-prose">
+          {subtitle}
+        </p>
+      )}
     </header>
-  );
-};
+  )
+}
 
-export default HeaderBlock;
+export default HeaderBlock

@@ -1,4 +1,4 @@
-// ✅ src/components/SecretRoom/ThemeToggleButton.tsx – เวอร์ชันสมบูรณ์พร้อมใช้งานจริง
+// src/components/SecretRoom/ThemeToggleButton.tsx
 
 import React, { useEffect, useState } from 'react';
 
@@ -16,6 +16,7 @@ const ThemeToggleButton: React.FC<ThemeToggleButtonProps> = ({
   useEffect(() => {
     if (externalTheme) {
       setTheme(externalTheme);
+      document.documentElement.setAttribute('data-theme', externalTheme);
       return;
     }
 

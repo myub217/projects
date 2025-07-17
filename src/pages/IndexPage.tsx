@@ -1,4 +1,4 @@
-// ✅ src/pages/IndexPage.tsx
+// src/pages/IndexPage.tsx – ปรับปรุง UI รองรับ Desktop/Mobile
 
 import React, { useState, useEffect, useCallback } from 'react'
 import Header from '@components/Header'
@@ -45,7 +45,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
         id="main-content"
         role="main"
         aria-label="เนื้อหาหลักของเว็บไซต์"
-        className="flex-grow space-y-16 sm:space-y-20 md:space-y-24 px-4 sm:px-6 lg:px-8"
+        className="flex-grow space-y-16 sm:space-y-20 md:space-y-24 px-4 sm:px-6 lg:px-16 max-w-screen-xl mx-auto"
       >
         <Hero />
         <Feature />

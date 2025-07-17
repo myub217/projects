@@ -1,10 +1,9 @@
-// ✅ vite.config.mts — Full Config: Vite + React + PWA (injectManifest) + Static Copy + Alias + Proxy
-
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { VitePWA } from 'vite-plugin-pwa';
-import { viteStaticCopy } from 'vite-plugin-static-copy';
-import path from 'node:path';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { VitePWA } from 'vite-plugin-pwa'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
+import path from 'node:path'
+import fs from 'fs'
 
 export default defineConfig({
   plugins: [
@@ -25,6 +24,22 @@ export default defineConfig({
         { src: 'public/images', dest: '' },
       ],
     }),
+    {
+      name: 'mock-api',
+      configureServer(server) {
+        server.middlewares.use('/api/repos', (req, res) => {
+          const filePath = path.resolve(__dirname, 'src/data/repos.json')
+          if (fs.existsSync(filePath)) {
+            const data = fs.readFileSync(filePath, 'utf-8')
+            res.setHeader('Content-Type', 'application/json')
+            res.end(data)
+          } else {
+            res.statusCode = 404
+            res.end(JSON.stringify({ error: 'Not found' }))
+          }
+        })
+      },
+    },
   ],
   resolve: {
     alias: {
@@ -43,6 +58,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
+      // ✅ ใช้ API จริงตอนรัน Express
       '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,
@@ -55,4 +71,4 @@ export default defineConfig({
     emptyOutDir: true,
     target: 'esnext',
   },
-});
+})
