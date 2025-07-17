@@ -1,3 +1,5 @@
+// src/components/AdminBoard/UserTable.tsx
+
 import React, { useEffect, useState } from 'react';
 import apiClient from '@/api/apiClient';
 
@@ -20,7 +22,7 @@ export default function UserTable() {
         setError(null);
       })
       .catch((err) => {
-        console.error('Failed to load users:', err);
+        console.error('❌ Failed to load users:', err);
         setError('เกิดข้อผิดพลาดในการโหลดข้อมูลผู้ใช้');
         setUsers([]);
       })
@@ -28,57 +30,56 @@ export default function UserTable() {
   }, []);
 
   return (
-    <div className="overflow-x-auto rounded-xl border p-4 shadow-sm bg-white dark:bg-gray-900">
-      <h2 className="mb-3 text-xl font-bold text-gray-800 dark:text-gray-100">
-        👥 User Management
+    <section
+      className="overflow-x-auto rounded-2xl border border-border bg-white dark:bg-base-200 p-6 shadow-lg max-w-7xl mx-auto"
+      aria-label="ตารางรายชื่อผู้ใช้"
+    >
+      <h2 className="mb-6 text-2xl font-bold text-primary flex items-center gap-2">
+        <span role="img" aria-label="user icon">👥</span>
+        ระบบจัดการผู้ใช้
       </h2>
 
       {loading ? (
-        <p className="text-gray-500 dark:text-gray-400">Loading users...</p>
+        <p className="text-center text-gray-500 dark:text-gray-400 animate-pulse">
+          🔄 กำลังโหลดข้อมูลผู้ใช้...
+        </p>
       ) : error ? (
-        <p className="text-red-600 dark:text-red-400">{error}</p>
+        <p className="text-center text-red-600 dark:text-red-400 font-medium">
+          {error}
+        </p>
       ) : users.length === 0 ? (
-        <p className="text-gray-500 dark:text-gray-400">No users found.</p>
+        <p className="text-center text-gray-500 dark:text-gray-400">
+          📭 ยังไม่มีผู้ใช้ในระบบ
+        </p>
       ) : (
-        <table
-          className="w-full min-w-[500px] table-auto text-sm"
-          role="table"
-          aria-label="User List"
-        >
-          <thead>
-            <tr className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200">
-              <th className="px-4 py-2 text-left font-semibold" scope="col">
-                ID
-              </th>
-              <th className="px-4 py-2 text-left font-semibold" scope="col">
-                Name
-              </th>
-              <th className="px-4 py-2 text-left font-semibold" scope="col">
-                Role
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((u) => (
-              <tr
-                key={u.id}
-                className="border-t even:bg-gray-50 dark:even:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
-                role="row"
-              >
-                <td className="px-4 py-2" role="cell">
-                  {u.id}
-                </td>
-                <td className="px-4 py-2" role="cell">
-                  {u.name}
-                </td>
-                <td className="px-4 py-2" role="cell">
-                  {u.role}
-                </td>
+        <div className="overflow-auto rounded-lg">
+          <table
+            className="w-full min-w-[340px] md:min-w-[600px] table-auto text-sm sm:text-base"
+            role="table"
+            aria-label="User Table"
+          >
+            <thead>
+              <tr className="bg-base-100 dark:bg-base-300 text-base-content">
+                <th className="px-4 py-3 text-left font-semibold">#</th>
+                <th className="px-4 py-3 text-left font-semibold">ชื่อ</th>
+                <th className="px-4 py-3 text-left font-semibold">บทบาท</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {users.map((u) => (
+                <tr
+                  key={u.id}
+                  className="even:bg-base-100 dark:even:bg-base-300 hover:bg-base-200 dark:hover:bg-base-100 transition-colors"
+                >
+                  <td className="px-4 py-3 whitespace-nowrap text-sm font-mono">{u.id}</td>
+                  <td className="px-4 py-3">{u.name}</td>
+                  <td className="px-4 py-3 capitalize">{u.role}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
-    </div>
+    </section>
   );
 }

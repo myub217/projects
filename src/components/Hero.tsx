@@ -4,7 +4,6 @@ import React from 'react';
 import { FaLock, FaDoorOpen, FaLine, FaFacebookMessenger } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import heroBg from '@/assets/hero.webp';
-import signature from '@/assets/signature.webp';
 
 type HeroProps = {
   buttonText?: string;
@@ -16,39 +15,45 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
     window.location.href = '/login';
   };
 
+  const LINE_URL = 'https://lin.ee/BSkkcTR';
+  const MESSENGER_URL = 'https://m.me/JPVisualDocs';
+
   return (
     <section
       id="hero"
       role="banner"
       aria-label="ส่วนแนะนำหน้าแรก"
       tabIndex={-1}
-      className="relative flex min-h-[576px] items-center justify-center overflow-hidden bg-gray-900 px-6 pb-20 pt-24 text-white sm:min-h-screen sm:px-12 sm:pt-32"
+      className="relative flex min-h-[576px] items-center justify-center overflow-hidden px-6 pb-20 pt-24 text-white sm:min-h-screen sm:px-12 sm:pt-32"
       style={{
-        backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.3), rgba(0,0,0,0.08)), url(${heroBg})`,
+        backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0.2)), url(${heroBg})`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center top',
-        boxShadow: 'inset 0 0 100px rgba(0, 0, 0, 0.5)',
-        filter: 'brightness(1.15) contrast(1.1)',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        filter: 'brightness(1.05) contrast(1.15)',
       }}
     >
-      {/* 🧠 กล่องข้อความกลางจอ */}
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-0" />
+
+      {/* Hero Content */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, delay: 0.3 }}
-        className="z-10 max-w-3xl text-center"
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="z-10 w-full max-w-2xl text-center"
       >
-        <h1 className="mb-4 text-3xl font-bold leading-tight sm:text-4xl md:text-5xl">
-          บริการเอกสารครบวงจร <span className="text-primary">ที่คุณเชื่อใจได้</span>
+        <h1 className="text-3xl sm:text-5xl font-extrabold leading-tight text-white drop-shadow-md">
+          JP Visual & Docs
         </h1>
-        <p className="mb-8 text-base text-white/80 sm:text-lg">
-          ไม่ว่าจะเป็นยื่นวีซ่า ทำบัตร แก้เอกสาร หรือระบบหลังบ้าน — เราดูแลครบ จบในที่เดียว
+        <p className="mt-4 text-base sm:text-lg text-white/85">
+          บริการจัดการงานหลังบ้านอย่างมืออาชีพ ครบทุกด้านตั้งแต่เอกสาร ธุรกิจ ไปจนถึงการตลาด
         </p>
 
-        {/* ✅ ปุ่มเข้าสู่ระบบลับ */}
         <motion.button
           onClick={handleLoginClick}
-          className="inline-flex items-center gap-3 rounded-full bg-white/90 px-6 py-3 font-semibold text-gray-900 shadow-xl backdrop-blur transition hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-gray-400"
+          type="button"
+          className="mt-8 inline-flex items-center gap-3 rounded-full bg-white/90 px-6 py-3 font-semibold text-gray-900 shadow-2xl backdrop-blur-lg transition-all duration-300 hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-gray-300"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
         >
@@ -56,49 +61,20 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
           <span className="text-base sm:text-lg">{buttonText}</span>
           <FaDoorOpen className="text-xl opacity-70" />
         </motion.button>
-
-        {/* ✅ ลายเซ็น (ด้านล่าง) */}
-        <motion.div
-          className="mt-8 flex justify-center"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, delay: 0.5 }}
-        >
-          <img
-            src={signature}
-            alt="ลายเซ็นเจ้าป่า"
-            loading="lazy"
-            draggable={false}
-            className="w-28 sm:w-40 pointer-events-none select-none"
-            style={{
-              filter: `
-                brightness(2.2)
-                contrast(1.9)
-                drop-shadow(0 0 3px rgba(255,255,255,0.5))
-                drop-shadow(0 0 4px rgba(255,255,255,0.25))
-              `,
-            }}
-            onError={(e) => {
-              (e.currentTarget as HTMLImageElement).style.display = 'none';
-            }}
-          />
-        </motion.div>
       </motion.div>
 
-      {/* ✅ Contact Action Group */}
+      {/* Contact Shortcut Floating */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.5 }}
-        className="absolute bottom-4 right-4 z-50 flex items-center gap-3 rounded-xl bg-white/80 px-3 py-2 shadow-lg backdrop-blur-md dark:bg-gray-900/70 sm:gap-4 sm:px-4 sm:py-3"
+        transition={{ delay: 0.9, duration: 0.6 }}
+        className="absolute bottom-4 right-4 z-20 flex items-center gap-3 rounded-xl bg-white/90 px-3 py-2 shadow-xl backdrop-blur-md dark:bg-gray-900/70 sm:bottom-6 sm:right-6 sm:gap-4 sm:px-4 sm:py-3"
       >
         <motion.a
-          href="https://lin.ee/BSkkcTR"
+          href={LINE_URL}
           target="_blank"
           rel="noopener noreferrer nofollow"
-          role="link"
-          aria-label="ติดต่อผ่าน LINE"
-          title="LINE @462FQTFC"
+          title="ติดต่อผ่าน LINE"
           className="rounded-full text-green-600 transition-transform hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-400 focus-visible:ring-offset-2"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
@@ -107,12 +83,10 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
         </motion.a>
 
         <motion.a
-          href="https://m.me/JPVisualDocs"
+          href={MESSENGER_URL}
           target="_blank"
           rel="noopener noreferrer nofollow"
-          role="link"
-          aria-label="ติดต่อผ่าน Messenger"
-          title="Facebook Messenger"
+          title="ติดต่อผ่าน Messenger"
           className="rounded-full text-blue-600 transition-transform hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}

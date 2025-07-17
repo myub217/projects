@@ -4,7 +4,7 @@ export interface CustomerApproval {
   id: string;
   name: string;
   documentTitle: string; // ชื่องานหรือเอกสารที่ดูแล
-  receivedDate: string;  // วันที่ได้รับมอบหมายงาน
+  receivedDate: string;  // วันที่ได้รับมอบหมายงาน ISO 8601 format
   status: 'เสร็จสมบูรณ์' | 'กำลังดำเนินการ';
 }
 

@@ -12,7 +12,6 @@ const Feature: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [sortOrder, setSortOrder] = useState<SortOrder>('ล่าสุด');
 
-  // ไม่มีหมวดหมู่ใน data จึงใช้ข้อมูลทั้งหมดตรงๆ
   const customers = approvedCustomers;
 
   const sortedCustomers = useMemo(() => {
@@ -36,11 +35,11 @@ const Feature: React.FC = () => {
       aria-labelledby="feature-heading"
       className="bg-gradient-to-br from-base-200 to-base-300 py-20 transition-colors dark:from-zinc-900 dark:to-zinc-800"
     >
-      <div className="mx-auto max-w-7xl px-6 sm:px-10">
-        <header className="mx-auto mb-12 max-w-xl text-center">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <header className="mx-auto mb-12 max-w-2xl text-center">
           <h2
             id="feature-heading"
-            className="text-3xl font-extrabold text-black dark:text-white sm:text-4xl"
+            className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl"
           >
             📁 งานที่เราได้ดูแลให้ลูกค้าแล้ว
           </h2>
@@ -49,12 +48,14 @@ const Feature: React.FC = () => {
           </p>
         </header>
 
-        <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-3 text-sm text-zinc-600 dark:text-zinc-300">
+        <div className="mb-8 flex flex-col-reverse items-start justify-between gap-4 sm:flex-row sm:items-center">
+          <div className="flex flex-wrap items-center gap-4 text-sm text-zinc-600 dark:text-zinc-300">
             <FaListUl className="text-base text-zinc-500" />
-            ทั้งหมด <span className="font-semibold">{customers.length}</span> รายการ
+            <span>
+              ทั้งหมด <strong>{customers.length}</strong> รายการ
+            </span>
 
-            <label className="ml-4 inline-flex items-center gap-2">
+            <label className="inline-flex items-center gap-2">
               <FaSortAmountDownAlt />
               <select
                 value={sortOrder}
@@ -104,7 +105,7 @@ const Feature: React.FC = () => {
         {showForm ? (
           <div
             id="customer-assessment-form"
-            className="mx-auto max-w-xl"
+            className="mx-auto max-w-3xl rounded-lg bg-white p-6 shadow-md dark:bg-zinc-900"
             aria-live="polite"
             tabIndex={-1}
           >
@@ -113,7 +114,7 @@ const Feature: React.FC = () => {
         ) : (
           <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {sortedCustomers.map((customer) => (
-              <li key={customer.id}>
+              <li key={customer.id} className="h-full">
                 <CustomerCard customer={customer} />
               </li>
             ))}

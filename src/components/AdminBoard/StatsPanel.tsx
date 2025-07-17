@@ -1,3 +1,5 @@
+// src/components/StatsPanel.tsx
+
 import React, { useEffect, useState } from 'react';
 import apiClient from '@/api/apiClient';
 
@@ -26,7 +28,7 @@ export default function StatsPanel() {
         setSessions(res.sessionCount ?? 0);
       })
       .catch((err) => {
-        console.error('Failed to fetch stats:', err);
+        console.error('❌ Failed to fetch stats:', err);
         setUsers(0);
         setErrors(0);
         setSessions(0);
@@ -36,68 +38,75 @@ export default function StatsPanel() {
   const stats: StatItem[] = [
     {
       id: 1,
-      label: '👥 Users',
+      label: '👥 ผู้ใช้งาน',
       value: users ?? '⏳',
-      icon: '👥',
+      icon: <span aria-hidden="true">👥</span>,
       bgColor: 'bg-primary',
     },
     {
       id: 2,
-      label: '⚡ Active Sessions',
+      label: '⚡ เซสชัน',
       value: sessions ?? '⏳',
-      icon: '⚡',
+      icon: <span aria-hidden="true">⚡</span>,
       bgColor: 'bg-secondary',
     },
     {
       id: 3,
-      label: '🖥️ Server Load',
-      value: '75%', // TODO: fetch real-time CPU/memory later
-      icon: '🖥️',
+      label: '🖥️ โหลดเซิร์ฟเวอร์',
+      value: '75%',
+      icon: <span aria-hidden="true">🖥️</span>,
       bgColor: 'bg-accent',
     },
     {
       id: 4,
-      label: '❌ Errors Today',
+      label: '❌ ข้อผิดพลาด',
       value: errors ?? '⏳',
-      icon: '❌',
+      icon: <span aria-hidden="true">❌</span>,
       bgColor: 'bg-error',
     },
     {
       id: 5,
       label: '📈 Analytics',
-      value: analyticsUrl ? 'Enabled' : 'Disabled',
-      icon: '📈',
+      value: analyticsUrl ? '✅ เปิดใช้งาน' : '❌ ปิดอยู่',
+      icon: <span aria-hidden="true">📈</span>,
       bgColor: analyticsUrl ? 'bg-success' : 'bg-warning',
     },
     {
       id: 6,
       label: '📝 Logging',
-      value: loggingEnabled ? 'On' : 'Off',
-      icon: '📝',
+      value: loggingEnabled ? '✅ On' : '❌ Off',
+      icon: <span aria-hidden="true">📝</span>,
       bgColor: loggingEnabled ? 'bg-info' : 'bg-base-300',
     },
   ];
 
   return (
     <section
-      aria-label="Statistics Panel"
-      className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
+      aria-label="สถิติระบบ"
+      className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 p-4 md:p-8 max-w-7xl mx-auto"
     >
       {stats.map(({ id, label, value, icon, bgColor }) => (
         <div
           key={id}
-          className={`flex items-center space-x-4 rounded-lg p-4 shadow text-white ${bgColor}`}
+          className={`${bgColor} flex items-center gap-4 rounded-xl p-6 shadow-lg text-white transition-transform hover:scale-[1.03]`}
           role="region"
           aria-labelledby={`stat-label-${id}`}
         >
-          <div className="text-3xl" aria-hidden="true">
+          <div className="text-4xl" aria-hidden="true">
             {icon}
           </div>
           <div>
-            <p id={`stat-label-${id}`} className="text-sm opacity-75">
+            <p
+              id={`stat-label-${id}`}
+              className="text-sm font-medium opacity-90 tracking-wide"
+            >
               {label}
             </p>
-            <p className="text-xl font-bold" aria-live="polite">
+            <p
+              className="text-3xl font-extrabold mt-1 leading-none"
+              aria-live="polite"
+              aria-atomic="true"
+            >
               {value}
             </p>
           </div>

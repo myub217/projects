@@ -1,82 +1,55 @@
 // src/components/CTASection.tsx
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { FaFacebook, FaFacebookMessenger, FaLine } from 'react-icons/fa';
 
-interface CTASectionProps {
-  heading?: string;
-  subheading?: string;
-  buttonText?: string;
-  buttonHref?: string;
-}
+const CTASection: React.FC = () => (
+  <section
+    id="cta"
+    className="bg-primary text-white py-20 px-4 sm:px-6 lg:px-8 text-center"
+  >
+    <div className="max-w-4xl mx-auto space-y-8">
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight font-heading">
+        พร้อมเริ่มใช้งานหรือยัง?
+      </h2>
+      <p className="text-base sm:text-lg md:text-xl text-white/90">
+        ติดต่อเราวันนี้ เพื่อรับคำปรึกษาฟรีและข้อเสนอสุดพิเศษจากทีมงานมืออาชีพของเรา
+      </p>
 
-const CTASection: React.FC<CTASectionProps> = ({
-  heading = 'บริการของเราพร้อมดูแลคุณ',
-  subheading = 'เลือกบริการที่ตรงใจ แล้วเริ่มต้นความสะดวกกับทีมงานมืออาชีพ',
-  buttonText = 'สำรวจบริการทั้งหมด',
-  buttonHref = '#services',
-}) => {
-  const navigate = useNavigate();
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (buttonHref.startsWith('#')) {
-      const id = buttonHref.replace('#', '');
-      const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
-      navigate(buttonHref);
-    }
-  };
-
-  return (
-    <section
-      role="region"
-      aria-labelledby="cta-section"
-      className="relative overflow-hidden bg-gradient-to-r from-primary to-secondary py-24 text-center text-white"
-    >
-      {/* 🎯 BG Circles */}
-      <div className="pointer-events-none absolute -left-16 -top-16 h-48 w-48 rounded-full bg-white opacity-10 blur-3xl"></div>
-      <div className="pointer-events-none absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-white opacity-10 blur-3xl"></div>
-
-      {/* 💬 Content */}
-      <div className="relative z-10 mx-auto max-w-3xl px-6 sm:px-8 lg:px-12">
-        <h2
-          id="cta-section"
-          className="mb-6 text-4xl font-extrabold drop-shadow-md sm:text-5xl"
+      <div className="flex flex-wrap justify-center items-center gap-4 pt-4">
+        <a
+          href="#contact"
+          className="inline-block rounded-lg bg-white text-primary font-semibold px-6 py-3 text-sm sm:text-base shadow hover:bg-gray-100 hover:text-primary-focus transition focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
         >
-          {heading}
-        </h2>
-        <p className="mx-auto mb-10 max-w-xl text-xl opacity-95 drop-shadow-sm sm:text-2xl">
-          {subheading}
-        </p>
-
-        <button
-          type="button"
-          onClick={handleClick}
-          className="inline-flex items-center justify-center gap-3 rounded-full bg-white px-8 py-4 text-lg font-bold text-primary shadow-xl transition hover:scale-105 hover:bg-gray-100 hover:shadow-2xl focus:outline-none focus-visible:ring-4 focus-visible:ring-white focus-visible:ring-offset-2 active:scale-95"
-          aria-label={buttonText}
+          ติดต่อเรา
+        </a>
+        <a
+          href="https://line.me/R/ti/p/@jpdocs"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-lg border border-white text-white font-semibold px-6 py-3 text-sm sm:text-base hover:bg-white hover:text-primary transition focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
         >
-          {buttonText}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            focusable="false"
-          >
-            <path d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </button>
+          <FaLine /> LINE: @462fqrfc
+        </a>
+        <a
+          href="https://www.facebook.com/profile.php?id=61573307616115"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-lg border border-white text-white font-semibold px-6 py-3 text-sm sm:text-base hover:bg-white hover:text-primary transition focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
+        >
+          <FaFacebook /> Facebook
+        </a>
+        <a
+          href="https://m.me/61573307616115?hash=AbZf0L5cSZ8XvIYw&source=qr_link_share"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-lg border border-white text-white font-semibold px-6 py-3 text-sm sm:text-base hover:bg-white hover:text-primary transition focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
+        >
+          <FaFacebookMessenger /> Messenger
+        </a>
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default CTASection;

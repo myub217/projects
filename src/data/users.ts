@@ -7,7 +7,11 @@ export interface User {
   role: UserRole;
 }
 
-// แปลง JSON ดิบมาใส่ role เองตามกลุ่มที่เรารู้ (admin2517 เป็น admin ส่วนที่เหลือ user)
+/**
+ * 🔐 Static user map with hashed passwords
+ * Password hash: SHA-256 (pre-hashed, do not store raw passwords)
+ * Role mapping: 'admin2517' = admin, others = user
+ */
 export const users: Record<string, User> = {
   admin2517: {
     passwordHash: '46c883f81adcbad298233e4fc0b3d84c66a4ad686d2af7153f888663f6c1d84b',

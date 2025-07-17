@@ -1,95 +1,25 @@
-<!doctype html>
-<html lang="th" dir="ltr">
+<!-- /index.html -->
+<!DOCTYPE html>
+<html lang="en" data-theme="business">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
-    />
-    <title>Applicationlubmobile | ครบวงจรเอกสาร วีซ่า และการตลาด</title>
+    <link rel="icon" href="/images/logo.svg" type="image/svg+xml" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d1117" />
 
-    <!-- Preconnect & DNS Prefetch -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-
-    <!-- Google Fonts: Kanit -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Favicon -->
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-
-    <!-- Primary Meta -->
-    <meta
-      name="description"
-      content="บริการเอกสาร วีซ่า สินเชื่อ การตลาด ออกแบบโปรไฟล์ และแปลเอกสารครบวงจร โดยเจ้าป่า"
-    />
-    <meta
-      name="keywords"
-      content="เจ้าป่า, Applicationlubmobile, วีซ่า, สินเชื่อ, เอกสาร, โปรไฟล์, แปลเอกสาร, ออกแบบ, การตลาด, ไทย"
-    />
-    <meta name="author" content="เจ้าป่า" />
-    <meta name="theme-color" content="#1e40af" />
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://applicationlubmobile.vercel.app/" />
-    <meta property="og:title" content="Applicationlubmobile" />
-    <meta property="og:description" content="ที่เดียวจบ ครบทุกเรื่องเอกสาร วีซ่า และการตลาด" />
-    <meta property="og:image" content="/og-image.webp" />
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://applicationlubmobile.vercel.app/" />
-    <meta name="twitter:title" content="Applicationlubmobile" />
-    <meta name="twitter:description" content="บริการครบวงจรด้านเอกสาร วีซ่า การตลาด และออกแบบ" />
-    <meta name="twitter:image" content="/og-image.webp" />
-
-    <!-- Web App / PWA -->
     <link rel="manifest" href="/manifest.webmanifest" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" href="/images/icons/icon-192x192.png" />
 
-    <!-- Dark Mode & Theme Init -->
-    <script>
-      (() => {
-        try {
-          const theme = localStorage.getItem('app-theme') || 'lofi';
-          document.documentElement.setAttribute('data-theme', theme);
-          document.documentElement.classList.toggle('dark', theme.includes('dark'));
-        } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'lofi');
-          console.warn('Theme fallback:', e);
-        }
-      })();
-    </script>
+    <meta name="description" content="JP Visual & Docs: Interactive Secure Visualization & PDF Toolkit" />
+    <meta name="keywords" content="JP Visual, Document Security, PDF, React, Visualization, PWA" />
 
-    <!-- Vite Main Entry -->
-    <script type="module" src="/src/main.tsx"></script>
+    <title>JP Visual & Docs</title>
   </head>
 
-  <body
-    class="bg-base-100 text-base-content transition-colors duration-300 font-sans"
-    style="font-family: 'Kanit', sans-serif"
-  >
+  <body>
     <div id="root"></div>
 
-    <noscript>
-      <section
-        style="
-          padding: 2rem;
-          text-align: center;
-          background-color: #fef3c7;
-          color: #92400e;
-          font-family: 'Kanit', sans-serif;
-        "
-      >
-        ⚠️ โปรดเปิดใช้งาน JavaScript เพื่อแสดงผลเว็บไซต์นี้อย่างสมบูรณ์
-      </section>
-    </noscript>
+    <!-- main app entry -->
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

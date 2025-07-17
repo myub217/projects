@@ -60,22 +60,27 @@ function RepoList() {
   }, [repos, search, languageFilter]);
 
   return (
-    <div className="p-4">
-      <h2 className="mb-4 text-2xl font-bold">📦 GitHub Repositories</h2>
+    <section className="p-4 md:p-8 max-w-7xl mx-auto" aria-label="GitHub Repositories Section">
+      <h2 className="mb-6 text-2xl font-bold text-primary flex items-center gap-2">
+        <span role="img" aria-label="package">
+          📦
+        </span>{' '}
+        GitHub Repositories
+      </h2>
 
-      {/* Search & Filter */}
+      {/* 🔍 Search & Filter */}
       <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <input
-          type="text"
+          type="search"
           placeholder="🔎 ค้นหา repository..."
-          className="input input-bordered w-full sm:w-1/2"
+          className="input input-bordered w-full sm:w-1/2 rounded-md border border-border bg-base-100 text-foreground placeholder:text-muted px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary transition"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           aria-label="ค้นหา repository"
+          spellCheck={false}
         />
-
         <select
-          className="select select-bordered w-full sm:w-40"
+          className="select select-bordered w-full sm:w-44 rounded-md border border-border bg-base-100 text-foreground px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary transition"
           value={languageFilter}
           onChange={(e) => setLanguageFilter(e.target.value)}
           aria-label="กรองตามภาษาโปรแกรม"
@@ -88,34 +93,70 @@ function RepoList() {
         </select>
       </div>
 
-      {loading && <div className="animate-pulse">🔄 กำลังโหลดข้อมูล...</div>}
-      {error && <div className="text-red-600">❌ {error}</div>}
-      {!loading && !error && filteredRepos.length === 0 && (
-        <div className="text-gray-500">📭 ไม่พบ repository ที่ตรงกับเงื่อนไข</div>
+      {loading && (
+        <p className="animate-pulse text-center text-muted">
+          🔄 กำลังโหลดข้อมูล...
+        </p>
       )}
 
-      {/* Repo List */}
+      {error && (
+        <p className="text-center text-error font-semibold">{error}</p>
+      )}
+
+      {!loading && !error && filteredRepos.length === 0 && (
+        <p className="text-center text-muted">📭 ไม่พบ repository ที่ตรงกับเงื่อนไข</p>
+      )}
+
+      {/* 📃 Repo List */}
       <ul className="space-y-4">
         {filteredRepos.map((repo) => (
-          <li key={repo.id} className="rounded-xl border p-4 shadow transition hover:shadow-lg">
+          <li
+            key={repo.id}
+            className="rounded-xl border border-border p-5 shadow-sm bg-base-100 dark:bg-base-200 transition hover:shadow-md"
+          >
             <a
               href={repo.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xl font-semibold text-blue-600 hover:text-blue-800"
+              className="text-lg font-semibold text-primary hover:underline transition"
             >
               {repo.name}
             </a>
-            {repo.description && <p className="mt-1 text-sm text-gray-700 dark:text-gray-300">{repo.description}</p>}
-            <div className="mt-2 text-sm text-gray-500 dark:text-gray-400 flex flex-wrap items-center gap-4">
-              {repo.language && <span>🧠 {repo.language}</span>}
-              {typeof repo.stargazers_count === 'number' && <span>⭐ {repo.stargazers_count}</span>}
-              {typeof repo.forks_count === 'number' && <span>🍴 {repo.forks_count}</span>}
+            {repo.description && (
+              <p className="mt-1 text-sm text-muted line-clamp-3">
+                {repo.description}
+              </p>
+            )}
+            <div className="mt-2 flex flex-wrap items-center gap-4 text-sm text-muted">
+              {repo.language && (
+                <span className="flex items-center gap-1">
+                  <span role="img" aria-label="language">
+                    🧠
+                  </span>{' '}
+                  {repo.language}
+                </span>
+              )}
+              {typeof repo.stargazers_count === 'number' && (
+                <span className="flex items-center gap-1">
+                  <span role="img" aria-label="stars">
+                    ⭐
+                  </span>{' '}
+                  {repo.stargazers_count}
+                </span>
+              )}
+              {typeof repo.forks_count === 'number' && (
+                <span className="flex items-center gap-1">
+                  <span role="img" aria-label="forks">
+                    🍴
+                  </span>{' '}
+                  {repo.forks_count}
+                </span>
+              )}
             </div>
           </li>
         ))}
       </ul>
-    </div>
+    </section>
   );
 }
 

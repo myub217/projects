@@ -34,7 +34,7 @@ const config: Config = {
   theme: {
     extend: {
       screens: {
-        xs: '480px',
+        xs: '360px',
         sm: '640px',
         md: '768px',
         lg: '1024px',
@@ -207,114 +207,138 @@ export default config;
 
 ## ⚙️ Vite Config (Full)
 ```ts
-// vite.config.ts
-
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
+// vite.config.mts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { VitePWA } from 'vite-plugin-pwa'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
+import path from 'node:path'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    VitePWA({
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.ts',
+      injectRegister: false,
+      devOptions: {
+        enabled: true,
+        type: 'module',
+      },
+    }),
+    viteStaticCopy({
+      targets: [
+        { src: 'public/docs', dest: '' },
+        { src: 'public/images', dest: '' },
+      ],
+    }),
+  ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, 'src'),
+      '@components': path.resolve(__dirname, 'src/components'),
+      '@pages': path.resolve(__dirname, 'src/pages'),
+      '@data': path.resolve(__dirname, 'src/data'),
+      '@utils': path.resolve(__dirname, 'src/utils'),
+      '@api': path.resolve(__dirname, 'src/api'),
+      '@assets': path.resolve(__dirname, 'src/assets'),
+      '@styles': path.resolve(__dirname, 'src/styles'),
+      '@hooks': path.resolve(__dirname, 'src/hooks'),
+      '@config': path.resolve(__dirname, 'src/config'),
     },
   },
   server: {
-    port: 3000,
-    open: true,
-  },
-  build: {
-    outDir: 'dist',
-    sourcemap: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-        },
-      },
+    proxy: {
+      '/api': 'http://localhost:3000',
     },
   },
-});
+})
 ```
 
 ## 🧩 main.tsx (Full)
 ```tsx
 // src/main.tsx
 
-import React, { useState, useEffect, useCallback } from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react'
+import ReactDOM from 'react-dom/client'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import './styles/global.css'; // Tailwind + custom vars
+import '@/styles/global.css'
 
-import IndexPage from './pages/IndexPage';
-import LoginPage from './pages/LoginPage';
-import SecretRoomPage from './pages/SecretRoomPage';
+import IndexPage from '@pages/IndexPage'
+import LoginPage from '@pages/LoginPage'
+import SecretRoomPage from '@pages/SecretRoomPage'
+import ProtectedRoute from '@components/ProtectedRoute'
 
-const THEME_KEY = 'app-theme';
-export type ThemeMode = 'light' | 'dark';
+const THEME_KEY = 'app-theme'
+export type ThemeMode = 'light' | 'dark'
 
 const App: React.FC = () => {
-  const [theme, setTheme] = useState<ThemeMode>('light');
+  const [theme, setTheme] = useState<ThemeMode>('light')
 
   const applyTheme = useCallback((mode: ThemeMode) => {
-    const root = document.documentElement;
-    const isDark = mode === 'dark';
-
-    root.classList.toggle('dark', isDark);
-    root.setAttribute('data-theme', isDark ? 'bluewhite-dark' : 'bluewhite');
-
-    localStorage.setItem(THEME_KEY, mode);
-  }, []);
+    const root = document.documentElement
+    const isDark = mode === 'dark'
+    root.classList.toggle('dark', isDark)
+    root.setAttribute('data-theme', isDark ? 'business-dark' : 'business')
+    localStorage.setItem(THEME_KEY, mode)
+  }, [])
 
   useEffect(() => {
-    const stored = localStorage.getItem(THEME_KEY) as ThemeMode | null;
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
+    const stored = localStorage.getItem(THEME_KEY) as ThemeMode | null
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
     const initialTheme: ThemeMode =
-      stored === 'dark' || (!stored && prefersDark) ? 'dark' : 'light';
+      stored === 'dark' || (!stored && prefersDark) ? 'dark' : 'light'
 
-    setTheme(initialTheme);
-    applyTheme(initialTheme);
-  }, [applyTheme]);
+    setTheme(initialTheme)
+    applyTheme(initialTheme)
+  }, [applyTheme])
 
   const toggleTheme = useCallback(() => {
     setTheme((prev) => {
-      const next: ThemeMode = prev === 'light' ? 'dark' : 'light';
-      applyTheme(next);
-      return next;
-    });
-  }, [applyTheme]);
+      const next: ThemeMode = prev === 'light' ? 'dark' : 'light'
+      applyTheme(next)
+      return next
+    })
+  }, [applyTheme])
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
-        <Route path="/login" element={<LoginPage />} />
         <Route
-          path="/secret"
-          element={<SecretRoomPage theme={theme} toggleTheme={toggleTheme} />}
+          path="/"
+          element={<IndexPage theme={theme} toggleTheme={toggleTheme} />}
         />
+        <Route path="/login" element={<LoginPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/secret"
+            element={<SecretRoomPage theme={theme} toggleTheme={toggleTheme} />}
+          />
+        </Route>
         <Route
           path="*"
           element={
-            <div className="p-8 text-center text-xl text-red-600">
-              404 - Not Found
+            <div className="p-8 text-center text-xl text-error">
+              404 - ไม่พบหน้าที่คุณร้องขอ
             </div>
           }
         />
       </Routes>
     </BrowserRouter>
-  );
-};
+  )
+}
 
-const rootEl = document.getElementById('root');
-
+const rootEl = document.getElementById('root')
 if (rootEl) {
-  ReactDOM.createRoot(rootEl).render(<App />);
+  ReactDOM.createRoot(rootEl).render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  )
 } else {
-  console.error('⚠️ Root element not found: #root');
+  console.error('⚠️ Root element not found: #root')
 }
 ```
 
@@ -326,88 +350,54 @@ if (rootEl) {
 │       └── connect-history-api-fallback.d.ts
 ├── Clean.sh
 ├── README.md
-├── __mocks__
-│   └── fileMock.js
 ├── api
-│   ├── apiAdmin.ts
-│   └── apiClient.ts
+│   └── contact.ts
 ├── check-structure.sh
-├── depcheck.config.js
+├── dev-dist
+│   ├── registerSW.js
+│   ├── sw.js
+│   ├── sw.js.map
+│   ├── workbox-86c9b217.js
+│   └── workbox-86c9b217.js.map
 ├── dist
 │   ├── assets
-│   │   ├── about-us-IgS6mAQi.webp
-│   │   ├── hero-C1-WP8yC.webp
-│   │   ├── index-2pYJRS_Y.js
-│   │   ├── index-2pYJRS_Y.js.map
-│   │   ├── index-8jBA3xxM.css
-│   │   ├── jp-logo-DClkmN1r.png
-│   │   ├── krut.webp
-│   │   ├── krut1.webp
-│   │   ├── review1-7dlrv2oA.png
-│   │   ├── review10-D0SwORip.png
-│   │   ├── review2-Bz0_BXyV.png
-│   │   ├── review3-UloQNvHI.png
-│   │   ├── review4-CBioFpeu.png
-│   │   ├── review5-CAS9ctNR.png
-│   │   ├── review6-C1CShlkS.png
-│   │   ├── review7-Bt93fMFo.png
-│   │   ├── review8-kXAHO_8W.png
-│   │   ├── review9-DhFu7Jzq.png
-│   │   ├── signature-BovtCThw.webp
-│   │   ├── vendor-csClpOmu.js
-│   │   └── vendor-csClpOmu.js.map
-│   ├── favicon.ico
-│   ├── icons
-│   │   ├── icon-192x192.png
-│   │   └── icon-512x512.png
+│   │   ├── about-IgS6mAQi.webp
+│   │   ├── hero-BRaXPQvd.webp
+│   │   ├── index-DOXT8SdD.js
+│   │   ├── index-bSqWk5Cu.css
+│   │   ├── jp-logo-CH0zBIqT.webp
+│   │   └── signature-BovtCThw.webp
+│   ├── docs
 │   ├── images
-│   │   ├── icons
-│   │   ├── portfolio-loan-success.jpg
-│   │   ├── portfolio-loan-success1.jpg
-│   │   ├── portfolio-loan-success2.jpg
-│   │   ├── portfolio-loan-success3.jpg
-│   │   ├── portfolio-loan-success4.jpg
+│   │   ├── review
 │   │   └── services
 │   ├── index.html
-│   └── manifest.json
-├── eslint.config.mjs
+│   ├── manifest.webmanifest
+│   └── sw.js
 ├── index.html
-├── jest.config.cjs
-├── jest.setup.ts
 ├── package.json
+├── plugin
 ├── pnpm-lock.yaml
 ├── pnpm-workspace.yaml
-├── postcss.config.js
+├── postcss.config.cjs
 ├── public
-│   ├── assets
-│   │   ├── krut.webp
-│   │   └── krut1.webp
-│   ├── favicon.ico
-│   ├── icons
-│   │   ├── icon-192x192.png
-│   │   └── icon-512x512.png
-│   ├── images
-│   │   ├── icons
-│   │   ├── portfolio-loan-success.jpg
-│   │   ├── portfolio-loan-success1.jpg
-│   │   ├── portfolio-loan-success2.jpg
-│   │   ├── portfolio-loan-success3.jpg
-│   │   ├── portfolio-loan-success4.jpg
-│   │   └── services
-│   └── manifest.json
+│   ├── docs
+│   └── images
+│       ├── review
+│       └── services
 ├── server.ts
-├── setup.sh
-├── setupset.sh
 ├── src
 │   ├── api
-│   │   └── apiClient.ts
+│   │   ├── apiClient.ts
+│   │   ├── auth.ts
+│   │   └── document.ts
 │   ├── assets
-│   │   ├── fb.webp
+│   │   ├── 1hero.webp
+│   │   ├── 2hero.webp
+│   │   ├── Hhero.webp
+│   │   ├── about.webp
 │   │   ├── hero.webp
-│   │   ├── icons
-│   │   ├── images
-│   │   ├── jp-logo.png
-│   │   ├── krut.webp
+│   │   ├── jp-logo.webp
 │   │   └── signature.webp
 │   ├── components
 │   │   ├── About.tsx
@@ -415,135 +405,84 @@ if (rootEl) {
 │   │   ├── CTASection.tsx
 │   │   ├── CustomerAssessmentForm.tsx
 │   │   ├── CustomerCard.tsx
-│   │   ├── DocumentPreviewModal.tsx
-│   │   ├── ErrorBoundary.tsx
+│   │   ├── DocumentRoom
 │   │   ├── Feature.tsx
-│   │   ├── Features
 │   │   ├── Footer.tsx
 │   │   ├── Header.tsx
 │   │   ├── Hero.tsx
-│   │   ├── LogoSecretApp.tsx
-│   │   ├── MobileMenu.tsx
+│   │   ├── ProtectedRoute.tsx
 │   │   ├── ReviewsSection.tsx
+│   │   ├── SecretRoom
 │   │   ├── ServiceCard.tsx
-│   │   ├── ServicesSection.tsx
-│   │   ├── ThemeToggle.tsx
-│   │   └── VisitorCount.tsx
+│   │   └── ServicesSection.tsx
 │   ├── config
-│   │   ├── contact.ts
-│   │   └── themes.ts
+│   │   └── contact.ts
 │   ├── constants
 │   │   └── env.ts
 │   ├── data
 │   │   ├── approvedCustomers.ts
+│   │   ├── documentsList.ts
 │   │   ├── servicesData.ts
 │   │   └── users.ts
+│   ├── hooks
+│   │   └── useAuth.ts
 │   ├── main.tsx
 │   ├── pages
 │   │   ├── AdminPage.tsx
+│   │   ├── DocumentRoomPage.tsx
 │   │   ├── IndexPage.tsx
 │   │   ├── LoginPage.tsx
-│   │   ├── SecretRoomPage.tsx
-│   │   ├── SecretRoomPageComponents
-│   │   └── config
+│   │   └── SecretRoomPage.tsx
 │   ├── styles
 │   │   └── global.css
+│   ├── sw.ts
 │   ├── types
 │   │   ├── assets.d.ts
 │   │   ├── connect-history-api-fallback.d.ts
+│   │   ├── document.ts
 │   │   ├── index.d.ts
+│   │   ├── user.ts
 │   │   └── vite-env.d.ts
 │   └── utils
-│       └── hashPassword.ts
+│       ├── hashPassword.ts
+│       └── pdfHelper.ts
 ├── structure-report.md
 ├── tailwind.config.ts
-├── tsconfig.base.json
 ├── tsconfig.json
-├── types
-│   ├── assets.d.ts
-│   ├── connect-history-api-fallback.d.ts
-│   ├── index.d.ts
-│   └── vite-env.d.ts
 ├── vercel.json
-└── vite.config.ts
+├── vite.config.ts
+├── ต้องอยู่ที่
+└── ส่ง
 
-35 directories, 111 files
+31 directories, 78 files
 
 ```
 
 ## 📌 Final Note
 
-📦 **dependencies:**  
-daisyui 3.9.4  
-framer-motion 10.18.0  
-lucide-react 0.525.0  
-react 18.3.1  
-react-dom 18.3.1  
-react-icons 5.5.0  
-react-router-dom 6.30.1  
-tailwindcss 3.4.17  
+โปรเจกต์ modular-onepage@0.1.0 บน Termux:
 
-devDependencies:  
-eslint 8.57.1  
-prettier 3.6.2  
-typescript 5.8.3  
-ts-node 10.9.2  
-vite 7.0.4  
-jest 29.7.0  
-@vitejs/plugin-react 4.6.0  
-vite-plugin-pwa 1.0.1  
-และ plugin อื่น ๆ ที่เกี่ยวข้องกับ eslint, tailwind, react type
+🔧 Dependencies ติดตั้งเรียบร้อยครบทั้งหมด (รวม workbox-* สำหรับ PWA)
 
-▶️ **การเริ่ม Dev Server**  
-คำสั่ง: `pnpm run dev`  
-🌐 http://localhost:3000  
-🌼 โหลด daisyUI พร้อม 2 themes  
-📎 เอกสารเพิ่ม: daisyui.com/docs/themes
+⚙️ ใช้ vite@7.0.4, vite-plugin-pwa@1.0.1 แบบ injectManifest
 
-🛏️ **การ Build โปรเจกต์**  
-คำสั่ง: `pnpm run build`  
-ไฟล์จะถูกจัดเก็บใน dist/  
-รวมถึง index.html, assets js/css/image พร้อม gzip & map
+🌐 Build ผ่านสมบูรณ์ทั้ง client + service worker
 
-🔍 **Preview แบบ Production**  
-คำสั่ง: `pnpm run preview`  
-🌐 http://localhost:4173/ 
+✅ PWA สร้าง dist/sw.js สำเร็จ และ precache ถูกต้อง
 
-🧠 **หมายเหตุ server.ts/server.js:**  
-เพิ่มใน package.json:
-  "start": "ts-node server.ts"
-หรือ
-  "start": "node server.js"
-ใช้: `pnpm start`
+🎨 DaisyUI Theme 2 แบบโหลดถูกต้อง
 
----
+📦 Static assets, images, docs, webmanifest ถูก copy/build แล้ว
 
-# 🔧 รายละเอียดธุรกิจ: JP - Visual & Docs
+🚀 พร้อม Deploy
 
-ให้บริการด้านเอกสาร การตลาด และระบบหลังบ้านสำหรับธุรกิจทางเลือกอย่างครบวงจร 
 
-## 💼 ขอบเขตบริการ
-1. ที่ปรึกษาสินเชื่อ: ฿4,000 – ฿300,000  
-2. ดูแลเอกสารยื่นวีซ่า: เริ่ม ฿4,000  
-3. แก้ไข/สร้างเอกสาร: ฿100 – ฿600  
-4. จัดทำบัตรจริง: เริ่ม ฿4,500  
-5. การตลาดครบวงจร: ฿5,000 – ฿500,000  
-6. ระบบหลังบ้านอัตโนมัติ: เริ่ม ฿4,000  
-7. โลโก้/แบนเนอร์: เริ่ม ฿300  
-8. โครงการกลุ่มปิด/AI: เริ่ม ฿5,000  
-9. รีแบรนด์/ทำลายภาพลักษณ์: เริ่ม ฿5,000
+สรุป: ✅ โปรเจกต์พร้อมใช้งาน 100% ทั้ง dev + build mode.
 
-## ✅ จุดแข็ง
-- ทีมเชี่ยวชาญเฉพาะทาง
-- บริการตรงไปตรงมา ไม่แต่งเรื่อง
-- ระบบปลอดภัย ไม่เก็บข้อมูลเกินจำเป็น
-
-## 🔒 ความปลอดภัย
-- ไม่เก็บข้อมูลโดยไม่ได้รับอนุญาต
-- ลูกค้าสามารถขอคุยตรงกับเจ้าของทีม
-
-## 📞 ติดต่อ
-- LINE / FB / Messenger
+## 🧭 Business Overview
+- บริการทั้งหมด 9 รายการ (ตั้งแต่เอกสารจนถึง AI + branding)
+- จุดแข็งคือ “จริง ไม่แต่งเรื่อง” + ระบบปลอดภัย + ทีมเฉพาะทาง
+- เน้นติดต่อผ่านช่องทางตรง (LINE/FB/Messenger)
 
 🧠 คำสั่งโหมด Dev Partner สำหรับ AI
 

@@ -17,9 +17,18 @@
     "jsx": "react-jsx",
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["*"],
+      "@components/*": ["components/*"],
+      "@pages/*": ["pages/*"],
+      "@data/*": ["data/*"],
+      "@utils/*": ["utils/*"],
+      "@api/*": ["api/*"],
+      "@assets/*": ["assets/*"],
+      "@styles/*": ["styles/*"],
+      "@hooks/*": ["hooks/*"],
+      "@config/*": ["config/*"]
     }
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.base.json" }]
+  "exclude": ["dist", "node_modules"]
 }

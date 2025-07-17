@@ -1,7 +1,7 @@
 // src/pages/LoginPage.tsx
 
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { users } from '@/data/users';
 import { hashPassword } from '@/utils/hashPassword';
 
@@ -9,6 +9,7 @@ const MAX_ATTEMPTS = 5;
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const usernameRef = useRef<HTMLInputElement>(null);
 
   const [username, setUsername] = useState('');
@@ -17,14 +18,15 @@ const LoginPage: React.FC = () => {
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const redirectPath =
+    (location.state as { from?: Location })?.from?.pathname || '/secret';
+
   useEffect(() => {
     usernameRef.current?.focus();
   }, []);
 
   useEffect(() => {
-    if (error) {
-      usernameRef.current?.focus();
-    }
+    if (error) usernameRef.current?.focus();
   }, [error]);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -54,7 +56,7 @@ const LoginPage: React.FC = () => {
       if (hashed === user.passwordHash) {
         localStorage.setItem('authUser', trimmedUsername);
         localStorage.setItem('authRole', user.role);
-        navigate('/secret');
+        navigate(redirectPath, { replace: true });
       } else {
         setError('รหัสผ่านไม่ถูกต้อง');
         setLoginAttempts((prev) => prev + 1);
@@ -70,17 +72,17 @@ const LoginPage: React.FC = () => {
   const isDisabled = isSubmitting || loginAttempts >= MAX_ATTEMPTS;
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900 p-6">
+    <main className="flex min-h-screen items-center justify-center bg-base-200 px-4 py-8 sm:px-6 lg:px-8">
       <section
         role="region"
         aria-labelledby="login-title"
-        className="w-full max-w-md rounded-xl bg-white dark:bg-gray-800 p-8 shadow-lg"
+        className="w-full max-w-md rounded-2xl bg-base-100 p-8 shadow-xl"
       >
         <h1
           id="login-title"
-          className="mb-6 text-center text-2xl font-bold text-gray-900 dark:text-white"
+          className="mb-6 text-center text-2xl sm:text-3xl font-bold text-primary"
         >
-          เข้าสู่ระบบ
+          🔐 เข้าสู่ระบบ
         </h1>
 
         {error && (
@@ -88,7 +90,7 @@ const LoginPage: React.FC = () => {
             id="login-error"
             role="alert"
             aria-live="assertive"
-            className="mb-4 text-center font-medium text-red-600 dark:text-red-400"
+            className="mb-4 rounded bg-error/10 p-3 text-sm font-medium text-error"
           >
             {error}
           </div>
@@ -98,60 +100,52 @@ const LoginPage: React.FC = () => {
           <div
             role="alert"
             aria-live="assertive"
-            className="mb-4 text-center font-semibold text-yellow-700 dark:text-yellow-400"
+            className="mb-4 rounded bg-warning/10 p-3 text-sm font-semibold text-warning"
           >
-            เกินจำนวนครั้งที่อนุญาต กรุณาลองใหม่ภายหลัง
+            🚫 เกินจำนวนครั้งที่อนุญาต กรุณาลองใหม่ภายหลัง
           </div>
         )}
 
-        <form onSubmit={handleLogin} className="flex flex-col gap-5" noValidate>
-          <input
-            ref={usernameRef}
-            id="username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            autoComplete="username"
-            required
-            aria-required="true"
-            aria-describedby={error ? 'login-error' : undefined}
-            placeholder="ชื่อผู้ใช้"
-            disabled={isDisabled}
-            className={`rounded-md border px-4 py-3 transition placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary ${
-              isDisabled
-                ? 'cursor-not-allowed border-gray-400 bg-gray-100 dark:bg-gray-600'
-                : 'border-gray-300 bg-white'
-            }`}
-          />
+        <form onSubmit={handleLogin} className="space-y-5" noValidate>
+          <div className="form-control">
+            <input
+              ref={usernameRef}
+              id="username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              autoComplete="username"
+              required
+              placeholder="ชื่อผู้ใช้"
+              disabled={isDisabled}
+              className="input input-bordered w-full"
+              aria-describedby={error ? 'login-error' : undefined}
+            />
+          </div>
 
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
-            required
-            aria-required="true"
-            placeholder="รหัสผ่าน"
-            disabled={isDisabled}
-            className={`rounded-md border px-4 py-3 transition placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary ${
-              isDisabled
-                ? 'cursor-not-allowed border-gray-400 bg-gray-100 dark:bg-gray-600'
-                : 'border-gray-300 bg-white'
-            }`}
-          />
+          <div className="form-control">
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+              required
+              placeholder="รหัสผ่าน"
+              disabled={isDisabled}
+              className="input input-bordered w-full"
+            />
+          </div>
 
           <button
             type="submit"
             aria-label="เข้าสู่ระบบ"
             disabled={isDisabled}
-            className={`rounded-md py-3 text-primary-contrastText transition focus:outline-none focus:ring-4 focus:ring-primary focus:ring-opacity-50 ${
-              isDisabled
-                ? 'bg-primary opacity-50 cursor-not-allowed'
-                : 'bg-primary hover:bg-primary-dark'
+            className={`btn btn-primary w-full ${
+              isDisabled ? 'btn-disabled opacity-60' : ''
             }`}
           >
-            เข้าสู่ระบบ
+            {isSubmitting ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ'}
           </button>
         </form>
       </section>

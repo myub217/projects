@@ -32,7 +32,6 @@ const CustomerAssessmentForm: React.FC = () => {
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [submitted, setSubmitted] = useState(false);
 
-  // Validate input fields
   const validate = (): boolean => {
     const newErrors: Partial<FormData> = {};
 
@@ -58,14 +57,12 @@ const CustomerAssessmentForm: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle input change and clear errors on change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
-  // Reset form state to initial
   const handleReset = () => {
     setFormData({
       fullName: '',
@@ -83,7 +80,6 @@ const CustomerAssessmentForm: React.FC = () => {
     setSubmitted(false);
   };
 
-  // On submit: validate & open LINE with pre-filled message (user must tap send)
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
@@ -113,13 +109,14 @@ ${formData.teamRequirements}
 `.trim();
 
     const lineUrl = `https://line.me/R/msg/text/?${encodeURIComponent(message)}`;
-
     window.open(lineUrl, '_blank');
-
     setSubmitted(true);
   };
 
-  // Input & Textarea reusable components
+  const FieldGroup = ({ children }: { children: React.ReactNode }) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">{children}</div>
+  );
+
   const InputField = ({
     label,
     name,
@@ -141,8 +138,8 @@ ${formData.teamRequirements}
     required?: boolean;
     helpText?: string;
   }) => (
-    <div className="mb-5">
-      <label htmlFor={name} className="mb-1 block font-medium text-gray-700">
+    <div>
+      <label htmlFor={name} className="block font-semibold text-sm mb-1">
         {label} {required && <span className="text-red-600">*</span>}
       </label>
       <input
@@ -153,18 +150,12 @@ ${formData.teamRequirements}
         onChange={onChange}
         placeholder={placeholder}
         required={required}
-        aria-invalid={!!error}
-        aria-describedby={error ? `error-${name}` : undefined}
-        className={`w-full rounded border px-4 py-2 focus:outline-none focus:ring-2 ${
-          error ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-blue-400'
+        className={`w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 transition-all duration-200 ${
+          error ? 'border-red-500 ring-red-300' : 'border-gray-300 focus:ring-blue-400'
         }`}
       />
-      {helpText && <p className="mt-1 text-xs text-gray-500">{helpText}</p>}
-      {error && (
-        <p id={`error-${name}`} className="mt-1 text-sm text-red-600">
-          {error}
-        </p>
-      )}
+      {helpText && <p className="text-xs text-gray-500 mt-1">{helpText}</p>}
+      {error && <p className="text-xs text-red-600 mt-1">{error}</p>}
     </div>
   );
 
@@ -188,7 +179,7 @@ ${formData.teamRequirements}
     rows?: number;
   }) => (
     <div className="mb-5">
-      <label htmlFor={name} className="mb-1 block font-medium text-gray-700">
+      <label htmlFor={name} className="block font-semibold text-sm mb-1">
         {label} {required && <span className="text-red-600">*</span>}
       </label>
       <textarea
@@ -199,168 +190,58 @@ ${formData.teamRequirements}
         placeholder={placeholder}
         rows={rows}
         required={required}
-        aria-invalid={!!error}
-        aria-describedby={error ? `error-${name}` : undefined}
-        className={`w-full resize-y rounded border px-4 py-2 focus:outline-none focus:ring-2 ${
-          error ? 'border-red-500 focus:ring-red-400' : 'border-gray-300 focus:ring-blue-400'
+        className={`w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 transition-all duration-200 resize-y ${
+          error ? 'border-red-500 ring-red-300' : 'border-gray-300 focus:ring-blue-400'
         }`}
       />
-      {error && (
-        <p id={`error-${name}`} className="mt-1 text-sm text-red-600">
-          {error}
-        </p>
-      )}
+      {error && <p className="text-xs text-red-600 mt-1">{error}</p>}
     </div>
   );
 
   if (submitted) {
     return (
-      <div
-        className="mx-auto max-w-3xl rounded-lg border border-green-300 bg-green-50 p-8 text-center text-green-900 shadow"
-        role="alert"
-        aria-live="polite"
-      >
-        <h3 className="mb-4 text-2xl font-semibold">ขอบคุณสำหรับการส่งข้อมูลค่ะ</h3>
-        <p className="mb-2">ระบบได้เปิดแอป LINE เพื่อให้คุณส่งข้อความเรียบร้อยแล้ว</p>
+      <div className="mx-auto max-w-2xl p-6 rounded-lg bg-green-50 border border-green-200 text-green-800 text-center">
+        <h2 className="text-2xl font-bold mb-3">ส่งข้อมูลสำเร็จ</h2>
+        <p>ระบบได้เปิดแอป LINE แล้ว กรุณาตรวจสอบข้อความก่อนกดส่ง</p>
         <button
           onClick={handleReset}
-          className="mt-6 rounded bg-blue-600 px-6 py-3 text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          aria-label="ส่งข้อมูลใหม่"
+          className="mt-5 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
-          ส่งข้อมูลใหม่
+          ส่งใหม่อีกครั้ง
         </button>
       </div>
     );
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="mx-auto max-w-3xl rounded-lg bg-white p-8 shadow-md"
-      noValidate
-      aria-label="แบบฟอร์มประเมินเบื้องต้นสำหรับลูกค้ายื่นกู้"
-    >
-      <h2 className="mb-8 text-center text-3xl font-bold text-gray-900">
-        แบบฟอร์มประเมินเบื้องต้นสำหรับลูกค้ายื่นกู้
-      </h2>
+    <form onSubmit={handleSubmit} className="mx-auto max-w-3xl bg-white p-6 sm:p-10 rounded-xl shadow-lg" noValidate>
+      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-8">ฟอร์มประเมินลูกค้าเบื้องต้น</h1>
 
-      {/* Personal Information */}
-      <fieldset className="mb-8 rounded-lg border border-gray-200 p-6">
-        <legend className="mb-4 text-xl font-semibold">ข้อมูลส่วนตัว</legend>
-        <InputField
-          label="ชื่อ-นามสกุล"
-          name="fullName"
-          value={formData.fullName}
-          onChange={handleChange}
-          error={errors.fullName}
-          required
-          placeholder="กรอกชื่อ-นามสกุล"
-        />
-        <InputField
-          label="เบอร์โทรศัพท์"
-          name="phone"
-          type="tel"
-          value={formData.phone}
-          onChange={handleChange}
-          error={errors.phone}
-          required
-          placeholder="0812345678"
-          helpText="กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง เช่น 0812345678"
-        />
-        <InputField
-          label="ประกอบอาชีพ"
-          name="occupation"
-          value={formData.occupation}
-          onChange={handleChange}
-          error={errors.occupation}
-          required
-          placeholder="ระบุอาชีพของท่าน"
-        />
-        <InputField
-          label="รายได้โดยประมาณ"
-          name="income"
-          value={formData.income}
-          onChange={handleChange}
-          error={errors.income}
-          required
-          placeholder="เช่น 30,000 บาท/เดือน"
-        />
+      <fieldset className="mb-8">
+        <legend className="text-lg font-semibold mb-4">ข้อมูลส่วนตัว</legend>
+        <FieldGroup>
+          <InputField label="ชื่อ-นามสกุล" name="fullName" value={formData.fullName} onChange={handleChange} error={errors.fullName} required placeholder="กรอกชื่อ-นามสกุล" />
+          <InputField label="เบอร์โทรศัพท์" name="phone" type="tel" value={formData.phone} onChange={handleChange} error={errors.phone} required placeholder="0812345678" helpText="กรุณากรอกเบอร์ให้ถูกต้อง" />
+          <InputField label="อาชีพ" name="occupation" value={formData.occupation} onChange={handleChange} error={errors.occupation} required placeholder="ระบุอาชีพของท่าน" />
+          <InputField label="รายได้โดยประมาณ" name="income" value={formData.income} onChange={handleChange} error={errors.income} required placeholder="30,000 บาท/เดือน" />
+        </FieldGroup>
       </fieldset>
 
-      {/* Business & Finance */}
-      <fieldset className="mb-8 rounded-lg border border-gray-200 p-6">
-        <legend className="mb-4 text-xl font-semibold">ข้อมูลธุรกิจ/การเงิน</legend>
-        <TextareaField
-          label="สินทรัพย์ค้ำประกัน / จำนอง"
-          name="collateralAssets"
-          value={formData.collateralAssets}
-          onChange={handleChange}
-          error={errors.collateralAssets}
-          required
-          placeholder="ระบุสินทรัพย์ที่ใช้ค้ำประกันหรือจำนอง"
-          rows={3}
-        />
-        <TextareaField
-          label="บริหารธุรกิจหรือทำงานอยู่หรือไม่"
-          name="businessManagement"
-          value={formData.businessManagement}
-          onChange={handleChange}
-          error={errors.businessManagement}
-          required
-          placeholder="ระบุสถานะการบริหารธุรกิจหรือการทำงานปัจจุบัน"
-          rows={2}
-        />
-        <InputField
-          label="ยอดเงินที่ต้องการ"
-          name="requestedAmount"
-          value={formData.requestedAmount}
-          onChange={handleChange}
-          error={errors.requestedAmount}
-          required
-          placeholder="ระบุยอดเงินที่ต้องการขออนุมัติ"
-        />
+      <fieldset className="mb-8">
+        <legend className="text-lg font-semibold mb-4">ธุรกิจ / การเงิน</legend>
+        <TextareaField label="สินทรัพย์ค้ำประกัน / จำนอง" name="collateralAssets" value={formData.collateralAssets} onChange={handleChange} error={errors.collateralAssets} required placeholder="บ้าน / รถ / ที่ดิน ฯลฯ" />
+        <TextareaField label="บริหารธุรกิจ/ทำงานอยู่หรือไม่" name="businessManagement" value={formData.businessManagement} onChange={handleChange} error={errors.businessManagement} required placeholder="อธิบายสถานะของคุณ" />
+        <InputField label="ยอดเงินที่ต้องการ" name="requestedAmount" value={formData.requestedAmount} onChange={handleChange} error={errors.requestedAmount} required placeholder="100,000 บาท" />
       </fieldset>
 
-      {/* Legal History & Requests */}
-      <fieldset className="mb-8 rounded-lg border border-gray-200 p-6">
-        <legend className="mb-4 text-xl font-semibold">ประวัติและความต้องการ</legend>
-        <TextareaField
-          label="ประวัติการฟ้องร้องทางแพ่งและอาญาใน 3 ปีที่ผ่านมา"
-          name="legalIssues"
-          value={formData.legalIssues}
-          onChange={handleChange}
-          error={errors.legalIssues}
-          required
-          placeholder="ถ้ามี โปรดระบุรายละเอียด หากไม่มีให้ใส่คำว่า 'ไม่มี'"
-          rows={3}
-        />
-        <TextareaField
-          label="ปัญหาบูโรหรือ blacklist หากมี"
-          name="creditIssues"
-          value={formData.creditIssues}
-          onChange={handleChange}
-          error={errors.creditIssues}
-          required
-          placeholder="ถ้ามี โปรดระบุรายละเอียด หากไม่มีให้ใส่คำว่า 'ไม่มี'"
-          rows={3}
-        />
-        <TextareaField
-          label="สิ่งที่ต้องการจากทีมงานเรา"
-          name="teamRequirements"
-          value={formData.teamRequirements}
-          onChange={handleChange}
-          error={errors.teamRequirements}
-          required
-          placeholder="ระบุสิ่งที่ต้องการให้ทีมงานช่วยเหลือ"
-          rows={3}
-        />
+      <fieldset className="mb-8">
+        <legend className="text-lg font-semibold mb-4">ประวัติและความต้องการ</legend>
+        <TextareaField label="ประวัติการฟ้องร้องใน 3 ปีที่ผ่านมา" name="legalIssues" value={formData.legalIssues} onChange={handleChange} error={errors.legalIssues} required placeholder="ใส่ 'ไม่มี' หากไม่มี" />
+        <TextareaField label="ปัญหาบูโรหรือ blacklist" name="creditIssues" value={formData.creditIssues} onChange={handleChange} error={errors.creditIssues} required placeholder="ใส่ 'ไม่มี' หากไม่มี" />
+        <TextareaField label="สิ่งที่ต้องการจากทีมงาน" name="teamRequirements" value={formData.teamRequirements} onChange={handleChange} error={errors.teamRequirements} required placeholder="ต้องการให้ทีมงานช่วยอะไรบ้าง" />
       </fieldset>
 
-      <button
-        type="submit"
-        className="flex w-full items-center justify-center rounded bg-blue-600 py-3 text-white shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
-        aria-live="polite"
-      >
+      <button type="submit" className="w-full py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
         ส่งข้อมูลประเมิน
       </button>
     </form>

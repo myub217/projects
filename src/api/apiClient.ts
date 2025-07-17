@@ -67,9 +67,13 @@ export const login = (username: string, password: string) =>
     body: JSON.stringify({ username, password }),
   });
 
-export const getRepoSummary = (repo: string) => apiFetch(`/repos/${repo}/summary`);
+export const getRepoSummary = (repo: string) =>
+  apiFetch<{ summary: string }>(`/repos/${repo}/summary`);
 
-export const triggerSync = () => apiFetch<{ status: string }>('/sync', { method: 'POST' });
+export const triggerSync = () =>
+  apiFetch<{ status: string }>('/sync', {
+    method: 'POST',
+  });
 
 export const getGithubRawFile = (
   owner: string,
@@ -77,7 +81,7 @@ export const getGithubRawFile = (
   path: string,
   branch = 'main'
 ) =>
-  apiFetch(
+  apiFetch<string>(
     `/github/raw?owner=${owner}&repo=${repo}&path=${encodeURIComponent(path)}&branch=${branch}`
   );
 

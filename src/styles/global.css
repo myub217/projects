@@ -1,0 +1,87 @@
+/* src/styles/global.css */
+
+/* 🔹 Import TailwindCSS directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 🔸 Base font & color settings */
+body {
+  font-family: 'Inter', sans-serif;
+  @apply bg-base-100 text-base text-foreground antialiased m-0 p-0;
+}
+
+/* 🔹 Typography improvements */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-heading text-primary font-bold leading-snug tracking-tight;
+}
+
+p {
+  @apply text-base leading-relaxed text-gray-700 dark:text-gray-300;
+}
+
+small {
+  @apply text-xs text-muted;
+}
+
+/* 🔹 Interactive Elements */
+a {
+  @apply text-primary hover:underline transition-colors duration-200;
+}
+
+button {
+  @apply font-medium rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition duration-150;
+}
+
+/* 🔹 Utility enhancements */
+.container {
+  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+.section {
+  @apply py-16 md:py-24;
+}
+
+.card {
+  @apply rounded-2xl bg-white shadow-lg p-6 dark:bg-base-200;
+}
+
+.text-muted {
+  @apply text-gray-500 dark:text-gray-400;
+}
+
+/* ⛔️ Removed: .text-primary-light with @apply to avoid circular error */
+/* ✅ ใช้ class `text-primary-light` ตรง ๆ ใน JSX/HTML ได้เลย */
+
+/* 🔹 Forms (optional improvements) */
+input, select, textarea {
+  @apply w-full border border-border rounded-md px-4 py-2 text-sm text-foreground bg-white dark:bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition;
+}
+
+label {
+  @apply block mb-1 text-sm font-semibold text-gray-700 dark:text-gray-300;
+}
+
+/* 🔹 Responsive tweaks */
+@media (max-width: 640px) {
+  h1 {
+    @apply text-2xl;
+  }
+
+  h2 {
+    @apply text-xl;
+  }
+
+  .card {
+    @apply p-4;
+  }
+}
+
+/* 🔹 Transitions / Effects */
+.fade-in {
+  @apply animate-fadeIn;
+}
+
+.slide-up {
+  @apply animate-slideUp;
+}

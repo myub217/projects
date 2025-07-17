@@ -51,13 +51,13 @@ const getStatusIcon = (status: string): JSX.Element | null => {
 const CustomerCard: React.FC<CustomerCardProps> = ({ customer, loading = false }) => {
   if (loading) {
     return (
-      <div className="animate-pulse rounded-xl border border-gray-200 bg-white p-5 shadow dark:border-gray-700 dark:bg-gray-800">
-        <div className="mb-4 h-6 w-3/4 rounded bg-gray-300 dark:bg-gray-600" />
-        <div className="space-y-2">
-          <div className="h-4 w-1/2 rounded bg-gray-300 dark:bg-gray-600" />
-          <div className="h-4 w-2/3 rounded bg-gray-300 dark:bg-gray-600" />
+      <div className="w-full animate-pulse rounded-2xl border border-base-300 bg-base-100 p-6 shadow-md">
+        <div className="mb-4 h-6 w-3/4 rounded bg-base-300" />
+        <div className="space-y-3">
+          <div className="h-4 w-1/2 rounded bg-base-300" />
+          <div className="h-4 w-2/3 rounded bg-base-300" />
         </div>
-        <div className="mt-4 h-5 w-20 rounded-full bg-gray-300 dark:bg-gray-600" />
+        <div className="mt-5 h-5 w-24 rounded-full bg-base-300" />
       </div>
     );
   }
@@ -66,36 +66,38 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ customer, loading = false }
 
   return (
     <div
-      className="rounded-xl border border-gray-200 bg-white p-5 shadow transition duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800"
+      className="flex flex-col justify-between rounded-2xl border border-base-300 bg-base-100 p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:bg-base-200"
       role="group"
       aria-label={`ลูกค้า: ${customer.name}`}
     >
-      <h3 className="mb-1 text-xl font-bold text-gray-900 dark:text-white">{customer.name}</h3>
-
-      <div className="mt-2 space-y-1 text-sm text-gray-700 dark:text-gray-300">
-        <p>
-          <FaFileAlt className="mr-1 inline text-blue-500" />
-          <strong>บริการ:</strong>{' '}
-          <span className="text-base font-semibold">
-            {customer.documentTitle || 'จัดการเอกสารทั่วไป'}
-          </span>
-        </p>
-        <p>
-          <FaCalendarCheck className="mr-1 inline text-teal-500" />
-          <strong>อัปเดตล่าสุด:</strong>{' '}
-          <span className="text-base font-medium">{formatDate(customer.receivedDate)}</span>
-        </p>
-      </div>
-
-      <div className="mt-4">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <h3 className="text-lg font-bold text-primary truncate">{customer.name}</h3>
         <span
-          className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${getStatusBadgeStyle(
+          className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold ${getStatusBadgeStyle(
             customer.status
           )}`}
           role="status"
         >
           {getStatusIcon(customer.status)} {customer.status}
         </span>
+      </div>
+
+      <div className="mt-5 space-y-4 text-sm text-base-content/80">
+        <div className="flex items-start gap-2">
+          <FaFileAlt className="mt-1 shrink-0 text-blue-500" />
+          <p className="leading-snug break-words">
+            <span className="font-semibold">บริการ: </span>
+            {customer.documentTitle || 'จัดการเอกสารทั่วไป'}
+          </p>
+        </div>
+
+        <div className="flex items-start gap-2">
+          <FaCalendarCheck className="mt-1 shrink-0 text-teal-500" />
+          <p className="leading-snug break-words">
+            <span className="font-semibold">อัปเดตล่าสุด: </span>
+            {formatDate(customer.receivedDate)}
+          </p>
+        </div>
       </div>
     </div>
   );

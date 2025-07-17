@@ -1,66 +1,99 @@
-import { FaLine, FaFacebook, FaFacebookMessenger, FaEnvelope } from 'react-icons/fa';
+// src/config/contact.ts
 
-// ประเภทช่องทางติดต่อที่รองรับ
-export type ContactType = 'line' | 'facebook' | 'messenger' | 'email';
+import {
+  FaLine,
+  FaFacebook,
+  FaFacebookMessenger,
+  FaEnvelope,
+  FaPhoneAlt,
+  FaGlobeAsia,
+} from 'react-icons/fa';
 
-// โครงสร้างลิงก์ติดต่อ
+export type ContactType =
+  | 'line'
+  | 'facebook'
+  | 'messenger'
+  | 'email'
+  | 'phone'
+  | 'website';
+
 export interface ContactLink {
   type: ContactType;
   label: string;
   icon: React.ComponentType<{ className?: string }>;
+  description?: string;
 }
 
-// ข้อมูลลิงก์ติดต่อที่แสดงใน UI
 export const contactLinks: ContactLink[] = [
   {
     type: 'line',
     label: 'LINE',
     icon: FaLine,
+    description: 'ติดต่อเราผ่าน LINE Official',
   },
   {
     type: 'facebook',
     label: 'Facebook',
     icon: FaFacebook,
+    description: 'เข้าชมเพจ Facebook ของเรา',
   },
   {
     type: 'messenger',
     label: 'Messenger',
     icon: FaFacebookMessenger,
+    description: 'ส่งข้อความผ่าน Messenger',
   },
   {
     type: 'email',
     label: 'Email',
     icon: FaEnvelope,
+    description: 'ติดต่อผ่านอีเมลธุรกิจ',
+  },
+  {
+    type: 'phone',
+    label: 'โทรศัพท์',
+    icon: FaPhoneAlt,
+    description: 'ติดต่อสายตรงฝ่ายบริการลูกค้า',
+  },
+  {
+    type: 'website',
+    label: 'เว็บไซต์',
+    icon: FaGlobeAsia,
+    description: 'เยี่ยมชมเว็บไซต์หลักของบริษัท',
   },
 ];
 
-// ฟังก์ชันสำหรับสร้าง href ที่จะใช้งานจริง
-export const getContactHref = (type: ContactType, message?: string): string => {
+// ข้อมูลติดต่อ
+const lineOAID = '@462fqtfc';
+const facebookPageID = '61573307616115';
+const messengerHash = 'AbZf0L5cSZ8XvIYw';
+const emailAddress = 'contact@bannerdigital.co';
+const phoneNumber = '+6621234567';
+const websiteURL = 'https://www.bannerdigital.co';
+
+// สร้างลิงก์ตามประเภท
+export const getContactHref = (
+  type: ContactType,
+  message?: string
+): string => {
   switch (type) {
     case 'line': {
-      const lineOAID = '@462fqtfc'; // ✅ OA ID จริง
       const encodedMsg = message ? encodeURIComponent(message) : '';
-      // สำหรับส่งข้อความผ่านลิงก์ line://msg/text/
-      // หรือ fallback ไปยังลิงก์ https://lin.ee/uhMtuSB
-      if (message) {
-        // รูปแบบ URL ที่รองรับ LINE OA API
-        // แนะนำใช้ https://line.me/R/msg/text/?{ข้อความ} หรือ 
-        // https://line.me/R/oaMessage/{lineOAID}/?text={ข้อความ}
-        return `https://line.me/R/oaMessage/${lineOAID}/?text=${encodedMsg}`;
-      }
-      return 'https://lin.ee/uhMtuSB';
+      return message
+        ? `https://line.me/R/oaMessage/${lineOAID}/?text=${encodedMsg}`
+        : 'https://lin.ee/uhMtuSB';
     }
-
     case 'facebook':
-      return 'https://www.facebook.com/profile.php?id=61573307616115&mibextid=kFxxJD';
-
+      return `https://www.facebook.com/profile.php?id=${facebookPageID}&mibextid=kFxxJD`;
     case 'messenger':
-      return 'https://m.me/61573307616115?hash=AbZf0L5cSZ8XvIYw&source=qr_link_share';
-
+      return `https://m.me/${facebookPageID}?hash=${messengerHash}&source=qr_link_share`;
     case 'email':
-      return 'mailto:contact@bannerdigital.co';
-
+      return `mailto:${emailAddress}`;
+    case 'phone':
+      return `tel:${phoneNumber}`;
+    case 'website':
+      return websiteURL;
     default:
-      return '';
+      return '#';
   }
 };
