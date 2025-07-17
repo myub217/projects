@@ -1,10 +1,4 @@
-// src/api/apiClient.ts
-
-/**
- * ✅ API Client: JP Visual & Docs
- * - ใช้งานร่วมกับ Express backend (/api)
- * - รองรับ fetch wrapper พร้อม error handling
- */
+// ✅ src/api/apiClient.ts – API Client: JP Visual & Docs
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL?.trim() || '/api';
 
@@ -17,11 +11,10 @@ function buildUrl(endpoint: string): string {
 }
 
 /**
- * 🔁 Wrapper สำหรับ fetch พร้อม error handling
+ * 🔁 fetch wrapper พร้อม error handling
  */
 async function apiFetch<T>(endpoint: string, options?: FetchOptions): Promise<T> {
   const url = buildUrl(endpoint);
-
   try {
     const res = await fetch(url, {
       ...options,
@@ -45,10 +38,10 @@ async function apiFetch<T>(endpoint: string, options?: FetchOptions): Promise<T>
 /**
  * 📌 API Endpoints
  */
-export const getCurrentUser = () =>
+const getCurrentUser = () =>
   apiFetch<{ id: string; name: string; role: string }>('/user');
 
-export const getRepoList = () =>
+const getRepoList = () =>
   apiFetch<
     {
       id: number;
@@ -61,21 +54,19 @@ export const getRepoList = () =>
     }[]
   >('/repos');
 
-export const login = (username: string, password: string) =>
+const login = (username: string, password: string) =>
   apiFetch<{ token: string }>('/login', {
     method: 'POST',
     body: JSON.stringify({ username, password }),
   });
 
-export const getRepoSummary = (repo: string) =>
+const getRepoSummary = (repo: string) =>
   apiFetch<{ summary: string }>(`/repos/${repo}/summary`);
 
-export const triggerSync = () =>
-  apiFetch<{ status: string }>('/sync', {
-    method: 'POST',
-  });
+const triggerSync = () =>
+  apiFetch<{ status: string }>('/sync', { method: 'POST' });
 
-export const getGithubRawFile = (
+const getGithubRawFile = (
   owner: string,
   repo: string,
   path: string,
@@ -89,6 +80,7 @@ export const getGithubRawFile = (
  * 📦 Unified Export
  */
 const apiClient = {
+  apiFetch,
   getCurrentUser,
   getRepoList,
   login,

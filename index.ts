@@ -1,47 +1,47 @@
-// ✅ server/index.ts – พร้อมใช้งาน Express + API + SPA + Static Assets รองรับ Vite/PWA
+// ✅ index.ts – Express Server สำหรับ Modular Onepage (Vite + PWA + API + Static + SPA)
 
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import history from 'connect-history-api-fallback';
 import dotenv from 'dotenv';
-import apiRouter from './api/apiAdmin.js'; // .js จำเป็นใน ESM Node
+import apiAdmin from './src/api/apiAdmin'; // ✅ path ถูกต้อง
 
 dotenv.config();
 
-// 🔁 __dirname ใน ESM
+// ✅ ESM-compatible __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ✅ Express App
+// ✅ Express App Init
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 
-// ✅ Middlewares
+// ✅ Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Enable CORS ถ้าตั้งค่า VITE_CORS_ENABLED
+// ✅ CORS (optional)
 if (process.env.VITE_CORS_ENABLED === 'true') {
   const cors = await import('cors');
   app.use(cors.default());
 }
 
-// ✅ SPA Fallback สำหรับ React Router (เว้น /api/*)
+// ✅ React Router SPA Fallback (ยกเว้น /api)
 app.use(
   history({
     rewrites: [{ from: /^\/api\/.*$/, to: (ctx) => ctx.parsedUrl?.pathname || '' }],
   })
 );
 
-// ✅ Static Assets จาก dist (vite build)
+// ✅ Static Serve (Vite build dist)
 const distPath = path.join(__dirname, 'dist');
 app.use(express.static(distPath));
 
-// ✅ API Endpoint
-app.use('/api', apiRouter);
+// ✅ API Route
+app.use('/api/admin', apiAdmin);
 
-// ✅ SPA Entry (fallback index.html)
+// ✅ SPA HTML Fallback
 app.get('*', (_req, res) => {
   res.sendFile(path.join(distPath, 'index.html'));
 });

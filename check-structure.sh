@@ -87,25 +87,95 @@ cat << 'EOF' >> "$REPORT_FILE"
 
 ## 📌 Final Note
 
-โปรเจกต์ modular-onepage@0.1.0 บน Termux:
+# ✅ สถานะโปรเจกต์: `modular-onepage@0.1.0`
 
-🔧 Dependencies ติดตั้งเรียบร้อยครบทั้งหมด (รวม workbox-* สำหรับ PWA)
+## ✅ เสร็จสมบูรณ์แล้ว
 
-⚙️ ใช้ vite@7.0.4, vite-plugin-pwa@1.0.1 แบบ injectManifest
+### 🔧 Stack + โครงสร้าง
+- [x] Vite 7 + React 18 + TypeScript
+- [x] TailwindCSS 3 + DaisyUI 4 (`business`/`business-dark`)
+- [x] Routing + ProtectedRoute
+- [x] Express Server (`server/index.ts`)
+- [x] PWA แบบ `injectManifest` + `sw.ts`
+- [x] Static Assets พร้อมใช้งาน (SVG, WebP)
+- [x] Hero Section + framer-motion
+- [x] Document Viewer (PDF) + Dropzone Upload
+- [x] ENV config (`dotenv`) ทำงานครบ
 
-🌐 Build ผ่านสมบูรณ์ทั้ง client + service worker
+### 🔌 Dependencies ครบ (via `pnpm list`)
+- React Ecosystem, Tailwind, DaisyUI, Express
+- react-pdf, file-saver, workbox, etc.
+- devDeps: types, vite plugins, tsx, typescript
 
-✅ PWA สร้าง dist/sw.js สำเร็จ และ precache ถูกต้อง
+### 🛠️ Build System ทำงานครบ
+- [x] `vite build`
+- [x] `vite preview` (http://localhost:4173)
+- [x] `pnpm start` → Express (http://localhost:3000)
+- [x] PWA sw.js build สมบูรณ์
 
-🎨 DaisyUI Theme 2 แบบโหลดถูกต้อง
+---
 
-📦 Static assets, images, docs, webmanifest ถูก copy/build แล้ว
+## ⏭️ สิ่งที่จะทำต่อ
 
-🚀 พร้อม Deploy
+### 🔐 ระบบ Authentication
+- [ ] API `/api/auth/login` ส่ง JWT
+- [ ] Client เก็บ token (localStorage/cookie)
+- [ ] Hook: `useAuth`, `useLogin`, `useLogout`
+- [ ] Guard `/api/admin/*` ด้วย JWT middleware
+- [ ] Redirect + ProtectedRoute
+
+### 📄 Document Center
+- [ ] แสดงรายการไฟล์จาก backend
+- [ ] API สำหรับ upload → `/api/admin/upload`
+- [ ] ปุ่ม Download (ผ่าน FileSaver หรือ link)
+- [ ] Split public/private document
+
+### ⚙️ Admin Tool
+- [ ] สร้าง UI ที่ `/admin`
+- [ ] จัดการไฟล์ (upload/delete)
+- [ ] Protected route ด้วย JWT
+
+### 🚀 Deployment & Optimization
+- [ ] Gzip/Brotli + Static caching headers
+- [ ] Workbox runtime caching strategy
+- [ ] Deploy: Surge / Vercel / CF Pages
+- [ ] ตรวจสอบ Offline Mode
+
+---
+
+## 📁 Suggested File Structure (ต่อยอด)
+plaintext
+src/
+├─ api/
+│  ├─ apiAdmin.ts
+│  └─ apiAuth.ts     ← [new]
+├─ features/
+│  └─ AuthFeature.tsx  ← [new]
+├─ pages/
+│  ├─ DocumentsPage.tsx
+│  ├─ AdminPage.tsx     ← [new]
+│  └─ LoginPage.tsx     ← [new]
+├─ hooks/
+│  └─ useAuth.ts        ← [new]
+└─ sw.ts
 
 
-สรุป: ✅ โปรเจกต์พร้อมใช้งาน 100% ทั้ง dev + build mode.
+---
 
+☑️ ถัดไปให้เริ่มที่:
+
+[ ] apiAuth.ts → สร้าง /api/auth/login (JWT)
+
+[ ] LoginPage.tsx + form login
+
+[ ] useAuth.ts → ใช้กับ ProtectedRoute
+
+[ ] ทดสอบ /admin + token auth
+
+
+🧠 พร้อมทำงานต่อ Dev-to-Dev
+สั่งแก้/ขยาย/เพิ่ม component ได้
+ทันที
 ## 🧭 Business Overview
 - บริการทั้งหมด 9 รายการ (ตั้งแต่เอกสารจนถึง AI + branding)
 - จุดแข็งคือ “จริง ไม่แต่งเรื่อง” + ระบบปลอดภัย + ทีมเฉพาะทาง

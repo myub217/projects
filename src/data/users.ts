@@ -1,16 +1,17 @@
-// src/data/users.ts
+// ✅ src/data/users.ts – Static user data สำหรับระบบ Auth/Role base
 
 export type UserRole = 'admin' | 'user';
 
 export interface User {
-  passwordHash: string;
+  passwordHash: string; // SHA-256 hashed password
   role: UserRole;
 }
 
 /**
- * 🔐 Static user map with hashed passwords
- * Password hash: SHA-256 (pre-hashed, do not store raw passwords)
- * Role mapping: 'admin2517' = admin, others = user
+ * 🔐 Static user map with SHA-256 hashed passwords
+ * Roles:
+ * - 'admin2517' = admin
+ * - All others = user
  */
 export const users: Record<string, User> = {
   admin2517: {

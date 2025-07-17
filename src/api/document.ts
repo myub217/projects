@@ -1,23 +1,17 @@
-// src/api/document.ts
-
-/**
- * ✅ Document API Module
- * - สำหรับดึงข้อมูลเอกสารจาก backend
- * - ใช้ร่วมกับระบบแสดงเอกสารลูกค้า / ฝ่ายดูแลเอกสาร
- */
+// ✅ src/api/document.ts – Document API Module
 
 import type { CustomerApproval } from '@/data/approvedCustomers';
 import type { Service } from '@/data/servicesData';
 import apiClient from './apiClient';
 
 /**
- * 🧾 ดึงเอกสารลูกค้าที่ได้รับการอนุมัติ
+ * 🧾 ดึงรายการเอกสารลูกค้าที่ได้รับการอนุมัติ (ใช้ใน Document Center)
  */
 export const fetchApprovedDocuments = (): Promise<CustomerApproval[]> =>
-  apiClientFetch<CustomerApproval[]>('/documents/approved');
+  apiClient.apiFetch<CustomerApproval[]>('/documents/approved');
 
 /**
- * 📝 เพิ่มเอกสารใหม่เข้าสู่ระบบ (admin เท่านั้น)
+ * 📝 ส่งเอกสารใหม่เข้าสู่ระบบ (admin-only)
  */
 export const submitNewDocument = (data: {
   name: string;
@@ -25,23 +19,19 @@ export const submitNewDocument = (data: {
   receivedDate: string;
   status: 'เสร็จสมบูรณ์' | 'กำลังดำเนินการ';
 }): Promise<{ success: boolean; id: string }> =>
-  apiClientFetch('/documents/new', {
+  apiClient.apiFetch('/documents/new', {
     method: 'POST',
     body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 
 /**
- * 📄 ดึงข้อมูล service สำหรับ Modal
+ * 📄 ดึงรายละเอียด Service ตาม ID (สำหรับ modal popup หรือรายละเอียดเพิ่มเติม)
  */
 export const fetchServiceDetail = (serviceId: number): Promise<Service> =>
-  apiClientFetch<Service>(`/services/${serviceId}`);
-
-/**
- * 🌐 ใช้ wrapper จาก apiClient
- */
-function apiClientFetch<T>(...args: Parameters<typeof apiClient['getCurrentUser']>): Promise<T> {
-  return (apiClient as any).apiFetch(...args);
-}
+  apiClient.apiFetch<Service>(`/services/${serviceId}`);
 
 /**
  * 📦 Unified Export

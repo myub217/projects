@@ -38,12 +38,21 @@ export default defineConfig({
       '@styles': path.resolve(__dirname, 'src/styles'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@config': path.resolve(__dirname, 'src/config'),
-      '@features': path.resolve(__dirname, 'src/features'), // ✅ เพิ่ม alias ที่จำเป็น
+      '@features': path.resolve(__dirname, 'src/features'),
     },
   },
   server: {
     proxy: {
-      '/api': 'http://localhost:3000',
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+      },
     },
+  },
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+    target: 'esnext',
   },
 })

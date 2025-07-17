@@ -1,4 +1,4 @@
-// ✅ src/pages/Documents/DocumentListPage.tsx – UI Responsive พร้อมใช้งานจริง
+// ✅ src/pages/Documents/DocumentListPage.tsx – เวอร์ชันสมบูรณ์ Responsive พร้อมใช้งานจริง
 
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -16,7 +16,7 @@ const DocumentListPage: React.FC = () => {
   const docs: DocumentItem[] = documentsList;
 
   return (
-    <div className="min-h-screen bg-base-100 text-base-content px-4 py-8 md:py-12 max-w-7xl mx-auto">
+    <main className="min-h-screen bg-base-100 text-base-content px-4 py-8 md:py-12 max-w-7xl mx-auto">
       {/* 🔺 Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <h1 className="text-2xl md:text-3xl font-bold text-primary">
@@ -43,9 +43,9 @@ const DocumentListPage: React.FC = () => {
                   {doc.title}
                 </h2>
                 {doc.description && (
-                  <p className="text-sm text-muted">{doc.description}</p>
+                  <p className="text-sm text-base-content/70">{doc.description}</p>
                 )}
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-muted">
                   📅 อัปโหลด: {doc.uploadedAt}
                 </p>
                 <div className="flex flex-wrap gap-2 pt-3">
@@ -65,12 +65,12 @@ const DocumentListPage: React.FC = () => {
             </div>
           ))
         ) : (
-          <div className="col-span-full text-center py-12 text-error">
+          <div className="col-span-full text-center py-12 text-error text-lg">
             ❌ ไม่มีรายการเอกสาร
           </div>
         )}
       </div>
-    </div>
+    </main>
   );
 };
 

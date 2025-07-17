@@ -369,30 +369,6 @@ if (rootEl) {
 ├── api
 │   └── contact.ts
 ├── check-structure.sh
-├── dev-dist
-│   ├── registerSW.js
-│   ├── sw.js
-│   ├── sw.js.map
-│   ├── workbox-86c9b217.js
-│   └── workbox-86c9b217.js.map
-├── dist
-│   ├── assets
-│   │   ├── about-IgS6mAQi.webp
-│   │   ├── hero-BRaXPQvd.webp
-│   │   ├── index-Bi-SSbTi.js
-│   │   ├── index-BpKncbU6.css
-│   │   ├── jp-logo-CH0zBIqT.webp
-│   │   └── signature-BovtCThw.webp
-│   ├── docs
-│   │   ├── certificate.pdf
-│   │   ├── contract.pdf
-│   │   └── registration.pdf
-│   ├── images
-│   │   ├── review
-│   │   └── services
-│   ├── index.html
-│   ├── manifest.webmanifest
-│   └── sw.js
 ├── index.html
 ├── package.json
 ├── plugin
@@ -445,6 +421,7 @@ if (rootEl) {
 │   ├── data
 │   │   ├── approvedCustomers.ts
 │   │   ├── documentsList.ts
+│   │   ├── reviewsData.ts
 │   │   ├── servicesData.ts
 │   │   └── users.ts
 │   ├── features
@@ -480,31 +457,64 @@ if (rootEl) {
 ├── ต้องอยู่ที่
 └── ส่ง
 
-34 directories, 85 files
+27 directories, 69 files
 
 ```
 
 ## 📌 Final Note
 
-โปรเจกต์ modular-onepage@0.1.0 บน Termux:
+# ✅ รายงานสถานะ Dev: modular-onepage@0.1.0
 
-🔧 Dependencies ติดตั้งเรียบร้อยครบทั้งหมด (รวม workbox-* สำหรับ PWA)
+## ✅ สิ่งที่ **ทำไปแล้ว**
+### 🔧 โครงสร้างโปรเจกต์
+- [x] Vite + React + TypeScript setup
+- [x] TailwindCSS + DaisyUI พร้อม Custom Theme (`business`, `business-dark`)
+- [x] Alias Path (`@components`, `@pages`, `@features`, etc.)
+- [x] Routing สมบูรณ์ (`BrowserRouter`, ProtectedRoute)
 
-⚙️ ใช้ vite@7.0.4, vite-plugin-pwa@1.0.1 แบบ injectManifest
+### 🎨 UI / Layout
+- [x] Hero section (พร้อม CTA redirect → `/login`)
+- [x] Theme Toggle (Light/Dark) ใช้ localStorage + media query
+- [x] Layout responsive รองรับ mobile / desktop
+- [x] DocumentCenter พร้อม Upload + PDF Viewer (`@react-pdf-viewer`)
+- [x] SecretRoom, SectionRoom (อยู่ระหว่าง optimization)
 
-🌐 Build ผ่านสมบูรณ์ทั้ง client + service worker
+### ⚙️ Configuration
+- [x] `vite.config.ts` + `tailwind.config.ts` ครบ
+- [x] PWA: `vite-plugin-pwa` แบบ `injectManifest`
+- [x] `sw.ts` build แล้ว (`dist/sw.js`)
+- [x] Static Assets: ถูก copy โดย `vite-plugin-static-copy`
+- [x] Express Server (`server.js`) ทำงาน serve static + API + fallback router
 
-✅ PWA สร้าง dist/sw.js สำเร็จ และ precache ถูกต้อง
+### 🔬 Dev / Build Status
+- [x] `pnpm run dev`: ✔️ ใช้งานได้ที่ `http://localhost:5173`
+- [x] `pnpm run build`: ✔️ success, gzip OK
+- [x] `pnpm preview`: ✔️ preview ที่ `http://localhost:4173`
 
-🎨 DaisyUI Theme 2 แบบโหลดถูกต้อง
+---
 
-📦 Static assets, images, docs, webmanifest ถูก copy/build แล้ว
+## ⏳ สิ่งที่ **ต้องลงมือทำต่อ**
 
-🚀 พร้อม Deploy
+### 🚧 UI / Component
+- [ ] Debug layout บางจุดของหน้า `/sectionRoomPage.tsx` (render/structure)
+- [ ] ตรวจสอบการ fallback SVG `/bg/cta-pattern.svg` (อาจต้องย้ายไป `public/`)
+- [ ] ปรับความละเอียด layout บน mobile ให้สวยขึ้นในบางหน้ารอง (responsive paddings/margin)
 
+### 🧪 Functionality
+- [ ] ทดสอบการ Upload PDF → แสดง + ดาวน์โหลดจริง
+- [ ] ตรวจสอบ fallback หน้า 404
+- [ ] ตรวจสอบ manifest/webapp install PWA (icon, splash screen)
 
-สรุป: ✅ โปรเจกต์พร้อมใช้งาน 100% ทั้ง dev + build mode.
+### 🚀 Deployment
+- [ ] Setup deploy script (Termux → Push dist/ ไป Netlify/Vercel/Node Host)
+- [ ] ตรวจสอบ HTTPS และ Assets path บนเซิร์ฟเวอร์จริง
+- [ ] อัปเดต service-worker เพื่อ precache ไฟล์ล่าสุด
 
+---
+
+🧠 พร้อมทำงานต่อ Dev-to-Dev
+สั่งแก้/ขยาย/เพิ่ม component ได้
+ทันที
 ## 🧭 Business Overview
 - บริการทั้งหมด 9 รายการ (ตั้งแต่เอกสารจนถึง AI + branding)
 - จุดแข็งคือ “จริง ไม่แต่งเรื่อง” + ระบบปลอดภัย + ทีมเฉพาะทาง

@@ -1,27 +1,29 @@
-// ✅ src/api/auth.ts
-
-/**
- * ✅ Auth API Module
- * - ใช้สำหรับ login และดึงข้อมูลผู้ใช้งาน
- * - เชื่อมต่อกับ backend /api ผ่าน apiClient
- */
+// ✅ src/api/auth.ts – Auth API Module
 
 import apiClient from './apiClient';
 
 /**
- * 🔐 Login (POST: /api/login)
- * @param username - ชื่อผู้ใช้
- * @param password - รหัสผ่าน
+ * 🔐 Login ผู้ใช้งาน (POST: /login)
+ * ส่ง username/password เพื่อรับ token หรือ session
  */
-export const login = async (username: string, password: string) => {
-  return await apiClient.post('/login', { username, password });
+export const login = async (username: string, password: string): Promise<{ token: string }> => {
+  return await apiClient.apiFetch('/login', {
+    method: 'POST',
+    body: JSON.stringify({ username, password }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 };
 
 /**
- * 👤 Get current user (GET: /api/user)
+ * 👤 ดึงข้อมูลผู้ใช้งานปัจจุบัน (GET: /user)
  */
-export const getCurrentUser = async () => {
-  return await apiClient.get('/user');
+export const getCurrentUser = async (): Promise<{
+  username: string;
+  role: 'admin' | 'user';
+}> => {
+  return await apiClient.apiFetch('/user');
 };
 
 /**

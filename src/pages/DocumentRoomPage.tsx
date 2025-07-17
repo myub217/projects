@@ -1,4 +1,4 @@
-// ✅ src/pages/DocumentRoomPage.tsx – เวอร์ชันสมบูรณ์พร้อมใช้งานจริง รองรับ Theme + Responsive
+// ✅ src/pages/DocumentRoomPage.tsx — สมบูรณ์ พร้อมใช้งานจริง
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -10,25 +10,25 @@ const DocumentRoomPage: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   useEffect(() => {
-    const raw = localStorage.getItem('auth');
-    if (!raw) {
+    const auth = localStorage.getItem('auth');
+    if (!auth) {
       navigate('/login', { replace: true });
       return;
     }
 
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+    const initial = savedTheme || (prefersDark ? 'dark' : 'light');
 
-    setTheme(initialTheme);
-    document.documentElement.setAttribute('data-theme', initialTheme);
+    setTheme(initial);
+    document.documentElement.setAttribute('data-theme', initial);
   }, [navigate]);
 
   const toggleTheme = () => {
-    const nextTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(nextTheme);
-    localStorage.setItem('theme', nextTheme);
-    document.documentElement.setAttribute('data-theme', nextTheme);
+    const next = theme === 'light' ? 'dark' : 'light';
+    setTheme(next);
+    localStorage.setItem('theme', next);
+    document.documentElement.setAttribute('data-theme', next);
   };
 
   const handleLogout = () => {
@@ -41,7 +41,7 @@ const DocumentRoomPage: React.FC = () => {
       <section className="max-w-7xl mx-auto space-y-12">
         {/* 🔹 Header */}
         <header className="text-center space-y-3">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary">
+          <h1 className="text-3xl sm:text-4xl font-bold text-primary">
             📄 ห้องขอเอกสารธุรกิจ – JP Visual
           </h1>
           <p className="text-sm sm:text-base text-muted-content max-w-2xl mx-auto">
@@ -49,14 +49,12 @@ const DocumentRoomPage: React.FC = () => {
           </p>
         </header>
 
-        {/* 🔸 Document Section */}
+        {/* 🔸 Document Area */}
         <DocumentRoom />
 
         {/* 🔻 Footer */}
         <footer className="pt-10 border-t border-base-300 text-xs text-muted-content flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p>
-            © {new Date().getFullYear()} JP Visual & Docs — สำหรับผู้ได้รับสิทธิ์เท่านั้น
-          </p>
+          <p>© {new Date().getFullYear()} JP Visual & Docs — สิทธิ์เฉพาะผู้มีบัญชี</p>
           <div className="flex items-center gap-4">
             <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
             <button

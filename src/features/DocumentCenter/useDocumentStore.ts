@@ -1,3 +1,5 @@
+// ✅ src/hooks/useDocumentStore.ts – Global state สำหรับ PDF documents (in-memory)
+
 import { useState } from 'react';
 import { PDFDoc } from './types';
 
@@ -11,5 +13,20 @@ export const useDocumentStore = () => {
     setDocuments([...sharedState]);
   };
 
-  return { documents, addDocument };
+  const resetDocuments = () => {
+    sharedState = [];
+    setDocuments([]);
+  };
+
+  const removeDocument = (id: string) => {
+    sharedState = sharedState.filter((d) => d.id !== id);
+    setDocuments([...sharedState]);
+  };
+
+  return {
+    documents,
+    addDocument,
+    removeDocument,
+    resetDocuments,
+  };
 };

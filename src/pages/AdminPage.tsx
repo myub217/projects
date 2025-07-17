@@ -1,10 +1,10 @@
-// src/pages/AdminPage.tsx
+// ✅ src/pages/AdminPage.tsx — สมบูรณ์ พร้อมใช้งานจริง
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Dashboard from '@/components/AdminBoard/Dashboard';
-import UserTable from '@/components/AdminBoard/UserTable';
-import RepoList from '@/components/AdminBoard/RepoList';
+import Dashboard from '@components/AdminBoard/Dashboard';
+import UserTable from '@components/AdminBoard/UserTable';
+import RepoList from '@components/AdminBoard/RepoList';
 import ThemeToggleButton from '@components/SecretRoom/ThemeToggleButton';
 
 const AdminPage: React.FC = () => {
@@ -14,7 +14,10 @@ const AdminPage: React.FC = () => {
   useEffect(() => {
     const user = localStorage.getItem('authUser');
     const role = localStorage.getItem('authRole');
-    if (!user || role !== 'admin') navigate('/login', { replace: true });
+    if (!user || role !== 'admin') {
+      navigate('/login', { replace: true });
+      return;
+    }
 
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -30,12 +33,17 @@ const AdminPage: React.FC = () => {
     document.documentElement.setAttribute('data-theme', newTheme);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('authUser');
+    localStorage.removeItem('authRole');
+    navigate('/login');
+  };
+
   return (
     <main
       className="min-h-screen bg-base-100 px-4 py-6 sm:px-6 lg:px-10 text-base-content transition-colors duration-300"
       aria-label="JP Visual Admin Panel"
       role="main"
-      tabIndex={-1}
     >
       <div className="mx-auto max-w-7xl space-y-10">
         {/* 🔹 Header */}
@@ -50,21 +58,17 @@ const AdminPage: React.FC = () => {
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
             <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
-            <button
-              className="btn btn-sm btn-error"
-              onClick={() => {
-                localStorage.removeItem('authUser');
-                localStorage.removeItem('authRole');
-                navigate('/login');
-              }}
-            >
+            <button className="btn btn-sm btn-error" onClick={handleLogout}>
               🚪 ออกจากระบบ
             </button>
           </div>
         </header>
 
         {/* 🔸 Dashboard Summary */}
-        <section aria-label="ภาพรวมระบบ" className="rounded-xl bg-base-200 p-5 shadow-md">
+        <section
+          aria-label="ภาพรวมระบบ"
+          className="rounded-xl bg-base-200 p-5 shadow-md"
+        >
           <Dashboard />
         </section>
 
@@ -74,10 +78,7 @@ const AdminPage: React.FC = () => {
             <h2 className="text-xl font-bold text-base-content flex items-center gap-2">
               👥 ผู้ดูแลระบบ
             </h2>
-            <button
-              type="button"
-              className="btn btn-sm btn-primary"
-            >
+            <button type="button" className="btn btn-sm btn-primary">
               ➕ เพิ่มผู้ดูแล
             </button>
           </div>

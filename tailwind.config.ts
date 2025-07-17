@@ -1,4 +1,4 @@
-// tailwind.config.ts
+// ✅ tailwind.config.ts – TailwindCSS Config พร้อม DaisyUI Theme: business / business-dark
 
 import type { Config } from 'tailwindcss';
 import typography from '@tailwindcss/typography';

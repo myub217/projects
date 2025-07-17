@@ -1,4 +1,4 @@
-// src/hooks/useAuth.ts
+// ✅ src/hooks/useAuth.ts – Hook ตรวจสอบสิทธิ์ + จัดการ auth user (localStorage + auto-refresh)
 
 import { useEffect, useState, useCallback } from 'react';
 
@@ -20,7 +20,13 @@ export const useAuth = () => {
       const raw = localStorage.getItem('auth');
       if (!raw) return setAuthUser(null);
       const parsed: AuthUser = JSON.parse(raw);
-      if (parsed?.username && parsed?.role && parsed?.token) {
+
+      if (
+        parsed?.id &&
+        parsed?.username &&
+        parsed?.role &&
+        parsed?.token
+      ) {
         setAuthUser(parsed);
       } else {
         setAuthUser(null);

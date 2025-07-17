@@ -1,13 +1,26 @@
-import { precacheAndRoute } from 'workbox-precaching'
-import { registerRoute } from 'workbox-routing'
-import { StaleWhileRevalidate } from 'workbox-strategies'
+// ✅ src/sw.ts – Service Worker สำหรับ JP Visual & Docs (Workbox + InjectManifest)
 
-precacheAndRoute(self.__WB_MANIFEST || [])
+import { precacheAndRoute } from 'workbox-precaching';
+import { registerRoute } from 'workbox-routing';
+import { StaleWhileRevalidate } from 'workbox-strategies';
 
+// 🗂️ Precache static assets ที่ inject โดย VitePWA
+precacheAndRoute(self.__WB_MANIFEST || []);
+
+// 📸 Cache รูปภาพแบบ StaleWhileRevalidate (โหลดใหม่หลังแสดงผล)
 registerRoute(
   ({ request }) => request.destination === 'image',
-  new StaleWhileRevalidate()
-)
+  new StaleWhileRevalidate({
+    cacheName: 'images-cache',
+  })
+);
 
-self.addEventListener('install', () => self.skipWaiting())
-self.addEventListener('activate', () => self.clients.claim())
+// 🛠️ ติดตั้งทันที
+self.addEventListener('install', (event) => {
+  self.skipWaiting();
+});
+
+// 🔄 Activate แล้ว take control
+self.addEventListener('activate', (event) => {
+  self.clients.claim();
+});
