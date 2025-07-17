@@ -22,7 +22,7 @@
 
 ## 🎨 Tailwind Config (Full)
 ```ts
-// tailwind.config.ts
+// ✅ tailwind.config.ts – TailwindCSS Config พร้อม DaisyUI Theme: business / business-dark
 
 import type { Config } from 'tailwindcss';
 import typography from '@tailwindcss/typography';
@@ -247,92 +247,89 @@ export default defineConfig({
       '@styles': path.resolve(__dirname, 'src/styles'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@config': path.resolve(__dirname, 'src/config'),
-      '@features': path.resolve(__dirname, 'src/features'), // ✅ เพิ่ม alias ที่จำเป็น
+      '@features': path.resolve(__dirname, 'src/features'),
     },
   },
   server: {
     proxy: {
-      '/api': 'http://localhost:3000',
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
+      },
     },
+  },
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+    target: 'esnext',
   },
 })
 ```
 
 ## 🧩 main.tsx (Full)
 ```tsx
-// ✅ src/main.tsx
+// ✅ src/main.tsx – Entry Point สำหรับ JP Visual & Docs
 
-import React, { useState, useEffect, useCallback } from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import React, { useState, useEffect, useCallback } from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import '@/styles/global.css'
+import '@/styles/global.css';
 
-import IndexPage from '@pages/IndexPage'
-import LoginPage from '@pages/LoginPage'
-import SecretRoomPage from '@pages/SecretRoomPage'
-import ProtectedRoute from '@components/ProtectedRoute'
+import IndexPage from '@pages/IndexPage';
+import LoginPage from '@pages/LoginPage';
+import SecretRoomPage from '@pages/SecretRoomPage';
+import ProtectedRoute from '@components/ProtectedRoute';
+import DocumentCenter from '@features/DocumentCenter/DocumentCenter';
 
-// ✅ DocumentCenter พร้อม alias
-import DocumentCenter from '@features/DocumentCenter/DocumentCenter'
-
-const THEME_KEY = 'app-theme'
-export type ThemeMode = 'light' | 'dark'
+const THEME_KEY = 'app-theme';
+export type ThemeMode = 'light' | 'dark';
 
 const App: React.FC = () => {
-  const [theme, setTheme] = useState<ThemeMode>('light')
+  const [theme, setTheme] = useState<ThemeMode>('light');
 
   const applyTheme = useCallback((mode: ThemeMode) => {
-    const root = document.documentElement
-    const isDark = mode === 'dark'
-    root.classList.toggle('dark', isDark)
-    root.setAttribute('data-theme', isDark ? 'business-dark' : 'business')
-    localStorage.setItem(THEME_KEY, mode)
-  }, [])
+    const root = document.documentElement;
+    const isDark = mode === 'dark';
+    root.classList.toggle('dark', isDark);
+    root.setAttribute('data-theme', isDark ? 'business-dark' : 'business');
+    localStorage.setItem(THEME_KEY, mode);
+  }, []);
 
   useEffect(() => {
-    const stored = localStorage.getItem(THEME_KEY) as ThemeMode | null
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const stored = localStorage.getItem(THEME_KEY) as ThemeMode | null;
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const initialTheme: ThemeMode =
-      stored === 'dark' || (!stored && prefersDark) ? 'dark' : 'light'
+      stored === 'dark' || (!stored && prefersDark) ? 'dark' : 'light';
 
-    setTheme(initialTheme)
-    applyTheme(initialTheme)
-  }, [applyTheme])
+    setTheme(initialTheme);
+    applyTheme(initialTheme);
+  }, [applyTheme]);
 
   const toggleTheme = useCallback(() => {
     setTheme((prev) => {
-      const next: ThemeMode = prev === 'light' ? 'dark' : 'light'
-      applyTheme(next)
-      return next
-    })
-  }, [applyTheme])
+      const next: ThemeMode = prev === 'light' ? 'dark' : 'light';
+      applyTheme(next);
+      return next;
+    });
+  }, [applyTheme]);
 
   return (
     <BrowserRouter>
       <Routes>
-        {/* ✅ หน้าแรก */}
         <Route
           path="/"
           element={<IndexPage theme={theme} toggleTheme={toggleTheme} />}
         />
-
-        {/* ✅ หน้า Login */}
         <Route path="/login" element={<LoginPage />} />
-
-        {/* ✅ Protected routes */}
         <Route element={<ProtectedRoute />}>
           <Route
             path="/secret"
             element={<SecretRoomPage theme={theme} toggleTheme={toggleTheme} />}
           />
-          <Route
-            path="/documents"
-            element={<DocumentCenter />}
-          />
+          <Route path="/documents" element={<DocumentCenter />} />
         </Route>
-
-        {/* ✅ Fallback 404 */}
         <Route
           path="*"
           element={
@@ -343,18 +340,18 @@ const App: React.FC = () => {
         />
       </Routes>
     </BrowserRouter>
-  )
-}
+  );
+};
 
-const rootEl = document.getElementById('root')
+const rootEl = document.getElementById('root');
 if (rootEl) {
   ReactDOM.createRoot(rootEl).render(
     <React.StrictMode>
       <App />
     </React.StrictMode>
-  )
+  );
 } else {
-  console.error('⚠️ Root element not found: #root')
+  console.error('⚠️ Root element not found: #root');
 }
 ```
 
@@ -370,6 +367,7 @@ if (rootEl) {
 │   └── contact.ts
 ├── check-structure.sh
 ├── index.html
+├── index.ts
 ├── package.json
 ├── plugin
 ├── pnpm-lock.yaml
@@ -383,9 +381,9 @@ if (rootEl) {
 │   └── images
 │       ├── review
 │       └── services
-├── server.ts
 ├── src
 │   ├── api
+│   │   ├── apiAdmin.ts
 │   │   ├── apiClient.ts
 │   │   ├── auth.ts
 │   │   └── document.ts
@@ -457,60 +455,97 @@ if (rootEl) {
 ├── ต้องอยู่ที่
 └── ส่ง
 
-27 directories, 69 files
+27 directories, 70 files
 
 ```
 
 ## 📌 Final Note
 
-# ✅ รายงานสถานะ Dev: modular-onepage@0.1.0
+# ✅ สถานะโปรเจกต์: `modular-onepage@0.1.0`
 
-## ✅ สิ่งที่ **ทำไปแล้ว**
-### 🔧 โครงสร้างโปรเจกต์
-- [x] Vite + React + TypeScript setup
-- [x] TailwindCSS + DaisyUI พร้อม Custom Theme (`business`, `business-dark`)
-- [x] Alias Path (`@components`, `@pages`, `@features`, etc.)
-- [x] Routing สมบูรณ์ (`BrowserRouter`, ProtectedRoute)
+## ✅ เสร็จสมบูรณ์แล้ว
 
-### 🎨 UI / Layout
-- [x] Hero section (พร้อม CTA redirect → `/login`)
-- [x] Theme Toggle (Light/Dark) ใช้ localStorage + media query
-- [x] Layout responsive รองรับ mobile / desktop
-- [x] DocumentCenter พร้อม Upload + PDF Viewer (`@react-pdf-viewer`)
-- [x] SecretRoom, SectionRoom (อยู่ระหว่าง optimization)
+### 🔧 Stack + โครงสร้าง
+- [x] Vite 7 + React 18 + TypeScript
+- [x] TailwindCSS 3 + DaisyUI 4 (`business`/`business-dark`)
+- [x] Routing + ProtectedRoute
+- [x] Express Server (`server/index.ts`)
+- [x] PWA แบบ `injectManifest` + `sw.ts`
+- [x] Static Assets พร้อมใช้งาน (SVG, WebP)
+- [x] Hero Section + framer-motion
+- [x] Document Viewer (PDF) + Dropzone Upload
+- [x] ENV config (`dotenv`) ทำงานครบ
 
-### ⚙️ Configuration
-- [x] `vite.config.ts` + `tailwind.config.ts` ครบ
-- [x] PWA: `vite-plugin-pwa` แบบ `injectManifest`
-- [x] `sw.ts` build แล้ว (`dist/sw.js`)
-- [x] Static Assets: ถูก copy โดย `vite-plugin-static-copy`
-- [x] Express Server (`server.js`) ทำงาน serve static + API + fallback router
+### 🔌 Dependencies ครบ (via `pnpm list`)
+- React Ecosystem, Tailwind, DaisyUI, Express
+- react-pdf, file-saver, workbox, etc.
+- devDeps: types, vite plugins, tsx, typescript
 
-### 🔬 Dev / Build Status
-- [x] `pnpm run dev`: ✔️ ใช้งานได้ที่ `http://localhost:5173`
-- [x] `pnpm run build`: ✔️ success, gzip OK
-- [x] `pnpm preview`: ✔️ preview ที่ `http://localhost:4173`
+### 🛠️ Build System ทำงานครบ
+- [x] `vite build`
+- [x] `vite preview` (http://localhost:4173)
+- [x] `pnpm start` → Express (http://localhost:3000)
+- [x] PWA sw.js build สมบูรณ์
 
 ---
 
-## ⏳ สิ่งที่ **ต้องลงมือทำต่อ**
+## ⏭️ สิ่งที่จะทำต่อ
 
-### 🚧 UI / Component
-- [ ] Debug layout บางจุดของหน้า `/sectionRoomPage.tsx` (render/structure)
-- [ ] ตรวจสอบการ fallback SVG `/bg/cta-pattern.svg` (อาจต้องย้ายไป `public/`)
-- [ ] ปรับความละเอียด layout บน mobile ให้สวยขึ้นในบางหน้ารอง (responsive paddings/margin)
+### 🔐 ระบบ Authentication
+- [ ] API `/api/auth/login` ส่ง JWT
+- [ ] Client เก็บ token (localStorage/cookie)
+- [ ] Hook: `useAuth`, `useLogin`, `useLogout`
+- [ ] Guard `/api/admin/*` ด้วย JWT middleware
+- [ ] Redirect + ProtectedRoute
 
-### 🧪 Functionality
-- [ ] ทดสอบการ Upload PDF → แสดง + ดาวน์โหลดจริง
-- [ ] ตรวจสอบ fallback หน้า 404
-- [ ] ตรวจสอบ manifest/webapp install PWA (icon, splash screen)
+### 📄 Document Center
+- [ ] แสดงรายการไฟล์จาก backend
+- [ ] API สำหรับ upload → `/api/admin/upload`
+- [ ] ปุ่ม Download (ผ่าน FileSaver หรือ link)
+- [ ] Split public/private document
 
-### 🚀 Deployment
-- [ ] Setup deploy script (Termux → Push dist/ ไป Netlify/Vercel/Node Host)
-- [ ] ตรวจสอบ HTTPS และ Assets path บนเซิร์ฟเวอร์จริง
-- [ ] อัปเดต service-worker เพื่อ precache ไฟล์ล่าสุด
+### ⚙️ Admin Tool
+- [ ] สร้าง UI ที่ `/admin`
+- [ ] จัดการไฟล์ (upload/delete)
+- [ ] Protected route ด้วย JWT
+
+### 🚀 Deployment & Optimization
+- [ ] Gzip/Brotli + Static caching headers
+- [ ] Workbox runtime caching strategy
+- [ ] Deploy: Surge / Vercel / CF Pages
+- [ ] ตรวจสอบ Offline Mode
 
 ---
+
+## 📁 Suggested File Structure (ต่อยอด)
+plaintext
+src/
+├─ api/
+│  ├─ apiAdmin.ts
+│  └─ apiAuth.ts     ← [new]
+├─ features/
+│  └─ AuthFeature.tsx  ← [new]
+├─ pages/
+│  ├─ DocumentsPage.tsx
+│  ├─ AdminPage.tsx     ← [new]
+│  └─ LoginPage.tsx     ← [new]
+├─ hooks/
+│  └─ useAuth.ts        ← [new]
+└─ sw.ts
+
+
+---
+
+☑️ ถัดไปให้เริ่มที่:
+
+[ ] apiAuth.ts → สร้าง /api/auth/login (JWT)
+
+[ ] LoginPage.tsx + form login
+
+[ ] useAuth.ts → ใช้กับ ProtectedRoute
+
+[ ] ทดสอบ /admin + token auth
+
 
 🧠 พร้อมทำงานต่อ Dev-to-Dev
 สั่งแก้/ขยาย/เพิ่ม component ได้

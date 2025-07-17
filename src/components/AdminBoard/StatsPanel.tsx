@@ -23,9 +23,9 @@ export default function StatsPanel() {
     apiClient
       .getStats()
       .then((res) => {
-        setUsers(res.userCount ?? 0);
-        setErrors(res.errorCount ?? 0);
-        setSessions(res.sessionCount ?? 0);
+        setUsers(res?.userCount ?? 0);
+        setErrors(res?.errorCount ?? 0);
+        setSessions(res?.sessionCount ?? 0);
       })
       .catch((err) => {
         console.error('❌ Failed to fetch stats:', err);

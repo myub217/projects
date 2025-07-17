@@ -1,4 +1,4 @@
-// src/components/AdminBoard/UserTable.tsx
+// ✅ src/components/AdminBoard/UserTable.tsx – ตารางผู้ใช้ (เชื่อมต่อ API จริง)
 
 import React, { useEffect, useState } from 'react';
 import apiClient from '@/api/apiClient';
@@ -16,9 +16,9 @@ export default function UserTable() {
 
   useEffect(() => {
     apiClient
-      .getUsers()
+      .get('/api/admin/users')
       .then((res) => {
-        setUsers(res ?? []);
+        setUsers(res.data ?? []);
         setError(null);
       })
       .catch((err) => {

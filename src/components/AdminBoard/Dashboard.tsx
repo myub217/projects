@@ -1,7 +1,7 @@
-// src/components/AdminBoard/Dashboard.tsx
+// ✅ src/components/AdminBoard/Dashboard.tsx
 
-import React, { useEffect, useState } from 'react';
-import apiClient from '@/api/apiClient';
+import React, { useEffect, useState } from 'react'
+import apiClient from '@/api/apiClient'
 import {
   FaUsers,
   FaUserPlus,
@@ -9,15 +9,15 @@ import {
   FaExclamationCircle,
   FaChartBar,
   FaClipboard,
-} from 'react-icons/fa';
+} from 'react-icons/fa'
 
 interface StatItem {
-  id: number;
-  title: string;
-  value: number | string;
-  description?: string;
-  icon?: React.ReactNode;
-  bgColor?: string;
+  id: number
+  title: string
+  value: number | string
+  description?: string
+  icon?: React.ReactNode
+  bgColor?: string
 }
 
 interface StatCardProps extends Omit<StatItem, 'id'> {}
@@ -49,34 +49,35 @@ const StatCard: React.FC<StatCardProps> = ({
       )}
     </div>
   </article>
-);
+)
 
 export default function Dashboard() {
-  const [userCount, setUserCount] = useState<number | null>(null);
-  const [newUsersToday, setNewUsersToday] = useState<number | null>(null);
-  const [serverLoad, setServerLoad] = useState<string>('⏳');
-  const [errorCount, setErrorCount] = useState<number | null>(null);
+  const [userCount, setUserCount] = useState<number | null>(null)
+  const [newUsersToday, setNewUsersToday] = useState<number | null>(null)
+  const [serverLoad, setServerLoad] = useState<string>('⏳')
+  const [errorCount, setErrorCount] = useState<number | null>(null)
 
-  const loggingEnabled = import.meta.env.VITE_ENABLE_LOGGING === 'true';
-  const analyticsUrl = import.meta.env.VITE_ANALYTICS_URL || '';
+  const loggingEnabled = import.meta.env.VITE_ENABLE_LOGGING === 'true'
+  const analyticsUrl = import.meta.env.VITE_ANALYTICS_URL || ''
 
   useEffect(() => {
     apiClient
-      .getStats()
+      .get('/admin/stats')
       .then((res) => {
-        setUserCount(res.userCount ?? 0);
-        setNewUsersToday(res.newUsersToday ?? 0);
-        setServerLoad(res.serverLoad ?? '0%');
-        setErrorCount(res.errorCount ?? 0);
+        const data = res.data
+        setUserCount(data.userCount ?? 0)
+        setNewUsersToday(data.newUsersToday ?? 0)
+        setServerLoad(data.serverLoad ?? '0%')
+        setErrorCount(data.errorCount ?? 0)
       })
       .catch((err) => {
-        console.error('❌ Error loading stats:', err);
-        setUserCount(0);
-        setNewUsersToday(0);
-        setServerLoad('0%');
-        setErrorCount(0);
-      });
-  }, []);
+        console.error('❌ Error loading stats:', err)
+        setUserCount(0)
+        setNewUsersToday(0)
+        setServerLoad('0%')
+        setErrorCount(0)
+      })
+  }, [])
 
   const stats: StatItem[] = [
     {
@@ -127,7 +128,7 @@ export default function Dashboard() {
       icon: <FaClipboard />,
       bgColor: loggingEnabled ? 'bg-info' : 'bg-warning',
     },
-  ];
+  ]
 
   return (
     <section
@@ -138,5 +139,5 @@ export default function Dashboard() {
         <StatCard key={id} {...card} />
       ))}
     </section>
-  );
+  )
 }

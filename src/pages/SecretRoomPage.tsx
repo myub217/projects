@@ -48,7 +48,10 @@ const SectionRoomPage: React.FC = () => {
               </h2>
               <p>เข้าถึงข้อมูลเชิงลึกสำหรับการตัดสินใจเชิงกลยุทธ์</p>
               <div className="card-actions justify-end">
-                <button className="btn btn-sm btn-outline btn-primary">
+                <button
+                  className="btn btn-sm btn-outline btn-primary"
+                  onClick={() => navigate('/internal-reports')}
+                >
                   เข้าดู
                 </button>
               </div>
@@ -63,7 +66,10 @@ const SectionRoomPage: React.FC = () => {
               </h2>
               <p>สำหรับผู้ได้รับอนุญาตเท่านั้นในการดูเอกสารสำคัญ</p>
               <div className="card-actions justify-end">
-                <button className="btn btn-sm btn-outline btn-warning">
+                <button
+                  className="btn btn-sm btn-outline btn-warning"
+                  onClick={() => navigate('/confidential-docs')}
+                >
                   ดูเอกสาร
                 </button>
               </div>

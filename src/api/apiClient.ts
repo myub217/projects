@@ -1,4 +1,4 @@
-// ✅ src/api/apiClient.ts – API Client: JP Visual & Docs
+// ✅ src/api/apiClient.ts – API Client: JP Visual & Docs (สมบูรณ์พร้อมใช้งาน)
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL?.trim() || '/api';
 
@@ -55,7 +55,7 @@ const getRepoList = () =>
   >('/repos');
 
 const login = (username: string, password: string) =>
-  apiFetch<{ token: string }>('/login', {
+  apiFetch<{ token: string }>('/auth/login', {
     method: 'POST',
     body: JSON.stringify({ username, password }),
   });

@@ -1,4 +1,4 @@
-// src/components/AdminBoard/RepoList.tsx
+// ✅ src/components/AdminBoard/RepoList.tsx – แสดงรายการ GitHub Repository พร้อมตัวกรอง
 
 import { useEffect, useState, useMemo } from 'react';
 import apiClient from '@/api/apiClient';
@@ -62,10 +62,7 @@ export default function RepoList() {
   return (
     <section className="p-4 md:p-8 max-w-7xl mx-auto" aria-label="GitHub Repositories Section">
       <h2 className="mb-6 text-2xl font-bold text-primary flex items-center gap-2">
-        <span role="img" aria-label="package">
-          📦
-        </span>{' '}
-        GitHub Repositories
+        <span role="img" aria-label="package">📦</span> GitHub Repositories
       </h2>
 
       <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -93,7 +90,7 @@ export default function RepoList() {
       </div>
 
       {loading && (
-        <p className="animate-pulse text-center text-muted">🔄 กำลังโหลดข้อมูล...</p>
+        <p className="animate-pulse text-center text-base-content/60">🔄 กำลังโหลดข้อมูล...</p>
       )}
 
       {error && (
@@ -101,14 +98,14 @@ export default function RepoList() {
       )}
 
       {!loading && !error && filteredRepos.length === 0 && (
-        <p className="text-center text-muted">📭 ไม่พบ repository ที่ตรงกับเงื่อนไข</p>
+        <p className="text-center text-base-content/60">📭 ไม่พบ repository ที่ตรงกับเงื่อนไข</p>
       )}
 
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredRepos.map((repo) => (
           <li
             key={repo.id}
-            className="rounded-xl border border-border p-5 bg-base-100 shadow-md hover:shadow-lg transition-all"
+            className="rounded-xl border border-base-200 p-5 bg-base-100 shadow-md hover:shadow-lg transition-all"
           >
             <a
               href={repo.html_url}
@@ -119,25 +116,19 @@ export default function RepoList() {
               {repo.name}
             </a>
             {repo.description && (
-              <p className="mt-2 text-sm text-muted line-clamp-3">
+              <p className="mt-2 text-sm text-base-content/70 line-clamp-3">
                 {repo.description}
               </p>
             )}
-            <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-muted">
+            <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-base-content/60">
               {repo.language && (
-                <span className="flex items-center gap-1">
-                  🧠 {repo.language}
-                </span>
+                <span className="flex items-center gap-1">🧠 {repo.language}</span>
               )}
               {typeof repo.stargazers_count === 'number' && (
-                <span className="flex items-center gap-1">
-                  ⭐ {repo.stargazers_count}
-                </span>
+                <span className="flex items-center gap-1">⭐ {repo.stargazers_count}</span>
               )}
               {typeof repo.forks_count === 'number' && (
-                <span className="flex items-center gap-1">
-                  🍴 {repo.forks_count}
-                </span>
+                <span className="flex items-center gap-1">🍴 {repo.forks_count}</span>
               )}
             </div>
           </li>

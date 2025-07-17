@@ -1,4 +1,4 @@
-// ✅ src/api/document.ts – Document API Module
+// ✅ src/api/document.ts – Document API Module (สมบูรณ์ พร้อมใช้งาน)
 
 import type { CustomerApproval } from '@/data/approvedCustomers';
 import type { Service } from '@/data/servicesData';

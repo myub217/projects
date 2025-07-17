@@ -1,63 +1,57 @@
 // ✅ src/main.tsx – Entry Point สำหรับ JP Visual & Docs
 
-import React, { useState, useEffect, useCallback } from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react'
+import ReactDOM from 'react-dom/client'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import '@/styles/global.css';
+import '@/styles/global.css'
 
-import IndexPage from '@pages/IndexPage';
-import LoginPage from '@pages/LoginPage';
-import SecretRoomPage from '@pages/SecretRoomPage';
-import ProtectedRoute from '@components/ProtectedRoute';
-import DocumentCenter from '@features/DocumentCenter/DocumentCenter';
+import IndexPage from '@pages/IndexPage'
+import LoginPage from '@pages/LoginPage'
+import SecretRoomPage from '@pages/SecretRoomPage'
+import ProtectedRoute from '@components/ProtectedRoute'
+import DocumentCenter from '@features/DocumentCenter/DocumentCenter'
+import AdminPage from '@pages/AdminPage'
 
-const THEME_KEY = 'app-theme';
-export type ThemeMode = 'light' | 'dark';
+const THEME_KEY = 'app-theme'
+export type ThemeMode = 'light' | 'dark'
 
 const App: React.FC = () => {
-  const [theme, setTheme] = useState<ThemeMode>('light');
+  const [theme, setTheme] = useState<ThemeMode>('light')
 
   const applyTheme = useCallback((mode: ThemeMode) => {
-    const root = document.documentElement;
-    const isDark = mode === 'dark';
-    root.classList.toggle('dark', isDark);
-    root.setAttribute('data-theme', isDark ? 'business-dark' : 'business');
-    localStorage.setItem(THEME_KEY, mode);
-  }, []);
+    const root = document.documentElement
+    const isDark = mode === 'dark'
+    root.classList.toggle('dark', isDark)
+    root.setAttribute('data-theme', isDark ? 'business-dark' : 'business')
+    localStorage.setItem(THEME_KEY, mode)
+  }, [])
 
   useEffect(() => {
-    const stored = localStorage.getItem(THEME_KEY) as ThemeMode | null;
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme: ThemeMode =
-      stored === 'dark' || (!stored && prefersDark) ? 'dark' : 'light';
-
-    setTheme(initialTheme);
-    applyTheme(initialTheme);
-  }, [applyTheme]);
+    const stored = localStorage.getItem(THEME_KEY) as ThemeMode | null
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const initialTheme: ThemeMode = stored || (prefersDark ? 'dark' : 'light')
+    setTheme(initialTheme)
+    applyTheme(initialTheme)
+  }, [applyTheme])
 
   const toggleTheme = useCallback(() => {
     setTheme((prev) => {
-      const next: ThemeMode = prev === 'light' ? 'dark' : 'light';
-      applyTheme(next);
-      return next;
-    });
-  }, [applyTheme]);
+      const next: ThemeMode = prev === 'light' ? 'dark' : 'light'
+      applyTheme(next)
+      return next
+    })
+  }, [applyTheme])
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={<IndexPage theme={theme} toggleTheme={toggleTheme} />}
-        />
+        <Route path="/" element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
         <Route path="/login" element={<LoginPage />} />
         <Route element={<ProtectedRoute />}>
-          <Route
-            path="/secret"
-            element={<SecretRoomPage theme={theme} toggleTheme={toggleTheme} />}
-          />
+          <Route path="/secret" element={<SecretRoomPage theme={theme} toggleTheme={toggleTheme} />} />
           <Route path="/documents" element={<DocumentCenter />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Route>
         <Route
           path="*"
@@ -69,16 +63,16 @@ const App: React.FC = () => {
         />
       </Routes>
     </BrowserRouter>
-  );
-};
+  )
+}
 
-const rootEl = document.getElementById('root');
+const rootEl = document.getElementById('root')
 if (rootEl) {
   ReactDOM.createRoot(rootEl).render(
     <React.StrictMode>
       <App />
     </React.StrictMode>
-  );
+  )
 } else {
-  console.error('⚠️ Root element not found: #root');
+  console.error('⚠️ Root element not found: #root')
 }

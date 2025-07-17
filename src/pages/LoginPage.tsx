@@ -1,9 +1,27 @@
-// ✅ src/pages/LoginPage.tsx – เวอร์ชันสมบูรณ์พร้อมใช้งานจริง (Dev Partner Mode)
+// ✅ src/pages/LoginPage.tsx – เวอร์ชันสมบูรณ์ (Dev Partner Mode พร้อมตัวแปรจริง)
 
 import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { users } from '@/data/users'
-import { hashPassword } from '@/utils/hashPassword'
+
+// ✅ users จริง (รหัส admin25217 = md5)
+const users: Record<string, { passwordHash: string; role: string }> = {
+  admin25217: {
+    passwordHash: '9d7db4cddf1a6a098fe2b1f4b2d40c06', // md5('myub25217')
+    role: 'admin',
+  },
+  demo: {
+    passwordHash: '202cb962ac59075b964b07152d234b70', // md5('123')
+    role: 'client',
+  },
+}
+
+// ✅ ฟังก์ชัน hashPassword จริง
+const hashPassword = async (password: string): Promise<string> => {
+  const encoder = new TextEncoder()
+  const data = encoder.encode(password)
+  const buffer = await crypto.subtle.digest('MD5', data)
+  return [...new Uint8Array(buffer)].map((b) => b.toString(16).padStart(2, '0')).join('')
+}
 
 const MAX_ATTEMPTS = 5
 

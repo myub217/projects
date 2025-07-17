@@ -1,43 +1,46 @@
-// ✅ src/pages/AdminPage.tsx — สมบูรณ์ พร้อมใช้งานจริง
+// ✅ src/pages/AdminPage.tsx — เวอร์ชันสมบูรณ์ พร้อมใช้งานจริง
 
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Dashboard from '@components/AdminBoard/Dashboard';
-import UserTable from '@components/AdminBoard/UserTable';
-import RepoList from '@components/AdminBoard/RepoList';
-import ThemeToggleButton from '@components/SecretRoom/ThemeToggleButton';
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Dashboard from '@components/AdminBoard/Dashboard'
+import UserTable from '@components/AdminBoard/UserTable'
+import RepoList from '@components/AdminBoard/RepoList'
+import ThemeToggleButton from '@components/SecretRoom/ThemeToggleButton'
 
 const AdminPage: React.FC = () => {
-  const navigate = useNavigate();
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const navigate = useNavigate()
+  const [theme, setTheme] = useState<'light' | 'dark'>('light')
 
   useEffect(() => {
-    const user = localStorage.getItem('authUser');
-    const role = localStorage.getItem('authRole');
-    if (!user || role !== 'admin') {
-      navigate('/login', { replace: true });
-      return;
+    const token = localStorage.getItem('token')
+    const user = localStorage.getItem('authUser')
+    const role = localStorage.getItem('authRole')
+
+    if (!token || !user || role !== 'admin') {
+      navigate('/login', { replace: true })
+      return
     }
 
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initial = savedTheme || (prefersDark ? 'dark' : 'light');
-    setTheme(initial);
-    document.documentElement.setAttribute('data-theme', initial);
-  }, [navigate]);
+    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const initial = savedTheme || (prefersDark ? 'dark' : 'light')
+    setTheme(initial)
+    document.documentElement.setAttribute('data-theme', initial)
+  }, [navigate])
 
   const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
-  };
+    const newTheme = theme === 'light' ? 'dark' : 'light'
+    setTheme(newTheme)
+    localStorage.setItem('theme', newTheme)
+    document.documentElement.setAttribute('data-theme', newTheme)
+  }
 
   const handleLogout = () => {
-    localStorage.removeItem('authUser');
-    localStorage.removeItem('authRole');
-    navigate('/login');
-  };
+    localStorage.removeItem('token')
+    localStorage.removeItem('authUser')
+    localStorage.removeItem('authRole')
+    navigate('/login')
+  }
 
   return (
     <main
@@ -98,7 +101,7 @@ const AdminPage: React.FC = () => {
         </section>
       </div>
     </main>
-  );
-};
+  )
+}
 
-export default AdminPage;
+export default AdminPage

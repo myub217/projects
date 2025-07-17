@@ -5,12 +5,13 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
 dotenv.config();
+
 const router = express.Router();
 
 router.post('/contact', async (req, res) => {
   const { name, email, message } = req.body;
 
-  if (!name || !email || !message) {
+  if (!name?.trim() || !email?.trim() || !message?.trim()) {
     return res.status(400).json({ error: 'กรุณากรอกข้อมูลให้ครบถ้วน' });
   }
 
@@ -34,7 +35,7 @@ router.post('/contact', async (req, res) => {
         <p><strong>ชื่อ:</strong> ${name}</p>
         <p><strong>อีเมล:</strong> ${email}</p>
         <p><strong>ข้อความ:</strong></p>
-        <p>${message}</p>
+        <p>${message.replace(/\n/g, '<br/>')}</p>
       `,
     });
 
