@@ -286,34 +286,24 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import '@/styles/global.css'
+import '@/styles/tailwind-base.css'
+import '@/styles/tailwind.css'
 
 import IndexPage from '@pages/IndexPage'
 import LoginPage from '@pages/LoginPage'
 import SecretRoomPage from '@pages/SecretRoomPage'
 import AdminPage from '@pages/AdminPage'
+import NotFoundPage from '@pages/NotFoundPage'
+
 import ProtectedRoute from '@components/ProtectedRoute'
 import { ThemeProvider, useTheme } from '@components/ThemeProvider'
-
-const NotFound: React.FC = () => (
-  <main
-    role="alert"
-    aria-live="assertive"
-    className="flex items-center justify-center min-h-screen bg-base-100 text-error text-xl font-semibold select-none"
-  >
-    404 | ไม่พบหน้าที่คุณต้องการ
-  </main>
-)
 
 const AppRoutes: React.FC = () => {
   const { theme, toggleTheme } = useTheme()
 
   return (
     <Routes>
-      <Route
-        path="/"
-        element={<IndexPage theme={theme} toggleTheme={toggleTheme} />}
-      />
+      <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
       <Route path="/login" element={<LoginPage />} />
 
       <Route element={<ProtectedRoute />}>
@@ -321,7 +311,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/admin" element={<AdminPage />} />
       </Route>
 
-      <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )
 }
@@ -336,11 +326,12 @@ const RootApp: React.FC = () => (
   </React.StrictMode>
 )
 
-const rootElement = document.getElementById('root')
-if (!rootElement) {
+const root = document.getElementById('root')
+
+if (!root) {
   console.error('❌ ไม่พบ <div id="root"> ใน index.html')
 } else {
-  ReactDOM.createRoot(rootElement).render(<RootApp />)
+  ReactDOM.createRoot(root).render(<RootApp />)
 }
 
 export default RootApp```
@@ -500,9 +491,9 @@ export default AdminPage
 │   │   ├── about.webp
 │   │   ├── hero-BRaXPQvd.webp
 │   │   ├── hero.webp
-│   │   ├── index-BEpxuj_u.js
-│   │   ├── index-BEpxuj_u.js.map
-│   │   ├── index-ByCaH7NG.css
+│   │   ├── index-Bp9B5hAy.js
+│   │   ├── index-Bp9B5hAy.js.map
+│   │   ├── index-CZed8Zla.css
 │   │   ├── jp-logo-CH0zBIqT.webp
 │   │   ├── jp-logo.webp
 │   │   ├── logo.svg
@@ -570,6 +561,7 @@ export default AdminPage
 │   │   ├── Footer.tsx
 │   │   ├── Header.tsx
 │   │   ├── Hero.tsx
+│   │   ├── Layout
 │   │   ├── LoadingSpinner.tsx
 │   │   ├── ProtectedRoute.tsx
 │   │   ├── ResponsiveNavbar.tsx
@@ -594,9 +586,12 @@ export default AdminPage
 │   │   ├── AdminPage.tsx
 │   │   ├── IndexPage.tsx
 │   │   ├── LoginPage.tsx
+│   │   ├── NotFoundPage.tsx
 │   │   └── SecretRoomPage.tsx
 │   ├── styles
-│   │   └── global.css
+│   │   ├── global.css
+│   │   ├── tailwind-base.css
+│   │   └── tailwind.css
 │   ├── sw.ts
 │   ├── types
 │   │   ├── assets.d.ts
@@ -612,7 +607,7 @@ export default AdminPage
 ├── vercel.json
 └── vite.config.ts
 
-29 directories, 101 files
+30 directories, 104 files
 ```
 
 ## 📌 Final Note
@@ -635,4 +630,4 @@ export default AdminPage
 ถือว่าคุณเข้าใจแล้วโดยสมบูรณ์
 พร้อมรับคำสั่งถัดไปได้เลย 🛠️
 
-🕛 Last checked: Wed Jul 23 04:04:29 +07 2025
+🕛 Last checked: Wed Jul 23 04:28:24 +07 2025
