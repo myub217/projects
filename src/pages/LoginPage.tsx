@@ -29,9 +29,14 @@ const LoginPage: React.FC = () => {
       return
     }
 
-    const hashed = await hashPassword(trimmedPassword)
-    if (hashed !== user.passwordHash) {
-      setError('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง')
+    try {
+      const hashed = await hashPassword(trimmedPassword)
+      if (hashed !== user.passwordHash) {
+        setError('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง')
+        return
+      }
+    } catch {
+      setError('เกิดข้อผิดพลาดในการตรวจสอบรหัสผ่าน')
       return
     }
 
@@ -79,6 +84,7 @@ const LoginPage: React.FC = () => {
             autoComplete="username"
             required
             placeholder="กรอกชื่อผู้ใช้"
+            aria-required="true"
           />
         </div>
 
@@ -95,6 +101,7 @@ const LoginPage: React.FC = () => {
             autoComplete="current-password"
             required
             placeholder="กรอกรหัสผ่าน"
+            aria-required="true"
           />
         </div>
 

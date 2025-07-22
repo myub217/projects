@@ -53,5 +53,19 @@
     "vite": "^7.0.5",
     "vite-plugin-pwa": "^1.0.1",
     "vite-plugin-static-copy": "^0.15.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "engines": {
+    "node": ">=16"
   }
 }

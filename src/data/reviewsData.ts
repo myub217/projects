@@ -3,7 +3,7 @@
 export interface Review {
   name: string
   feedback: string
-  date: string
+  date: string // Format: วัน เดือน ปี (ภาษาไทย)
 }
 
 export const reviewsData: Review[] = [

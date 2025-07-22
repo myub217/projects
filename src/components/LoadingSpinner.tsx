@@ -1,4 +1,6 @@
 // src/components/LoadingSpinner.tsx
+// ✅ Accessible, minimal loading spinner with clear ARIA roles and Tailwind styling
+
 import React from 'react'
 
 const LoadingSpinner: React.FC = () => (
@@ -22,7 +24,7 @@ const LoadingSpinner: React.FC = () => (
         cy="12"
         r="10"
         stroke="currentColor"
-        strokeWidth="4"
+        strokeWidth={4}
       />
       <path
         className="opacity-75"

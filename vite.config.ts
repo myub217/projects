@@ -22,7 +22,7 @@ export default defineConfig({
     }),
     viteStaticCopy({
       targets: [
-        { src: 'public/images', dest: '' }, // copy images folder only
+        { src: 'public/images', dest: '' }, // copy only images folder content root
       ],
     }),
     {
@@ -62,8 +62,7 @@ export default defineConfig({
         target: 'http://localhost:3000',
         changeOrigin: true,
         secure: false,
-        // optional: rewrite path if needed
-        // rewrite: (path) => path.replace(/^\/api/, ''),
+        // rewrite: path => path.replace(/^\/api/, ''),
       },
     },
   },

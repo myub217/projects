@@ -1,4 +1,5 @@
 // src/components/CustomerCard.tsx
+// ✅ Refined CustomerCard with better accessibility, consistent styles, and clearer markup
 
 import React from 'react'
 import {
@@ -33,20 +34,24 @@ const STATUS_STYLES: Record<string, string> = {
 
 const STATUS_ICONS: Record<string, JSX.Element> = {
   'เสร็จสมบูรณ์': (
-    <FaUserCheck className="mr-1 inline text-green-600 dark:text-green-400" />
+    <FaUserCheck className="inline text-green-600 dark:text-green-400" aria-hidden="true" />
   ),
   'กำลังดำเนินการ': (
-    <FaClock className="mr-1 inline text-yellow-500 dark:text-yellow-400" />
+    <FaClock className="inline text-yellow-500 dark:text-yellow-400" aria-hidden="true" />
   ),
   'ยกเลิกแล้ว': (
-    <FaTimesCircle className="mr-1 inline text-red-500 dark:text-red-400" />
+    <FaTimesCircle className="inline text-red-500 dark:text-red-400" aria-hidden="true" />
   ),
 }
 
 const CustomerCard: React.FC<CustomerCardProps> = ({ customer, loading = false }) => {
   if (loading) {
     return (
-      <div className="w-full animate-pulse rounded-2xl border border-base-300 bg-base-100 p-6 shadow-md dark:border-zinc-700 dark:bg-zinc-900">
+      <div
+        className="w-full animate-pulse rounded-2xl border border-base-300 bg-base-100 p-6 shadow-md dark:border-zinc-700 dark:bg-zinc-900"
+        aria-busy="true"
+        aria-label="กำลังโหลดข้อมูลลูกค้า"
+      >
         <div className="mb-4 h-6 w-3/4 rounded bg-base-300 dark:bg-zinc-700" />
         <div className="space-y-3">
           <div className="h-4 w-1/2 rounded bg-base-300 dark:bg-zinc-700" />
@@ -60,13 +65,13 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ customer, loading = false }
   if (!customer) return null
 
   const statusStyle =
-    STATUS_STYLES[customer.status] ||
+    STATUS_STYLES[customer.status] ??
     'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
-  const statusIcon = STATUS_ICONS[customer.status] || null
+  const statusIcon = STATUS_ICONS[customer.status] ?? null
 
   return (
     <article
-      className="flex flex-col justify-between rounded-2xl border border-base-300 bg-base-100 p-6 shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-zinc-700 dark:bg-base-200"
+      className="flex flex-col justify-between rounded-2xl border border-base-300 bg-base-100 p-6 shadow-md transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-zinc-700 dark:bg-base-200"
       role="group"
       aria-label={`ลูกค้า: ${customer.name}, สถานะ: ${customer.status}`}
       tabIndex={0}
@@ -81,8 +86,10 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ customer, loading = false }
         <span
           className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold select-none ${statusStyle}`}
           aria-live="polite"
+          aria-atomic="true"
+          role="status"
         >
-          {statusIcon} {customer.status}
+          {statusIcon} <span>{customer.status}</span>
         </span>
       </header>
 
@@ -93,8 +100,7 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ customer, loading = false }
             aria-hidden="true"
           />
           <p className="leading-snug break-words">
-            <span className="font-semibold">บริการ:</span>{' '}
-            {customer.documentTitle || 'จัดการเอกสารทั่วไป'}
+            <strong>บริการ:</strong> {customer.documentTitle || 'จัดการเอกสารทั่วไป'}
           </p>
         </div>
 
@@ -104,8 +110,7 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ customer, loading = false }
             aria-hidden="true"
           />
           <p className="leading-snug break-words">
-            <span className="font-semibold">อัปเดตล่าสุด:</span>{' '}
-            {formatDate(customer.receivedDate)}
+            <strong>อัปเดตล่าสุด:</strong> {formatDate(customer.receivedDate)}
           </p>
         </div>
       </section>

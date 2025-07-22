@@ -1,6 +1,6 @@
 // src/components/common/ServiceRequestModal.tsx
 
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import type { Service } from '@components/ServicesSection'
 
 interface ServiceRequestModalProps {
@@ -9,6 +9,48 @@ interface ServiceRequestModalProps {
 }
 
 const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onClose }) => {
+  const modalRef = useRef<HTMLDivElement>(null)
+
+  // Trap focus inside modal and focus modal on open
+  useEffect(() => {
+    if (!service) return
+
+    const previousActiveElement = document.activeElement as HTMLElement | null
+    modalRef.current?.focus()
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose()
+      }
+      // Simple focus trap
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        )
+        const firstEl = focusableElements[0]
+        const lastEl = focusableElements[focusableElements.length - 1]
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstEl) {
+            e.preventDefault()
+            lastEl.focus()
+          }
+        } else {
+          if (document.activeElement === lastEl) {
+            e.preventDefault()
+            firstEl.focus()
+          }
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      previousActiveElement?.focus()
+    }
+  }, [service, onClose])
+
   if (!service) return null
 
   return (
@@ -23,6 +65,7 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
     >
       <div
         tabIndex={0}
+        ref={modalRef}
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-lg rounded-2xl bg-base-100 dark:bg-gray-900 p-6 shadow-2xl space-y-5 focus:outline-none"
       >
@@ -33,9 +76,15 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
           id="service-modal-desc"
           className="space-y-2 text-sm sm:text-base text-base-content/80"
         >
-          <p><strong>บริการ:</strong> {service.title}</p>
-          <p><strong>รายละเอียด:</strong> {service.description}</p>
-          <p><strong>ค่าบริการ:</strong> {service.price}</p>
+          <p>
+            <strong>บริการ:</strong> {service.title}
+          </p>
+          <p>
+            <strong>รายละเอียด:</strong> {service.description}
+          </p>
+          <p>
+            <strong>ค่าบริการ:</strong> {service.price}
+          </p>
           <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
             ทีมงานสายทำจริง สไตล์มือโปร — เอกสาร ชัด เป๊ะ ขายงานผ่าน
           </p>
@@ -44,7 +93,7 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
           <button
             type="button"
             onClick={onClose}
-            className="btn btn-sm border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+            className="btn btn-sm rounded border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
           >
             ปิด
           </button>
@@ -55,7 +104,7 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
             target="_blank"
             rel="noopener noreferrer"
             onClick={onClose}
-            className="btn btn-sm btn-primary text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+            className="btn btn-sm btn-primary rounded text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
           >
             ติดต่อผ่าน LINE
           </a>

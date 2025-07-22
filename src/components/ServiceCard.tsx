@@ -10,6 +10,7 @@ type ServiceCardProps = {
   description: string
   link?: string
   imageUrl?: string
+  altText?: string
   disabled?: boolean
 }
 
@@ -19,6 +20,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   description,
   link,
   imageUrl,
+  altText,
   disabled = false,
 }) => {
   return (
@@ -31,13 +33,13 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         ${disabled
           ? 'border-yellow-400 bg-yellow-50 dark:bg-yellow-900 dark:border-yellow-600 cursor-not-allowed opacity-70'
           : 'border-base-200 bg-base-100 dark:bg-base-300 hover:shadow-xl hover:border-primary dark:hover:border-primary cursor-pointer'}
-        text-center sm:text-left`}
+        text-center sm:text-left select-text`}
     >
       {/* Image or fallback icon */}
       {imageUrl ? (
         <img
           src={imageUrl}
-          alt={title}
+          alt={altText ?? title}
           loading="lazy"
           className="w-full h-40 sm:h-48 object-cover object-center transition-transform duration-300 group-hover:scale-105"
           onError={(e) => {

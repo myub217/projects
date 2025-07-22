@@ -23,6 +23,7 @@ const statsData: StatItem[] = [
         strokeWidth={2}
         viewBox="0 0 24 24"
         aria-hidden="true"
+        focusable="false"
       >
         <path
           strokeLinecap="round"
@@ -45,6 +46,7 @@ const statsData: StatItem[] = [
         strokeWidth={2}
         viewBox="0 0 24 24"
         aria-hidden="true"
+        focusable="false"
       >
         <path
           strokeLinecap="round"
@@ -67,6 +69,7 @@ const statsData: StatItem[] = [
         strokeWidth={2}
         viewBox="0 0 24 24"
         aria-hidden="true"
+        focusable="false"
       >
         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
       </svg>
@@ -77,13 +80,17 @@ const statsData: StatItem[] = [
 
 const StatsPanel: React.FC = () => {
   return (
-    <section className="grid grid-cols-1 sm:grid-cols-3 gap-6" role="region" aria-label="สถิติโดยรวม">
+    <section
+      role="region"
+      aria-label="สถิติโดยรวม"
+      className="grid grid-cols-1 sm:grid-cols-3 gap-6"
+    >
       {statsData.map(({ id, title, value, icon, colorClass }) => (
         <article
           key={id}
-          className={`card flex items-center gap-4 p-6 rounded-xl shadow-md ${colorClass} select-text`}
           tabIndex={0}
           aria-labelledby={`stat-title-${id} stat-value-${id}`}
+          className={`card flex items-center gap-4 p-6 rounded-xl shadow-md ${colorClass} select-text focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2`}
         >
           <div className="icon flex-shrink-0" aria-hidden="true">
             {icon}

@@ -1,6 +1,7 @@
 // src/components/Header.tsx
+// ✅ Responsive Header with accessible keyboard nav, smooth scroll, and contact links
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-scroll'
 import {
   FaFacebookMessenger,
@@ -18,6 +19,29 @@ const navItems = [
 
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  // Close menu on outside click or Escape key
+  useEffect(() => {
+    if (!menuOpen) return
+
+    const onClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false)
+      }
+    }
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false)
+    }
+
+    document.addEventListener('mousedown', onClickOutside)
+    document.addEventListener('keydown', onEsc)
+    return () => {
+      document.removeEventListener('mousedown', onClickOutside)
+      document.removeEventListener('keydown', onEsc)
+    }
+  }, [menuOpen])
+
   const toggleMenu = () => setMenuOpen((prev) => !prev)
 
   return (
@@ -29,7 +53,11 @@ const Header: React.FC = () => {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         {/* Logo */}
-        <div className="flex items-center gap-2 select-none" aria-label="โลโก้ JP - VISUAL & DOCS">
+        <div
+          className="flex items-center gap-2 select-none"
+          aria-label="โลโก้ JP - VISUAL & DOCS"
+          tabIndex={-1}
+        >
           <img
             src="/assets/logo.svg"
             alt="โลโก้ JP - VISUAL & DOCS"
@@ -37,7 +65,7 @@ const Header: React.FC = () => {
             draggable={false}
             loading="lazy"
             decoding="async"
-            fetchpriority="high"
+            fetchPriority="high"
           />
           <span className="text-lg font-bold tracking-tight text-primary select-text">
             JP - VISUAL & DOCS
@@ -57,7 +85,7 @@ const Header: React.FC = () => {
               smooth
               offset={-80}
               duration={500}
-              className="cursor-pointer text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors"
+              className="cursor-pointer text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded"
               tabIndex={0}
               role="link"
               aria-label={`ไปยังส่วน ${label}`}
@@ -125,6 +153,7 @@ const Header: React.FC = () => {
       {menuOpen && (
         <nav
           id="mobile-menu"
+          ref={menuRef}
           className="border-t border-base-300 bg-base-100 px-4 pb-4 pt-2 dark:border-gray-700 dark:bg-gray-900 sm:hidden transition-colors duration-300"
           role="menu"
           aria-label="เมนูนำทางโทรศัพท์มือถือ"
@@ -137,7 +166,7 @@ const Header: React.FC = () => {
               offset={-80}
               duration={500}
               onClick={() => setMenuOpen(false)}
-              className="block text-sm font-medium text-gray-700 hover:text-primary dark:text-gray-200 py-2"
+              className="block text-sm font-medium text-gray-700 hover:text-primary dark:text-gray-200 py-2 focus:outline-none focus:ring-2 focus:ring-primary rounded"
               role="menuitem"
               tabIndex={0}
               aria-label={`ไปยังส่วน ${label}`}

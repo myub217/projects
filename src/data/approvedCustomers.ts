@@ -4,7 +4,7 @@ export interface CustomerApproval {
   id: string
   name: string
   documentTitle: string
-  receivedDate: string // ISO 8601 format with timezone
+  receivedDate: string // ISO 8601 with timezone, e.g. 2025-07-09T09:15:00+07:00
   status: 'เสร็จสมบูรณ์' | 'กำลังดำเนินการ'
 }
 

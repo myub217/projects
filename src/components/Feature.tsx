@@ -1,4 +1,5 @@
 // src/components/Feature.tsx
+// ✅ Refined Feature section with accessible sorting, form toggle, and responsive grid
 
 import React, { useState, useMemo, useRef, useEffect } from 'react'
 import CustomerAssessmentForm from './CustomerAssessmentForm'
@@ -37,6 +38,8 @@ const Feature: React.FC = () => {
       aria-labelledby="feature-heading"
       className="bg-gradient-to-br from-base-200 to-base-300 py-20 transition-colors duration-500 dark:from-zinc-900 dark:to-zinc-800"
       role="region"
+      aria-live="polite"
+      aria-atomic="true"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <header className="mx-auto mb-12 max-w-2xl text-center">
@@ -53,23 +56,19 @@ const Feature: React.FC = () => {
 
         <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           {/* Info & Sort */}
-          <div
-            className="flex flex-wrap items-center gap-4 text-sm text-zinc-600 dark:text-zinc-300"
-            aria-live="polite"
-            aria-atomic="true"
-          >
-            <div className="flex items-center gap-2">
-              <FaListUl className="text-base text-zinc-500" />
+          <div className="flex flex-wrap items-center gap-4 text-sm text-zinc-600 dark:text-zinc-300">
+            <div className="flex items-center gap-2" aria-live="polite" aria-atomic="true">
+              <FaListUl className="text-base text-zinc-500" aria-hidden="true" />
               <span>
                 ทั้งหมด <strong>{approvedCustomers.length}</strong> รายการ
               </span>
             </div>
 
             <label
-              className="inline-flex items-center gap-2"
               htmlFor="sort-order-select"
+              className="inline-flex items-center gap-2 cursor-pointer"
             >
-              <FaSortAmountDownAlt />
+              <FaSortAmountDownAlt aria-hidden="true" />
               <select
                 id="sort-order-select"
                 value={sortOrder}
@@ -92,8 +91,8 @@ const Feature: React.FC = () => {
               type="button"
               className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white shadow transition hover:bg-blue-700 focus:ring-4 focus:ring-blue-400 focus:outline-none"
             >
-              <FaFileSignature />
-              {showForm ? 'ซ่อนแบบฟอร์ม' : 'ส่งคำขอให้เราช่วยดูแล'}
+              <FaFileSignature aria-hidden="true" />
+              <span>{showForm ? 'ซ่อนแบบฟอร์ม' : 'ส่งคำขอให้เราช่วยดูแล'}</span>
               <svg
                 className={`h-4 w-4 transition-transform duration-300 ${
                   showForm ? 'rotate-180' : 'rotate-0'
@@ -113,8 +112,8 @@ const Feature: React.FC = () => {
               type="button"
               className="inline-flex items-center gap-2 rounded-lg bg-zinc-100 px-4 py-2 text-zinc-800 transition hover:bg-zinc-200 focus:ring-4 focus:ring-zinc-400 dark:bg-zinc-700 dark:text-white dark:hover:bg-zinc-600 dark:focus:ring-zinc-600 focus:outline-none"
             >
-              <FaListUl />
-              ดูทั้งหมด
+              <FaListUl aria-hidden="true" />
+              <span>ดูทั้งหมด</span>
             </button>
           </div>
         </div>
@@ -125,6 +124,7 @@ const Feature: React.FC = () => {
             ref={formRef}
             tabIndex={-1}
             aria-live="polite"
+            aria-label="ฟอร์มส่งคำขอให้ช่วยดูแล"
             className="mx-auto max-w-3xl rounded-xl border border-zinc-200 bg-white p-6 shadow-md dark:border-zinc-800 dark:bg-zinc-900"
           >
             <CustomerAssessmentForm />

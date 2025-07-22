@@ -28,7 +28,7 @@ const About: React.FC = () => {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <h2
           id="about-heading"
-          className="mb-12 text-3xl sm:text-4xl font-extrabold text-primary tracking-tight select-none"
+          className="mb-12 select-none text-3xl font-extrabold tracking-tight text-primary sm:text-4xl"
         >
           เกี่ยวกับเรา
         </h2>
@@ -37,14 +37,15 @@ const About: React.FC = () => {
           <img
             src={aboutImage}
             alt="ภาพเกี่ยวกับเรา"
-            className="w-full rounded-2xl shadow-xl ring-1 ring-primary/20 select-none"
             loading="lazy"
+            decoding="async"
             onError={(e) => (e.currentTarget.style.display = 'none')}
             draggable={false}
+            className="w-full rounded-2xl shadow-xl ring-1 ring-primary/20 select-none"
           />
         </div>
 
-        <div className="mx-auto max-w-3xl space-y-6 text-left sm:text-center text-gray-700 dark:text-gray-300 sm:text-lg leading-relaxed">
+        <div className="mx-auto max-w-3xl space-y-6 text-left sm:text-center sm:text-lg leading-relaxed text-gray-700 dark:text-gray-300">
           <p>
             <strong className="text-primary">JP - VISUAL & DOCS</strong>
             <br />
@@ -59,12 +60,12 @@ const About: React.FC = () => {
           <p>
             หากคุณอยากคุยกับผมโดยตรง บอกแอดมินได้เลย รับรองว่าคุณจะรู้สึกปลอดภัย และสบายใจที่ได้คุยแน่นอน
           </p>
-          <p className="italic font-semibold text-gray-600 dark:text-gray-400 select-text">
+          <p className="select-text italic font-semibold text-gray-600 dark:text-gray-400">
             ผมไม่ใช่คนที่เก่งที่สุด<br />แต่ผมมีทีมงานที่เก่ง
           </p>
         </div>
 
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-2xl text-primary sm:text-3xl">
+        <div className="mt-12 flex flex-wrap justify-center gap-6 text-primary text-2xl sm:text-3xl">
           {contactLinks.map(({ icon, label, href }) => (
             <a
               key={label}
@@ -72,7 +73,7 @@ const About: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`ติดต่อผ่าน ${label}`}
-              className="transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+              className="rounded transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
               {icon}
             </a>
@@ -84,17 +85,18 @@ const About: React.FC = () => {
             src={signatureImage}
             alt="ลายเซ็น"
             loading="lazy"
-            className="w-32 sm:w-48 pointer-events-none select-none"
+            decoding="async"
+            draggable={false}
+            onError={(e) => (e.currentTarget.style.display = 'none')}
+            className="w-32 select-none pointer-events-none sm:w-48"
             style={{
               filter:
                 'brightness(1.4) contrast(1.6) drop-shadow(0 0 4px rgba(255,255,255,0.3))',
             }}
-            onError={(e) => (e.currentTarget.style.display = 'none')}
-            draggable={false}
           />
         </div>
 
-        <p className="mt-10 text-xs text-gray-500 dark:text-gray-400 select-text">
+        <p className="mt-10 select-text text-xs text-gray-500 dark:text-gray-400">
           * ข้อมูลทั้งหมดเป็นความจริงตามสถานการณ์ปัจจุบัน และไม่มีการเก็บข้อมูลใดๆ โดยไม่ได้รับอนุญาต
         </p>
       </div>

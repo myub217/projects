@@ -6,7 +6,7 @@ interface User {
   id: number
   name: string
   email: string
-  role: string
+  role: 'admin' | 'moderator' | 'user'
   status: 'active' | 'inactive'
 }
 
@@ -20,15 +20,18 @@ const mockUsers: User[] = [
 const UserTable: React.FC = () => {
   return (
     <section
-      className="overflow-x-auto rounded-lg shadow-md bg-base-200"
       role="region"
       aria-label="ตารางรายชื่อผู้ใช้งานในระบบ"
+      className="overflow-x-auto rounded-lg shadow-md bg-base-200"
     >
-      <table className="min-w-full divide-y divide-gray-300 dark:divide-gray-700" aria-describedby="user-table-desc">
+      <table
+        className="min-w-full divide-y divide-gray-300 dark:divide-gray-700"
+        aria-describedby="user-table-desc"
+      >
         <caption id="user-table-desc" className="sr-only">
           รายละเอียดรายชื่อผู้ใช้งานในระบบพร้อมสถานะและสิทธิ์การใช้งาน
         </caption>
-        <thead className="bg-gray-100 dark:bg-gray-800">
+        <thead className="bg-gray-100 dark:bg-gray-800 select-none">
           <tr>
             <th
               scope="col"
@@ -60,11 +63,11 @@ const UserTable: React.FC = () => {
           {mockUsers.map(user => (
             <tr
               key={user.id}
-              className="hover:bg-base-300 dark:hover:bg-gray-700 transition-colors"
               tabIndex={0}
               aria-label={`${user.name}, อีเมล: ${user.email}, สิทธิ์: ${user.role}, สถานะ: ${
                 user.status === 'active' ? 'ใช้งานอยู่' : 'ไม่ใช้งาน'
               }`}
+              className="hover:bg-base-300 dark:hover:bg-gray-700 transition-colors cursor-pointer"
             >
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                 {user.name}
@@ -77,11 +80,11 @@ const UserTable: React.FC = () => {
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <span
-                  className={`inline-block px-2 py-1 rounded-full text-xs font-semibold ${
+                  className={`inline-block px-2 py-1 rounded-full text-xs font-semibold select-text ${
                     user.status === 'active'
                       ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100'
                       : 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100'
-                  } select-text`}
+                  }`}
                 >
                   {user.status === 'active' ? 'ใช้งานอยู่' : 'ไม่ใช้งาน'}
                 </span>

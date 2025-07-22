@@ -3,20 +3,27 @@
 import React, { useState } from 'react'
 
 interface FileUploadProps {
-  onFileSelect: (file: File) => void
+  onFileSelect: (files: File[] | File) => void
   accept?: string
   multiple?: boolean
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect, accept = '*', multiple = false }) => {
+const FileUpload: React.FC<FileUploadProps> = ({
+  onFileSelect,
+  accept = '*',
+  multiple = false,
+}) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const filesArray = Array.from(e.target.files)
+    const files = e.target.files
+    if (files && files.length > 0) {
+      const filesArray = Array.from(files)
       setSelectedFiles(filesArray)
-      // If multiple, you may want to pass all files, here passing first only for compatibility
-      onFileSelect(filesArray[0])
+      onFileSelect(multiple ? filesArray : filesArray[0])
+    } else {
+      setSelectedFiles([])
+      onFileSelect(multiple ? [] : null as any)
     }
   }
 
@@ -27,7 +34,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect, accept = '*', mul
     >
       <label
         htmlFor="fileUpload"
-        className="block mb-2 font-semibold text-base-content cursor-pointer hover:text-primary transition-colors"
+        className="block mb-2 font-semibold text-base-content cursor-pointer hover:text-primary transition-colors select-none"
       >
         เลือกไฟล์เอกสาร (PDF, DOCX, JPG, PNG ฯลฯ)
       </label>
@@ -39,10 +46,14 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect, accept = '*', mul
         onChange={handleFileChange}
         className="file-input file-input-bordered w-full"
         aria-describedby="fileHelp"
+        aria-multiselectable={multiple}
       />
-      <p id="fileHelp" className="mt-2 text-sm text-base-content/70 truncate">
+      <p
+        id="fileHelp"
+        className="mt-2 text-sm text-base-content/70 truncate select-text"
+      >
         {selectedFiles.length > 0
-          ? `ไฟล์ที่เลือก: ${selectedFiles.map(f => f.name).join(', ')}`
+          ? `ไฟล์ที่เลือก: ${selectedFiles.map((f) => f.name).join(', ')}`
           : 'ยังไม่ได้เลือกไฟล์'}
       </p>
     </section>

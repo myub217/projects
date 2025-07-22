@@ -14,35 +14,35 @@ const Dashboard: React.FC = () => {
   const username = localStorage.getItem('loggedInUser')?.trim() || 'ไม่ทราบชื่อผู้ใช้'
 
   const handleFileSelect = useCallback((file: File) => {
-    // Implement real upload logic here or dispatch to API
     console.log('ไฟล์ที่เลือกสำหรับอัปโหลด:', file)
+    // TODO: ส่งไฟล์ไป backend หรือ upload service
   }, [])
 
   return (
     <main
       role="main"
       aria-label="แดชบอร์ดข้อมูลและสถานะระบบ"
-      className="w-full max-w-6xl mx-auto p-6 md:p-10 flex flex-col gap-10 bg-base-200 rounded-2xl shadow-xl transition-shadow duration-300 hover:shadow-2xl"
+      className="w-full max-w-7xl mx-auto p-6 sm:p-8 md:p-10 flex flex-col gap-12 bg-base-200 rounded-2xl shadow-xl transition hover:shadow-2xl"
     >
-      {/* Header */}
+      {/* ส่วนหัว */}
       <HeaderBlock />
 
-      {/* Profile & Notifications */}
+      {/* ข้อมูลโปรไฟล์และการแจ้งเตือน */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <UserProfileCard username={username} />
         <NotificationsPanel />
       </section>
 
-      {/* System Health & Performance Metrics */}
+      {/* สถานะระบบและประสิทธิภาพ */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <SystemCheckCard />
         <PerformanceMetrics />
       </section>
 
-      {/* File Upload */}
+      {/* อัปโหลดไฟล์ */}
       <section
         aria-label="อัปโหลดเอกสาร"
-        className="w-full max-w-md mx-auto"
+        className="w-full max-w-lg mx-auto bg-base-100 dark:bg-zinc-800 rounded-xl p-6 border border-base-300 dark:border-base-700 shadow-inner"
       >
         <FileUpload
           onFileSelect={handleFileSelect}
@@ -50,18 +50,15 @@ const Dashboard: React.FC = () => {
         />
       </section>
 
-      {/* Access Logs */}
-      <section
-        aria-label="บันทึกการเข้าใช้งาน"
-        className="w-full overflow-auto rounded-lg border border-base-300 dark:border-base-700 bg-base-100 dark:bg-zinc-800 shadow-inner"
-      >
+      {/* ตารางบันทึกการใช้งาน */}
+      <section aria-label="บันทึกการเข้าใช้งาน">
         <AccessLogTable />
       </section>
 
-      {/* Help & Support */}
+      {/* ส่วนช่วยเหลือ */}
       <section
         aria-label="ความช่วยเหลือและการติดต่อทีมงาน"
-        className="w-full mt-6 rounded-lg bg-base-100 dark:bg-zinc-800 border border-base-300 dark:border-base-700 p-6 shadow-inner"
+        className="w-full bg-base-100 dark:bg-zinc-800 rounded-xl border border-base-300 dark:border-base-700 p-6 shadow-inner"
       >
         <HelpSupport />
       </section>

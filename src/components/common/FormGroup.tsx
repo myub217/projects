@@ -16,21 +16,37 @@ const FormGroup: React.FC<FormGroupProps> = ({
   children,
   error,
   required = false,
-}) => (
-  <div className="mb-4">
-    <label
-      htmlFor={htmlFor}
-      className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1"
-    >
-      {label} {required && <span className="text-red-500">*</span>}
-    </label>
-    {children}
-    {error && (
-      <p className="mt-1 text-sm text-red-500" role="alert">
-        {error}
-      </p>
-    )}
-  </div>
-)
+}) => {
+  const inputId = htmlFor
+  const errorId = error ? `${inputId}-error` : undefined
+
+  return (
+    <div className="mb-4">
+      <label
+        htmlFor={inputId}
+        className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1 select-none"
+      >
+        {label} {required && <span className="text-red-500" aria-hidden="true">*</span>}
+      </label>
+      {React.isValidElement(children)
+        ? React.cloneElement(children, {
+            'aria-invalid': error ? true : undefined,
+            'aria-describedby': errorId,
+            id: inputId,
+          })
+        : children}
+      {error && (
+        <p
+          id={errorId}
+          className="mt-1 text-sm text-red-500"
+          role="alert"
+          aria-live="assertive"
+        >
+          {error}
+        </p>
+      )}
+    </div>
+  )
+}
 
 export default FormGroup

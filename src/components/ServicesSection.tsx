@@ -1,5 +1,5 @@
 // src/components/ServicesSection.tsx
-// ✅ Clean, accessible, animated Services Section with structured logic and fallback
+// ✅ Refined, accessible, animated Services Section with clear fallback and structured logic
 
 import React from 'react'
 import ServiceCard from './ServiceCard'
@@ -46,7 +46,7 @@ const ServicesSection: React.FC = () => {
         <div className="max-w-7xl mx-auto text-center">
           <h2
             id="services-heading"
-            className="text-3xl sm:text-4xl font-extrabold text-primary mb-6 font-heading tracking-tight"
+            className="text-3xl sm:text-4xl font-extrabold text-primary mb-6 font-heading tracking-tight select-text"
           >
             บริการของเรา
           </h2>
@@ -67,11 +67,11 @@ const ServicesSection: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <h2
           id="services-heading"
-          className="text-3xl sm:text-4xl font-extrabold text-center text-primary mb-6 font-heading tracking-tight"
+          className="text-3xl sm:text-4xl font-extrabold text-center text-primary mb-6 font-heading tracking-tight select-text"
         >
           บริการของเรา
         </h2>
-        <p className="max-w-3xl mx-auto text-center text-base sm:text-lg text-gray-700 dark:text-gray-300 mb-14">
+        <p className="max-w-3xl mx-auto text-center text-base sm:text-lg text-gray-700 dark:text-gray-300 mb-14 select-text">
           บริการหลากหลายที่ออกแบบเพื่อเสริมศักยภาพธุรกิจคุณอย่างมั่นคงและยั่งยืน 🚀
         </p>
 
@@ -101,6 +101,7 @@ const ServicesSection: React.FC = () => {
                       : undefined
                   }
                   imageUrl={service.image}
+                  altText={service.altText}
                   disabled={isDisabled}
                 />
 

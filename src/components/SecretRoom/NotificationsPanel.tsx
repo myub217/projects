@@ -1,7 +1,12 @@
 // src/components/SecretRoom/NotificationsPanel.tsx
 
 import React from 'react'
-import { BellIcon, InfoIcon, AlertCircleIcon, CheckCircleIcon } from 'lucide-react'
+import {
+  BellIcon,
+  InfoIcon,
+  AlertCircleIcon,
+  CheckCircleIcon,
+} from 'lucide-react'
 
 type NotificationType = 'info' | 'success' | 'warning' | 'error'
 
@@ -33,34 +38,44 @@ const mockNotifications: Notification[] = [
   },
 ]
 
-const iconMap = {
-  info: <InfoIcon className="w-5 h-5 text-blue-500" />,
-  success: <CheckCircleIcon className="w-5 h-5 text-green-500" />,
-  warning: <AlertCircleIcon className="w-5 h-5 text-yellow-500" />,
-  error: <AlertCircleIcon className="w-5 h-5 text-red-500" />,
+const iconMap: Record<NotificationType, React.ReactNode> = {
+  info: <InfoIcon className="w-5 h-5 text-blue-500 shrink-0" aria-hidden="true" />,
+  success: <CheckCircleIcon className="w-5 h-5 text-green-500 shrink-0" aria-hidden="true" />,
+  warning: <AlertCircleIcon className="w-5 h-5 text-yellow-500 shrink-0" aria-hidden="true" />,
+  error: <AlertCircleIcon className="w-5 h-5 text-red-500 shrink-0" aria-hidden="true" />,
 }
 
 const NotificationsPanel: React.FC = () => {
   return (
     <section
       aria-label="การแจ้งเตือนระบบ"
-      className="bg-base-200 dark:bg-zinc-800 rounded-xl shadow p-6 sm:p-8 space-y-6"
+      className="bg-base-200 dark:bg-zinc-800 rounded-xl shadow p-6 sm:p-8 space-y-6 transition-all"
     >
-      <div className="flex items-center gap-3 mb-4">
-        <BellIcon className="w-6 h-6 text-primary" />
-        <h2 className="text-lg sm:text-xl font-bold text-base-content">การแจ้งเตือน</h2>
-      </div>
+      <header className="flex items-center gap-3 mb-4">
+        <BellIcon className="w-6 h-6 text-primary" aria-hidden="true" />
+        <h2 className="text-lg sm:text-xl font-bold text-base-content select-none">
+          การแจ้งเตือน
+        </h2>
+      </header>
 
       {mockNotifications.length === 0 ? (
-        <p className="text-base-content/60 text-sm">ไม่มีการแจ้งเตือนใหม่</p>
+        <p className="text-base-content/60 text-sm select-none">
+          ไม่มีการแจ้งเตือนใหม่
+        </p>
       ) : (
         <ul className="space-y-4 text-sm sm:text-base text-base-content/80">
           {mockNotifications.map((notif) => (
-            <li key={notif.id} className="flex items-start gap-3">
+            <li
+              key={notif.id}
+              className="flex items-start gap-3 bg-base-100 dark:bg-zinc-700 rounded-lg p-4 shadow-sm hover:shadow transition-all"
+              aria-label={`การแจ้งเตือนประเภท ${notif.type}`}
+            >
               {iconMap[notif.type]}
-              <div>
-                <p className="font-medium">{notif.message}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">{notif.timestamp}</p>
+              <div className="flex flex-col">
+                <p className="font-medium text-base-content">{notif.message}</p>
+                <span className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  {notif.timestamp}
+                </span>
               </div>
             </li>
           ))}

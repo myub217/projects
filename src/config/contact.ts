@@ -7,7 +7,7 @@ import {
   FaEnvelope,
   FaPhoneAlt,
   FaGlobeAsia,
-} from 'react-icons/fa';
+} from 'react-icons/fa'
 
 export type ContactType =
   | 'line'
@@ -15,13 +15,13 @@ export type ContactType =
   | 'messenger'
   | 'email'
   | 'phone'
-  | 'website';
+  | 'website'
 
 export interface ContactLink {
-  type: ContactType;
-  label: string;
-  icon: React.ComponentType<{ className?: string }>;
-  description?: string;
+  type: ContactType
+  label: string
+  icon: React.ComponentType<{ className?: string }>
+  description?: string
 }
 
 export const contactLinks: ContactLink[] = [
@@ -61,39 +61,48 @@ export const contactLinks: ContactLink[] = [
     icon: FaGlobeAsia,
     description: 'เยี่ยมชมเว็บไซต์หลักของบริษัท',
   },
-];
+]
 
-// ข้อมูลติดต่อ
-const lineOAID = '@462fqtfc';
-const facebookPageID = '61573307616115';
-const messengerHash = 'AbZf0L5cSZ8XvIYw';
-const emailAddress = 'contact@bannerdigital.co';
-const phoneNumber = '+6621234567';
-const websiteURL = 'https://www.bannerdigital.co';
+// ข้อมูลติดต่อ (ปรับปรุงให้คงที่และอ่านง่าย)
+const CONTACTS = {
+  lineOAID: '@462fqtfc',
+  lineUrlDefault: 'https://lin.ee/uhMtuSB',
+  facebookPageID: '61573307616115',
+  messengerHash: 'AbZf0L5cSZ8XvIYw',
+  emailAddress: 'contact@bannerdigital.co',
+  phoneNumber: '+6621234567',
+  websiteURL: 'https://www.bannerdigital.co',
+}
 
-// สร้างลิงก์ตามประเภท
+/**
+ * สร้างลิงก์ตามประเภทและข้อความ (ถ้ามี)
+ * @param type ประเภทการติดต่อ
+ * @param message ข้อความสำหรับ LINE (optional)
+ * @returns URL string
+ */
 export const getContactHref = (
   type: ContactType,
   message?: string
 ): string => {
   switch (type) {
     case 'line': {
-      const encodedMsg = message ? encodeURIComponent(message) : '';
-      return message
-        ? `https://line.me/R/oaMessage/${lineOAID}/?text=${encodedMsg}`
-        : 'https://lin.ee/uhMtuSB';
+      if (message) {
+        const encodedMsg = encodeURIComponent(message)
+        return `https://line.me/R/oaMessage/${CONTACTS.lineOAID}/?text=${encodedMsg}`
+      }
+      return CONTACTS.lineUrlDefault
     }
     case 'facebook':
-      return `https://www.facebook.com/profile.php?id=${facebookPageID}&mibextid=kFxxJD`;
+      return `https://www.facebook.com/profile.php?id=${CONTACTS.facebookPageID}&mibextid=kFxxJD`
     case 'messenger':
-      return `https://m.me/${facebookPageID}?hash=${messengerHash}&source=qr_link_share`;
+      return `https://m.me/${CONTACTS.facebookPageID}?hash=${CONTACTS.messengerHash}&source=qr_link_share`
     case 'email':
-      return `mailto:${emailAddress}`;
+      return `mailto:${CONTACTS.emailAddress}`
     case 'phone':
-      return `tel:${phoneNumber}`;
+      return `tel:${CONTACTS.phoneNumber}`
     case 'website':
-      return websiteURL;
+      return CONTACTS.websiteURL
     default:
-      return '#';
+      return '#'
   }
-};
+}

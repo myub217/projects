@@ -26,6 +26,7 @@ const CustomerCard: React.FC = () => {
       role="region"
       aria-label={`ข้อมูลลูกค้าเด่น: ${featuredCustomer.name}`}
       className="flex items-center gap-6 p-6 bg-base-200 rounded-xl shadow-md border border-base-300 dark:border-base-700"
+      tabIndex={0}
     >
       <img
         src={featuredCustomer.avatarUrl}
@@ -34,15 +35,32 @@ const CustomerCard: React.FC = () => {
         loading="lazy"
         width={80}
         height={80}
+        decoding="async"
+        fetchPriority="low"
       />
       <div className="flex-1 space-y-1">
         <h3 className="text-2xl font-semibold text-primary select-text">{featuredCustomer.name}</h3>
         <p className="text-sm text-muted select-text">{featuredCustomer.email}</p>
         <p className="text-sm">
-          สั่งซื้อครั้งล่าสุด: <time dateTime={featuredCustomer.lastOrderDate}>{featuredCustomer.lastOrderDate}</time>
+          สั่งซื้อครั้งล่าสุด:{' '}
+          <time dateTime={featuredCustomer.lastOrderDate} aria-label={`สั่งซื้อครั้งล่าสุดเมื่อวันที่ ${featuredCustomer.lastOrderDate}`}>
+            {new Date(featuredCustomer.lastOrderDate).toLocaleDateString('th-TH', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </time>
         </p>
         <p className="text-sm font-medium mt-2">
-          ยอดรวมการใช้จ่าย: <span className="text-accent">{featuredCustomer.totalSpent.toLocaleString()} บาท</span>
+          ยอดรวมการใช้จ่าย:{' '}
+          <span className="text-accent">
+            {featuredCustomer.totalSpent.toLocaleString('th-TH', {
+              style: 'currency',
+              currency: 'THB',
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}
+          </span>
         </p>
       </div>
     </article>

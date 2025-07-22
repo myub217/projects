@@ -296,7 +296,7 @@ import AdminPage from '@pages/AdminPage'
 import ProtectedRoute from '@components/ProtectedRoute'
 import { ThemeProvider, useTheme } from '@components/ThemeProvider'
 
-// 404 Not Found Component
+// 404 Not Found Page
 const NotFound: React.FC = () => (
   <main
     role="alert"
@@ -307,7 +307,7 @@ const NotFound: React.FC = () => (
   </main>
 )
 
-// App Routes with theme context
+// Routes Section
 const AppRoutes: React.FC = () => {
   const { theme, toggleTheme } = useTheme()
 
@@ -325,13 +325,13 @@ const AppRoutes: React.FC = () => {
         <Route path="/admin" element={<AdminPage />} />
       </Route>
 
-      {/* Catch all unmatched */}
+      {/* Fallback Route */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }
 
-// Root App with providers wrapper
+// Root Wrapper
 const RootApp: React.FC = () => (
   <React.StrictMode>
     <ThemeProvider>
@@ -342,37 +342,60 @@ const RootApp: React.FC = () => (
   </React.StrictMode>
 )
 
-// Mount app
+// Mount to DOM
 const rootElement = document.getElementById('root')
-if (!rootElement) {
-  console.error('❌ ไม่พบ element ที่มี id="root" ใน index.html')
-} else {
+if (rootElement) {
   ReactDOM.createRoot(rootElement).render(<RootApp />)
+} else {
+  console.error('❌ ไม่พบ <div id="root"> ใน index.html')
 }
 
 export default RootApp```
 
 ## 🧩 SecretRoomPage.tsx (Full)
 ```tsx
-// src/pages/SecretRoomPage.tsx – Authenticated User Dashboard Page
+// src/pages/SecretRoomPage.tsx – Secure Authenticated Dashboard Page
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import Dashboard from '@components/SecretRoom/Dashboard'
+import ThemeToggleButton from '@components/SecretRoom/ThemeToggleButton'
+import UserProfileCard from '@components/SecretRoom/UserProfileCard'
 
 const SecretRoomPage: React.FC = () => {
   const [username, setUsername] = useState<string>('กำลังโหลด...')
+  const [theme, setTheme] = useState<'light' | 'dark'>(() =>
+    document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+  )
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser')?.trim()
     setUsername(storedUser && storedUser.length > 0 ? storedUser : 'ไม่ทราบชื่อผู้ใช้')
   }, [])
 
+  const toggleTheme = useCallback(() => {
+    const root = document.documentElement
+    if (root.classList.contains('dark')) {
+      root.classList.remove('dark')
+      localStorage.setItem('theme', 'light')
+      setTheme('light')
+    } else {
+      root.classList.add('dark')
+      localStorage.setItem('theme', 'dark')
+      setTheme('dark')
+    }
+  }, [])
+
   return (
     <main
       role="main"
       aria-label="หน้าแดชบอร์ดผู้ใช้งาน"
-      className="min-h-screen bg-base-100 text-base-content px-4 py-16 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
+      className="relative min-h-screen bg-base-100 text-base-content px-4 py-16 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
     >
+      {/* Theme Toggle */}
+      <div className="fixed top-4 right-4 z-50">
+        <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
+      </div>
+
       {/* Welcome Section */}
       <section
         aria-label="ข้อความต้อนรับผู้ใช้งาน"
@@ -397,10 +420,18 @@ const SecretRoomPage: React.FC = () => {
         </p>
       </section>
 
+      {/* User Profile Summary */}
+      <section
+        aria-label="สรุปข้อมูลผู้ใช้งาน"
+        className="mt-8 max-w-sm mx-auto"
+      >
+        <UserProfileCard username={username} />
+      </section>
+
       {/* Dashboard Panel */}
       <section
-        aria-label="แผงควบคุมข้อมูลผู้ใช้งาน"
-        className="mt-12 w-full max-w-6xl mx-auto rounded-xl bg-base-200 dark:bg-zinc-800 shadow-lg p-6 sm:p-10 transition-shadow hover:shadow-xl focus-within:shadow-xl"
+        aria-label="แดชบอร์ดระบบ"
+        className="mt-12 w-full max-w-6xl mx-auto rounded-2xl bg-base-200 dark:bg-zinc-800 shadow-xl p-6 sm:p-10 transition-shadow hover:shadow-2xl focus-within:shadow-2xl"
       >
         <Dashboard />
       </section>
@@ -416,33 +447,44 @@ export default SecretRoomPage
 // src/pages/AdminPage.tsx
 
 import React, { useEffect, useState } from 'react'
+import AdminDashboard from '@components/AdminBoard/Dashboard'
 
 const AdminPage: React.FC = () => {
-  const [username, setUsername] = useState<string>('ผู้ใช้ระบบ')
+  const [username, setUsername] = useState('ผู้ใช้ระบบ')
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser')?.trim()
-    setUsername(storedUser && storedUser.length > 0 ? storedUser : 'ผู้ใช้ระบบ')
+    if (storedUser && storedUser.length > 0) {
+      setUsername(storedUser)
+    }
   }, [])
 
   return (
     <main
       role="main"
       aria-label="แผงควบคุมผู้ดูแลระบบ"
-      className="min-h-screen flex flex-col items-center justify-center bg-base-100 text-center px-4 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
+      className="min-h-screen bg-base-100 dark:bg-gray-900 text-base-content px-6 py-12 transition-colors duration-300 flex flex-col items-center"
     >
-      <h1 className="text-3xl sm:text-4xl font-extrabold text-primary mb-6">
-        แผงควบคุมผู้ดูแลระบบ
-      </h1>
-      <p className="text-lg sm:text-xl max-w-xl">
-        ยินดีต้อนรับคุณ{' '}
-        <span
-          className="font-semibold underline decoration-primary decoration-2"
-          aria-label={`ชื่อผู้ใช้: ${username}`}
-        >
-          {username}
-        </span>
-      </p>
+      {/* Header */}
+      <header className="mb-10 text-center max-w-xl w-full">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-primary mb-3 tracking-tight select-text">
+          แผงควบคุมผู้ดูแลระบบ
+        </h1>
+        <p className="text-lg sm:text-xl text-muted select-text">
+          ยินดีต้อนรับคุณ{' '}
+          <span
+            className="font-semibold underline decoration-primary decoration-2"
+            aria-label={`ชื่อผู้ใช้: ${username}`}
+          >
+            {username}
+          </span>
+        </p>
+      </header>
+
+      {/* Dashboard Section */}
+      <section className="w-full max-w-7xl">
+        <AdminDashboard />
+      </section>
     </main>
   )
 }
@@ -471,16 +513,16 @@ export default AdminPage
 │   │   ├── about.webp
 │   │   ├── hero-BRaXPQvd.webp
 │   │   ├── hero.webp
-│   │   ├── index-D3q83K3g.js
-│   │   ├── index-D3q83K3g.js.map
-│   │   ├── index-M4-Uz4aY.css
+│   │   ├── index-DIqxMz7B.css
+│   │   ├── index-ej1KRazI.js
+│   │   ├── index-ej1KRazI.js.map
 │   │   ├── jp-logo-CH0zBIqT.webp
 │   │   ├── jp-logo.webp
 │   │   ├── logo.svg
 │   │   ├── signature-BovtCThw.webp
 │   │   ├── signature.webp
-│   │   ├── vendor-UwZk04L8.js
-│   │   └── vendor-UwZk04L8.js.map
+│   │   ├── vendor-DryWJY3h.js
+│   │   └── vendor-DryWJY3h.js.map
 │   ├── docs
 │   │   ├── certificate.pdf
 │   │   ├── contract.pdf
@@ -552,7 +594,8 @@ export default AdminPage
 │   │   └── common
 │   ├── config
 │   │   ├── adminConfig.ts
-│   │   └── contact.ts
+│   │   ├── contact.ts
+│   │   └── salaryCertificateConfig.ts
 │   ├── data
 │   │   ├── approvedCustomers.ts
 │   │   ├── reviewsData.ts
@@ -581,7 +624,7 @@ export default AdminPage
 ├── vercel.json
 └── vite.config.ts
 
-29 directories, 99 files
+29 directories, 100 files
 ```
 
 ## 📌 Final Note
@@ -604,4 +647,4 @@ export default AdminPage
 ถือว่าคุณเข้าใจแล้วโดยสมบูรณ์
 พร้อมรับคำสั่งถัดไปได้เลย 🛠️
 
-🕛 Last checked: Wed Jul 23 00:48:46 +07 2025
+🕛 Last checked: Wed Jul 23 02:50:20 +07 2025

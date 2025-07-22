@@ -1,4 +1,5 @@
-// src/components/Hero.tsx – Modern Hero Section with CTA & Contact Shortcuts
+// src/components/Hero.tsx
+// ✅ Modern, accessible Hero with smooth framer-motion animation & contact shortcuts
 
 import React from 'react'
 import { FaLock, FaDoorOpen, FaLine, FaFacebookMessenger } from 'react-icons/fa'
@@ -40,7 +41,7 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
         transition={{ duration: 0.8, delay: 0.2 }}
         className="z-10 w-full max-w-3xl text-center"
       >
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-white drop-shadow-xl">
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight drop-shadow-xl">
           JP Visual & Docs
         </h1>
         <p className="mt-4 text-base sm:text-lg lg:text-xl text-white/85 max-w-xl mx-auto">
@@ -76,7 +77,7 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
-          <FaLine className="h-6 w-6 sm:h-7 sm:w-7" />
+          <FaLine className="h-6 w-6 sm:h-7 sm:w-7" aria-hidden="true" />
         </motion.a>
 
         <motion.a
@@ -88,7 +89,7 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
-          <FaFacebookMessenger className="h-6 w-6 sm:h-7 sm:w-7" />
+          <FaFacebookMessenger className="h-6 w-6 sm:h-7 sm:w-7" aria-hidden="true" />
         </motion.a>
       </motion.div>
     </section>

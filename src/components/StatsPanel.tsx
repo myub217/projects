@@ -4,9 +4,21 @@ import React from 'react'
 import { FaUsers, FaCheckCircle, FaStar } from 'react-icons/fa'
 
 const stats = [
-  { label: 'ลูกค้าที่ไว้วางใจ', value: '2,450+', icon: <FaUsers aria-hidden="true" /> },
-  { label: 'โปรเจกต์ที่ส่งมอบสำเร็จ', value: '1,200+', icon: <FaCheckCircle aria-hidden="true" /> },
-  { label: 'คะแนนรีวิวเฉลี่ย', value: '4.9 / 5.0', icon: <FaStar aria-hidden="true" /> },
+  {
+    label: 'ลูกค้าที่ไว้วางใจ',
+    value: '2,450+',
+    icon: <FaUsers aria-hidden="true" className="text-primary" />,
+  },
+  {
+    label: 'โปรเจกต์ที่ส่งมอบสำเร็จ',
+    value: '1,200+',
+    icon: <FaCheckCircle aria-hidden="true" className="text-primary" />,
+  },
+  {
+    label: 'คะแนนรีวิวเฉลี่ย',
+    value: '4.9 / 5.0',
+    icon: <FaStar aria-hidden="true" className="text-primary" />,
+  },
 ]
 
 const StatsPanel: React.FC = () => {
@@ -21,29 +33,29 @@ const StatsPanel: React.FC = () => {
         <header>
           <h2
             id="stats-title"
-            className="text-2xl sm:text-3xl font-bold tracking-tight text-primary mb-2"
+            className="text-2xl sm:text-3xl font-bold tracking-tight text-primary mb-2 select-text"
           >
             สถิติที่สร้างความมั่นใจ
           </h2>
-          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto">
+          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto select-text">
             เรามุ่งเน้นการให้บริการอย่างมีมาตรฐาน โปร่งใส และสร้างผลงานที่เชื่อถือได้
           </p>
         </header>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
-          {stats.map((stat, index) => (
-            <div
-              key={index}
+          {stats.map(({ label, value, icon }, i) => (
+            <article
+              key={i}
               role="group"
               tabIndex={0}
-              aria-label={`${stat.label} จำนวน ${stat.value}`}
+              aria-label={`${label} จำนวน ${value}`}
               className="flex flex-col items-center justify-center space-y-3 p-6 rounded-xl bg-white
-                         dark:bg-zinc-900 shadow-lg hover:scale-[1.03] transition-transform duration-300 ease-in-out"
+                         dark:bg-zinc-900 shadow-lg hover:scale-105 focus:scale-105 transition-transform duration-300 ease-in-out outline-none focus:outline focus:outline-primary"
             >
-              <div className="text-5xl text-primary">{stat.icon}</div>
-              <div className="text-4xl font-bold text-primary select-text">{stat.value}</div>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">{stat.label}</p>
-            </div>
+              <div className="text-5xl">{icon}</div>
+              <div className="text-4xl font-bold text-primary select-text">{value}</div>
+              <p className="text-sm text-zinc-500 dark:text-zinc-400 select-text">{label}</p>
+            </article>
           ))}
         </div>
       </div>

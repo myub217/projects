@@ -7,29 +7,31 @@ interface ThemeToggleButtonProps {
   toggleTheme: () => void
 }
 
-const ThemeToggleButton: React.FC<ThemeToggleButtonProps> = ({ theme, toggleTheme }) => {
+const ThemeToggleButton: React.FC<ThemeToggleButtonProps> = ({
+  theme,
+  toggleTheme,
+}) => {
   const isLight = theme === 'light'
 
   return (
     <button
       type="button"
-      aria-label={`สลับเป็นโหมด ${isLight ? 'มืด' : 'สว่าง'}`}
-      title={`สลับเป็นโหมด ${isLight ? 'มืด' : 'สว่าง'}`}
       onClick={toggleTheme}
+      aria-label={`สลับเป็นโหมด ${isLight ? 'มืด' : 'สว่าง'}`}
       aria-pressed={!isLight}
-      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 bg-base-200 text-base-content p-3 rounded-full shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-base-300 dark:bg-neutral dark:text-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+      title={`สลับเป็นโหมด ${isLight ? 'มืด' : 'สว่าง'}`}
+      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 rounded-full p-3 bg-base-200 text-base-content shadow-xl backdrop-blur-md hover:bg-base-300 dark:bg-neutral dark:text-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all"
     >
       {isLight ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="w-6 h-6"
+          viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           strokeWidth={2}
-          viewBox="0 0 24 24"
+          className="w-6 h-6"
           role="img"
           aria-hidden="true"
-          focusable="false"
         >
           <path
             strokeLinecap="round"
@@ -41,11 +43,10 @@ const ThemeToggleButton: React.FC<ThemeToggleButtonProps> = ({ theme, toggleThem
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="w-6 h-6"
-          fill="currentColor"
           viewBox="0 0 24 24"
+          fill="currentColor"
           role="img"
           aria-hidden="true"
-          focusable="false"
         >
           <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
         </svg>

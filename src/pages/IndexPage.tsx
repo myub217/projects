@@ -20,7 +20,6 @@ interface IndexPageProps {
 const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
   const [selectedService, setSelectedService] = useState<Service | null>(null)
 
-  // Close modal on ESC key
   useEffect(() => {
     const onEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setSelectedService(null)
@@ -29,7 +28,6 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
     return () => window.removeEventListener('keydown', onEsc)
   }, [])
 
-  // Lock body scroll when modal is open
   useEffect(() => {
     document.body.style.overflow = selectedService ? 'hidden' : ''
     return () => {
@@ -54,6 +52,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
           role="main"
           aria-label="เนื้อหาหลักของเว็บไซต์"
           className="flex-grow py-10 space-y-16 sm:space-y-20 md:space-y-24"
+          tabIndex={-1} // for keyboard focus after modal closes
         >
           <Hero />
           <Feature />
