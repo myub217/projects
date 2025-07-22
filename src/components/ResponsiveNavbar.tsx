@@ -38,6 +38,15 @@ const ResponsiveNavbar: React.FC = () => {
     setIsOpen(false)
   }, [location])
 
+  // Close mobile menu on Escape key press
+  useEffect(() => {
+    function onEsc(e: KeyboardEvent) {
+      if (e.key === 'Escape' && isOpen) setIsOpen(false)
+    }
+    window.addEventListener('keydown', onEsc)
+    return () => window.removeEventListener('keydown', onEsc)
+  }, [isOpen])
+
   return (
     <nav
       className="bg-base-100 border-b border-base-300 fixed w-full z-40 shadow-sm"
@@ -86,6 +95,7 @@ const ResponsiveNavbar: React.FC = () => {
               type="button"
               aria-label={isOpen ? 'ปิดเมนู' : 'เปิดเมนู'}
               aria-expanded={isOpen}
+              aria-controls="mobile-menu"
               onClick={() => setIsOpen((prev) => !prev)}
               className="inline-flex items-center justify-center p-2 rounded-md text-muted hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary"
             >
@@ -101,6 +111,7 @@ const ResponsiveNavbar: React.FC = () => {
 
       {/* Mobile Menu Panel */}
       <div
+        id="mobile-menu"
         ref={navRef}
         className={clsx(
           'md:hidden bg-base-100 border-t border-base-300 transition-max-height duration-300 ease-in-out overflow-hidden',
@@ -108,7 +119,11 @@ const ResponsiveNavbar: React.FC = () => {
         )}
         aria-hidden={!isOpen}
       >
-        <div className="px-2 pt-2 pb-3 space-y-1" role="menu" aria-label="เมนูมือถือ">
+        <div
+          className="px-2 pt-2 pb-3 space-y-1"
+          role="menu"
+          aria-label="เมนูมือถือ"
+        >
           {navItems.map((item) => (
             <NavLink
               key={item.to}

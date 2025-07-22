@@ -1,4 +1,4 @@
-// vite.config.ts
+// vite.config.ts (ปรับปรุงเพิ่มเติม)
 
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -15,15 +15,34 @@ export default defineConfig({
       srcDir: 'src',
       filename: 'sw.ts',
       injectRegister: false,
+      registerType: 'autoUpdate',
+      manifest: {
+        name: 'JP Visual & Docs',
+        short_name: 'JPDocs',
+        start_url: '/',
+        display: 'standalone',
+        background_color: '#ffffff',
+        theme_color: '#2563eb',
+        icons: [
+          {
+            src: '/icon-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: '/icon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+        ],
+      },
       devOptions: {
         enabled: true,
         type: 'module',
       },
     }),
     viteStaticCopy({
-      targets: [
-        { src: 'public/images', dest: '' }, // copy only images folder content root
-      ],
+      targets: [{ src: 'public/images', dest: '' }],
     }),
     {
       name: 'mock-api',
@@ -57,12 +76,14 @@ export default defineConfig({
     },
   },
   server: {
+    host: '0.0.0.0',
+    port: 5173,
+    open: true,
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,
         secure: false,
-        // rewrite: path => path.replace(/^\/api/, ''),
       },
     },
   },

@@ -1,11 +1,19 @@
-/* src/styles/tailwind.css */
-
 /* ==================== 🔹 TAILWIND DIRECTIVES ==================== */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ==================== 🔹 CUSTOM BASE STYLES ==================== */
+/* ==================== 🔹 CSS VARIABLES ==================== */
+@layer base {
+  :root {
+    --font-body: theme('fontFamily.body');
+    --font-heading: theme('fontFamily.heading');
+    --color-bg: theme('colors.background.DEFAULT');
+    --color-text: theme('colors.foreground.DEFAULT');
+  }
+}
+
+/* ==================== 🔹 BASE STYLES ==================== */
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -18,12 +26,10 @@
     @apply bg-background text-foreground font-body antialiased min-h-screen m-0;
   }
 
-  /* Reset link styles and add accessible focus */
   a {
     @apply text-primary no-underline hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded transition-colors duration-200;
   }
 
-  /* Headings */
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading font-semibold text-foreground;
     line-height: 1.25;
@@ -31,12 +37,10 @@
     margin-bottom: 0.5rem;
   }
 
-  /* Paragraph spacing */
   p + p {
     margin-top: 1em;
   }
 
-  /* Lists */
   ul, ol {
     padding-left: 1.25rem;
     margin-top: 1em;
@@ -44,7 +48,6 @@
     list-style-position: outside;
   }
 
-  /* Responsive images */
   img {
     max-width: 100%;
     height: auto;
@@ -52,25 +55,27 @@
   }
 }
 
-/* ==================== 🔹 CUSTOM COMPONENTS ==================== */
+/* ==================== 🔹 COMPONENTS ==================== */
 @layer components {
-  /* Buttons */
+  .btn {
+    @apply font-semibold py-2 px-4 rounded transition-colors duration-200;
+  }
+
   .btn-primary {
-    @apply bg-primary text-primary-contrastText font-semibold py-2 px-4 rounded shadow-soft hover:bg-primary-light transition-colors duration-200;
+    @apply btn bg-primary text-primary-contrastText shadow-soft hover:bg-primary-light dark:hover:bg-primary-dark;
   }
 
   .btn-secondary {
-    @apply bg-accent text-background font-semibold py-2 px-4 rounded shadow-soft hover:bg-accent/90 transition-colors duration-200;
+    @apply btn bg-accent text-background shadow-soft hover:bg-accent/90;
   }
 }
 
-/* ==================== 🔹 CUSTOM UTILITIES ==================== */
+/* ==================== 🔹 UTILITIES ==================== */
 @layer utilities {
-  /* Multiline truncate with ellipsis */
   .truncate-multiline {
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* lines to show */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
   }
 }

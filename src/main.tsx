@@ -1,4 +1,4 @@
-// src/main.tsx
+// ✅ Final: src/main.tsx
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -23,12 +23,10 @@ const AppRoutes: React.FC = () => {
     <Routes>
       <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
       <Route path="/login" element={<LoginPage />} />
-
       <Route element={<ProtectedRoute />}>
         <Route path="/secret" element={<SecretRoomPage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Route>
-
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )

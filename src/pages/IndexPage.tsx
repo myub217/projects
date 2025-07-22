@@ -1,4 +1,4 @@
-// src/pages/IndexPage.tsx
+// ✅ Final: src/pages/IndexPage.tsx
 
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import Header from '@components/Header'
@@ -106,7 +106,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
         )}
       </button>
 
-      {/* Service Request Modal */}
+      {/* Modal */}
       <ServiceRequestModal
         service={selectedService}
         onClose={() => setSelectedService(null)}
