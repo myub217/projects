@@ -294,8 +294,9 @@ import LoginPage from '@pages/LoginPage'
 import SecretRoomPage from '@pages/SecretRoomPage'
 import AdminPage from '@pages/AdminPage'
 import ProtectedRoute from '@components/ProtectedRoute'
+import { ThemeProvider, useTheme } from '@components/ThemeProvider'
 
-// 404 Component
+// 404 Not Found Component
 const NotFound: React.FC = () => (
   <main
     role="alert"
@@ -306,39 +307,50 @@ const NotFound: React.FC = () => (
   </main>
 )
 
-// Main App Routing
-const App: React.FC = () => (
-  <BrowserRouter>
+// App Routes with theme context
+const AppRoutes: React.FC = () => {
+  const { theme, toggleTheme } = useTheme()
+
+  return (
     <Routes>
-      <Route path="/" element={<IndexPage />} />
+      <Route
+        path="/"
+        element={<IndexPage theme={theme} toggleTheme={toggleTheme} />}
+      />
       <Route path="/login" element={<LoginPage />} />
 
-      {/* Protected routes */}
+      {/* Protected Routes */}
       <Route element={<ProtectedRoute />}>
         <Route path="/secret" element={<SecretRoomPage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Route>
 
-      {/* Fallback 404 */}
+      {/* Catch all unmatched */}
       <Route path="*" element={<NotFound />} />
     </Routes>
-  </BrowserRouter>
-)
-
-// Mount App
-const rootElement = document.getElementById('root')
-if (!rootElement) {
-  console.error('❌ ไม่พบ element ที่มี id="root" ใน index.html')
-  // Optionally: fallback UI or error boundary here
-} else {
-  ReactDOM.createRoot(rootElement).render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
   )
 }
 
-export default App```
+// Root App with providers wrapper
+const RootApp: React.FC = () => (
+  <React.StrictMode>
+    <ThemeProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </ThemeProvider>
+  </React.StrictMode>
+)
+
+// Mount app
+const rootElement = document.getElementById('root')
+if (!rootElement) {
+  console.error('❌ ไม่พบ element ที่มี id="root" ใน index.html')
+} else {
+  ReactDOM.createRoot(rootElement).render(<RootApp />)
+}
+
+export default RootApp```
 
 ## 🧩 SecretRoomPage.tsx (Full)
 ```tsx
@@ -452,13 +464,21 @@ export default AdminPage
 ├── check-structure.sh
 ├── dist
 │   ├── assets
+│   │   ├── 1hero.webp
+│   │   ├── 2hero.webp
+│   │   ├── Hhero.webp
 │   │   ├── about-IgS6mAQi.webp
+│   │   ├── about.webp
 │   │   ├── hero-BRaXPQvd.webp
-│   │   ├── index-BPRXqv31.js
-│   │   ├── index-BPRXqv31.js.map
-│   │   ├── index-C9Ydrr9H.css
+│   │   ├── hero.webp
+│   │   ├── index-D3q83K3g.js
+│   │   ├── index-D3q83K3g.js.map
+│   │   ├── index-M4-Uz4aY.css
 │   │   ├── jp-logo-CH0zBIqT.webp
+│   │   ├── jp-logo.webp
+│   │   ├── logo.svg
 │   │   ├── signature-BovtCThw.webp
+│   │   ├── signature.webp
 │   │   ├── vendor-UwZk04L8.js
 │   │   └── vendor-UwZk04L8.js.map
 │   ├── docs
@@ -469,6 +489,7 @@ export default AdminPage
 │   │   ├── review
 │   │   └── services
 │   ├── index.html
+│   ├── logo.svg
 │   ├── manifest.webmanifest
 │   ├── sw.js
 │   └── sw.js.map
@@ -480,13 +501,23 @@ export default AdminPage
 ├── pnpm-workspace.yaml
 ├── postcss.config.cjs
 ├── public
+│   ├── assets
+│   │   ├── 1hero.webp
+│   │   ├── 2hero.webp
+│   │   ├── Hhero.webp
+│   │   ├── about.webp
+│   │   ├── hero.webp
+│   │   ├── jp-logo.webp
+│   │   ├── logo.svg
+│   │   └── signature.webp
 │   ├── docs
 │   │   ├── certificate.pdf
 │   │   ├── contract.pdf
 │   │   └── registration.pdf
-│   └── images
-│       ├── review
-│       └── services
+│   ├── images
+│   │   ├── review
+│   │   └── services
+│   └── logo.svg
 ├── setup.sh
 ├── src
 │   ├── api
@@ -498,6 +529,7 @@ export default AdminPage
 │   │   ├── about.webp
 │   │   ├── hero.webp
 │   │   ├── jp-logo.webp
+│   │   ├── logo.svg
 │   │   └── signature.webp
 │   ├── components
 │   │   ├── About.tsx
@@ -509,12 +541,15 @@ export default AdminPage
 │   │   ├── Footer.tsx
 │   │   ├── Header.tsx
 │   │   ├── Hero.tsx
+│   │   ├── LoadingSpinner.tsx
 │   │   ├── ProtectedRoute.tsx
 │   │   ├── ReviewsSection.tsx
 │   │   ├── SecretRoom
 │   │   ├── ServiceCard.tsx
 │   │   ├── ServicesSection.tsx
-│   │   └── StatsPanel.tsx
+│   │   ├── StatsPanel.tsx
+│   │   ├── ThemeProvider.tsx
+│   │   └── common
 │   ├── config
 │   │   ├── adminConfig.ts
 │   │   └── contact.ts
@@ -546,7 +581,7 @@ export default AdminPage
 ├── vercel.json
 └── vite.config.ts
 
-27 directories, 78 files
+29 directories, 99 files
 ```
 
 ## 📌 Final Note
@@ -569,4 +604,4 @@ export default AdminPage
 ถือว่าคุณเข้าใจแล้วโดยสมบูรณ์
 พร้อมรับคำสั่งถัดไปได้เลย 🛠️
 
-🕛 Last checked: Tue Jul 22 23:09:00 +07 2025
+🕛 Last checked: Wed Jul 23 00:48:46 +07 2025

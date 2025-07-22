@@ -27,7 +27,7 @@ const AccessLogTable: React.FC = () => {
         </p>
       </header>
 
-      <div className="overflow-x-auto rounded-lg">
+      <div className="overflow-x-auto rounded-lg border border-base-300 dark:border-base-700 shadow-inner">
         <table
           role="table"
           className="table w-full text-sm md:text-base border-collapse"
