@@ -1,33 +1,35 @@
 // src/components/Feature.tsx
 
-import React, { useState, useMemo } from 'react';
-import CustomerAssessmentForm from './CustomerAssessmentForm';
-import { approvedCustomers, CustomerApproval } from '../data/approvedCustomers';
-import CustomerCard from './CustomerCard';
-import { FaSortAmountDownAlt, FaListUl, FaFileSignature } from 'react-icons/fa';
+import React, { useState, useMemo } from 'react'
+import CustomerAssessmentForm from './CustomerAssessmentForm'
+import { approvedCustomers, CustomerApproval } from '../data/approvedCustomers'
+import CustomerCard from './CustomerCard'
+import { FaSortAmountDownAlt, FaListUl, FaFileSignature } from 'react-icons/fa'
 
-type SortOrder = 'ล่าสุด' | 'สถานะ';
+type SortOrder = 'ล่าสุด' | 'สถานะ'
 
 const Feature: React.FC = () => {
-  const [showForm, setShowForm] = useState(false);
-  const [sortOrder, setSortOrder] = useState<SortOrder>('ล่าสุด');
+  const [showForm, setShowForm] = useState(false)
+  const [sortOrder, setSortOrder] = useState<SortOrder>('ล่าสุด')
 
-  const customers = approvedCustomers;
+  const customers = approvedCustomers
 
   const sortedCustomers = useMemo(() => {
-    const copy = [...customers];
+    const copy = [...customers]
     switch (sortOrder) {
       case 'สถานะ':
         return copy.sort((a, b) =>
           a.status === b.status ? 0 : a.status === 'เสร็จสมบูรณ์' ? -1 : 1
-        );
+        )
       case 'ล่าสุด':
       default:
         return copy.sort(
-          (a, b) => new Date(b.receivedDate).getTime() - new Date(a.receivedDate).getTime()
-        );
+          (a, b) =>
+            new Date(b.receivedDate).getTime() -
+            new Date(a.receivedDate).getTime()
+        )
     }
-  }, [customers, sortOrder]);
+  }, [customers, sortOrder])
 
   return (
     <section
@@ -49,7 +51,7 @@ const Feature: React.FC = () => {
         </header>
 
         <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          {/* 🔸 Left Filter */}
+          {/* Left: Filter Info */}
           <div className="flex flex-wrap items-center gap-4 text-sm text-zinc-600 dark:text-zinc-300">
             <div className="flex items-center gap-2">
               <FaListUl className="text-base text-zinc-500" />
@@ -72,7 +74,7 @@ const Feature: React.FC = () => {
             </label>
           </div>
 
-          {/* 🔹 Right Buttons */}
+          {/* Right: Buttons */}
           <div className="flex flex-wrap justify-start sm:justify-end gap-3">
             <button
               onClick={() => setShowForm((prev) => !prev)}
@@ -126,7 +128,7 @@ const Feature: React.FC = () => {
         )}
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Feature;
+export default Feature

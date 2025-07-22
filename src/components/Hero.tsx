@@ -1,4 +1,4 @@
-// src/components/Hero.tsx
+// src/components/Hero.tsx – ปรับให้สมบูรณ์ รองรับ responsive + UX ดีขึ้น + ป้องกัน error
 
 import React from 'react'
 import { FaLock, FaDoorOpen, FaLine, FaFacebookMessenger } from 'react-icons/fa'
@@ -69,7 +69,7 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9, duration: 0.6 }}
-        className="absolute bottom-5 right-5 z-20 flex items-center gap-3 sm:gap-4 rounded-xl bg-white/90 px-3 py-2 sm:px-4 sm:py-3 shadow-xl backdrop-blur-md dark:bg-gray-900/70"
+        className="absolute bottom-5 right-5 z-20 flex items-center gap-3 sm:gap-4 rounded-xl bg-white/90 px-3 py-2 sm:px-4 sm:py-3 shadow-xl backdrop-blur-md dark:bg-gray-900/80"
       >
         <motion.a
           href={LINE_URL}

@@ -1,4 +1,4 @@
-// src/pages/IndexPage.tsx – ปรับปรุง UI รองรับ Desktop/Mobile
+// src/pages/IndexPage.tsx – รองรับ Desktop/Mobile UI
 
 import React, { useState, useEffect, useCallback } from 'react'
 import Header from '@components/Header'
@@ -38,7 +38,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
   }, [])
 
   return (
-    <div className="min-h-screen bg-base-100 text-base-content transition-colors duration-500 flex flex-col font-sans">
+    <div className="min-h-screen bg-base-100 text-base-content flex flex-col font-sans transition-colors duration-300">
       <Header theme={theme} toggleTheme={toggleTheme} />
 
       <main
@@ -57,7 +57,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
 
       <Footer />
 
-      {/* Theme Toggle Button */}
+      {/* 🔘 Theme Toggle Button */}
       <button
         type="button"
         aria-label={`สลับเป็นโหมด ${theme === 'light' ? 'มืด' : 'สว่าง'}`}
@@ -76,14 +76,14 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
         )}
       </button>
 
-      {/* Modal Dialog */}
+      {/* 📦 Modal Dialog */}
       {selectedService && (
         <div
           role="dialog"
           aria-modal="true"
           aria-labelledby="service-modal-title"
           aria-describedby="service-modal-desc"
-          className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-4 py-6 md:px-6 backdrop-blur-sm"
+          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center px-4 py-6 md:px-6"
           onClick={() => setSelectedService(null)}
         >
           <div
@@ -94,18 +94,12 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
               ขอใช้บริการจาก JP Visual & Docs
             </h3>
 
-            <div id="service-modal-desc" className="text-sm sm:text-base text-base-content/80 space-y-1">
-              <p>
-                <strong>บริการที่คุณเลือก:</strong> {selectedService.title}
-              </p>
-              <p>
-                <strong>รายละเอียดบริการ:</strong> {selectedService.description}
-              </p>
-              <p>
-                <strong>ค่าบริการโดยประมาณ:</strong> {selectedService.price}
-              </p>
+            <div id="service-modal-desc" className="text-sm sm:text-base text-base-content/80 space-y-2">
+              <p><strong>บริการที่คุณเลือก:</strong> {selectedService.title}</p>
+              <p><strong>รายละเอียด:</strong> {selectedService.description}</p>
+              <p><strong>ค่าบริการ:</strong> {selectedService.price}</p>
               <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                ทีมงาน JP Visual & Docs เชี่ยวชาญด้านการออกแบบสื่อ บริการเว็บไซต์ และการนำเสนอระดับมืออาชีพ
+                ทีมงานเชี่ยวชาญด้านเอกสาร การออกแบบ และสื่อการนำเสนอมืออาชีพ
               </p>
             </div>
 

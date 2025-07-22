@@ -1,21 +1,21 @@
-// src/components/About.tsx
+// src/components/About.tsx – ปรับ UI, เพิ่มความเสถียร, รองรับ Dark Mode, Mobile/Desktop
 
-import React from 'react';
+import React from 'react'
 import {
   FaLine,
   FaFacebookMessenger,
   FaFacebook,
   FaEnvelope,
-} from 'react-icons/fa';
-import { getContactHref } from '@/config/contact';
-import aboutImage from '@/assets/about.webp';
-import signatureImage from '@/assets/signature.webp';
+} from 'react-icons/fa'
+import { getContactHref } from '@/config/contact'
+import aboutImage from '@/assets/about.webp'
+import signatureImage from '@/assets/signature.webp'
 
 const About: React.FC = () => {
-  const lineHref = getContactHref('line');
-  const fbHref = getContactHref('facebook');
-  const messengerHref = getContactHref('messenger');
-  const emailHref = getContactHref('email');
+  const lineHref = getContactHref('line')
+  const fbHref = getContactHref('facebook')
+  const messengerHref = getContactHref('messenger')
+  const emailHref = getContactHref('email')
 
   return (
     <section
@@ -39,11 +39,14 @@ const About: React.FC = () => {
             alt="ภาพเกี่ยวกับเรา"
             className="w-full rounded-2xl shadow-xl ring-1 ring-primary/20"
             loading="lazy"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none'
+            }}
           />
         </div>
 
         {/* Description */}
-        <div className="mx-auto max-w-3xl space-y-6 text-left sm:text-center text-gray-700 dark:text-gray-300 sm:text-lg">
+        <div className="mx-auto max-w-3xl space-y-6 text-left sm:text-center text-gray-700 dark:text-gray-300 sm:text-lg leading-relaxed">
           <p>
             <strong className="text-primary">JP - VISUAL & DOCS</strong>
             <br />
@@ -119,7 +122,7 @@ const About: React.FC = () => {
               `,
             }}
             onError={(e) => {
-              (e.currentTarget as HTMLImageElement).style.display = 'none';
+              e.currentTarget.style.display = 'none'
             }}
           />
         </div>
@@ -130,7 +133,7 @@ const About: React.FC = () => {
         </p>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default About;
+export default About
