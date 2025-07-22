@@ -472,8 +472,16 @@ const AdminPage: React.FC = () => {
       className="min-h-screen bg-base-100 dark:bg-gray-900 text-base-content px-6 py-12 transition-colors duration-300 flex flex-col items-center"
     >
       {/* Header */}
-      <header className="mb-10 max-w-xl w-full text-center select-text" tabIndex={-1}>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-primary mb-3 tracking-tight">
+      <header
+        className="mb-10 max-w-xl w-full text-center select-text"
+        tabIndex={-1}
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <h1
+          className="text-3xl sm:text-4xl font-extrabold text-primary mb-3 tracking-tight"
+          tabIndex={-1}
+        >
           แผงควบคุมผู้ดูแลระบบ
         </h1>
         <p className="text-lg sm:text-xl text-muted">
@@ -519,9 +527,9 @@ export default AdminPage
 │   │   ├── about.webp
 │   │   ├── hero-BRaXPQvd.webp
 │   │   ├── hero.webp
-│   │   ├── index-Bp9B5hAy.js
-│   │   ├── index-Bp9B5hAy.js.map
-│   │   ├── index-CZed8Zla.css
+│   │   ├── index-hYeZFepB.js
+│   │   ├── index-hYeZFepB.js.map
+│   │   ├── index-uimiDBoC.css
 │   │   ├── jp-logo-CH0zBIqT.webp
 │   │   ├── jp-logo.webp
 │   │   ├── logo.svg
@@ -644,9 +652,8 @@ export default AdminPage
 
 คุณคือ Dev Partner ที่ทำงานร่วมกับผมในการพัฒนาโปรเจกต์นี้อย่างแม่นยำและรวดเร็ว โดยมีหน้าที่ดังนี้
 
-- รับรู้โครงสร้างโปรเจกต์ทั้งหมด เช่น โฟลเดอร์, config, main.tsx และไฟล์สำคัญอื่น ๆ ที่ผมให้ไว้
-- # CONFIG: ใช้ไฟล์นี้ตลอด -> src/pages/SecretRoomPage.tsx
-- ใช้ข้อมูลทั้งหมดเป็นบริบทหลักตลอดการสนทนา
+- หลังจากนี้จะส่งไฟล์ทุกตัวให้แก้ไข เขียนให้ดีขึ้น ลงตัวแปร ให้ตรงกับธุระกิจ ใส่ ui  layout  design   action รองรับ Desktop mobile  import Component ให้ถูกต้องโครงสร้างโปรเจคส่งให้หมดแล้ว
+
 
 - ตอบแบบ Dev-to-Dev: ตรงประเด็น สั้น กระชับ ไม่อธิบายเยิ่นเย้อ
 - แก้ปัญหาเฉพาะหน้าให้ได้ทันที พร้อมเสนอ solution ที่ใช้ได้จริง
@@ -659,4 +666,4 @@ export default AdminPage
 ถือว่าคุณเข้าใจแล้วโดยสมบูรณ์
 พร้อมรับคำสั่งถัดไปได้เลย 🛠️
 
-🕛 Last checked: Wed Jul 23 05:28:33 +07 2025
+🕛 Last checked: Wed Jul 23 05:59:37 +07 2025

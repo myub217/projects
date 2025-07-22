@@ -10,22 +10,28 @@ const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (loading) return
     setError('')
+    setLoading(true)
 
     const trimmedUsername = username.trim()
     const trimmedPassword = password.trim()
 
     if (!trimmedUsername || !trimmedPassword) {
       setError('กรุณากรอกข้อมูลให้ครบ')
+      setLoading(false)
       return
     }
 
     const user = users[trimmedUsername]
     if (!user) {
       setError('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง')
+      setPassword('')
+      setLoading(false)
       return
     }
 
@@ -33,16 +39,19 @@ const LoginPage: React.FC = () => {
       const hashed = await hashPassword(trimmedPassword)
       if (hashed !== user.passwordHash) {
         setError('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง')
+        setPassword('')
+        setLoading(false)
         return
       }
     } catch {
       setError('เกิดข้อผิดพลาดในการตรวจสอบรหัสผ่าน')
+      setLoading(false)
       return
     }
 
     localStorage.setItem('loggedInUser', trimmedUsername)
     localStorage.setItem('userRole', user.role)
-
+    setLoading(false)
     navigate(user.role === 'admin' ? '/admin' : '/secret', { replace: true })
   }
 
@@ -85,6 +94,7 @@ const LoginPage: React.FC = () => {
             required
             placeholder="กรอกชื่อผู้ใช้"
             aria-required="true"
+            disabled={loading}
           />
         </div>
 
@@ -102,6 +112,7 @@ const LoginPage: React.FC = () => {
             required
             placeholder="กรอกรหัสผ่าน"
             aria-required="true"
+            disabled={loading}
           />
         </div>
 
@@ -109,8 +120,9 @@ const LoginPage: React.FC = () => {
           type="submit"
           className="btn btn-primary w-full"
           aria-label="ปุ่มเข้าสู่ระบบ"
+          disabled={loading}
         >
-          เข้าสู่ระบบ
+          {loading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ'}
         </button>
       </form>
     </main>

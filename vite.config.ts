@@ -1,4 +1,4 @@
-// vite.config.ts (ปรับปรุงเพิ่มเติม)
+// vite.config.ts (ปรับปรุงเพิ่มเติมและจัดระเบียบดีขึ้น)
 
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -24,16 +24,8 @@ export default defineConfig({
         background_color: '#ffffff',
         theme_color: '#2563eb',
         icons: [
-          {
-            src: '/icon-192.png',
-            sizes: '192x192',
-            type: 'image/png',
-          },
-          {
-            src: '/icon-512.png',
-            sizes: '512x512',
-            type: 'image/png',
-          },
+          { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+          { src: '/icon-512.png', sizes: '512x512', type: 'image/png' },
         ],
       },
       devOptions: {

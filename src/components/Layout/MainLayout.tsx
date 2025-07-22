@@ -1,4 +1,4 @@
-// ✅ Final: src/components/Layout/MainLayout.tsx
+// src/components/Layout/MainLayout.tsx
 // Clean layout with responsive content container and theme-aware styling
 
 import React, { ReactNode } from 'react'

@@ -23,7 +23,6 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
   const [selectedService, setSelectedService] = useState<Service | null>(null)
   const mainContentRef = useRef<HTMLElement>(null)
 
-  // Close modal on ESC
   useEffect(() => {
     const onEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setSelectedService(null)
@@ -32,7 +31,6 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
     return () => window.removeEventListener('keydown', onEsc)
   }, [])
 
-  // Lock scroll when modal is open
   useEffect(() => {
     document.body.style.overflow = selectedService ? 'hidden' : ''
     if (!selectedService) mainContentRef.current?.focus()
@@ -104,7 +102,6 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
         )}
       </button>
 
-      {/* Modal */}
       <ServiceRequestModal
         service={selectedService}
         onClose={() => setSelectedService(null)}

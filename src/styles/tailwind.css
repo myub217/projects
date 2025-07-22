@@ -49,7 +49,7 @@
     line-height: 1.25;
     margin-top: 0;
     margin-bottom: 0.5rem;
-    scroll-margin-top: 1.5rem; /* for anchor links offset */
+    scroll-margin-top: 1.5rem; /* สำหรับ offset anchor links */
   }
 
   p + p {
