@@ -14,28 +14,29 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     setError('');
 
-    if (!username.trim() || !password.trim()) {
+    const trimmedUsername = username.trim();
+    const trimmedPassword = password.trim();
+
+    if (!trimmedUsername || !trimmedPassword) {
       setError('กรุณากรอกข้อมูลให้ครบ');
       return;
     }
 
-    const user = users[username.trim()];
+    const user = users[trimmedUsername];
     if (!user) {
       setError('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
       return;
     }
 
-    const hashed = await hashPassword(password);
+    const hashed = await hashPassword(trimmedPassword);
     if (hashed !== user.passwordHash) {
       setError('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
       return;
     }
 
-    // Save session (localStorage)
-    localStorage.setItem('loggedInUser', username.trim());
+    localStorage.setItem('loggedInUser', trimmedUsername);
     localStorage.setItem('userRole', user.role);
 
-    // Redirect by role
     if (user.role === 'admin') {
       navigate('/admin', { replace: true });
     } else {
@@ -93,7 +94,11 @@ const LoginPage: React.FC = () => {
             placeholder="กรอกรหัสผ่าน"
           />
         </div>
-        <button type="submit" className="btn btn-primary w-full" aria-label="เข้าสู่ระบบ">
+        <button
+          type="submit"
+          className="btn btn-primary w-full"
+          aria-label="เข้าสู่ระบบ"
+        >
           เข้าสู่ระบบ
         </button>
       </form>

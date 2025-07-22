@@ -20,8 +20,7 @@ export default defineConfig({
     }),
     viteStaticCopy({
       targets: [
-        { src: 'public/docs', dest: '' },
-        { src: 'public/images', dest: '' },
+        { src: 'public/images', dest: '' }, // ❌ ลบ public/docs
       ],
     }),
     {
@@ -53,12 +52,12 @@ export default defineConfig({
       '@styles': path.resolve(__dirname, 'src/styles'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@config': path.resolve(__dirname, 'src/config'),
-      '@features': path.resolve(__dirname, 'src/features'),
+      // ❌ ลบ DocumentCenter ไปแล้ว อาจลบ @features ถ้าไม่ได้ใช้อื่น
+      // '@features': path.resolve(__dirname, 'src/features'),
     },
   },
   server: {
     proxy: {
-      // ✅ ใช้ API จริงตอนรัน Express
       '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,

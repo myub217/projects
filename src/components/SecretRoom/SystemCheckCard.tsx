@@ -1,30 +1,79 @@
 // src/components/SecretRoom/SystemCheckCard.tsx
 
-import React from 'react';
-import { FaCheckCircle, FaTimesCircle, FaExclamationTriangle } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react'
+import { FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa'
 
-interface SystemCheckCardProps {
-  title: string;
-  status: 'ok' | 'warning' | 'error';
-  description: string;
+const SystemCheckCard: React.FC = () => {
+  const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine)
+  const [storageAvailable, setStorageAvailable] = useState<boolean>(false)
+
+  useEffect(() => {
+    const checkLocalStorage = () => {
+      try {
+        const testKey = '__storage_test__'
+        localStorage.setItem(testKey, testKey)
+        localStorage.removeItem(testKey)
+        setStorageAvailable(true)
+      } catch {
+        setStorageAvailable(false)
+      }
+    }
+    checkLocalStorage()
+
+    const updateOnlineStatus = () => setIsOnline(navigator.onLine)
+
+    window.addEventListener('online', updateOnlineStatus)
+    window.addEventListener('offline', updateOnlineStatus)
+
+    return () => {
+      window.removeEventListener('online', updateOnlineStatus)
+      window.removeEventListener('offline', updateOnlineStatus)
+    }
+  }, [])
+
+  return (
+    <div className="card bg-base-200 p-6 rounded-xl shadow-lg">
+      <h3 className="card-title text-lg font-semibold mb-4">ตรวจสอบระบบ</h3>
+      <ul className="space-y-3 text-base">
+        <li className="flex items-center gap-3">
+          {isOnline ? (
+            <FaCheckCircle
+              className="text-green-500"
+              aria-label="ออนไลน์"
+              role="img"
+              aria-live="polite"
+            />
+          ) : (
+            <FaExclamationTriangle
+              className="text-red-500"
+              aria-label="ออฟไลน์"
+              role="img"
+              aria-live="assertive"
+            />
+          )}
+          <span>สถานะการเชื่อมต่อ: {isOnline ? 'ออนไลน์' : 'ออฟไลน์'}</span>
+        </li>
+        <li className="flex items-center gap-3">
+          {storageAvailable ? (
+            <FaCheckCircle
+              className="text-green-500"
+              aria-label="LocalStorage พร้อมใช้งาน"
+              role="img"
+              aria-live="polite"
+            />
+          ) : (
+            <FaExclamationTriangle
+              className="text-red-500"
+              aria-label="LocalStorage ไม่พร้อมใช้งาน"
+              role="img"
+              aria-live="assertive"
+            />
+          )}
+          <span>LocalStorage: {storageAvailable ? 'พร้อมใช้งาน' : 'ไม่พร้อมใช้งาน'}</span>
+        </li>
+      </ul>
+    </div>
+  )
 }
 
-const statusIcon = {
-  ok: <FaCheckCircle className="text-green-500" />,
-  warning: <FaExclamationTriangle className="text-yellow-500" />,
-  error: <FaTimesCircle className="text-red-500" />,
-};
-
-const SystemCheckCard: React.FC<SystemCheckCardProps> = ({ title, status, description }) => {
-  return (
-    <div className="card bg-base-200 p-4 rounded-lg shadow-md flex items-start gap-4">
-      <div className="text-3xl">{statusIcon[status]}</div>
-      <div className="flex-1">
-        <h3 className="text-lg font-semibold mb-1">{title}</h3>
-        <p className="text-sm text-muted-foreground">{description}</p>
-      </div>
-    </div>
-  );
-};
-
-export default SystemCheckCard;
+export default SystemCheckCard

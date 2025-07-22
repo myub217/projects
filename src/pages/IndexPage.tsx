@@ -95,11 +95,17 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
             </h3>
 
             <div id="service-modal-desc" className="text-sm sm:text-base text-base-content/80 space-y-1">
-              <p><strong>บริการที่คุณเลือก:</strong> {selectedService.title}</p>
-              <p><strong>รายละเอียดบริการ:</strong> {selectedService.description}</p>
-              <p><strong>ค่าบริการโดยประมาณ:</strong> {selectedService.price}</p>
+              <p>
+                <strong>บริการที่คุณเลือก:</strong> {selectedService.title}
+              </p>
+              <p>
+                <strong>รายละเอียดบริการ:</strong> {selectedService.description}
+              </p>
+              <p>
+                <strong>ค่าบริการโดยประมาณ:</strong> {selectedService.price}
+              </p>
               <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                ทีมงาน JP Visual & Docs มีความเชี่ยวชาญในการออกแบบเอกสารทางธุรกิจ สื่อภาพ บริการพัฒนาเว็บไซต์ และการนำเสนอระดับมืออาชีพ
+                ทีมงาน JP Visual & Docs เชี่ยวชาญด้านการออกแบบสื่อ บริการเว็บไซต์ และการนำเสนอระดับมืออาชีพ
               </p>
             </div>
 

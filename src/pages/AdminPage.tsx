@@ -1,19 +1,14 @@
+// src/pages/AdminPage.tsx
+
 import React from 'react'
-import { Navigate } from 'react-router-dom'
-import { users } from '@data/users'
 
 const AdminPage: React.FC = () => {
-  const currentUser = localStorage.getItem('user') || ''
-  const isAdmin = users[currentUser]?.role === 'admin'
-
-  if (!isAdmin) {
-    return <Navigate to="/" replace />
-  }
+  const username = localStorage.getItem('loggedInUser')
 
   return (
-    <div className="p-8 text-center">
-      <h1 className="text-2xl font-bold text-primary">Admin Access</h1>
-      <p className="mt-4">ยินดีต้อนรับคุณ {currentUser}</p>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-base-100 text-center px-4">
+      <h1 className="text-3xl font-bold text-primary mb-4">แผงควบคุมผู้ดูแลระบบ</h1>
+      <p className="text-lg">ยินดีต้อนรับคุณ <span className="font-semibold">{username}</span></p>
     </div>
   )
 }

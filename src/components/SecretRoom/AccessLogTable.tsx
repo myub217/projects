@@ -1,53 +1,69 @@
 // src/components/SecretRoom/AccessLogTable.tsx
 
-import React from 'react';
+import React from 'react'
 
-export interface AccessLog {
-  id: string;
-  user: string;
-  action: string;
-  timestamp: string; // ISO string or formatted date
-  ipAddress?: string;
+interface LogEntry {
+  timestamp: string
+  username: string
+  action: string
 }
 
-interface AccessLogTableProps {
-  logs: AccessLog[];
-}
+const mockLogs: LogEntry[] = [
+  { timestamp: '2025-07-22 10:30:00', username: 'JPKYETONKEY201', action: 'เข้าสู่ระบบ' },
+  { timestamp: '2025-07-22 10:32:12', username: 'JPKYETONKEY233', action: 'ดาวน์โหลดเอกสาร' },
+  { timestamp: '2025-07-22 10:35:45', username: 'JPKYETONKEY299', action: 'ออกจากระบบ' },
+]
 
-const AccessLogTable: React.FC<AccessLogTableProps> = ({ logs }) => {
+const AccessLogTable: React.FC = () => {
   return (
-    <div className="overflow-x-auto rounded-lg border border-base-300 bg-base-200 shadow-md">
-      <table className="min-w-full divide-y divide-base-300 text-sm">
-        <thead className="bg-base-300">
+    <section
+      aria-label="ตารางบันทึกการเข้าใช้งาน"
+      className="overflow-x-auto bg-base-200 rounded-lg shadow p-6 max-w-4xl mx-auto"
+    >
+      <h3 className="text-xl font-semibold mb-5 text-primary">บันทึกการเข้าใช้งาน</h3>
+      <table className="table w-full text-sm md:text-base" role="table">
+        <thead className="bg-primary text-primary-content">
           <tr>
-            <th className="px-4 py-2 text-left font-semibold">#</th>
-            <th className="px-4 py-2 text-left font-semibold">ผู้ใช้</th>
-            <th className="px-4 py-2 text-left font-semibold">การกระทำ</th>
-            <th className="px-4 py-2 text-left font-semibold">เวลา</th>
-            <th className="px-4 py-2 text-left font-semibold">IP</th>
+            <th scope="col" className="py-3 px-4 text-left">
+              เวลา
+            </th>
+            <th scope="col" className="py-3 px-4 text-left">
+              ผู้ใช้งาน
+            </th>
+            <th scope="col" className="py-3 px-4 text-left">
+              กิจกรรม
+            </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-base-300">
-          {logs.length === 0 && (
+        <tbody>
+          {mockLogs.length === 0 ? (
             <tr>
-              <td colSpan={5} className="px-4 py-4 text-center text-muted">
-                ไม่มีบันทึกการเข้าใช้งาน
+              <td colSpan={3} className="text-center py-6 text-gray-500 dark:text-gray-400">
+                ยังไม่มีบันทึกการเข้าใช้งาน
               </td>
             </tr>
+          ) : (
+            mockLogs.map((log, index) => (
+              <tr
+                key={index}
+                className={index % 2 === 0 ? 'bg-base-100' : 'bg-base-300 dark:bg-base-700'}
+              >
+                <td className="py-2 px-4 whitespace-nowrap" data-label="เวลา">
+                  {log.timestamp}
+                </td>
+                <td className="py-2 px-4 whitespace-nowrap font-mono" data-label="ผู้ใช้งาน">
+                  {log.username}
+                </td>
+                <td className="py-2 px-4 whitespace-nowrap" data-label="กิจกรรม">
+                  {log.action}
+                </td>
+              </tr>
+            ))
           )}
-          {logs.map(({ id, user, action, timestamp, ipAddress }, idx) => (
-            <tr key={id} className="hover:bg-base-300 transition-colors">
-              <td className="px-4 py-2">{idx + 1}</td>
-              <td className="px-4 py-2">{user}</td>
-              <td className="px-4 py-2">{action}</td>
-              <td className="px-4 py-2">{new Date(timestamp).toLocaleString()}</td>
-              <td className="px-4 py-2">{ipAddress ?? '-'}</td>
-            </tr>
-          ))}
         </tbody>
       </table>
-    </div>
-  );
-};
+    </section>
+  )
+}
 
-export default AccessLogTable;
+export default AccessLogTable
