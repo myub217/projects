@@ -4,34 +4,24 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import '@/styles/global.css'
+import '@/styles/tailwind-base.css'
+import '@/styles/tailwind.css'
 
 import IndexPage from '@pages/IndexPage'
 import LoginPage from '@pages/LoginPage'
 import SecretRoomPage from '@pages/SecretRoomPage'
 import AdminPage from '@pages/AdminPage'
+import NotFoundPage from '@pages/NotFoundPage'
+
 import ProtectedRoute from '@components/ProtectedRoute'
 import { ThemeProvider, useTheme } from '@components/ThemeProvider'
-
-const NotFound: React.FC = () => (
-  <main
-    role="alert"
-    aria-live="assertive"
-    className="flex items-center justify-center min-h-screen bg-base-100 text-error text-xl font-semibold select-none"
-  >
-    404 | ไม่พบหน้าที่คุณต้องการ
-  </main>
-)
 
 const AppRoutes: React.FC = () => {
   const { theme, toggleTheme } = useTheme()
 
   return (
     <Routes>
-      <Route
-        path="/"
-        element={<IndexPage theme={theme} toggleTheme={toggleTheme} />}
-      />
+      <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
       <Route path="/login" element={<LoginPage />} />
 
       <Route element={<ProtectedRoute />}>
@@ -39,7 +29,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/admin" element={<AdminPage />} />
       </Route>
 
-      <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )
 }
@@ -54,11 +44,12 @@ const RootApp: React.FC = () => (
   </React.StrictMode>
 )
 
-const rootElement = document.getElementById('root')
-if (!rootElement) {
+const root = document.getElementById('root')
+
+if (!root) {
   console.error('❌ ไม่พบ <div id="root"> ใน index.html')
 } else {
-  ReactDOM.createRoot(rootElement).render(<RootApp />)
+  ReactDOM.createRoot(root).render(<RootApp />)
 }
 
 export default RootApp

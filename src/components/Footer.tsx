@@ -1,5 +1,5 @@
 // src/components/Footer.tsx
-// ✅ Responsive Footer with branding, social links, copyright, and accessible semantics
+// ✅ Responsive Footer with branding, social links, copyright, accessible semantics, and improved accessibility
 
 import React from 'react'
 import jpLogo from '@/assets/jp-logo.webp'
@@ -7,8 +7,8 @@ import { FaLine, FaFacebookMessenger } from 'react-icons/fa'
 
 const Footer: React.FC = () => (
   <footer
-    className="bg-base-200 dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-t border-base-300 transition-colors duration-300"
     role="contentinfo"
+    className="bg-base-200 dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-t border-base-300 transition-colors duration-300 select-text"
   >
     <div className="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-0">
@@ -42,23 +42,23 @@ const Footer: React.FC = () => (
             target="_blank"
             rel="noopener noreferrer"
             aria-label="ติดต่อเรา ผ่าน LINE"
-            className="hover:text-primary-focus transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+            className="hover:text-primary-focus transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
           >
-            <FaLine />
+            <FaLine aria-hidden="true" />
           </a>
           <a
             href="https://m.me/yourpage"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="ติดต่อเรา ผ่าน Facebook Messenger"
-            className="hover:text-primary-focus transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+            className="hover:text-primary-focus transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
           >
-            <FaFacebookMessenger />
+            <FaFacebookMessenger aria-hidden="true" />
           </a>
         </nav>
 
         {/* Copyright */}
-        <div className="text-center sm:text-right text-sm leading-relaxed select-text">
+        <div className="text-center sm:text-right text-sm leading-relaxed">
           <p>© 2025 JP - Visual & Docs</p>
           <p className="opacity-70">สงวนลิขสิทธิ์ทั้งหมด | All rights reserved</p>
         </div>
