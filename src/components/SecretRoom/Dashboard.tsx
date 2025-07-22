@@ -1,6 +1,6 @@
 // src/components/SecretRoom/Dashboard.tsx
 
-import React from 'react'
+import React, { useCallback } from 'react'
 import AccessLogTable from './AccessLogTable'
 import SystemCheckCard from './SystemCheckCard'
 import HeaderBlock from './HeaderBlock'
@@ -13,10 +13,10 @@ import FileUpload from './FileUpload'
 const Dashboard: React.FC = () => {
   const username = localStorage.getItem('loggedInUser')?.trim() || 'ไม่ทราบชื่อผู้ใช้'
 
-  const handleFileSelect = (file: File) => {
-    // TODO: Implement actual upload logic or pass to context/api
+  const handleFileSelect = useCallback((file: File) => {
+    // Placeholder: Implement actual upload or API call here
     console.log('ไฟล์ที่เลือกสำหรับอัปโหลด:', file)
-  }
+  }, [])
 
   return (
     <main
@@ -44,7 +44,10 @@ const Dashboard: React.FC = () => {
         aria-label="อัปโหลดเอกสาร"
         className="w-full max-w-md mx-auto"
       >
-        <FileUpload onFileSelect={handleFileSelect} accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+        <FileUpload
+          onFileSelect={handleFileSelect}
+          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+        />
       </section>
 
       {/* Access Logs */}

@@ -1,95 +1,58 @@
 // src/components/AdminBoard/Dashboard.tsx
 
-import React, { useEffect, useState } from 'react'
-import CustomerCard from '../CustomerCard'
+import React from 'react'
 import StatsPanel from './StatsPanel'
 import UserTable from './UserTable'
-import { CustomerApproval } from '@/data/approvedCustomers'
+import CustomerCard from './CustomerCard'
 
-const Dashboard: React.FC = () => {
-  const [customers, setCustomers] = useState<CustomerApproval[]>([])
-  const [loading, setLoading] = useState(true)
-
-  // Mock fetching approved customers (replace with real API call if available)
-  useEffect(() => {
-    const fetchCustomers = async () => {
-      try {
-        setLoading(true)
-        // Simulate fetch delay
-        await new Promise((res) => setTimeout(res, 800))
-        // Sample static data or import from '@/data/approvedCustomers'
-        // Replace this with actual API logic if needed
-        const data: CustomerApproval[] = [
-          {
-            id: '1',
-            name: 'ลูกค้า A',
-            status: 'เสร็จสมบูรณ์',
-            documentTitle: 'ใบเสนอราคา',
-            receivedDate: '2025-07-21',
-          },
-          {
-            id: '2',
-            name: 'ลูกค้า B',
-            status: 'กำลังดำเนินการ',
-            documentTitle: 'สัญญาเช่า',
-            receivedDate: '2025-07-19',
-          },
-          {
-            id: '3',
-            name: 'ลูกค้า C',
-            status: 'ยกเลิกแล้ว',
-            documentTitle: '',
-            receivedDate: '2025-07-18',
-          },
-        ]
-        setCustomers(data)
-      } catch (error) {
-        console.error('โหลดข้อมูลลูกค้าไม่สำเร็จ:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchCustomers()
-  }, [])
-
-  // Sample stats for StatsPanel
-  const stats = [
-    { label: 'ลูกค้าทั้งหมด', value: customers.length, icon: '👥' },
-    {
-      label: 'งานเสร็จสมบูรณ์',
-      value: customers.filter((c) => c.status === 'เสร็จสมบูรณ์').length,
-      icon: '✅',
-    },
-    {
-      label: 'งานกำลังดำเนินการ',
-      value: customers.filter((c) => c.status === 'กำลังดำเนินการ').length,
-      icon: '⏳',
-    },
-  ]
-
+const AdminDashboard: React.FC = () => {
   return (
-    <div className="flex flex-col gap-8">
-      <StatsPanel stats={stats} />
+    <main
+      role="main"
+      aria-label="แดชบอร์ดผู้ดูแลระบบ"
+      className="min-h-screen max-w-7xl mx-auto p-8 bg-base-100 dark:bg-gray-900 text-base-content rounded-2xl shadow-lg transition-shadow duration-300 space-y-16"
+    >
+      {/* Header */}
+      <header className="text-center mb-8">
+        <h1 className="text-4xl font-extrabold text-primary select-text">
+          แดชบอร์ดผู้ดูแลระบบ
+        </h1>
+        <p className="text-muted mt-3 max-w-3xl mx-auto select-text">
+          จัดการข้อมูลและดูสถิติที่สำคัญแบบเรียลไทม์เพื่อเพิ่มประสิทธิภาพการทำงาน
+        </p>
+      </header>
 
-      <section>
-        <h2 className="text-xl font-semibold mb-4">ลูกค้าล่าสุด</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {loading
-            ? Array.from({ length: 3 }).map((_, i) => (
-                <CustomerCard key={i} loading />
-              ))
-            : customers.map((customer) => (
-                <CustomerCard key={customer.id} customer={customer} />
-              ))}
-        </div>
+      {/* Stats Panel */}
+      <section aria-labelledby="stats-panel-heading" className="space-y-8">
+        <h2 id="stats-panel-heading" className="sr-only">
+          สถิติโดยรวม
+        </h2>
+        <StatsPanel />
       </section>
 
-      <section>
-        <h2 className="text-xl font-semibold mb-4">รายชื่อผู้ใช้</h2>
+      {/* Customer Highlight */}
+      <section aria-labelledby="customer-card-heading" className="space-y-6">
+        <h2
+          id="customer-card-heading"
+          className="text-xl font-bold text-primary select-text"
+        >
+          ลูกค้าเด่นประจำวัน
+        </h2>
+        <CustomerCard />
+      </section>
+
+      {/* Users Table */}
+      <section aria-labelledby="user-table-heading" className="space-y-6">
+        <h2
+          id="user-table-heading"
+          className="text-xl font-bold text-primary select-text"
+        >
+          รายชื่อผู้ใช้งานในระบบ
+        </h2>
         <UserTable />
       </section>
-    </div>
+    </main>
   )
 }
 
-export default Dashboard
+export default AdminDashboard

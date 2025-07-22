@@ -13,7 +13,7 @@ import AdminPage from '@pages/AdminPage'
 import ProtectedRoute from '@components/ProtectedRoute'
 import { ThemeProvider, useTheme } from '@components/ThemeProvider'
 
-// 404 Not Found Component
+// 404 Not Found Page
 const NotFound: React.FC = () => (
   <main
     role="alert"
@@ -24,7 +24,7 @@ const NotFound: React.FC = () => (
   </main>
 )
 
-// App Routes with theme context
+// Routes Section
 const AppRoutes: React.FC = () => {
   const { theme, toggleTheme } = useTheme()
 
@@ -42,13 +42,13 @@ const AppRoutes: React.FC = () => {
         <Route path="/admin" element={<AdminPage />} />
       </Route>
 
-      {/* Catch all unmatched */}
+      {/* Fallback Route */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }
 
-// Root App with providers wrapper
+// Root Wrapper
 const RootApp: React.FC = () => (
   <React.StrictMode>
     <ThemeProvider>
@@ -59,12 +59,12 @@ const RootApp: React.FC = () => (
   </React.StrictMode>
 )
 
-// Mount app
+// Mount to DOM
 const rootElement = document.getElementById('root')
-if (!rootElement) {
-  console.error('❌ ไม่พบ element ที่มี id="root" ใน index.html')
-} else {
+if (rootElement) {
   ReactDOM.createRoot(rootElement).render(<RootApp />)
+} else {
+  console.error('❌ ไม่พบ <div id="root"> ใน index.html')
 }
 
 export default RootApp
