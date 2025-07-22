@@ -18,28 +18,38 @@ const navItems = [
 
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false)
-
   const toggleMenu = () => setMenuOpen((prev) => !prev)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-base-300 bg-base-100/90 shadow-sm backdrop-blur-md dark:border-gray-700 dark:bg-gray-900 transition-colors duration-300">
+    <header
+      className="sticky top-0 z-50 w-full border-b border-base-300 bg-base-100/90 shadow-sm backdrop-blur-md
+                 dark:border-gray-700 dark:bg-gray-900 transition-colors duration-300"
+      role="banner"
+      aria-label="ส่วนหัวเว็บไซต์"
+    >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         {/* Logo */}
-        <div className="flex items-center gap-2 select-none">
+        <div className="flex items-center gap-2 select-none" aria-label="โลโก้ JP - VISUAL & DOCS">
           <img
             src="/assets/logo.svg"
-            alt="โลโก้ BANNER DIGITAL"
+            alt="โลโก้ JP - VISUAL & DOCS"
             className="h-8 w-8"
             draggable={false}
             loading="lazy"
+            decoding="async"
+            fetchpriority="high"
           />
-          <span className="text-lg font-bold tracking-tight text-primary">
-            BANNER DIGITAL
+          <span className="text-lg font-bold tracking-tight text-primary select-text">
+            JP - VISUAL & DOCS
           </span>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden sm:flex items-center gap-6 text-sm font-medium">
+        <nav
+          className="hidden sm:flex items-center gap-6 text-sm font-medium"
+          aria-label="เมนูนำทางหลัก"
+          role="navigation"
+        >
           {navItems.map(({ label, to }) => (
             <Link
               key={to}
@@ -58,7 +68,11 @@ const Header: React.FC = () => {
         </nav>
 
         {/* Desktop Contact */}
-        <div className="hidden sm:flex items-center gap-3">
+        <div
+          className="hidden sm:flex items-center gap-3"
+          role="region"
+          aria-label="ช่องทางติดต่อ"
+        >
           <a
             href={getContactHref('line')}
             target="_blank"
@@ -83,6 +97,7 @@ const Header: React.FC = () => {
             href="tel:0956636615"
             title="โทรติดต่อ 095-663-6615"
             className="flex items-center gap-2 rounded bg-primary px-3 py-1.5 text-sm font-medium text-white shadow hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition"
+            aria-label="โทรติดต่อ 095-663-6615"
           >
             <FaPhoneAlt className="h-4 w-4" aria-hidden="true" />
             <span>095-663-6615</span>
@@ -98,7 +113,11 @@ const Header: React.FC = () => {
           aria-controls="mobile-menu"
           type="button"
         >
-          {menuOpen ? <FaTimes className="h-5 w-5" aria-hidden="true" /> : <FaBars className="h-5 w-5" aria-hidden="true" />}
+          {menuOpen ? (
+            <FaTimes className="h-5 w-5" aria-hidden="true" />
+          ) : (
+            <FaBars className="h-5 w-5" aria-hidden="true" />
+          )}
         </button>
       </div>
 
@@ -121,12 +140,17 @@ const Header: React.FC = () => {
               className="block text-sm font-medium text-gray-700 hover:text-primary dark:text-gray-200 py-2"
               role="menuitem"
               tabIndex={0}
+              aria-label={`ไปยังส่วน ${label}`}
             >
               {label}
             </Link>
           ))}
 
-          <div className="flex items-center gap-3 pt-3">
+          <div
+            className="flex items-center gap-3 pt-3"
+            role="region"
+            aria-label="ช่องทางติดต่อมือถือ"
+          >
             <a
               href={getContactHref('line')}
               target="_blank"
