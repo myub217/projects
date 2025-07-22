@@ -1,9 +1,9 @@
-// ✅ src/data/reviewsData.ts
+// src/data/reviewsData.ts
 
 export interface Review {
-  name: string;
-  feedback: string;
-  date: string;
+  name: string
+  feedback: string
+  date: string
 }
 
 export const reviewsData: Review[] = [
@@ -91,4 +91,4 @@ export const reviewsData: Review[] = [
       '“เอกสารหลักสูตรและคู่มือที่ JP ออกแบบให้ ใช้งานได้จริง และช่วยให้ดูน่าเชื่อถือขึ้นเยอะเลยค่ะ”',
     date: '9 ธ.ค. 2024',
   },
-];
+]

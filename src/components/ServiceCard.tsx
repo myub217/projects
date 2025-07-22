@@ -1,4 +1,4 @@
-// src/components/ServiceCard.tsx
+// src/components/ServiceCard.tsx – Clean, Accessible Service Card with Disabled State
 
 import React from 'react'
 import { IconType } from 'react-icons'
@@ -32,6 +32,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       `}
       aria-disabled={disabled}
       tabIndex={disabled ? -1 : 0}
+      role="region"
+      aria-label={`${title} ${disabled ? 'กำลังจะมาเร็วๆ นี้' : ''}`}
     >
       {/* Image or Icon */}
       {imageUrl ? (
@@ -43,12 +45,17 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           onError={(e) => {
             e.currentTarget.style.display = 'none'
           }}
+          draggable={false}
+          decoding="async"
+          fetchPriority="low"
         />
       ) : (
         <div
           className={`flex items-center justify-center sm:justify-start w-16 h-16 mx-auto sm:mx-0 mt-6 mb-4 rounded-full text-4xl
           ${
-            disabled ? 'bg-yellow-200 text-yellow-700 dark:bg-yellow-700 dark:text-yellow-300' : 'bg-primary/10 text-primary'
+            disabled
+              ? 'bg-yellow-200 text-yellow-700 dark:bg-yellow-700 dark:text-yellow-300'
+              : 'bg-primary/10 text-primary'
           }`}
           aria-hidden="true"
         >
@@ -81,6 +88,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
               className="inline-block text-sm sm:text-base font-semibold text-primary hover:text-primary-focus transition duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
               rel="noopener noreferrer"
               target="_blank"
+              aria-label={`อ่านเพิ่มเติมเกี่ยวกับ ${title}`}
             >
               อ่านเพิ่มเติม →
             </a>

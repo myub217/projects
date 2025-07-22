@@ -22,7 +22,7 @@ export default defineConfig({
     }),
     viteStaticCopy({
       targets: [
-        { src: 'public/images', dest: '' }, // copy only images folder
+        { src: 'public/images', dest: '' }, // copy images folder only
       ],
     }),
     {
@@ -54,7 +54,6 @@ export default defineConfig({
       '@styles': path.resolve(__dirname, 'src/styles'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@config': path.resolve(__dirname, 'src/config'),
-      // Removed @features alias since folder no longer exists
     },
   },
   server: {
@@ -63,6 +62,8 @@ export default defineConfig({
         target: 'http://localhost:3000',
         changeOrigin: true,
         secure: false,
+        // optional: rewrite path if needed
+        // rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },
@@ -70,5 +71,16 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
     target: 'esnext',
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) return 'vendor'
+        },
+      },
+    },
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
   },
 })

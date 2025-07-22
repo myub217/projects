@@ -20,11 +20,9 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
   const [selectedService, setSelectedService] = useState<Service | null>(null)
 
   useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSelectedService(null)
-    }
-    window.addEventListener('keydown', handleEsc)
-    return () => window.removeEventListener('keydown', handleEsc)
+    const onEsc = (e: KeyboardEvent) => e.key === 'Escape' && setSelectedService(null)
+    window.addEventListener('keydown', onEsc)
+    return () => window.removeEventListener('keydown', onEsc)
   }, [])
 
   useEffect(() => {
@@ -40,13 +38,9 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
 
   return (
     <div className="flex flex-col min-h-screen bg-base-100 text-base-content font-sans transition-colors duration-300">
-      {/* Container */}
       <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-16 flex flex-col flex-grow">
-
-        {/* Header */}
         <Header theme={theme} toggleTheme={toggleTheme} />
 
-        {/* Main content */}
         <main
           id="main-content"
           role="main"
@@ -62,11 +56,10 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
           <CTASection />
         </main>
 
-        {/* Footer */}
         <Footer />
       </div>
 
-      {/* Theme toggle button */}
+      {/* Theme Toggle Button */}
       <button
         type="button"
         aria-label={`สลับเป็นโหมด ${theme === 'light' ? 'มืด' : 'สว่าง'}`}
@@ -75,17 +68,37 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
         className="fixed bottom-4 right-4 z-50 rounded-full bg-base-200 p-3 shadow-xl backdrop-blur-md text-base-content transition hover:bg-base-300 dark:bg-neutral dark:text-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
       >
         {theme === 'light' ? (
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" role="img" aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m8.66-11h-1M4.34 12h-1m15.07 6.07l-.7-.7M6.34 6.34l-.7-.7m12.02 12.02l-.7-.7M6.34 17.66l-.7-.7M12 7a5 5 0 000 10 5 5 0 000-10z" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+            role="img"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 3v1m0 16v1m8.66-11h-1M4.34 12h-1m15.07 6.07l-.7-.7M6.34 6.34l-.7-.7m12.02 12.02l-.7-.7M6.34 17.66l-.7-.7M12 7a5 5 0 000 10 5 5 0 000-10z"
+            />
           </svg>
         ) : (
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" role="img" aria-hidden="true">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-6 h-6"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            role="img"
+            aria-hidden="true"
+          >
             <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
           </svg>
         )}
       </button>
 
-      {/* Service modal */}
+      {/* Service Request Modal */}
       {selectedService && (
         <div
           role="dialog"
@@ -97,22 +110,34 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4 py-6 md:px-6"
         >
           <div
+            tabIndex={0}
             onClick={(e) => e.stopPropagation()}
             className="w-full max-w-lg rounded-2xl bg-base-100 dark:bg-gray-900 p-6 shadow-2xl space-y-5 focus:outline-none"
-            tabIndex={0}
           >
-            <h3 id="service-modal-title" className="text-xl font-bold text-primary">
+            <h3
+              id="service-modal-title"
+              className="text-xl font-bold text-primary"
+            >
               ขอใช้บริการจาก JP Visual & Docs
             </h3>
 
-            <div id="service-modal-desc" className="space-y-2 text-sm sm:text-base text-base-content/80">
-              <p><strong>บริการที่คุณเลือก:</strong> {selectedService.title}</p>
-              <p><strong>รายละเอียด:</strong> {selectedService.description}</p>
-              <p><strong>ค่าบริการ:</strong> {selectedService.price}</p>
+            <section
+              id="service-modal-desc"
+              className="space-y-2 text-sm sm:text-base text-base-content/80"
+            >
+              <p>
+                <strong>บริการที่คุณเลือก:</strong> {selectedService.title}
+              </p>
+              <p>
+                <strong>รายละเอียด:</strong> {selectedService.description}
+              </p>
+              <p>
+                <strong>ค่าบริการ:</strong> {selectedService.price}
+              </p>
               <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
                 ทีมงานสายทำจริง สไตล์มือโปร — เอกสาร ชัด เป๊ะ ขายงานผ่าน
               </p>
-            </div>
+            </section>
 
             <div className="mt-6 flex flex-col sm:flex-row justify-end gap-3">
               <button

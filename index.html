@@ -2,34 +2,49 @@
 <html lang="th" data-theme="business">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/images/logo.svg" type="image/svg+xml" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0d1117" />
+    <title>JP Visual & Docs</title>
 
-    <!-- ✅ PWA Manifest & Icons -->
+    <!-- Favicon -->
+    <link rel="icon" href="/images/logo.svg" type="image/svg+xml" />
+
+    <!-- Theme color for PWA -->
+    <meta name="theme-color" content="#2563eb" />
+
+    <!-- PWA Manifest & Icons -->
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="apple-touch-icon" sizes="192x192" href="/images/icons/icon-192x192.png" />
     <link rel="apple-touch-icon" sizes="512x512" href="/images/icons/icon-512x512.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-    <!-- ✅ SEO Metadata -->
-    <meta name="description" content="JP Visual & Docs: Interactive Secure Visualization & PDF Toolkit" />
-    <meta name="keywords" content="JP Visual, Document Security, PDF, React, Visualization, PWA" />
+    <!-- SEO Metadata -->
+    <meta name="description" content="JP Visual & Docs: บริการเอกสารและภาพข้อมูลแบบปลอดภัย พร้อมเครื่องมือ PDF ที่ใช้งานง่าย" />
+    <meta name="keywords" content="JP Visual, เอกสาร, ความปลอดภัย, PDF, React, Visualization, PWA" />
     <meta name="author" content="JP Visual & Docs Team" />
     <meta name="robots" content="index, follow" />
 
-    <!-- ✅ Open Graph for Social Sharing -->
+    <!-- Open Graph for Social Sharing -->
     <meta property="og:title" content="JP Visual & Docs" />
-    <meta property="og:description" content="Interactive Secure Visualization & PDF Toolkit" />
+    <meta property="og:description" content="บริการเอกสารและภาพข้อมูลแบบปลอดภัย พร้อมเครื่องมือ PDF ที่ใช้งานง่าย" />
     <meta property="og:image" content="/images/og-image.png" />
     <meta property="og:url" content="https://yourdomain.com" />
     <meta property="og:type" content="website" />
 
-    <!-- ✅ Title -->
-    <title>JP Visual & Docs</title>
-  </head>
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="JP Visual & Docs" />
+    <meta name="twitter:description" content="บริการเอกสารและภาพข้อมูลแบบปลอดภัย พร้อมเครื่องมือ PDF ที่ใช้งานง่าย" />
+    <meta name="twitter:image" content="/images/og-image.png" />
 
+    <!-- Preconnect for fonts (if used) -->
+    <!-- Example:
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    -->
+
+  </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

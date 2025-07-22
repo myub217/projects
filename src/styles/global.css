@@ -62,8 +62,7 @@ label {
 
 /* ==================== 🔹 CARD ==================== */
 .card {
-  @apply rounded-2xl bg-white dark:bg-base-200 shadow-lg p-6;
-  transition: all 0.3s ease;
+  @apply rounded-2xl bg-white dark:bg-base-200 shadow-lg p-6 transition-all duration-300 ease-in-out;
 }
 
 .card:hover {
@@ -166,4 +165,21 @@ label {
   border-radius: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* ==================== 🔹 ADDITIONAL IMPROVEMENTS ==================== */
+/* Smooth color transitions for dark mode toggle */
+body, input, select, textarea, button, a {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Focus-visible outlines for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Disabled states */
+button:disabled, input:disabled, select:disabled, textarea:disabled {
+  @apply opacity-50 cursor-not-allowed;
 }

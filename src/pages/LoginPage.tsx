@@ -1,4 +1,4 @@
-// src/pages/LoginPage.tsx
+// src/pages/LoginPage.tsx – Secure Login with Hash Check, Role Routing, and UX Feedback
 
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -38,34 +38,35 @@ const LoginPage: React.FC = () => {
     localStorage.setItem('loggedInUser', trimmedUsername)
     localStorage.setItem('userRole', user.role)
 
-    if (user.role === 'admin') {
-      navigate('/admin', { replace: true })
-    } else {
-      navigate('/secret', { replace: true })
-    }
+    navigate(user.role === 'admin' ? '/admin' : '/secret', { replace: true })
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-100 px-4">
+    <main
+      role="main"
+      className="min-h-screen flex items-center justify-center bg-base-100 px-4"
+      aria-label="หน้าเข้าสู่ระบบ"
+    >
       <form
         onSubmit={handleLogin}
-        className="w-full max-w-sm bg-base-200 p-6 rounded-lg shadow-md"
-        aria-label="Login Form"
+        className="w-full max-w-sm bg-base-200 p-6 rounded-xl shadow-xl space-y-6"
+        aria-label="ฟอร์มเข้าสู่ระบบ"
       >
-        <h2 className="text-2xl font-bold mb-6 text-primary text-center">
+        <h1 className="text-3xl font-bold text-primary text-center">
           เข้าสู่ระบบ
-        </h2>
+        </h1>
+
         {error && (
           <div
-            className="mb-4 text-error font-semibold text-center"
             role="alert"
+            className="text-error text-sm font-medium text-center"
             aria-live="assertive"
           >
             {error}
           </div>
         )}
 
-        <div className="form-control mb-4">
+        <div className="form-control">
           <label htmlFor="username" className="label">
             <span className="label-text">ชื่อผู้ใช้</span>
           </label>
@@ -77,12 +78,11 @@ const LoginPage: React.FC = () => {
             onChange={(e) => setUsername(e.target.value)}
             autoComplete="username"
             required
-            aria-required="true"
             placeholder="กรอกชื่อผู้ใช้"
           />
         </div>
 
-        <div className="form-control mb-6">
+        <div className="form-control">
           <label htmlFor="password" className="label">
             <span className="label-text">รหัสผ่าน</span>
           </label>
@@ -94,7 +94,6 @@ const LoginPage: React.FC = () => {
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
             required
-            aria-required="true"
             placeholder="กรอกรหัสผ่าน"
           />
         </div>
@@ -102,12 +101,12 @@ const LoginPage: React.FC = () => {
         <button
           type="submit"
           className="btn btn-primary w-full"
-          aria-label="เข้าสู่ระบบ"
+          aria-label="ปุ่มเข้าสู่ระบบ"
         >
           เข้าสู่ระบบ
         </button>
       </form>
-    </div>
+    </main>
   )
 }
 

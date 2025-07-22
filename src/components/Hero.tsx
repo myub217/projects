@@ -1,9 +1,12 @@
-// ✅ Hero.tsx – Responsive, Modern UI, Mobile-Friendly, พร้อม Contact Shortcut
+// src/components/Hero.tsx – Modern Hero Section with CTA & Contact Shortcuts
 
 import React from 'react'
 import { FaLock, FaDoorOpen, FaLine, FaFacebookMessenger } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import heroBg from '@/assets/hero.webp'
+
+const LINE_URL = 'https://lin.ee/BSkkcTR'
+const MESSENGER_URL = 'https://m.me/JPVisualDocs'
 
 type HeroProps = {
   buttonText?: string
@@ -15,15 +18,11 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
     window.location.href = '/login'
   }
 
-  const LINE_URL = 'https://lin.ee/BSkkcTR'
-  const MESSENGER_URL = 'https://m.me/JPVisualDocs'
-
   return (
     <section
       id="hero"
       role="banner"
       aria-label="ส่วนแนะนำหน้าแรก"
-      tabIndex={-1}
       className="relative flex items-center justify-center min-h-[576px] sm:min-h-screen overflow-hidden px-6 sm:px-10 lg:px-16 pt-24 sm:pt-32 pb-20 text-white"
       style={{
         backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0.2)), url(${heroBg})`,
@@ -33,10 +32,8 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
         filter: 'brightness(1.05) contrast(1.15)',
       }}
     >
-      {/* Overlay */}
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-0" />
 
-      {/* Hero Content */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -64,7 +61,6 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
         </motion.button>
       </motion.div>
 
-      {/* Floating Contact Shortcut */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -76,10 +72,9 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
           target="_blank"
           rel="noopener noreferrer"
           title="ติดต่อผ่าน LINE"
-          className="rounded-full text-green-600 hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-400 focus-visible:ring-offset-2 transition-transform"
+          className="rounded-full text-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-400 focus-visible:ring-offset-2 transition-transform"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
-          aria-label="ติดต่อผ่าน LINE"
         >
           <FaLine className="h-6 w-6 sm:h-7 sm:w-7" />
         </motion.a>
@@ -89,10 +84,9 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
           target="_blank"
           rel="noopener noreferrer"
           title="ติดต่อผ่าน Messenger"
-          className="rounded-full text-blue-600 hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 transition-transform"
+          className="rounded-full text-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 transition-transform"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
-          aria-label="ติดต่อผ่าน Messenger"
         >
           <FaFacebookMessenger className="h-6 w-6 sm:h-7 sm:w-7" />
         </motion.a>

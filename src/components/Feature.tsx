@@ -14,18 +14,17 @@ const Feature: React.FC = () => {
   const formRef = useRef<HTMLDivElement>(null)
 
   const sortedCustomers = useMemo(() => {
-    const copy = [...approvedCustomers]
+    const list = [...approvedCustomers]
     if (sortOrder === 'สถานะ') {
-      return copy.sort((a, b) =>
+      return list.sort((a, b) =>
         a.status === b.status ? 0 : a.status === 'เสร็จสมบูรณ์' ? -1 : 1
       )
     }
-    return copy.sort(
+    return list.sort(
       (a, b) => new Date(b.receivedDate).getTime() - new Date(a.receivedDate).getTime()
     )
   }, [sortOrder])
 
-  // Focus form container when shown
   useEffect(() => {
     if (showForm && formRef.current) {
       formRef.current.focus()
@@ -36,7 +35,8 @@ const Feature: React.FC = () => {
     <section
       id="feature"
       aria-labelledby="feature-heading"
-      className="bg-gradient-to-br from-base-200 to-base-300 py-20 transition-colors dark:from-zinc-900 dark:to-zinc-800"
+      className="bg-gradient-to-br from-base-200 to-base-300 py-20 transition-colors duration-500 dark:from-zinc-900 dark:to-zinc-800"
+      role="region"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <header className="mx-auto mb-12 max-w-2xl text-center">
@@ -52,8 +52,12 @@ const Feature: React.FC = () => {
         </header>
 
         <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          {/* Left: Info & Sort */}
-          <div className="flex flex-wrap items-center gap-4 text-sm text-zinc-600 dark:text-zinc-300" aria-live="polite" aria-atomic="true">
+          {/* Info & Sort */}
+          <div
+            className="flex flex-wrap items-center gap-4 text-sm text-zinc-600 dark:text-zinc-300"
+            aria-live="polite"
+            aria-atomic="true"
+          >
             <div className="flex items-center gap-2">
               <FaListUl className="text-base text-zinc-500" />
               <span>
@@ -61,7 +65,10 @@ const Feature: React.FC = () => {
               </span>
             </div>
 
-            <label className="inline-flex items-center gap-2" htmlFor="sort-order-select">
+            <label
+              className="inline-flex items-center gap-2"
+              htmlFor="sort-order-select"
+            >
               <FaSortAmountDownAlt />
               <select
                 id="sort-order-select"
@@ -76,7 +83,7 @@ const Feature: React.FC = () => {
             </label>
           </div>
 
-          {/* Right: Buttons */}
+          {/* Action Buttons */}
           <div className="flex flex-wrap justify-start sm:justify-end gap-3">
             <button
               onClick={() => setShowForm((v) => !v)}
@@ -88,7 +95,9 @@ const Feature: React.FC = () => {
               <FaFileSignature />
               {showForm ? 'ซ่อนแบบฟอร์ม' : 'ส่งคำขอให้เราช่วยดูแล'}
               <svg
-                className={`h-4 w-4 transition-transform ${showForm ? 'rotate-180' : 'rotate-0'}`}
+                className={`h-4 w-4 transition-transform duration-300 ${
+                  showForm ? 'rotate-180' : 'rotate-0'
+                }`}
                 fill="none"
                 stroke="currentColor"
                 strokeWidth={2}

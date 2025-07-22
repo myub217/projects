@@ -32,14 +32,14 @@ const AccessLogTable: React.FC = () => {
           role="table"
           className="table w-full text-sm md:text-base border-collapse"
         >
-          <thead className="bg-primary text-primary-content">
+          <thead className="bg-primary text-primary-content select-none">
             <tr>
               <th scope="col" className="text-left py-3 px-4">เวลา</th>
               <th scope="col" className="text-left py-3 px-4">ผู้ใช้งาน</th>
               <th scope="col" className="text-left py-3 px-4">กิจกรรม</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody aria-live="polite" aria-relevant="additions removals">
             {mockLogs.length === 0 ? (
               <tr>
                 <td colSpan={3} className="text-center py-6 text-gray-500 dark:text-gray-400">
@@ -47,14 +47,14 @@ const AccessLogTable: React.FC = () => {
                 </td>
               </tr>
             ) : (
-              mockLogs.map((log, index) => (
+              mockLogs.map((log, idx) => (
                 <tr
-                  key={index}
+                  key={`${log.timestamp}-${log.username}`}
                   className={`transition-colors duration-200 ${
-                    index % 2 === 0 ? 'bg-base-100' : 'bg-base-300 dark:bg-base-700'
+                    idx % 2 === 0 ? 'bg-base-100' : 'bg-base-300 dark:bg-base-700'
                   }`}
                 >
-                  <td className="py-3 px-4 whitespace-nowrap text-base-content/90">{log.timestamp}</td>
+                  <td scope="row" className="py-3 px-4 whitespace-nowrap text-base-content/90">{log.timestamp}</td>
                   <td className="py-3 px-4 whitespace-nowrap font-mono text-base-content">{log.username}</td>
                   <td className="py-3 px-4 whitespace-nowrap text-base-content/90">{log.action}</td>
                 </tr>

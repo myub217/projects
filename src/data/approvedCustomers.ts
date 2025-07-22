@@ -1,11 +1,11 @@
-// ✅ /data/data/com.termux/files/home/projects/projects1/src/data/approvedCustomers.ts
+// src/data/approvedCustomers.ts
 
 export interface CustomerApproval {
-  id: string;
-  name: string;
-  documentTitle: string;
-  receivedDate: string; // ISO 8601
-  status: 'เสร็จสมบูรณ์' | 'กำลังดำเนินการ';
+  id: string
+  name: string
+  documentTitle: string
+  receivedDate: string // ISO 8601 format with timezone
+  status: 'เสร็จสมบูรณ์' | 'กำลังดำเนินการ'
 }
 
 export const approvedCustomers: CustomerApproval[] = [
@@ -114,4 +114,4 @@ export const approvedCustomers: CustomerApproval[] = [
     receivedDate: '2025-06-25T09:45:00+07:00',
     status: 'เสร็จสมบูรณ์',
   },
-];
+]

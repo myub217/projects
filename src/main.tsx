@@ -12,42 +12,47 @@ import SecretRoomPage from '@pages/SecretRoomPage'
 import AdminPage from '@pages/AdminPage'
 import ProtectedRoute from '@components/ProtectedRoute'
 
-// ✅ 404 component
+// 404 Component
 const NotFound: React.FC = () => (
   <main
-    className="flex items-center justify-center min-h-screen bg-base-100 text-error text-xl font-semibold select-none"
     role="alert"
     aria-live="assertive"
+    className="flex items-center justify-center min-h-screen bg-base-100 text-error text-xl font-semibold select-none"
   >
     404 | ไม่พบหน้าที่คุณต้องการ
   </main>
 )
 
-// ✅ Main App routing
+// Main App Routing
 const App: React.FC = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<IndexPage />} />
       <Route path="/login" element={<LoginPage />} />
 
+      {/* Protected routes */}
       <Route element={<ProtectedRoute />}>
         <Route path="/secret" element={<SecretRoomPage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Route>
 
+      {/* Fallback 404 */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>
 )
 
-// ✅ Mount
-const container = document.getElementById('root')
-if (!container) {
+// Mount App
+const rootElement = document.getElementById('root')
+if (!rootElement) {
   console.error('❌ ไม่พบ element ที่มี id="root" ใน index.html')
+  // Optionally: fallback UI or error boundary here
 } else {
-  ReactDOM.createRoot(container).render(
+  ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
       <App />
     </React.StrictMode>
   )
 }
+
+export default App

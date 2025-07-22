@@ -8,7 +8,8 @@ const ReviewsSection: React.FC = () => (
   <section
     id="reviews"
     aria-labelledby="reviews-heading"
-    className="section bg-base-100 dark:bg-gray-900 text-center px-4 py-20 sm:px-6 lg:px-12"
+    className="section bg-base-100 dark:bg-gray-900 text-center px-4 py-20 sm:px-6 lg:px-12 transition-colors duration-300"
+    role="region"
   >
     <div className="max-w-7xl mx-auto">
       <h2
@@ -21,7 +22,7 @@ const ReviewsSection: React.FC = () => (
         ความประทับใจของลูกค้าคือหัวใจสำคัญของเรา 🙌 เราใส่ใจทุกรายละเอียด เพื่อบริการที่มั่นใจและน่าเชื่อถือ
       </p>
 
-      {/* Desktop/Tablet Grid */}
+      {/* Desktop & Tablet Grid */}
       <div className="hidden lg:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
         {reviewsData.map((review, idx) => (
           <article
@@ -31,7 +32,7 @@ const ReviewsSection: React.FC = () => (
             aria-label={`รีวิวจาก ${review.name}`}
           >
             <div className="flex items-start gap-4 mb-6">
-              <FaQuoteLeft className="text-primary text-2xl mt-1 group-hover:scale-110 transition-transform" />
+              <FaQuoteLeft className="text-primary text-2xl mt-1 group-hover:scale-110 transition-transform duration-300" />
               <blockquote className="text-base text-gray-800 dark:text-gray-200 italic leading-relaxed">
                 {review.feedback}
               </blockquote>
