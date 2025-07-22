@@ -1,5 +1,3 @@
-// src/pages/IndexPage.tsx – รองรับ Desktop/Mobile UI
-
 import React, { useState, useEffect, useCallback } from 'react'
 import Header from '@components/Header'
 import Hero from '@components/Hero'
@@ -95,9 +93,15 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
             </h3>
 
             <div id="service-modal-desc" className="text-sm sm:text-base text-base-content/80 space-y-2">
-              <p><strong>บริการที่คุณเลือก:</strong> {selectedService.title}</p>
-              <p><strong>รายละเอียด:</strong> {selectedService.description}</p>
-              <p><strong>ค่าบริการ:</strong> {selectedService.price}</p>
+              <p>
+                <strong>บริการที่คุณเลือก:</strong> {selectedService.title}
+              </p>
+              <p>
+                <strong>รายละเอียด:</strong> {selectedService.description}
+              </p>
+              <p>
+                <strong>ค่าบริการ:</strong> {selectedService.price}
+              </p>
               <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
                 ทีมงานเชี่ยวชาญด้านเอกสาร การออกแบบ และสื่อการนำเสนอมืออาชีพ
               </p>
@@ -112,7 +116,9 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
                 ปิด
               </button>
               <a
-                href={`https://line.me/ti/p/~jpdocs?text=${encodeURIComponent(`สวัสดีครับ/ค่ะ สนใจใช้บริการ: ${selectedService.title}`)}`}
+                href={`https://line.me/ti/p/~jpdocs?text=${encodeURIComponent(
+                  `สวัสดีครับ/ค่ะ สนใจใช้บริการ: ${selectedService.title}`
+                )}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setSelectedService(null)}

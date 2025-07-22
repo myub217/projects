@@ -18,10 +18,10 @@ const SystemCheckCard: React.FC = () => {
         setStorageAvailable(false)
       }
     }
-    checkLocalStorage()
 
     const updateOnlineStatus = () => setIsOnline(navigator.onLine)
 
+    checkLocalStorage()
     window.addEventListener('online', updateOnlineStatus)
     window.addEventListener('offline', updateOnlineStatus)
 

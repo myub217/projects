@@ -1,5 +1,3 @@
-// src/main.tsx หรือ src/index.tsx – Entry Point + Routing ครบทุกหน้า
-
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
@@ -38,9 +36,9 @@ const App: React.FC = () => (
   </BrowserRouter>
 )
 
-const rootElement = document.getElementById('root')
-if (!rootElement) {
+const root = document.getElementById('root')
+if (!root) {
   console.error('ไม่พบ element ที่มี id="root" ใน HTML')
 } else {
-  ReactDOM.createRoot(rootElement).render(<App />)
+  ReactDOM.createRoot(root).render(<App />)
 }

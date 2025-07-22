@@ -24,15 +24,9 @@ const AccessLogTable: React.FC = () => {
       <table className="table w-full text-sm md:text-base" role="table">
         <thead className="bg-primary text-primary-content">
           <tr>
-            <th scope="col" className="py-3 px-4 text-left">
-              เวลา
-            </th>
-            <th scope="col" className="py-3 px-4 text-left">
-              ผู้ใช้งาน
-            </th>
-            <th scope="col" className="py-3 px-4 text-left">
-              กิจกรรม
-            </th>
+            <th scope="col" className="py-3 px-4 text-left">เวลา</th>
+            <th scope="col" className="py-3 px-4 text-left">ผู้ใช้งาน</th>
+            <th scope="col" className="py-3 px-4 text-left">กิจกรรม</th>
           </tr>
         </thead>
         <tbody>
@@ -48,15 +42,9 @@ const AccessLogTable: React.FC = () => {
                 key={index}
                 className={index % 2 === 0 ? 'bg-base-100' : 'bg-base-300 dark:bg-base-700'}
               >
-                <td className="py-2 px-4 whitespace-nowrap" data-label="เวลา">
-                  {log.timestamp}
-                </td>
-                <td className="py-2 px-4 whitespace-nowrap font-mono" data-label="ผู้ใช้งาน">
-                  {log.username}
-                </td>
-                <td className="py-2 px-4 whitespace-nowrap" data-label="กิจกรรม">
-                  {log.action}
-                </td>
+                <td className="py-2 px-4 whitespace-nowrap" data-label="เวลา">{log.timestamp}</td>
+                <td className="py-2 px-4 whitespace-nowrap font-mono" data-label="ผู้ใช้งาน">{log.username}</td>
+                <td className="py-2 px-4 whitespace-nowrap" data-label="กิจกรรม">{log.action}</td>
               </tr>
             ))
           )}

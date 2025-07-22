@@ -14,17 +14,11 @@ const Dashboard: React.FC = () => {
     >
       <HeaderBlock />
 
-      <section
-        aria-label="สถานะการตรวจสอบระบบ"
-        className="mb-6"
-      >
+      <section aria-label="สถานะการตรวจสอบระบบ" className="mb-6">
         <SystemCheckCard />
       </section>
 
-      <section
-        aria-label="บันทึกการเข้าใช้งาน"
-        className="mb-6"
-      >
+      <section aria-label="บันทึกการเข้าใช้งาน" className="mb-6">
         <AccessLogTable />
       </section>
     </main>

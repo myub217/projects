@@ -1,6 +1,6 @@
 # ✅ Project Structure Report
 
-📁 **Project Root Directory:** `/data/data/com.termux/files/home/projects/projects1`
+📁 **Project Root Directory:** `/data/data/com.termux/files/home/projects1`
 
 
 ## 📂 Required Directories
@@ -17,7 +17,7 @@
 |----------------|--------|
 | package.json | ✅ Found |
 | vite.config.ts | ✅ Found |
-| .env | ✅ Found |
+| .env | ❌ Missing |
 | README.md | ✅ Found |
 
 ## 🎨 Tailwind Config (Full)
@@ -229,8 +229,7 @@ export default defineConfig({
     }),
     viteStaticCopy({
       targets: [
-        { src: 'public/docs', dest: '' },
-        { src: 'public/images', dest: '' },
+        { src: 'public/images', dest: '' }, // ❌ ลบ public/docs
       ],
     }),
     {
@@ -262,12 +261,12 @@ export default defineConfig({
       '@styles': path.resolve(__dirname, 'src/styles'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@config': path.resolve(__dirname, 'src/config'),
-      '@features': path.resolve(__dirname, 'src/features'),
+      // ❌ ลบ DocumentCenter ไปแล้ว อาจลบ @features ถ้าไม่ได้ใช้อื่น
+      // '@features': path.resolve(__dirname, 'src/features'),
     },
   },
   server: {
     proxy: {
-      // ✅ ใช้ API จริงตอนรัน Express
       '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,
@@ -285,7 +284,7 @@ export default defineConfig({
 
 ## 🧩 main.tsx (Full)
 ```tsx
-// src/main.tsx
+// src/main.tsx หรือ src/index.tsx – Entry Point + Routing ครบทุกหน้า
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -296,25 +295,28 @@ import '@/styles/global.css'
 import IndexPage from '@pages/IndexPage'
 import LoginPage from '@pages/LoginPage'
 import SecretRoomPage from '@pages/SecretRoomPage'
-import ProtectedRoute from '@components/ProtectedRoute'
-import DocumentCenter from '@features/DocumentCenter/DocumentCenter'
 import AdminPage from '@pages/AdminPage'
+import ProtectedRoute from '@components/ProtectedRoute'
 
-const App = () => (
+const App: React.FC = () => (
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<IndexPage theme="light" toggleTheme={() => {}} />} />
+      {/* Public Routes */}
+      <Route path="/" element={<IndexPage />} />
       <Route path="/login" element={<LoginPage />} />
+
+      {/* Protected Routes */}
       <Route element={<ProtectedRoute />}>
         <Route path="/secret" element={<SecretRoomPage />} />
-        <Route path="/documents" element={<DocumentCenter />} />
         <Route path="/admin" element={<AdminPage />} />
       </Route>
+
+      {/* Fallback Route */}
       <Route
         path="*"
         element={
-          <div className="flex items-center justify-center min-h-screen text-xl font-semibold text-error">
-            404 Not Found
+          <div className="flex items-center justify-center min-h-screen bg-base-100 text-error text-xl font-semibold">
+            404 | ไม่พบหน้าที่คุณต้องการ
           </div>
         }
       />
@@ -322,17 +324,17 @@ const App = () => (
   </BrowserRouter>
 )
 
-const root = document.getElementById('root')
-if (root) {
-  ReactDOM.createRoot(root).render(<App />)
+const rootElement = document.getElementById('root')
+if (!rootElement) {
+  console.error('ไม่พบ element ที่มี id="root" ใน HTML')
 } else {
-  console.error('Root #root element not found')
+  ReactDOM.createRoot(rootElement).render(<App />)
 }
 ```
 
 ## 🧩 Project Directory Tree (Level 3)
 ```
-/data/data/com.termux/files/home/projects/projects1
+/data/data/com.termux/files/home/projects1
 ├──  
 │   └── types
 │       └── connect-history-api-fallback.d.ts
@@ -340,6 +342,7 @@ if (root) {
 ├── README.md
 ├── api
 │   └── contact.ts
+├── auto-commit.sh
 ├── check-structure.sh
 ├── index.html
 ├── index.ts
@@ -359,8 +362,7 @@ if (root) {
 ├── setup.sh
 ├── src
 │   ├── api
-│   │   ├── auth.ts
-│   │   └── document.ts
+│   │   └── auth.ts
 │   ├── assets
 │   │   ├── 1hero.webp
 │   │   ├── 2hero.webp
@@ -375,8 +377,6 @@ if (root) {
 │   │   ├── CTASection.tsx
 │   │   ├── CustomerAssessmentForm.tsx
 │   │   ├── CustomerCard.tsx
-│   │   ├── DocumentRoom
-│   │   ├── DocumentRoom.tsx
 │   │   ├── Feature.tsx
 │   │   ├── Footer.tsx
 │   │   ├── Header.tsx
@@ -387,23 +387,16 @@ if (root) {
 │   │   ├── ServiceCard.tsx
 │   │   └── ServicesSection.tsx
 │   ├── config
-│   │   ├── BusinessConfigDocumentRequest.tsx
 │   │   ├── adminConfig.ts
 │   │   └── contact.ts
 │   ├── data
 │   │   ├── approvedCustomers.ts
-│   │   ├── documentsList.ts
 │   │   ├── reviewsData.ts
 │   │   ├── servicesData.ts
 │   │   └── users.ts
-│   ├── features
-│   │   └── DocumentCenter
-│   ├── hooks
-│   │   └── useAuth.ts
 │   ├── main.tsx
 │   ├── pages
 │   │   ├── AdminPage.tsx
-│   │   ├── Documents
 │   │   ├── IndexPage.tsx
 │   │   ├── LoginPage.tsx
 │   │   └── SecretRoomPage.tsx
@@ -413,13 +406,11 @@ if (root) {
 │   ├── types
 │   │   ├── assets.d.ts
 │   │   ├── connect-history-api-fallback.d.ts
-│   │   ├── document.ts
 │   │   ├── index.d.ts
 │   │   ├── user.ts
 │   │   └── vite-env.d.ts
 │   └── utils
-│       ├── hashPassword.ts
-│       └── pdfHelper.ts
+│       └── hashPassword.ts
 ├── structure-report.md
 ├── tailwind.config.ts
 ├── tsconfig.json
@@ -428,7 +419,7 @@ if (root) {
 ├── ต้องอยู่ที่
 └── ส่ง
 
-26 directories, 69 files
+21 directories, 63 files
 
 ```
 
