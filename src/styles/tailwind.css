@@ -6,10 +6,20 @@
 /* ==================== 🔹 CSS VARIABLES ==================== */
 @layer base {
   :root {
-    --font-body: theme('fontFamily.body');
-    --font-heading: theme('fontFamily.heading');
-    --color-bg: theme('colors.background.DEFAULT');
-    --color-text: theme('colors.foreground.DEFAULT');
+    /* ใช้ค่า fixed แทน theme() เพื่อป้องกัน error */
+    --font-body: 'Inter', sans-serif;
+    --font-heading: 'Inter', sans-serif;
+    --color-bg: #ffffff;
+    --color-text: #1f2937;
+    --color-primary: #3b82f6;
+    --color-primary-light: #60a5fa;
+    --color-primary-dark: #2563eb;
+    --color-primary-contrastText: #ffffff;
+    --color-accent: #f97316;
+    --color-accent-hover: #ea580c;
+    --color-background: #ffffff;
+    --color-foreground: #1f2937;
+    --color-text-muted: #6b7280;
   }
 }
 
@@ -20,10 +30,14 @@
     background-color: var(--color-bg);
     color: var(--color-text);
     font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    @apply bg-background text-foreground font-body antialiased min-h-screen m-0;
+    @apply bg-background text-foreground font-body antialiased min-h-screen m-0 p-0;
   }
 
   a {
@@ -35,6 +49,7 @@
     line-height: 1.25;
     margin-top: 0;
     margin-bottom: 0.5rem;
+    scroll-margin-top: 1.5rem; /* for anchor links offset */
   }
 
   p + p {
@@ -48,25 +63,50 @@
     list-style-position: outside;
   }
 
+  ul {
+    list-style-type: disc;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
   img {
     max-width: 100%;
     height: auto;
     display: block;
+    vertical-align: middle;
+  }
+
+  button:disabled,
+  input:disabled,
+  select:disabled,
+  textarea:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
   }
 }
 
 /* ==================== 🔹 COMPONENTS ==================== */
 @layer components {
   .btn {
-    @apply font-semibold py-2 px-4 rounded transition-colors duration-200;
+    @apply font-semibold py-2 px-4 rounded transition-colors duration-200 cursor-pointer;
   }
 
   .btn-primary {
-    @apply btn bg-primary text-primary-contrastText shadow-soft hover:bg-primary-light dark:hover:bg-primary-dark;
+    @apply btn bg-primary text-primary-contrastText shadow-soft hover:bg-primary-light dark:hover:bg-primary-dark focus:ring-2 focus:ring-primary focus:ring-offset-2;
   }
 
   .btn-secondary {
-    @apply btn bg-accent text-background shadow-soft hover:bg-accent/90;
+    @apply btn bg-accent text-background shadow-soft hover:bg-accent/90 focus:ring-2 focus:ring-accent focus:ring-offset-2;
   }
 }
 

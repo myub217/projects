@@ -11,6 +11,7 @@ import IndexPage from '@pages/IndexPage'
 import LoginPage from '@pages/LoginPage'
 import SecretRoomPage from '@pages/SecretRoomPage'
 import AdminPage from '@pages/AdminPage'
+import CustomerAssessmentSummary from '@pages/CustomerAssessmentSummary'
 import NotFoundPage from '@pages/NotFoundPage'
 
 import ProtectedRoute from '@components/ProtectedRoute'
@@ -21,12 +22,18 @@ const AppRoutes: React.FC = () => {
 
   return (
     <Routes>
-      <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
+      <Route
+        index
+        element={<IndexPage theme={theme} toggleTheme={toggleTheme} />}
+      />
       <Route path="/login" element={<LoginPage />} />
+
       <Route element={<ProtectedRoute />}>
         <Route path="/secret" element={<SecretRoomPage />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/customer-assessment-summary" element={<CustomerAssessmentSummary />} />
       </Route>
+
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )
@@ -43,7 +50,6 @@ const RootApp: React.FC = () => (
 )
 
 const root = document.getElementById('root')
-
 if (!root) {
   console.error('❌ ไม่พบ <div id="root"> ใน index.html')
 } else {

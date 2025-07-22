@@ -1,6 +1,8 @@
 // ✅ Final: src/pages/IndexPage.tsx
+// Homepage with complete sections, dark mode toggle, and service modal integration
 
 import React, { useState, useEffect, useCallback, useRef } from 'react'
+
 import Header from '@components/Header'
 import Hero from '@components/Hero'
 import Feature from '@components/Feature'
@@ -21,6 +23,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
   const [selectedService, setSelectedService] = useState<Service | null>(null)
   const mainContentRef = useRef<HTMLElement>(null)
 
+  // Close modal on ESC
   useEffect(() => {
     const onEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setSelectedService(null)
@@ -29,13 +32,10 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
     return () => window.removeEventListener('keydown', onEsc)
   }, [])
 
+  // Lock scroll when modal is open
   useEffect(() => {
-    if (selectedService) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-      mainContentRef.current?.focus()
-    }
+    document.body.style.overflow = selectedService ? 'hidden' : ''
+    if (!selectedService) mainContentRef.current?.focus()
     return () => {
       document.body.style.overflow = ''
     }
@@ -52,7 +52,6 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
     >
       <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-16 flex flex-col flex-grow">
         <Header theme={theme} toggleTheme={toggleTheme} />
-
         <main
           id="main-content"
           ref={mainContentRef}
@@ -69,11 +68,10 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
           <ReviewsSection />
           <CTASection />
         </main>
-
         <Footer />
       </div>
 
-      {/* Theme Toggle */}
+      {/* Floating Theme Toggle */}
       <button
         type="button"
         aria-label={`สลับเป็นโหมด ${theme === 'light' ? 'มืด' : 'สว่าง'}`}

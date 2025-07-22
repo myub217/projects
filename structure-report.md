@@ -27,7 +27,10 @@ import typography from '@tailwindcss/typography'
 import daisyui from 'daisyui'
 
 const config: Config = {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}',
+  ],
   darkMode: 'class',
   theme: {
     extend: {
@@ -192,7 +195,7 @@ export default config```
 
 ## ⚙️ Vite Config (Full)
 ```ts
-// vite.config.ts
+// vite.config.ts (ปรับปรุงเพิ่มเติม)
 
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -209,15 +212,34 @@ export default defineConfig({
       srcDir: 'src',
       filename: 'sw.ts',
       injectRegister: false,
+      registerType: 'autoUpdate',
+      manifest: {
+        name: 'JP Visual & Docs',
+        short_name: 'JPDocs',
+        start_url: '/',
+        display: 'standalone',
+        background_color: '#ffffff',
+        theme_color: '#2563eb',
+        icons: [
+          {
+            src: '/icon-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: '/icon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+        ],
+      },
       devOptions: {
         enabled: true,
         type: 'module',
       },
     }),
     viteStaticCopy({
-      targets: [
-        { src: 'public/images', dest: '' }, // copy only images folder content root
-      ],
+      targets: [{ src: 'public/images', dest: '' }],
     }),
     {
       name: 'mock-api',
@@ -251,12 +273,14 @@ export default defineConfig({
     },
   },
   server: {
+    host: '0.0.0.0',
+    port: 5173,
+    open: true,
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,
         secure: false,
-        // rewrite: path => path.replace(/^\/api/, ''),
       },
     },
   },
@@ -280,7 +304,7 @@ export default defineConfig({
 
 ## 🧩 main.tsx (Full)
 ```tsx
-// src/main.tsx
+// ✅ Final: src/main.tsx
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -293,6 +317,7 @@ import IndexPage from '@pages/IndexPage'
 import LoginPage from '@pages/LoginPage'
 import SecretRoomPage from '@pages/SecretRoomPage'
 import AdminPage from '@pages/AdminPage'
+import CustomerAssessmentSummary from '@pages/CustomerAssessmentSummary'
 import NotFoundPage from '@pages/NotFoundPage'
 
 import ProtectedRoute from '@components/ProtectedRoute'
@@ -303,12 +328,16 @@ const AppRoutes: React.FC = () => {
 
   return (
     <Routes>
-      <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
+      <Route
+        index
+        element={<IndexPage theme={theme} toggleTheme={toggleTheme} />}
+      />
       <Route path="/login" element={<LoginPage />} />
 
       <Route element={<ProtectedRoute />}>
         <Route path="/secret" element={<SecretRoomPage />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/customer-assessment-summary" element={<CustomerAssessmentSummary />} />
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />
@@ -327,7 +356,6 @@ const RootApp: React.FC = () => (
 )
 
 const root = document.getElementById('root')
-
 if (!root) {
   console.error('❌ ไม่พบ <div id="root"> ใน index.html')
 } else {
@@ -584,6 +612,7 @@ export default AdminPage
 │   ├── main.tsx
 │   ├── pages
 │   │   ├── AdminPage.tsx
+│   │   ├── CustomerAssessmentSummary.tsx
 │   │   ├── IndexPage.tsx
 │   │   ├── LoginPage.tsx
 │   │   ├── NotFoundPage.tsx
@@ -607,7 +636,7 @@ export default AdminPage
 ├── vercel.json
 └── vite.config.ts
 
-30 directories, 104 files
+30 directories, 105 files
 ```
 
 ## 📌 Final Note
@@ -630,4 +659,4 @@ export default AdminPage
 ถือว่าคุณเข้าใจแล้วโดยสมบูรณ์
 พร้อมรับคำสั่งถัดไปได้เลย 🛠️
 
-🕛 Last checked: Wed Jul 23 04:28:24 +07 2025
+🕛 Last checked: Wed Jul 23 05:28:33 +07 2025

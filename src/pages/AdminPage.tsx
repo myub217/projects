@@ -18,8 +18,16 @@ const AdminPage: React.FC = () => {
       className="min-h-screen bg-base-100 dark:bg-gray-900 text-base-content px-6 py-12 transition-colors duration-300 flex flex-col items-center"
     >
       {/* Header */}
-      <header className="mb-10 max-w-xl w-full text-center select-text" tabIndex={-1}>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-primary mb-3 tracking-tight">
+      <header
+        className="mb-10 max-w-xl w-full text-center select-text"
+        tabIndex={-1}
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <h1
+          className="text-3xl sm:text-4xl font-extrabold text-primary mb-3 tracking-tight"
+          tabIndex={-1}
+        >
           แผงควบคุมผู้ดูแลระบบ
         </h1>
         <p className="text-lg sm:text-xl text-muted">

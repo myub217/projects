@@ -9,6 +9,8 @@
     background-color: var(--color-bg);
     color: var(--color-text);
     font-family: var(--font-body);
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
@@ -19,6 +21,7 @@
 
   a {
     @apply text-primary no-underline hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded;
+    transition: color 0.2s ease-in-out;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -26,6 +29,7 @@
     margin-top: 0;
     margin-bottom: 0.5rem;
     line-height: 1.25;
+    scroll-margin-top: 1.5rem; /* improve anchor link offset */
   }
 
   p + p {
@@ -39,10 +43,19 @@
     list-style-position: outside;
   }
 
+  ul {
+    list-style-type: disc;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
   img {
     max-width: 100%;
     height: auto;
     display: block;
+    vertical-align: middle;
   }
 
   button:disabled,
@@ -50,5 +63,15 @@
   select:disabled,
   textarea:disabled {
     @apply opacity-50 cursor-not-allowed;
+  }
+
+  /* Reset for form elements for consistency */
+  input,
+  textarea,
+  select,
+  button {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
   }
 }
