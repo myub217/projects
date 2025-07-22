@@ -23,24 +23,25 @@ const featuredCustomer: Customer = {
 const CustomerCard: React.FC = () => {
   return (
     <article
-      className="card bg-base-200 rounded-xl shadow-md p-6 flex items-center space-x-6 max-w-3xl mx-auto"
-      aria-label={`ข้อมูลลูกค้าเด่น ${featuredCustomer.name}`}
+      role="region"
+      aria-label={`ข้อมูลลูกค้าเด่น: ${featuredCustomer.name}`}
+      className="flex items-center gap-6 p-6 bg-base-200 rounded-xl shadow-md border border-base-300 dark:border-base-700"
     >
       <img
         src={featuredCustomer.avatarUrl}
-        alt={`รูปภาพของลูกค้า ${featuredCustomer.name}`}
+        alt={`รูปโปรไฟล์ของลูกค้า ${featuredCustomer.name}`}
         className="w-20 h-20 rounded-full object-cover border-2 border-primary"
         loading="lazy"
         width={80}
         height={80}
       />
-      <div className="flex-1">
+      <div className="flex-1 space-y-1">
         <h3 className="text-2xl font-semibold text-primary select-text">{featuredCustomer.name}</h3>
-        <p className="text-sm text-muted mb-1 select-text">{featuredCustomer.email}</p>
-        <p className="text-sm select-text">
+        <p className="text-sm text-muted select-text">{featuredCustomer.email}</p>
+        <p className="text-sm">
           สั่งซื้อครั้งล่าสุด: <time dateTime={featuredCustomer.lastOrderDate}>{featuredCustomer.lastOrderDate}</time>
         </p>
-        <p className="text-sm font-medium mt-2 select-text">
+        <p className="text-sm font-medium mt-2">
           ยอดรวมการใช้จ่าย: <span className="text-accent">{featuredCustomer.totalSpent.toLocaleString()} บาท</span>
         </p>
       </div>

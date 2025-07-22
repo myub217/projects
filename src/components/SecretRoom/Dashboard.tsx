@@ -14,7 +14,7 @@ const Dashboard: React.FC = () => {
   const username = localStorage.getItem('loggedInUser')?.trim() || 'ไม่ทราบชื่อผู้ใช้'
 
   const handleFileSelect = useCallback((file: File) => {
-    // Placeholder: Implement actual upload or API call here
+    // Implement real upload logic here or dispatch to API
     console.log('ไฟล์ที่เลือกสำหรับอัปโหลด:', file)
   }, [])
 
@@ -24,7 +24,7 @@ const Dashboard: React.FC = () => {
       aria-label="แดชบอร์ดข้อมูลและสถานะระบบ"
       className="w-full max-w-6xl mx-auto p-6 md:p-10 flex flex-col gap-10 bg-base-200 rounded-2xl shadow-xl transition-shadow duration-300 hover:shadow-2xl"
     >
-      {/* Header Section */}
+      {/* Header */}
       <HeaderBlock />
 
       {/* Profile & Notifications */}
@@ -39,7 +39,7 @@ const Dashboard: React.FC = () => {
         <PerformanceMetrics />
       </section>
 
-      {/* File Upload Section */}
+      {/* File Upload */}
       <section
         aria-label="อัปโหลดเอกสาร"
         className="w-full max-w-md mx-auto"
