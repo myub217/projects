@@ -10,28 +10,27 @@ import SecretRoomPage from '@pages/SecretRoomPage'
 import AdminPage from '@pages/AdminPage'
 import ProtectedRoute from '@components/ProtectedRoute'
 
+const NotFound: React.FC = () => (
+  <main className="flex items-center justify-center min-h-screen bg-base-100 text-error text-xl font-semibold select-none">
+    404 | ไม่พบหน้าที่คุณต้องการ
+  </main>
+)
+
 const App: React.FC = () => (
   <BrowserRouter>
     <Routes>
-      {/* Public Routes */}
+      {/* Public */}
       <Route path="/" element={<IndexPage />} />
       <Route path="/login" element={<LoginPage />} />
 
-      {/* Protected Routes */}
+      {/* Protected */}
       <Route element={<ProtectedRoute />}>
         <Route path="/secret" element={<SecretRoomPage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Route>
 
-      {/* Fallback Route */}
-      <Route
-        path="*"
-        element={
-          <div className="flex items-center justify-center min-h-screen bg-base-100 text-error text-xl font-semibold">
-            404 | ไม่พบหน้าที่คุณต้องการ
-          </div>
-        }
-      />
+      {/* Fallback */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>
 )
@@ -39,6 +38,7 @@ const App: React.FC = () => (
 const root = document.getElementById('root')
 if (!root) {
   console.error('ไม่พบ element ที่มี id="root" ใน HTML')
+  // Optional: fallback UI or error reporting here
 } else {
   ReactDOM.createRoot(root).render(<App />)
 }

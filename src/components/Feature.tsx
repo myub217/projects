@@ -1,8 +1,8 @@
 // src/components/Feature.tsx
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useRef, useEffect } from 'react'
 import CustomerAssessmentForm from './CustomerAssessmentForm'
-import { approvedCustomers, CustomerApproval } from '../data/approvedCustomers'
+import { approvedCustomers } from '../data/approvedCustomers'
 import CustomerCard from './CustomerCard'
 import { FaSortAmountDownAlt, FaListUl, FaFileSignature } from 'react-icons/fa'
 
@@ -11,25 +11,26 @@ type SortOrder = 'ล่าสุด' | 'สถานะ'
 const Feature: React.FC = () => {
   const [showForm, setShowForm] = useState(false)
   const [sortOrder, setSortOrder] = useState<SortOrder>('ล่าสุด')
-
-  const customers = approvedCustomers
+  const formRef = useRef<HTMLDivElement>(null)
 
   const sortedCustomers = useMemo(() => {
-    const copy = [...customers]
-    switch (sortOrder) {
-      case 'สถานะ':
-        return copy.sort((a, b) =>
-          a.status === b.status ? 0 : a.status === 'เสร็จสมบูรณ์' ? -1 : 1
-        )
-      case 'ล่าสุด':
-      default:
-        return copy.sort(
-          (a, b) =>
-            new Date(b.receivedDate).getTime() -
-            new Date(a.receivedDate).getTime()
-        )
+    const copy = [...approvedCustomers]
+    if (sortOrder === 'สถานะ') {
+      return copy.sort((a, b) =>
+        a.status === b.status ? 0 : a.status === 'เสร็จสมบูรณ์' ? -1 : 1
+      )
     }
-  }, [customers, sortOrder])
+    return copy.sort(
+      (a, b) => new Date(b.receivedDate).getTime() - new Date(a.receivedDate).getTime()
+    )
+  }, [sortOrder])
+
+  // Focus form container when shown
+  useEffect(() => {
+    if (showForm && formRef.current) {
+      formRef.current.focus()
+    }
+  }, [showForm])
 
   return (
     <section
@@ -51,18 +52,19 @@ const Feature: React.FC = () => {
         </header>
 
         <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          {/* Left: Filter Info */}
-          <div className="flex flex-wrap items-center gap-4 text-sm text-zinc-600 dark:text-zinc-300">
+          {/* Left: Info & Sort */}
+          <div className="flex flex-wrap items-center gap-4 text-sm text-zinc-600 dark:text-zinc-300" aria-live="polite" aria-atomic="true">
             <div className="flex items-center gap-2">
               <FaListUl className="text-base text-zinc-500" />
               <span>
-                ทั้งหมด <strong>{customers.length}</strong> รายการ
+                ทั้งหมด <strong>{approvedCustomers.length}</strong> รายการ
               </span>
             </div>
 
-            <label className="inline-flex items-center gap-2">
+            <label className="inline-flex items-center gap-2" htmlFor="sort-order-select">
               <FaSortAmountDownAlt />
               <select
+                id="sort-order-select"
                 value={sortOrder}
                 onChange={(e) => setSortOrder(e.target.value as SortOrder)}
                 className="rounded border border-zinc-300 bg-white px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-800"
@@ -77,11 +79,11 @@ const Feature: React.FC = () => {
           {/* Right: Buttons */}
           <div className="flex flex-wrap justify-start sm:justify-end gap-3">
             <button
-              onClick={() => setShowForm((prev) => !prev)}
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white shadow transition hover:bg-blue-700 focus:ring-4 focus:ring-blue-400"
+              onClick={() => setShowForm((v) => !v)}
               aria-expanded={showForm}
               aria-controls="customer-assessment-form"
               type="button"
+              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white shadow transition hover:bg-blue-700 focus:ring-4 focus:ring-blue-400 focus:outline-none"
             >
               <FaFileSignature />
               {showForm ? 'ซ่อนแบบฟอร์ม' : 'ส่งคำขอให้เราช่วยดูแล'}
@@ -99,8 +101,8 @@ const Feature: React.FC = () => {
 
             <button
               onClick={() => alert('เปิดดูทั้งหมด')}
-              className="inline-flex items-center gap-2 rounded-lg bg-zinc-100 px-4 py-2 text-zinc-800 transition hover:bg-zinc-200 focus:ring-4 focus:ring-zinc-400 dark:bg-zinc-700 dark:text-white dark:hover:bg-zinc-600 dark:focus:ring-zinc-600"
               type="button"
+              className="inline-flex items-center gap-2 rounded-lg bg-zinc-100 px-4 py-2 text-zinc-800 transition hover:bg-zinc-200 focus:ring-4 focus:ring-zinc-400 dark:bg-zinc-700 dark:text-white dark:hover:bg-zinc-600 dark:focus:ring-zinc-600 focus:outline-none"
             >
               <FaListUl />
               ดูทั้งหมด
@@ -111,14 +113,19 @@ const Feature: React.FC = () => {
         {showForm ? (
           <div
             id="customer-assessment-form"
-            className="mx-auto max-w-3xl rounded-xl border border-zinc-200 bg-white p-6 shadow-md dark:border-zinc-800 dark:bg-zinc-900"
-            aria-live="polite"
+            ref={formRef}
             tabIndex={-1}
+            aria-live="polite"
+            className="mx-auto max-w-3xl rounded-xl border border-zinc-200 bg-white p-6 shadow-md dark:border-zinc-800 dark:bg-zinc-900"
           >
             <CustomerAssessmentForm />
           </div>
         ) : (
-          <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <ul
+            className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+            role="list"
+            aria-labelledby="feature-heading"
+          >
             {sortedCustomers.map((customer) => (
               <li key={customer.id} className="h-full">
                 <CustomerCard customer={customer} />

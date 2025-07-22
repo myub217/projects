@@ -1,21 +1,37 @@
 /* src/styles/global.css */
 
-/* 🔹 Tailwind Base Directives */
+/* ==================== 🔹 CSS VARIABLES ==================== */
+:root {
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Playfair Display', serif;
+
+  --color-bg: #ffffff;
+  --color-bg-dark: #1f2937;
+  --color-surface: #f9fafb;
+  --color-surface-dark: #111827;
+
+  --color-text: #1f2937;
+  --color-text-dark: #f3f4f6;
+  --color-muted: #6b7280;
+  --color-primary: #2563eb;
+  --color-accent: #f59e0b;
+  --color-border: #e5e7eb;
+}
+
+/* ==================== 🔹 TAILWIND DIRECTIVES ==================== */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 🔸 Base font & color settings */
+/* ==================== 🔹 BASE STYLES ==================== */
 body {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  font-family: var(--font-body);
   @apply bg-base-100 text-base text-foreground antialiased m-0 p-0;
 }
 
-/* 🔹 Typography */
 h1, h2, h3, h4, h5, h6 {
-  @apply font-heading text-primary font-bold leading-snug tracking-tight;
+  font-family: var(--font-heading);
+  @apply text-primary font-bold leading-snug tracking-tight;
 }
 
 p {
@@ -26,34 +42,16 @@ small {
   @apply text-xs text-muted;
 }
 
-/* 🔹 Interactive Elements */
+/* ==================== 🔹 INTERACTIVE ELEMENTS ==================== */
 a {
   @apply text-primary hover:underline transition-colors duration-200;
 }
 
 button {
-  @apply font-medium rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition duration-150;
+  @apply font-medium rounded-lg px-5 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition duration-150 shadow-sm;
 }
 
-/* 🔹 Container / Sections */
-.container {
-  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
-}
-
-.section {
-  @apply py-16 md:py-24;
-}
-
-/* 🔹 Card Design */
-.card {
-  @apply rounded-2xl bg-white shadow-lg p-6 dark:bg-base-200;
-}
-
-.text-muted {
-  @apply text-gray-500 dark:text-gray-400;
-}
-
-/* 🔹 Forms */
+/* ==================== 🔹 FORM ELEMENTS ==================== */
 input, select, textarea {
   @apply w-full border border-border rounded-md px-4 py-2 text-sm text-foreground bg-white dark:bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition;
 }
@@ -62,14 +60,74 @@ label {
   @apply block mb-1 text-sm font-semibold text-gray-700 dark:text-gray-300;
 }
 
-/* 🔹 Responsive Typography */
-@media (max-width: 640px) {
-  h1 { @apply text-2xl; }
-  h2 { @apply text-xl; }
-  .card { @apply p-4; }
+/* ==================== 🔹 CARD ==================== */
+.card {
+  @apply rounded-2xl bg-white dark:bg-base-200 shadow-lg p-6;
+  transition: all 0.3s ease;
 }
 
-/* 🔹 Animations */
+.card:hover {
+  @apply shadow-xl;
+}
+
+/* ==================== 🔹 CONTAINER / SECTION ==================== */
+.container {
+  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+.section {
+  @apply py-16 md:py-24;
+}
+
+.section-sm {
+  @apply py-8 sm:py-12 md:py-16;
+}
+
+/* ==================== 🔹 GRID SYSTEM ==================== */
+.grid-3-col {
+  @apply grid gap-6 sm:grid-cols-2 md:grid-cols-3;
+}
+
+.grid-docs {
+  @apply grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4;
+}
+
+/* ==================== 🔹 TYPOGRAPHY UTILITIES ==================== */
+.text-responsive {
+  @apply text-base sm:text-lg md:text-xl;
+}
+
+.text-muted {
+  @apply text-gray-500 dark:text-gray-400;
+}
+
+.doc-title {
+  @apply font-semibold text-lg truncate text-primary;
+}
+
+.doc-description {
+  @apply text-sm text-muted leading-snug;
+}
+
+/* ==================== 🔹 DOC ACTIONS ==================== */
+.doc-actions {
+  @apply mt-3 flex gap-2 justify-between items-center;
+}
+
+.doc-upload {
+  @apply w-full max-w-md mx-auto p-6 bg-base-100 rounded-xl shadow-md border border-base-300;
+}
+
+/* ==================== 🔹 BUTTON VARIANTS ==================== */
+.btn-primary {
+  @apply bg-primary text-white hover:bg-primary/90;
+}
+
+.btn-outline {
+  @apply border border-primary text-primary hover:bg-primary hover:text-white;
+}
+
+/* ==================== 🔹 ANIMATIONS ==================== */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
@@ -88,39 +146,24 @@ label {
   animation: slideUp 0.5s ease-out forwards;
 }
 
-/* 🔹 Document Center UI */
-.doc-card {
-  @apply card bg-base-200 p-6 transition hover:shadow-xl hover:bg-base-300;
-}
-
-.doc-grid {
-  @apply grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4;
-}
-
-.doc-title {
-  @apply font-semibold text-lg truncate text-primary;
-}
-
-.doc-actions {
-  @apply mt-3 flex gap-2 justify-between items-center;
-}
-
-.doc-upload {
-  @apply w-full max-w-md mx-auto p-6 bg-base-100 rounded-xl shadow-md border border-base-300;
-}
-
-/* 🔹 Utility Buttons */
-.btn-primary {
-  @apply bg-primary text-white hover:bg-primary/90;
-}
-
-.btn-outline {
-  @apply border border-primary text-primary hover:bg-primary hover:text-white;
-}
-
-/* 🔹 Responsive Doc Grid */
+/* ==================== 🔹 RESPONSIVE MEDIA ==================== */
 @media (max-width: 768px) {
-  .doc-grid {
-    @apply grid-cols-1;
-  }
+  h1 { @apply text-2xl; }
+  h2 { @apply text-xl; }
+  .card { @apply p-4; }
+  .grid-docs { @apply grid-cols-1; }
+}
+
+/* ==================== 🔹 EXTRAS ==================== */
+.glow-border {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.25);
+}
+
+.soft-glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
 }

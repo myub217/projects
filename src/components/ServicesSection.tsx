@@ -1,4 +1,4 @@
-// ✅ /data/data/com.termux/files/home/projects/projects1/src/components/ServicesSection.tsx
+// src/components/ServicesSection.tsx
 
 import React from 'react'
 import ServiceCard from './ServiceCard'
@@ -39,26 +39,26 @@ const ServicesSection: React.FC = () => {
       id="services"
       role="region"
       aria-label="บริการของเรา"
-      className="bg-base-100 dark:bg-base-200 py-20 px-4 sm:px-6 lg:px-12 transition-colors duration-500"
+      className="bg-base-100 dark:bg-gray-900 py-20 px-4 sm:px-6 lg:px-12 transition-colors duration-500"
     >
       <div className="max-w-7xl mx-auto">
         <h2
           id="services-heading"
-          className="text-3xl sm:text-4xl font-bold text-center text-primary mb-4 font-heading"
+          className="text-3xl sm:text-4xl font-extrabold text-center text-primary mb-6 font-heading tracking-tight"
         >
           บริการของเรา
         </h2>
-        <p className="max-w-2xl mx-auto text-center text-base sm:text-lg text-base-content/70 mb-12">
-          เรานำเสนอหลากหลายบริการเพื่อช่วยผลักดันธุรกิจของคุณให้เติบโตอย่างมั่นคง 🚀
+        <p className="max-w-3xl mx-auto text-center text-base sm:text-lg text-gray-700 dark:text-gray-300 mb-14">
+          เรานำเสนอบริการหลากหลาย เพื่อสนับสนุนการเติบโตธุรกิจของคุณอย่างมั่นคง 🚀
         </p>
 
         {services.length === 0 ? (
-          <p className="text-center text-base-content/70">
+          <p className="text-center text-gray-500 dark:text-gray-400">
             ไม่มีข้อมูลบริการในขณะนี้
           </p>
         ) : (
-          <div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+          <ul
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10"
             role="list"
             aria-labelledby="services-heading"
           >
@@ -68,11 +68,13 @@ const ServicesSection: React.FC = () => {
               const Icon = iconMap[idx % iconMap.length]
 
               return (
-                <div
+                <li
                   key={`${service.id}-${service.title}`}
-                  className="relative flex flex-col justify-between rounded-2xl overflow-hidden border border-base-200 bg-base-100 dark:bg-base-300 shadow-md hover:shadow-xl transition-all duration-300 ease-in-out"
+                  className="relative flex flex-col justify-between rounded-3xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out"
                   role="listitem"
-                  aria-label={`บริการ: ${service.title}`}
+                  aria-label={`บริการ: ${service.title} ${
+                    isDisabled ? '(กำลังจะมาเร็วๆ นี้)' : ''
+                  }`}
                 >
                   <ServiceCard
                     icon={Icon}
@@ -87,29 +89,30 @@ const ServicesSection: React.FC = () => {
                         : undefined
                     }
                     imageUrl={service.image}
+                    disabled={isDisabled}
                   />
 
                   {showNote && (
                     <div
-                      className="absolute top-3 right-3 text-xs text-warning italic animate-pulse"
+                      className="absolute top-4 right-4 rounded-full bg-yellow-100 dark:bg-yellow-900 px-3 py-1 text-xs font-semibold text-yellow-800 dark:text-yellow-400 italic animate-pulse shadow-md"
                       role="note"
                       aria-live="polite"
                     >
                       🚧 {service.comingSoonNote}
                     </div>
                   )}
-                </div>
+                </li>
               )
             })}
-          </div>
+          </ul>
         )}
 
-        <div className="mt-16 text-center">
-          <p className="text-sm text-base-content/70">
-            ต้องการบริการที่กำหนดเอง หรือไม่เห็นสิ่งที่คุณต้องการ?{' '}
+        <div className="mt-20 text-center">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            ต้องการบริการเฉพาะทาง หรือไม่เจอบริการที่ต้องการ?{' '}
             <a
               href={getContactHref('line', 'สอบถามบริการเพิ่มเติม')}
-              className="text-primary underline underline-offset-2 hover:text-secondary"
+              className="text-primary underline underline-offset-2 hover:text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
               target="_blank"
               rel="noopener noreferrer"
             >

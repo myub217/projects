@@ -1,8 +1,6 @@
-// ✅ tailwind.config.ts – TailwindCSS Config พร้อม DaisyUI Theme: business / business-dark
-
-import type { Config } from 'tailwindcss';
-import typography from '@tailwindcss/typography';
-import daisyui from 'daisyui';
+import type { Config } from 'tailwindcss'
+import typography from '@tailwindcss/typography'
+import daisyui from 'daisyui'
 
 const config: Config = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -47,21 +45,15 @@ const config: Config = {
           DEFAULT: '#1f2937',
           dark: '#f3f4f6',
         },
-        muted: {
-          DEFAULT: '#6b7280',
-        },
+        muted: '#6b7280',
         primary: {
           DEFAULT: '#2563eb',
           light: '#3b82f6',
           dark: '#1e3a8a',
           contrastText: '#ffffff',
         },
-        accent: {
-          DEFAULT: '#f59e0b',
-        },
-        border: {
-          DEFAULT: '#e5e7eb',
-        },
+        accent: '#f59e0b',
+        border: '#e5e7eb',
         success: {
           DEFAULT: '#10b981',
           dark: '#059669',
@@ -124,14 +116,8 @@ const config: Config = {
           to: { opacity: '1' },
         },
         slideUp: {
-          from: {
-            transform: 'translateY(24px)',
-            opacity: '0',
-          },
-          to: {
-            transform: 'translateY(0)',
-            opacity: '1',
-          },
+          from: { transform: 'translateY(24px)', opacity: '0' },
+          to: { transform: 'translateY(0)', opacity: '1' },
         },
       },
     },
@@ -176,6 +162,6 @@ const config: Config = {
     ],
     darkTheme: 'business-dark',
   },
-};
+}
 
-export default config;
+export default config

@@ -1,4 +1,4 @@
-// src/components/Hero.tsx – ปรับให้สมบูรณ์ รองรับ responsive + UX ดีขึ้น + ป้องกัน error
+// ✅ Hero.tsx – Responsive, Modern UI, Mobile-Friendly, พร้อม Contact Shortcut
 
 import React from 'react'
 import { FaLock, FaDoorOpen, FaLine, FaFacebookMessenger } from 'react-icons/fa'
@@ -43,11 +43,11 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
         transition={{ duration: 0.8, delay: 0.2 }}
         className="z-10 w-full max-w-3xl text-center"
       >
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-white drop-shadow-lg">
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-white drop-shadow-xl">
           JP Visual & Docs
         </h1>
-        <p className="mt-4 text-base sm:text-lg lg:text-xl text-white/85">
-          บริการจัดการงานหลังบ้านอย่างมืออาชีพ ครบทุกด้านตั้งแต่เอกสาร ธุรกิจ ไปจนถึงการตลาด
+        <p className="mt-4 text-base sm:text-lg lg:text-xl text-white/85 max-w-xl mx-auto">
+          บริการช่วยจัดการเบื้องหลังทุกเรื่องที่คุณไม่อยากวุ่น — เอกสาร ธุรกิจ และการตลาด พร้อมทำจริง จบไว
         </p>
 
         <motion.button
@@ -69,12 +69,12 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9, duration: 0.6 }}
-        className="absolute bottom-5 right-5 z-20 flex items-center gap-3 sm:gap-4 rounded-xl bg-white/90 px-3 py-2 sm:px-4 sm:py-3 shadow-xl backdrop-blur-md dark:bg-gray-900/80"
+        className="absolute bottom-4 right-4 z-20 flex items-center gap-3 sm:gap-4 rounded-xl bg-white/90 px-3 py-2 sm:px-4 sm:py-3 shadow-xl backdrop-blur-md dark:bg-gray-900/80"
       >
         <motion.a
           href={LINE_URL}
           target="_blank"
-          rel="noopener noreferrer nofollow"
+          rel="noopener noreferrer"
           title="ติดต่อผ่าน LINE"
           className="rounded-full text-green-600 hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-400 focus-visible:ring-offset-2 transition-transform"
           whileHover={{ scale: 1.1 }}
@@ -87,7 +87,7 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
         <motion.a
           href={MESSENGER_URL}
           target="_blank"
-          rel="noopener noreferrer nofollow"
+          rel="noopener noreferrer"
           title="ติดต่อผ่าน Messenger"
           className="rounded-full text-blue-600 hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 transition-transform"
           whileHover={{ scale: 1.1 }}
