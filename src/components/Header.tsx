@@ -1,5 +1,5 @@
 // src/components/Header.tsx
-// ✅ Responsive Header with accessible keyboard nav, smooth scroll, and contact links
+// ✅ Responsive Header with accessible keyboard nav, smooth scroll, contact links, and clean state handling
 
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-scroll'
@@ -20,6 +20,7 @@ const navItems = [
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+  const toggleButtonRef = useRef<HTMLButtonElement>(null)
 
   // Close menu on outside click or Escape key
   useEffect(() => {
@@ -39,6 +40,13 @@ const Header: React.FC = () => {
     return () => {
       document.removeEventListener('mousedown', onClickOutside)
       document.removeEventListener('keydown', onEsc)
+    }
+  }, [menuOpen])
+
+  // Return focus to toggle button when menu closes
+  useEffect(() => {
+    if (!menuOpen) {
+      toggleButtonRef.current?.focus()
     }
   }, [menuOpen])
 
@@ -134,6 +142,7 @@ const Header: React.FC = () => {
 
         {/* Mobile Menu Toggle */}
         <button
+          ref={toggleButtonRef}
           onClick={toggleMenu}
           className="inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary sm:hidden transition"
           aria-label={menuOpen ? 'ปิดเมนู' : 'เปิดเมนู'}

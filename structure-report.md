@@ -216,7 +216,7 @@ export default defineConfig({
     }),
     viteStaticCopy({
       targets: [
-        { src: 'public/images', dest: '' }, // copy images folder only
+        { src: 'public/images', dest: '' }, // copy only images folder content root
       ],
     }),
     {
@@ -256,8 +256,7 @@ export default defineConfig({
         target: 'http://localhost:3000',
         changeOrigin: true,
         secure: false,
-        // optional: rewrite path if needed
-        // rewrite: (path) => path.replace(/^\/api/, ''),
+        // rewrite: path => path.replace(/^\/api/, ''),
       },
     },
   },
@@ -296,7 +295,6 @@ import AdminPage from '@pages/AdminPage'
 import ProtectedRoute from '@components/ProtectedRoute'
 import { ThemeProvider, useTheme } from '@components/ThemeProvider'
 
-// 404 Not Found Page
 const NotFound: React.FC = () => (
   <main
     role="alert"
@@ -307,7 +305,6 @@ const NotFound: React.FC = () => (
   </main>
 )
 
-// Routes Section
 const AppRoutes: React.FC = () => {
   const { theme, toggleTheme } = useTheme()
 
@@ -319,19 +316,16 @@ const AppRoutes: React.FC = () => {
       />
       <Route path="/login" element={<LoginPage />} />
 
-      {/* Protected Routes */}
       <Route element={<ProtectedRoute />}>
         <Route path="/secret" element={<SecretRoomPage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Route>
 
-      {/* Fallback Route */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }
 
-// Root Wrapper
 const RootApp: React.FC = () => (
   <React.StrictMode>
     <ThemeProvider>
@@ -342,12 +336,11 @@ const RootApp: React.FC = () => (
   </React.StrictMode>
 )
 
-// Mount to DOM
 const rootElement = document.getElementById('root')
-if (rootElement) {
-  ReactDOM.createRoot(rootElement).render(<RootApp />)
-} else {
+if (!rootElement) {
   console.error('❌ ไม่พบ <div id="root"> ใน index.html')
+} else {
+  ReactDOM.createRoot(rootElement).render(<RootApp />)
 }
 
 export default RootApp```
@@ -374,15 +367,10 @@ const SecretRoomPage: React.FC = () => {
 
   const toggleTheme = useCallback(() => {
     const root = document.documentElement
-    if (root.classList.contains('dark')) {
-      root.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
-      setTheme('light')
-    } else {
-      root.classList.add('dark')
-      localStorage.setItem('theme', 'dark')
-      setTheme('dark')
-    }
+    const isDark = root.classList.contains('dark')
+    root.classList.toggle('dark', !isDark)
+    localStorage.setItem('theme', isDark ? 'light' : 'dark')
+    setTheme(isDark ? 'light' : 'dark')
   }, [])
 
   return (
@@ -391,25 +379,25 @@ const SecretRoomPage: React.FC = () => {
       aria-label="หน้าแดชบอร์ดผู้ใช้งาน"
       className="relative min-h-screen bg-base-100 text-base-content px-4 py-16 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
     >
-      {/* Theme Toggle */}
+      {/* ปุ่มสลับธีม */}
       <div className="fixed top-4 right-4 z-50">
         <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
       </div>
 
-      {/* Welcome Section */}
+      {/* ข้อความต้อนรับ */}
       <section
         aria-label="ข้อความต้อนรับผู้ใช้งาน"
         tabIndex={0}
         aria-live="polite"
         className="max-w-2xl mx-auto text-center space-y-4"
       >
-        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-primary select-text">
+        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-primary">
           ยินดีต้อนรับสู่ระบบ
         </h1>
         <p className="text-lg sm:text-xl text-base-content/80">
           สวัสดีคุณ{' '}
           <span
-            className="font-semibold text-secondary underline underline-offset-4 decoration-secondary/60 select-text"
+            className="font-semibold text-secondary underline underline-offset-4 decoration-secondary/60"
             aria-label={`ชื่อผู้ใช้: ${username}`}
           >
             {username}
@@ -420,18 +408,19 @@ const SecretRoomPage: React.FC = () => {
         </p>
       </section>
 
-      {/* User Profile Summary */}
+      {/* การ์ดสรุปโปรไฟล์ */}
       <section
         aria-label="สรุปข้อมูลผู้ใช้งาน"
-        className="mt-8 max-w-sm mx-auto"
+        className="mt-10 max-w-md mx-auto"
       >
         <UserProfileCard username={username} />
       </section>
 
-      {/* Dashboard Panel */}
+      {/* แดชบอร์ดระบบ */}
       <section
         aria-label="แดชบอร์ดระบบ"
-        className="mt-12 w-full max-w-6xl mx-auto rounded-2xl bg-base-200 dark:bg-zinc-800 shadow-xl p-6 sm:p-10 transition-shadow hover:shadow-2xl focus-within:shadow-2xl"
+        className="mt-12 w-full max-w-7xl mx-auto rounded-2xl bg-base-200 dark:bg-zinc-800 shadow-xl p-6 sm:p-10 transition-shadow hover:shadow-2xl focus-within:shadow-2xl"
+        tabIndex={-1}
       >
         <Dashboard />
       </section>
@@ -454,9 +443,7 @@ const AdminPage: React.FC = () => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser')?.trim()
-    if (storedUser && storedUser.length > 0) {
-      setUsername(storedUser)
-    }
+    if (storedUser) setUsername(storedUser)
   }, [])
 
   return (
@@ -466,11 +453,11 @@ const AdminPage: React.FC = () => {
       className="min-h-screen bg-base-100 dark:bg-gray-900 text-base-content px-6 py-12 transition-colors duration-300 flex flex-col items-center"
     >
       {/* Header */}
-      <header className="mb-10 text-center max-w-xl w-full">
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-primary mb-3 tracking-tight select-text">
+      <header className="mb-10 max-w-xl w-full text-center select-text" tabIndex={-1}>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-primary mb-3 tracking-tight">
           แผงควบคุมผู้ดูแลระบบ
         </h1>
-        <p className="text-lg sm:text-xl text-muted select-text">
+        <p className="text-lg sm:text-xl text-muted">
           ยินดีต้อนรับคุณ{' '}
           <span
             className="font-semibold underline decoration-primary decoration-2"
@@ -482,7 +469,7 @@ const AdminPage: React.FC = () => {
       </header>
 
       {/* Dashboard Section */}
-      <section className="w-full max-w-7xl">
+      <section className="w-full max-w-7xl" tabIndex={-1}>
         <AdminDashboard />
       </section>
     </main>
@@ -513,9 +500,9 @@ export default AdminPage
 │   │   ├── about.webp
 │   │   ├── hero-BRaXPQvd.webp
 │   │   ├── hero.webp
-│   │   ├── index-DIqxMz7B.css
-│   │   ├── index-ej1KRazI.js
-│   │   ├── index-ej1KRazI.js.map
+│   │   ├── index-535qKVCK.css
+│   │   ├── index-DuS6b8e7.js
+│   │   ├── index-DuS6b8e7.js.map
 │   │   ├── jp-logo-CH0zBIqT.webp
 │   │   ├── jp-logo.webp
 │   │   ├── logo.svg
@@ -585,6 +572,7 @@ export default AdminPage
 │   │   ├── Hero.tsx
 │   │   ├── LoadingSpinner.tsx
 │   │   ├── ProtectedRoute.tsx
+│   │   ├── ResponsiveNavbar.tsx
 │   │   ├── ReviewsSection.tsx
 │   │   ├── SecretRoom
 │   │   ├── ServiceCard.tsx
@@ -624,7 +612,7 @@ export default AdminPage
 ├── vercel.json
 └── vite.config.ts
 
-29 directories, 100 files
+29 directories, 101 files
 ```
 
 ## 📌 Final Note
@@ -647,4 +635,4 @@ export default AdminPage
 ถือว่าคุณเข้าใจแล้วโดยสมบูรณ์
 พร้อมรับคำสั่งถัดไปได้เลย 🛠️
 
-🕛 Last checked: Wed Jul 23 02:50:20 +07 2025
+🕛 Last checked: Wed Jul 23 03:57:33 +07 2025

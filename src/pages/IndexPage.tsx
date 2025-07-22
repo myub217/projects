@@ -1,6 +1,6 @@
 // src/pages/IndexPage.tsx
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import Header from '@components/Header'
 import Hero from '@components/Hero'
 import Feature from '@components/Feature'
@@ -19,6 +19,7 @@ interface IndexPageProps {
 
 const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
   const [selectedService, setSelectedService] = useState<Service | null>(null)
+  const mainContentRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const onEsc = (e: KeyboardEvent) => {
@@ -29,7 +30,12 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
   }, [])
 
   useEffect(() => {
-    document.body.style.overflow = selectedService ? 'hidden' : ''
+    if (selectedService) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+      mainContentRef.current?.focus()
+    }
     return () => {
       document.body.style.overflow = ''
     }
@@ -49,10 +55,11 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
 
         <main
           id="main-content"
+          ref={mainContentRef}
           role="main"
           aria-label="เนื้อหาหลักของเว็บไซต์"
-          className="flex-grow py-10 space-y-16 sm:space-y-20 md:space-y-24"
-          tabIndex={-1} // for keyboard focus after modal closes
+          tabIndex={-1}
+          className="flex-grow py-10 space-y-16 sm:space-y-20 md:space-y-24 outline-none"
         >
           <Hero />
           <Feature />

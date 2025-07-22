@@ -64,7 +64,6 @@ label {
 .card {
   @apply rounded-2xl bg-white dark:bg-base-200 shadow-lg p-6 transition-all duration-300 ease-in-out;
 }
-
 .card:hover {
   @apply shadow-xl;
 }
