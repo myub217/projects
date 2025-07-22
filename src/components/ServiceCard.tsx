@@ -1,4 +1,5 @@
-// src/components/ServiceCard.tsx – Clean, Accessible Service Card with Disabled State
+// src/components/ServiceCard.tsx
+// ✅ Refined & Accessible Service Card with Optimized Layout, Error Handling, and Keyboard Support
 
 import React from 'react'
 import { IconType } from 'react-icons'
@@ -22,20 +23,17 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 }) => {
   return (
     <article
-      className={`group flex flex-col justify-between h-full rounded-3xl overflow-hidden border transition-shadow duration-300 ease-in-out
-        ${
-          disabled
-            ? 'border-yellow-400 bg-yellow-50 dark:bg-yellow-900 dark:border-yellow-600 cursor-not-allowed opacity-70'
-            : 'border-base-200 bg-base-100 dark:bg-base-300 hover:shadow-xl hover:border-primary dark:hover:border-primary cursor-pointer'
-        }
-        shadow-sm text-center sm:text-left
-      `}
+      role="region"
+      aria-label={`${title}${disabled ? ' - กำลังจะมาเร็วๆ นี้' : ''}`}
       aria-disabled={disabled}
       tabIndex={disabled ? -1 : 0}
-      role="region"
-      aria-label={`${title} ${disabled ? 'กำลังจะมาเร็วๆ นี้' : ''}`}
+      className={`group flex flex-col justify-between h-full rounded-3xl overflow-hidden border shadow-sm transition-shadow duration-300
+        ${disabled
+          ? 'border-yellow-400 bg-yellow-50 dark:bg-yellow-900 dark:border-yellow-600 cursor-not-allowed opacity-70'
+          : 'border-base-200 bg-base-100 dark:bg-base-300 hover:shadow-xl hover:border-primary dark:hover:border-primary cursor-pointer'}
+        text-center sm:text-left`}
     >
-      {/* Image or Icon */}
+      {/* Image or Fallback Icon */}
       {imageUrl ? (
         <img
           src={imageUrl}
@@ -45,34 +43,33 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           onError={(e) => {
             e.currentTarget.style.display = 'none'
           }}
-          draggable={false}
           decoding="async"
+          draggable={false}
           fetchPriority="low"
         />
       ) : (
         <div
           className={`flex items-center justify-center sm:justify-start w-16 h-16 mx-auto sm:mx-0 mt-6 mb-4 rounded-full text-4xl
-          ${
-            disabled
+            ${disabled
               ? 'bg-yellow-200 text-yellow-700 dark:bg-yellow-700 dark:text-yellow-300'
-              : 'bg-primary/10 text-primary'
-          }`}
+              : 'bg-primary/10 text-primary'}`}
           aria-hidden="true"
         >
           <Icon />
         </div>
       )}
 
-      {/* Content */}
+      {/* Text Content */}
       <div className="flex flex-col flex-grow px-6 pb-6 pt-2 sm:pt-0">
         <h3
+          title={title}
           className={`text-lg sm:text-xl font-extrabold mb-2 truncate ${
             disabled ? 'text-yellow-700 dark:text-yellow-400' : 'text-base-content'
           }`}
-          title={title}
         >
           {title}
         </h3>
+
         <p
           className={`text-sm sm:text-base mb-4 line-clamp-4 ${
             disabled ? 'text-yellow-800 dark:text-yellow-300' : 'text-base-content/80'
@@ -81,14 +78,15 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           {description}
         </p>
 
+        {/* Link (if applicable) */}
         {link && !disabled && (
           <div className="mt-auto">
             <a
               href={link}
-              className="inline-block text-sm sm:text-base font-semibold text-primary hover:text-primary-focus transition duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
-              rel="noopener noreferrer"
               target="_blank"
+              rel="noopener noreferrer"
               aria-label={`อ่านเพิ่มเติมเกี่ยวกับ ${title}`}
+              className="inline-block text-sm sm:text-base font-semibold text-primary hover:text-primary-focus transition duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
             >
               อ่านเพิ่มเติม →
             </a>

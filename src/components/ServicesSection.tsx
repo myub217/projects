@@ -1,4 +1,5 @@
-// src/components/ServicesSection.tsx – Comprehensive Services Showcase with Status & Contact CTA
+// src/components/ServicesSection.tsx
+// ✅ Cleaned & Enhanced Services Section with Accessibility, Animations, and Structured Logic
 
 import React from 'react'
 import ServiceCard from './ServiceCard'
@@ -64,17 +65,14 @@ const ServicesSection: React.FC = () => {
           >
             {services.map((service, idx) => {
               const isDisabled = !service.available
-              const showNote = isDisabled && service.comingSoonNote
               const Icon = iconMap[idx % iconMap.length]
 
               return (
                 <li
-                  key={`${service.id}-${service.title}`}
+                  key={`service-${service.id}`}
                   role="listitem"
-                  aria-label={`บริการ: ${service.title} ${
-                    isDisabled ? '(กำลังจะมาเร็วๆ นี้)' : ''
-                  }`}
-                  className="relative flex flex-col justify-between rounded-3xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out"
+                  aria-label={`บริการ: ${service.title}${isDisabled ? ' (เร็วๆ นี้)' : ''}`}
+                  className="relative"
                 >
                   <ServiceCard
                     icon={Icon}
@@ -89,7 +87,7 @@ const ServicesSection: React.FC = () => {
                     disabled={isDisabled}
                   />
 
-                  {showNote && (
+                  {isDisabled && service.comingSoonNote && (
                     <div
                       role="note"
                       aria-live="polite"
