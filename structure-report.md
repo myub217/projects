@@ -15,18 +15,16 @@
 ## 📄 Required Files
 | File           | Status |
 |----------------|--------|
-| package.json | ✅ Found |
-| vite.config.ts | ✅ Found |
-| .env | ❌ Missing |
-| README.md | ✅ Found |
+| `package.json` | ✅ Found |
+| `vite.config.ts` | ✅ Found |
+| `.env` | ✅ Found |
+| `README.md` | ✅ Found |
 
 ## 🎨 Tailwind Config (Full)
 ```ts
-// ✅ tailwind.config.ts – TailwindCSS Config พร้อม DaisyUI Theme: business / business-dark
-
-import type { Config } from 'tailwindcss';
-import typography from '@tailwindcss/typography';
-import daisyui from 'daisyui';
+import type { Config } from 'tailwindcss'
+import typography from '@tailwindcss/typography'
+import daisyui from 'daisyui'
 
 const config: Config = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -71,21 +69,15 @@ const config: Config = {
           DEFAULT: '#1f2937',
           dark: '#f3f4f6',
         },
-        muted: {
-          DEFAULT: '#6b7280',
-        },
+        muted: '#6b7280',
         primary: {
           DEFAULT: '#2563eb',
           light: '#3b82f6',
           dark: '#1e3a8a',
           contrastText: '#ffffff',
         },
-        accent: {
-          DEFAULT: '#f59e0b',
-        },
-        border: {
-          DEFAULT: '#e5e7eb',
-        },
+        accent: '#f59e0b',
+        border: '#e5e7eb',
         success: {
           DEFAULT: '#10b981',
           dark: '#059669',
@@ -148,14 +140,8 @@ const config: Config = {
           to: { opacity: '1' },
         },
         slideUp: {
-          from: {
-            transform: 'translateY(24px)',
-            opacity: '0',
-          },
-          to: {
-            transform: 'translateY(0)',
-            opacity: '1',
-          },
+          from: { transform: 'translateY(24px)', opacity: '0' },
+          to: { transform: 'translateY(0)', opacity: '1' },
         },
       },
     },
@@ -200,13 +186,14 @@ const config: Config = {
     ],
     darkTheme: 'business-dark',
   },
-};
+}
 
-export default config;
-```
+export default config```
 
 ## ⚙️ Vite Config (Full)
 ```ts
+// vite.config.ts
+
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -229,7 +216,7 @@ export default defineConfig({
     }),
     viteStaticCopy({
       targets: [
-        { src: 'public/images', dest: '' }, // ❌ ลบ public/docs
+        { src: 'public/images', dest: '' }, // copy images folder only
       ],
     }),
     {
@@ -261,8 +248,6 @@ export default defineConfig({
       '@styles': path.resolve(__dirname, 'src/styles'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@config': path.resolve(__dirname, 'src/config'),
-      // ❌ ลบ DocumentCenter ไปแล้ว อาจลบ @features ถ้าไม่ได้ใช้อื่น
-      // '@features': path.resolve(__dirname, 'src/features'),
     },
   },
   server: {
@@ -271,6 +256,8 @@ export default defineConfig({
         target: 'http://localhost:3000',
         changeOrigin: true,
         secure: false,
+        // optional: rewrite path if needed
+        // rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },
@@ -278,13 +265,23 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
     target: 'esnext',
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) return 'vendor'
+        },
+      },
+    },
   },
-})
-```
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
+  },
+})```
 
 ## 🧩 main.tsx (Full)
 ```tsx
-// src/main.tsx หรือ src/index.tsx – Entry Point + Routing ครบทุกหน้า
+// src/main.tsx
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -298,38 +295,147 @@ import SecretRoomPage from '@pages/SecretRoomPage'
 import AdminPage from '@pages/AdminPage'
 import ProtectedRoute from '@components/ProtectedRoute'
 
+// 404 Component
+const NotFound: React.FC = () => (
+  <main
+    role="alert"
+    aria-live="assertive"
+    className="flex items-center justify-center min-h-screen bg-base-100 text-error text-xl font-semibold select-none"
+  >
+    404 | ไม่พบหน้าที่คุณต้องการ
+  </main>
+)
+
+// Main App Routing
 const App: React.FC = () => (
   <BrowserRouter>
     <Routes>
-      {/* Public Routes */}
       <Route path="/" element={<IndexPage />} />
       <Route path="/login" element={<LoginPage />} />
 
-      {/* Protected Routes */}
+      {/* Protected routes */}
       <Route element={<ProtectedRoute />}>
         <Route path="/secret" element={<SecretRoomPage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Route>
 
-      {/* Fallback Route */}
-      <Route
-        path="*"
-        element={
-          <div className="flex items-center justify-center min-h-screen bg-base-100 text-error text-xl font-semibold">
-            404 | ไม่พบหน้าที่คุณต้องการ
-          </div>
-        }
-      />
+      {/* Fallback 404 */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>
 )
 
+// Mount App
 const rootElement = document.getElementById('root')
 if (!rootElement) {
-  console.error('ไม่พบ element ที่มี id="root" ใน HTML')
+  console.error('❌ ไม่พบ element ที่มี id="root" ใน index.html')
+  // Optionally: fallback UI or error boundary here
 } else {
-  ReactDOM.createRoot(rootElement).render(<App />)
+  ReactDOM.createRoot(rootElement).render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  )
 }
+
+export default App```
+
+## 🧩 SecretRoomPage.tsx (Full)
+```tsx
+// src/pages/SecretRoomPage.tsx – Authenticated User Dashboard Page
+
+import React, { useEffect, useState } from 'react'
+import Dashboard from '@components/SecretRoom/Dashboard'
+
+const SecretRoomPage: React.FC = () => {
+  const [username, setUsername] = useState<string>('กำลังโหลด...')
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('loggedInUser')?.trim()
+    setUsername(storedUser && storedUser.length > 0 ? storedUser : 'ไม่ทราบชื่อผู้ใช้')
+  }, [])
+
+  return (
+    <main
+      role="main"
+      aria-label="หน้าแดชบอร์ดผู้ใช้งาน"
+      className="min-h-screen bg-base-100 text-base-content px-4 py-16 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
+    >
+      {/* Welcome Section */}
+      <section
+        aria-label="ข้อความต้อนรับผู้ใช้งาน"
+        tabIndex={0}
+        aria-live="polite"
+        className="max-w-2xl mx-auto text-center space-y-4"
+      >
+        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-primary select-text">
+          ยินดีต้อนรับสู่ระบบ
+        </h1>
+        <p className="text-lg sm:text-xl text-base-content/80">
+          สวัสดีคุณ{' '}
+          <span
+            className="font-semibold text-secondary underline underline-offset-4 decoration-secondary/60 select-text"
+            aria-label={`ชื่อผู้ใช้: ${username}`}
+          >
+            {username}
+          </span>{' '}
+          👋
+          <br />
+          คุณเข้าสู่ระบบเรียบร้อยแล้ว
+        </p>
+      </section>
+
+      {/* Dashboard Panel */}
+      <section
+        aria-label="แผงควบคุมข้อมูลผู้ใช้งาน"
+        className="mt-12 w-full max-w-6xl mx-auto rounded-xl bg-base-200 dark:bg-zinc-800 shadow-lg p-6 sm:p-10 transition-shadow hover:shadow-xl focus-within:shadow-xl"
+      >
+        <Dashboard />
+      </section>
+    </main>
+  )
+}
+
+export default SecretRoomPage
+```
+
+## 🧩 AdminPage.tsx (Full)
+```tsx
+// src/pages/AdminPage.tsx
+
+import React, { useEffect, useState } from 'react'
+
+const AdminPage: React.FC = () => {
+  const [username, setUsername] = useState<string>('ผู้ใช้ระบบ')
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('loggedInUser')?.trim()
+    setUsername(storedUser && storedUser.length > 0 ? storedUser : 'ผู้ใช้ระบบ')
+  }, [])
+
+  return (
+    <main
+      role="main"
+      aria-label="แผงควบคุมผู้ดูแลระบบ"
+      className="min-h-screen flex flex-col items-center justify-center bg-base-100 text-center px-4 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
+    >
+      <h1 className="text-3xl sm:text-4xl font-extrabold text-primary mb-6">
+        แผงควบคุมผู้ดูแลระบบ
+      </h1>
+      <p className="text-lg sm:text-xl max-w-xl">
+        ยินดีต้อนรับคุณ{' '}
+        <span
+          className="font-semibold underline decoration-primary decoration-2"
+          aria-label={`ชื่อผู้ใช้: ${username}`}
+        >
+          {username}
+        </span>
+      </p>
+    </main>
+  )
+}
+
+export default AdminPage
 ```
 
 ## 🧩 Project Directory Tree (Level 3)
@@ -344,6 +450,28 @@ if (!rootElement) {
 │   └── contact.ts
 ├── auto-commit.sh
 ├── check-structure.sh
+├── dist
+│   ├── assets
+│   │   ├── about-IgS6mAQi.webp
+│   │   ├── hero-BRaXPQvd.webp
+│   │   ├── index-BPRXqv31.js
+│   │   ├── index-BPRXqv31.js.map
+│   │   ├── index-C9Ydrr9H.css
+│   │   ├── jp-logo-CH0zBIqT.webp
+│   │   ├── signature-BovtCThw.webp
+│   │   ├── vendor-UwZk04L8.js
+│   │   └── vendor-UwZk04L8.js.map
+│   ├── docs
+│   │   ├── certificate.pdf
+│   │   ├── contract.pdf
+│   │   └── registration.pdf
+│   ├── images
+│   │   ├── review
+│   │   └── services
+│   ├── index.html
+│   ├── manifest.webmanifest
+│   ├── sw.js
+│   └── sw.js.map
 ├── index.html
 ├── index.ts
 ├── package.json
@@ -385,7 +513,8 @@ if (!rootElement) {
 │   │   ├── ReviewsSection.tsx
 │   │   ├── SecretRoom
 │   │   ├── ServiceCard.tsx
-│   │   └── ServicesSection.tsx
+│   │   ├── ServicesSection.tsx
+│   │   └── StatsPanel.tsx
 │   ├── config
 │   │   ├── adminConfig.ts
 │   │   └── contact.ts
@@ -415,12 +544,9 @@ if (!rootElement) {
 ├── tailwind.config.ts
 ├── tsconfig.json
 ├── vercel.json
-├── vite.config.ts
-├── ต้องอยู่ที่
-└── ส่ง
+└── vite.config.ts
 
-21 directories, 63 files
-
+27 directories, 78 files
 ```
 
 ## 📌 Final Note
@@ -428,21 +554,19 @@ if (!rootElement) {
 
 คุณคือ Dev Partner ที่ทำงานร่วมกับผมในการพัฒนาโปรเจกต์นี้อย่างแม่นยำและรวดเร็ว โดยมีหน้าที่ดังนี้
 
-รับรู้โครงสร้างโปรเจกต์ทั้งหมด เช่น โฟลเดอร์, config, main.tsx และไฟล์สำคัญอื่น ๆ ที่ผมให้ไว้
-# CONFIG: ใช้ไฟล์นี้ตลอด -> src/pages/SecretRoomPage.tsx
-ใช้ข้อมูลทั้งหมดเป็นบริบทหลักตลอดการสนทนา
+- รับรู้โครงสร้างโปรเจกต์ทั้งหมด เช่น โฟลเดอร์, config, main.tsx และไฟล์สำคัญอื่น ๆ ที่ผมให้ไว้
+- # CONFIG: ใช้ไฟล์นี้ตลอด -> src/pages/SecretRoomPage.tsx
+- ใช้ข้อมูลทั้งหมดเป็นบริบทหลักตลอดการสนทนา
 
-ตอบแบบ Dev-to-Dev: ตรงประเด็น สั้น กระชับ ไม่อธิบายเยิ่นเย้อ
-
-แก้ปัญหาเฉพาะหน้าให้ได้ทันที พร้อมเสนอ solution ที่ใช้ได้จริง
-
-ทุกคำตอบต้องสอดคล้องกับเทคโนโลยี สภาพแวดล้อม และโครงสร้างที่กำหนดไว้แล้ว
-ไม่สอน ไม่ถามซ้ำ ไม่ตีความผิด
-❗ ห้ามลืมบริบทของโปรเจกต์นี้เด็ดขาด
-เมื่อผมถาม/ส่งโค้ดมา ให้ตอบเหมือนคุณคือทีม Dev ที่นั่งทำงานข้าง ๆ ผม
+- ตอบแบบ Dev-to-Dev: ตรงประเด็น สั้น กระชับ ไม่อธิบายเยิ่นเย้อ
+- แก้ปัญหาเฉพาะหน้าให้ได้ทันที พร้อมเสนอ solution ที่ใช้ได้จริง
+- ทุกคำตอบต้องสอดคล้องกับเทคโนโลยี สภาพแวดล้อม และโครงสร้างที่กำหนดไว้แล้ว
+- ไม่สอน ไม่ถามซ้ำ ไม่ตีความผิด
+- ❗ ห้ามลืมบริบทของโปรเจกต์นี้เด็ดขาด
+- เมื่อผมถาม/ส่งโค้ดมา ให้ตอบเหมือนคุณคือทีม Dev ที่นั่งทำงานข้าง ๆ ผม
 
 📦 โครงสร้างโปรเจกต์, config, main.tsx และรายละเอียดอื่น ๆ ได้แนบไว้ให้แล้วในระบบ
 ถือว่าคุณเข้าใจแล้วโดยสมบูรณ์
 พร้อมรับคำสั่งถัดไปได้เลย 🛠️
 
-🕛 Last checked: $(date)
+🕛 Last checked: Tue Jul 22 23:09:00 +07 2025
