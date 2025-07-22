@@ -1,5 +1,5 @@
 // src/components/ServiceCard.tsx
-// ✅ Refined & Accessible Service Card with Optimized Layout, Error Handling, and Keyboard Support
+// ✅ Refined, accessible, optimized Service Card with graceful image fallback and keyboard support
 
 import React from 'react'
 import { IconType } from 'react-icons'
@@ -33,7 +33,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           : 'border-base-200 bg-base-100 dark:bg-base-300 hover:shadow-xl hover:border-primary dark:hover:border-primary cursor-pointer'}
         text-center sm:text-left`}
     >
-      {/* Image or Fallback Icon */}
+      {/* Image or fallback icon */}
       {imageUrl ? (
         <img
           src={imageUrl}
@@ -78,7 +78,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           {description}
         </p>
 
-        {/* Link (if applicable) */}
+        {/* Link (if not disabled) */}
         {link && !disabled && (
           <div className="mt-auto">
             <a

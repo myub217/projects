@@ -13,7 +13,7 @@ import AdminPage from '@pages/AdminPage'
 import ProtectedRoute from '@components/ProtectedRoute'
 import { ThemeProvider, useTheme } from '@components/ThemeProvider'
 
-// 404 Not Found Page
+// 404 Not Found Component
 const NotFound: React.FC = () => (
   <main
     role="alert"
@@ -24,13 +24,16 @@ const NotFound: React.FC = () => (
   </main>
 )
 
-// App Routes with ThemeContext
+// App Routes with theme context
 const AppRoutes: React.FC = () => {
   const { theme, toggleTheme } = useTheme()
 
   return (
     <Routes>
-      <Route path="/" element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
+      <Route
+        path="/"
+        element={<IndexPage theme={theme} toggleTheme={toggleTheme} />}
+      />
       <Route path="/login" element={<LoginPage />} />
 
       {/* Protected Routes */}
@@ -39,13 +42,13 @@ const AppRoutes: React.FC = () => {
         <Route path="/admin" element={<AdminPage />} />
       </Route>
 
-      {/* 404 */}
+      {/* Catch all unmatched */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }
 
-// Root App with Providers
+// Root App with providers wrapper
 const RootApp: React.FC = () => (
   <React.StrictMode>
     <ThemeProvider>
@@ -56,7 +59,7 @@ const RootApp: React.FC = () => (
   </React.StrictMode>
 )
 
-// Mount App
+// Mount app
 const rootElement = document.getElementById('root')
 if (!rootElement) {
   console.error('❌ ไม่พบ element ที่มี id="root" ใน index.html')
