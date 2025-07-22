@@ -10,15 +10,24 @@ const Dashboard: React.FC = () => {
     <main
       role="main"
       aria-label="แดชบอร์ดข้อมูลและสถานะระบบ"
-      className="w-full max-w-5xl mx-auto p-6 flex flex-col gap-8 bg-base-200 rounded-xl shadow-lg"
+      className="w-full max-w-6xl mx-auto p-6 md:p-10 flex flex-col gap-10 bg-base-200 rounded-2xl shadow-xl transition-all"
     >
+      {/* ส่วนหัวของแดชบอร์ด */}
       <HeaderBlock />
 
-      <section aria-label="สถานะการตรวจสอบระบบ" className="mb-6">
+      {/* การตรวจสอบระบบ */}
+      <section
+        aria-label="สถานะการตรวจสอบระบบ"
+        className="w-full bg-base-100 dark:bg-base-300 p-6 rounded-xl shadow-inner border border-base-300"
+      >
         <SystemCheckCard />
       </section>
 
-      <section aria-label="บันทึกการเข้าใช้งาน" className="mb-6">
+      {/* บันทึกการเข้าใช้งาน */}
+      <section
+        aria-label="บันทึกการเข้าใช้งาน"
+        className="w-full"
+      >
         <AccessLogTable />
       </section>
     </main>

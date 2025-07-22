@@ -1,4 +1,4 @@
-// src/components/CTASection.tsx – ปรับปรุงโครงสร้างและ UX
+// src/components/CTASection.tsx
 
 import React from 'react'
 import { FaFacebook, FaFacebookMessenger, FaLine } from 'react-icons/fa'
@@ -40,8 +40,8 @@ const CTASection: React.FC = () => (
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-xl border border-white text-white font-semibold px-6 py-3 text-sm sm:text-base hover:bg-white hover:text-primary transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
         >
-          <FaLine className="text-lg" />
-          LINE: @462fqrfc
+          <FaLine className="text-lg" aria-hidden="true" />
+          <span>LINE: @462fqrfc</span>
         </a>
 
         <a
@@ -50,8 +50,8 @@ const CTASection: React.FC = () => (
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-xl border border-white text-white font-semibold px-6 py-3 text-sm sm:text-base hover:bg-white hover:text-primary transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
         >
-          <FaFacebook className="text-lg" />
-          Facebook
+          <FaFacebook className="text-lg" aria-hidden="true" />
+          <span>Facebook</span>
         </a>
 
         <a
@@ -60,8 +60,8 @@ const CTASection: React.FC = () => (
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-xl border border-white text-white font-semibold px-6 py-3 text-sm sm:text-base hover:bg-white hover:text-primary transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
         >
-          <FaFacebookMessenger className="text-lg" />
-          Messenger
+          <FaFacebookMessenger className="text-lg" aria-hidden="true" />
+          <span>Messenger</span>
         </a>
       </div>
     </div>

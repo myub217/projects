@@ -1,3 +1,5 @@
+// vite.config.ts
+
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -20,7 +22,7 @@ export default defineConfig({
     }),
     viteStaticCopy({
       targets: [
-        { src: 'public/images', dest: '' }, // ❌ ลบ public/docs
+        { src: 'public/images', dest: '' }, // copy only images folder
       ],
     }),
     {
@@ -52,8 +54,7 @@ export default defineConfig({
       '@styles': path.resolve(__dirname, 'src/styles'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@config': path.resolve(__dirname, 'src/config'),
-      // ❌ ลบ DocumentCenter ไปแล้ว อาจลบ @features ถ้าไม่ได้ใช้อื่น
-      // '@features': path.resolve(__dirname, 'src/features'),
+      // Removed @features alias since folder no longer exists
     },
   },
   server: {

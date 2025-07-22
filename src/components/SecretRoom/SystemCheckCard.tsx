@@ -32,46 +32,31 @@ const SystemCheckCard: React.FC = () => {
   }, [])
 
   return (
-    <div className="card bg-base-200 p-6 rounded-xl shadow-lg">
-      <h3 className="card-title text-lg font-semibold mb-4">ตรวจสอบระบบ</h3>
-      <ul className="space-y-3 text-base">
-        <li className="flex items-center gap-3">
+    <div className="w-full bg-base-100 dark:bg-base-300 border border-base-300 dark:border-base-200 rounded-xl p-6 shadow-md">
+      <h3 className="text-xl font-bold text-primary mb-5">สถานะระบบล่าสุด</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="flex items-center gap-4">
           {isOnline ? (
-            <FaCheckCircle
-              className="text-green-500"
-              aria-label="ออนไลน์"
-              role="img"
-              aria-live="polite"
-            />
+            <FaCheckCircle className="text-green-500 text-xl" aria-label="ออนไลน์" />
           ) : (
-            <FaExclamationTriangle
-              className="text-red-500"
-              aria-label="ออฟไลน์"
-              role="img"
-              aria-live="assertive"
-            />
+            <FaExclamationTriangle className="text-red-500 text-xl" aria-label="ออฟไลน์" />
           )}
-          <span>สถานะการเชื่อมต่อ: {isOnline ? 'ออนไลน์' : 'ออฟไลน์'}</span>
-        </li>
-        <li className="flex items-center gap-3">
+          <span className="text-base-content font-medium">
+            การเชื่อมต่ออินเทอร์เน็ต: <span className="font-semibold">{isOnline ? 'ออนไลน์' : 'ออฟไลน์'}</span>
+          </span>
+        </div>
+
+        <div className="flex items-center gap-4">
           {storageAvailable ? (
-            <FaCheckCircle
-              className="text-green-500"
-              aria-label="LocalStorage พร้อมใช้งาน"
-              role="img"
-              aria-live="polite"
-            />
+            <FaCheckCircle className="text-green-500 text-xl" aria-label="LocalStorage พร้อมใช้งาน" />
           ) : (
-            <FaExclamationTriangle
-              className="text-red-500"
-              aria-label="LocalStorage ไม่พร้อมใช้งาน"
-              role="img"
-              aria-live="assertive"
-            />
+            <FaExclamationTriangle className="text-red-500 text-xl" aria-label="LocalStorage ไม่พร้อมใช้งาน" />
           )}
-          <span>LocalStorage: {storageAvailable ? 'พร้อมใช้งาน' : 'ไม่พร้อมใช้งาน'}</span>
-        </li>
-      </ul>
+          <span className="text-base-content font-medium">
+            LocalStorage: <span className="font-semibold">{storageAvailable ? 'พร้อมใช้งาน' : 'ไม่พร้อมใช้งาน'}</span>
+          </span>
+        </div>
+      </div>
     </div>
   )
 }

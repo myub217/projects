@@ -15,6 +15,7 @@ const ThemeToggleButton: React.FC<ThemeToggleButtonProps> = ({ theme, toggleThem
       title={`สลับเป็นโหมด ${theme === 'light' ? 'มืด' : 'สว่าง'}`}
       onClick={toggleTheme}
       className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 bg-base-200 text-base-content p-3 rounded-full shadow-xl backdrop-blur-md transition-colors duration-300 hover:bg-base-300 dark:bg-neutral dark:text-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+      aria-pressed={theme === 'dark'}
     >
       {theme === 'light' ? (
         <svg

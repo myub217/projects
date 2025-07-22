@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import Header from '@components/Header'
 import Hero from '@components/Hero'
 import Feature from '@components/Feature'
+import StatsPanel from '@components/StatsPanel'
 import ServicesSection, { Service } from '@components/ServicesSection'
 import About from '@components/About'
 import ReviewsSection from '@components/ReviewsSection'
@@ -27,7 +28,11 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
   }, [])
 
   useEffect(() => {
-    document.body.style.overflow = selectedService ? 'hidden' : ''
+    if (selectedService) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
     return () => {
       document.body.style.overflow = ''
     }
@@ -49,6 +54,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
       >
         <Hero />
         <Feature />
+        <StatsPanel />
         <ServicesSection onRequest={handleRequestService} />
         <About />
         <ReviewsSection />
@@ -57,7 +63,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
 
       <Footer />
 
-      {/* Theme Toggle */}
+      {/* Theme toggle fixed button */}
       <button
         type="button"
         aria-label={`สลับเป็นโหมด ${theme === 'light' ? 'มืด' : 'สว่าง'}`}
@@ -73,6 +79,8 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
             stroke="currentColor"
             strokeWidth={2}
             viewBox="0 0 24 24"
+            role="img"
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
@@ -81,13 +89,20 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
             />
           </svg>
         ) : (
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-6 h-6"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            role="img"
+            aria-hidden="true"
+          >
             <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
           </svg>
         )}
       </button>
 
-      {/* Modal */}
+      {/* Service Request Modal */}
       {selectedService && (
         <div
           role="dialog"

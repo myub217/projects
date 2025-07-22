@@ -1,48 +1,49 @@
 // src/pages/LoginPage.tsx
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { users } from '@data/users';
-import { hashPassword } from '@utils/hashPassword';
+
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { users } from '@data/users'
+import { hashPassword } from '@utils/hashPassword'
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const navigate = useNavigate()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
+    e.preventDefault()
+    setError('')
 
-    const trimmedUsername = username.trim();
-    const trimmedPassword = password.trim();
+    const trimmedUsername = username.trim()
+    const trimmedPassword = password.trim()
 
     if (!trimmedUsername || !trimmedPassword) {
-      setError('กรุณากรอกข้อมูลให้ครบ');
-      return;
+      setError('กรุณากรอกข้อมูลให้ครบ')
+      return
     }
 
-    const user = users[trimmedUsername];
+    const user = users[trimmedUsername]
     if (!user) {
-      setError('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
-      return;
+      setError('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง')
+      return
     }
 
-    const hashed = await hashPassword(trimmedPassword);
+    const hashed = await hashPassword(trimmedPassword)
     if (hashed !== user.passwordHash) {
-      setError('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
-      return;
+      setError('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง')
+      return
     }
 
-    localStorage.setItem('loggedInUser', trimmedUsername);
-    localStorage.setItem('userRole', user.role);
+    localStorage.setItem('loggedInUser', trimmedUsername)
+    localStorage.setItem('userRole', user.role)
 
     if (user.role === 'admin') {
-      navigate('/admin', { replace: true });
+      navigate('/admin', { replace: true })
     } else {
-      navigate('/secret', { replace: true });
+      navigate('/secret', { replace: true })
     }
-  };
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-100 px-4">
@@ -51,7 +52,9 @@ const LoginPage: React.FC = () => {
         className="w-full max-w-sm bg-base-200 p-6 rounded-lg shadow-md"
         aria-label="Login Form"
       >
-        <h2 className="text-2xl font-bold mb-6 text-primary text-center">เข้าสู่ระบบ</h2>
+        <h2 className="text-2xl font-bold mb-6 text-primary text-center">
+          เข้าสู่ระบบ
+        </h2>
         {error && (
           <div
             className="mb-4 text-error font-semibold text-center"
@@ -61,6 +64,7 @@ const LoginPage: React.FC = () => {
             {error}
           </div>
         )}
+
         <div className="form-control mb-4">
           <label htmlFor="username" className="label">
             <span className="label-text">ชื่อผู้ใช้</span>
@@ -74,10 +78,10 @@ const LoginPage: React.FC = () => {
             autoComplete="username"
             required
             aria-required="true"
-            aria-describedby="usernameHelp"
             placeholder="กรอกชื่อผู้ใช้"
           />
         </div>
+
         <div className="form-control mb-6">
           <label htmlFor="password" className="label">
             <span className="label-text">รหัสผ่าน</span>
@@ -94,6 +98,7 @@ const LoginPage: React.FC = () => {
             placeholder="กรอกรหัสผ่าน"
           />
         </div>
+
         <button
           type="submit"
           className="btn btn-primary w-full"
@@ -103,7 +108,7 @@ const LoginPage: React.FC = () => {
         </button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

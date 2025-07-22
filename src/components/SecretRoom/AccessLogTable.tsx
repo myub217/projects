@@ -18,38 +18,51 @@ const AccessLogTable: React.FC = () => {
   return (
     <section
       aria-label="ตารางบันทึกการเข้าใช้งาน"
-      className="overflow-x-auto bg-base-200 rounded-lg shadow p-6 max-w-4xl mx-auto"
+      className="w-full max-w-5xl mx-auto bg-base-200 rounded-xl shadow-md p-6 md:p-8 space-y-6"
     >
-      <h3 className="text-xl font-semibold mb-5 text-primary">บันทึกการเข้าใช้งาน</h3>
-      <table className="table w-full text-sm md:text-base" role="table">
-        <thead className="bg-primary text-primary-content">
-          <tr>
-            <th scope="col" className="py-3 px-4 text-left">เวลา</th>
-            <th scope="col" className="py-3 px-4 text-left">ผู้ใช้งาน</th>
-            <th scope="col" className="py-3 px-4 text-left">กิจกรรม</th>
-          </tr>
-        </thead>
-        <tbody>
-          {mockLogs.length === 0 ? (
+      <header className="space-y-1">
+        <h2 className="text-2xl md:text-3xl font-bold text-primary">บันทึกการเข้าใช้งานระบบ</h2>
+        <p className="text-sm md:text-base text-base-content/70">
+          รายละเอียดกิจกรรมล่าสุดของผู้ใช้งานในระบบ Secret Room
+        </p>
+      </header>
+
+      <div className="overflow-x-auto rounded-lg">
+        <table
+          role="table"
+          className="table w-full text-sm md:text-base border-collapse"
+        >
+          <thead className="bg-primary text-primary-content">
             <tr>
-              <td colSpan={3} className="text-center py-6 text-gray-500 dark:text-gray-400">
-                ยังไม่มีบันทึกการเข้าใช้งาน
-              </td>
+              <th scope="col" className="text-left py-3 px-4">เวลา</th>
+              <th scope="col" className="text-left py-3 px-4">ผู้ใช้งาน</th>
+              <th scope="col" className="text-left py-3 px-4">กิจกรรม</th>
             </tr>
-          ) : (
-            mockLogs.map((log, index) => (
-              <tr
-                key={index}
-                className={index % 2 === 0 ? 'bg-base-100' : 'bg-base-300 dark:bg-base-700'}
-              >
-                <td className="py-2 px-4 whitespace-nowrap" data-label="เวลา">{log.timestamp}</td>
-                <td className="py-2 px-4 whitespace-nowrap font-mono" data-label="ผู้ใช้งาน">{log.username}</td>
-                <td className="py-2 px-4 whitespace-nowrap" data-label="กิจกรรม">{log.action}</td>
+          </thead>
+          <tbody>
+            {mockLogs.length === 0 ? (
+              <tr>
+                <td colSpan={3} className="text-center py-6 text-gray-500 dark:text-gray-400">
+                  ยังไม่มีบันทึกการเข้าใช้งาน
+                </td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ) : (
+              mockLogs.map((log, index) => (
+                <tr
+                  key={index}
+                  className={`transition-colors duration-200 ${
+                    index % 2 === 0 ? 'bg-base-100' : 'bg-base-300 dark:bg-base-700'
+                  }`}
+                >
+                  <td className="py-3 px-4 whitespace-nowrap text-base-content/90">{log.timestamp}</td>
+                  <td className="py-3 px-4 whitespace-nowrap font-mono text-base-content">{log.username}</td>
+                  <td className="py-3 px-4 whitespace-nowrap text-base-content/90">{log.action}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </section>
   )
 }
