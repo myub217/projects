@@ -6,7 +6,7 @@ import ThemeToggleButton from '@components/SecretRoom/ThemeToggleButton'
 import UserProfileCard from '@components/SecretRoom/UserProfileCard'
 
 const SecretRoomPage: React.FC = () => {
-  const [username, setUsername] = useState<string>('กำลังโหลด...')
+  const [username, setUsername] = useState('กำลังโหลด...')
   const [theme, setTheme] = useState<'light' | 'dark'>(() =>
     document.documentElement.classList.contains('dark') ? 'dark' : 'light'
   )
@@ -27,7 +27,7 @@ const SecretRoomPage: React.FC = () => {
   return (
     <main
       role="main"
-      aria-label="หน้าแดชบอร์ดผู้ใช้งาน"
+      aria-label="แดชบอร์ดระบบรักษาความปลอดภัย"
       className="relative min-h-screen bg-base-100 text-base-content px-4 py-16 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
     >
       {/* ปุ่มสลับธีม */}
@@ -35,7 +35,7 @@ const SecretRoomPage: React.FC = () => {
         <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
       </div>
 
-      {/* ข้อความต้อนรับ */}
+      {/* ส่วนต้อนรับผู้ใช้ */}
       <section
         aria-label="ข้อความต้อนรับผู้ใช้งาน"
         tabIndex={0}
@@ -53,13 +53,12 @@ const SecretRoomPage: React.FC = () => {
           >
             {username}
           </span>{' '}
-          👋
-          <br />
+          👋<br />
           คุณเข้าสู่ระบบเรียบร้อยแล้ว
         </p>
       </section>
 
-      {/* การ์ดสรุปโปรไฟล์ */}
+      {/* การ์ดแสดงโปรไฟล์ */}
       <section
         aria-label="สรุปข้อมูลผู้ใช้งาน"
         className="mt-10 max-w-md mx-auto"
@@ -67,9 +66,9 @@ const SecretRoomPage: React.FC = () => {
         <UserProfileCard username={username} />
       </section>
 
-      {/* แดชบอร์ดระบบ */}
+      {/* แดชบอร์ดข้อมูล */}
       <section
-        aria-label="แดชบอร์ดระบบ"
+        aria-label="แดชบอร์ดข้อมูลและระบบ"
         className="mt-12 w-full max-w-7xl mx-auto rounded-2xl bg-base-200 dark:bg-zinc-800 shadow-xl p-6 sm:p-10 transition-shadow hover:shadow-2xl focus-within:shadow-2xl"
         tabIndex={-1}
       >

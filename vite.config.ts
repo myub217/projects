@@ -1,4 +1,4 @@
-// vite.config.ts (ปรับปรุงเพิ่มเติมและจัดระเบียบดีขึ้น)
+// vite.config.ts
 
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -84,10 +84,12 @@ export default defineConfig({
     emptyOutDir: true,
     target: 'esnext',
     sourcemap: true,
+    chunkSizeWarningLimit: 700, // เพิ่ม limit เต็มที่ รับได้ใหญ่ขึ้น
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules')) return 'vendor'
+          if (id.includes('node_modules/react')) return 'react-vendor' // แยก react แยกเดี่ยว
+          if (id.includes('node_modules')) return 'vendor' // แยก libs อื่น
         },
       },
     },

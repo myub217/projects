@@ -29,6 +29,6 @@
       "@config/*": ["config/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.{ts,tsx}"],
   "exclude": ["dist", "node_modules", "public", "coverage"]
 }
