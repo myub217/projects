@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# สร้างโฟลเดอร์ husky/_ ถ้ายังไม่มี
+# สร้างโฟลเดอร์ .husky/_ ถ้ายังไม่มี
 mkdir -p .husky/_
 
 # สร้างไฟล์ hook pre-commit แบบใหม่
@@ -17,7 +17,7 @@ chmod +x .husky/pre-commit
 for file in .husky/_/*; do
   if [ -f "$file" ]; then
     sed -i -e '1s|#!/usr/bin/env sh|#!/bin/sh|' \
-           -e '2s|. "$(dirname -- "$0")/_/husky.sh"|. "$(dirname "$0")/husky.sh"|' "$file"
+           -e '2s|. "$(dirname -- "$0")/_/husky.sh"|. "$(dirname "$0")/_/husky.sh"|' "$file"
   fi
 done
 
