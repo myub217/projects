@@ -46,10 +46,15 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap"
       rel="stylesheet"
+      media="all"
+      crossorigin="anonymous"
     />
+
+    <!-- Add any additional meta or script here for analytics or performance -->
+
   </head>
-  <body class="bg-base-100 text-base-content font-body">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <body class="bg-base-100 text-base-content font-body antialiased selection:bg-primary selection:text-white">
+    <div id="root" tabindex="-1" aria-label="โครงงาน JP Visual & Docs"></div>
+    <script type="module" src="/src/main.tsx" defer></script>
   </body>
 </html>

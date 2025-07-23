@@ -15,7 +15,7 @@ import LoadingFallback from './routes/LoadingFallback'
 const RootApp: React.FC = () => (
   <React.StrictMode>
     <ThemeProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL || '/'}>
         <Suspense fallback={<LoadingFallback />}>
           <AppRoutes />
         </Suspense>

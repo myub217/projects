@@ -1,5 +1,5 @@
 // src/components/common/Badge.tsx
-// ✅ Simple Badge component with variants and accessibility support
+// ✅ Lightweight Badge component with flexible variants and improved accessibility
 
 import React from 'react'
 import clsx from 'clsx'
@@ -13,7 +13,7 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-  default: 'bg-gray-200 text-gray-800',
+  default: 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
   primary: 'bg-primary text-white',
   success: 'bg-success text-white',
   warning: 'bg-warning text-black',
@@ -30,8 +30,10 @@ const Badge: React.FC<BadgeProps> = ({
   return (
     <span
       role="status"
+      aria-live="polite"
+      aria-atomic="true"
       className={clsx(
-        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold',
+        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold select-none whitespace-nowrap',
         variantStyles[variant],
         className
       )}

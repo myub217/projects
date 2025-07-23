@@ -1,5 +1,5 @@
 // src/components/common/LoadingSpinner.tsx
-// ✅ Accessible, minimal spinner with TailwindCSS and ARIA roles
+// ✅ Optimized accessible spinner with TailwindCSS, clean SVG, and ARIA roles
 
 import React from 'react'
 

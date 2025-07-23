@@ -1,5 +1,5 @@
 // src/pages/IndexPage.tsx
-// ✅ Homepage with all Sections, NotificationBanner, Theme Toggle, and Service Request Modal
+// ✅ Fully accessible homepage with smooth UX, focus management, theme toggle, and modular sections
 
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 
@@ -26,21 +26,25 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
   const [showBanner, setShowBanner] = useState(true)
   const mainContentRef = useRef<HTMLElement>(null)
 
-  // Close modal on Escape key
+  // Close modal on Escape key only when modal is open
   useEffect(() => {
-    const onEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSelectedService(null)
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && selectedService) {
+        setSelectedService(null)
+      }
     }
-    window.addEventListener('keydown', onEsc)
-    return () => window.removeEventListener('keydown', onEsc)
-  }, [])
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [selectedService])
 
-  // Scroll lock & focus management on modal open/close
+  // Manage scroll lock and focus trap on modal open/close
   useEffect(() => {
     document.body.style.overflow = selectedService ? 'hidden' : ''
     if (selectedService) {
+      mainContentRef.current?.setAttribute('aria-hidden', 'true')
       mainContentRef.current?.blur()
     } else {
+      mainContentRef.current?.removeAttribute('aria-hidden')
       mainContentRef.current?.focus()
     }
   }, [selectedService])
@@ -89,7 +93,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
         <Footer />
       </div>
 
-      {/* Floating Theme Toggle */}
+      {/* Floating Theme Toggle Button */}
       <button
         type="button"
         aria-label={`สลับเป็นโหมด ${theme === 'light' ? 'มืด' : 'สว่าง'}`}

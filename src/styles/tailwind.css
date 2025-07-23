@@ -6,9 +6,9 @@
 /* ==================== 🔹 CSS VARIABLES ==================== */
 @layer base {
   :root {
-    /* ใช้ค่า fixed แทน theme() เพื่อป้องกัน error */
+    /* Fixed values to avoid theme() errors */
     --font-body: 'Inter', sans-serif;
-    --font-heading: 'Inter', sans-serif;
+    --font-heading: 'Playfair Display', serif;
     --color-bg: #ffffff;
     --color-text: #1f2937;
     --color-primary: #3b82f6;
@@ -49,7 +49,7 @@
     line-height: 1.25;
     margin-top: 0;
     margin-bottom: 0.5rem;
-    scroll-margin-top: 1.5rem; /* สำหรับ offset anchor links */
+    scroll-margin-top: 1.5rem; /* offset anchor links */
   }
 
   p + p {
@@ -98,7 +98,7 @@
 /* ==================== 🔹 COMPONENTS ==================== */
 @layer components {
   .btn {
-    @apply font-semibold py-2 px-4 rounded transition-colors duration-200 cursor-pointer;
+    @apply font-semibold py-2 px-4 rounded transition-colors duration-200 cursor-pointer select-none;
   }
 
   .btn-primary {
@@ -117,5 +117,14 @@
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+  }
+
+  /* Additional utilities */
+  .text-muted {
+    color: var(--color-text-muted);
+  }
+
+  .bg-surface {
+    background-color: var(--color-background);
   }
 }

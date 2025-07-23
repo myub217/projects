@@ -1,11 +1,11 @@
 // src/pages/AdminPage.tsx
-// แผงควบคุมผู้ดูแลระบบ พร้อมต้อนรับผู้ใช้ และแสดง Dashboard
+// แผงควบคุมผู้ดูแลระบบ พร้อมต้อนรับผู้ใช้และแสดงแดชบอร์ดอย่างมีประสิทธิภาพ
 
 import React, { useEffect, useState } from 'react'
 import AdminDashboard from '@components/AdminBoard/Dashboard'
 
 const AdminPage: React.FC = () => {
-  const [username, setUsername] = useState('ผู้ใช้ระบบ')
+  const [username, setUsername] = useState<string>('ผู้ใช้ระบบ')
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser')?.trim()
@@ -18,7 +18,7 @@ const AdminPage: React.FC = () => {
       aria-label="แผงควบคุมผู้ดูแลระบบ"
       className="min-h-screen bg-base-100 text-base-content dark:bg-gray-900 px-6 py-12 transition-colors duration-300 flex flex-col items-center"
     >
-      {/* 🔹 Welcome Header */}
+      {/* Header ต้อนรับผู้ใช้ */}
       <header
         className="mb-10 max-w-xl w-full text-center select-text"
         tabIndex={-1}
@@ -43,7 +43,7 @@ const AdminPage: React.FC = () => {
         </p>
       </header>
 
-      {/* 🔧 Admin Dashboard */}
+      {/* แดชบอร์ดผู้ดูแลระบบ */}
       <section
         className="w-full max-w-7xl"
         tabIndex={-1}

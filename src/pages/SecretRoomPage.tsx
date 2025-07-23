@@ -1,5 +1,5 @@
 // src/pages/SecretRoomPage.tsx
-// หน้าแดชบอร์ดระบบรักษาความปลอดภัย พร้อมการสลับธีมและข้อมูลผู้ใช้งาน
+// ✅ Secure dashboard with theme toggle, user profile summary, accessibility, and clean structure
 
 import React, { useEffect, useState, useCallback } from 'react'
 import Dashboard from '@components/SecretRoom/Dashboard'
@@ -19,10 +19,11 @@ const SecretRoomPage: React.FC = () => {
 
   const toggleTheme = useCallback(() => {
     const root = document.documentElement
-    const isDark = root.classList.contains('dark')
-    root.classList.toggle('dark', !isDark)
-    localStorage.setItem('theme', isDark ? 'light' : 'dark')
-    setTheme(isDark ? 'light' : 'dark')
+    const isCurrentlyDark = root.classList.contains('dark')
+    const newTheme = isCurrentlyDark ? 'light' : 'dark'
+    root.classList.toggle('dark', !isCurrentlyDark)
+    localStorage.setItem('theme', newTheme)
+    setTheme(newTheme)
   }, [])
 
   return (
@@ -31,12 +32,12 @@ const SecretRoomPage: React.FC = () => {
       aria-label="แดชบอร์ดระบบรักษาความปลอดภัย"
       className="relative min-h-screen px-4 py-16 bg-base-100 text-base-content transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
     >
-      {/* ปุ่มสลับธีม */}
+      {/* Theme Toggle Button */}
       <div className="fixed top-4 right-4 z-50">
         <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
       </div>
 
-      {/* ข้อความต้อนรับ */}
+      {/* Welcome Section */}
       <section
         aria-label="ข้อความต้อนรับผู้ใช้งาน"
         tabIndex={0}
@@ -58,13 +59,12 @@ const SecretRoomPage: React.FC = () => {
           >
             {username}
           </span>{' '}
-          👋
-          <br />
+          👋<br />
           คุณเข้าสู่ระบบเรียบร้อยแล้ว
         </p>
       </section>
 
-      {/* สรุปข้อมูลผู้ใช้ */}
+      {/* User Profile Summary */}
       <section
         aria-label="สรุปข้อมูลผู้ใช้งาน"
         className="mt-10 max-w-md mx-auto"
@@ -73,7 +73,7 @@ const SecretRoomPage: React.FC = () => {
         <UserProfileCard username={username} />
       </section>
 
-      {/* แดชบอร์ดหลัก */}
+      {/* Dashboard Section */}
       <section
         aria-label="แดชบอร์ดข้อมูลและระบบ"
         className="mt-12 w-full max-w-7xl mx-auto p-6 sm:p-10 bg-base-200 dark:bg-zinc-800 rounded-2xl shadow-xl transition-shadow hover:shadow-2xl focus-within:shadow-2xl"

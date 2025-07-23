@@ -296,6 +296,9 @@ export default defineConfig({
 
 ## 🧩 src/main.tsx
 ```tsx
+// src/main.tsx
+// ✅ Root app entry with ThemeProvider, Router, Suspense fallback, and strict mode
+
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
@@ -319,18 +322,21 @@ const RootApp: React.FC = () => (
   </React.StrictMode>
 )
 
-const root = document.getElementById('root')
+const rootElement = document.getElementById('root')
 
-if (!root) {
+if (!rootElement) {
   console.error('❌ <div id="root"> not found')
 } else {
-  ReactDOM.createRoot(root).render(<RootApp />)
+  ReactDOM.createRoot(rootElement).render(<RootApp />)
 }
 
 export default RootApp```
 
 ## 🧩 src/routes/AppRoutes.tsx
 ```tsx
+// src/routes/AppRoutes.tsx
+// ✅ Centralized route config with theme props and protected nested routes
+
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 
@@ -352,9 +358,9 @@ const AppRoutes: React.FC = () => {
       <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
       <Route path="/login" element={<LoginPage />} />
       <Route element={<ProtectedRoute />}>
-        <Route path="/secret" element={<SecretRoomPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/customer-assessment-summary" element={<CustomerAssessmentSummary />} />
+        <Route path="secret" element={<SecretRoomPage />} />
+        <Route path="admin" element={<AdminPage />} />
+        <Route path="customer-assessment-summary" element={<CustomerAssessmentSummary />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
@@ -577,6 +583,7 @@ export default AdminPage```
 │   ├── Layout
 │   │   └── MainLayout.tsx
 │   ├── LoadingSpinner.tsx
+│   ├── NotificationBanner.tsx
 │   ├── ProtectedRoute.tsx
 │   ├── ResponsiveNavbar.tsx
 │   ├── ReviewsSection.tsx
@@ -597,15 +604,25 @@ export default AdminPage```
 │   ├── StatsPanel.tsx
 │   ├── ThemeProvider.tsx
 │   ├── common
+│   │   ├── Badge.tsx
+│   │   ├── Button.tsx
+│   │   ├── ErrorMessage.tsx
 │   │   ├── FormGroup.tsx
 │   │   ├── Icon.tsx
+│   │   ├── LoadingSpinner.tsx
 │   │   ├── Modal.tsx
+│   │   ├── SectionHeader.tsx
 │   │   └── ServiceRequestModal.tsx
-│   └── contact
-│       ├── ContactCard.tsx
-│       ├── ContactIconButton.tsx
-│       ├── ContactList.tsx
-│       └── index.ts
+│   ├── contact
+│   │   ├── ContactCard.tsx
+│   │   ├── ContactIconButton.tsx
+│   │   ├── ContactList.tsx
+│   │   └── index.ts
+│   └── ui
+│       ├── Accordion.tsx
+│       ├── Modal.tsx
+│       ├── Tabs.tsx
+│       └── Tooltip.tsx
 ├── config
 │   ├── adminConfig.ts
 │   ├── contact.ts
@@ -640,7 +657,7 @@ export default AdminPage```
 └── utils
     └── hashPassword.ts
 
-16 directories, 76 files
+17 directories, 86 files
 ```
 
 ## 📌 Dev Partner Note
@@ -659,4 +676,4 @@ JP - VISUAL & DOCS
 📂 โครงสร้างทั้งหมดแนบไว้ใน Report นี้แล้ว  
 🧠 เข้าใจบริบทแล้ว พร้อมรับคำสั่งถัดไปได้เลย
 
-🕛 Last Checked: Wed Jul 23 10:49:38 +07 2025
+🕛 Last Checked: Wed Jul 23 11:15:58 +07 2025

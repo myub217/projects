@@ -13,9 +13,14 @@
   --color-muted: #6b7280;
   --color-primary: #2563eb;
   --color-primary-light: #3b82f6;
+  --color-primary-dark: #1e3a8a;
   --color-primary-contrast: #ffffff;
   --color-accent: #f59e0b;
   --color-border: #e5e7eb;
+  --color-success: #10b981;
+  --color-warning: #fbbf24;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
 }
 
 /* ==================== 🔹 TAILWIND DIRECTIVES ==================== */
@@ -29,17 +34,24 @@ body {
   @apply bg-base-100 text-base text-foreground antialiased m-0 p-0 transition-colors duration-300;
   background-color: var(--color-bg);
   color: var(--color-text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   @apply text-primary font-bold leading-snug tracking-tight;
   color: var(--color-text);
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  scroll-margin-top: 1.5rem;
 }
 
 p {
   @apply text-base leading-relaxed text-gray-700 dark:text-gray-300;
   margin-bottom: 1rem;
+  line-height: 1.6;
 }
 
 small {
@@ -50,12 +62,18 @@ small {
 a {
   @apply text-primary hover:underline transition-colors duration-200;
   color: var(--color-primary);
+  cursor: pointer;
 }
 
 button {
   @apply font-medium rounded-lg px-5 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition duration-150 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed;
   background-color: var(--color-primary);
   color: var(--color-primary-contrast);
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  background-color: var(--color-primary-light);
 }
 
 /* ==================== 🔹 FORM ELEMENTS ==================== */
@@ -63,6 +81,7 @@ input, select, textarea {
   @apply w-full border border-border rounded-md px-4 py-2 text-sm text-foreground bg-white dark:bg-base-100 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition;
   background-color: var(--color-surface);
   color: var(--color-text);
+  resize: vertical;
 }
 
 label {
@@ -74,14 +93,17 @@ label {
   @apply rounded-2xl bg-white dark:bg-base-200 shadow-lg p-6 transition-all duration-300 ease-in-out;
   background-color: var(--color-surface);
   color: var(--color-text);
+  border: 1px solid var(--color-border);
 }
 .card:hover {
-  @apply shadow-xl;
+  @apply shadow-xl border-primary;
+  border-color: var(--color-primary);
 }
 
 /* ==================== 🔹 CONTAINER / SECTION ==================== */
 .container {
   @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  width: 100%;
 }
 
 .section {
@@ -132,12 +154,14 @@ label {
   @apply bg-primary text-white hover:bg-primary/90;
   background-color: var(--color-primary);
   color: var(--color-primary-contrast);
+  cursor: pointer;
 }
 
 .btn-outline {
   @apply border border-primary text-primary hover:bg-primary hover:text-white;
   border-color: var(--color-primary);
   color: var(--color-primary);
+  cursor: pointer;
 }
 
 /* ==================== 🔹 ANIMATIONS ==================== */
@@ -199,4 +223,5 @@ input:disabled,
 select:disabled,
 textarea:disabled {
   @apply opacity-50 cursor-not-allowed;
+  pointer-events: none;
 }

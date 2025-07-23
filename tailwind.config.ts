@@ -1,4 +1,3 @@
-// tailwind.config.ts
 import type { Config } from 'tailwindcss'
 import typography from '@tailwindcss/typography'
 import daisyui from 'daisyui'
@@ -11,6 +10,7 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     extend: {
+      // Responsive breakpoints
       screens: {
         xs: '360px',
         sm: '640px',
@@ -19,15 +19,18 @@ const config: Config = {
         xl: '1280px',
         '2xl': '1536px',
       },
+      // Custom spacing scale
       spacing: {
         128: '32rem',
         144: '36rem',
         160: '40rem',
       },
+      // Max width scale extension
       maxWidth: {
         '8xl': '90rem',
         '9xl': '110rem',
       },
+      // Extended z-index scale
       zIndex: {
         '-1': '-1',
         60: '60',
@@ -38,6 +41,7 @@ const config: Config = {
         110: '110',
         120: '120',
       },
+      // Color palette with light/dark variations
       colors: {
         background: {
           DEFAULT: '#ffffff',
@@ -79,15 +83,18 @@ const config: Config = {
           light: '#bfdbfe',
         },
       },
+      // Background gradients for branding
       backgroundImage: {
         'business-gradient': 'linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%)',
         'business-dark-gradient': 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
       },
+      // Font families
       fontFamily: {
         body: ['Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
         heading: ['Playfair Display', 'Georgia', 'serif'],
         code: ['Fira Code', 'Menlo', 'Monaco', 'monospace'],
       },
+      // Font sizes with line heights
       fontSize: {
         xs: ['0.75rem', { lineHeight: '1rem' }],
         sm: ['0.875rem', { lineHeight: '1.375rem' }],
@@ -99,21 +106,25 @@ const config: Config = {
         '4xl': ['2.25rem', { lineHeight: '2.75rem' }],
         '5xl': ['3rem', { lineHeight: '1' }],
       },
+      // Shadows for different UI depths
       boxShadow: {
         soft: '0 4px 12px rgba(59, 130, 246, 0.2)',
         medium: '0 8px 24px rgba(59, 130, 246, 0.25)',
         dark: '0 12px 32px rgba(17, 24, 39, 0.8)',
       },
+      // Custom transition properties
       transitionProperty: {
         colors: 'background-color, border-color, color, fill, stroke',
         shadow: 'box-shadow',
         transform: 'transform',
       },
+      // Animations for UI
       animation: {
         fadeIn: 'fadeIn 0.6s ease-in forwards',
         slideUp: 'slideUp 0.6s ease-out forwards',
         bounceSlow: 'bounce 2.5s infinite',
       },
+      // Keyframes for custom animations
       keyframes: {
         fadeIn: {
           from: { opacity: '0' },
@@ -126,7 +137,10 @@ const config: Config = {
       },
     },
   },
-  plugins: [typography, daisyui],
+  plugins: [
+    typography,
+    daisyui,
+  ],
   daisyui: {
     themes: [
       {

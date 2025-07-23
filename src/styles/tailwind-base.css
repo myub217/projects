@@ -2,6 +2,23 @@
 @tailwind base;
 
 @layer base {
+  :root {
+    /* CSS Variables for theme colors and fonts */
+    --font-body: 'Inter', sans-serif;
+    --font-heading: 'Playfair Display', serif;
+    --color-bg: #ffffff;
+    --color-text: #1f2937;
+    --color-primary: #3b82f6;
+    --color-primary-light: #60a5fa;
+    --color-primary-dark: #2563eb;
+    --color-primary-contrastText: #ffffff;
+    --color-accent: #f97316;
+    --color-accent-hover: #ea580c;
+    --color-background: #ffffff;
+    --color-foreground: #1f2937;
+    --color-text-muted: #6b7280;
+  }
+
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
@@ -27,7 +44,7 @@
     margin-top: 0;
     margin-bottom: 0.5rem;
     line-height: 1.25;
-    scroll-margin-top: 1.5rem; /* improve anchor link offset */
+    scroll-margin-top: 1.5rem; /* Anchor offset */
   }
 
   p + p {
@@ -63,7 +80,7 @@
     @apply opacity-50 cursor-not-allowed;
   }
 
-  /* Reset for form elements for consistency */
+  /* Reset form elements for consistent styles */
   input,
   textarea,
   select,
@@ -71,5 +88,20 @@
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus,
+  button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+    border-color: var(--color-primary);
   }
 }
