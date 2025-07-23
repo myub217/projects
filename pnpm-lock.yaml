@@ -123,8 +123,8 @@ importers:
         specifier: ^4.7.0
         version: 4.7.0(vite@7.0.5)
       husky:
-        specifier: ^9.1.7
-        version: 9.1.7
+        specifier: ^8.0.0
+        version: 8.0.0
       lint-staged:
         specifier: ^16.1.2
         version: 16.1.2
@@ -5007,12 +5007,12 @@ packages:
     dev: false
     optional: true
 
-  /husky@9.1.7:
+  /husky@8.0.0:
     resolution:
       {
-        integrity: sha512-5gs5ytaNjBrh5Ow3zrvdUUY+0VxIuWVL4i9irt6friV+BqdCfmV11CQTWMiBYWHbXhco+J1kHfTOUkePhCDvMA==,
+        integrity: sha512-4qbE/5dzNDNxFEkX9MNRPKl5+omTXQzdILCUWiqG/lWIAioiM5vln265/l6I2Zx8gpW8l1ukZwGQeCFbBZ6+6w==,
       }
-    engines: { node: '>=18' }
+    engines: { node: '>=14' }
     hasBin: true
     dev: true
 
