@@ -20,10 +20,10 @@ const AdminDashboard: React.FC = () => {
     <main
       role="main"
       aria-label="แดชบอร์ดผู้ดูแลระบบ"
-      className="mx-auto min-h-screen max-w-7xl space-y-20 rounded-3xl bg-base-100 p-10 text-base-content shadow-xl"
+      className="mx-auto min-h-screen max-w-7xl space-y-20 rounded-3xl bg-base-100 p-10 text-base-content shadow-xl print:bg-white print:shadow-none"
     >
       {/* Header */}
-      <header className="mb-10 text-center">
+      <header className="mb-10 text-center print:hidden">
         <h1 className="text-5xl font-extrabold text-primary">แดชบอร์ดผู้ดูแลระบบ</h1>
         <p className="mx-auto mt-4 max-w-4xl text-lg text-muted sm:text-xl">
           จัดการข้อมูลและดูสถิติที่สำคัญแบบเรียลไทม์เพื่อเพิ่มประสิทธิภาพการทำงาน
@@ -31,7 +31,11 @@ const AdminDashboard: React.FC = () => {
       </header>
 
       {/* Stats Section */}
-      <section role="region" aria-labelledby="stats-panel-heading" className="space-y-10">
+      <section
+        role="region"
+        aria-labelledby="stats-panel-heading"
+        className="space-y-10 print:hidden"
+      >
         <h2 id="stats-panel-heading" className="sr-only">
           สถิติโดยรวม
         </h2>
@@ -39,7 +43,11 @@ const AdminDashboard: React.FC = () => {
       </section>
 
       {/* Customer Highlight Section */}
-      <section role="region" aria-labelledby="customer-card-heading" className="space-y-8">
+      <section
+        role="region"
+        aria-labelledby="customer-card-heading"
+        className="space-y-8 print:hidden"
+      >
         <h2 id="customer-card-heading" className="text-2xl font-bold text-primary">
           ลูกค้าเด่นประจำวัน
         </h2>
@@ -56,7 +64,11 @@ const AdminDashboard: React.FC = () => {
       </section>
 
       {/* User Table Section */}
-      <section role="region" aria-labelledby="user-table-heading" className="space-y-8">
+      <section
+        role="region"
+        aria-labelledby="user-table-heading"
+        className="space-y-8 print:hidden"
+      >
         <h2 id="user-table-heading" className="text-2xl font-bold text-primary">
           รายชื่อผู้ใช้งานในระบบ
         </h2>

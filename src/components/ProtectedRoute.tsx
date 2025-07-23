@@ -16,7 +16,8 @@ const ProtectedRoute: React.FC = () => {
   try {
     user = localStorage.getItem('loggedInUser')?.trim() || null
     role = localStorage.getItem('userRole')?.trim() || null
-  } catch {
+  } catch (e) {
+    console.error('🔐 Error accessing localStorage:', e)
     user = null
     role = null
   }

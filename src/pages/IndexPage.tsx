@@ -14,6 +14,7 @@ import CTASection from '@components/CTASection'
 import Footer from '@components/Footer'
 import ServiceRequestModal from '@components/common/ServiceRequestModal'
 import NotificationBanner from '@components/NotificationBanner'
+import Button from '@components/common/Button' // <-- เรียกใช้ Button จาก common
 import { Check } from 'lucide-react'
 
 interface IndexPageProps {

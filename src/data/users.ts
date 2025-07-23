@@ -57,3 +57,18 @@ export const users: Record<string, User> = {
     role: 'user',
   },
 }
+
+/* 
+🔐 LINE Official Account / LIFF Settings
+==========================================
+
+VITE_LINE_LIFF_ID=462fqtfc
+VITE_LINE_OA_URL=https://lin.ee/BTTcGDx
+VITE_LINE_MANAGER_INVITE=https://manager.line.biz/invitation/V6SNepg1Q17MLT0V82KeWYegeXCfW0
+*/
+
+export const envConfig = {
+  LINE_LIFF_ID: import.meta.env.VITE_LINE_LIFF_ID ?? '',
+  LINE_OA_URL: import.meta.env.VITE_LINE_OA_URL ?? '',
+  LINE_MANAGER_INVITE: import.meta.env.VITE_LINE_MANAGER_INVITE ?? '',
+}

@@ -26,12 +26,12 @@ const Tabs: React.FC<TabsProps> = ({
   panelClassName = '',
 }) => {
   const [activeIndex, setActiveIndex] = useState(() => {
-    // fallback defaultIndex if disabled
     if (tabs[defaultIndex]?.disabled) {
       return tabs.findIndex(t => !t.disabled) ?? 0
     }
     return defaultIndex
   })
+
   const idPrefix = useId()
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([])
 
@@ -72,7 +72,6 @@ const Tabs: React.FC<TabsProps> = ({
     focusTab(nextIndex)
   }
 
-  // Ensure activeIndex is valid if tabs prop changes dynamically
   useEffect(() => {
     if (tabs[activeIndex]?.disabled) {
       const firstEnabled = tabs.findIndex(t => !t.disabled)

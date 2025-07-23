@@ -25,7 +25,6 @@ const Modal: React.FC<ModalProps> = ({
   const modalRef = useRef<HTMLDivElement>(null)
   const lastFocusedElement = useRef<HTMLElement | null>(null)
 
-  // Handle ESC key to close modal & trap focus within modal
   useEffect(() => {
     if (!open) return
 
@@ -65,7 +64,6 @@ const Modal: React.FC<ModalProps> = ({
     return () => window.removeEventListener('keydown', handleKey)
   }, [open, onClose])
 
-  // Save last focused element, focus modal on open, restore on close, lock scroll
   useEffect(() => {
     if (open) {
       lastFocusedElement.current = document.activeElement as HTMLElement | null
@@ -79,7 +77,6 @@ const Modal: React.FC<ModalProps> = ({
     }
   }, [open])
 
-  // Close modal on backdrop click
   const onBackdropClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (e.target === e.currentTarget) onClose()

@@ -61,13 +61,13 @@ const Tooltip: React.FC<TooltipProps> = ({
         id={idRef.current}
         role="tooltip"
         aria-live="polite"
+        aria-hidden={!visible}
         className={clsx(
           'pointer-events-none absolute z-50 whitespace-nowrap rounded-md bg-gray-800 px-2 py-1 text-xs text-white shadow-md transition-opacity duration-200',
           visible ? 'opacity-100' : 'opacity-0',
           positionStyles[position],
           className
         )}
-        aria-hidden={!visible}
       >
         {content}
       </div>
