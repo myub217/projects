@@ -3,6 +3,11 @@
 
 export type Theme = 'light' | 'dark'
 
+export const THEMES: Record<Theme, Theme> = {
+  light: 'light',
+  dark: 'dark',
+}
+
 const STORAGE_KEY = 'app-theme'
 
 /**

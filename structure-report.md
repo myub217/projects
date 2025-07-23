@@ -3,23 +3,26 @@
 📁 **Project Root Directory:** `/data/data/com.termux/files/home/projects`
 
 ## 📂 Required Directories
-| Directory           | Status |
-|---------------------|--------|
-| `src/` | ✅ Found |
-| `public/` | ✅ Found |
-| `api/` | ✅ Found |
+
+| Directory         | Status   |
+| ----------------- | -------- |
+| `src/`            | ✅ Found |
+| `public/`         | ✅ Found |
+| `api/`            | ✅ Found |
 | `src/components/` | ✅ Found |
-| `node_modules/` | ✅ Found |
+| `node_modules/`   | ✅ Found |
 
 ## 📄 Required Files
-| File               | Status |
-|--------------------|--------|
-| `package.json` | ✅ Found |
+
+| File             | Status   |
+| ---------------- | -------- |
+| `package.json`   | ✅ Found |
 | `vite.config.ts` | ✅ Found |
-| `.env` | ✅ Found |
-| `README.md` | ✅ Found |
+| `.env`           | ✅ Found |
+| `README.md`      | ✅ Found |
 
 ## 🎨 tailwind.config.ts
+
 ```ts
 import type { Config } from 'tailwindcss'
 import typography from '@tailwindcss/typography'
@@ -191,6 +194,7 @@ export default config
 ```
 
 ## ⚙️ vite.config.ts
+
 ```ts
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -308,6 +312,7 @@ export default defineConfig({
 ```
 
 ## 🧩 .prettierrc
+
 ```json
 {
   "semi": false,
@@ -324,8 +329,8 @@ export default defineConfig({
 }
 ```
 
-
 ## 🧩 src/main.tsx
+
 ```tsx
 // src/main.tsx
 // ✅ Root app entry with ThemeProvider, Router, Suspense fallback, and strict mode
@@ -367,6 +372,7 @@ export default RootApp
 ```
 
 ## 🧩 src/routes/AppRoutes.tsx
+
 ```tsx
 // src/routes/AppRoutes.tsx
 // Centralized, scalable routing with theme props, protected nested routes, and lazy loading
@@ -414,6 +420,7 @@ export default AppRoutes
 ```
 
 ## 🧩 src/pages/SecretRoomPage.tsx
+
 ```tsx
 // src/pages/SecretRoomPage.tsx
 // Secure dashboard page with theme toggle, user greeting, full accessibility, and clean responsive layout
@@ -502,6 +509,7 @@ export default SecretRoomPage
 ```
 
 ## 🧩 src/pages/AdminPage.tsx
+
 ```tsx
 // src/pages/AdminPage.tsx
 // แผงควบคุมผู้ดูแลระบบ พร้อมต้อนรับผู้ใช้และแสดงแดชบอร์ดอย่างมีประสิทธิภาพ
@@ -560,9 +568,10 @@ export default AdminPage
 ```
 
 ## 🗂️ Project Tree: Full
+
 ```
 /data/data/com.termux/files/home/projects
-├──  
+├──
 │   └── types
 │       └── connect-history-api-fallback.d.ts
 ├── Clean.sh
@@ -818,6 +827,7 @@ export default AdminPage
 ```
 
 ## 📁 src Tree: Full
+
 ```
 /data/data/com.termux/files/home/projects/src
 ├── api
@@ -943,6 +953,7 @@ export default AdminPage
 ## 📌 Dev Partner Note
 
 คุณคือ Dev Partner ที่พัฒนาร่วมในโปรเจกต์นี้ โดยมีหน้าที่หลัก:
+
 - แก้ไข/ออกแบบโค้ดให้สอดคล้องกับ UI/UX, Business Logic และระบบ Responsive
 - ทุก Component ต้อง Import ให้ถูกต้อง, รองรับ Desktop & Mobile
 - แก้ปัญหาทันที ไม่อธิบายเยิ่นเย้อ
@@ -956,29 +967,35 @@ Project structure and core config check complete.
 
 All required folders & files verified ✅
 Tailwind config extended with:
+
 - responsive breakpoints
 - colors (light/dark)
 - fonts, animations, shadows
 - daisyUI themes customized
 
 Vite config:
+
 - React + PWA with InjectManifest SW
 - Static copy plugin for images
 - Dev server with mock API & proxy setup
 - Path aliases all mapped correctly
 
 Core entry (main.tsx):
+
 - ThemeProvider, Router, Suspense fallback, strict mode enabled
 
 Routing (AppRoutes):
+
 - Protected routes properly wrapped
 - Theme context passed down
 
 Pages:
+
 - SecretRoom & AdminPage clean, accessible, stateful
 - Theme toggle & user session handled
 
 File tree:
+
 - Modular, logical components structure
 - Separate admin, secret room, common UI & api layers
 
