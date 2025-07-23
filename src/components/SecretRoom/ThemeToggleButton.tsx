@@ -1,6 +1,3 @@
-// src/components/SecretRoom/ThemeToggleButton.tsx
-// Accessible theme toggle button with SVG icons and keyboard focus styles
-
 import React from 'react'
 
 interface ThemeToggleButtonProps {

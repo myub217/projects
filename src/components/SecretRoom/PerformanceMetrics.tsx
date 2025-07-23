@@ -1,5 +1,5 @@
 // src/components/SecretRoom/PerformanceMetrics.tsx
-// Responsive performance metrics grid with icons, colors, accessibility, and hover effects
+// ✅ แสดงสถิติประสิทธิภาพระบบในรูปแบบการ์ดที่เข้าถึงง่าย รองรับ keyboard focus และสีสวยงาม
 
 import React from 'react'
 import { CpuIcon, GaugeIcon, HardDriveIcon, ActivityIcon } from 'lucide-react'
@@ -52,10 +52,10 @@ const PerformanceMetrics: React.FC = () => {
       {metrics.map(({ id, label, value, icon, color }) => (
         <article
           key={id}
-          className="rounded-xl bg-base-200 p-5 shadow outline-none transition-shadow duration-200 focus-within:shadow-lg hover:shadow-lg dark:bg-zinc-800"
           tabIndex={0}
-          aria-label={`${label}: ${value}`}
           role="region"
+          aria-label={`${label}: ${value}`}
+          className="rounded-xl bg-base-200 p-5 shadow outline-none transition-shadow duration-200 focus-within:shadow-lg hover:shadow-lg dark:bg-zinc-800"
         >
           <div className={`mb-2 flex items-center gap-3 ${color}`} aria-hidden="true">
             {icon}

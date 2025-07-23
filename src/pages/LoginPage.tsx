@@ -1,10 +1,11 @@
 // src/pages/LoginPage.tsx
-// ✅ Secure Login with password hashing, role-based routing, and improved accessibility & UX
+// ✅ Secure Login with password hashing, role-based routing, and improved accessibility & UX, with warning image
 
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { users } from '@data/users'
 import { hashPassword } from '@utils/hashPassword'
+import warningImage from '@/assets/login.webp'
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate()
@@ -76,10 +77,16 @@ const LoginPage: React.FC = () => {
           <div
             role="alert"
             aria-live="assertive"
-            className="text-center text-sm font-semibold text-error"
+            className="flex flex-col items-center gap-3 rounded border border-error bg-error/10 p-4 text-center text-sm font-semibold text-error"
             tabIndex={-1}
           >
-            {error}
+            <img
+              src={warningImage}
+              alt="คำเตือนการเข้าสู่ระบบ"
+              className="mx-auto max-h-20 object-contain"
+              aria-hidden="true"
+            />
+            <span>{error}</span>
           </div>
         )}
 

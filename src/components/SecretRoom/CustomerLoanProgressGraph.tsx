@@ -1,5 +1,5 @@
 // src/components/SecretRoom/CustomerLoanProgressGraph.tsx
-// Bar chart showing loan approval status per bank with smooth animation, clear labels, and accessible colors
+// ✅ กราฟแสดงสถานะสินเชื่อของลูกค้ารายบุคคล พร้อมอนิเมชัน ละเอียด ชัดเจน ใช้งานได้จริง
 
 import React, { useEffect, useRef } from 'react'
 import Chart from 'chart.js/auto'
@@ -8,7 +8,7 @@ const CustomerLoanProgressGraph: React.FC = () => {
   const chartRef = useRef<HTMLCanvasElement>(null)
   const chartInstanceRef = useRef<Chart | null>(null)
 
-  // ---- Config ----
+  // เป้าหมายวงเงิน 6 ล้านบาทต่อธนาคาร
   const goal = 6_000_000
   const uobPercent = 85
   const tmbPercent = 85
@@ -19,15 +19,13 @@ const CustomerLoanProgressGraph: React.FC = () => {
   const remaining = Math.max(goal * 2 - totalApproved, 0)
 
   const banks = [
-    { name: 'UOB', amount: uobApproved, color: '#0284c7' }, // blue-600
-    { name: 'TMB', amount: tmbApproved, color: '#16a34a' }, // green-600
-    { name: 'KTB (รอผล)', amount: remaining, color: '#f59e0b' }, // amber-500
+    { name: 'UOB', amount: uobApproved, color: '#0284c7' },
+    { name: 'TMB', amount: tmbApproved, color: '#16a34a' },
+    { name: 'KTB (รอผล)', amount: remaining, color: '#f59e0b' },
   ]
 
-  // ---- Chart Render ----
   useEffect(() => {
-    if (!chartRef.current) return
-    const ctx = chartRef.current.getContext('2d')
+    const ctx = chartRef.current?.getContext('2d')
     if (!ctx) return
 
     chartInstanceRef.current?.destroy()
@@ -55,23 +53,23 @@ const CustomerLoanProgressGraph: React.FC = () => {
         plugins: {
           title: {
             display: true,
-            text: `📊 สถานะสินเชื่อ: Parinya`,
-            color: '#1e293b', // slate-800
+            text: '📊 สถานะสินเชื่อ: Parinya',
+            color: '#1e293b',
             font: { size: 20, weight: 'bold' },
             padding: { bottom: 8 },
           },
           subtitle: {
             display: true,
-            text: `เป้าหมาย: ${goal.toLocaleString()} บาท/ธนาคาร | อนุมัติแล้ว: UOB ${uobApproved.toLocaleString()} (${uobPercent}%), TMB ${tmbApproved.toLocaleString()} (${tmbPercent}%)`,
-            color: '#475569', // slate-600
+            text: `เป้าหมาย: ${goal.toLocaleString()} บาท/ธนาคาร | UOB ${uobApproved.toLocaleString()} (${uobPercent}%) | TMB ${tmbApproved.toLocaleString()} (${tmbPercent}%)`,
+            color: '#475569',
             font: { size: 14, style: 'italic' },
             padding: { bottom: 12 },
           },
           tooltip: {
-            backgroundColor: '#f9fafb', // gray-50
-            titleColor: '#0f172a', // slate-900
-            bodyColor: '#1f2937', // slate-800
-            borderColor: '#e2e8f0', // slate-200
+            backgroundColor: '#f9fafb',
+            titleColor: '#0f172a',
+            bodyColor: '#1f2937',
+            borderColor: '#e2e8f0',
             borderWidth: 1,
             callbacks: {
               label: ctx => ` ${ctx.label}: ${Number(ctx.formattedValue).toLocaleString()} บาท`,
@@ -84,10 +82,10 @@ const CustomerLoanProgressGraph: React.FC = () => {
             title: {
               display: true,
               text: 'ธนาคาร',
-              color: '#334155', // slate-700
+              color: '#334155',
               font: { size: 14, weight: 'bold' },
             },
-            ticks: { color: '#475569' }, // slate-600
+            ticks: { color: '#475569' },
             grid: { display: false },
           },
           y: {
@@ -96,15 +94,15 @@ const CustomerLoanProgressGraph: React.FC = () => {
             title: {
               display: true,
               text: 'จำนวนเงิน (บาท)',
-              color: '#334155', // slate-700
+              color: '#334155',
               font: { size: 14, weight: 'bold' },
             },
             ticks: {
-              color: '#475569', // slate-600
+              color: '#475569',
               callback: val => `${(+val).toLocaleString()} บาท`,
             },
             grid: {
-              color: '#f1f5f9', // slate-100
+              color: '#f1f5f9',
               borderDash: [4, 4],
             },
           },
@@ -118,7 +116,6 @@ const CustomerLoanProgressGraph: React.FC = () => {
       },
     })
 
-    // Cleanup on unmount
     return () => {
       chartInstanceRef.current?.destroy()
       chartInstanceRef.current = null

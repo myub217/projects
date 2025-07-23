@@ -1,5 +1,5 @@
 // src/components/SecretRoom/HelpSupport.tsx
-// Clean, accessible support section with contact options, icons, and responsive layout
+// ✅ คอมโพเนนต์ศูนย์ช่วยเหลือ: รวมการติดต่อผ่าน LINE และอีเมล พร้อมไอคอนและดีไซน์รองรับ Dark Mode + Accessiblity
 
 import React from 'react'
 import { LifeBuoyIcon, MailIcon, MessageCircleIcon } from 'lucide-react'

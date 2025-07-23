@@ -11,10 +11,16 @@ const SettingsPage: React.FC = () => {
   const [email, setEmail] = useState('')
   const [statusMsg, setStatusMsg] = useState<string | null>(null)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [initialUsername, setInitialUsername] = useState('')
+  const [initialEmail, setInitialEmail] = useState('')
 
   useEffect(() => {
-    setUsername(localStorage.getItem('loggedInUser')?.trim() ?? '')
-    setEmail(localStorage.getItem('userEmail')?.trim() ?? '')
+    const storedUser = localStorage.getItem('loggedInUser')?.trim() ?? ''
+    const storedEmail = localStorage.getItem('userEmail')?.trim() ?? ''
+    setUsername(storedUser)
+    setEmail(storedEmail)
+    setInitialUsername(storedUser)
+    setInitialEmail(storedEmail)
   }, [])
 
   const handleSave = useCallback(() => {
@@ -34,7 +40,12 @@ const SettingsPage: React.FC = () => {
     localStorage.setItem('loggedInUser', username.trim())
     localStorage.setItem('userEmail', email.trim())
     setStatusMsg('บันทึกข้อมูลเรียบร้อยแล้ว')
+
+    setInitialUsername(username.trim())
+    setInitialEmail(email.trim())
   }, [username, email])
+
+  const isDirty = username.trim() !== initialUsername || email.trim() !== initialEmail
 
   return (
     <MainLayout className="flex min-h-screen flex-col items-center justify-center px-4 py-12">
@@ -73,6 +84,7 @@ const SettingsPage: React.FC = () => {
             aria-invalid={!!errorMsg}
             aria-describedby={errorMsg ? 'error-message' : undefined}
             autoComplete="username"
+            spellCheck={false}
           />
 
           {/* Email Input */}
@@ -87,11 +99,17 @@ const SettingsPage: React.FC = () => {
             className="input input-bordered w-full"
             autoComplete="email"
             aria-describedby={statusMsg && !errorMsg ? 'status-message' : undefined}
+            spellCheck={false}
           />
 
           {/* Buttons */}
           <div className="mt-6 flex items-center justify-between gap-2">
-            <button type="submit" className="btn btn-primary w-full" aria-label="บันทึกการตั้งค่า">
+            <button
+              type="submit"
+              className="btn btn-primary w-full"
+              aria-label="บันทึกการตั้งค่า"
+              disabled={!isDirty}
+            >
               บันทึก
             </button>
             <button

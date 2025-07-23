@@ -1,5 +1,5 @@
 // src/hooks/useAuth.ts
-// ✅ Custom hook สำหรับจัดการสถานะผู้ใช้ที่เข้าสู่ระบบ พร้อมใช้งานกับ ProtectedRoute
+// ✅ Custom hook สำหรับจัดการสถานะผู้ใช้ที่เข้าสู่ระบบ ใช้คู่กับ ProtectedRoute และระบบ role-based
 
 import { useCallback, useEffect, useState } from 'react'
 
@@ -23,14 +23,14 @@ export function useAuth(): {
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    const storedUser = localStorage.getItem('loggedInUser')
-    const storedRole = localStorage.getItem('userRole') as 'admin' | 'user' | null
+    const storedUser = localStorage.getItem('loggedInUser')?.trim() || null
+    const storedRole = (localStorage.getItem('userRole')?.trim() ?? 'user') as 'admin' | 'user'
 
     if (storedUser) {
       setAuth({
         isAuthenticated: true,
         username: storedUser,
-        role: storedRole === 'admin' || storedRole === 'user' ? storedRole : 'user',
+        role: storedRole,
       })
     }
   }, [])
@@ -38,11 +38,11 @@ export function useAuth(): {
   const login = useCallback((username: string, role: 'admin' | 'user' = 'user') => {
     if (typeof window === 'undefined') return
 
-    localStorage.setItem('loggedInUser', username)
+    localStorage.setItem('loggedInUser', username.trim())
     localStorage.setItem('userRole', role)
     setAuth({
       isAuthenticated: true,
-      username,
+      username: username.trim(),
       role,
     })
   }, [])

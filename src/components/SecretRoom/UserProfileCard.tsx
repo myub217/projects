@@ -1,5 +1,5 @@
 // src/components/SecretRoom/UserProfileCard.tsx
-// User profile card with accessible labels, responsive truncation, and clean styling
+// ✅ คอมโพเนนต์แสดงข้อมูลบัญชีผู้ใช้พร้อมไอคอนและการจัดการข้อความยาว
 
 import React from 'react'
 import { UserIcon } from 'lucide-react'

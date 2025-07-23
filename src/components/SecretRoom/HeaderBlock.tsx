@@ -1,5 +1,5 @@
 // src/components/SecretRoom/HeaderBlock.tsx
-// Accessible header with user greeting, semantic roles, responsive styling, and smooth UX
+// ✅ ส่วนหัวแดชบอร์ดผู้ใช้งาน แสดงชื่อจาก localStorage พร้อมดีไซน์ที่ชัดเจนและรองรับ accessibility
 
 import React, { useEffect, useState } from 'react'
 
@@ -14,7 +14,7 @@ const HeaderBlock: React.FC = () => {
   return (
     <header
       role="banner"
-      aria-label="ส่วนหัวของแดชบอร์ดผู้ใช้งานระบบ"
+      aria-label="แถบหัวข้อห้องลับ"
       className="w-full rounded-xl bg-primary p-6 text-center text-primary-content shadow-lg transition-colors duration-300 sm:p-8"
     >
       <h2 className="text-2xl font-bold leading-tight tracking-wide sm:text-3xl">

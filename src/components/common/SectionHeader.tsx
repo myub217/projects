@@ -29,6 +29,8 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
         },
         className
       )}
+      role="region"
+      aria-label={title}
     >
       <h2 className="text-2xl font-bold tracking-tight text-base-content sm:text-3xl">{title}</h2>
       {subtitle && (

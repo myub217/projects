@@ -1,26 +1,26 @@
 // src/hooks/useOnlineStatus.ts
-// Reliable React hook for tracking online/offline browser status with cleanup
+// ✅ React Hook ตรวจสอบสถานะการเชื่อมต่อออนไลน์/ออฟไลน์ของเบราว์เซอร์ พร้อม cleanup
 
 import { useState, useEffect } from 'react'
 
 export function useOnlineStatus(): boolean {
-  const [isOnline, setIsOnline] = useState<boolean>(() => {
-    if (typeof navigator !== 'undefined' && typeof navigator.onLine === 'boolean') {
-      return navigator.onLine
-    }
-    return true // default assume online if no info
-  })
+  const [isOnline, setIsOnline] = useState<boolean>(
+    () =>
+      typeof navigator !== 'undefined' && typeof navigator.onLine === 'boolean'
+        ? navigator.onLine
+        : true // ✅ fallback: ถือว่าออนไลน์หากไม่สามารถตรวจสอบได้
+  )
 
   useEffect(() => {
-    const updateOnlineStatus = () => setIsOnline(true)
-    const updateOfflineStatus = () => setIsOnline(false)
+    const handleOnline = () => setIsOnline(true)
+    const handleOffline = () => setIsOnline(false)
 
-    window.addEventListener('online', updateOnlineStatus)
-    window.addEventListener('offline', updateOfflineStatus)
+    window.addEventListener('online', handleOnline)
+    window.addEventListener('offline', handleOffline)
 
     return () => {
-      window.removeEventListener('online', updateOnlineStatus)
-      window.removeEventListener('offline', updateOfflineStatus)
+      window.removeEventListener('online', handleOnline)
+      window.removeEventListener('offline', handleOffline)
     }
   }, [])
 

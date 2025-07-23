@@ -1,4 +1,6 @@
 // src/hooks/useLineAuth.ts
+// ✅ Custom Hook สำหรับ LINE Login ด้วย LIFF SDK พร้อมจัดการสถานะ loading/error/profile
+
 import { useEffect, useState } from 'react'
 
 interface LineProfile {
@@ -10,16 +12,16 @@ interface LineProfile {
 
 export const useLineAuth = () => {
   const [profile, setProfile] = useState<LineProfile | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const liff = await import('@line/liff')
-
         const liffId = import.meta.env.VITE_LINE_LIFF_ID
-        if (!liffId) throw new Error('Missing LINE LIFF ID')
+
+        if (!liffId) throw new Error('⛔️ VITE_LINE_LIFF_ID ไม่ได้ระบุไว้')
 
         await liff.default.init({ liffId })
 
@@ -29,7 +31,6 @@ export const useLineAuth = () => {
         }
 
         const userProfile = await liff.default.getProfile()
-
         setProfile({
           userId: userProfile.userId,
           displayName: userProfile.displayName,

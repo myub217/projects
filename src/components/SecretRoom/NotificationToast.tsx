@@ -1,5 +1,5 @@
-// src/components/SecretRoom/NotificationToast.tsx
-// Accessible, styled toast notification with auto-dismiss and manual close
+// src/components/common/NotificationToast.tsx
+// ✅ Toast แจ้งเตือนแบบมี icon, auto dismiss, accessible และรองรับ type หลายแบบ
 
 import React, { useEffect, useRef } from 'react'
 import clsx from 'clsx'

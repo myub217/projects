@@ -196,6 +196,7 @@ export default config
 ## ⚙️ vite.config.ts
 
 ```ts
+// vite.config.ts
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -344,10 +345,12 @@ import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 
+// Global styles
 import '@/styles/tailwind-base.css'
 import '@/styles/tailwind.css'
 import '@/styles/global.css'
 
+// Providers & Routes
 import { ThemeProvider } from '@components/ThemeProvider'
 import AppRoutes from './routes/AppRoutes'
 import LoadingFallback from './routes/LoadingFallback'
@@ -355,7 +358,7 @@ import LoadingFallback from './routes/LoadingFallback'
 const RootApp: React.FC = () => (
   <React.StrictMode>
     <ThemeProvider>
-      <BrowserRouter basename={import.meta.env.BASE_URL ?? '/'}>
+      <BrowserRouter basename={import.meta.env.BASE_URL || '/'}>
         <Suspense fallback={<LoadingFallback />}>
           <AppRoutes />
         </Suspense>
@@ -367,7 +370,7 @@ const RootApp: React.FC = () => (
 const rootElement = document.getElementById('root')
 
 if (!rootElement) {
-  console.error('❌ <div id="root"> not found')
+  console.error('❌ <div id="root"> not found in index.html')
 } else {
   ReactDOM.createRoot(rootElement).render(<RootApp />)
 }
@@ -379,7 +382,7 @@ export default RootApp
 
 ```tsx
 // src/routes/AppRoutes.tsx
-// Centralized, scalable routing with theme props, protected nested routes, and lazy loading
+// ✅ Centralized, scalable routing with theme props, protected nested routes, and lazy loading
 
 import React, { Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
@@ -388,7 +391,7 @@ import ProtectedRoute from '@components/ProtectedRoute'
 import { useTheme } from '@components/ThemeProvider'
 import LoadingFallback from '@components/common/LoadingFallback'
 
-// Lazy load pages for better performance and smaller bundle
+// Lazy loaded pages
 const IndexPage = lazy(() => import('@pages/IndexPage'))
 const LoginPage = lazy(() => import('@pages/LoginPage'))
 const SecretRoomPage = lazy(() => import('@pages/SecretRoomPage'))
@@ -404,16 +407,16 @@ const AppRoutes: React.FC = () => {
       <Routes>
         {/* Public Routes */}
         <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
-        <Route path="login" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
-          <Route path="secret" element={<SecretRoomPage />} />
-          <Route path="admin" element={<AdminPage />} />
-          <Route path="customer-assessment-summary" element={<CustomerAssessmentSummary />} />
+          <Route path="/secret" element={<SecretRoomPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/customer-assessment-summary" element={<CustomerAssessmentSummary />} />
         </Route>
 
-        {/* Fallback for unmatched routes */}
+        {/* 404 fallback */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Suspense>
@@ -575,9 +578,6 @@ export default AdminPage
 
 ```
 /data/data/com.termux/files/home/projects
-├──
-│   └── types
-│       └── connect-history-api-fallback.d.ts
 ├── Clean.sh
 ├── README.md
 ├── api
@@ -589,8 +589,8 @@ export default AdminPage
 │   ├── assets
 │   │   ├── 1hero.webp
 │   │   ├── 2hero.webp
-│   │   ├── AdminPage-D1KV4fpG.js
-│   │   ├── AdminPage-D1KV4fpG.js.map
+│   │   ├── AdminPage-DFp68Zig.js
+│   │   ├── AdminPage-DFp68Zig.js.map
 │   │   ├── CustomerAssessmentSummary-BdOVgZwd.js
 │   │   ├── CustomerAssessmentSummary-BdOVgZwd.js.map
 │   │   ├── Hhero.webp
@@ -606,9 +606,9 @@ export default AdminPage
 │   │   ├── about.webp
 │   │   ├── hero-BRaXPQvd.webp
 │   │   ├── hero.webp
-│   │   ├── index-0dmamzqw.css
-│   │   ├── index-YiVZ2IUk.js
-│   │   ├── index-YiVZ2IUk.js.map
+│   │   ├── index-B-JNwvOM.js
+│   │   ├── index-B-JNwvOM.js.map
+│   │   ├── index-BsFq5mWC.css
 │   │   ├── jp-logo-CH0zBIqT.webp
 │   │   ├── jp-logo.webp
 │   │   ├── logo.svg
@@ -728,6 +728,7 @@ export default AdminPage
 │   │   ├── ErrorBoundary.tsx
 │   │   ├── Feature.tsx
 │   │   ├── Footer.tsx
+│   │   ├── GetFollowers.tsx
 │   │   ├── Header.tsx
 │   │   ├── Hero.tsx
 │   │   ├── Layout
@@ -737,6 +738,7 @@ export default AdminPage
 │   │   ├── ProtectedRoute.tsx
 │   │   ├── ResponsiveNavbar.tsx
 │   │   ├── ReviewsSection.tsx
+│   │   ├── RichMenuSetter.tsx
 │   │   ├── SecretRoom
 │   │   │   ├── AccessLogTable.tsx
 │   │   │   ├── CustomerLoanProgressGraph.tsx
@@ -751,6 +753,7 @@ export default AdminPage
 │   │   │   ├── SystemCheckCard.tsx
 │   │   │   ├── ThemeToggleButton.tsx
 │   │   │   └── UserProfileCard.tsx
+│   │   ├── SendMessage.tsx
 │   │   ├── ServiceCard.tsx
 │   │   ├── ServicesSection.tsx
 │   │   ├── StatsPanel.tsx
@@ -784,6 +787,7 @@ export default AdminPage
 │   ├── config
 │   │   ├── adminConfig.ts
 │   │   ├── contact.ts
+│   │   ├── evn.ts
 │   │   ├── salaryCertificateConfig.ts
 │   │   └── theme.ts
 │   ├── data
@@ -793,6 +797,7 @@ export default AdminPage
 │   │   └── users.ts
 │   ├── hooks
 │   │   ├── useAuth.ts
+│   │   ├── useLineAuth.ts
 │   │   └── useOnlineStatus.ts
 │   ├── main.tsx
 │   ├── pages
@@ -827,7 +832,7 @@ export default AdminPage
 ├── vercel.json
 └── vite.config.ts
 
-38 directories, 214 files
+36 directories, 218 files
 ```
 
 ## 📁 src Tree: Full
@@ -860,6 +865,7 @@ export default AdminPage
 │   ├── ErrorBoundary.tsx
 │   ├── Feature.tsx
 │   ├── Footer.tsx
+│   ├── GetFollowers.tsx
 │   ├── Header.tsx
 │   ├── Hero.tsx
 │   ├── Layout
@@ -869,6 +875,7 @@ export default AdminPage
 │   ├── ProtectedRoute.tsx
 │   ├── ResponsiveNavbar.tsx
 │   ├── ReviewsSection.tsx
+│   ├── RichMenuSetter.tsx
 │   ├── SecretRoom
 │   │   ├── AccessLogTable.tsx
 │   │   ├── CustomerLoanProgressGraph.tsx
@@ -883,6 +890,7 @@ export default AdminPage
 │   │   ├── SystemCheckCard.tsx
 │   │   ├── ThemeToggleButton.tsx
 │   │   └── UserProfileCard.tsx
+│   ├── SendMessage.tsx
 │   ├── ServiceCard.tsx
 │   ├── ServicesSection.tsx
 │   ├── StatsPanel.tsx
@@ -916,6 +924,7 @@ export default AdminPage
 ├── config
 │   ├── adminConfig.ts
 │   ├── contact.ts
+│   ├── evn.ts
 │   ├── salaryCertificateConfig.ts
 │   └── theme.ts
 ├── data
@@ -925,6 +934,7 @@ export default AdminPage
 │   └── users.ts
 ├── hooks
 │   ├── useAuth.ts
+│   ├── useLineAuth.ts
 │   └── useOnlineStatus.ts
 ├── main.tsx
 ├── pages
@@ -953,7 +963,7 @@ export default AdminPage
     ├── formatDate.ts
     └── hashPassword.ts
 
-18 directories, 101 files
+18 directories, 106 files
 ```
 
 ## 📌 Dev Partner Note
@@ -1008,4 +1018,4 @@ File tree:
 Ready for dev or deployment.
 
 Ask next task or specific code/bug fix.
-🕛 Last Checked: Wed Jul 23 22:28:24 +07 2025
+🕛 Last Checked: Thu Jul 24 01:03:18 +07 2025

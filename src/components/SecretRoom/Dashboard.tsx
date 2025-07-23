@@ -1,7 +1,7 @@
 // src/components/SecretRoom/Dashboard.tsx
-// Accessible, responsive dashboard with optimized hooks, semantic roles, consistent styling, maintainability, and online status awareness
+// ✅ Dashboard สำหรับห้องลับ รวมข้อมูลสำคัญและความปลอดภัย พร้อม UX ที่เข้าถึงง่าย
 
-import React, { useCallback, useMemo } from 'react'
+import React from 'react'
 import HeaderBlock from './HeaderBlock'
 import UserProfileCard from './UserProfileCard'
 import NotificationsPanel from './NotificationsPanel'
@@ -11,45 +11,23 @@ import FileUpload from './FileUpload'
 import AccessLogTable from './AccessLogTable'
 import HelpSupport from './HelpSupport'
 import CustomerLoanProgressGraph from './CustomerLoanProgressGraph'
-import { useOnlineStatus } from '@/hooks/useOnlineStatus'
+import { ShieldCheck } from 'lucide-react'
 
-const Dashboard: React.FC = () => {
-  const isOnline = useOnlineStatus()
+interface SecretRoomDashboardProps {
+  username: string
+}
 
-  const username = useMemo(() => {
-    const stored = localStorage.getItem('loggedInUser')
-    return stored?.trim() || 'ไม่ทราบชื่อผู้ใช้'
-  }, [])
-
-  const handleFileSelect = useCallback((files: File | File[]) => {
-    const fileNames = Array.isArray(files) ? files.map(file => file.name).join(', ') : files.name
-    console.log('📁 ไฟล์ที่เลือก:', fileNames)
-    // TODO: Integrate backend upload API here
-  }, [])
-
+const SecretRoomDashboard: React.FC<SecretRoomDashboardProps> = ({ username }) => {
   return (
     <main
       role="main"
-      aria-label="แดชบอร์ดควบคุมระบบ"
+      aria-label="แดชบอร์ดห้องลับ"
       tabIndex={-1}
-      className="mx-auto flex max-w-7xl flex-col gap-12 rounded-2xl bg-base-200 p-6 shadow-xl outline-none transition-shadow duration-300 ease-in-out hover:shadow-2xl focus-visible:ring-2 focus-visible:ring-primary sm:p-8 md:p-10"
+      className="mx-auto flex max-w-7xl flex-col gap-10 rounded-2xl bg-base-200 p-8 shadow-xl transition-shadow hover:shadow-2xl focus-visible:ring-2 focus-visible:ring-primary sm:p-12"
     >
-      {/* Header */}
       <HeaderBlock />
 
-      {/* Online Status Indicator */}
-      <div
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-        className={`select-none self-end rounded-full px-3 py-1 text-sm font-semibold ${
-          isOnline ? 'bg-success text-success-content' : 'bg-error text-error-content'
-        }`}
-      >
-        {isOnline ? 'ออนไลน์' : 'ออฟไลน์'}
-      </div>
-
-      {/* User Profile & Notifications */}
+      {/* ผู้ใช้ + แจ้งเตือน */}
       <section
         aria-label="ข้อมูลผู้ใช้และการแจ้งเตือน"
         className="grid grid-cols-1 gap-6 md:grid-cols-2"
@@ -58,7 +36,7 @@ const Dashboard: React.FC = () => {
         <NotificationsPanel />
       </section>
 
-      {/* System Status & Performance */}
+      {/* สถานะระบบ + ประสิทธิภาพ */}
       <section
         aria-label="สถานะระบบและประสิทธิภาพ"
         className="grid grid-cols-1 gap-6 md:grid-cols-2"
@@ -67,7 +45,7 @@ const Dashboard: React.FC = () => {
         <PerformanceMetrics />
       </section>
 
-      {/* Loan Progress Graph */}
+      {/* กราฟสินเชื่อ */}
       <section
         aria-label="สถานะสินเชื่อ"
         tabIndex={-1}
@@ -76,27 +54,27 @@ const Dashboard: React.FC = () => {
         <CustomerLoanProgressGraph />
       </section>
 
-      {/* File Upload Section */}
+      {/* อัปโหลดเอกสาร */}
       <section
         aria-label="อัปโหลดเอกสาร"
         tabIndex={-1}
         className="dark:border-base-700 mx-auto max-w-lg rounded-xl border border-base-300 bg-base-100 p-6 shadow-inner dark:bg-zinc-800"
       >
         <FileUpload
-          onFileSelect={handleFileSelect}
           accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
           multiple
-          disabled={!isOnline}
-          aria-disabled={!isOnline}
+          disabled={false}
+          aria-disabled={false}
+          onFileSelect={files => {
+            if (!files) return
+            const fileNames = Array.isArray(files) ? files.map(f => f.name).join(', ') : files.name
+            console.log('📁 ไฟล์ที่เลือก:', fileNames)
+            // TODO: เชื่อม API อัปโหลดไฟล์
+          }}
         />
-        {!isOnline && (
-          <p className="mt-2 select-none text-sm text-error" role="alert">
-            ไม่สามารถอัปโหลดเอกสารได้ ขณะออฟไลน์
-          </p>
-        )}
       </section>
 
-      {/* Access Log Table */}
+      {/* Log การใช้งาน */}
       <section
         aria-label="ประวัติการใช้งานระบบ"
         tabIndex={-1}
@@ -105,7 +83,7 @@ const Dashboard: React.FC = () => {
         <AccessLogTable />
       </section>
 
-      {/* Help & Support */}
+      {/* Help Support */}
       <section
         aria-label="ศูนย์ช่วยเหลือและการติดต่อ"
         tabIndex={-1}
@@ -113,8 +91,41 @@ const Dashboard: React.FC = () => {
       >
         <HelpSupport />
       </section>
+
+      {/* Security Note */}
+      <section
+        aria-label="ข้อกำหนดความปลอดภัย"
+        className="space-y-4 rounded-lg border border-warning bg-yellow-100 p-6 text-warning-content shadow-inner dark:border-yellow-600 dark:bg-yellow-900/20"
+      >
+        <div className="flex items-center gap-2 font-semibold text-yellow-800 dark:text-yellow-200">
+          <ShieldCheck className="h-5 w-5 shrink-0" />
+          ระบบออกแบบให้ปลอดภัยทั้งสองฝ่าย
+        </div>
+
+        <div className="space-y-3 text-sm leading-relaxed text-base-content/80 dark:text-zinc-300">
+          <p>
+            <strong className="text-red-500">*</strong>{' '}
+            <span className="font-medium">หมายเหตุ:</span>{' '}
+            รหัสที่คุณได้รับคือกุญแจเข้าถึงระบบทั้งหมด <strong>ใช้เฉพาะคุณเท่านั้น</strong>
+          </p>
+
+          <ul className="ml-4 list-disc space-y-1">
+            <li>ห้ามแชร์ User / Password / IP / Token ให้กับบุคคลอื่น</li>
+            <li>การเข้าระบบจากเครื่องที่ไม่ใช่เครื่องประจำ = บัญชีจะถูกปิดทันที</li>
+            <li>ละเมิดกฎ = การจ้างงานยกเลิกอัตโนมัติ</li>
+          </ul>
+
+          <p className="font-medium">
+            ความลับของคุณจะปลอดภัยหากอยู่กับเรา หากไม่ — เราไม่สามารถรับประกันใด ๆ ได้
+          </p>
+
+          <p className="font-semibold text-base-content/90 dark:text-white">
+            กรุณาเคารพกติกาทั้งสองฝ่าย เพื่อความปลอดภัยของคุณและทีมงาน
+          </p>
+        </div>
+      </section>
     </main>
   )
 }
 
-export default Dashboard
+export default SecretRoomDashboard

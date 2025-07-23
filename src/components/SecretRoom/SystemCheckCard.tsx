@@ -1,5 +1,5 @@
 // src/components/SecretRoom/SystemCheckCard.tsx
-// System health check with online status and LocalStorage availability, accessible and visually clear
+// ✅ คอมโพเนนต์ตรวจสอบสถานะระบบ: การเชื่อมต่ออินเทอร์เน็ตและ LocalStorage พร้อมไอคอนและสถานะสี
 
 import React, { useEffect, useState } from 'react'
 import { FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa'
@@ -84,9 +84,9 @@ const SystemCheckCard: React.FC = () => {
   return (
     <section
       aria-label="สถานะการตรวจสอบระบบ"
-      className="dark:border-base-700 space-y-6 rounded-xl border border-base-300 bg-base-100 p-6 shadow-md transition-shadow duration-200 ease-in-out focus-within:shadow-lg dark:bg-zinc-800"
       tabIndex={-1}
       role="region"
+      className="dark:border-base-700 space-y-6 rounded-xl border border-base-300 bg-base-100 p-6 shadow-md transition-shadow duration-200 ease-in-out focus-within:shadow-lg dark:bg-zinc-800"
     >
       <h3 className="select-none text-xl font-bold text-primary">สถานะระบบ</h3>
       <ul className="grid gap-6 sm:grid-cols-2" role="list">

@@ -1,4 +1,5 @@
 // src/components/SecretRoom/NotificationsPanel.tsx
+// ✅ แสดงรายการแจ้งเตือนแบบ mock พร้อมรองรับไอคอนตามประเภท, Dark mode, semantic และ animation
 
 import React from 'react'
 import { BellIcon, InfoIcon, AlertCircleIcon, CheckCircleIcon } from 'lucide-react'
@@ -34,10 +35,30 @@ const mockNotifications: Notification[] = [
 ]
 
 const iconMap: Record<NotificationType, React.ReactNode> = {
-  info: <InfoIcon className="h-5 w-5 shrink-0 text-blue-500" aria-hidden="true" />,
-  success: <CheckCircleIcon className="h-5 w-5 shrink-0 text-green-500" aria-hidden="true" />,
-  warning: <AlertCircleIcon className="h-5 w-5 shrink-0 text-yellow-500" aria-hidden="true" />,
-  error: <AlertCircleIcon className="h-5 w-5 shrink-0 text-red-500" aria-hidden="true" />,
+  info: (
+    <InfoIcon className="h-5 w-5 shrink-0 text-blue-500" aria-hidden="true" focusable="false" />
+  ),
+  success: (
+    <CheckCircleIcon
+      className="h-5 w-5 shrink-0 text-green-500"
+      aria-hidden="true"
+      focusable="false"
+    />
+  ),
+  warning: (
+    <AlertCircleIcon
+      className="h-5 w-5 shrink-0 text-yellow-500"
+      aria-hidden="true"
+      focusable="false"
+    />
+  ),
+  error: (
+    <AlertCircleIcon
+      className="h-5 w-5 shrink-0 text-red-500"
+      aria-hidden="true"
+      focusable="false"
+    />
+  ),
 }
 
 const NotificationsPanel: React.FC = () => {
@@ -64,9 +85,12 @@ const NotificationsPanel: React.FC = () => {
               {iconMap[notif.type]}
               <div className="flex flex-col">
                 <p className="font-medium text-base-content">{notif.message}</p>
-                <span className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                <time
+                  dateTime={notif.timestamp}
+                  className="mt-1 text-xs text-gray-500 dark:text-gray-400"
+                >
                   {notif.timestamp}
-                </span>
+                </time>
               </div>
             </li>
           ))}

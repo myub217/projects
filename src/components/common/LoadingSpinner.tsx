@@ -17,8 +17,6 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   const isNumberSize = typeof size === 'number'
   const sizeStyle = isNumberSize ? { height: size, width: size } : {}
 
-  // For Tailwind classes, use fixed set; dynamic classes with [] won't work reliably
-  // So if size is string, pass className directly for common sizes ('sm', 'md', 'lg', 'xl')
   const sizeClassMap: Record<string, string> = {
     sm: 'h-6 w-6',
     md: 'h-8 w-8',

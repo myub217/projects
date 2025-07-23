@@ -1,5 +1,5 @@
 // src/components/SecretRoom/AccessLogTable.tsx
-// Accessible, styled access log table with responsive layout and live region for dynamic updates
+// ✅ ตารางบันทึกการเข้าใช้งาน พร้อมโครงสร้าง UI ที่เข้าถึงได้ รองรับ responsive + live update
 
 import React from 'react'
 

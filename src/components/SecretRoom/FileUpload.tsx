@@ -1,5 +1,5 @@
-// src/components/SecretRoom/FileUpload.tsx
-// Accessible file upload component with preview, flexible accept/multiple props, clear UX
+// src/components/common/FileUpload.tsx
+// ✅ คอมโพเนนต์อัปโหลดไฟล์ พร้อมแสดงชื่อไฟล์ที่เลือก รองรับ multiple และ accessibility ครบถ้วน
 
 import React, { useState } from 'react'
 
@@ -7,12 +7,16 @@ interface FileUploadProps {
   onFileSelect: (files: File[] | File | null) => void
   accept?: string
   multiple?: boolean
+  disabled?: boolean
+  'aria-label'?: string
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({
   onFileSelect,
   accept = '*/*',
   multiple = false,
+  disabled = false,
+  'aria-label': ariaLabel = 'อัปโหลดไฟล์',
 }) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
 
@@ -23,6 +27,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       onFileSelect(null)
       return
     }
+
     const filesArray = Array.from(files)
     setSelectedFiles(filesArray)
     onFileSelect(multiple ? filesArray : filesArray[0])
@@ -30,8 +35,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
   return (
     <section
-      aria-label="อัปโหลดเอกสาร"
-      className="mx-auto max-w-md rounded-lg bg-base-200 p-4 shadow-md"
+      aria-label={ariaLabel}
+      className="mx-auto max-w-md rounded-lg bg-base-200 p-4 shadow-md focus-within:ring-2 focus-within:ring-primary"
     >
       <label
         htmlFor="fileUpload"
@@ -45,6 +50,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         type="file"
         accept={accept}
         multiple={multiple}
+        disabled={disabled}
         onChange={handleFileChange}
         className="file-input file-input-bordered w-full"
         aria-describedby="fileHelp"
@@ -58,7 +64,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         aria-atomic="true"
       >
         {selectedFiles.length > 0
-          ? `ไฟล์ที่เลือก: ${selectedFiles.map(f => f.name).join(', ')}`
+          ? `📎 ไฟล์ที่เลือก: ${selectedFiles.map(f => f.name).join(', ')}`
           : 'ยังไม่ได้เลือกไฟล์'}
       </p>
     </section>

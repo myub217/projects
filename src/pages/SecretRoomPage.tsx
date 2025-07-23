@@ -1,82 +1,27 @@
 // src/pages/SecretRoomPage.tsx
-// Secure dashboard page with theme toggle, user greeting, full accessibility, and clean responsive layout
+// ✅ หน้า SecretRoom โหลดชื่อผู้ใช้จาก localStorage และแสดงแดชบอร์ดแบบแยกคอมโพเนนต์
 
-import React, { useEffect, useState, useCallback } from 'react'
-import Dashboard from '@components/SecretRoom/Dashboard'
-import ThemeToggleButton from '@components/SecretRoom/ThemeToggleButton'
-import UserProfileCard from '@components/SecretRoom/UserProfileCard'
-import { THEMES, getInitialTheme, applyTheme } from '@config/theme'
+import React, { useEffect, useState } from 'react'
+import SecretRoomDashboard from '@/components/SecretRoom/Dashboard'
 
 const SecretRoomPage: React.FC = () => {
-  const [username, setUsername] = useState('กำลังโหลด...')
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => getInitialTheme())
+  const [username, setUsername] = useState<string>('ไม่ระบุชื่อผู้ใช้งาน')
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser')?.trim()
-    setUsername(storedUser || 'ไม่ทราบชื่อผู้ใช้')
-
-    applyTheme(theme)
-  }, [theme])
-
-  const toggleTheme = useCallback(() => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark'
-    applyTheme(newTheme)
-    setTheme(newTheme)
-  }, [theme])
+    if (storedUser && storedUser !== '') {
+      setUsername(storedUser)
+    }
+  }, [])
 
   return (
     <main
       role="main"
-      aria-label="แดชบอร์ดระบบรักษาความปลอดภัย"
-      className="relative min-h-screen bg-base-100 px-4 py-16 text-base-content transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
+      aria-label="หน้าหลักห้องลับ"
+      className="min-h-screen bg-base-100 px-4 py-10 sm:px-6 lg:px-8"
+      tabIndex={-1}
     >
-      {/* Theme Toggle Button */}
-      <div className="fixed right-4 top-4 z-50">
-        <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
-      </div>
-
-      {/* Welcome Section */}
-      <section
-        aria-label="ข้อความต้อนรับผู้ใช้งาน"
-        tabIndex={0}
-        aria-live="polite"
-        aria-atomic="true"
-        className="mx-auto max-w-2xl space-y-4 text-center"
-      >
-        <h1
-          className="text-4xl font-extrabold tracking-tight text-primary sm:text-5xl"
-          tabIndex={0}
-        >
-          ยินดีต้อนรับสู่ระบบ
-        </h1>
-        <p className="text-lg leading-relaxed text-base-content/80 sm:text-xl">
-          สวัสดีคุณ{' '}
-          <span
-            className="font-semibold text-secondary underline decoration-secondary/60 underline-offset-4"
-            aria-label={`ชื่อผู้ใช้: ${username}`}
-            tabIndex={0}
-          >
-            {username}
-          </span>{' '}
-          👋
-          <br />
-          คุณเข้าสู่ระบบเรียบร้อยแล้ว
-        </p>
-      </section>
-
-      {/* User Profile Summary */}
-      <section aria-label="สรุปข้อมูลผู้ใช้งาน" className="mx-auto mt-10 max-w-md" tabIndex={-1}>
-        <UserProfileCard username={username} />
-      </section>
-
-      {/* Dashboard Section */}
-      <section
-        aria-label="แดชบอร์ดข้อมูลและระบบ"
-        className="mx-auto mt-12 w-full max-w-7xl rounded-2xl bg-base-200 p-6 shadow-xl outline-none transition-shadow duration-300 focus-within:shadow-2xl hover:shadow-2xl dark:bg-zinc-800 sm:p-10"
-        tabIndex={-1}
-      >
-        <Dashboard />
-      </section>
+      <SecretRoomDashboard username={username} />
     </main>
   )
 }

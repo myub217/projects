@@ -1,5 +1,5 @@
-// src/components/SecretRoom/DashboardCard.tsx
-// Dashboard card with flexible header, dark/light mode, full accessibility, and smooth UI interaction
+// src/components/common/DashboardCard.tsx
+// ✅ คอมโพเนนต์ DashboardCard ใช้สำหรับครอบ Section ย่อยในแดชบอร์ดเพื่อความสม่ำเสมอในการแสดงผล
 
 import React, { ReactNode } from 'react'
 import clsx from 'clsx'
@@ -35,7 +35,8 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
           {headerRight && <div className="ml-4 flex items-center">{headerRight}</div>}
         </header>
       )}
-      <div>{children}</div>
+
+      <div className="space-y-3">{children}</div>
     </section>
   )
 }
