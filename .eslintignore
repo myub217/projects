@@ -1,4 +1,52 @@
+# .eslintignore
+
+# Ignore node modules
 node_modules/
+
+# Ignore build output folders
 dist/
-dev-dist/
-.summary/
+build/
+.vite/
+.next/
+out/
+
+# Ignore environment variable files
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore logs
+*.log
+
+# Ignore cache and temp files
+.cache/
+.temp/
+
+# Ignore Tailwind generated files
+.tailwind/
+
+# Ignore editor folders and files
+.idea/
+.vscode/
+*.swp
+*.bak
+*.tmp
+
+# Ignore test output and coverage
+coverage/
+test-output/
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore other misc files
+*.sqlite
+*.db
+*.zip
+*.tar
+*.tar.gz
+*.7z

@@ -115,4 +115,5 @@ termux-*
 *.tar
 *.tar.gz
 *.7z
-*.bak~
+*~
+*.bak

@@ -70,11 +70,6 @@
       "prettier --write"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "engines": {
     "node": ">=16.0.0"
   }
