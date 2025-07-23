@@ -1,172 +1,154 @@
----
-# 🚀 Modular OnePage
+# 🧩 Modular OnePage – Fullstack Web Project
 
-SPA โปรเจกต์ด้วย **React + TypeScript + Vite + TailwindCSS + DaisyUI + Express + Framer Motion**
----
+## 📌 Overview
 
-## 🔧 เทคโนโลยีหลัก
+Modular OnePage is a scalable, modern fullstack web application optimized for smooth UX and maintainability.
 
-| Stack            | Version |
-| ---------------- | ------- |
-| React            | 18.x    |
-| TypeScript       | 5.x     |
-| Vite             | 7.x     |
-| TailwindCSS      | 3.x     |
-| DaisyUI          | 5.x     |
-| Express (API)    | 5.x     |
-| Framer Motion    | 12.x    |
-| React Router DOM | 6.x     |
-| Lucide React     | latest  |
-| React Icons      | latest  |
-
-> ✅ _React Router DOM ใช้เวอร์ชัน 6.x เพื่อความเสถียรสูงสุดกับ TypeScript_
+- **Frontend:** React 18 + TypeScript + TailwindCSS + DaisyUI  
+- **Routing:** React Router v6  
+- **PDF Tools:** `react-pdf`, `react-dropzone`  
+- **UI/UX:** Headless UI, Heroicons, Framer Motion animations  
+- **PWA Support:** Vite Plugin PWA (Workbox) with offline caching  
+- **Backend:** Express.js (Node.js) with Nodemailer for email handling  
+- **Build Tools:** Vite, TypeScript, PostCSS  
+- **DevOps:** Vercel deployment, Husky + lint-staged pre-commit hooks  
 
 ---
 
-## 📁 โครงสร้างโปรเจกต์ (ย่อ)
+## 📂 Folder Structure
 
-. ├── Clean.sh ├── README.md ├── api/ │ ├── apiAdmin.ts │ └── apiClient.ts ├── dist/ ├── eslint.config.mjs ├── full-setup.sh ├── index.html ├── jest.config.js ├── jest.setup.js ├── node_modules/ ├── package.json ├── src/ │ ├── App.tsx │ ├── main.tsx │ └── components/ │ ├── About.tsx │ ├── Feature.tsx │ ├── AdminBoard/ │ │ ├── Dashboard.tsx │ │ ├── RepoList.tsx │ │ ├── StatsPanel.tsx │ │ └── UserTable.tsx │ └── Features/ │ ├── Feature1.tsx │ ├── Feature2.tsx │ ├── Feature3.tsx │ └── Feature4.tsx ├── tailwind.config.mjs ├── tsconfig.json ├── tsconfig.base.json └── vite.config.mjs
+/projects1 ├── api/                   # Express backend API routes & email logic ├── public/                # Static assets: favicon, robots.txt, manifest, images ├── src/ │   ├── components/        # Reusable UI components (buttons, cards, modals) │   ├── layout/            # Layout components (headers, footers, navbars) │   ├── pages/             # Page-level components (Index, Login, Admin, etc.) │   ├── styles/            # Tailwind config & global CSS overrides │   ├── routes/            # React Router route definitions │   └── main.tsx           # React app entry point ├── .vercel.json           # Vercel SPA fallback & routing config ├── tailwind.config.js     # TailwindCSS configuration ├── postcss.config.js      # PostCSS plugins and setup ├── tsconfig.json          # TypeScript compiler config ├── vite.config.ts         # Vite build & dev server config ├── package.json           # NPM/Yarn/PNPM dependencies & scripts └── README.md              # Project overview & instructions
 
 ---
 
-## ⚙️ ตัวแปรสภาพแวดล้อม (`.env`)
+## 🚀 Getting Started
 
-```env
-PORT=3000
-NODE_ENV=development
+```bash
+# Clone the repository
+git clone https://github.com/myub217/projects.git
 
-VITE_API_BASE_URL=http://localhost:3000/api
-VITE_DEV_SERVER_PORT=5173
-VITE_PREVIEW_SERVER_PORT=4173
+# Change directory
+cd projects
 
-VITE_OPEN_BROWSER=true
-VITE_OPEN_REPORT=true
+# Install dependencies
+pnpm install
 
-VITE_BUILD_OUTDIR=dist
+# Start development server with hot reload
+pnpm dev
 
-> ⚠️ ตัวแปรขึ้นต้นด้วย VITE_ จะถูก inject เข้า client bundle อัตโนมัติ
+# Build production assets
+pnpm build
 
-
+# Preview production build locally
+pnpm preview
 
 
 ---
 
-📦 Scripts สำคัญ (ใน package.json)
+🌐 Vercel Deployment
 
-Command	Description
+Ensure .vercel.json is configured for SPA fallback routing:
 
-pnpm dev	รัน Vite Dev Server (SPA)
-pnpm build	สร้าง Production Build
-pnpm preview	Preview Build ที่สร้าง
-pnpm start:api	รัน Express API Server
-pnpm clean	ล้างไฟล์ Build และ Cache
-pnpm typecheck	ตรวจสอบ TypeScript (no build)
-pnpm lint	รัน ESLint ตรวจ style/code issue
-pnpm check	รวม typecheck + lint ในคำสั่งเดียว
-pnpm analyze	วิเคราะห์ bundle ผ่าน visualizer
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
+
+Deploy using Vercel CLI or GitHub integration:
+
+npx vercel deploy --prod
+
+
+---
+
+🧪 Code Quality & Formatting
+
+Use Husky + lint-staged for pre-commit hooks to auto-format code:
+
+// package.json snippet
+"husky": {
+  "hooks": {
+    "pre-commit": "lint-staged"
+  }
+},
+"lint-staged": {
+  "*.{ts,tsx,js,jsx,json,css,md}": [
+    "prettier --write",
+    "git add"
+  ]
+}
+
+
+---
+
+🗂️ .gitignore Key Entries
+
+# Logs
+*.log
+*.pid
+
+# Build outputs
+dist/
+build/
+.vite/
+node_modules/
+
+# Environment variables & secrets
+.env*
+.env.local
+.env.production.local
+
+# IDE & system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# AI / cache files
+gpt-response.json
+openai_cache/
+
+
+---
+
+💡 Features & Highlights
+
+Full PWA support with offline mode & install prompt
+
+Responsive design optimized for desktop & mobile
+
+Modular architecture for fast feature extension
+
+Secure protected routes & authentication flows
+
+PDF upload, preview, and conversion tools
+
+Express backend with Nodemailer for contact forms
+
+Theming support with DaisyUI (light/dark mode)
 
 
 
 ---
 
-🌙 ฟีเจอร์ Theme & PWA
+📬 Contact
 
-✅ รองรับ Light/Dark mode (เก็บไว้ใน localStorage)
-
-✅ ใช้ DaisyUI theme system (data-theme)
-
-✅ Progressive Web App (PWA) พร้อม icon & auto-update
-
-
-
----
-
-🛠 การใช้งานเบื้องต้น
-
-pnpm install        # ติดตั้ง dependencies
-pnpm dev            # เริ่ม Dev Server (SPA)
-pnpm start:api      # เริ่ม Express API Server
-pnpm build          # สร้าง Production build
-pnpm preview        # เปิด preview แบบ static
-
-
----
-
-🧠 หมายเหตุเพิ่มเติม
-
-ใช้ vite.config.mjs, tailwind.config.mjs แบบ ESM รองรับ dynamic import
-
-โครงสร้างแยก api/, components/, features/ ชัดเจน
-
-รองรับการวิเคราะห์ bundle ด้วย rollup-plugin-visualizer
-
-
-
----
-
-🔧 Setup Script Summary (setup.sh)
-
-#	Task	Command / Fix
-
-1	Node.js Version Check	node -v (>= 18.x)
-2	PNPM Installed	command -v pnpm
-3	Clean Workspace	rm -rf node_modules pnpm-lock.yaml
-4	Install Dependencies	pnpm install
-5	.env File Check	test -f .env
-6	Vite Config Check	vite.config.ts ใช้ defineConfig
-7	Tailwind Config	tailwind.config.js / .mjs
-8	TypeScript Config	tsconfig.json
-9	PostCSS Config	ตรวจ postcss.config.js
-10	Husky Init	pnpm dlx husky install
-11	Script Permission	chmod +x setup.sh
-12	Terminal Prompt	ใช้ read -p สำหรับ interaction
-13	Platform Compatibility	uname -o ตรวจ Linux / Unix / Android
-14	Git Init	git init
-15	Code Format (Prettier)	pnpm format
-16	Lint Code (ESLint)	pnpm lint
-17	Build App	pnpm build
-18	Custom Aliases	alias devmod="pnpm start"
-19	.gitignore Validation	ตรวจ .env, dist, node_modules
-20	Network Check	ping -c1 registry.npmjs.org
-21	Setup Logging	echo "..." >> setup.log
-
-
-
----
-
-📄 License
-
-Private Project — ไม่อนุญาตให้เผยแพร่หรือใช้งานเชิงพาณิชย์
-
-
----
-
-📬 ติดต่อ
-
-Email: myub25217@gmail.com
-
+JP Dev Team
+Email: dev@jpvisual.com
 GitHub: github.com/myub217/projects
 
 
-
 ---
 
-✅ พร้อมใช้งานทันที
+📝 Notes
 
-Format พร้อม deploy / share ได้
+Ensure .env contains all required variables before production deploy
 
-รองรับ CI/CD, analyze, dev-prod env
+Use Vercel environment variables to handle secrets securely
 
-อ่านง่าย แยก section ชัดเจน
+Follow commit message guidelines for smooth CI/CD integration
 
-
----
-
-📌 หากต้องการ:
-- Export เป็น `.md`, `.txt`, `.pdf`
-- สร้าง `setup.sh`, `Clean.sh`, `README.md` อัตโนมัติ
-- เพิ่ม badge / shield / versioning info
-
-บอกได้ทันที ✅
-
-```
+Regularly run linting and tests before pushing code

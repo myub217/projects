@@ -13,7 +13,7 @@ lerna-debug.log*
 *.gz.env
 
 # ========================================
-# 🔐 Environment Variables
+# 🔐 Environment Variables & Secrets
 # ========================================
 .env
 .env.*
@@ -22,9 +22,12 @@ lerna-debug.log*
 .env.test.local
 .env.production.local
 env-vars-*.txt
+*.key
+*.pem
+*.crt
 
 # ========================================
-# 💻 Editor / OS-specific Files
+# 💻 Editor & OS-specific Files
 # ========================================
 .DS_Store
 Thumbs.db
@@ -37,13 +40,13 @@ Thumbs.db
 *.sublime-project
 
 # ========================================
-# 📊 Build Visualizer Reports
+# 📊 Build Visualizer & Reports
 # ========================================
 report.html
 stats.html
 
 # ========================================
-# 🍎 macOS / Linux Artifacts
+# 🍎 macOS & Linux Artifacts
 # ========================================
 *.orig
 *.LSOverride
@@ -104,13 +107,10 @@ tsconfig.tsbuildinfo
 termux-*
 
 # ========================================
-# ⚙️ Miscellaneous
+# ⚙️ Miscellaneous Temporary & Backup Files
 # ========================================
 *.sqlite
 *.db
-*.pem
-*.crt
-*.key
 *.zip
 *.tar
 *.tar.gz

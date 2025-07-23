@@ -21,7 +21,6 @@
 
 ## 🎨 tailwind.config.ts
 ```ts
-// tailwind.config.ts
 import type { Config } from 'tailwindcss'
 import typography from '@tailwindcss/typography'
 import daisyui from 'daisyui'
@@ -34,6 +33,7 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     extend: {
+      // Responsive breakpoints
       screens: {
         xs: '360px',
         sm: '640px',
@@ -42,15 +42,18 @@ const config: Config = {
         xl: '1280px',
         '2xl': '1536px',
       },
+      // Custom spacing scale
       spacing: {
         128: '32rem',
         144: '36rem',
         160: '40rem',
       },
+      // Max width scale extension
       maxWidth: {
         '8xl': '90rem',
         '9xl': '110rem',
       },
+      // Extended z-index scale
       zIndex: {
         '-1': '-1',
         60: '60',
@@ -61,6 +64,7 @@ const config: Config = {
         110: '110',
         120: '120',
       },
+      // Color palette with light/dark variations
       colors: {
         background: {
           DEFAULT: '#ffffff',
@@ -102,15 +106,18 @@ const config: Config = {
           light: '#bfdbfe',
         },
       },
+      // Background gradients for branding
       backgroundImage: {
         'business-gradient': 'linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%)',
         'business-dark-gradient': 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
       },
+      // Font families
       fontFamily: {
         body: ['Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
         heading: ['Playfair Display', 'Georgia', 'serif'],
         code: ['Fira Code', 'Menlo', 'Monaco', 'monospace'],
       },
+      // Font sizes with line heights
       fontSize: {
         xs: ['0.75rem', { lineHeight: '1rem' }],
         sm: ['0.875rem', { lineHeight: '1.375rem' }],
@@ -122,21 +129,25 @@ const config: Config = {
         '4xl': ['2.25rem', { lineHeight: '2.75rem' }],
         '5xl': ['3rem', { lineHeight: '1' }],
       },
+      // Shadows for different UI depths
       boxShadow: {
         soft: '0 4px 12px rgba(59, 130, 246, 0.2)',
         medium: '0 8px 24px rgba(59, 130, 246, 0.25)',
         dark: '0 12px 32px rgba(17, 24, 39, 0.8)',
       },
+      // Custom transition properties
       transitionProperty: {
         colors: 'background-color, border-color, color, fill, stroke',
         shadow: 'box-shadow',
         transform: 'transform',
       },
+      // Animations for UI
       animation: {
         fadeIn: 'fadeIn 0.6s ease-in forwards',
         slideUp: 'slideUp 0.6s ease-out forwards',
         bounceSlow: 'bounce 2.5s infinite',
       },
+      // Keyframes for custom animations
       keyframes: {
         fadeIn: {
           from: { opacity: '0' },
@@ -149,7 +160,10 @@ const config: Config = {
       },
     },
   },
-  plugins: [typography, daisyui],
+  plugins: [
+    typography,
+    daisyui,
+  ],
   daisyui: {
     themes: [
       {
@@ -313,7 +327,7 @@ import LoadingFallback from './routes/LoadingFallback'
 const RootApp: React.FC = () => (
   <React.StrictMode>
     <ThemeProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL || '/'}>
         <Suspense fallback={<LoadingFallback />}>
           <AppRoutes />
         </Suspense>
@@ -335,7 +349,7 @@ export default RootApp```
 ## 🧩 src/routes/AppRoutes.tsx
 ```tsx
 // src/routes/AppRoutes.tsx
-// ✅ Centralized route config with theme props and protected nested routes
+// ✅ Improved centralized routing with theme props and protected nested routes, concise and scalable
 
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
@@ -357,11 +371,14 @@ const AppRoutes: React.FC = () => {
     <Routes>
       <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
       <Route path="/login" element={<LoginPage />} />
+
+      {/* Protected Routes Wrapper */}
       <Route element={<ProtectedRoute />}>
         <Route path="secret" element={<SecretRoomPage />} />
         <Route path="admin" element={<AdminPage />} />
         <Route path="customer-assessment-summary" element={<CustomerAssessmentSummary />} />
       </Route>
+
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )
@@ -372,7 +389,7 @@ export default AppRoutes```
 ## 🧩 src/pages/SecretRoomPage.tsx
 ```tsx
 // src/pages/SecretRoomPage.tsx
-// หน้าแดชบอร์ดระบบรักษาความปลอดภัย พร้อมการสลับธีมและข้อมูลผู้ใช้งาน
+// ✅ Secure dashboard with theme toggle, user profile summary, accessibility, and clean structure
 
 import React, { useEffect, useState, useCallback } from 'react'
 import Dashboard from '@components/SecretRoom/Dashboard'
@@ -392,10 +409,11 @@ const SecretRoomPage: React.FC = () => {
 
   const toggleTheme = useCallback(() => {
     const root = document.documentElement
-    const isDark = root.classList.contains('dark')
-    root.classList.toggle('dark', !isDark)
-    localStorage.setItem('theme', isDark ? 'light' : 'dark')
-    setTheme(isDark ? 'light' : 'dark')
+    const isCurrentlyDark = root.classList.contains('dark')
+    const newTheme = isCurrentlyDark ? 'light' : 'dark'
+    root.classList.toggle('dark', !isCurrentlyDark)
+    localStorage.setItem('theme', newTheme)
+    setTheme(newTheme)
   }, [])
 
   return (
@@ -404,12 +422,12 @@ const SecretRoomPage: React.FC = () => {
       aria-label="แดชบอร์ดระบบรักษาความปลอดภัย"
       className="relative min-h-screen px-4 py-16 bg-base-100 text-base-content transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
     >
-      {/* ปุ่มสลับธีม */}
+      {/* Theme Toggle Button */}
       <div className="fixed top-4 right-4 z-50">
         <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
       </div>
 
-      {/* ข้อความต้อนรับ */}
+      {/* Welcome Section */}
       <section
         aria-label="ข้อความต้อนรับผู้ใช้งาน"
         tabIndex={0}
@@ -431,13 +449,12 @@ const SecretRoomPage: React.FC = () => {
           >
             {username}
           </span>{' '}
-          👋
-          <br />
+          👋<br />
           คุณเข้าสู่ระบบเรียบร้อยแล้ว
         </p>
       </section>
 
-      {/* สรุปข้อมูลผู้ใช้ */}
+      {/* User Profile Summary */}
       <section
         aria-label="สรุปข้อมูลผู้ใช้งาน"
         className="mt-10 max-w-md mx-auto"
@@ -446,7 +463,7 @@ const SecretRoomPage: React.FC = () => {
         <UserProfileCard username={username} />
       </section>
 
-      {/* แดชบอร์ดหลัก */}
+      {/* Dashboard Section */}
       <section
         aria-label="แดชบอร์ดข้อมูลและระบบ"
         className="mt-12 w-full max-w-7xl mx-auto p-6 sm:p-10 bg-base-200 dark:bg-zinc-800 rounded-2xl shadow-xl transition-shadow hover:shadow-2xl focus-within:shadow-2xl"
@@ -463,13 +480,13 @@ export default SecretRoomPage```
 ## 🧩 src/pages/AdminPage.tsx
 ```tsx
 // src/pages/AdminPage.tsx
-// แผงควบคุมผู้ดูแลระบบ พร้อมต้อนรับผู้ใช้ และแสดง Dashboard
+// แผงควบคุมผู้ดูแลระบบ พร้อมต้อนรับผู้ใช้และแสดงแดชบอร์ดอย่างมีประสิทธิภาพ
 
 import React, { useEffect, useState } from 'react'
 import AdminDashboard from '@components/AdminBoard/Dashboard'
 
 const AdminPage: React.FC = () => {
-  const [username, setUsername] = useState('ผู้ใช้ระบบ')
+  const [username, setUsername] = useState<string>('ผู้ใช้ระบบ')
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser')?.trim()
@@ -482,7 +499,7 @@ const AdminPage: React.FC = () => {
       aria-label="แผงควบคุมผู้ดูแลระบบ"
       className="min-h-screen bg-base-100 text-base-content dark:bg-gray-900 px-6 py-12 transition-colors duration-300 flex flex-col items-center"
     >
-      {/* 🔹 Welcome Header */}
+      {/* Header ต้อนรับผู้ใช้ */}
       <header
         className="mb-10 max-w-xl w-full text-center select-text"
         tabIndex={-1}
@@ -507,7 +524,7 @@ const AdminPage: React.FC = () => {
         </p>
       </header>
 
-      {/* 🔧 Admin Dashboard */}
+      {/* แดชบอร์ดผู้ดูแลระบบ */}
       <section
         className="w-full max-w-7xl"
         tabIndex={-1}
@@ -676,4 +693,4 @@ JP - VISUAL & DOCS
 📂 โครงสร้างทั้งหมดแนบไว้ใน Report นี้แล้ว  
 🧠 เข้าใจบริบทแล้ว พร้อมรับคำสั่งถัดไปได้เลย
 
-🕛 Last Checked: Wed Jul 23 11:15:58 +07 2025
+🕛 Last Checked: Wed Jul 23 11:50:03 +07 2025
