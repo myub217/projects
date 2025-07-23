@@ -1,3 +1,4 @@
+// vite.config.ts
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -9,7 +10,7 @@ export default defineConfig({
   plugins: [
     react(),
 
-    // ✅ Progressive Web App (PWA)
+    // ✅ PWA
     VitePWA({
       strategies: 'injectManifest',
       srcDir: 'src',
@@ -34,12 +35,12 @@ export default defineConfig({
       },
     }),
 
-    // ✅ Static Assets
+    // ✅ Static Copy
     viteStaticCopy({
       targets: [{ src: 'public/images', dest: '' }],
     }),
 
-    // ✅ Local Mock API (dev only)
+    // ✅ Mock API
     {
       name: 'mock-api',
       configureServer(server) {
