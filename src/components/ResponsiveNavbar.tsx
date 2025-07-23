@@ -1,5 +1,5 @@
 // src/components/ResponsiveNavbar.tsx
-// ✅ Responsive, accessible navbar with keyboard & screen reader support, smooth mobile menu animation
+// Responsive, accessible navbar with keyboard & screen reader support, smooth mobile menu animation
 
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
@@ -17,16 +17,15 @@ const navItems = [
 const ResponsiveNavbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false)
   const navRef = useRef<HTMLDivElement>(null)
+  const toggleButtonRef = useRef<HTMLButtonElement>(null)
   const location = useLocation()
 
   // Close mobile menu on click outside
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        isOpen &&
-        navRef.current &&
-        !navRef.current.contains(event.target as Node)
-      ) {
+    if (!isOpen) return
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
         setIsOpen(false)
       }
     }
@@ -39,10 +38,14 @@ const ResponsiveNavbar: React.FC = () => {
     setIsOpen(false)
   }, [location])
 
-  // Close mobile menu on Escape key press
+  // Close mobile menu on Escape key press & Return focus to toggle button
   useEffect(() => {
-    function onEsc(e: KeyboardEvent) {
-      if (e.key === 'Escape' && isOpen) setIsOpen(false)
+    if (!isOpen) {
+      toggleButtonRef.current?.focus()
+      return
+    }
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false)
     }
     window.addEventListener('keydown', onEsc)
     return () => window.removeEventListener('keydown', onEsc)
@@ -94,6 +97,7 @@ const ResponsiveNavbar: React.FC = () => {
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center">
             <button
+              ref={toggleButtonRef}
               type="button"
               aria-label={isOpen ? 'ปิดเมนู' : 'เปิดเมนู'}
               aria-expanded={isOpen}

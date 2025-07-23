@@ -1,5 +1,5 @@
 // src/components/common/Modal.tsx
-// Reusable Modal with configurable size, accessibility, scroll lock, ESC-close, and focus trap
+// Reusable Modal with configurable size, accessibility, scroll lock, ESC-close, focus trap, optional backdrop close, and transitions
 
 import React, { ReactNode, useEffect, useRef, useCallback } from 'react'
 
@@ -11,6 +11,9 @@ interface ModalProps {
   size?: 'sm' | 'md' | 'lg' | 'xl'
   ariaLabelledBy?: string
   ariaDescribedBy?: string
+  disableBackdropClose?: boolean
+  initialFocusRef?: React.RefObject<HTMLElement>
+  className?: string
 }
 
 const sizeClasses = {
@@ -18,7 +21,7 @@ const sizeClasses = {
   md: 'max-w-md',
   lg: 'max-w-lg',
   xl: 'max-w-xl',
-}
+} as const
 
 const Modal: React.FC<ModalProps> = ({
   isOpen,
@@ -28,16 +31,25 @@ const Modal: React.FC<ModalProps> = ({
   size = 'md',
   ariaLabelledBy,
   ariaDescribedBy,
+  disableBackdropClose = false,
+  initialFocusRef,
+  className = '',
 }) => {
   const modalRef = useRef<HTMLDivElement>(null)
   const previousActiveElement = useRef<HTMLElement | null>(null)
 
-  // Focus management & trap focus inside modal
+  // Focus trap & restore focus on close
   useEffect(() => {
     if (!isOpen) return
 
     previousActiveElement.current = document.activeElement as HTMLElement | null
-    modalRef.current?.focus()
+
+    // Focus initial element or modal container
+    if (initialFocusRef?.current) {
+      initialFocusRef.current.focus()
+    } else {
+      modalRef.current?.focus()
+    }
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -72,9 +84,9 @@ const Modal: React.FC<ModalProps> = ({
       document.removeEventListener('keydown', handleKeyDown)
       previousActiveElement.current?.focus()
     }
-  }, [isOpen, onClose])
+  }, [isOpen, onClose, initialFocusRef])
 
-  // Scroll lock when modal open
+  // Scroll lock
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
@@ -86,7 +98,7 @@ const Modal: React.FC<ModalProps> = ({
     }
   }, [isOpen])
 
-  // Prevent modal close when clicking inside modal content
+  // Prevent click inside modal content from closing modal
   const onModalContentClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation()
   }, [])
@@ -97,22 +109,22 @@ const Modal: React.FC<ModalProps> = ({
     <div
       role="dialog"
       aria-modal="true"
-      aria-labelledby={ariaLabelledBy || (title ? 'modal-title' : undefined)}
+      aria-labelledby={ariaLabelledBy ?? (title ? 'modal-title' : undefined)}
       aria-describedby={ariaDescribedBy}
       tabIndex={-1}
-      onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm"
+      onClick={disableBackdropClose ? undefined : onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm transition-opacity duration-200"
     >
       <div
         ref={modalRef}
         tabIndex={0}
         onClick={onModalContentClick}
-        className={`bg-base-100 text-base-content rounded-lg shadow-lg p-6 w-full mx-4 ${sizeClasses[size]} max-h-[90vh] overflow-auto focus:outline-none`}
+        className={`bg-base-100 text-base-content rounded-lg shadow-lg p-6 w-full mx-4 ${sizeClasses[size]} max-h-[90vh] overflow-auto focus:outline-none ${className} transition-transform duration-200 ease-out`}
       >
         {title && (
           <header className="mb-4">
             <h2
-              id={ariaLabelledBy || 'modal-title'}
+              id={ariaLabelledBy ?? 'modal-title'}
               className="text-xl font-semibold text-primary"
               tabIndex={-1}
             >

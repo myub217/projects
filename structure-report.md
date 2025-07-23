@@ -297,59 +297,18 @@ export default defineConfig({
 ## 🧩 src/main.tsx
 ```tsx
 // src/main.tsx
-// Root entry with ThemeProvider, Router, Suspense fallback, and protected routes
 
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 
 import '@/styles/tailwind-base.css'
 import '@/styles/tailwind.css'
 
-import IndexPage from '@pages/IndexPage'
-import LoginPage from '@pages/LoginPage'
-import SecretRoomPage from '@pages/SecretRoomPage'
-import AdminPage from '@pages/AdminPage'
-import CustomerAssessmentSummary from '@pages/CustomerAssessmentSummary'
-import NotFoundPage from '@pages/NotFoundPage'
+import { ThemeProvider } from '@components/ThemeProvider'
+import AppRoutes from './routes/AppRoutes'
+import LoadingFallback from './routes/LoadingFallback'
 
-import ProtectedRoute from '@components/ProtectedRoute'
-import { ThemeProvider, useTheme } from '@components/ThemeProvider'
-
-// Loading fallback UI for Suspense lazy loading
-const LoadingFallback: React.FC = () => (
-  <div
-    className="flex justify-center items-center min-h-screen text-gray-500 select-none"
-    role="status"
-    aria-live="polite"
-  >
-    กำลังโหลด...
-  </div>
-)
-
-// Main App routes with theme context and protected routes
-const AppRoutes: React.FC = () => {
-  const { theme, toggleTheme } = useTheme()
-
-  return (
-    <Routes>
-      <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
-      <Route path="/login" element={<LoginPage />} />
-
-      {/* Protected routes */}
-      <Route element={<ProtectedRoute />}>
-        <Route path="/secret" element={<SecretRoomPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/customer-assessment-summary" element={<CustomerAssessmentSummary />} />
-      </Route>
-
-      {/* 404 fallback */}
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
-  )
-}
-
-// Root app component wrapping ThemeProvider, Router and Suspense
 const RootApp: React.FC = () => (
   <React.StrictMode>
     <ThemeProvider>
@@ -362,19 +321,54 @@ const RootApp: React.FC = () => (
   </React.StrictMode>
 )
 
-// Mount React app on #root element
-const rootEl = document.getElementById('root')
-if (!rootEl) {
-  console.error('❌ ไม่พบ <div id="root"> ใน index.html')
+const root = document.getElementById('root')
+
+if (!root) {
+  console.error('❌ <div id="root"> not found')
 } else {
-  ReactDOM.createRoot(rootEl).render(<RootApp />)
+  ReactDOM.createRoot(root).render(<RootApp />)
 }
 
 export default RootApp```
 
+## 🧩 src/routes/AppRoutes.tsx
+```tsx
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+
+import IndexPage from '@pages/IndexPage'
+import LoginPage from '@pages/LoginPage'
+import SecretRoomPage from '@pages/SecretRoomPage'
+import AdminPage from '@pages/AdminPage'
+import CustomerAssessmentSummary from '@pages/CustomerAssessmentSummary'
+import NotFoundPage from '@pages/NotFoundPage'
+
+import ProtectedRoute from '@components/ProtectedRoute'
+import { useTheme } from '@components/ThemeProvider'
+
+const AppRoutes: React.FC = () => {
+  const { theme, toggleTheme } = useTheme()
+
+  return (
+    <Routes>
+      <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/secret" element={<SecretRoomPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/customer-assessment-summary" element={<CustomerAssessmentSummary />} />
+      </Route>
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  )
+}
+
+export default AppRoutes```
+
 ## 🧩 src/pages/SecretRoomPage.tsx
 ```tsx
-// src/pages/SecretRoomPage.tsx – Secure Authenticated Dashboard Page
+// src/pages/SecretRoomPage.tsx
+// หน้าแดชบอร์ดระบบรักษาความปลอดภัย พร้อมการสลับธีมและข้อมูลผู้ใช้งาน
 
 import React, { useEffect, useState, useCallback } from 'react'
 import Dashboard from '@components/SecretRoom/Dashboard'
@@ -389,7 +383,7 @@ const SecretRoomPage: React.FC = () => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser')?.trim()
-    setUsername(storedUser && storedUser.length > 0 ? storedUser : 'ไม่ทราบชื่อผู้ใช้')
+    setUsername(storedUser || 'ไม่ทราบชื่อผู้ใช้')
   }, [])
 
   const toggleTheme = useCallback(() => {
@@ -404,21 +398,24 @@ const SecretRoomPage: React.FC = () => {
     <main
       role="main"
       aria-label="แดชบอร์ดระบบรักษาความปลอดภัย"
-      className="relative min-h-screen bg-base-100 text-base-content px-4 py-16 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
+      className="relative min-h-screen px-4 py-16 bg-base-100 text-base-content transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
     >
       {/* ปุ่มสลับธีม */}
       <div className="fixed top-4 right-4 z-50">
         <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
       </div>
 
-      {/* ส่วนต้อนรับผู้ใช้ */}
+      {/* ข้อความต้อนรับ */}
       <section
         aria-label="ข้อความต้อนรับผู้ใช้งาน"
         tabIndex={0}
         aria-live="polite"
         className="max-w-2xl mx-auto text-center space-y-4"
       >
-        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-primary">
+        <h1
+          className="text-4xl sm:text-5xl font-extrabold tracking-tight text-primary"
+          tabIndex={0}
+        >
           ยินดีต้อนรับสู่ระบบ
         </h1>
         <p className="text-lg sm:text-xl text-base-content/80">
@@ -426,26 +423,29 @@ const SecretRoomPage: React.FC = () => {
           <span
             className="font-semibold text-secondary underline underline-offset-4 decoration-secondary/60"
             aria-label={`ชื่อผู้ใช้: ${username}`}
+            tabIndex={0}
           >
             {username}
           </span>{' '}
-          👋<br />
+          👋
+          <br />
           คุณเข้าสู่ระบบเรียบร้อยแล้ว
         </p>
       </section>
 
-      {/* การ์ดแสดงโปรไฟล์ */}
+      {/* สรุปข้อมูลผู้ใช้ */}
       <section
         aria-label="สรุปข้อมูลผู้ใช้งาน"
         className="mt-10 max-w-md mx-auto"
+        tabIndex={-1}
       >
         <UserProfileCard username={username} />
       </section>
 
-      {/* แดชบอร์ดข้อมูล */}
+      {/* แดชบอร์ดหลัก */}
       <section
         aria-label="แดชบอร์ดข้อมูลและระบบ"
-        className="mt-12 w-full max-w-7xl mx-auto rounded-2xl bg-base-200 dark:bg-zinc-800 shadow-xl p-6 sm:p-10 transition-shadow hover:shadow-2xl focus-within:shadow-2xl"
+        className="mt-12 w-full max-w-7xl mx-auto p-6 sm:p-10 bg-base-200 dark:bg-zinc-800 rounded-2xl shadow-xl transition-shadow hover:shadow-2xl focus-within:shadow-2xl"
         tabIndex={-1}
       >
         <Dashboard />
@@ -458,7 +458,7 @@ export default SecretRoomPage```
 
 ## 🧩 src/pages/AdminPage.tsx
 ```tsx
-// ✅ Final: src/pages/AdminPage.tsx
+// src/pages/AdminPage.tsx
 // แผงควบคุมผู้ดูแลระบบ พร้อมต้อนรับผู้ใช้ และแสดง Dashboard
 
 import React, { useEffect, useState } from 'react'
@@ -485,7 +485,10 @@ const AdminPage: React.FC = () => {
         aria-live="polite"
         aria-atomic="true"
       >
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-primary mb-3 tracking-tight">
+        <h1
+          className="text-3xl sm:text-4xl font-extrabold text-primary mb-3 tracking-tight"
+          tabIndex={0}
+        >
           แผงควบคุมผู้ดูแลระบบ
         </h1>
         <p className="text-lg sm:text-xl text-muted">
@@ -493,6 +496,7 @@ const AdminPage: React.FC = () => {
           <span
             className="font-semibold underline decoration-primary decoration-2"
             aria-label={`ชื่อผู้ใช้: ${username}`}
+            tabIndex={0}
           >
             {username}
           </span>
@@ -500,7 +504,11 @@ const AdminPage: React.FC = () => {
       </header>
 
       {/* 🔧 Admin Dashboard */}
-      <section className="w-full max-w-7xl" tabIndex={-1}>
+      <section
+        className="w-full max-w-7xl"
+        tabIndex={-1}
+        aria-label="แดชบอร์ดผู้ดูแลระบบ"
+      >
         <AdminDashboard />
       </section>
     </main>
@@ -590,11 +598,16 @@ export default AdminPage```
 │   ├── ServicesSection.tsx
 │   ├── StatsPanel.tsx
 │   ├── ThemeProvider.tsx
-│   └── common
-│       ├── FormGroup.tsx
-│       ├── Icon.tsx
-│       ├── Modal.tsx
-│       └── ServiceRequestModal.tsx
+│   ├── common
+│   │   ├── FormGroup.tsx
+│   │   ├── Icon.tsx
+│   │   ├── Modal.tsx
+│   │   └── ServiceRequestModal.tsx
+│   └── contact
+│       ├── ContactCard.tsx
+│       ├── ContactIconButton.tsx
+│       ├── ContactList.tsx
+│       └── index.ts
 ├── config
 │   ├── adminConfig.ts
 │   ├── contact.ts
@@ -612,6 +625,9 @@ export default AdminPage```
 │   ├── LoginPage.tsx
 │   ├── NotFoundPage.tsx
 │   └── SecretRoomPage.tsx
+├── routes
+│   ├── AppRoutes.tsx
+│   └── LoadingFallback.tsx
 ├── styles
 │   ├── global.css
 │   ├── tailwind-base.css
@@ -626,7 +642,7 @@ export default AdminPage```
 └── utils
     └── hashPassword.ts
 
-14 directories, 70 files
+16 directories, 76 files
 ```
 
 ## 📌 Dev Partner Note
@@ -636,19 +652,13 @@ export default AdminPage```
 - ทุก Component ต้อง Import ให้ถูกต้อง, รองรับ Desktop & Mobile
 - แก้ปัญหาทันที ไม่อธิบายเยิ่นเย้อ
 - ทุกคำตอบต้องแม่นยำตาม Stack และโครงสร้างที่กำหนด
+
 JP - VISUAL & DOCS
 ธุรกิจสีเทาที่ออกแบบมาให้ได้มาตรฐานเท่าที่สามารถแสดงได้ เราพร้อมร่วมงานกับทุกสายอาชีพ ทุกวงการ และพร้อมสร้างเครื่องมือที่ตอบโจทย์จริงให้ทุกคน
 
 เรายินดีให้คำปรึกษาแบบตรงไปตรงมา ด้วยข้อมูลจริง พร้อมอธิบายเปอร์เซ็นต์ความเสี่ยงและผลลัพธ์อย่างโปร่งใส — เราไม่ขายฝัน
 
-หากคุณมีคำถามเพิ่มเติม หรือรายละเอียดที่ไม่สามารถเปิดเผยได้บนเว็บไซต์ สามารถสอบถามแอดมินของเราได้ตลอด 24 ชั่วโมง
-
-หากคุณอยากคุยกับผมโดยตรง บอกแอดมินได้เลย รับรองว่าคุณจะรู้สึกปลอดภัย และสบายใจที่ได้คุยแน่นอน
-
-ผมไม่ใช่คนที่เก่งที่สุด
-แต่ผมมีทีมงานที่เก่ง
-ลงรายละเอียดเนื้อหา ให้สอดคล้อง กับ ธุรกิจ ไม่เน้นคำทางการเกินไป ใช้คำกระชับเข้าใจได้ง่าย
-📂 โครงสร้างทั้งหมด แนบไว้ใน Report นี้แล้ว  
+📂 โครงสร้างทั้งหมดแนบไว้ใน Report นี้แล้ว  
 🧠 เข้าใจบริบทแล้ว พร้อมรับคำสั่งถัดไปได้เลย
 
-🕛 Last Checked: Wed Jul 23 09:30:15 +07 2025
+🕛 Last Checked: Wed Jul 23 10:26:07 +07 2025

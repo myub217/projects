@@ -28,7 +28,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, className = '' }) => 
       <main
         role="main"
         aria-label="เนื้อหาหลักของหน้า"
-        className="flex-grow w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10"
+        className="flex-grow w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 outline-none"
         tabIndex={-1}
       >
         {children}

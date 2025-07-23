@@ -1,5 +1,4 @@
 // src/components/common/ServiceRequestModal.tsx
-
 import React, { useEffect, useRef, useCallback } from 'react'
 import type { Service } from '@components/ServicesSection'
 
@@ -11,7 +10,6 @@ interface ServiceRequestModalProps {
 const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null)
 
-  // Focus modal on open and trap focus inside modal
   useEffect(() => {
     if (!service) return
 
@@ -20,12 +18,15 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
+        e.preventDefault()
         onClose()
       }
       if (e.key === 'Tab' && modalRef.current) {
         const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
           'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
         )
+        if (focusableElements.length === 0) return
+
         const firstEl = focusableElements[0]
         const lastEl = focusableElements[focusableElements.length - 1]
 
@@ -50,7 +51,6 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
     }
   }, [service, onClose])
 
-  // Prevent background scroll when modal is open
   useEffect(() => {
     if (service) {
       document.body.style.overflow = 'hidden'
@@ -62,7 +62,6 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
     }
   }, [service])
 
-  // Prevent modal close when clicking inside modal content
   const onModalContentClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation()
   }, [])
@@ -77,17 +76,22 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
       aria-describedby="service-modal-desc"
       tabIndex={-1}
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4 py-6 md:px-6"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4 py-6 md:px-6 transition-opacity duration-300"
     >
       <div
         tabIndex={0}
         ref={modalRef}
         onClick={onModalContentClick}
-        className="w-full max-w-lg rounded-2xl bg-base-100 dark:bg-gray-900 p-6 shadow-2xl space-y-5 focus:outline-none"
+        className="w-full max-w-lg rounded-2xl bg-base-100 dark:bg-gray-900 p-6 shadow-2xl space-y-5 focus:outline-none transform transition-transform duration-300 ease-out"
       >
-        <h3 id="service-modal-title" className="text-xl font-bold text-primary">
+        <h3
+          id="service-modal-title"
+          className="text-xl font-bold text-primary"
+          tabIndex={-1}
+        >
           ขอใช้บริการจาก JP Visual & Docs
         </h3>
+
         <section
           id="service-modal-desc"
           className="space-y-2 text-sm sm:text-base text-base-content/80"
@@ -99,6 +103,7 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
             ทีมงานสายทำจริง สไตล์มือโปร — เอกสาร ชัด เป๊ะ ขายงานผ่าน
           </p>
         </section>
+
         <div className="mt-6 flex flex-col sm:flex-row justify-end gap-3">
           <button
             type="button"
@@ -107,6 +112,7 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
           >
             ปิด
           </button>
+
           <a
             href={`https://line.me/ti/p/~jpdocs?text=${encodeURIComponent(
               `สวัสดีครับ/ค่ะ สนใจใช้บริการ: ${service.title}`

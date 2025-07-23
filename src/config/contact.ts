@@ -63,7 +63,6 @@ export const contactLinks: ContactLink[] = [
   },
 ]
 
-// ข้อมูลติดต่อ (ปรับปรุงให้คงที่และอ่านง่าย)
 const CONTACTS = {
   lineOAID: '@462fqtfc',
   lineUrlDefault: 'https://lin.ee/uhMtuSB',
@@ -75,23 +74,17 @@ const CONTACTS = {
 }
 
 /**
- * สร้างลิงก์ตามประเภทและข้อความ (ถ้ามี)
+ * สร้างลิงก์ตามประเภทการติดต่อ
  * @param type ประเภทการติดต่อ
- * @param message ข้อความสำหรับ LINE (optional)
+ * @param message ข้อความเสริม (สำหรับ LINE)
  * @returns URL string
  */
-export const getContactHref = (
-  type: ContactType,
-  message?: string
-): string => {
+export const getContactHref = (type: ContactType, message?: string): string => {
   switch (type) {
-    case 'line': {
-      if (message) {
-        const encodedMsg = encodeURIComponent(message)
-        return `https://line.me/R/oaMessage/${CONTACTS.lineOAID}/?text=${encodedMsg}`
-      }
-      return CONTACTS.lineUrlDefault
-    }
+    case 'line':
+      return message
+        ? `https://line.me/R/oaMessage/${CONTACTS.lineOAID}/?text=${encodeURIComponent(message)}`
+        : CONTACTS.lineUrlDefault
     case 'facebook':
       return `https://www.facebook.com/profile.php?id=${CONTACTS.facebookPageID}&mibextid=kFxxJD`
     case 'messenger':

@@ -32,7 +32,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
     return () => window.removeEventListener('keydown', onEsc)
   }, [])
 
-  // Scroll lock when modal is open, and focus management
+  // Scroll lock & focus management on modal open/close
   useEffect(() => {
     if (selectedService) {
       document.body.style.overflow = 'hidden'

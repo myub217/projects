@@ -27,6 +27,7 @@ interface IconProps extends React.SVGAttributes<SVGElement> {
   name: IconName
   size?: number
   'aria-label'?: string
+  className?: string
 }
 
 const Icon: React.FC<IconProps> = ({

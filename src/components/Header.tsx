@@ -1,5 +1,5 @@
 // src/components/Header.tsx
-// ✅ Responsive Header with accessible keyboard nav, smooth scroll, contact links, and clean state handling
+// Responsive Header with accessible keyboard nav, smooth scroll, contact links, and clean state handling
 
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-scroll'
