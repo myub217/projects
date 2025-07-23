@@ -7,15 +7,15 @@ const CTASection: React.FC = () => (
   <section
     id="cta"
     aria-labelledby="cta-heading"
-    className="relative isolate overflow-hidden bg-primary py-20 px-4 text-white sm:px-6 lg:px-8"
+    className="relative isolate overflow-hidden bg-primary px-4 py-20 text-white sm:px-6 lg:px-8"
   >
     {/* Background Pattern */}
     <div
       aria-hidden="true"
-      className="absolute inset-0 -z-10 opacity-20 bg-[url('/bg/cta-pattern.svg')] bg-cover bg-center"
+      className="absolute inset-0 -z-10 bg-[url('/bg/cta-pattern.svg')] bg-cover bg-center opacity-20"
     />
 
-    <div className="mx-auto max-w-4xl text-center space-y-6">
+    <div className="mx-auto max-w-4xl space-y-6 text-center">
       <h2
         id="cta-heading"
         className="font-heading text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl"
@@ -30,7 +30,7 @@ const CTASection: React.FC = () => (
       <div className="flex flex-wrap justify-center gap-4 pt-6">
         <a
           href="#contact"
-          className="inline-block rounded-xl bg-white px-6 py-3 text-sm font-semibold text-primary shadow transition hover:bg-gray-100 hover:text-primary-focus focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 sm:text-base"
+          className="hover:text-primary-focus inline-block rounded-xl bg-white px-6 py-3 text-sm font-semibold text-primary shadow transition hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 sm:text-base"
         >
           ติดต่อเรา
         </a>

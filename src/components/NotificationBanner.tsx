@@ -47,12 +47,8 @@ const NotificationBanner: React.FC<NotificationBannerProps> = ({
   if (!visible) return null
 
   return (
-    <div
-      role="alert"
-      aria-live="polite"
-      className={clsx(baseStyles, typeStyles[type], className)}
-    >
-      <div className="flex items-center gap-2 flex-grow select-text">
+    <div role="alert" aria-live="polite" className={clsx(baseStyles, typeStyles[type], className)}>
+      <div className="flex flex-grow select-text items-center gap-2">
         {icon && <span className="shrink-0">{icon}</span>}
         <span className="font-medium">{message}</span>
       </div>
@@ -61,7 +57,7 @@ const NotificationBanner: React.FC<NotificationBannerProps> = ({
           type="button"
           onClick={handleDismiss}
           aria-label="ปิดการแจ้งเตือน"
-          className="text-inherit hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-primary rounded-sm"
+          className="rounded-sm text-inherit hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
         >
           <X className="h-4 w-4" aria-hidden="true" />
         </button>

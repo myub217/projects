@@ -58,12 +58,10 @@ const CustomerAssessmentForm: React.FC = () => {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-    setErrors((prev) => ({ ...prev, [name]: undefined }))
+    setFormData(prev => ({ ...prev, [name]: value }))
+    setErrors(prev => ({ ...prev, [name]: undefined }))
   }
 
   const handleReset = () => {
@@ -106,7 +104,7 @@ ${formData.teamRequirements}
   }
 
   const FieldGroup: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">{children}</div>
+    <div className="mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2">{children}</div>
   )
 
   const InputField: React.FC<{
@@ -131,7 +129,7 @@ ${formData.teamRequirements}
     helpText,
   }) => (
     <div>
-      <label htmlFor={name} className="block font-semibold text-sm mb-1">
+      <label htmlFor={name} className="mb-1 block text-sm font-semibold">
         {label} {required && <span className="text-red-600">*</span>}
       </label>
       <input
@@ -142,15 +140,15 @@ ${formData.teamRequirements}
         onChange={onChange}
         placeholder={placeholder}
         required={required}
-        className={`w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 transition-all duration-200 ${
+        className={`w-full rounded-md border px-4 py-2 text-sm transition-all duration-200 focus:outline-none focus:ring-2 ${
           error ? 'border-red-500 ring-red-300' : 'border-gray-300 focus:ring-blue-400'
         }`}
         aria-invalid={!!error}
         aria-describedby={error ? `${name}-error` : undefined}
       />
-      {helpText && <p className="text-xs text-gray-500 mt-1">{helpText}</p>}
+      {helpText && <p className="mt-1 text-xs text-gray-500">{helpText}</p>}
       {error && (
-        <p className="text-xs text-red-600 mt-1" id={`${name}-error`}>
+        <p className="mt-1 text-xs text-red-600" id={`${name}-error`}>
           {error}
         </p>
       )}
@@ -166,18 +164,9 @@ ${formData.teamRequirements}
     placeholder?: string
     required?: boolean
     rows?: number
-  }> = ({
-    label,
-    name,
-    value,
-    onChange,
-    error,
-    placeholder,
-    required = false,
-    rows = 3,
-  }) => (
+  }> = ({ label, name, value, onChange, error, placeholder, required = false, rows = 3 }) => (
     <div className="mb-5">
-      <label htmlFor={name} className="block font-semibold text-sm mb-1">
+      <label htmlFor={name} className="mb-1 block text-sm font-semibold">
         {label} {required && <span className="text-red-600">*</span>}
       </label>
       <textarea
@@ -188,14 +177,14 @@ ${formData.teamRequirements}
         placeholder={placeholder}
         rows={rows}
         required={required}
-        className={`w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 transition-all duration-200 resize-y ${
+        className={`w-full resize-y rounded-md border px-4 py-2 text-sm transition-all duration-200 focus:outline-none focus:ring-2 ${
           error ? 'border-red-500 ring-red-300' : 'border-gray-300 focus:ring-blue-400'
         }`}
         aria-invalid={!!error}
         aria-describedby={error ? `${name}-error` : undefined}
       />
       {error && (
-        <p className="text-xs text-red-600 mt-1" id={`${name}-error`}>
+        <p className="mt-1 text-xs text-red-600" id={`${name}-error`}>
           {error}
         </p>
       )}
@@ -204,12 +193,12 @@ ${formData.teamRequirements}
 
   if (submitted) {
     return (
-      <div className="mx-auto max-w-2xl p-6 rounded-lg bg-green-50 border border-green-200 text-green-800 text-center">
-        <h2 className="text-2xl font-bold mb-3">ส่งข้อมูลสำเร็จ</h2>
+      <div className="mx-auto max-w-2xl rounded-lg border border-green-200 bg-green-50 p-6 text-center text-green-800">
+        <h2 className="mb-3 text-2xl font-bold">ส่งข้อมูลสำเร็จ</h2>
         <p>ระบบได้เปิดแอป LINE แล้ว กรุณาตรวจสอบข้อความก่อนกดส่ง</p>
         <button
           onClick={handleReset}
-          className="mt-5 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="mt-5 rounded bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
           type="button"
         >
           ส่งใหม่อีกครั้ง
@@ -221,14 +210,16 @@ ${formData.teamRequirements}
   return (
     <form
       onSubmit={handleSubmit}
-      className="mx-auto max-w-3xl bg-white p-6 sm:p-10 rounded-xl shadow-lg"
+      className="mx-auto max-w-3xl rounded-xl bg-white p-6 shadow-lg sm:p-10"
       noValidate
       aria-live="polite"
     >
-      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-8">ฟอร์มประเมินลูกค้าเบื้องต้น</h1>
+      <h1 className="mb-8 text-center text-2xl font-bold sm:text-3xl">
+        ฟอร์มประเมินลูกค้าเบื้องต้น
+      </h1>
 
       <fieldset className="mb-8" aria-describedby="personal-info-desc">
-        <legend className="text-lg font-semibold mb-4">ข้อมูลส่วนตัว</legend>
+        <legend className="mb-4 text-lg font-semibold">ข้อมูลส่วนตัว</legend>
         <p id="personal-info-desc" className="sr-only">
           กรุณากรอกข้อมูลส่วนตัวให้ครบถ้วน
         </p>
@@ -275,7 +266,7 @@ ${formData.teamRequirements}
       </fieldset>
 
       <fieldset className="mb-8" aria-describedby="business-finance-desc">
-        <legend className="text-lg font-semibold mb-4">ธุรกิจ / การเงิน</legend>
+        <legend className="mb-4 text-lg font-semibold">ธุรกิจ / การเงิน</legend>
         <p id="business-finance-desc" className="sr-only">
           กรุณากรอกข้อมูลเกี่ยวกับธุรกิจและการเงิน
         </p>
@@ -309,7 +300,7 @@ ${formData.teamRequirements}
       </fieldset>
 
       <fieldset className="mb-8" aria-describedby="history-needs-desc">
-        <legend className="text-lg font-semibold mb-4">ประวัติและความต้องการ</legend>
+        <legend className="mb-4 text-lg font-semibold">ประวัติและความต้องการ</legend>
         <p id="history-needs-desc" className="sr-only">
           กรุณาระบุประวัติและความต้องการของท่าน
         </p>
@@ -347,7 +338,7 @@ ${formData.teamRequirements}
 
       <button
         type="submit"
-        className="w-full py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+        className="w-full rounded bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
         aria-label="ส่งข้อมูลประเมิน"
       >
         ส่งข้อมูลประเมิน

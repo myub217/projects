@@ -30,9 +30,7 @@ if (process.env.VITE_CORS_ENABLED === 'true') {
 // ✅ React Router SPA Fallback (ยกเว้น /api)
 app.use(
   history({
-    rewrites: [
-      { from: /^\/api\/.*$/, to: (ctx) => ctx.parsedUrl?.pathname || '' },
-    ],
+    rewrites: [{ from: /^\/api\/.*$/, to: ctx => ctx.parsedUrl?.pathname || '' }],
   })
 )
 

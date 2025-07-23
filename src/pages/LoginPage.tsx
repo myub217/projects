@@ -62,22 +62,20 @@ const LoginPage: React.FC = () => {
     <main
       role="main"
       aria-label="หน้าเข้าสู่ระบบ"
-      className="min-h-screen flex items-center justify-center bg-base-100 px-4"
+      className="flex min-h-screen items-center justify-center bg-base-100 px-4"
     >
       <form
         onSubmit={handleLogin}
         aria-label="ฟอร์มเข้าสู่ระบบ"
-        className="w-full max-w-sm bg-base-200 p-6 rounded-xl shadow-xl space-y-6"
+        className="w-full max-w-sm space-y-6 rounded-xl bg-base-200 p-6 shadow-xl"
       >
-        <h1 className="text-3xl font-bold text-primary text-center select-none">
-          เข้าสู่ระบบ
-        </h1>
+        <h1 className="select-none text-center text-3xl font-bold text-primary">เข้าสู่ระบบ</h1>
 
         {error && (
           <div
             role="alert"
             aria-live="assertive"
-            className="text-error text-sm font-semibold text-center"
+            className="text-center text-sm font-semibold text-error"
           >
             {error}
           </div>
@@ -92,7 +90,7 @@ const LoginPage: React.FC = () => {
             type="text"
             className="input input-bordered"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={e => setUsername(e.target.value)}
             autoComplete="username"
             required
             placeholder="กรอกชื่อผู้ใช้"
@@ -115,7 +113,7 @@ const LoginPage: React.FC = () => {
             type="password"
             className="input input-bordered"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={e => setPassword(e.target.value)}
             autoComplete="current-password"
             required
             placeholder="กรอกรหัสผ่าน"

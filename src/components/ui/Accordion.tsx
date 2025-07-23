@@ -21,7 +21,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, defaultOpenId, className =
   const [openId, setOpenId] = useState<string | null>(defaultOpenId || null)
 
   const toggle = useCallback((id: string) => {
-    setOpenId((prev) => (prev === id ? null : id))
+    setOpenId(prev => (prev === id ? null : id))
   }, [])
 
   // Keyboard handling for accessibility (Enter, Space)
@@ -43,8 +43,8 @@ const Accordion: React.FC<AccordionProps> = ({ items, defaultOpenId, className =
           <div key={id} className="py-2">
             <button
               onClick={() => toggle(id)}
-              onKeyDown={(e) => onKeyDown(e, id)}
-              className="flex w-full justify-between items-center text-left font-medium text-base-content py-3 px-4 hover:bg-base-200 rounded transition focus:outline-none focus:ring-2 focus:ring-primary"
+              onKeyDown={e => onKeyDown(e, id)}
+              className="flex w-full items-center justify-between rounded px-4 py-3 text-left font-medium text-base-content transition hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary"
               aria-expanded={isOpen}
               aria-controls={`accordion-content-${id}`}
               id={`accordion-header-${id}`}
@@ -52,7 +52,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, defaultOpenId, className =
             >
               <span>{title}</span>
               <ChevronDown
-                className={clsx('w-5 h-5 transition-transform duration-300 ease-in-out', {
+                className={clsx('h-5 w-5 transition-transform duration-300 ease-in-out', {
                   'rotate-180': isOpen,
                 })}
                 aria-hidden="true"
@@ -63,7 +63,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, defaultOpenId, className =
               role="region"
               aria-labelledby={`accordion-header-${id}`}
               className={clsx(
-                'mt-2 px-4 text-sm text-base-content transition-[max-height,opacity] duration-300 ease-in-out overflow-hidden',
+                'mt-2 overflow-hidden px-4 text-sm text-base-content transition-[max-height,opacity] duration-300 ease-in-out',
                 isOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
               )}
             >

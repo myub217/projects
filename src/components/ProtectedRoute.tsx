@@ -5,7 +5,7 @@ import React from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 
 const allowedRoles = ['user', 'admin'] as const
-type AllowedRole = typeof allowedRoles[number]
+type AllowedRole = (typeof allowedRoles)[number]
 
 const ProtectedRoute: React.FC = () => {
   const location = useLocation()

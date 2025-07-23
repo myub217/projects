@@ -115,24 +115,23 @@ EOF
   fi
   echo '```' >> "$REPORT_FILE"
 done
-
 # 🗂️ Tree view
 if command -v tree >/dev/null 2>&1; then
   cat >> "$REPORT_FILE" << EOF
 
-## 🗂️ Project Tree: Level 1
+## 🗂️ Project Tree: Full
 \`\`\`
 EOF
-  tree -L 1 -I 'node_modules|.git' "$BASE_DIR" >> "$REPORT_FILE"
+  tree -L 99 -I 'node_modules|.git' "$BASE_DIR" >> "$REPORT_FILE"
   echo '```' >> "$REPORT_FILE"
 
   cat >> "$REPORT_FILE" << EOF
 
-## 📁 src Tree: Level 3
+## 📁 src Tree: Full
 \`\`\`
 EOF
   if [ -d "$BASE_DIR/src" ]; then
-    tree -L 3 "$BASE_DIR/src" >> "$REPORT_FILE"
+    tree -L 99 "$BASE_DIR/src" >> "$REPORT_FILE"
   else
     echo "// src not found" >> "$REPORT_FILE"
   fi
@@ -146,7 +145,6 @@ else
 \`\`\`
 EOF
 fi
-
 
 # 📌 Dev Note
 cat >> "$REPORT_FILE" << EOF

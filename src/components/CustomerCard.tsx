@@ -2,13 +2,7 @@
 // ✅ Refined CustomerCard with better accessibility, consistent styles, and clearer markup
 
 import React from 'react'
-import {
-  FaUserCheck,
-  FaClock,
-  FaTimesCircle,
-  FaFileAlt,
-  FaCalendarCheck,
-} from 'react-icons/fa'
+import { FaUserCheck, FaClock, FaTimesCircle, FaFileAlt, FaCalendarCheck } from 'react-icons/fa'
 import { CustomerApproval } from '../data/approvedCustomers'
 
 interface CustomerCardProps {
@@ -24,22 +18,19 @@ const formatDate = (date: string) =>
   })
 
 const STATUS_STYLES: Record<string, string> = {
-  'เสร็จสมบูรณ์':
-    'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-  'กำลังดำเนินการ':
-    'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-  'ยกเลิกแล้ว':
-    'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+  เสร็จสมบูรณ์: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+  กำลังดำเนินการ: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+  ยกเลิกแล้ว: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
 }
 
 const STATUS_ICONS: Record<string, JSX.Element> = {
-  'เสร็จสมบูรณ์': (
+  เสร็จสมบูรณ์: (
     <FaUserCheck className="inline text-green-600 dark:text-green-400" aria-hidden="true" />
   ),
-  'กำลังดำเนินการ': (
+  กำลังดำเนินการ: (
     <FaClock className="inline text-yellow-500 dark:text-yellow-400" aria-hidden="true" />
   ),
-  'ยกเลิกแล้ว': (
+  ยกเลิกแล้ว: (
     <FaTimesCircle className="inline text-red-500 dark:text-red-400" aria-hidden="true" />
   ),
 }
@@ -76,15 +67,12 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ customer, loading = false }
       aria-label={`ลูกค้า: ${customer.name}, สถานะ: ${customer.status}`}
       tabIndex={0}
     >
-      <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-        <h3
-          className="text-lg font-bold text-primary truncate"
-          title={customer.name}
-        >
+      <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <h3 className="truncate text-lg font-bold text-primary" title={customer.name}>
           {customer.name}
         </h3>
         <span
-          className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold select-none ${statusStyle}`}
+          className={`inline-flex select-none items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold ${statusStyle}`}
           aria-live="polite"
           aria-atomic="true"
           role="status"
@@ -99,7 +87,7 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ customer, loading = false }
             className="mt-1 shrink-0 text-blue-500 dark:text-blue-400"
             aria-hidden="true"
           />
-          <p className="leading-snug break-words">
+          <p className="break-words leading-snug">
             <strong>บริการ:</strong> {customer.documentTitle || 'จัดการเอกสารทั่วไป'}
           </p>
         </div>
@@ -109,7 +97,7 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ customer, loading = false }
             className="mt-1 shrink-0 text-teal-500 dark:text-teal-400"
             aria-hidden="true"
           />
-          <p className="leading-snug break-words">
+          <p className="break-words leading-snug">
             <strong>อัปเดตล่าสุด:</strong> {formatDate(customer.receivedDate)}
           </p>
         </div>

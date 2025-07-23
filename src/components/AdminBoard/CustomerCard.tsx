@@ -25,13 +25,13 @@ const CustomerCard: React.FC = () => {
     <article
       role="region"
       aria-label={`ข้อมูลลูกค้าเด่น: ${featuredCustomer.name}`}
-      className="flex items-center gap-6 p-6 bg-base-200 rounded-xl shadow-md border border-base-300 dark:border-base-700"
+      className="dark:border-base-700 flex items-center gap-6 rounded-xl border border-base-300 bg-base-200 p-6 shadow-md"
       tabIndex={0}
     >
       <img
         src={featuredCustomer.avatarUrl}
         alt={`รูปโปรไฟล์ของลูกค้า ${featuredCustomer.name}`}
-        className="w-20 h-20 rounded-full object-cover border-2 border-primary"
+        className="h-20 w-20 rounded-full border-2 border-primary object-cover"
         loading="lazy"
         width={80}
         height={80}
@@ -39,11 +39,14 @@ const CustomerCard: React.FC = () => {
         fetchPriority="low"
       />
       <div className="flex-1 space-y-1">
-        <h3 className="text-2xl font-semibold text-primary select-text">{featuredCustomer.name}</h3>
-        <p className="text-sm text-muted select-text">{featuredCustomer.email}</p>
+        <h3 className="select-text text-2xl font-semibold text-primary">{featuredCustomer.name}</h3>
+        <p className="select-text text-sm text-muted">{featuredCustomer.email}</p>
         <p className="text-sm">
           สั่งซื้อครั้งล่าสุด:{' '}
-          <time dateTime={featuredCustomer.lastOrderDate} aria-label={`สั่งซื้อครั้งล่าสุดเมื่อวันที่ ${featuredCustomer.lastOrderDate}`}>
+          <time
+            dateTime={featuredCustomer.lastOrderDate}
+            aria-label={`สั่งซื้อครั้งล่าสุดเมื่อวันที่ ${featuredCustomer.lastOrderDate}`}
+          >
             {new Date(featuredCustomer.lastOrderDate).toLocaleDateString('th-TH', {
               year: 'numeric',
               month: 'long',
@@ -51,7 +54,7 @@ const CustomerCard: React.FC = () => {
             })}
           </time>
         </p>
-        <p className="text-sm font-medium mt-2">
+        <p className="mt-2 text-sm font-medium">
           ยอดรวมการใช้จ่าย:{' '}
           <span className="text-accent">
             {featuredCustomer.totalSpent.toLocaleString('th-TH', {

@@ -20,24 +20,18 @@ const AdminDashboard: React.FC = () => {
     <main
       role="main"
       aria-label="แดชบอร์ดผู้ดูแลระบบ"
-      className="min-h-screen max-w-7xl mx-auto p-10 bg-base-100 text-base-content rounded-3xl shadow-xl space-y-20"
+      className="mx-auto min-h-screen max-w-7xl space-y-20 rounded-3xl bg-base-100 p-10 text-base-content shadow-xl"
     >
       {/* Header */}
-      <header className="text-center mb-10">
-        <h1 className="text-5xl font-extrabold text-primary">
-          แดชบอร์ดผู้ดูแลระบบ
-        </h1>
-        <p className="text-lg sm:text-xl text-muted max-w-4xl mx-auto mt-4">
+      <header className="mb-10 text-center">
+        <h1 className="text-5xl font-extrabold text-primary">แดชบอร์ดผู้ดูแลระบบ</h1>
+        <p className="mx-auto mt-4 max-w-4xl text-lg text-muted sm:text-xl">
           จัดการข้อมูลและดูสถิติที่สำคัญแบบเรียลไทม์เพื่อเพิ่มประสิทธิภาพการทำงาน
         </p>
       </header>
 
       {/* Stats Section */}
-      <section
-        role="region"
-        aria-labelledby="stats-panel-heading"
-        className="space-y-10"
-      >
+      <section role="region" aria-labelledby="stats-panel-heading" className="space-y-10">
         <h2 id="stats-panel-heading" className="sr-only">
           สถิติโดยรวม
         </h2>
@@ -45,15 +39,8 @@ const AdminDashboard: React.FC = () => {
       </section>
 
       {/* Customer Highlight Section */}
-      <section
-        role="region"
-        aria-labelledby="customer-card-heading"
-        className="space-y-8"
-      >
-        <h2
-          id="customer-card-heading"
-          className="text-2xl font-bold text-primary"
-        >
+      <section role="region" aria-labelledby="customer-card-heading" className="space-y-8">
+        <h2 id="customer-card-heading" className="text-2xl font-bold text-primary">
           ลูกค้าเด่นประจำวัน
         </h2>
         <CustomerCard
@@ -69,15 +56,8 @@ const AdminDashboard: React.FC = () => {
       </section>
 
       {/* User Table Section */}
-      <section
-        role="region"
-        aria-labelledby="user-table-heading"
-        className="space-y-8"
-      >
-        <h2
-          id="user-table-heading"
-          className="text-2xl font-bold text-primary"
-        >
+      <section role="region" aria-labelledby="user-table-heading" className="space-y-8">
+        <h2 id="user-table-heading" className="text-2xl font-bold text-primary">
           รายชื่อผู้ใช้งานในระบบ
         </h2>
         <UserTable />
@@ -87,7 +67,7 @@ const AdminDashboard: React.FC = () => {
       <section
         role="region"
         aria-labelledby="salary-certificate-heading"
-        className="space-y-8 flex justify-center print:block"
+        className="flex justify-center space-y-8 print:block"
       >
         <h2
           id="salary-certificate-heading"
@@ -96,7 +76,7 @@ const AdminDashboard: React.FC = () => {
           ใบรับรองเงินเดือนตัวอย่าง
         </h2>
         <div
-          className="w-full max-w-[210mm] bg-white rounded-md shadow-md border border-gray-300 p-10 print:shadow-none print:border-0 print:p-0 print:rounded-none"
+          className="w-full max-w-[210mm] rounded-md border border-gray-300 bg-white p-10 shadow-md print:rounded-none print:border-0 print:p-0 print:shadow-none"
           style={{
             minHeight: '297mm',
             fontFamily: "'TH Sarabun New', serif",

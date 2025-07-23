@@ -45,7 +45,7 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       className={clsx(
-        'inline-flex items-center justify-center rounded-md font-semibold transition focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed',
+        'inline-flex items-center justify-center rounded-md font-semibold transition focus:outline-none disabled:cursor-not-allowed disabled:opacity-50',
         variantClasses[variant],
         sizeClasses[size],
         className
@@ -55,7 +55,7 @@ const Button: React.FC<ButtonProps> = ({
     >
       {loading && (
         <svg
-          className="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
+          className="-ml-1 mr-2 h-5 w-5 animate-spin text-white"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"

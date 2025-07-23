@@ -9,13 +9,7 @@ import {
   FaGlobeAsia,
 } from 'react-icons/fa'
 
-export type ContactType =
-  | 'line'
-  | 'facebook'
-  | 'messenger'
-  | 'email'
-  | 'phone'
-  | 'website'
+export type ContactType = 'line' | 'facebook' | 'messenger' | 'email' | 'phone' | 'website'
 
 export interface ContactLink {
   type: ContactType

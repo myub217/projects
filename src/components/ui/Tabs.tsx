@@ -35,7 +35,9 @@ const Tabs: React.FC<TabsProps> = ({
   const idPrefix = useId()
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([])
 
-  const enabledTabs = tabs.map((t, i) => (t.disabled ? null : i)).filter((i): i is number => i !== null)
+  const enabledTabs = tabs
+    .map((t, i) => (t.disabled ? null : i))
+    .filter((i): i is number => i !== null)
 
   const focusTab = (index: number) => {
     tabsRef.current[index]?.focus()
@@ -100,11 +102,11 @@ const Tabs: React.FC<TabsProps> = ({
             tabIndex={index === activeIndex ? 0 : -1}
             disabled={tab.disabled}
             className={clsx(
-              'px-4 py-2 text-sm font-medium border-b-2 focus:outline-none transition',
+              'border-b-2 px-4 py-2 text-sm font-medium transition focus:outline-none',
               index === activeIndex
                 ? 'border-primary text-primary'
                 : 'border-transparent text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary',
-              tab.disabled && 'opacity-50 cursor-not-allowed',
+              tab.disabled && 'cursor-not-allowed opacity-50',
               tabClassName
             )}
             onClick={() => !tab.disabled && setActiveIndex(index)}

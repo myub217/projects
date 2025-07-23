@@ -1,0 +1,18 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.exclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.DS_Store": true
+  },
+  "files.autoSave": "onFocusChange",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "prettier.enableDebugLogs": false,
+  "prettier.requireConfig": true,
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "html"
+  }
+}

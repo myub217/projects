@@ -22,7 +22,7 @@ const UserTable: React.FC = () => {
     <section
       role="region"
       aria-label="ตารางรายชื่อผู้ใช้งานในระบบ"
-      className="overflow-x-auto rounded-lg shadow-md bg-base-200"
+      className="overflow-x-auto rounded-lg bg-base-200 shadow-md"
     >
       <table
         className="min-w-full divide-y divide-gray-300 dark:divide-gray-700"
@@ -31,7 +31,7 @@ const UserTable: React.FC = () => {
         <caption id="user-table-desc" className="sr-only">
           รายละเอียดรายชื่อผู้ใช้งานในระบบพร้อมสถานะและสิทธิ์การใช้งาน
         </caption>
-        <thead className="bg-gray-100 dark:bg-gray-800 select-none">
+        <thead className="select-none bg-gray-100 dark:bg-gray-800">
           <tr>
             <th
               scope="col"
@@ -67,20 +67,20 @@ const UserTable: React.FC = () => {
               aria-label={`${user.name}, อีเมล: ${user.email}, สิทธิ์: ${user.role}, สถานะ: ${
                 user.status === 'active' ? 'ใช้งานอยู่' : 'ไม่ใช้งาน'
               }`}
-              className="hover:bg-base-300 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+              className="cursor-pointer transition-colors hover:bg-base-300 dark:hover:bg-gray-700"
             >
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
+              <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-gray-100">
                 {user.name}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
+              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-700 dark:text-gray-300">
                 {user.email}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm capitalize text-gray-700 dark:text-gray-300">
+              <td className="whitespace-nowrap px-6 py-4 text-sm capitalize text-gray-700 dark:text-gray-300">
                 {user.role}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap">
+              <td className="whitespace-nowrap px-6 py-4">
                 <span
-                  className={`inline-block px-2 py-1 rounded-full text-xs font-semibold select-text ${
+                  className={`inline-block select-text rounded-full px-2 py-1 text-xs font-semibold ${
                     user.status === 'active'
                       ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100'
                       : 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100'

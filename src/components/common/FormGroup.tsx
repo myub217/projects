@@ -35,20 +35,20 @@ const FormGroup: React.FC<FormGroupProps> = ({
     <div className={`mb-4 ${className}`}>
       <label
         htmlFor={inputId}
-        className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1 select-none"
+        className="mb-1 block select-none text-sm font-medium text-gray-700 dark:text-gray-200"
       >
-        {label} {required && <span className="text-red-500" aria-hidden="true">*</span>}
+        {label}{' '}
+        {required && (
+          <span className="text-red-500" aria-hidden="true">
+            *
+          </span>
+        )}
       </label>
 
       {enhancedChildren}
 
       {error && (
-        <p
-          id={errorId}
-          role="alert"
-          aria-live="assertive"
-          className="mt-1 text-sm text-red-500"
-        >
+        <p id={errorId} role="alert" aria-live="assertive" className="mt-1 text-sm text-red-500">
           {error}
         </p>
       )}

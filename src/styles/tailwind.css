@@ -66,14 +66,19 @@
   }
 
   body {
-    @apply bg-background text-foreground font-body antialiased min-h-screen m-0 p-0;
+    @apply m-0 min-h-screen bg-background p-0 font-body text-foreground antialiased;
   }
 
   a {
-    @apply text-primary no-underline hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded transition-colors duration-200;
+    @apply rounded text-primary no-underline transition-colors duration-200 hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-heading font-semibold text-foreground;
     line-height: 1.25;
     margin-top: 0;
@@ -85,7 +90,8 @@
     margin-top: 1em;
   }
 
-  ul, ol {
+  ul,
+  ol {
     padding-left: 1.25rem;
     margin-top: 1em;
     margin-bottom: 1em;
@@ -112,7 +118,7 @@
   input:disabled,
   select:disabled,
   textarea:disabled {
-    @apply opacity-50 cursor-not-allowed;
+    @apply cursor-not-allowed opacity-50;
   }
 
   input,
@@ -128,14 +134,14 @@
 /* ==================== 🔹 COMPONENTS ==================== */
 @layer components {
   .btn {
-    @apply font-semibold py-2 px-4 rounded transition-colors duration-200 cursor-pointer select-none disabled:cursor-not-allowed disabled:opacity-50;
+    @apply cursor-pointer select-none rounded px-4 py-2 font-semibold transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50;
     border-radius: var(--radius-default);
     box-shadow: var(--shadow-soft);
   }
 
   /* fixed text-primary-contrast to text-primary-contrast-text and use custom property */
   .btn-primary {
-    @apply btn bg-primary shadow-soft hover:bg-primary-light dark:hover:bg-primary-dark focus:ring-2 focus:ring-primary focus:ring-offset-2;
+    @apply btn bg-primary shadow-soft hover:bg-primary-light focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:hover:bg-primary-dark;
     color: var(--color-primary-contrast-text);
   }
 

@@ -16,22 +16,22 @@ const AdminPage: React.FC = () => {
     <main
       role="main"
       aria-label="แผงควบคุมผู้ดูแลระบบ"
-      className="min-h-screen bg-base-100 text-base-content dark:bg-gray-900 px-6 py-12 transition-colors duration-300 flex flex-col items-center"
+      className="flex min-h-screen flex-col items-center bg-base-100 px-6 py-12 text-base-content transition-colors duration-300 dark:bg-gray-900"
     >
       {/* Header ต้อนรับผู้ใช้ */}
       <header
-        className="mb-10 max-w-xl w-full text-center select-text"
+        className="mb-10 w-full max-w-xl select-text text-center"
         tabIndex={-1}
         aria-live="polite"
         aria-atomic="true"
       >
         <h1
-          className="text-3xl sm:text-4xl font-extrabold text-primary mb-3 tracking-tight"
+          className="mb-3 text-3xl font-extrabold tracking-tight text-primary sm:text-4xl"
           tabIndex={0}
         >
           แผงควบคุมผู้ดูแลระบบ
         </h1>
-        <p className="text-lg sm:text-xl text-muted">
+        <p className="text-lg text-muted sm:text-xl">
           ยินดีต้อนรับคุณ{' '}
           <span
             className="font-semibold underline decoration-primary decoration-2"
@@ -44,11 +44,7 @@ const AdminPage: React.FC = () => {
       </header>
 
       {/* แดชบอร์ดผู้ดูแลระบบ */}
-      <section
-        className="w-full max-w-7xl"
-        tabIndex={-1}
-        aria-label="แดชบอร์ดผู้ดูแลระบบ"
-      >
+      <section className="w-full max-w-7xl" tabIndex={-1} aria-label="แดชบอร์ดผู้ดูแลระบบ">
         <AdminDashboard />
       </section>
     </main>

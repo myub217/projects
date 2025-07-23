@@ -90,7 +90,7 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <div
       className={clsx(
-        'fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4',
+        'fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm',
         overlayClassName
       )}
       role="dialog"
@@ -102,21 +102,21 @@ const Modal: React.FC<ModalProps> = ({
         ref={modalRef}
         tabIndex={-1}
         className={clsx(
-          'relative max-w-lg w-full bg-base-100 p-6 rounded-xl shadow-xl transition-transform transform scale-100 animate-in fade-in-80',
+          'animate-in fade-in-80 relative w-full max-w-lg scale-100 transform rounded-xl bg-base-100 p-6 shadow-xl transition-transform',
           className
         )}
       >
         {title && (
-          <h2 id="modal-title" className="text-lg font-semibold mb-4">
+          <h2 id="modal-title" className="mb-4 text-lg font-semibold">
             {title}
           </h2>
         )}
         <button
           onClick={onClose}
           aria-label="ปิดหน้าต่าง"
-          className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-primary rounded-full"
+          className="absolute right-3 top-3 rounded-full text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-primary"
         >
-          <X className="w-5 h-5" />
+          <X className="h-5 w-5" />
         </button>
         <div>{children}</div>
       </div>

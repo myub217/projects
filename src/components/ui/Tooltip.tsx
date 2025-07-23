@@ -61,7 +61,7 @@ const Tooltip: React.FC<TooltipProps> = ({
         role="tooltip"
         aria-live="polite"
         className={clsx(
-          'pointer-events-none absolute z-50 px-2 py-1 rounded-md bg-gray-800 text-white text-xs whitespace-nowrap shadow-md transition-opacity duration-200',
+          'pointer-events-none absolute z-50 whitespace-nowrap rounded-md bg-gray-800 px-2 py-1 text-xs text-white shadow-md transition-opacity duration-200',
           visible ? 'opacity-100' : 'opacity-0',
           positionStyles[position],
           className

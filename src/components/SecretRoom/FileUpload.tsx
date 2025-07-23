@@ -31,11 +31,11 @@ const FileUpload: React.FC<FileUploadProps> = ({
   return (
     <section
       aria-label="อัปโหลดเอกสาร"
-      className="p-4 bg-base-200 rounded-lg shadow-md max-w-md mx-auto"
+      className="mx-auto max-w-md rounded-lg bg-base-200 p-4 shadow-md"
     >
       <label
         htmlFor="fileUpload"
-        className="block mb-2 font-semibold text-base-content cursor-pointer hover:text-primary transition-colors select-none"
+        className="mb-2 block cursor-pointer select-none font-semibold text-base-content transition-colors hover:text-primary"
       >
         เลือกไฟล์เอกสาร (PDF, DOCX, JPG, PNG ฯลฯ)
       </label>
@@ -53,12 +53,12 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
       <p
         id="fileHelp"
-        className="mt-2 text-sm text-base-content/70 truncate select-text"
+        className="mt-2 select-text truncate text-sm text-base-content/70"
         aria-live="polite"
         aria-atomic="true"
       >
         {selectedFiles.length > 0
-          ? `ไฟล์ที่เลือก: ${selectedFiles.map((f) => f.name).join(', ')}`
+          ? `ไฟล์ที่เลือก: ${selectedFiles.map(f => f.name).join(', ')}`
           : 'ยังไม่ได้เลือกไฟล์'}
       </p>
     </section>

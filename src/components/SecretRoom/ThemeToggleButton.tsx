@@ -8,10 +8,7 @@ interface ThemeToggleButtonProps {
   toggleTheme: () => void
 }
 
-const ThemeToggleButton: React.FC<ThemeToggleButtonProps> = ({
-  theme,
-  toggleTheme,
-}) => {
+const ThemeToggleButton: React.FC<ThemeToggleButtonProps> = ({ theme, toggleTheme }) => {
   const isLight = theme === 'light'
 
   return (
@@ -21,7 +18,7 @@ const ThemeToggleButton: React.FC<ThemeToggleButtonProps> = ({
       aria-label={`สลับเป็นโหมด ${isLight ? 'มืด' : 'สว่าง'}`}
       aria-pressed={!isLight}
       title={`สลับเป็นโหมด ${isLight ? 'มืด' : 'สว่าง'}`}
-      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 rounded-full p-3 bg-base-200 text-base-content shadow-xl backdrop-blur-md hover:bg-base-300 dark:bg-neutral dark:text-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
+      className="fixed bottom-4 right-4 z-50 rounded-full bg-base-200 p-3 text-base-content shadow-xl backdrop-blur-md transition-colors hover:bg-base-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:bg-neutral dark:text-gray-200 dark:hover:bg-gray-700 sm:bottom-6 sm:right-6"
     >
       {isLight ? (
         <svg
@@ -32,7 +29,7 @@ const ThemeToggleButton: React.FC<ThemeToggleButtonProps> = ({
           strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="w-6 h-6"
+          className="h-6 w-6"
           role="img"
           aria-hidden="true"
         >
@@ -43,7 +40,7 @@ const ThemeToggleButton: React.FC<ThemeToggleButtonProps> = ({
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          className="w-6 h-6"
+          className="h-6 w-6"
           role="img"
           aria-hidden="true"
         >

@@ -29,13 +29,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       aria-label={`${title}${disabled ? ' - กำลังจะมาเร็วๆ นี้' : ''}`}
       aria-disabled={disabled}
       tabIndex={disabled ? -1 : 0}
-      className={`group flex flex-col justify-between h-full rounded-3xl overflow-hidden border shadow-sm transition-shadow duration-300
-        ${
-          disabled
-            ? 'border-yellow-400 bg-yellow-50 dark:bg-yellow-900 dark:border-yellow-600 cursor-not-allowed opacity-70'
-            : 'border-base-200 bg-base-100 dark:bg-base-300 hover:shadow-xl hover:border-primary dark:hover:border-primary cursor-pointer'
-        }
-        text-center sm:text-left select-text focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}
+      className={`group flex h-full flex-col justify-between overflow-hidden rounded-3xl border shadow-sm transition-shadow duration-300 ${
+        disabled
+          ? 'cursor-not-allowed border-yellow-400 bg-yellow-50 opacity-70 dark:border-yellow-600 dark:bg-yellow-900'
+          : 'cursor-pointer border-base-200 bg-base-100 hover:border-primary hover:shadow-xl dark:bg-base-300 dark:hover:border-primary'
+      } select-text text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:text-left`}
     >
       {/* Image or fallback icon */}
       {imageUrl ? (
@@ -43,8 +41,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           src={imageUrl}
           alt={altText ?? title}
           loading="lazy"
-          className="w-full h-40 sm:h-48 object-cover object-center transition-transform duration-300 group-hover:scale-105"
-          onError={(e) => {
+          className="h-40 w-full object-cover object-center transition-transform duration-300 group-hover:scale-105 sm:h-48"
+          onError={e => {
             e.currentTarget.style.display = 'none'
           }}
           decoding="async"
@@ -53,12 +51,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         />
       ) : (
         <div
-          className={`flex items-center justify-center sm:justify-start w-16 h-16 mx-auto sm:mx-0 mt-6 mb-4 rounded-full text-4xl
-            ${
-              disabled
-                ? 'bg-yellow-200 text-yellow-700 dark:bg-yellow-700 dark:text-yellow-300'
-                : 'bg-primary/10 text-primary'
-            }`}
+          className={`mx-auto mb-4 mt-6 flex h-16 w-16 items-center justify-center rounded-full text-4xl sm:mx-0 sm:justify-start ${
+            disabled
+              ? 'bg-yellow-200 text-yellow-700 dark:bg-yellow-700 dark:text-yellow-300'
+              : 'bg-primary/10 text-primary'
+          }`}
           aria-hidden="true"
         >
           <Icon />
@@ -66,10 +63,10 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       )}
 
       {/* Text Content */}
-      <div className="flex flex-col flex-grow px-6 pb-6 pt-2 sm:pt-0">
+      <div className="flex flex-grow flex-col px-6 pb-6 pt-2 sm:pt-0">
         <h3
           title={title}
-          className={`text-lg sm:text-xl font-extrabold mb-2 truncate ${
+          className={`mb-2 truncate text-lg font-extrabold sm:text-xl ${
             disabled ? 'text-yellow-700 dark:text-yellow-400' : 'text-base-content'
           }`}
         >
@@ -77,7 +74,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         </h3>
 
         <p
-          className={`text-sm sm:text-base mb-4 line-clamp-4 ${
+          className={`mb-4 line-clamp-4 text-sm sm:text-base ${
             disabled ? 'text-yellow-800 dark:text-yellow-300' : 'text-base-content/80'
           }`}
         >
@@ -92,7 +89,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`อ่านเพิ่มเติมเกี่ยวกับ ${title}`}
-              className="inline-block text-sm sm:text-base font-semibold text-primary hover:text-primary-focus transition duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+              className="hover:text-primary-focus inline-block rounded text-sm font-semibold text-primary transition duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:text-base"
             >
               อ่านเพิ่มเติม →
             </a>

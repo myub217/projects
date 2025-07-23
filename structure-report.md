@@ -3,24 +3,27 @@
 📁 **Project Root Directory:** `/data/data/com.termux/files/home/projects1`
 
 ## 📂 Required Directories
-| Directory           | Status |
-|---------------------|--------|
-| `src/` | ✅ Found |
-| `public/` | ✅ Found |
-| `api/` | ✅ Found |
+
+| Directory         | Status   |
+| ----------------- | -------- |
+| `src/`            | ✅ Found |
+| `public/`         | ✅ Found |
+| `api/`            | ✅ Found |
 | `src/components/` | ✅ Found |
-| `node_modules/` | ✅ Found |
+| `node_modules/`   | ✅ Found |
 
 ## 📄 Required Files
-| File               | Status |
-|--------------------|--------|
-| `package.json` | ✅ Found |
+
+| File             | Status   |
+| ---------------- | -------- |
+| `package.json`   | ✅ Found |
 | `vite.config.ts` | ✅ Found |
-| `.env` | ✅ Found |
-| `README.md` | ✅ Found |
+| `.env`           | ✅ Found |
+| `README.md`      | ✅ Found |
 
 ## 🎨 tailwind.config.ts
-```ts
+
+````ts
 import type { Config } from 'tailwindcss'
 import typography from '@tailwindcss/typography'
 import daisyui from 'daisyui'
@@ -545,17 +548,98 @@ const AdminPage: React.FC = () => {
 
 export default AdminPage```
 
-## 🗂️ Project Tree: Level 1
-```
+## 🗂️ Project Tree: Full
+````
+
 /data/data/com.termux/files/home/projects1
 ├──  
+│   └── types
+│   └── connect-history-api-fallback.d.ts
 ├── Clean.sh
 ├── README.md
 ├── api
+│   └── contact.ts
 ├── auto-commit.sh
 ├── check-structure.sh
 ├── dev-dist
+│   └── registerSW.js
 ├── dist
+│   ├── assets
+│   │   ├── 1hero.webp
+│   │   ├── 2hero.webp
+│   │   ├── AdminPage-CjfCpXjP.js
+│   │   ├── AdminPage-CjfCpXjP.js.map
+│   │   ├── CustomerAssessmentSummary-su_zOlcu.js
+│   │   ├── CustomerAssessmentSummary-su_zOlcu.js.map
+│   │   ├── Footer-CdN0Vv1d.js
+│   │   ├── Footer-CdN0Vv1d.js.map
+│   │   ├── Hhero.webp
+│   │   ├── IndexPage-BgHZaUF7.js
+│   │   ├── IndexPage-BgHZaUF7.js.map
+│   │   ├── LoginPage-LjCpVTM5.js
+│   │   ├── LoginPage-LjCpVTM5.js.map
+│   │   ├── NotFoundPage-3BGWsoTp.js
+│   │   ├── NotFoundPage-3BGWsoTp.js.map
+│   │   ├── SecretRoomPage-DgulvkVH.js
+│   │   ├── SecretRoomPage-DgulvkVH.js.map
+│   │   ├── about-IgS6mAQi.webp
+│   │   ├── about.webp
+│   │   ├── hero-BRaXPQvd.webp
+│   │   ├── hero.webp
+│   │   ├── index-BZD8RP_N.css
+│   │   ├── index-CEZcIxm9.js
+│   │   ├── index-CEZcIxm9.js.map
+│   │   ├── jp-logo-CH0zBIqT.webp
+│   │   ├── jp-logo.webp
+│   │   ├── logo.svg
+│   │   ├── signature-BovtCThw.webp
+│   │   ├── signature.webp
+│   │   ├── vendor-tC7v4KOg.js
+│   │   └── vendor-tC7v4KOg.js.map
+│   ├── docs
+│   │   ├── certificate.pdf
+│   │   ├── contract.pdf
+│   │   └── registration.pdf
+│   ├── images
+│   │   ├── images
+│   │   │   ├── review
+│   │   │   │   └── review1.png
+│   │   │   └── services
+│   │   │   ├── service1.webp
+│   │   │   ├── service10.webp
+│   │   │   ├── service11.webp
+│   │   │   ├── service12.webp
+│   │   │   ├── service2.webp
+│   │   │   ├── service22.webp
+│   │   │   ├── service3.webp
+│   │   │   ├── service4.webp
+│   │   │   ├── service5.webp
+│   │   │   ├── service6.webp
+│   │   │   ├── service7.webp
+│   │   │   ├── service8.webp
+│   │   │   └── service9.webp
+│   │   ├── review
+│   │   │   └── review1.png
+│   │   └── services
+│   │   ├── service1.webp
+│   │   ├── service10.webp
+│   │   ├── service11.webp
+│   │   ├── service12.webp
+│   │   ├── service2.webp
+│   │   ├── service22.webp
+│   │   ├── service3.webp
+│   │   ├── service4.webp
+│   │   ├── service5.webp
+│   │   ├── service6.webp
+│   │   ├── service7.webp
+│   │   ├── service8.webp
+│   │   └── service9.webp
+│   ├── index.html
+│   ├── logo.svg
+│   ├── manifest.webmanifest
+│   ├── registerSW.js
+│   ├── sw.js
+│   └── sw.js.map
 ├── index.html
 ├── index.ts
 ├── package.json
@@ -564,19 +648,166 @@ export default AdminPage```
 ├── pnpm-workspace.yaml
 ├── postcss.config.cjs
 ├── public
+│   ├── assets
+│   │   ├── 1hero.webp
+│   │   ├── 2hero.webp
+│   │   ├── Hhero.webp
+│   │   ├── about.webp
+│   │   ├── hero.webp
+│   │   ├── jp-logo.webp
+│   │   ├── logo.svg
+│   │   └── signature.webp
+│   ├── docs
+│   │   ├── certificate.pdf
+│   │   ├── contract.pdf
+│   │   └── registration.pdf
+│   ├── images
+│   │   ├── review
+│   │   │   └── review1.png
+│   │   └── services
+│   │   ├── service1.webp
+│   │   ├── service10.webp
+│   │   ├── service11.webp
+│   │   ├── service12.webp
+│   │   ├── service2.webp
+│   │   ├── service22.webp
+│   │   ├── service3.webp
+│   │   ├── service4.webp
+│   │   ├── service5.webp
+│   │   ├── service6.webp
+│   │   ├── service7.webp
+│   │   ├── service8.webp
+│   │   └── service9.webp
+│   └── logo.svg
 ├── setup.sh
 ├── src
+│   ├── api
+│   │   └── auth.ts
+│   ├── assets
+│   │   ├── 1hero.webp
+│   │   ├── 2hero.webp
+│   │   ├── Hhero.webp
+│   │   ├── about.webp
+│   │   ├── hero.webp
+│   │   ├── jp-logo.webp
+│   │   ├── logo.svg
+│   │   └── signature.webp
+│   ├── components
+│   │   ├── About.tsx
+│   │   ├── AdminBoard
+│   │   │   ├── CustomerCard.tsx
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── SalaryCertificate.tsx
+│   │   │   ├── StatsPanel.tsx
+│   │   │   └── UserTable.tsx
+│   │   ├── CTASection.tsx
+│   │   ├── CustomerAssessmentForm.tsx
+│   │   ├── CustomerCard.tsx
+│   │   ├── ErrorBoundary.tsx
+│   │   ├── Feature.tsx
+│   │   ├── Footer.tsx
+│   │   ├── Header.tsx
+│   │   ├── Hero.tsx
+│   │   ├── Layout
+│   │   │   └── MainLayout.tsx
+│   │   ├── LoadingSpinner.tsx
+│   │   ├── NotificationBanner.tsx
+│   │   ├── ProtectedRoute.tsx
+│   │   ├── ResponsiveNavbar.tsx
+│   │   ├── ReviewsSection.tsx
+│   │   ├── SecretRoom
+│   │   │   ├── AccessLogTable.tsx
+│   │   │   ├── CustomerLoanProgressGraph.tsx
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── DashboardCard.tsx
+│   │   │   ├── FileUpload.tsx
+│   │   │   ├── HeaderBlock.tsx
+│   │   │   ├── HelpSupport.tsx
+│   │   │   ├── NotificationToast.tsx
+│   │   │   ├── NotificationsPanel.tsx
+│   │   │   ├── PerformanceMetrics.tsx
+│   │   │   ├── SystemCheckCard.tsx
+│   │   │   ├── ThemeToggleButton.tsx
+│   │   │   └── UserProfileCard.tsx
+│   │   ├── ServiceCard.tsx
+│   │   ├── ServicesSection.tsx
+│   │   ├── StatsPanel.tsx
+│   │   ├── ThemeProvider.tsx
+│   │   ├── common
+│   │   │   ├── Badge.tsx
+│   │   │   ├── Button.tsx
+│   │   │   ├── DashboardCard.tsx
+│   │   │   ├── ErrorMessage.tsx
+│   │   │   ├── FormGroup.tsx
+│   │   │   ├── Icon.tsx
+│   │   │   ├── LoadingFallback.tsx
+│   │   │   ├── LoadingSpinner.tsx
+│   │   │   ├── Modal.tsx
+│   │   │   ├── SectionHeader.tsx
+│   │   │   ├── ServiceRequestModal.tsx
+│   │   │   └── UserAvatar.tsx
+│   │   ├── contact
+│   │   │   ├── ContactCard.tsx
+│   │   │   ├── ContactIconButton.tsx
+│   │   │   ├── ContactList.tsx
+│   │   │   └── index.ts
+│   │   └── ui
+│   │   ├── Accordion.tsx
+│   │   ├── DashboardCard.tsx
+│   │   ├── Input.tsx
+│   │   ├── Modal.tsx
+│   │   ├── Tabs.tsx
+│   │   └── Tooltip.tsx
+│   ├── config
+│   │   ├── adminConfig.ts
+│   │   ├── contact.ts
+│   │   └── salaryCertificateConfig.ts
+│   ├── data
+│   │   ├── approvedCustomers.ts
+│   │   ├── reviewsData.ts
+│   │   ├── servicesData.ts
+│   │   └── users.ts
+│   ├── hooks
+│   │   └── useOnlineStatus.ts
+│   ├── main.tsx
+│   ├── pages
+│   │   ├── AdminPage.tsx
+│   │   ├── CustomerAssessmentSummary.tsx
+│   │   ├── IndexPage.tsx
+│   │   ├── LoginPage.tsx
+│   │   ├── NotFoundPage.tsx
+│   │   ├── SecretRoomPage.tsx
+│   │   └── SettingsPage.tsx
+│   ├── routes
+│   │   ├── AppRoutes.tsx
+│   │   └── LoadingFallback.tsx
+│   ├── styles
+│   │   ├── global.css
+│   │   ├── tailwind-base.css
+│   │   └── tailwind.css
+│   ├── sw.ts
+│   ├── types
+│   │   ├── assets.d.ts
+│   │   ├── connect-history-api-fallback.d.ts
+│   │   ├── index.d.ts
+│   │   ├── user.ts
+│   │   └── vite-env.d.ts
+│   └── utils
+│   ├── formatDate.ts
+│   └── hashPassword.ts
 ├── structure-report.md
 ├── tailwind.config.ts
 ├── tsconfig.json
 ├── vercel.json
 └── vite.config.ts
 
-7 directories, 17 files
+38 directories, 211 files
+
 ```
 
-## 📁 src Tree: Level 3
+## 📁 src Tree: Full
 ```
+
 /data/data/com.termux/files/home/projects1/src
 ├── api
 │   └── auth.ts
@@ -649,12 +880,12 @@ export default AdminPage```
 │   │   ├── ContactList.tsx
 │   │   └── index.ts
 │   └── ui
-│       ├── Accordion.tsx
-│       ├── DashboardCard.tsx
-│       ├── Input.tsx
-│       ├── Modal.tsx
-│       ├── Tabs.tsx
-│       └── Tooltip.tsx
+│   ├── Accordion.tsx
+│   ├── DashboardCard.tsx
+│   ├── Input.tsx
+│   ├── Modal.tsx
+│   ├── Tabs.tsx
+│   └── Tooltip.tsx
 ├── config
 │   ├── adminConfig.ts
 │   ├── contact.ts
@@ -690,10 +921,11 @@ export default AdminPage```
 │   ├── user.ts
 │   └── vite-env.d.ts
 └── utils
-    ├── formatDate.ts
-    └── hashPassword.ts
+├── formatDate.ts
+└── hashPassword.ts
 
 18 directories, 97 files
+
 ```
 
 ## 📌 Dev Partner Note
@@ -741,7 +973,8 @@ File tree:
 Ready for dev or deployment.
 
 Ask next task or specific code/bug fix.
-📂 โครงสร้างทั้งหมดแนบไว้ใน Report นี้แล้ว  
+📂 โครงสร้างทั้งหมดแนบไว้ใน Report นี้แล้ว
 🧠 เข้าใจบริบทแล้ว พร้อมรับคำสั่งถัดไปได้เลย
 
-🕛 Last Checked: Wed Jul 23 14:15:52 +07 2025
+🕛 Last Checked: Wed Jul 23 14:26:28 +07 2025
+```

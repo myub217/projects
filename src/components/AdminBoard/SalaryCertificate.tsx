@@ -25,7 +25,7 @@ const SalaryCertificate: React.FC<{ employee: Employee }> = ({ employee }) => {
     <article
       role="document"
       aria-label={`หนังสือรับรองเงินเดือนของ ${employee.fullName}`}
-      className="w-full max-w-[210mm] min-h-[297mm] mx-auto bg-white p-16 border border-black rounded-md print:p-8 print:border-0 print:shadow-none"
+      className="mx-auto min-h-[297mm] w-full max-w-[210mm] rounded-md border border-black bg-white p-16 print:border-0 print:p-8 print:shadow-none"
       style={{
         fontFamily: "'TH Sarabun New', serif",
         color: '#000',
@@ -36,17 +36,17 @@ const SalaryCertificate: React.FC<{ employee: Employee }> = ({ employee }) => {
       }}
     >
       {/* Header */}
-      <header className="mb-10 print:mb-6 text-center" style={{ lineHeight: 1.6 }}>
-        <h1 className="text-4xl font-extrabold mb-6 print:text-3xl" style={{ color: '#000' }}>
+      <header className="mb-10 text-center print:mb-6" style={{ lineHeight: 1.6 }}>
+        <h1 className="mb-6 text-4xl font-extrabold print:text-3xl" style={{ color: '#000' }}>
           หนังสือรับรองเงินเดือน
         </h1>
 
-        <p className="text-lg mb-1" style={{ color: '#000' }}>
+        <p className="mb-1 text-lg" style={{ color: '#000' }}>
           {companyInfo.name}
         </p>
 
         <p
-          className="text-sm mb-1"
+          className="mb-1 text-sm"
           style={{
             color: '#000',
             whiteSpace: 'pre-line',
@@ -57,7 +57,7 @@ const SalaryCertificate: React.FC<{ employee: Employee }> = ({ employee }) => {
           {companyInfo.address}
         </p>
 
-        <p className="text-sm mb-1" style={{ color: '#000' }}>
+        <p className="mb-1 text-sm" style={{ color: '#000' }}>
           โทร: {companyInfo.phone}
         </p>
 
@@ -68,16 +68,15 @@ const SalaryCertificate: React.FC<{ employee: Employee }> = ({ employee }) => {
 
       {/* Body */}
       <section
-        className="text-lg leading-relaxed space-y-6 print:text-base print:leading-snug"
+        className="space-y-6 text-lg leading-relaxed print:text-base print:leading-snug"
         style={{ color: '#000', lineHeight: 1.7 }}
       >
         <p>เรียน ผู้ที่เกี่ยวข้อง,</p>
 
         <p>
           บริษัท <strong>{companyInfo.name}</strong> ขอรับรองว่า{' '}
-          <strong>{employee.fullName}</strong> ดำรงตำแหน่ง{' '}
-          <strong>{employee.position}</strong> ในฝ่าย{' '}
-          <strong>{employee.department}</strong> และได้รับเงินเดือนจำนวน{' '}
+          <strong>{employee.fullName}</strong> ดำรงตำแหน่ง <strong>{employee.position}</strong>{' '}
+          ในฝ่าย <strong>{employee.department}</strong> และได้รับเงินเดือนจำนวน{' '}
           <strong>
             {employee.salaryAmount.toLocaleString('th-TH', {
               style: 'currency',
@@ -109,7 +108,7 @@ const SalaryCertificate: React.FC<{ employee: Employee }> = ({ employee }) => {
 
           <p>{companyInfo.hrManager.position}</p>
 
-          <p className="text-xs mt-1">{companyInfo.hrManager.email}</p>
+          <p className="mt-1 text-xs">{companyInfo.hrManager.email}</p>
         </div>
       </footer>
     </article>

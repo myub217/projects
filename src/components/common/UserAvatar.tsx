@@ -19,13 +19,7 @@ const sizeClasses = {
   xl: 'w-24 h-24 text-xl',
 }
 
-const UserAvatar: React.FC<UserAvatarProps> = ({
-  src,
-  alt,
-  name,
-  size = 'md',
-  className = '',
-}) => {
+const UserAvatar: React.FC<UserAvatarProps> = ({ src, alt, name, size = 'md', className = '' }) => {
   // Extract initials from name fallback
   const getInitials = (fullName: string | undefined) => {
     if (!fullName) return '?'
@@ -42,7 +36,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
       className={clsx('rounded-full object-cover', sizeClasses[size], className)}
       loading="lazy"
       draggable={false}
-      onError={(e) => {
+      onError={e => {
         // fallback to initials by removing src on error
         ;(e.currentTarget as HTMLImageElement).src = ''
       }}
@@ -52,7 +46,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
       role="img"
       aria-label={alt ?? `Avatar of ${name ?? 'user'}`}
       className={clsx(
-        'flex items-center justify-center rounded-full bg-primary text-primary-contrastText font-semibold select-none',
+        'flex select-none items-center justify-center rounded-full bg-primary font-semibold text-primary-contrastText',
         sizeClasses[size],
         className
       )}

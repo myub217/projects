@@ -16,7 +16,7 @@ const ContactIconButton: React.FC<ContactIconButtonProps> = ({ contact, href }) 
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex items-center gap-2 rounded-full border border-base-300 bg-base-100 px-4 py-2 text-sm hover:bg-base-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors"
+      className="flex items-center gap-2 rounded-full border border-base-300 bg-base-100 px-4 py-2 text-sm transition-colors hover:bg-base-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
       aria-label={contact.label}
     >
       <Icon className="h-5 w-5" aria-hidden="true" />

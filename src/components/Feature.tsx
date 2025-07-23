@@ -18,9 +18,7 @@ const Feature: React.FC = () => {
   const sortedCustomers = useMemo(() => {
     const list = [...approvedCustomers]
     if (sortOrder === 'สถานะ') {
-      return list.sort((a, b) =>
-        a.status === b.status ? 0 : a.status === 'เสร็จสมบูรณ์' ? -1 : 1
-      )
+      return list.sort((a, b) => (a.status === b.status ? 0 : a.status === 'เสร็จสมบูรณ์' ? -1 : 1))
     }
     return list.sort(
       (a, b) => new Date(b.receivedDate).getTime() - new Date(a.receivedDate).getTime()
@@ -68,13 +66,13 @@ const Feature: React.FC = () => {
 
             <label
               htmlFor="sort-order-select"
-              className="inline-flex items-center gap-2 cursor-pointer"
+              className="inline-flex cursor-pointer items-center gap-2"
             >
               <FaSortAmountDownAlt aria-hidden="true" />
               <select
                 id="sort-order-select"
                 value={sortOrder}
-                onChange={(e) => setSortOrder(e.target.value as SortOrder)}
+                onChange={e => setSortOrder(e.target.value as SortOrder)}
                 className="rounded border border-zinc-300 bg-white px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-zinc-600 dark:bg-zinc-800"
                 aria-label="จัดเรียงรายการ"
               >
@@ -85,13 +83,13 @@ const Feature: React.FC = () => {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-wrap justify-start sm:justify-end gap-3">
+          <div className="flex flex-wrap justify-start gap-3 sm:justify-end">
             <button
-              onClick={() => setShowForm((v) => !v)}
+              onClick={() => setShowForm(v => !v)}
               aria-expanded={showForm}
               aria-controls="customer-assessment-form"
               type="button"
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white shadow transition hover:bg-blue-700 focus:ring-4 focus:ring-blue-400 focus:outline-none"
+              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white shadow transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-400"
             >
               <FaFileSignature aria-hidden="true" />
               <span>{showForm ? 'ซ่อนแบบฟอร์ม' : 'ส่งคำขอให้เราช่วยดูแล'}</span>
@@ -112,7 +110,7 @@ const Feature: React.FC = () => {
             <button
               onClick={() => alert('เปิดดูทั้งหมด')}
               type="button"
-              className="inline-flex items-center gap-2 rounded-lg bg-zinc-100 px-4 py-2 text-zinc-800 transition hover:bg-zinc-200 focus:ring-4 focus:ring-zinc-400 dark:bg-zinc-700 dark:text-white dark:hover:bg-zinc-600 dark:focus:ring-zinc-600 focus:outline-none"
+              className="inline-flex items-center gap-2 rounded-lg bg-zinc-100 px-4 py-2 text-zinc-800 transition hover:bg-zinc-200 focus:outline-none focus:ring-4 focus:ring-zinc-400 dark:bg-zinc-700 dark:text-white dark:hover:bg-zinc-600 dark:focus:ring-zinc-600"
             >
               <FaListUl aria-hidden="true" />
               <span>ดูทั้งหมด</span>
@@ -137,7 +135,7 @@ const Feature: React.FC = () => {
             role="list"
             aria-labelledby="feature-heading"
           >
-            {sortedCustomers.map((customer) => (
+            {sortedCustomers.map(customer => (
               <li key={customer.id} className="h-full">
                 <CustomerCard customer={customer} />
               </li>

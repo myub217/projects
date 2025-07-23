@@ -36,12 +36,12 @@ const SettingsPage: React.FC = () => {
   }, [username, email])
 
   return (
-    <MainLayout className="min-h-screen flex flex-col items-center justify-center py-12 px-4">
+    <MainLayout className="flex min-h-screen flex-col items-center justify-center px-4 py-12">
       <section
         aria-label="ตั้งค่าผู้ใช้"
-        className="w-full max-w-md p-6 bg-base-100 dark:bg-zinc-900 rounded-lg shadow-md"
+        className="w-full max-w-md rounded-lg bg-base-100 p-6 shadow-md dark:bg-zinc-900"
       >
-        <h1 className="text-2xl font-bold mb-6 text-primary">ตั้งค่าผู้ใช้</h1>
+        <h1 className="mb-6 text-2xl font-bold text-primary">ตั้งค่าผู้ใช้</h1>
 
         <form
           onSubmit={e => {
@@ -49,11 +49,17 @@ const SettingsPage: React.FC = () => {
             handleSave()
           }}
           className="flex flex-col gap-4"
-          aria-describedby={`${errorMsg ? 'error-message' : ''} ${statusMsg && !errorMsg ? 'status-message' : ''}`.trim() || undefined}
+          aria-describedby={
+            `${errorMsg ? 'error-message' : ''} ${statusMsg && !errorMsg ? 'status-message' : ''}`.trim() ||
+            undefined
+          }
           noValidate
         >
           <label htmlFor="username" className="font-semibold">
-            ชื่อผู้ใช้ <span aria-hidden="true" className="text-error">*</span>
+            ชื่อผู้ใช้{' '}
+            <span aria-hidden="true" className="text-error">
+              *
+            </span>
           </label>
           <input
             id="username"
@@ -80,12 +86,8 @@ const SettingsPage: React.FC = () => {
             aria-describedby={statusMsg && !errorMsg ? 'status-message' : undefined}
           />
 
-          <div className="flex items-center justify-between mt-6">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              aria-label="บันทึกการตั้งค่า"
-            >
+          <div className="mt-6 flex items-center justify-between">
+            <button type="submit" className="btn btn-primary" aria-label="บันทึกการตั้งค่า">
               บันทึก
             </button>
 
@@ -100,21 +102,13 @@ const SettingsPage: React.FC = () => {
           </div>
 
           {errorMsg && (
-            <p
-              id="error-message"
-              role="alert"
-              className="mt-4 text-sm text-error select-none"
-            >
+            <p id="error-message" role="alert" className="mt-4 select-none text-sm text-error">
               {errorMsg}
             </p>
           )}
 
           {statusMsg && !errorMsg && (
-            <p
-              id="status-message"
-              role="status"
-              className="mt-4 text-sm text-success select-none"
-            >
+            <p id="status-message" role="status" className="mt-4 select-none text-sm text-success">
               {statusMsg}
             </p>
           )}

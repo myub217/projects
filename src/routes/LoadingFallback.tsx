@@ -8,9 +8,9 @@ const LoadingFallback: React.FC = () => (
     role="status"
     aria-live="polite"
     aria-busy="true"
-    className="flex justify-center items-center min-h-screen bg-base-100 text-gray-500 dark:text-gray-400 select-none"
+    className="flex min-h-screen select-none items-center justify-center bg-base-100 text-gray-500 dark:text-gray-400"
   >
-    <span className="text-lg font-semibold animate-pulse">กำลังโหลด...</span>
+    <span className="animate-pulse text-lg font-semibold">กำลังโหลด...</span>
   </main>
 )
 

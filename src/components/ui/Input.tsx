@@ -17,11 +17,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const errorId = error ? `${inputId}-error` : undefined
 
     return (
-      <div className={clsx('flex flex-col w-full', className)}>
+      <div className={clsx('flex w-full flex-col', className)}>
         {label && (
           <label
             htmlFor={inputId}
-            className="mb-1 text-sm font-semibold text-gray-700 dark:text-gray-300 select-none"
+            className="mb-1 select-none text-sm font-semibold text-gray-700 dark:text-gray-300"
           >
             {label}
           </label>
@@ -33,23 +33,17 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           aria-invalid={!!error}
           aria-describedby={errorId}
           className={clsx(
-            'rounded-md border px-3 py-2 text-base text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500',
+            'rounded-md border px-3 py-2 text-base text-gray-900 placeholder:text-gray-400 dark:text-gray-100 dark:placeholder:text-gray-500',
             'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1',
-            error
-              ? 'border-error focus:ring-error'
-              : 'border-gray-300 dark:border-gray-600',
+            error ? 'border-error focus:ring-error' : 'border-gray-300 dark:border-gray-600',
             'transition-colors duration-150',
-            'disabled:opacity-50 disabled:cursor-not-allowed',
-            'shadow-sm',
+            'disabled:cursor-not-allowed disabled:opacity-50',
+            'shadow-sm'
           )}
           {...props}
         />
         {error && typeof error === 'string' && (
-          <p
-            id={errorId}
-            role="alert"
-            className="mt-1 text-sm text-error select-none"
-          >
+          <p id={errorId} role="alert" className="mt-1 select-none text-sm text-error">
             {error}
           </p>
         )}

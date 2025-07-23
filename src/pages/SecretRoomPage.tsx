@@ -37,10 +37,10 @@ const SecretRoomPage: React.FC = () => {
     <main
       role="main"
       aria-label="แดชบอร์ดระบบรักษาความปลอดภัย"
-      className="relative min-h-screen px-4 py-16 bg-base-100 text-base-content transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
+      className="relative min-h-screen bg-base-100 px-4 py-16 text-base-content transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
     >
       {/* Theme Toggle Button */}
-      <div className="fixed top-4 right-4 z-50">
+      <div className="fixed right-4 top-4 z-50">
         <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
       </div>
 
@@ -50,41 +50,38 @@ const SecretRoomPage: React.FC = () => {
         tabIndex={0}
         aria-live="polite"
         aria-atomic="true"
-        className="max-w-2xl mx-auto text-center space-y-4"
+        className="mx-auto max-w-2xl space-y-4 text-center"
       >
         <h1
-          className="text-4xl sm:text-5xl font-extrabold tracking-tight text-primary"
+          className="text-4xl font-extrabold tracking-tight text-primary sm:text-5xl"
           tabIndex={0}
         >
           ยินดีต้อนรับสู่ระบบ
         </h1>
-        <p className="text-lg sm:text-xl text-base-content/80 leading-relaxed">
+        <p className="text-lg leading-relaxed text-base-content/80 sm:text-xl">
           สวัสดีคุณ{' '}
           <span
-            className="font-semibold text-secondary underline underline-offset-4 decoration-secondary/60"
+            className="font-semibold text-secondary underline decoration-secondary/60 underline-offset-4"
             aria-label={`ชื่อผู้ใช้: ${username}`}
             tabIndex={0}
           >
             {username}
           </span>{' '}
-          👋<br />
+          👋
+          <br />
           คุณเข้าสู่ระบบเรียบร้อยแล้ว
         </p>
       </section>
 
       {/* User Profile Summary */}
-      <section
-        aria-label="สรุปข้อมูลผู้ใช้งาน"
-        className="mt-10 max-w-md mx-auto"
-        tabIndex={-1}
-      >
+      <section aria-label="สรุปข้อมูลผู้ใช้งาน" className="mx-auto mt-10 max-w-md" tabIndex={-1}>
         <UserProfileCard username={username} />
       </section>
 
       {/* Dashboard Section */}
       <section
         aria-label="แดชบอร์ดข้อมูลและระบบ"
-        className="mt-12 w-full max-w-7xl mx-auto p-6 sm:p-10 bg-base-200 dark:bg-zinc-800 rounded-2xl shadow-xl transition-shadow duration-300 hover:shadow-2xl focus-within:shadow-2xl outline-none"
+        className="mx-auto mt-12 w-full max-w-7xl rounded-2xl bg-base-200 p-6 shadow-xl outline-none transition-shadow duration-300 focus-within:shadow-2xl hover:shadow-2xl dark:bg-zinc-800 sm:p-10"
         tabIndex={-1}
       >
         <Dashboard />

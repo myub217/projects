@@ -12,7 +12,7 @@ export default defineConfig({
       strategies: 'injectManifest',
       srcDir: 'src',
       filename: 'sw.ts',
-      injectRegister: 'auto', // หรือ false ถ้าจัดการ register เอง
+      injectRegister: 'auto',
       registerType: 'autoUpdate',
       manifest: {
         name: 'JP Visual & Docs',
@@ -22,8 +22,16 @@ export default defineConfig({
         background_color: '#ffffff',
         theme_color: '#2563eb',
         icons: [
-          { src: '/images/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/images/icon-512.png', sizes: '512x512', type: 'image/png' },
+          {
+            src: '/images/icon-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: '/images/icon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
         ],
       },
       devOptions: {
@@ -32,9 +40,7 @@ export default defineConfig({
       },
     }),
     viteStaticCopy({
-      targets: [
-        { src: 'public/images', dest: 'images' },
-      ],
+      targets: [{ src: 'public/images', dest: 'images' }],
     }),
     {
       name: 'mock-api',
@@ -53,6 +59,7 @@ export default defineConfig({
       },
     },
   ],
+
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
@@ -67,6 +74,7 @@ export default defineConfig({
       '@config': path.resolve(__dirname, 'src/config'),
     },
   },
+
   server: {
     host: '0.0.0.0',
     port: 5173,
@@ -82,6 +90,7 @@ export default defineConfig({
             },
           },
   },
+
   build: {
     outDir: 'dist',
     emptyOutDir: true,
@@ -95,6 +104,7 @@ export default defineConfig({
       },
     },
   },
+
   optimizeDeps: {
     include: ['react', 'react-dom'],
   },

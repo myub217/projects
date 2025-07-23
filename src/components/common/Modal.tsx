@@ -119,7 +119,7 @@ const Modal: React.FC<ModalProps> = ({
         ref={modalRef}
         tabIndex={0}
         onClick={onModalContentClick}
-        className={`bg-base-100 text-base-content rounded-lg shadow-lg p-6 w-full mx-4 ${sizeClasses[size]} max-h-[90vh] overflow-auto focus:outline-none ${className} transition-transform duration-200 ease-out`}
+        className={`mx-4 w-full rounded-lg bg-base-100 p-6 text-base-content shadow-lg ${sizeClasses[size]} max-h-[90vh] overflow-auto focus:outline-none ${className} transition-transform duration-200 ease-out`}
       >
         {title && (
           <header className="mb-4">
@@ -138,7 +138,7 @@ const Modal: React.FC<ModalProps> = ({
         <footer className="mt-6 flex justify-end">
           <button
             onClick={onClose}
-            className="btn btn-sm btn-outline btn-primary"
+            className="btn btn-outline btn-primary btn-sm"
             aria-label="Close modal"
             type="button"
           >

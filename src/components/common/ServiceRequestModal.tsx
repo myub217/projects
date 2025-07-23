@@ -76,35 +76,37 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
       aria-describedby="service-modal-desc"
       tabIndex={-1}
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4 py-6 md:px-6 transition-opacity duration-300"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 py-6 backdrop-blur-sm transition-opacity duration-300 md:px-6"
     >
       <div
         tabIndex={0}
         ref={modalRef}
         onClick={onModalContentClick}
-        className="w-full max-w-lg rounded-2xl bg-base-100 dark:bg-gray-900 p-6 shadow-2xl space-y-5 focus:outline-none transform transition-transform duration-300 ease-out"
+        className="w-full max-w-lg transform space-y-5 rounded-2xl bg-base-100 p-6 shadow-2xl transition-transform duration-300 ease-out focus:outline-none dark:bg-gray-900"
       >
-        <h3
-          id="service-modal-title"
-          className="text-xl font-bold text-primary"
-          tabIndex={-1}
-        >
+        <h3 id="service-modal-title" className="text-xl font-bold text-primary" tabIndex={-1}>
           ขอใช้บริการจาก JP Visual & Docs
         </h3>
 
         <section
           id="service-modal-desc"
-          className="space-y-2 text-sm sm:text-base text-base-content/80"
+          className="space-y-2 text-sm text-base-content/80 sm:text-base"
         >
-          <p><strong>บริการ:</strong> {service.title}</p>
-          <p><strong>รายละเอียด:</strong> {service.description}</p>
-          <p><strong>ค่าบริการ:</strong> {service.price}</p>
+          <p>
+            <strong>บริการ:</strong> {service.title}
+          </p>
+          <p>
+            <strong>รายละเอียด:</strong> {service.description}
+          </p>
+          <p>
+            <strong>ค่าบริการ:</strong> {service.price}
+          </p>
           <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
             ทีมงานสายทำจริง สไตล์มือโปร — เอกสาร ชัด เป๊ะ ขายงานผ่าน
           </p>
         </section>
 
-        <div className="mt-6 flex flex-col sm:flex-row justify-end gap-3">
+        <div className="mt-6 flex flex-col justify-end gap-3 sm:flex-row">
           <button
             type="button"
             onClick={onClose}
@@ -120,7 +122,7 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
             target="_blank"
             rel="noopener noreferrer"
             onClick={onClose}
-            className="btn btn-sm btn-primary rounded text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            className="btn btn-primary btn-sm rounded text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
           >
             ติดต่อผ่าน LINE
           </a>

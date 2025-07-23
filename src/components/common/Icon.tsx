@@ -1,15 +1,7 @@
 // src/components/common/Icon.tsx
 
 import React from 'react'
-import {
-  Phone,
-  Facebook,
-  Line,
-  Menu,
-  X,
-  Check,
-  Loader2,
-} from 'lucide-react'
+import { Phone, Facebook, Line, Menu, X, Check, Loader2 } from 'lucide-react'
 
 const icons = {
   phone: Phone,

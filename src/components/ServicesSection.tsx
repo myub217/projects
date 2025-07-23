@@ -25,14 +25,7 @@ export interface Service {
   comingSoonNote?: string | null
 }
 
-const iconMap = [
-  FaTools,
-  FaChartLine,
-  FaPaintBrush,
-  FaCogs,
-  FaMobileAlt,
-  FaShieldAlt,
-]
+const iconMap = [FaTools, FaChartLine, FaPaintBrush, FaCogs, FaMobileAlt, FaShieldAlt]
 
 const ServicesSection: React.FC = () => {
   if (!services.length) {
@@ -41,18 +34,16 @@ const ServicesSection: React.FC = () => {
         id="services"
         role="region"
         aria-labelledby="services-heading"
-        className="bg-base-100 dark:bg-gray-900 py-20 px-4 sm:px-6 lg:px-12 transition-colors duration-500"
+        className="bg-base-100 px-4 py-20 transition-colors duration-500 dark:bg-gray-900 sm:px-6 lg:px-12"
       >
-        <div className="max-w-7xl mx-auto text-center">
+        <div className="mx-auto max-w-7xl text-center">
           <h2
             id="services-heading"
-            className="text-3xl sm:text-4xl font-extrabold text-primary mb-6 font-heading tracking-tight select-text"
+            className="mb-6 select-text font-heading text-3xl font-extrabold tracking-tight text-primary sm:text-4xl"
           >
             บริการของเรา
           </h2>
-          <p className="text-gray-500 dark:text-gray-400 select-none">
-            ขณะนี้ยังไม่มีข้อมูลบริการ
-          </p>
+          <p className="select-none text-gray-500 dark:text-gray-400">ขณะนี้ยังไม่มีข้อมูลบริการ</p>
         </div>
       </section>
     )
@@ -63,23 +54,23 @@ const ServicesSection: React.FC = () => {
       id="services"
       role="region"
       aria-labelledby="services-heading"
-      className="bg-base-100 dark:bg-gray-900 py-20 px-4 sm:px-6 lg:px-12 transition-colors duration-500"
+      className="bg-base-100 px-4 py-20 transition-colors duration-500 dark:bg-gray-900 sm:px-6 lg:px-12"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="mx-auto max-w-7xl">
         <h2
           id="services-heading"
-          className="text-3xl sm:text-4xl font-extrabold text-center text-primary mb-6 font-heading tracking-tight select-text"
+          className="mb-6 select-text text-center font-heading text-3xl font-extrabold tracking-tight text-primary sm:text-4xl"
         >
           บริการของเรา
         </h2>
-        <p className="max-w-3xl mx-auto text-center text-base sm:text-lg text-gray-700 dark:text-gray-300 mb-14 select-text">
+        <p className="mx-auto mb-14 max-w-3xl select-text text-center text-base text-gray-700 dark:text-gray-300 sm:text-lg">
           บริการหลากหลายที่ออกแบบเพื่อเสริมศักยภาพธุรกิจคุณอย่างมั่นคงและยั่งยืน 🚀
         </p>
 
         <ul
           role="list"
           aria-labelledby="services-heading"
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10"
+          className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3"
         >
           {services.map((service, idx) => {
             const isDisabled = !service.available
@@ -97,9 +88,7 @@ const ServicesSection: React.FC = () => {
                   title={service.title}
                   description={service.description}
                   link={
-                    !isDisabled
-                      ? getContactHref('line', `สนใจบริการ: ${service.title}`)
-                      : undefined
+                    !isDisabled ? getContactHref('line', `สนใจบริการ: ${service.title}`) : undefined
                   }
                   imageUrl={service.image}
                   altText={service.altText}
@@ -110,7 +99,7 @@ const ServicesSection: React.FC = () => {
                   <div
                     role="note"
                     aria-live="polite"
-                    className="absolute top-4 right-4 rounded-full bg-yellow-100 dark:bg-yellow-900 px-3 py-1 text-xs font-semibold text-yellow-800 dark:text-yellow-400 italic animate-pulse shadow-md select-none"
+                    className="absolute right-4 top-4 animate-pulse select-none rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold italic text-yellow-800 shadow-md dark:bg-yellow-900 dark:text-yellow-400"
                   >
                     🚧 {service.comingSoonNote}
                   </div>
@@ -121,7 +110,7 @@ const ServicesSection: React.FC = () => {
         </ul>
 
         <div className="mt-20 text-center">
-          <p className="text-sm text-gray-600 dark:text-gray-400 select-text">
+          <p className="select-text text-sm text-gray-600 dark:text-gray-400">
             ต้องการบริการเฉพาะทางหรือไม่พบสิ่งที่ต้องการ?{' '}
             <a
               href={getContactHref('line', 'สอบถามบริการเพิ่มเติม')}

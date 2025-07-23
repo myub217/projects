@@ -29,5 +29,4 @@ export const isValidUser = ({ username, password }: AuthInput): boolean => {
 
 export const getAllUsernames = (): string[] => Object.keys(USERS)
 
-export const getUserPassword = (username: string): string | null =>
-  USERS[username] ?? null
+export const getUserPassword = (username: string): string | null => USERS[username] ?? null

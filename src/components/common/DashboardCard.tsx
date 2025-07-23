@@ -24,13 +24,13 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
     tabIndex={-1}
     aria-label={ariaLabel || (title ? `${title} card` : 'Dashboard card')}
     className={clsx(
-      'bg-base-200 dark:bg-zinc-800 rounded-2xl shadow-md p-6 transition-shadow duration-300 hover:shadow-lg focus-within:shadow-lg outline-none',
+      'rounded-2xl bg-base-200 p-6 shadow-md outline-none transition-shadow duration-300 focus-within:shadow-lg hover:shadow-lg dark:bg-zinc-800',
       className
     )}
   >
     {title && (
-      <header className="flex justify-between items-center mb-4 select-text">
-        <h2 className="text-xl font-semibold text-primary truncate">{title}</h2>
+      <header className="mb-4 flex select-text items-center justify-between">
+        <h2 className="truncate text-xl font-semibold text-primary">{title}</h2>
         {headerRight && <div className="ml-4 flex items-center">{headerRight}</div>}
       </header>
     )}

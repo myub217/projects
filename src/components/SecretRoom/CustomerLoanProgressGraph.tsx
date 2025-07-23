@@ -35,12 +35,12 @@ const CustomerLoanProgressGraph: React.FC = () => {
     chartInstanceRef.current = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: banks.map((b) => b.name),
+        labels: banks.map(b => b.name),
         datasets: [
           {
             label: 'วงเงินอนุมัติ (บาท)',
-            data: banks.map((b) => b.amount),
-            backgroundColor: banks.map((b) => b.color),
+            data: banks.map(b => b.amount),
+            backgroundColor: banks.map(b => b.color),
             borderRadius: 12,
             barThickness: 56,
           },
@@ -74,7 +74,7 @@ const CustomerLoanProgressGraph: React.FC = () => {
             borderColor: '#e2e8f0', // slate-200
             borderWidth: 1,
             callbacks: {
-              label: (ctx) => ` ${ctx.label}: ${Number(ctx.formattedValue).toLocaleString()} บาท`,
+              label: ctx => ` ${ctx.label}: ${Number(ctx.formattedValue).toLocaleString()} บาท`,
             },
           },
           legend: { display: false },
@@ -101,7 +101,7 @@ const CustomerLoanProgressGraph: React.FC = () => {
             },
             ticks: {
               color: '#475569', // slate-600
-              callback: (val) => `${(+val).toLocaleString()} บาท`,
+              callback: val => `${(+val).toLocaleString()} บาท`,
             },
             grid: {
               color: '#f1f5f9', // slate-100
@@ -128,7 +128,7 @@ const CustomerLoanProgressGraph: React.FC = () => {
   return (
     <section
       aria-label="กราฟแสดงสถานะสินเชื่อ"
-      className="mt-10 w-full max-w-3xl mx-auto rounded-2xl bg-white px-6 py-8 shadow-xl"
+      className="mx-auto mt-10 w-full max-w-3xl rounded-2xl bg-white px-6 py-8 shadow-xl"
       tabIndex={-1}
     >
       <canvas ref={chartRef} height={320} />

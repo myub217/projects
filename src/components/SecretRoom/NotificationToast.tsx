@@ -3,12 +3,7 @@
 
 import React, { useEffect, useRef } from 'react'
 import clsx from 'clsx'
-import {
-  FaCheckCircle,
-  FaTimesCircle,
-  FaInfoCircle,
-  FaExclamationTriangle,
-} from 'react-icons/fa'
+import { FaCheckCircle, FaTimesCircle, FaInfoCircle, FaExclamationTriangle } from 'react-icons/fa'
 
 type ToastType = 'success' | 'error' | 'info' | 'warning'
 
@@ -55,7 +50,7 @@ const NotificationToast: React.FC<NotificationToastProps> = ({
       aria-atomic="true"
       tabIndex={0}
       className={clsx(
-        'fixed bottom-6 right-6 max-w-sm w-full rounded-lg shadow-lg flex items-center gap-3 p-4 text-white',
+        'fixed bottom-6 right-6 flex w-full max-w-sm items-center gap-3 rounded-lg p-4 text-white shadow-lg',
         'focus:outline-none focus:ring-2 focus:ring-offset-2',
         {
           'bg-green-600': type === 'success',
@@ -65,15 +60,15 @@ const NotificationToast: React.FC<NotificationToastProps> = ({
         }
       )}
     >
-      <Icon className="w-6 h-6 flex-shrink-0" aria-hidden="true" />
-      <p className="flex-grow text-sm font-medium select-text">{message}</p>
+      <Icon className="h-6 w-6 flex-shrink-0" aria-hidden="true" />
+      <p className="flex-grow select-text text-sm font-medium">{message}</p>
       <button
         onClick={onClose}
         aria-label="ปิดการแจ้งเตือน"
         className="ml-2 rounded focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
         type="button"
       >
-        <FaTimesCircle className="w-5 h-5" aria-hidden="true" />
+        <FaTimesCircle className="h-5 w-5" aria-hidden="true" />
       </button>
     </div>
   )

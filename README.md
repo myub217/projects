@@ -4,20 +4,20 @@
 
 Modular OnePage is a scalable, modern fullstack web application optimized for smooth UX and maintainability.
 
-- **Frontend:** React 18 + TypeScript + TailwindCSS + DaisyUI  
-- **Routing:** React Router v6  
-- **PDF Tools:** `react-pdf`, `react-dropzone`  
-- **UI/UX:** Headless UI, Heroicons, Framer Motion animations  
-- **PWA Support:** Vite Plugin PWA (Workbox) with offline caching  
-- **Backend:** Express.js (Node.js) with Nodemailer for email handling  
-- **Build Tools:** Vite, TypeScript, PostCSS  
-- **DevOps:** Vercel deployment, Husky + lint-staged pre-commit hooks  
+- **Frontend:** React 18 + TypeScript + TailwindCSS + DaisyUI
+- **Routing:** React Router v6
+- **PDF Tools:** `react-pdf`, `react-dropzone`
+- **UI/UX:** Headless UI, Heroicons, Framer Motion animations
+- **PWA Support:** Vite Plugin PWA (Workbox) with offline caching
+- **Backend:** Express.js (Node.js) with Nodemailer for email handling
+- **Build Tools:** Vite, TypeScript, PostCSS
+- **DevOps:** Vercel deployment, Husky + lint-staged pre-commit hooks
 
 ---
 
 ## 📂 Folder Structure
 
-/projects1 ├── api/                   # Express backend API routes & email logic ├── public/                # Static assets: favicon, robots.txt, manifest, images ├── src/ │   ├── components/        # Reusable UI components (buttons, cards, modals) │   ├── layout/            # Layout components (headers, footers, navbars) │   ├── pages/             # Page-level components (Index, Login, Admin, etc.) │   ├── styles/            # Tailwind config & global CSS overrides │   ├── routes/            # React Router route definitions │   └── main.tsx           # React app entry point ├── .vercel.json           # Vercel SPA fallback & routing config ├── tailwind.config.js     # TailwindCSS configuration ├── postcss.config.js      # PostCSS plugins and setup ├── tsconfig.json          # TypeScript compiler config ├── vite.config.ts         # Vite build & dev server config ├── package.json           # NPM/Yarn/PNPM dependencies & scripts └── README.md              # Project overview & instructions
+/projects1 ├── api/ # Express backend API routes & email logic ├── public/ # Static assets: favicon, robots.txt, manifest, images ├── src/ │ ├── components/ # Reusable UI components (buttons, cards, modals) │ ├── layout/ # Layout components (headers, footers, navbars) │ ├── pages/ # Page-level components (Index, Login, Admin, etc.) │ ├── styles/ # Tailwind config & global CSS overrides │ ├── routes/ # React Router route definitions │ └── main.tsx # React app entry point ├── .vercel.json # Vercel SPA fallback & routing config ├── tailwind.config.js # TailwindCSS configuration ├── postcss.config.js # PostCSS plugins and setup ├── tsconfig.json # TypeScript compiler config ├── vite.config.ts # Vite build & dev server config ├── package.json # NPM/Yarn/PNPM dependencies & scripts └── README.md # Project overview & instructions
 
 ---
 
@@ -152,3 +152,4 @@ Use Vercel environment variables to handle secrets securely
 Follow commit message guidelines for smooth CI/CD integration
 
 Regularly run linting and tests before pushing code
+```

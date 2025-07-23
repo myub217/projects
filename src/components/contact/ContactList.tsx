@@ -7,10 +7,10 @@ import ContactCard from './ContactCard'
 const ContactList: React.FC = () => (
   <section
     aria-labelledby="contact-list-title"
-    className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mt-6"
+    className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
     role="list"
   >
-    {contactLinks.map((contact) => (
+    {contactLinks.map(contact => (
       <ContactCard
         key={contact.type}
         contact={contact}

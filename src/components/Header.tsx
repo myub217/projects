@@ -3,13 +3,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-scroll'
-import {
-  FaFacebookMessenger,
-  FaLine,
-  FaPhoneAlt,
-  FaBars,
-  FaTimes,
-} from 'react-icons/fa'
+import { FaFacebookMessenger, FaLine, FaPhoneAlt, FaBars, FaTimes } from 'react-icons/fa'
 import { getContactHref } from '@/config/contact'
 
 const navItems = [
@@ -50,19 +44,18 @@ const Header: React.FC = () => {
     }
   }, [menuOpen])
 
-  const toggleMenu = () => setMenuOpen((prev) => !prev)
+  const toggleMenu = () => setMenuOpen(prev => !prev)
 
   return (
     <header
-      className="sticky top-0 z-50 w-full border-b border-base-300 bg-base-100/90 shadow-sm backdrop-blur-md
-                 dark:border-gray-700 dark:bg-gray-900 transition-colors duration-300"
+      className="sticky top-0 z-50 w-full border-b border-base-300 bg-base-100/90 shadow-sm backdrop-blur-md transition-colors duration-300 dark:border-gray-700 dark:bg-gray-900"
       role="banner"
       aria-label="ส่วนหัวเว็บไซต์"
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         {/* Logo */}
         <div
-          className="flex items-center gap-2 select-none"
+          className="flex select-none items-center gap-2"
           aria-label="โลโก้ JP - VISUAL & DOCS"
           tabIndex={-1}
         >
@@ -75,14 +68,14 @@ const Header: React.FC = () => {
             decoding="async"
             fetchPriority="high"
           />
-          <span className="text-lg font-bold tracking-tight text-primary select-text">
+          <span className="select-text text-lg font-bold tracking-tight text-primary">
             JP - VISUAL & DOCS
           </span>
         </div>
 
         {/* Desktop Navigation */}
         <nav
-          className="hidden sm:flex items-center gap-6 text-sm font-medium"
+          className="hidden items-center gap-6 text-sm font-medium sm:flex"
           aria-label="เมนูนำทางหลัก"
           role="navigation"
         >
@@ -93,7 +86,7 @@ const Header: React.FC = () => {
               smooth
               offset={-80}
               duration={500}
-              className="cursor-pointer text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded"
+              className="cursor-pointer rounded text-gray-700 transition-colors hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary dark:text-gray-300 dark:hover:text-primary"
               tabIndex={0}
               role="link"
               aria-label={`ไปยังส่วน ${label}`}
@@ -104,18 +97,14 @@ const Header: React.FC = () => {
         </nav>
 
         {/* Desktop Contact */}
-        <div
-          className="hidden sm:flex items-center gap-3"
-          role="region"
-          aria-label="ช่องทางติดต่อ"
-        >
+        <div className="hidden items-center gap-3 sm:flex" role="region" aria-label="ช่องทางติดต่อ">
           <a
             href={getContactHref('line')}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="ติดต่อผ่าน LINE OA"
             title="LINE OA"
-            className="rounded-full bg-green-500 p-2 text-white shadow hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-1 transition"
+            className="rounded-full bg-green-500 p-2 text-white shadow transition hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-1"
           >
             <FaLine className="h-5 w-5" aria-hidden="true" />
           </a>
@@ -125,14 +114,14 @@ const Header: React.FC = () => {
             rel="noopener noreferrer"
             aria-label="ติดต่อผ่าน Messenger"
             title="Messenger"
-            className="rounded-full bg-blue-600 p-2 text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1 transition"
+            className="rounded-full bg-blue-600 p-2 text-white shadow transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1"
           >
             <FaFacebookMessenger className="h-5 w-5" aria-hidden="true" />
           </a>
           <a
             href="tel:0956636615"
             title="โทรติดต่อ 095-663-6615"
-            className="flex items-center gap-2 rounded bg-primary px-3 py-1.5 text-sm font-medium text-white shadow hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition"
+            className="flex items-center gap-2 rounded bg-primary px-3 py-1.5 text-sm font-medium text-white shadow transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             aria-label="โทรติดต่อ 095-663-6615"
           >
             <FaPhoneAlt className="h-4 w-4" aria-hidden="true" />
@@ -144,7 +133,7 @@ const Header: React.FC = () => {
         <button
           ref={toggleButtonRef}
           onClick={toggleMenu}
-          className="inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary sm:hidden transition"
+          className="inline-flex items-center justify-center rounded-md p-2 text-gray-600 transition hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary sm:hidden"
           aria-label={menuOpen ? 'ปิดเมนู' : 'เปิดเมนู'}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
@@ -163,7 +152,7 @@ const Header: React.FC = () => {
         <nav
           id="mobile-menu"
           ref={menuRef}
-          className="border-t border-base-300 bg-base-100 px-4 pb-4 pt-2 dark:border-gray-700 dark:bg-gray-900 sm:hidden transition-colors duration-300"
+          className="border-t border-base-300 bg-base-100 px-4 pb-4 pt-2 transition-colors duration-300 dark:border-gray-700 dark:bg-gray-900 sm:hidden"
           role="menu"
           aria-label="เมนูนำทางโทรศัพท์มือถือ"
         >
@@ -175,7 +164,7 @@ const Header: React.FC = () => {
               offset={-80}
               duration={500}
               onClick={() => setMenuOpen(false)}
-              className="block text-sm font-medium text-gray-700 hover:text-primary dark:text-gray-200 py-2 focus:outline-none focus:ring-2 focus:ring-primary rounded"
+              className="block rounded py-2 text-sm font-medium text-gray-700 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary dark:text-gray-200"
               role="menuitem"
               tabIndex={0}
               aria-label={`ไปยังส่วน ${label}`}
@@ -194,7 +183,7 @@ const Header: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               title="LINE OA"
-              className="rounded-full bg-green-500 p-2 text-white shadow hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+              className="rounded-full bg-green-500 p-2 text-white shadow transition hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400"
               aria-label="ติดต่อผ่าน LINE OA"
             >
               <FaLine className="h-5 w-5" aria-hidden="true" />
@@ -204,7 +193,7 @@ const Header: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               title="Messenger"
-              className="rounded-full bg-blue-600 p-2 text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              className="rounded-full bg-blue-600 p-2 text-white shadow transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
               aria-label="ติดต่อผ่าน Messenger"
             >
               <FaFacebookMessenger className="h-5 w-5" aria-hidden="true" />
@@ -212,7 +201,7 @@ const Header: React.FC = () => {
             <a
               href="tel:0956636615"
               title="โทรติดต่อ 095-663-6615"
-              className="flex items-center gap-2 rounded bg-primary px-3 py-1.5 text-sm font-medium text-white shadow hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition"
+              className="flex items-center gap-2 rounded bg-primary px-3 py-1.5 text-sm font-medium text-white shadow transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
               aria-label="โทรติดต่อ 095-663-6615"
             >
               <FaPhoneAlt className="h-4 w-4" aria-hidden="true" />

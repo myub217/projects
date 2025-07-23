@@ -17,7 +17,7 @@ const statsData: StatItem[] = [
     value: 1234,
     icon: (
       <svg
-        className="w-8 h-8 text-primary"
+        className="h-8 w-8 text-primary"
         fill="none"
         stroke="currentColor"
         strokeWidth={2}
@@ -40,7 +40,7 @@ const statsData: StatItem[] = [
     value: 5,
     icon: (
       <svg
-        className="w-8 h-8 text-accent"
+        className="h-8 w-8 text-accent"
         fill="none"
         stroke="currentColor"
         strokeWidth={2}
@@ -63,7 +63,7 @@ const statsData: StatItem[] = [
     value: 'ออนไลน์',
     icon: (
       <svg
-        className="w-8 h-8 text-green-500"
+        className="h-8 w-8 text-green-500"
         fill="none"
         stroke="currentColor"
         strokeWidth={2}
@@ -83,14 +83,14 @@ const StatsPanel: React.FC = () => {
     <section
       role="region"
       aria-label="สถิติโดยรวม"
-      className="grid grid-cols-1 sm:grid-cols-3 gap-6"
+      className="grid grid-cols-1 gap-6 sm:grid-cols-3"
     >
       {statsData.map(({ id, title, value, icon, colorClass }) => (
         <article
           key={id}
           tabIndex={0}
           aria-labelledby={`stat-title-${id} stat-value-${id}`}
-          className={`card flex items-center gap-4 p-6 rounded-xl shadow-md ${colorClass} select-text focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2`}
+          className={`card flex items-center gap-4 rounded-xl p-6 shadow-md ${colorClass} select-text focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2`}
         >
           <div className="icon flex-shrink-0" aria-hidden="true">
             {icon}

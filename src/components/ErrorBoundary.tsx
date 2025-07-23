@@ -46,9 +46,9 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
         <section
           role="alert"
           aria-live="assertive"
-          className="p-6 bg-error text-error-content rounded-md shadow-md max-w-xl mx-auto mt-10"
+          className="mx-auto mt-10 max-w-xl rounded-md bg-error p-6 text-error-content shadow-md"
         >
-          <h2 className="text-xl font-semibold mb-2">เกิดข้อผิดพลาดในระบบ</h2>
+          <h2 className="mb-2 text-xl font-semibold">เกิดข้อผิดพลาดในระบบ</h2>
           <p className="text-sm">
             {this.state.error?.message || 'เกิดข้อผิดพลาดบางอย่าง กรุณาลองใหม่อีกครั้ง'}
           </p>

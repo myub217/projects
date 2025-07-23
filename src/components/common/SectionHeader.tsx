@@ -22,7 +22,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
   return (
     <header
       className={clsx(
-        'w-full mb-8',
+        'mb-8 w-full',
         {
           'text-center': isCenter,
           'text-left': !isCenter,
@@ -30,13 +30,9 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
         className
       )}
     >
-      <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-base-content">
-        {title}
-      </h2>
+      <h2 className="text-2xl font-bold tracking-tight text-base-content sm:text-3xl">{title}</h2>
       {subtitle && (
-        <p className="mt-2 text-base text-base-content/70 max-w-prose mx-auto">
-          {subtitle}
-        </p>
+        <p className="mx-auto mt-2 max-w-prose text-base text-base-content/70">{subtitle}</p>
       )}
     </header>
   )

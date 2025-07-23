@@ -11,23 +11,23 @@ interface UserProfileCardProps {
 const UserProfileCard: React.FC<UserProfileCardProps> = ({ username }) => (
   <section
     aria-label="ข้อมูลบัญชีผู้ใช้งานระบบ"
-    className="rounded-xl bg-base-200 dark:bg-zinc-800 px-6 py-4 shadow-md transition-shadow hover:shadow-lg flex items-center gap-5 select-none"
+    className="flex select-none items-center gap-5 rounded-xl bg-base-200 px-6 py-4 shadow-md transition-shadow hover:shadow-lg dark:bg-zinc-800"
   >
     <div
-      className="bg-primary text-white p-3 rounded-full shadow-inner shrink-0 flex items-center justify-center"
+      className="flex shrink-0 items-center justify-center rounded-full bg-primary p-3 text-white shadow-inner"
       aria-hidden="true"
     >
-      <UserIcon className="w-6 h-6" />
+      <UserIcon className="h-6 w-6" />
     </div>
-    <div className="flex flex-col overflow-hidden min-w-0">
+    <div className="flex min-w-0 flex-col overflow-hidden">
       <span
-        className="text-sm text-base-content/60 dark:text-gray-400 truncate"
+        className="truncate text-sm text-base-content/60 dark:text-gray-400"
         aria-label="ป้ายชื่อ"
       >
         ชื่อผู้ใช้งาน
       </span>
       <strong
-        className="text-lg font-semibold text-base-content dark:text-white truncate select-text"
+        className="select-text truncate text-lg font-semibold text-base-content dark:text-white"
         title={username || 'ไม่ระบุชื่อผู้ใช้งาน'}
         aria-label={`ชื่อผู้ใช้งาน: ${username || 'ไม่ระบุชื่อผู้ใช้งาน'}`}
       >

@@ -21,19 +21,14 @@ const variantStyles: Record<BadgeVariant, string> = {
   info: 'bg-info text-white',
 }
 
-const Badge: React.FC<BadgeProps> = ({
-  variant = 'default',
-  children,
-  className,
-  ...props
-}) => {
+const Badge: React.FC<BadgeProps> = ({ variant = 'default', children, className, ...props }) => {
   return (
     <span
       role="status"
       aria-live="polite"
       aria-atomic="true"
       className={clsx(
-        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold select-none whitespace-nowrap',
+        'inline-flex select-none items-center whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-semibold',
         variantStyles[variant],
         className
       )}

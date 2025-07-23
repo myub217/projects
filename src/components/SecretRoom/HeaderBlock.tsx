@@ -15,12 +15,12 @@ const HeaderBlock: React.FC = () => {
     <header
       role="banner"
       aria-label="ส่วนหัวของแดชบอร์ดผู้ใช้งานระบบ"
-      className="w-full bg-primary text-primary-content p-6 sm:p-8 rounded-xl shadow-lg text-center transition-colors duration-300"
+      className="w-full rounded-xl bg-primary p-6 text-center text-primary-content shadow-lg transition-colors duration-300 sm:p-8"
     >
-      <h2 className="text-2xl sm:text-3xl font-bold tracking-wide leading-tight">
+      <h2 className="text-2xl font-bold leading-tight tracking-wide sm:text-3xl">
         แดชบอร์ดของผู้ใช้งาน
       </h2>
-      <p className="mt-3 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+      <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed sm:text-base">
         คุณ{' '}
         <strong
           className="underline decoration-primary-content/50 decoration-2 underline-offset-4"
@@ -28,7 +28,7 @@ const HeaderBlock: React.FC = () => {
         >
           {username}
         </strong>{' '}
-        ได้รับสิทธิเข้าถึง <span className="italic font-medium">ห้องลับ</span> แล้ว
+        ได้รับสิทธิเข้าถึง <span className="font-medium italic">ห้องลับ</span> แล้ว
       </p>
     </header>
   )
