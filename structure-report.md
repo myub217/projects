@@ -238,7 +238,12 @@ export default defineConfig({
       },
     }),
     viteStaticCopy({
-      targets: [{ src: 'public/images', dest: 'images' }],
+      targets: [
+        {
+          src: 'public/images',
+          dest: 'images',
+        },
+      ],
     }),
     {
       name: 'mock-api',
@@ -1003,4 +1008,4 @@ File tree:
 Ready for dev or deployment.
 
 Ask next task or specific code/bug fix.
-🕛 Last Checked: Wed Jul 23 22:15:39 +07 2025
+🕛 Last Checked: Wed Jul 23 22:28:24 +07 2025
