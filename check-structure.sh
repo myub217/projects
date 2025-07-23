@@ -1,126 +1,156 @@
 #!/bin/bash
 
-# === 🔧 Config ===
+# === Config ===
 BASE_DIR="${BASE_DIR:-$(pwd)}"
 REPORT_FILE="$BASE_DIR/structure-report.md"
 COMPONENT_DIR_REL="src/components"
-COMPONENT_DIR_ABS="$BASE_DIR/$COMPONENT_DIR_REL"
 
-required_dirs=("src" "public" "api" "$COMPONENT_DIR_REL" "node_modules")
-required_files=("package.json" "vite.config.ts" ".env" "README.md")
+REQUIRED_DIRS=("src" "public" "api" "$COMPONENT_DIR_REL" "node_modules")
+REQUIRED_FILES=("package.json" "vite.config.ts" ".env" "README.md")
 
-# === 🧪 Start Report ===
-echo "Project root directory: $BASE_DIR"
-echo "Checking project structure in $BASE_DIR"
+PAGES=(
+  "src/pages/SecretRoomPage.tsx"
+  "src/pages/AdminPage.tsx"
+)
 
-# Clear or create report file
-if ! echo -e "# ✅ Project Structure Report\n" > "$REPORT_FILE"; then
-  echo "❌ Error: Cannot write to $REPORT_FILE"
-  exit 1
-fi
+echo "📦 Scanning project in: $BASE_DIR"
 
-echo -e "📁 **Project Root Directory:** \`$BASE_DIR\`\n" >> "$REPORT_FILE"
+# เริ่มเขียนไฟล์รายงานใหม่
+cat > "$REPORT_FILE" << EOF
+# ✅ Project Structure Report
 
-# 📂 Check Directories
-echo -e "\n## 📂 Required Directories" >> "$REPORT_FILE"
-echo "| Directory       | Status |" >> "$REPORT_FILE"
-echo "|-----------------|--------|" >> "$REPORT_FILE"
-for dir in "${required_dirs[@]}"; do
+📁 **Project Root Directory:** \`$BASE_DIR\`
+
+## 📂 Required Directories
+| Directory           | Status |
+|---------------------|--------|
+EOF
+
+for dir in "${REQUIRED_DIRS[@]}"; do
   if [ -d "$BASE_DIR/$dir" ]; then
-    echo "✔ Found: $dir"
     echo "| \`$dir/\` | ✅ Found |" >> "$REPORT_FILE"
   else
-    echo "✘ Missing: $dir"
     echo "| \`$dir/\` | ❌ Missing |" >> "$REPORT_FILE"
   fi
 done
 
-{
-  echo -e "\n## 📄 Required Files"
-  echo "| File           | Status |"
-  echo "|----------------|--------|"
-  for file in "${required_files[@]}"; do
-    if [ -f "$BASE_DIR/$file" ]; then
-      echo "| \`$file\` | ✅ Found |"
-    else
-      echo "| \`$file\` | ❌ Missing |"
-    fi
-  done
-} >> "$REPORT_FILE"
+cat >> "$REPORT_FILE" << EOF
 
-# 🎨 Tailwind Config
+## 📄 Required Files
+| File               | Status |
+|--------------------|--------|
+EOF
+
+for file in "${REQUIRED_FILES[@]}"; do
+  if [ -f "$BASE_DIR/$file" ]; then
+    echo "| \`$file\` | ✅ Found |" >> "$REPORT_FILE"
+  else
+    echo "| \`$file\` | ❌ Missing |" >> "$REPORT_FILE"
+  fi
+done
+
 if [ -f "$BASE_DIR/tailwind.config.ts" ]; then
-  echo -e "\n## 🎨 Tailwind Config (Full)\n\`\`\`ts" >> "$REPORT_FILE"
+  cat >> "$REPORT_FILE" << EOF
+
+## 🎨 tailwind.config.ts
+\`\`\`ts
+EOF
   cat "$BASE_DIR/tailwind.config.ts" >> "$REPORT_FILE"
-  echo -e '```' >> "$REPORT_FILE"
+  echo '```' >> "$REPORT_FILE"
 fi
 
-# ⚙️ Vite Config
 if [ -f "$BASE_DIR/vite.config.ts" ]; then
-  echo -e "\n## ⚙️ Vite Config (Full)\n\`\`\`ts" >> "$REPORT_FILE"
+  cat >> "$REPORT_FILE" << EOF
+
+## ⚙️ vite.config.ts
+\`\`\`ts
+EOF
   cat "$BASE_DIR/vite.config.ts" >> "$REPORT_FILE"
-  echo -e '```' >> "$REPORT_FILE"
+  echo '```' >> "$REPORT_FILE"
 fi
 
-# 🧩 main.tsx
 MAIN_FILE="$BASE_DIR/src/main.tsx"
-echo -e "\n## 🧩 main.tsx (Full)\n\`\`\`tsx" >> "$REPORT_FILE"
+cat >> "$REPORT_FILE" << EOF
+
+## 🧩 src/main.tsx
+\`\`\`tsx
+EOF
 if [ -f "$MAIN_FILE" ]; then
   cat "$MAIN_FILE" >> "$REPORT_FILE"
 else
-  echo "// src/main.tsx not found." >> "$REPORT_FILE"
+  echo "// Not found" >> "$REPORT_FILE"
 fi
-echo -e '```' >> "$REPORT_FILE"
-# SecretRoomPage.tsx
-SECRET_PAGE="$BASE_DIR/src/pages/SecretRoomPage.tsx"
-echo -e "\n## 🧩 SecretRoomPage.tsx (Full)\n\`\`\`tsx" >> "$REPORT_FILE"
-if [ -f "$SECRET_PAGE" ]; then
-  cat "$SECRET_PAGE" >> "$REPORT_FILE"
-else
-  echo "// src/pages/SecretRoomPage.tsx not found." >> "$REPORT_FILE"
-fi
-echo -e '\n```' >> "$REPORT_FILE"
+echo '```' >> "$REPORT_FILE"
 
-# AdminPage.tsx
-ADMIN_PAGE="$BASE_DIR/src/pages/AdminPage.tsx"
-echo -e "\n## 🧩 AdminPage.tsx (Full)\n\`\`\`tsx" >> "$REPORT_FILE"
-if [ -f "$ADMIN_PAGE" ]; then
-  cat "$ADMIN_PAGE" >> "$REPORT_FILE"
-else
-  echo "// src/pages/AdminPage.tsx not found." >> "$REPORT_FILE"
-fi
-echo -e '\n```' >> "$REPORT_FILE"
-# 🧩 Project Directory Tree (Level 3)
-if [ -d "$BASE_DIR" ]; then
-  echo -e "\n## 🧩 Project Directory Tree (Level 3)\n\`\`\`" >> "$REPORT_FILE"
-  if command -v tree >/dev/null 2>&1; then
-    tree -L 3 -I 'node_modules|.git' "$BASE_DIR" >> "$REPORT_FILE"
+for page in "${PAGES[@]}"; do
+  PAGE_PATH="$BASE_DIR/$page"
+  cat >> "$REPORT_FILE" << EOF
+
+## 🧩 $page
+\`\`\`tsx
+EOF
+  if [ -f "$PAGE_PATH" ]; then
+    cat "$PAGE_PATH" >> "$REPORT_FILE"
   else
-    echo "[⚠️ Requires 'tree'. Install with: pkg install tree]" >> "$REPORT_FILE"
+    echo "// Not found" >> "$REPORT_FILE"
   fi
-  echo -e '```' >> "$REPORT_FILE"
+  echo '```' >> "$REPORT_FILE"
+done
+
+if command -v tree >/dev/null 2>&1; then
+  cat >> "$REPORT_FILE" << EOF
+
+## 🗂️ Project Tree: Level 1
+\`\`\`
+EOF
+  tree -L 1 -I 'node_modules|.git' "$BASE_DIR" >> "$REPORT_FILE"
+  echo '```' >> "$REPORT_FILE"
+
+  cat >> "$REPORT_FILE" << EOF
+
+## 📁 src Tree: Level 3
+\`\`\`
+EOF
+  if [ -d "$BASE_DIR/src" ]; then
+    tree -L 3 "$BASE_DIR/src" >> "$REPORT_FILE"
+  else
+    echo "// src not found" >> "$REPORT_FILE"
+  fi
+  echo '```' >> "$REPORT_FILE"
+else
+  cat >> "$REPORT_FILE" << EOF
+
+## 🗂️ Tree View
+\`\`\`
+[⚠️ Requires 'tree'. Install: pkg install tree]
+\`\`\`
+
+EOF
 fi
 
-cat << EOF >> "$REPORT_FILE"
+cat >> "$REPORT_FILE" << EOF
 
-## 📌 Final Note
-🧠 คำสั่งโหมด Dev Partner สำหรับ AI
+## 📌 Dev Partner Note
 
-คุณคือ Dev Partner ที่ทำงานร่วมกับผมในการพัฒนาโปรเจกต์นี้อย่างแม่นยำและรวดเร็ว โดยมีหน้าที่ดังนี้
+คุณคือ Dev Partner ที่พัฒนาร่วมในโปรเจกต์นี้ โดยมีหน้าที่หลัก:
+- แก้ไข/ออกแบบโค้ดให้สอดคล้องกับ UI/UX, Business Logic และระบบ Responsive
+- ทุก Component ต้อง Import ให้ถูกต้อง, รองรับ Desktop & Mobile
+- แก้ปัญหาทันที ไม่อธิบายเยิ่นเย้อ
+- ทุกคำตอบต้องแม่นยำตาม Stack และโครงสร้างที่กำหนด
+JP - VISUAL & DOCS
+ธุรกิจสีเทาที่ออกแบบมาให้ได้มาตรฐานเท่าที่สามารถแสดงได้ เราพร้อมร่วมงานกับทุกสายอาชีพ ทุกวงการ และพร้อมสร้างเครื่องมือที่ตอบโจทย์จริงให้ทุกคน
 
-- หลังจากนี้จะส่งไฟล์ทุกตัวให้แก้ไข เขียนให้ดีขึ้น ลงตัวแปร ให้ตรงกับธุระกิจ ใส่ ui  layout  design   action รองรับ Desktop mobile  import Component ให้ถูกต้องโครงสร้างโปรเจคส่งให้หมดแล้ว
+เรายินดีให้คำปรึกษาแบบตรงไปตรงมา ด้วยข้อมูลจริง พร้อมอธิบายเปอร์เซ็นต์ความเสี่ยงและผลลัพธ์อย่างโปร่งใส — เราไม่ขายฝัน
 
+หากคุณมีคำถามเพิ่มเติม หรือรายละเอียดที่ไม่สามารถเปิดเผยได้บนเว็บไซต์ สามารถสอบถามแอดมินของเราได้ตลอด 24 ชั่วโมง
 
-- ตอบแบบ Dev-to-Dev: ตรงประเด็น สั้น กระชับ ไม่อธิบายเยิ่นเย้อ
-- แก้ปัญหาเฉพาะหน้าให้ได้ทันที พร้อมเสนอ solution ที่ใช้ได้จริง
-- ทุกคำตอบต้องสอดคล้องกับเทคโนโลยี สภาพแวดล้อม และโครงสร้างที่กำหนดไว้แล้ว
-- ไม่สอน ไม่ถามซ้ำ ไม่ตีความผิด
-- ❗ ห้ามลืมบริบทของโปรเจกต์นี้เด็ดขาด
-- เมื่อผมถาม/ส่งโค้ดมา ให้ตอบเหมือนคุณคือทีม Dev ที่นั่งทำงานข้าง ๆ ผม
+หากคุณอยากคุยกับผมโดยตรง บอกแอดมินได้เลย รับรองว่าคุณจะรู้สึกปลอดภัย และสบายใจที่ได้คุยแน่นอน
 
-📦 โครงสร้างโปรเจกต์, config, main.tsx และรายละเอียดอื่น ๆ ได้แนบไว้ให้แล้วในระบบ
-ถือว่าคุณเข้าใจแล้วโดยสมบูรณ์
-พร้อมรับคำสั่งถัดไปได้เลย 🛠️
+ผมไม่ใช่คนที่เก่งที่สุด
+แต่ผมมีทีมงานที่เก่ง
+ลงรายละเอียดเนื้อหา ให้สอดคล้อง กับ ธุรกิจ ไม่เน้นคำทางการเกินไป ใช้คำกระชับเข้าใจได้ง่าย
+📂 โครงสร้างทั้งหมด แนบไว้ใน Report นี้แล้ว  
+🧠 เข้าใจบริบทแล้ว พร้อมรับคำสั่งถัดไปได้เลย
 
-🕛 Last checked: $(date)
+🕛 Last Checked: $(date)
 EOF

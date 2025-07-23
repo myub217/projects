@@ -2,10 +2,9 @@
 
 📁 **Project Root Directory:** `/data/data/com.termux/files/home/projects1`
 
-
 ## 📂 Required Directories
-| Directory       | Status |
-|-----------------|--------|
+| Directory           | Status |
+|---------------------|--------|
 | `src/` | ✅ Found |
 | `public/` | ✅ Found |
 | `api/` | ✅ Found |
@@ -13,15 +12,16 @@
 | `node_modules/` | ✅ Found |
 
 ## 📄 Required Files
-| File           | Status |
-|----------------|--------|
+| File               | Status |
+|--------------------|--------|
 | `package.json` | ✅ Found |
 | `vite.config.ts` | ✅ Found |
 | `.env` | ✅ Found |
 | `README.md` | ✅ Found |
 
-## 🎨 Tailwind Config (Full)
+## 🎨 tailwind.config.ts
 ```ts
+// tailwind.config.ts
 import type { Config } from 'tailwindcss'
 import typography from '@tailwindcss/typography'
 import daisyui from 'daisyui'
@@ -193,9 +193,9 @@ const config: Config = {
 
 export default config```
 
-## ⚙️ Vite Config (Full)
+## ⚙️ vite.config.ts
 ```ts
-// vite.config.ts (ปรับปรุงเพิ่มเติม)
+// vite.config.ts
 
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -221,16 +221,8 @@ export default defineConfig({
         background_color: '#ffffff',
         theme_color: '#2563eb',
         icons: [
-          {
-            src: '/icon-192.png',
-            sizes: '192x192',
-            type: 'image/png',
-          },
-          {
-            src: '/icon-512.png',
-            sizes: '512x512',
-            type: 'image/png',
-          },
+          { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+          { src: '/icon-512.png', sizes: '512x512', type: 'image/png' },
         ],
       },
       devOptions: {
@@ -302,11 +294,12 @@ export default defineConfig({
   },
 })```
 
-## 🧩 main.tsx (Full)
+## 🧩 src/main.tsx
 ```tsx
-// ✅ Final: src/main.tsx
+// src/main.tsx
+// Root entry with ThemeProvider, Router, Suspense fallback, and protected routes
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
@@ -323,48 +316,59 @@ import NotFoundPage from '@pages/NotFoundPage'
 import ProtectedRoute from '@components/ProtectedRoute'
 import { ThemeProvider, useTheme } from '@components/ThemeProvider'
 
+// Fallback UI for Suspense during lazy loading
+const LoadingFallback: React.FC = () => (
+  <div className="flex justify-center items-center min-h-screen text-gray-500 select-none" role="status" aria-live="polite">
+    กำลังโหลด...
+  </div>
+)
+
+// Routes with theme context and protected routes wrapped
 const AppRoutes: React.FC = () => {
   const { theme, toggleTheme } = useTheme()
 
   return (
     <Routes>
-      <Route
-        index
-        element={<IndexPage theme={theme} toggleTheme={toggleTheme} />}
-      />
+      <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
       <Route path="/login" element={<LoginPage />} />
 
+      {/* Protected routes wrapped by ProtectedRoute */}
       <Route element={<ProtectedRoute />}>
         <Route path="/secret" element={<SecretRoomPage />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/customer-assessment-summary" element={<CustomerAssessmentSummary />} />
       </Route>
 
+      {/* Catch-all 404 */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )
 }
 
+// Root App: ThemeProvider + Router + Suspense fallback
 const RootApp: React.FC = () => (
   <React.StrictMode>
     <ThemeProvider>
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
+      <Suspense fallback={<LoadingFallback />}>
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </Suspense>
     </ThemeProvider>
   </React.StrictMode>
 )
 
-const root = document.getElementById('root')
-if (!root) {
+// Mount to #root
+const rootEl = document.getElementById('root')
+if (!rootEl) {
   console.error('❌ ไม่พบ <div id="root"> ใน index.html')
 } else {
-  ReactDOM.createRoot(root).render(<RootApp />)
+  ReactDOM.createRoot(rootEl).render(<RootApp />)
 }
 
 export default RootApp```
 
-## 🧩 SecretRoomPage.tsx (Full)
+## 🧩 src/pages/SecretRoomPage.tsx
 ```tsx
 // src/pages/SecretRoomPage.tsx – Secure Authenticated Dashboard Page
 
@@ -374,7 +378,7 @@ import ThemeToggleButton from '@components/SecretRoom/ThemeToggleButton'
 import UserProfileCard from '@components/SecretRoom/UserProfileCard'
 
 const SecretRoomPage: React.FC = () => {
-  const [username, setUsername] = useState<string>('กำลังโหลด...')
+  const [username, setUsername] = useState('กำลังโหลด...')
   const [theme, setTheme] = useState<'light' | 'dark'>(() =>
     document.documentElement.classList.contains('dark') ? 'dark' : 'light'
   )
@@ -395,7 +399,7 @@ const SecretRoomPage: React.FC = () => {
   return (
     <main
       role="main"
-      aria-label="หน้าแดชบอร์ดผู้ใช้งาน"
+      aria-label="แดชบอร์ดระบบรักษาความปลอดภัย"
       className="relative min-h-screen bg-base-100 text-base-content px-4 py-16 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
     >
       {/* ปุ่มสลับธีม */}
@@ -403,7 +407,7 @@ const SecretRoomPage: React.FC = () => {
         <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
       </div>
 
-      {/* ข้อความต้อนรับ */}
+      {/* ส่วนต้อนรับผู้ใช้ */}
       <section
         aria-label="ข้อความต้อนรับผู้ใช้งาน"
         tabIndex={0}
@@ -421,13 +425,12 @@ const SecretRoomPage: React.FC = () => {
           >
             {username}
           </span>{' '}
-          👋
-          <br />
+          👋<br />
           คุณเข้าสู่ระบบเรียบร้อยแล้ว
         </p>
       </section>
 
-      {/* การ์ดสรุปโปรไฟล์ */}
+      {/* การ์ดแสดงโปรไฟล์ */}
       <section
         aria-label="สรุปข้อมูลผู้ใช้งาน"
         className="mt-10 max-w-md mx-auto"
@@ -435,9 +438,9 @@ const SecretRoomPage: React.FC = () => {
         <UserProfileCard username={username} />
       </section>
 
-      {/* แดชบอร์ดระบบ */}
+      {/* แดชบอร์ดข้อมูล */}
       <section
-        aria-label="แดชบอร์ดระบบ"
+        aria-label="แดชบอร์ดข้อมูลและระบบ"
         className="mt-12 w-full max-w-7xl mx-auto rounded-2xl bg-base-200 dark:bg-zinc-800 shadow-xl p-6 sm:p-10 transition-shadow hover:shadow-2xl focus-within:shadow-2xl"
         tabIndex={-1}
       >
@@ -447,12 +450,12 @@ const SecretRoomPage: React.FC = () => {
   )
 }
 
-export default SecretRoomPage
-```
+export default SecretRoomPage```
 
-## 🧩 AdminPage.tsx (Full)
+## 🧩 src/pages/AdminPage.tsx
 ```tsx
-// src/pages/AdminPage.tsx
+// ✅ Final: src/pages/AdminPage.tsx
+// แผงควบคุมผู้ดูแลระบบ พร้อมต้อนรับผู้ใช้ และแสดง Dashboard
 
 import React, { useEffect, useState } from 'react'
 import AdminDashboard from '@components/AdminBoard/Dashboard'
@@ -469,19 +472,16 @@ const AdminPage: React.FC = () => {
     <main
       role="main"
       aria-label="แผงควบคุมผู้ดูแลระบบ"
-      className="min-h-screen bg-base-100 dark:bg-gray-900 text-base-content px-6 py-12 transition-colors duration-300 flex flex-col items-center"
+      className="min-h-screen bg-base-100 text-base-content dark:bg-gray-900 px-6 py-12 transition-colors duration-300 flex flex-col items-center"
     >
-      {/* Header */}
+      {/* 🔹 Welcome Header */}
       <header
         className="mb-10 max-w-xl w-full text-center select-text"
         tabIndex={-1}
         aria-live="polite"
         aria-atomic="true"
       >
-        <h1
-          className="text-3xl sm:text-4xl font-extrabold text-primary mb-3 tracking-tight"
-          tabIndex={-1}
-        >
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-primary mb-3 tracking-tight">
           แผงควบคุมผู้ดูแลระบบ
         </h1>
         <p className="text-lg sm:text-xl text-muted">
@@ -495,7 +495,7 @@ const AdminPage: React.FC = () => {
         </p>
       </header>
 
-      {/* Dashboard Section */}
+      {/* 🔧 Admin Dashboard */}
       <section className="w-full max-w-7xl" tabIndex={-1}>
         <AdminDashboard />
       </section>
@@ -503,52 +503,19 @@ const AdminPage: React.FC = () => {
   )
 }
 
-export default AdminPage
-```
+export default AdminPage```
 
-## 🧩 Project Directory Tree (Level 3)
+## 🗂️ Project Tree: Level 1
 ```
 /data/data/com.termux/files/home/projects1
 ├──  
-│   └── types
-│       └── connect-history-api-fallback.d.ts
 ├── Clean.sh
 ├── README.md
 ├── api
-│   └── contact.ts
 ├── auto-commit.sh
 ├── check-structure.sh
+├── dev-dist
 ├── dist
-│   ├── assets
-│   │   ├── 1hero.webp
-│   │   ├── 2hero.webp
-│   │   ├── Hhero.webp
-│   │   ├── about-IgS6mAQi.webp
-│   │   ├── about.webp
-│   │   ├── hero-BRaXPQvd.webp
-│   │   ├── hero.webp
-│   │   ├── index-hYeZFepB.js
-│   │   ├── index-hYeZFepB.js.map
-│   │   ├── index-uimiDBoC.css
-│   │   ├── jp-logo-CH0zBIqT.webp
-│   │   ├── jp-logo.webp
-│   │   ├── logo.svg
-│   │   ├── signature-BovtCThw.webp
-│   │   ├── signature.webp
-│   │   ├── vendor-DryWJY3h.js
-│   │   └── vendor-DryWJY3h.js.map
-│   ├── docs
-│   │   ├── certificate.pdf
-│   │   ├── contract.pdf
-│   │   └── registration.pdf
-│   ├── images
-│   │   ├── review
-│   │   └── services
-│   ├── index.html
-│   ├── logo.svg
-│   ├── manifest.webmanifest
-│   ├── sw.js
-│   └── sw.js.map
 ├── index.html
 ├── index.ts
 ├── package.json
@@ -557,113 +524,127 @@ export default AdminPage
 ├── pnpm-workspace.yaml
 ├── postcss.config.cjs
 ├── public
-│   ├── assets
-│   │   ├── 1hero.webp
-│   │   ├── 2hero.webp
-│   │   ├── Hhero.webp
-│   │   ├── about.webp
-│   │   ├── hero.webp
-│   │   ├── jp-logo.webp
-│   │   ├── logo.svg
-│   │   └── signature.webp
-│   ├── docs
-│   │   ├── certificate.pdf
-│   │   ├── contract.pdf
-│   │   └── registration.pdf
-│   ├── images
-│   │   ├── review
-│   │   └── services
-│   └── logo.svg
 ├── setup.sh
 ├── src
-│   ├── api
-│   │   └── auth.ts
-│   ├── assets
-│   │   ├── 1hero.webp
-│   │   ├── 2hero.webp
-│   │   ├── Hhero.webp
-│   │   ├── about.webp
-│   │   ├── hero.webp
-│   │   ├── jp-logo.webp
-│   │   ├── logo.svg
-│   │   └── signature.webp
-│   ├── components
-│   │   ├── About.tsx
-│   │   ├── AdminBoard
-│   │   ├── CTASection.tsx
-│   │   ├── CustomerAssessmentForm.tsx
-│   │   ├── CustomerCard.tsx
-│   │   ├── Feature.tsx
-│   │   ├── Footer.tsx
-│   │   ├── Header.tsx
-│   │   ├── Hero.tsx
-│   │   ├── Layout
-│   │   ├── LoadingSpinner.tsx
-│   │   ├── ProtectedRoute.tsx
-│   │   ├── ResponsiveNavbar.tsx
-│   │   ├── ReviewsSection.tsx
-│   │   ├── SecretRoom
-│   │   ├── ServiceCard.tsx
-│   │   ├── ServicesSection.tsx
-│   │   ├── StatsPanel.tsx
-│   │   ├── ThemeProvider.tsx
-│   │   └── common
-│   ├── config
-│   │   ├── adminConfig.ts
-│   │   ├── contact.ts
-│   │   └── salaryCertificateConfig.ts
-│   ├── data
-│   │   ├── approvedCustomers.ts
-│   │   ├── reviewsData.ts
-│   │   ├── servicesData.ts
-│   │   └── users.ts
-│   ├── main.tsx
-│   ├── pages
-│   │   ├── AdminPage.tsx
-│   │   ├── CustomerAssessmentSummary.tsx
-│   │   ├── IndexPage.tsx
-│   │   ├── LoginPage.tsx
-│   │   ├── NotFoundPage.tsx
-│   │   └── SecretRoomPage.tsx
-│   ├── styles
-│   │   ├── global.css
-│   │   ├── tailwind-base.css
-│   │   └── tailwind.css
-│   ├── sw.ts
-│   ├── types
-│   │   ├── assets.d.ts
-│   │   ├── connect-history-api-fallback.d.ts
-│   │   ├── index.d.ts
-│   │   ├── user.ts
-│   │   └── vite-env.d.ts
-│   └── utils
-│       └── hashPassword.ts
 ├── structure-report.md
 ├── tailwind.config.ts
 ├── tsconfig.json
 ├── vercel.json
 └── vite.config.ts
 
-30 directories, 105 files
+7 directories, 17 files
 ```
 
-## 📌 Final Note
-🧠 คำสั่งโหมด Dev Partner สำหรับ AI
+## 📁 src Tree: Level 3
+```
+/data/data/com.termux/files/home/projects1/src
+├── api
+│   └── auth.ts
+├── assets
+│   ├── 1hero.webp
+│   ├── 2hero.webp
+│   ├── Hhero.webp
+│   ├── about.webp
+│   ├── hero.webp
+│   ├── jp-logo.webp
+│   ├── logo.svg
+│   └── signature.webp
+├── components
+│   ├── About.tsx
+│   ├── AdminBoard
+│   │   ├── CustomerCard.tsx
+│   │   ├── Dashboard.tsx
+│   │   ├── SalaryCertificate.tsx
+│   │   ├── StatsPanel.tsx
+│   │   └── UserTable.tsx
+│   ├── CTASection.tsx
+│   ├── CustomerAssessmentForm.tsx
+│   ├── CustomerCard.tsx
+│   ├── Feature.tsx
+│   ├── Footer.tsx
+│   ├── Header.tsx
+│   ├── Hero.tsx
+│   ├── Layout
+│   │   └── MainLayout.tsx
+│   ├── LoadingSpinner.tsx
+│   ├── ProtectedRoute.tsx
+│   ├── ResponsiveNavbar.tsx
+│   ├── ReviewsSection.tsx
+│   ├── SecretRoom
+│   │   ├── AccessLogTable.tsx
+│   │   ├── CustomerLoanProgressGraph.tsx
+│   │   ├── Dashboard.tsx
+│   │   ├── FileUpload.tsx
+│   │   ├── HeaderBlock.tsx
+│   │   ├── HelpSupport.tsx
+│   │   ├── NotificationsPanel.tsx
+│   │   ├── PerformanceMetrics.tsx
+│   │   ├── SystemCheckCard.tsx
+│   │   ├── ThemeToggleButton.tsx
+│   │   └── UserProfileCard.tsx
+│   ├── ServiceCard.tsx
+│   ├── ServicesSection.tsx
+│   ├── StatsPanel.tsx
+│   ├── ThemeProvider.tsx
+│   └── common
+│       ├── FormGroup.tsx
+│       ├── Icon.tsx
+│       ├── Modal.tsx
+│       └── ServiceRequestModal.tsx
+├── config
+│   ├── adminConfig.ts
+│   ├── contact.ts
+│   └── salaryCertificateConfig.ts
+├── data
+│   ├── approvedCustomers.ts
+│   ├── reviewsData.ts
+│   ├── servicesData.ts
+│   └── users.ts
+├── main.tsx
+├── pages
+│   ├── AdminPage.tsx
+│   ├── CustomerAssessmentSummary.tsx
+│   ├── IndexPage.tsx
+│   ├── LoginPage.tsx
+│   ├── NotFoundPage.tsx
+│   └── SecretRoomPage.tsx
+├── styles
+│   ├── global.css
+│   ├── tailwind-base.css
+│   └── tailwind.css
+├── sw.ts
+├── types
+│   ├── assets.d.ts
+│   ├── connect-history-api-fallback.d.ts
+│   ├── index.d.ts
+│   ├── user.ts
+│   └── vite-env.d.ts
+└── utils
+    └── hashPassword.ts
 
-คุณคือ Dev Partner ที่ทำงานร่วมกับผมในการพัฒนาโปรเจกต์นี้อย่างแม่นยำและรวดเร็ว โดยมีหน้าที่ดังนี้
+14 directories, 70 files
+```
 
-- หลังจากนี้จะส่งไฟล์ทุกตัวให้แก้ไข เขียนให้ดีขึ้น ลงตัวแปร ให้ตรงกับธุระกิจ ใส่ ui  layout  design   action รองรับ Desktop mobile  import Component ให้ถูกต้องโครงสร้างโปรเจคส่งให้หมดแล้ว
+## 📌 Dev Partner Note
 
+คุณคือ Dev Partner ที่พัฒนาร่วมในโปรเจกต์นี้ โดยมีหน้าที่หลัก:
+- แก้ไข/ออกแบบโค้ดให้สอดคล้องกับ UI/UX, Business Logic และระบบ Responsive
+- ทุก Component ต้อง Import ให้ถูกต้อง, รองรับ Desktop & Mobile
+- แก้ปัญหาทันที ไม่อธิบายเยิ่นเย้อ
+- ทุกคำตอบต้องแม่นยำตาม Stack และโครงสร้างที่กำหนด
+JP - VISUAL & DOCS
+ธุรกิจสีเทาที่ออกแบบมาให้ได้มาตรฐานเท่าที่สามารถแสดงได้ เราพร้อมร่วมงานกับทุกสายอาชีพ ทุกวงการ และพร้อมสร้างเครื่องมือที่ตอบโจทย์จริงให้ทุกคน
 
-- ตอบแบบ Dev-to-Dev: ตรงประเด็น สั้น กระชับ ไม่อธิบายเยิ่นเย้อ
-- แก้ปัญหาเฉพาะหน้าให้ได้ทันที พร้อมเสนอ solution ที่ใช้ได้จริง
-- ทุกคำตอบต้องสอดคล้องกับเทคโนโลยี สภาพแวดล้อม และโครงสร้างที่กำหนดไว้แล้ว
-- ไม่สอน ไม่ถามซ้ำ ไม่ตีความผิด
-- ❗ ห้ามลืมบริบทของโปรเจกต์นี้เด็ดขาด
-- เมื่อผมถาม/ส่งโค้ดมา ให้ตอบเหมือนคุณคือทีม Dev ที่นั่งทำงานข้าง ๆ ผม
+เรายินดีให้คำปรึกษาแบบตรงไปตรงมา ด้วยข้อมูลจริง พร้อมอธิบายเปอร์เซ็นต์ความเสี่ยงและผลลัพธ์อย่างโปร่งใส — เราไม่ขายฝัน
 
-📦 โครงสร้างโปรเจกต์, config, main.tsx และรายละเอียดอื่น ๆ ได้แนบไว้ให้แล้วในระบบ
-ถือว่าคุณเข้าใจแล้วโดยสมบูรณ์
-พร้อมรับคำสั่งถัดไปได้เลย 🛠️
+หากคุณมีคำถามเพิ่มเติม หรือรายละเอียดที่ไม่สามารถเปิดเผยได้บนเว็บไซต์ สามารถสอบถามแอดมินของเราได้ตลอด 24 ชั่วโมง
 
-🕛 Last checked: Wed Jul 23 05:59:37 +07 2025
+หากคุณอยากคุยกับผมโดยตรง บอกแอดมินได้เลย รับรองว่าคุณจะรู้สึกปลอดภัย และสบายใจที่ได้คุยแน่นอน
+
+ผมไม่ใช่คนที่เก่งที่สุด
+แต่ผมมีทีมงานที่เก่ง
+ลงรายละเอียดเนื้อหา ให้สอดคล้อง กับ ธุรกิจ ไม่เน้นคำทางการเกินไป ใช้คำกระชับเข้าใจได้ง่าย
+📂 โครงสร้างทั้งหมด แนบไว้ใน Report นี้แล้ว  
+🧠 เข้าใจบริบทแล้ว พร้อมรับคำสั่งถัดไปได้เลย
+
+🕛 Last Checked: Wed Jul 23 09:16:13 +07 2025

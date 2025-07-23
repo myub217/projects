@@ -21,46 +21,45 @@ const stats = [
   },
 ]
 
-const StatsPanel: React.FC = () => {
-  return (
-    <section
-      role="region"
-      aria-labelledby="stats-title"
-      className="w-full py-16 bg-gradient-to-br from-base-200 to-base-300 text-base-content
-                 dark:from-zinc-900 dark:to-zinc-800 transition-colors duration-300"
-    >
-      <div className="max-w-6xl mx-auto px-4 text-center space-y-10">
-        <header>
-          <h2
-            id="stats-title"
-            className="text-2xl sm:text-3xl font-bold tracking-tight text-primary mb-2 select-text"
-          >
-            สถิติที่สร้างความมั่นใจ
-          </h2>
-          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto select-text">
-            เรามุ่งเน้นการให้บริการอย่างมีมาตรฐาน โปร่งใส และสร้างผลงานที่เชื่อถือได้
-          </p>
-        </header>
+const StatsPanel: React.FC = () => (
+  <section
+    role="region"
+    aria-labelledby="stats-title"
+    className="w-full py-16 bg-gradient-to-br from-base-200 to-base-300 text-base-content
+               dark:from-zinc-900 dark:to-zinc-800 transition-colors duration-300"
+  >
+    <div className="max-w-6xl mx-auto px-4 text-center space-y-10">
+      <header>
+        <h2
+          id="stats-title"
+          className="text-2xl sm:text-3xl font-bold tracking-tight text-primary mb-2 select-text"
+        >
+          สถิติที่สร้างความมั่นใจ
+        </h2>
+        <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto select-text">
+          เรามุ่งเน้นการให้บริการอย่างมีมาตรฐาน โปร่งใส และสร้างผลงานที่เชื่อถือได้
+        </p>
+      </header>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
-          {stats.map(({ label, value, icon }, i) => (
-            <article
-              key={i}
-              role="group"
-              tabIndex={0}
-              aria-label={`${label} จำนวน ${value}`}
-              className="flex flex-col items-center justify-center space-y-3 p-6 rounded-xl bg-white
-                         dark:bg-zinc-900 shadow-lg hover:scale-105 focus:scale-105 transition-transform duration-300 ease-in-out outline-none focus:outline focus:outline-primary"
-            >
-              <div className="text-5xl">{icon}</div>
-              <div className="text-4xl font-bold text-primary select-text">{value}</div>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400 select-text">{label}</p>
-            </article>
-          ))}
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+        {stats.map(({ label, value, icon }, i) => (
+          <article
+            key={i}
+            role="group"
+            tabIndex={0}
+            aria-label={`${label} จำนวน ${value}`}
+            className="flex flex-col items-center justify-center space-y-3 p-6 rounded-xl bg-white
+                       dark:bg-zinc-900 shadow-lg hover:scale-105 focus:scale-105 transition-transform duration-300 ease-in-out
+                       outline-none focus:outline focus:outline-primary"
+          >
+            <div className="text-5xl">{icon}</div>
+            <div className="text-4xl font-extrabold text-primary select-text">{value}</div>
+            <p className="text-sm text-zinc-500 dark:text-zinc-400 select-text">{label}</p>
+          </article>
+        ))}
       </div>
-    </section>
-  )
-}
+    </div>
+  </section>
+)
 
 export default StatsPanel

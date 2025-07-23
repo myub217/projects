@@ -1,4 +1,5 @@
-// src/pages/AdminPage.tsx
+// ✅ Final: src/pages/AdminPage.tsx
+// แผงควบคุมผู้ดูแลระบบ พร้อมต้อนรับผู้ใช้ และแสดง Dashboard
 
 import React, { useEffect, useState } from 'react'
 import AdminDashboard from '@components/AdminBoard/Dashboard'
@@ -15,19 +16,16 @@ const AdminPage: React.FC = () => {
     <main
       role="main"
       aria-label="แผงควบคุมผู้ดูแลระบบ"
-      className="min-h-screen bg-base-100 dark:bg-gray-900 text-base-content px-6 py-12 transition-colors duration-300 flex flex-col items-center"
+      className="min-h-screen bg-base-100 text-base-content dark:bg-gray-900 px-6 py-12 transition-colors duration-300 flex flex-col items-center"
     >
-      {/* Header */}
+      {/* 🔹 Welcome Header */}
       <header
         className="mb-10 max-w-xl w-full text-center select-text"
         tabIndex={-1}
         aria-live="polite"
         aria-atomic="true"
       >
-        <h1
-          className="text-3xl sm:text-4xl font-extrabold text-primary mb-3 tracking-tight"
-          tabIndex={-1}
-        >
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-primary mb-3 tracking-tight">
           แผงควบคุมผู้ดูแลระบบ
         </h1>
         <p className="text-lg sm:text-xl text-muted">
@@ -41,7 +39,7 @@ const AdminPage: React.FC = () => {
         </p>
       </header>
 
-      {/* Dashboard Section */}
+      {/* 🔧 Admin Dashboard */}
       <section className="w-full max-w-7xl" tabIndex={-1}>
         <AdminDashboard />
       </section>

@@ -14,6 +14,7 @@ const Feature: React.FC = () => {
   const [sortOrder, setSortOrder] = useState<SortOrder>('ล่าสุด')
   const formRef = useRef<HTMLDivElement>(null)
 
+  // Sort customers based on sortOrder
   const sortedCustomers = useMemo(() => {
     const list = [...approvedCustomers]
     if (sortOrder === 'สถานะ') {
@@ -26,6 +27,7 @@ const Feature: React.FC = () => {
     )
   }, [sortOrder])
 
+  // Focus form when it opens
   useEffect(() => {
     if (showForm && formRef.current) {
       formRef.current.focus()

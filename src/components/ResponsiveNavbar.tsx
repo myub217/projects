@@ -1,4 +1,5 @@
 // src/components/ResponsiveNavbar.tsx
+// ✅ Responsive, accessible navbar with keyboard & screen reader support, smooth mobile menu animation
 
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
@@ -33,7 +34,7 @@ const ResponsiveNavbar: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [isOpen])
 
-  // Close mobile menu on route change
+  // Close mobile menu on route/location change
   useEffect(() => {
     setIsOpen(false)
   }, [location])
@@ -70,10 +71,11 @@ const ResponsiveNavbar: React.FC = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex md:space-x-8">
-            {navItems.map((item) => (
+            {navItems.map(({ name, to }) => (
               <NavLink
-                key={item.to}
-                to={item.to}
+                key={to}
+                to={to}
+                end={to === '/'}
                 className={({ isActive }) =>
                   clsx(
                     'inline-flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors duration-150',
@@ -82,9 +84,9 @@ const ResponsiveNavbar: React.FC = () => {
                       : 'text-muted hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1'
                   )
                 }
-                end={item.to === '/'} // exact matching only for home
+                aria-current={({ isActive }) => (isActive ? 'page' : undefined)}
               >
-                {item.name}
+                {name}
               </NavLink>
             ))}
           </div>
@@ -114,7 +116,7 @@ const ResponsiveNavbar: React.FC = () => {
         id="mobile-menu"
         ref={navRef}
         className={clsx(
-          'md:hidden bg-base-100 border-t border-base-300 transition-max-height duration-300 ease-in-out overflow-hidden',
+          'md:hidden bg-base-100 border-t border-base-300 transition-[max-height] duration-300 ease-in-out overflow-hidden',
           isOpen ? 'max-h-60' : 'max-h-0'
         )}
         aria-hidden={!isOpen}
@@ -124,10 +126,14 @@ const ResponsiveNavbar: React.FC = () => {
           role="menu"
           aria-label="เมนูมือถือ"
         >
-          {navItems.map((item) => (
+          {navItems.map(({ name, to }) => (
             <NavLink
-              key={item.to}
-              to={item.to}
+              key={to}
+              to={to}
+              end={to === '/'}
+              onClick={() => setIsOpen(false)}
+              role="menuitem"
+              tabIndex={isOpen ? 0 : -1}
               className={({ isActive }) =>
                 clsx(
                   'block px-3 py-2 rounded-md text-base font-medium transition-colors duration-150',
@@ -136,12 +142,9 @@ const ResponsiveNavbar: React.FC = () => {
                     : 'text-muted hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1'
                 )
               }
-              onClick={() => setIsOpen(false)}
-              end={item.to === '/'}
-              role="menuitem"
-              tabIndex={isOpen ? 0 : -1}
+              aria-current={({ isActive }) => (isActive ? 'page' : undefined)}
             >
-              {item.name}
+              {name}
             </NavLink>
           ))}
         </div>

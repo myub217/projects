@@ -1,5 +1,5 @@
 // src/data/servicesData.ts
-// ✅ Structured & consistent service data with strong typing and i18n-ready text
+// Structured & consistent service data with strong typing and i18n-ready text
 
 export interface Service {
   id: number

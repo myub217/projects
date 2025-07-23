@@ -1,6 +1,7 @@
-// ✅ Final: src/main.tsx
+// src/main.tsx
+// Root entry with ThemeProvider, Router, Suspense fallback, and protected routes
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
@@ -17,43 +18,53 @@ import NotFoundPage from '@pages/NotFoundPage'
 import ProtectedRoute from '@components/ProtectedRoute'
 import { ThemeProvider, useTheme } from '@components/ThemeProvider'
 
-// ✅ AppRoutes: จัดการ Routing พร้อม Theme
+// Loading fallback UI for Suspense lazy loading
+const LoadingFallback: React.FC = () => (
+  <div
+    className="flex justify-center items-center min-h-screen text-gray-500 select-none"
+    role="status"
+    aria-live="polite"
+  >
+    กำลังโหลด...
+  </div>
+)
+
+// Main App routes with theme context and protected routes
 const AppRoutes: React.FC = () => {
   const { theme, toggleTheme } = useTheme()
 
   return (
     <Routes>
-      <Route
-        index
-        element={<IndexPage theme={theme} toggleTheme={toggleTheme} />}
-      />
+      <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
       <Route path="/login" element={<LoginPage />} />
 
-      {/* 🔒 Protected Routes */}
+      {/* Protected routes */}
       <Route element={<ProtectedRoute />}>
         <Route path="/secret" element={<SecretRoomPage />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/customer-assessment-summary" element={<CustomerAssessmentSummary />} />
       </Route>
 
-      {/* 404 */}
+      {/* 404 fallback */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )
 }
 
-// ✅ RootApp: บูต Theme + Router
+// Root app component wrapping ThemeProvider, Router and Suspense
 const RootApp: React.FC = () => (
   <React.StrictMode>
     <ThemeProvider>
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
+      <Suspense fallback={<LoadingFallback />}>
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </Suspense>
     </ThemeProvider>
   </React.StrictMode>
 )
 
-// ✅ Mount App
+// Mount React app on #root element
 const rootEl = document.getElementById('root')
 if (!rootEl) {
   console.error('❌ ไม่พบ <div id="root"> ใน index.html')

@@ -41,10 +41,10 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
         transition={{ duration: 0.8, delay: 0.2 }}
         className="z-10 w-full max-w-3xl text-center"
       >
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight drop-shadow-xl">
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight drop-shadow-xl select-text">
           JP Visual & Docs
         </h1>
-        <p className="mt-4 text-base sm:text-lg lg:text-xl text-white/85 max-w-xl mx-auto">
+        <p className="mt-4 text-base sm:text-lg lg:text-xl text-white/85 max-w-xl mx-auto select-text">
           บริการช่วยจัดการเบื้องหลังทุกเรื่องที่คุณไม่อยากวุ่น — เอกสาร ธุรกิจ และการตลาด พร้อมทำจริง จบไว
         </p>
 
@@ -56,9 +56,9 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
           whileTap={{ scale: 0.97 }}
           aria-label="เข้าสู่ระบบ"
         >
-          <FaLock className="text-xl sm:text-2xl" />
+          <FaLock className="text-xl sm:text-2xl" aria-hidden="true" />
           <span className="text-base sm:text-lg">{buttonText}</span>
-          <FaDoorOpen className="text-xl sm:text-2xl opacity-70" />
+          <FaDoorOpen className="text-xl sm:text-2xl opacity-70" aria-hidden="true" />
         </motion.button>
       </motion.div>
 
@@ -76,6 +76,7 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
           className="rounded-full text-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-400 focus-visible:ring-offset-2 transition-transform"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
+          aria-label="ติดต่อผ่าน LINE"
         >
           <FaLine className="h-6 w-6 sm:h-7 sm:w-7" aria-hidden="true" />
         </motion.a>
@@ -88,6 +89,7 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
           className="rounded-full text-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 transition-transform"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
+          aria-label="ติดต่อผ่าน Messenger"
         >
           <FaFacebookMessenger className="h-6 w-6 sm:h-7 sm:w-7" aria-hidden="true" />
         </motion.a>

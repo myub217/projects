@@ -1,5 +1,5 @@
 // src/components/ReviewsSection.tsx
-// ✅ Responsive, accessible reviews section with keyboard support and clear structure
+// Responsive, accessible reviews section with keyboard support and clear structure
 
 import React from 'react'
 import { reviewsData } from '@/data/reviewsData'

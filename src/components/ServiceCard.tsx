@@ -1,5 +1,5 @@
 // src/components/ServiceCard.tsx
-// ✅ Refined, accessible, optimized Service Card with graceful image fallback and keyboard support
+// Refined, accessible, optimized Service Card with graceful image fallback and keyboard support
 
 import React from 'react'
 import { IconType } from 'react-icons'
@@ -30,10 +30,12 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       aria-disabled={disabled}
       tabIndex={disabled ? -1 : 0}
       className={`group flex flex-col justify-between h-full rounded-3xl overflow-hidden border shadow-sm transition-shadow duration-300
-        ${disabled
-          ? 'border-yellow-400 bg-yellow-50 dark:bg-yellow-900 dark:border-yellow-600 cursor-not-allowed opacity-70'
-          : 'border-base-200 bg-base-100 dark:bg-base-300 hover:shadow-xl hover:border-primary dark:hover:border-primary cursor-pointer'}
-        text-center sm:text-left select-text`}
+        ${
+          disabled
+            ? 'border-yellow-400 bg-yellow-50 dark:bg-yellow-900 dark:border-yellow-600 cursor-not-allowed opacity-70'
+            : 'border-base-200 bg-base-100 dark:bg-base-300 hover:shadow-xl hover:border-primary dark:hover:border-primary cursor-pointer'
+        }
+        text-center sm:text-left select-text focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}
     >
       {/* Image or fallback icon */}
       {imageUrl ? (
@@ -52,9 +54,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       ) : (
         <div
           className={`flex items-center justify-center sm:justify-start w-16 h-16 mx-auto sm:mx-0 mt-6 mb-4 rounded-full text-4xl
-            ${disabled
-              ? 'bg-yellow-200 text-yellow-700 dark:bg-yellow-700 dark:text-yellow-300'
-              : 'bg-primary/10 text-primary'}`}
+            ${
+              disabled
+                ? 'bg-yellow-200 text-yellow-700 dark:bg-yellow-700 dark:text-yellow-300'
+                : 'bg-primary/10 text-primary'
+            }`}
           aria-hidden="true"
         >
           <Icon />

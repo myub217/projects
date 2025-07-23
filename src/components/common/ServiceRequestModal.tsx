@@ -1,6 +1,6 @@
 // src/components/common/ServiceRequestModal.tsx
 
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useCallback } from 'react'
 import type { Service } from '@components/ServicesSection'
 
 interface ServiceRequestModalProps {
@@ -11,7 +11,7 @@ interface ServiceRequestModalProps {
 const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null)
 
-  // Trap focus inside modal and focus modal on open
+  // Focus modal on open and trap focus inside modal
   useEffect(() => {
     if (!service) return
 
@@ -22,7 +22,6 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
       if (e.key === 'Escape') {
         onClose()
       }
-      // Simple focus trap
       if (e.key === 'Tab' && modalRef.current) {
         const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
           'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
@@ -51,6 +50,23 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
     }
   }, [service, onClose])
 
+  // Prevent background scroll when modal is open
+  useEffect(() => {
+    if (service) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [service])
+
+  // Prevent modal close when clicking inside modal content
+  const onModalContentClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation()
+  }, [])
+
   if (!service) return null
 
   return (
@@ -66,7 +82,7 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
       <div
         tabIndex={0}
         ref={modalRef}
-        onClick={(e) => e.stopPropagation()}
+        onClick={onModalContentClick}
         className="w-full max-w-lg rounded-2xl bg-base-100 dark:bg-gray-900 p-6 shadow-2xl space-y-5 focus:outline-none"
       >
         <h3 id="service-modal-title" className="text-xl font-bold text-primary">
@@ -76,15 +92,9 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
           id="service-modal-desc"
           className="space-y-2 text-sm sm:text-base text-base-content/80"
         >
-          <p>
-            <strong>บริการ:</strong> {service.title}
-          </p>
-          <p>
-            <strong>รายละเอียด:</strong> {service.description}
-          </p>
-          <p>
-            <strong>ค่าบริการ:</strong> {service.price}
-          </p>
+          <p><strong>บริการ:</strong> {service.title}</p>
+          <p><strong>รายละเอียด:</strong> {service.description}</p>
+          <p><strong>ค่าบริการ:</strong> {service.price}</p>
           <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
             ทีมงานสายทำจริง สไตล์มือโปร — เอกสาร ชัด เป๊ะ ขายงานผ่าน
           </p>

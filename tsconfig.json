@@ -27,7 +27,8 @@
       "@styles/*": ["styles/*"],
       "@hooks/*": ["hooks/*"],
       "@config/*": ["config/*"]
-    }
+    },
+    "types": ["vite/client"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["dist", "node_modules", "public", "coverage"]

@@ -1,5 +1,5 @@
-// ✅ Final: src/pages/IndexPage.tsx
-// Homepage with complete sections, dark mode toggle, and service modal integration
+// src/pages/IndexPage.tsx
+// Homepage — ครบทุก Section พร้อม Modal และ Theme Toggle
 
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 
@@ -23,6 +23,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
   const [selectedService, setSelectedService] = useState<Service | null>(null)
   const mainContentRef = useRef<HTMLElement>(null)
 
+  // Close modal on Escape key
   useEffect(() => {
     const onEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setSelectedService(null)
@@ -31,15 +32,21 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
     return () => window.removeEventListener('keydown', onEsc)
   }, [])
 
+  // Scroll lock when modal is open, and focus management
   useEffect(() => {
-    document.body.style.overflow = selectedService ? 'hidden' : ''
-    if (!selectedService) mainContentRef.current?.focus()
+    if (selectedService) {
+      document.body.style.overflow = 'hidden'
+      mainContentRef.current?.blur()
+    } else {
+      document.body.style.overflow = ''
+      mainContentRef.current?.focus()
+    }
     return () => {
       document.body.style.overflow = ''
     }
   }, [selectedService])
 
-  const handleRequestService = useCallback((service: Service) => {
+  const onRequestService = useCallback((service: Service) => {
     setSelectedService(service)
   }, [])
 
@@ -61,7 +68,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
           <Hero />
           <Feature />
           <StatsPanel />
-          <ServicesSection onRequest={handleRequestService} />
+          <ServicesSection onRequest={onRequestService} />
           <About />
           <ReviewsSection />
           <CTASection />
@@ -102,6 +109,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
         )}
       </button>
 
+      {/* Service Request Modal */}
       <ServiceRequestModal
         service={selectedService}
         onClose={() => setSelectedService(null)}

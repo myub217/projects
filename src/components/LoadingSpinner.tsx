@@ -1,5 +1,5 @@
 // src/components/LoadingSpinner.tsx
-// ✅ Accessible, minimal loading spinner with clear ARIA roles and Tailwind styling
+// ✅ Accessible, minimal, visually balanced loading spinner with clear ARIA roles and Tailwind styling
 
 import React from 'react'
 
@@ -32,7 +32,8 @@ const LoadingSpinner: React.FC = () => (
         d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
       />
     </svg>
-    <span className="sr-only">Loading...</span>
+    {/* Screen reader only text */}
+    <span className="sr-only">กำลังโหลดข้อมูล</span>
   </div>
 )
 

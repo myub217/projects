@@ -1,6 +1,6 @@
 // src/components/common/FormGroup.tsx
 
-import React from 'react'
+import React, { ReactElement } from 'react'
 
 interface FormGroupProps {
   label: string
@@ -8,6 +8,7 @@ interface FormGroupProps {
   children: React.ReactNode
   error?: string
   required?: boolean
+  className?: string
 }
 
 const FormGroup: React.FC<FormGroupProps> = ({
@@ -16,31 +17,37 @@ const FormGroup: React.FC<FormGroupProps> = ({
   children,
   error,
   required = false,
+  className = '',
 }) => {
   const inputId = htmlFor
   const errorId = error ? `${inputId}-error` : undefined
 
+  // Enhance accessibility: add aria-invalid and aria-describedby to child input if possible
+  const enhancedChildren = React.isValidElement(children)
+    ? React.cloneElement(children as ReactElement, {
+        id: inputId,
+        'aria-invalid': !!error || undefined,
+        'aria-describedby': errorId,
+      })
+    : children
+
   return (
-    <div className="mb-4">
+    <div className={`mb-4 ${className}`}>
       <label
         htmlFor={inputId}
         className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1 select-none"
       >
         {label} {required && <span className="text-red-500" aria-hidden="true">*</span>}
       </label>
-      {React.isValidElement(children)
-        ? React.cloneElement(children, {
-            'aria-invalid': error ? true : undefined,
-            'aria-describedby': errorId,
-            id: inputId,
-          })
-        : children}
+
+      {enhancedChildren}
+
       {error && (
         <p
           id={errorId}
-          className="mt-1 text-sm text-red-500"
           role="alert"
           aria-live="assertive"
+          className="mt-1 text-sm text-red-500"
         >
           {error}
         </p>

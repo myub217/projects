@@ -58,7 +58,7 @@ const Footer: React.FC = () => (
         </nav>
 
         {/* Copyright */}
-        <div className="text-center sm:text-right text-sm leading-relaxed">
+        <div className="text-center sm:text-right text-sm leading-relaxed select-text">
           <p>© 2025 JP - Visual & Docs</p>
           <p className="opacity-70">สงวนลิขสิทธิ์ทั้งหมด | All rights reserved</p>
         </div>
@@ -66,7 +66,7 @@ const Footer: React.FC = () => (
 
       {/* Business Description */}
       <p
-        className="mt-6 text-center sm:text-left text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-xl sm:max-w-none mx-auto sm:mx-0"
+        className="mt-6 text-center sm:text-left text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-xl sm:max-w-none mx-auto sm:mx-0 select-text"
         aria-label="คำอธิบายธุรกิจ"
       >
         <span className="block sm:inline">

@@ -23,18 +23,18 @@ const icons = {
 
 export type IconName = keyof typeof icons
 
-interface IconProps {
+interface IconProps extends React.SVGAttributes<SVGElement> {
   name: IconName
-  className?: string
   size?: number
   'aria-label'?: string
 }
 
 const Icon: React.FC<IconProps> = ({
   name,
-  className = '',
   size = 20,
   'aria-label': ariaLabel,
+  className = '',
+  ...restProps
 }) => {
   const LucideIcon = icons[name]
   return (
@@ -45,6 +45,7 @@ const Icon: React.FC<IconProps> = ({
       aria-label={ariaLabel}
       role={ariaLabel ? 'img' : undefined}
       focusable="false"
+      {...restProps}
     />
   )
 }

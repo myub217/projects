@@ -1,5 +1,5 @@
 // src/components/ServicesSection.tsx
-// ✅ Refined, accessible, animated Services Section with clear fallback and structured logic
+// Refined, accessible, animated Services Section with clear fallback and structured logic
 
 import React from 'react'
 import ServiceCard from './ServiceCard'
@@ -35,7 +35,7 @@ const iconMap = [
 ]
 
 const ServicesSection: React.FC = () => {
-  if (!services.length)
+  if (!services.length) {
     return (
       <section
         id="services"
@@ -56,6 +56,7 @@ const ServicesSection: React.FC = () => {
         </div>
       </section>
     )
+  }
 
   return (
     <section

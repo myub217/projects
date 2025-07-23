@@ -1,5 +1,3 @@
-// vite.config.ts
-
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -14,7 +12,7 @@ export default defineConfig({
       strategies: 'injectManifest',
       srcDir: 'src',
       filename: 'sw.ts',
-      injectRegister: false,
+      injectRegister: 'auto', // หรือ false ถ้าจัดการ register เอง
       registerType: 'autoUpdate',
       manifest: {
         name: 'JP Visual & Docs',
@@ -24,8 +22,8 @@ export default defineConfig({
         background_color: '#ffffff',
         theme_color: '#2563eb',
         icons: [
-          { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+          { src: '/images/icon-192.png', sizes: '192x192', type: 'image/png' },
+          { src: '/images/icon-512.png', sizes: '512x512', type: 'image/png' },
         ],
       },
       devOptions: {
@@ -34,7 +32,9 @@ export default defineConfig({
       },
     }),
     viteStaticCopy({
-      targets: [{ src: 'public/images', dest: '' }],
+      targets: [
+        { src: 'public/images', dest: 'images' }
+      ],
     }),
     {
       name: 'mock-api',
@@ -71,7 +71,7 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
     open: true,
-    proxy: {
+    proxy: process.env.USE_MOCK === 'true' ? {} : {
       '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,
