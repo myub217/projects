@@ -49,7 +49,7 @@ for file in "${REQUIRED_FILES[@]}"; do
   fi
 done
 
-# 🎨 Tailwind config
+# 🎨 tailwind.config.ts content
 if [ -f "$BASE_DIR/tailwind.config.ts" ]; then
   cat >> "$REPORT_FILE" << EOF
 
@@ -60,7 +60,7 @@ EOF
   echo '```' >> "$REPORT_FILE"
 fi
 
-# ⚙️ Vite config
+# ⚙️ vite.config.ts content
 if [ -f "$BASE_DIR/vite.config.ts" ]; then
   cat >> "$REPORT_FILE" << EOF
 
@@ -71,7 +71,29 @@ EOF
   echo '```' >> "$REPORT_FILE"
 fi
 
-# 🧩 Main entry
+# 🧩 .prettierrc (hardcoded snippet)
+cat >> "$REPORT_FILE" << EOF
+
+## 🧩 .prettierrc
+\`\`\`json
+{
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "bracketSpacing": true,
+  "arrowParens": "avoid",
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindConfig": "./tailwind.config.ts",
+  "endOfLine": "lf"
+}
+\`\`\`
+
+EOF
+
+# 🧩 src/main.tsx content
 MAIN_FILE="$BASE_DIR/src/main.tsx"
 cat >> "$REPORT_FILE" << EOF
 
@@ -86,6 +108,7 @@ else
 fi
 echo '```' >> "$REPORT_FILE"
 
+# 🧩 src/routes/AppRoutes.tsx content
 ROUTER_FILE="$BASE_DIR/src/routes/AppRoutes.tsx"
 cat >> "$REPORT_FILE" << EOF
 
@@ -98,9 +121,9 @@ if [ -f "$ROUTER_FILE" ]; then
 else
   echo "// Not found" >> "$REPORT_FILE"
 fi
-
 echo '```' >> "$REPORT_FILE"
-# 🧩 Pages
+
+# Pages content (SecretRoomPage.tsx, AdminPage.tsx)
 for page in "${PAGES[@]}"; do
   PAGE_PATH="$BASE_DIR/$page"
   cat >> "$REPORT_FILE" << EOF
@@ -115,7 +138,8 @@ EOF
   fi
   echo '```' >> "$REPORT_FILE"
 done
-# 🗂️ Tree view
+
+# Project tree if tree command exists
 if command -v tree >/dev/null 2>&1; then
   cat >> "$REPORT_FILE" << EOF
 
@@ -146,7 +170,7 @@ else
 EOF
 fi
 
-# 📌 Dev Note
+# Dev Partner Note
 cat >> "$REPORT_FILE" << EOF
 
 ## 📌 Dev Partner Note
@@ -194,8 +218,5 @@ File tree:
 Ready for dev or deployment.
 
 Ask next task or specific code/bug fix.
-📂 โครงสร้างทั้งหมดแนบไว้ใน Report นี้แล้ว  
-🧠 เข้าใจบริบทแล้ว พร้อมรับคำสั่งถัดไปได้เลย
-
 🕛 Last Checked: $(date)
 EOF

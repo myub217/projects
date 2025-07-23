@@ -212,6 +212,10 @@ export default defineConfig({
       filename: 'sw.ts',
       injectRegister: 'auto',
       registerType: 'autoUpdate',
+      devOptions: {
+        enabled: true,
+        type: 'module',
+      },
       manifest: {
         name: 'JP Visual & Docs',
         short_name: 'JPDocs',
@@ -232,10 +236,6 @@ export default defineConfig({
           },
         ],
       },
-      devOptions: {
-        enabled: true,
-        type: 'module',
-      },
     }),
     viteStaticCopy({
       targets: [{ src: 'public/images', dest: 'images' }],
@@ -243,7 +243,9 @@ export default defineConfig({
     {
       name: 'mock-api',
       configureServer(server) {
-        server.middlewares.use('/api/repos', (req, res) => {
+        server.middlewares.use('/api/repos', (req, res, next) => {
+          if (req.method !== 'GET') return next()
+
           const filePath = path.resolve(__dirname, 'src/data/repos.json')
           if (fs.existsSync(filePath)) {
             const data = fs.readFileSync(filePath, 'utf-8')
@@ -307,6 +309,24 @@ export default defineConfig({
     include: ['react', 'react-dom'],
   },
 })
+```
+
+## 🧩 .prettierrc
+
+```json
+{
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "bracketSpacing": true,
+  "arrowParens": "avoid",
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindConfig": "./tailwind.config.ts",
+  "endOfLine": "lf"
+}
 ```
 
 ## 🧩 src/main.tsx
@@ -567,10 +587,86 @@ export default AdminPage
 ├── README.md
 ├── api
 │   └── contact.ts
-├── auto-commit.sh
 ├── check-structure.sh
 ├── dev-dist
 │   └── registerSW.js
+├── dist
+│   ├── assets
+│   │   ├── 1hero.webp
+│   │   ├── 2hero.webp
+│   │   ├── AdminPage-DqsxFgSK.js
+│   │   ├── AdminPage-DqsxFgSK.js.map
+│   │   ├── CustomerAssessmentSummary-DC_jEQQJ.js
+│   │   ├── CustomerAssessmentSummary-DC_jEQQJ.js.map
+│   │   ├── Footer-D0Jv5MTI.js
+│   │   ├── Footer-D0Jv5MTI.js.map
+│   │   ├── Hhero.webp
+│   │   ├── IndexPage-CWhaWazI.js
+│   │   ├── IndexPage-CWhaWazI.js.map
+│   │   ├── LoginPage-BvFCVbR6.js
+│   │   ├── LoginPage-BvFCVbR6.js.map
+│   │   ├── NotFoundPage-Ckwkh9hz.js
+│   │   ├── NotFoundPage-Ckwkh9hz.js.map
+│   │   ├── SecretRoomPage-DUWxKj9n.js
+│   │   ├── SecretRoomPage-DUWxKj9n.js.map
+│   │   ├── about-IgS6mAQi.webp
+│   │   ├── about.webp
+│   │   ├── hero-BRaXPQvd.webp
+│   │   ├── hero.webp
+│   │   ├── index-BZD8RP_N.css
+│   │   ├── index-t2sr1OY0.js
+│   │   ├── index-t2sr1OY0.js.map
+│   │   ├── jp-logo-CH0zBIqT.webp
+│   │   ├── jp-logo.webp
+│   │   ├── logo.svg
+│   │   ├── signature-BovtCThw.webp
+│   │   ├── signature.webp
+│   │   ├── vendor-tC7v4KOg.js
+│   │   └── vendor-tC7v4KOg.js.map
+│   ├── docs
+│   │   ├── certificate.pdf
+│   │   ├── contract.pdf
+│   │   └── registration.pdf
+│   ├── images
+│   │   ├── images
+│   │   │   ├── review
+│   │   │   │   └── review1.png
+│   │   │   └── services
+│   │   │       ├── service1.webp
+│   │   │       ├── service10.webp
+│   │   │       ├── service11.webp
+│   │   │       ├── service12.webp
+│   │   │       ├── service2.webp
+│   │   │       ├── service22.webp
+│   │   │       ├── service3.webp
+│   │   │       ├── service4.webp
+│   │   │       ├── service5.webp
+│   │   │       ├── service6.webp
+│   │   │       ├── service7.webp
+│   │   │       ├── service8.webp
+│   │   │       └── service9.webp
+│   │   ├── review
+│   │   │   └── review1.png
+│   │   └── services
+│   │       ├── service1.webp
+│   │       ├── service10.webp
+│   │       ├── service11.webp
+│   │       ├── service12.webp
+│   │       ├── service2.webp
+│   │       ├── service22.webp
+│   │       ├── service3.webp
+│   │       ├── service4.webp
+│   │       ├── service5.webp
+│   │       ├── service6.webp
+│   │       ├── service7.webp
+│   │       ├── service8.webp
+│   │       └── service9.webp
+│   ├── index.html
+│   ├── logo.svg
+│   ├── manifest.webmanifest
+│   ├── registerSW.js
+│   ├── sw.js
+│   └── sw.js.map
 ├── index.html
 ├── index.ts
 ├── package.json
@@ -733,7 +829,7 @@ export default AdminPage
 ├── vercel.json
 └── vite.config.ts
 
-29 directories, 144 files
+38 directories, 211 files
 ```
 
 ## 📁 src Tree: Full
@@ -910,7 +1006,4 @@ File tree:
 Ready for dev or deployment.
 
 Ask next task or specific code/bug fix.
-📂 โครงสร้างทั้งหมดแนบไว้ใน Report นี้แล้ว  
-🧠 เข้าใจบริบทแล้ว พร้อมรับคำสั่งถัดไปได้เลย
-
-🕛 Last Checked: Wed Jul 23 16:21:17 +07 2025
+🕛 Last Checked: Wed Jul 23 16:40:41 +07 2025
