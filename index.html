@@ -1,77 +1,52 @@
 <!doctype html>
-<html lang="th" data-theme="business">
+<html lang="th">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>JP Visual & Docs</title>
-
-    <!-- Favicon -->
-    <link rel="icon" href="/images/logo.svg" type="image/svg+xml" />
-
-    <!-- Theme color for PWA -->
     <meta name="theme-color" content="#2563eb" />
-
-    <!-- PWA Manifest & Icons -->
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="apple-touch-icon" sizes="192x192" href="/images/icon-192.png" />
-    <link rel="apple-touch-icon" sizes="512x512" href="/images/icon-512.png" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
-    <!-- SEO Metadata -->
     <meta
       name="description"
-      content="JP Visual & Docs: บริการเอกสารและภาพข้อมูลแบบปลอดภัย พร้อมเครื่องมือ PDF ที่ใช้งานง่าย"
+      content="JPDocs ระบบแสดงผลใบรับรอง เอกสารสำคัญ และจัดการข้อมูลแบบ PWA บนมือถือและเดสก์ท็อป"
     />
     <meta
       name="keywords"
-      content="JP Visual, เอกสาร, ความปลอดภัย, PDF, React, Visualization, PWA"
+      content="JPDocs, ใบรับรอง, เอกสาร, ระบบแสดงผล, PWA, รับรอง, Certificate, ระบบอัจฉริยะ"
     />
-    <meta name="author" content="JP Visual & Docs Team" />
-    <meta name="robots" content="index, follow" />
+    <meta name="author" content="JP Team" />
+    <meta name="robots" content="noindex, nofollow" />
 
-    <!-- Open Graph for Social Sharing -->
-    <meta property="og:title" content="JP Visual & Docs" />
-    <meta
-      property="og:description"
-      content="บริการเอกสารและภาพข้อมูลแบบปลอดภัย พร้อมเครื่องมือ PDF ที่ใช้งานง่าย"
-    />
-    <meta property="og:image" content="/images/og-image.png" />
-    <meta property="og:url" content="https://yourdomain.com" />
-    <meta property="og:type" content="website" />
+    <title>JP Visual & Docs</title>
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="JP Visual & Docs" />
-    <meta
-      name="twitter:description"
-      content="บริการเอกสารและภาพข้อมูลแบบปลอดภัย พร้อมเครื่องมือ PDF ที่ใช้งานง่าย"
-    />
-    <meta name="twitter:image" content="/images/og-image.png" />
-
-    <!-- Preconnect for fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <!-- Fonts: Inter & Playfair Display -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap"
-      rel="stylesheet"
-      crossorigin="anonymous"
-      media="all"
-    />
-
-    <!-- Additional meta or scripts for analytics or performance can be added here -->
-    <script type="module" crossorigin src="/assets/index-D1x0fQs7.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/vendor-Ccc7z4H6.js" />
-    <link rel="stylesheet" crossorigin href="/assets/index-B73XzNFU.css" />
+    <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.webmanifest" />
-    <script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="JPDocs" />
+
+    <!-- Favicon & App Icon -->
+    <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/images/icon-192.png" />
+    <link rel="shortcut icon" href="/logo.svg" type="image/svg+xml" />
+
+    <!-- CSS (Dev mode: Vite injects dynamically) -->
+    <!-- In dev mode, no need to link /assets/index.css manually -->
+
+    <!-- JS Entry (Vite Dev Mode) -->
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- App Splash Background Color for iOS -->
+    <style>
+      body {
+        background-color: #ffffff;
+        margin: 0;
+      }
+    </style>
   </head>
-  <body
-    class="bg-base-100 font-body text-base-content antialiased selection:bg-primary selection:text-white"
-  >
-    <div id="root" tabindex="-1" aria-label="โครงงาน JP Visual & Docs"></div>
+  <body>
+    <noscript>กรุณาเปิดใช้งาน JavaScript เพื่อใช้งานระบบ JPDocs</noscript>
+    <div id="root"></div>
+
+    <!-- Register Service Worker -->
+    <script type="module" src="/registerSW.js" defer></script>
   </body>
 </html>
