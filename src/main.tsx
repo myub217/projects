@@ -1,3 +1,6 @@
+// src/main.tsx
+// ✅ Root app entry with ThemeProvider, Router, Suspense fallback, and strict mode
+
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
@@ -21,12 +24,12 @@ const RootApp: React.FC = () => (
   </React.StrictMode>
 )
 
-const root = document.getElementById('root')
+const rootElement = document.getElementById('root')
 
-if (!root) {
+if (!rootElement) {
   console.error('❌ <div id="root"> not found')
 } else {
-  ReactDOM.createRoot(root).render(<RootApp />)
+  ReactDOM.createRoot(rootElement).render(<RootApp />)
 }
 
 export default RootApp

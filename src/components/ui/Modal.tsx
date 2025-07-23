@@ -1,0 +1,127 @@
+// src/components/ui/Modal.tsx
+// ✅ Accessible modal with ARIA, ESC-to-close, focus trap, backdrop click, and smooth Tailwind transitions
+
+import React, { useEffect, useRef, useCallback } from 'react'
+import { X } from 'lucide-react'
+import clsx from 'clsx'
+
+interface ModalProps {
+  open: boolean
+  onClose: () => void
+  title?: string
+  children: React.ReactNode
+  className?: string
+  overlayClassName?: string
+}
+
+const Modal: React.FC<ModalProps> = ({
+  open,
+  onClose,
+  title,
+  children,
+  className = '',
+  overlayClassName = '',
+}) => {
+  const modalRef = useRef<HTMLDivElement>(null)
+  const lastFocusedElement = useRef<HTMLElement | null>(null)
+
+  // Handle ESC key to close modal
+  useEffect(() => {
+    if (!open) return
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+      // Trap Tab inside modal
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        )
+        if (focusableElements.length === 0) {
+          e.preventDefault()
+          return
+        }
+        const firstEl = focusableElements[0]
+        const lastEl = focusableElements[focusableElements.length - 1]
+        if (e.shiftKey) {
+          if (document.activeElement === firstEl) {
+            e.preventDefault()
+            lastEl.focus()
+          }
+        } else {
+          if (document.activeElement === lastEl) {
+            e.preventDefault()
+            firstEl.focus()
+          }
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [open, onClose])
+
+  // Save last focused element and focus modal on open
+  useEffect(() => {
+    if (open) {
+      lastFocusedElement.current = document.activeElement as HTMLElement
+      // Delay focus to modal content to ensure it's rendered
+      setTimeout(() => {
+        modalRef.current?.focus()
+      }, 0)
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+      lastFocusedElement.current?.focus()
+    }
+  }, [open])
+
+  // Close modal if clicking on backdrop (outside modal content)
+  const onBackdropClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (e.target === e.currentTarget) {
+        onClose()
+      }
+    },
+    [onClose]
+  )
+
+  if (!open) return null
+
+  return (
+    <div
+      className={clsx(
+        'fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4',
+        overlayClassName
+      )}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={title ? 'modal-title' : undefined}
+      onClick={onBackdropClick}
+    >
+      <div
+        ref={modalRef}
+        tabIndex={-1}
+        className={clsx(
+          'relative max-w-lg w-full bg-base-100 p-6 rounded-xl shadow-xl transition-transform transform scale-100 animate-in fade-in-80',
+          className
+        )}
+      >
+        {title && (
+          <h2 id="modal-title" className="text-lg font-semibold mb-4">
+            {title}
+          </h2>
+        )}
+        <button
+          onClick={onClose}
+          aria-label="ปิดหน้าต่าง"
+          className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-primary rounded-full"
+        >
+          <X className="w-5 h-5" />
+        </button>
+        <div>{children}</div>
+      </div>
+    </div>
+  )
+}
+
+export default Modal

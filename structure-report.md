@@ -296,8 +296,6 @@ export default defineConfig({
 
 ## 🧩 src/main.tsx
 ```tsx
-// src/main.tsx
-
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
@@ -312,11 +310,11 @@ import LoadingFallback from './routes/LoadingFallback'
 const RootApp: React.FC = () => (
   <React.StrictMode>
     <ThemeProvider>
-      <Suspense fallback={<LoadingFallback />}>
-        <BrowserRouter>
+      <BrowserRouter>
+        <Suspense fallback={<LoadingFallback />}>
           <AppRoutes />
-        </BrowserRouter>
-      </Suspense>
+        </Suspense>
+      </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>
 )
@@ -661,4 +659,4 @@ JP - VISUAL & DOCS
 📂 โครงสร้างทั้งหมดแนบไว้ใน Report นี้แล้ว  
 🧠 เข้าใจบริบทแล้ว พร้อมรับคำสั่งถัดไปได้เลย
 
-🕛 Last Checked: Wed Jul 23 10:26:07 +07 2025
+🕛 Last Checked: Wed Jul 23 10:49:38 +07 2025

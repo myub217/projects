@@ -1,3 +1,6 @@
+// src/routes/AppRoutes.tsx
+// ✅ Centralized route config with theme props and protected nested routes
+
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 
@@ -19,9 +22,9 @@ const AppRoutes: React.FC = () => {
       <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
       <Route path="/login" element={<LoginPage />} />
       <Route element={<ProtectedRoute />}>
-        <Route path="/secret" element={<SecretRoomPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/customer-assessment-summary" element={<CustomerAssessmentSummary />} />
+        <Route path="secret" element={<SecretRoomPage />} />
+        <Route path="admin" element={<AdminPage />} />
+        <Route path="customer-assessment-summary" element={<CustomerAssessmentSummary />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

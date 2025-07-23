@@ -1,3 +1,6 @@
+// src/routes/LoadingFallback.tsx
+// ✅ Accessible loading fallback with polite aria attributes and smooth pulse animation
+
 import React from 'react'
 
 const LoadingFallback: React.FC = () => (
@@ -7,7 +10,7 @@ const LoadingFallback: React.FC = () => (
     aria-busy="true"
     className="flex justify-center items-center min-h-screen bg-base-100 text-gray-500 dark:text-gray-400 select-none"
   >
-    <span className="text-lg font-medium animate-pulse">กำลังโหลด...</span>
+    <span className="text-lg font-semibold animate-pulse">กำลังโหลด...</span>
   </main>
 )
 

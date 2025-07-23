@@ -1,5 +1,5 @@
 // src/layout/MainLayout.tsx
-// Layout หลักของแอป พร้อม Header, Footer และพื้นที่เนื้อหาหลัก
+// ✅ Main layout with Header, Footer, accessible main content area, and flexible styling
 
 import React, { ReactNode } from 'react'
 import Header from '@components/Header'

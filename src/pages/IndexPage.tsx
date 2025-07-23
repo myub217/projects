@@ -1,5 +1,5 @@
 // src/pages/IndexPage.tsx
-// Homepage — ครบทุก Section พร้อม Modal และ Theme Toggle
+// ✅ Homepage with all Sections, NotificationBanner, Theme Toggle, and Service Request Modal
 
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 
@@ -13,6 +13,8 @@ import ReviewsSection from '@components/ReviewsSection'
 import CTASection from '@components/CTASection'
 import Footer from '@components/Footer'
 import ServiceRequestModal from '@components/common/ServiceRequestModal'
+import NotificationBanner from '@components/NotificationBanner'
+import { Check } from 'lucide-react'
 
 interface IndexPageProps {
   theme: 'light' | 'dark'
@@ -21,6 +23,7 @@ interface IndexPageProps {
 
 const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
   const [selectedService, setSelectedService] = useState<Service | null>(null)
+  const [showBanner, setShowBanner] = useState(true)
   const mainContentRef = useRef<HTMLElement>(null)
 
   // Close modal on Escape key
@@ -34,15 +37,11 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
 
   // Scroll lock & focus management on modal open/close
   useEffect(() => {
+    document.body.style.overflow = selectedService ? 'hidden' : ''
     if (selectedService) {
-      document.body.style.overflow = 'hidden'
       mainContentRef.current?.blur()
     } else {
-      document.body.style.overflow = ''
       mainContentRef.current?.focus()
-    }
-    return () => {
-      document.body.style.overflow = ''
     }
   }, [selectedService])
 
@@ -56,7 +55,20 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
       className="flex flex-col min-h-screen bg-base-100 text-base-content font-sans transition-colors duration-300"
     >
       <div className="w-full max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-16 flex flex-col flex-grow">
+        {/* Notification Banner */}
+        {showBanner && (
+          <NotificationBanner
+            message="อัปเดตสำเร็จ"
+            type="success"
+            icon={<Check className="h-4 w-4" />}
+            dismissible
+            className="my-4"
+            onDismiss={() => setShowBanner(false)}
+          />
+        )}
+
         <Header theme={theme} toggleTheme={toggleTheme} />
+
         <main
           id="main-content"
           ref={mainContentRef}
@@ -73,6 +85,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
           <ReviewsSection />
           <CTASection />
         </main>
+
         <Footer />
       </div>
 

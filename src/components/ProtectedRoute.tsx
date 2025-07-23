@@ -1,33 +1,25 @@
 // src/components/ProtectedRoute.tsx
-// ✅ Clean, performant route guard with role validation and redirect logic
+// ✅ Clean route guard with role-based access control and redirect on unauthorized
 
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 
 const allowedRoles = ['user', 'admin'] as const
 type AllowedRole = typeof allowedRoles[number]
 
 const ProtectedRoute: React.FC = () => {
-  const user = useMemo(() => {
-    try {
-      const stored = localStorage.getItem('loggedInUser')
-      return stored ? stored.trim() : null
-    } catch {
-      return null
-    }
-  }, [])
+  let user: string | null = null
+  let role: string | null = null
 
-  const role = useMemo(() => {
-    try {
-      const stored = localStorage.getItem('userRole')
-      return stored ? stored.trim() : null
-    } catch {
-      return null
-    }
-  }, [])
+  try {
+    user = localStorage.getItem('loggedInUser')?.trim() || null
+    role = localStorage.getItem('userRole')?.trim() || null
+  } catch {
+    // Fail silently on localStorage access issues
+  }
 
   const isAuthenticated = Boolean(user)
-  const isAuthorized = role && allowedRoles.includes(role as AllowedRole)
+  const isAuthorized = role !== null && allowedRoles.includes(role as AllowedRole)
 
   if (!isAuthenticated || !isAuthorized) {
     return <Navigate to="/login" replace />
