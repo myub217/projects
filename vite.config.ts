@@ -14,6 +14,10 @@ export default defineConfig({
       filename: 'sw.ts',
       injectRegister: 'auto',
       registerType: 'autoUpdate',
+      devOptions: {
+        enabled: true,
+        type: 'module',
+      },
       manifest: {
         name: 'JP Visual & Docs',
         short_name: 'JPDocs',
@@ -34,10 +38,6 @@ export default defineConfig({
           },
         ],
       },
-      devOptions: {
-        enabled: true,
-        type: 'module',
-      },
     }),
     viteStaticCopy({
       targets: [{ src: 'public/images', dest: 'images' }],
@@ -45,7 +45,9 @@ export default defineConfig({
     {
       name: 'mock-api',
       configureServer(server) {
-        server.middlewares.use('/api/repos', (req, res) => {
+        server.middlewares.use('/api/repos', (req, res, next) => {
+          if (req.method !== 'GET') return next()
+
           const filePath = path.resolve(__dirname, 'src/data/repos.json')
           if (fs.existsSync(filePath)) {
             const data = fs.readFileSync(filePath, 'utf-8')

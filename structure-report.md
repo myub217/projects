@@ -1,6 +1,6 @@
 # ✅ Project Structure Report
 
-📁 **Project Root Directory:** `/data/data/com.termux/files/home/projects1`
+📁 **Project Root Directory:** `/data/data/com.termux/files/home/projects`
 
 ## 📂 Required Directories
 
@@ -14,25 +14,22 @@
 
 ## 📄 Required Files
 
-| File             | Status   |
-| ---------------- | -------- |
-| `package.json`   | ✅ Found |
-| `vite.config.ts` | ✅ Found |
-| `.env`           | ✅ Found |
-| `README.md`      | ✅ Found |
+| File             | Status     |
+| ---------------- | ---------- |
+| `package.json`   | ✅ Found   |
+| `vite.config.ts` | ✅ Found   |
+| `.env`           | ❌ Missing |
+| `README.md`      | ✅ Found   |
 
 ## 🎨 tailwind.config.ts
 
-````ts
+```ts
 import type { Config } from 'tailwindcss'
 import typography from '@tailwindcss/typography'
 import daisyui from 'daisyui'
 
 const config: Config = {
-  content: [
-    './index.html',
-    './src/**/*.{js,ts,jsx,tsx}',
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
   theme: {
     extend: {
@@ -151,10 +148,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [
-    typography,
-    daisyui,
-  ],
+  plugins: [typography, daisyui],
   daisyui: {
     themes: [
       {
@@ -196,9 +190,11 @@ const config: Config = {
   },
 }
 
-export default config```
+export default config
+```
 
 ## ⚙️ vite.config.ts
+
 ```ts
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -214,7 +210,7 @@ export default defineConfig({
       strategies: 'injectManifest',
       srcDir: 'src',
       filename: 'sw.ts',
-      injectRegister: 'auto', // หรือ false ถ้าจัดการ register เอง
+      injectRegister: 'auto',
       registerType: 'autoUpdate',
       manifest: {
         name: 'JP Visual & Docs',
@@ -224,8 +220,16 @@ export default defineConfig({
         background_color: '#ffffff',
         theme_color: '#2563eb',
         icons: [
-          { src: '/images/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/images/icon-512.png', sizes: '512x512', type: 'image/png' },
+          {
+            src: '/images/icon-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: '/images/icon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
         ],
       },
       devOptions: {
@@ -234,9 +238,7 @@ export default defineConfig({
       },
     }),
     viteStaticCopy({
-      targets: [
-        { src: 'public/images', dest: 'images' },
-      ],
+      targets: [{ src: 'public/images', dest: 'images' }],
     }),
     {
       name: 'mock-api',
@@ -255,6 +257,7 @@ export default defineConfig({
       },
     },
   ],
+
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
@@ -269,6 +272,7 @@ export default defineConfig({
       '@config': path.resolve(__dirname, 'src/config'),
     },
   },
+
   server: {
     host: '0.0.0.0',
     port: 5173,
@@ -284,6 +288,7 @@ export default defineConfig({
             },
           },
   },
+
   build: {
     outDir: 'dist',
     emptyOutDir: true,
@@ -297,12 +302,15 @@ export default defineConfig({
       },
     },
   },
+
   optimizeDeps: {
     include: ['react', 'react-dom'],
   },
-})```
+})
+```
 
 ## 🧩 src/main.tsx
+
 ```tsx
 // src/main.tsx
 // ✅ Root app entry with ThemeProvider, Router, Suspense fallback, and strict mode
@@ -340,9 +348,11 @@ if (!rootElement) {
   ReactDOM.createRoot(rootElement).render(<RootApp />)
 }
 
-export default RootApp```
+export default RootApp
+```
 
 ## 🧩 src/routes/AppRoutes.tsx
+
 ```tsx
 // src/routes/AppRoutes.tsx
 // Centralized, scalable routing with theme props, protected nested routes, and lazy loading
@@ -386,9 +396,11 @@ const AppRoutes: React.FC = () => {
   )
 }
 
-export default AppRoutes```
+export default AppRoutes
+```
 
 ## 🧩 src/pages/SecretRoomPage.tsx
+
 ```tsx
 // src/pages/SecretRoomPage.tsx
 // Secure dashboard page with theme toggle, user greeting, full accessibility, and clean responsive layout
@@ -429,10 +441,10 @@ const SecretRoomPage: React.FC = () => {
     <main
       role="main"
       aria-label="แดชบอร์ดระบบรักษาความปลอดภัย"
-      className="relative min-h-screen px-4 py-16 bg-base-100 text-base-content transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
+      className="relative min-h-screen bg-base-100 px-4 py-16 text-base-content transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
     >
       {/* Theme Toggle Button */}
-      <div className="fixed top-4 right-4 z-50">
+      <div className="fixed right-4 top-4 z-50">
         <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
       </div>
 
@@ -442,41 +454,38 @@ const SecretRoomPage: React.FC = () => {
         tabIndex={0}
         aria-live="polite"
         aria-atomic="true"
-        className="max-w-2xl mx-auto text-center space-y-4"
+        className="mx-auto max-w-2xl space-y-4 text-center"
       >
         <h1
-          className="text-4xl sm:text-5xl font-extrabold tracking-tight text-primary"
+          className="text-4xl font-extrabold tracking-tight text-primary sm:text-5xl"
           tabIndex={0}
         >
           ยินดีต้อนรับสู่ระบบ
         </h1>
-        <p className="text-lg sm:text-xl text-base-content/80 leading-relaxed">
+        <p className="text-lg leading-relaxed text-base-content/80 sm:text-xl">
           สวัสดีคุณ{' '}
           <span
-            className="font-semibold text-secondary underline underline-offset-4 decoration-secondary/60"
+            className="font-semibold text-secondary underline decoration-secondary/60 underline-offset-4"
             aria-label={`ชื่อผู้ใช้: ${username}`}
             tabIndex={0}
           >
             {username}
           </span>{' '}
-          👋<br />
+          👋
+          <br />
           คุณเข้าสู่ระบบเรียบร้อยแล้ว
         </p>
       </section>
 
       {/* User Profile Summary */}
-      <section
-        aria-label="สรุปข้อมูลผู้ใช้งาน"
-        className="mt-10 max-w-md mx-auto"
-        tabIndex={-1}
-      >
+      <section aria-label="สรุปข้อมูลผู้ใช้งาน" className="mx-auto mt-10 max-w-md" tabIndex={-1}>
         <UserProfileCard username={username} />
       </section>
 
       {/* Dashboard Section */}
       <section
         aria-label="แดชบอร์ดข้อมูลและระบบ"
-        className="mt-12 w-full max-w-7xl mx-auto p-6 sm:p-10 bg-base-200 dark:bg-zinc-800 rounded-2xl shadow-xl transition-shadow duration-300 hover:shadow-2xl focus-within:shadow-2xl outline-none"
+        className="mx-auto mt-12 w-full max-w-7xl rounded-2xl bg-base-200 p-6 shadow-xl outline-none transition-shadow duration-300 focus-within:shadow-2xl hover:shadow-2xl dark:bg-zinc-800 sm:p-10"
         tabIndex={-1}
       >
         <Dashboard />
@@ -485,9 +494,11 @@ const SecretRoomPage: React.FC = () => {
   )
 }
 
-export default SecretRoomPage```
+export default SecretRoomPage
+```
 
 ## 🧩 src/pages/AdminPage.tsx
+
 ```tsx
 // src/pages/AdminPage.tsx
 // แผงควบคุมผู้ดูแลระบบ พร้อมต้อนรับผู้ใช้และแสดงแดชบอร์ดอย่างมีประสิทธิภาพ
@@ -507,22 +518,22 @@ const AdminPage: React.FC = () => {
     <main
       role="main"
       aria-label="แผงควบคุมผู้ดูแลระบบ"
-      className="min-h-screen bg-base-100 text-base-content dark:bg-gray-900 px-6 py-12 transition-colors duration-300 flex flex-col items-center"
+      className="flex min-h-screen flex-col items-center bg-base-100 px-6 py-12 text-base-content transition-colors duration-300 dark:bg-gray-900"
     >
       {/* Header ต้อนรับผู้ใช้ */}
       <header
-        className="mb-10 max-w-xl w-full text-center select-text"
+        className="mb-10 w-full max-w-xl select-text text-center"
         tabIndex={-1}
         aria-live="polite"
         aria-atomic="true"
       >
         <h1
-          className="text-3xl sm:text-4xl font-extrabold text-primary mb-3 tracking-tight"
+          className="mb-3 text-3xl font-extrabold tracking-tight text-primary sm:text-4xl"
           tabIndex={0}
         >
           แผงควบคุมผู้ดูแลระบบ
         </h1>
-        <p className="text-lg sm:text-xl text-muted">
+        <p className="text-lg text-muted sm:text-xl">
           ยินดีต้อนรับคุณ{' '}
           <span
             className="font-semibold underline decoration-primary decoration-2"
@@ -535,26 +546,23 @@ const AdminPage: React.FC = () => {
       </header>
 
       {/* แดชบอร์ดผู้ดูแลระบบ */}
-      <section
-        className="w-full max-w-7xl"
-        tabIndex={-1}
-        aria-label="แดชบอร์ดผู้ดูแลระบบ"
-      >
+      <section className="w-full max-w-7xl" tabIndex={-1} aria-label="แดชบอร์ดผู้ดูแลระบบ">
         <AdminDashboard />
       </section>
     </main>
   )
 }
 
-export default AdminPage```
+export default AdminPage
+```
 
 ## 🗂️ Project Tree: Full
-````
 
-/data/data/com.termux/files/home/projects1
-├──  
+```
+/data/data/com.termux/files/home/projects
+├──
 │   └── types
-│   └── connect-history-api-fallback.d.ts
+│       └── connect-history-api-fallback.d.ts
 ├── Clean.sh
 ├── README.md
 ├── api
@@ -563,83 +571,6 @@ export default AdminPage```
 ├── check-structure.sh
 ├── dev-dist
 │   └── registerSW.js
-├── dist
-│   ├── assets
-│   │   ├── 1hero.webp
-│   │   ├── 2hero.webp
-│   │   ├── AdminPage-CjfCpXjP.js
-│   │   ├── AdminPage-CjfCpXjP.js.map
-│   │   ├── CustomerAssessmentSummary-su_zOlcu.js
-│   │   ├── CustomerAssessmentSummary-su_zOlcu.js.map
-│   │   ├── Footer-CdN0Vv1d.js
-│   │   ├── Footer-CdN0Vv1d.js.map
-│   │   ├── Hhero.webp
-│   │   ├── IndexPage-BgHZaUF7.js
-│   │   ├── IndexPage-BgHZaUF7.js.map
-│   │   ├── LoginPage-LjCpVTM5.js
-│   │   ├── LoginPage-LjCpVTM5.js.map
-│   │   ├── NotFoundPage-3BGWsoTp.js
-│   │   ├── NotFoundPage-3BGWsoTp.js.map
-│   │   ├── SecretRoomPage-DgulvkVH.js
-│   │   ├── SecretRoomPage-DgulvkVH.js.map
-│   │   ├── about-IgS6mAQi.webp
-│   │   ├── about.webp
-│   │   ├── hero-BRaXPQvd.webp
-│   │   ├── hero.webp
-│   │   ├── index-BZD8RP_N.css
-│   │   ├── index-CEZcIxm9.js
-│   │   ├── index-CEZcIxm9.js.map
-│   │   ├── jp-logo-CH0zBIqT.webp
-│   │   ├── jp-logo.webp
-│   │   ├── logo.svg
-│   │   ├── signature-BovtCThw.webp
-│   │   ├── signature.webp
-│   │   ├── vendor-tC7v4KOg.js
-│   │   └── vendor-tC7v4KOg.js.map
-│   ├── docs
-│   │   ├── certificate.pdf
-│   │   ├── contract.pdf
-│   │   └── registration.pdf
-│   ├── images
-│   │   ├── images
-│   │   │   ├── review
-│   │   │   │   └── review1.png
-│   │   │   └── services
-│   │   │   ├── service1.webp
-│   │   │   ├── service10.webp
-│   │   │   ├── service11.webp
-│   │   │   ├── service12.webp
-│   │   │   ├── service2.webp
-│   │   │   ├── service22.webp
-│   │   │   ├── service3.webp
-│   │   │   ├── service4.webp
-│   │   │   ├── service5.webp
-│   │   │   ├── service6.webp
-│   │   │   ├── service7.webp
-│   │   │   ├── service8.webp
-│   │   │   └── service9.webp
-│   │   ├── review
-│   │   │   └── review1.png
-│   │   └── services
-│   │   ├── service1.webp
-│   │   ├── service10.webp
-│   │   ├── service11.webp
-│   │   ├── service12.webp
-│   │   ├── service2.webp
-│   │   ├── service22.webp
-│   │   ├── service3.webp
-│   │   ├── service4.webp
-│   │   ├── service5.webp
-│   │   ├── service6.webp
-│   │   ├── service7.webp
-│   │   ├── service8.webp
-│   │   └── service9.webp
-│   ├── index.html
-│   ├── logo.svg
-│   ├── manifest.webmanifest
-│   ├── registerSW.js
-│   ├── sw.js
-│   └── sw.js.map
 ├── index.html
 ├── index.ts
 ├── package.json
@@ -665,20 +596,21 @@ export default AdminPage```
 │   │   ├── review
 │   │   │   └── review1.png
 │   │   └── services
-│   │   ├── service1.webp
-│   │   ├── service10.webp
-│   │   ├── service11.webp
-│   │   ├── service12.webp
-│   │   ├── service2.webp
-│   │   ├── service22.webp
-│   │   ├── service3.webp
-│   │   ├── service4.webp
-│   │   ├── service5.webp
-│   │   ├── service6.webp
-│   │   ├── service7.webp
-│   │   ├── service8.webp
-│   │   └── service9.webp
+│   │       ├── service1.webp
+│   │       ├── service10.webp
+│   │       ├── service11.webp
+│   │       ├── service12.webp
+│   │       ├── service2.webp
+│   │       ├── service22.webp
+│   │       ├── service3.webp
+│   │       ├── service4.webp
+│   │       ├── service5.webp
+│   │       ├── service6.webp
+│   │       ├── service7.webp
+│   │       ├── service8.webp
+│   │       └── service9.webp
 │   └── logo.svg
+├── settings.json
 ├── setup.sh
 ├── src
 │   ├── api
@@ -752,12 +684,12 @@ export default AdminPage```
 │   │   │   ├── ContactList.tsx
 │   │   │   └── index.ts
 │   │   └── ui
-│   │   ├── Accordion.tsx
-│   │   ├── DashboardCard.tsx
-│   │   ├── Input.tsx
-│   │   ├── Modal.tsx
-│   │   ├── Tabs.tsx
-│   │   └── Tooltip.tsx
+│   │       ├── Accordion.tsx
+│   │       ├── DashboardCard.tsx
+│   │       ├── Input.tsx
+│   │       ├── Modal.tsx
+│   │       ├── Tabs.tsx
+│   │       └── Tooltip.tsx
 │   ├── config
 │   │   ├── adminConfig.ts
 │   │   ├── contact.ts
@@ -793,22 +725,21 @@ export default AdminPage```
 │   │   ├── user.ts
 │   │   └── vite-env.d.ts
 │   └── utils
-│   ├── formatDate.ts
-│   └── hashPassword.ts
+│       ├── formatDate.ts
+│       └── hashPassword.ts
 ├── structure-report.md
 ├── tailwind.config.ts
 ├── tsconfig.json
 ├── vercel.json
 └── vite.config.ts
 
-38 directories, 211 files
-
+29 directories, 144 files
 ```
 
 ## 📁 src Tree: Full
-```
 
-/data/data/com.termux/files/home/projects1/src
+```
+/data/data/com.termux/files/home/projects/src
 ├── api
 │   └── auth.ts
 ├── assets
@@ -880,12 +811,12 @@ export default AdminPage```
 │   │   ├── ContactList.tsx
 │   │   └── index.ts
 │   └── ui
-│   ├── Accordion.tsx
-│   ├── DashboardCard.tsx
-│   ├── Input.tsx
-│   ├── Modal.tsx
-│   ├── Tabs.tsx
-│   └── Tooltip.tsx
+│       ├── Accordion.tsx
+│       ├── DashboardCard.tsx
+│       ├── Input.tsx
+│       ├── Modal.tsx
+│       ├── Tabs.tsx
+│       └── Tooltip.tsx
 ├── config
 │   ├── adminConfig.ts
 │   ├── contact.ts
@@ -921,16 +852,16 @@ export default AdminPage```
 │   ├── user.ts
 │   └── vite-env.d.ts
 └── utils
-├── formatDate.ts
-└── hashPassword.ts
+    ├── formatDate.ts
+    └── hashPassword.ts
 
 18 directories, 97 files
-
 ```
 
 ## 📌 Dev Partner Note
 
 คุณคือ Dev Partner ที่พัฒนาร่วมในโปรเจกต์นี้ โดยมีหน้าที่หลัก:
+
 - แก้ไข/ออกแบบโค้ดให้สอดคล้องกับ UI/UX, Business Logic และระบบ Responsive
 - ทุก Component ต้อง Import ให้ถูกต้อง, รองรับ Desktop & Mobile
 - แก้ปัญหาทันที ไม่อธิบายเยิ่นเย้อ
@@ -944,37 +875,42 @@ Project structure and core config check complete.
 
 All required folders & files verified ✅
 Tailwind config extended with:
+
 - responsive breakpoints
 - colors (light/dark)
 - fonts, animations, shadows
 - daisyUI themes customized
 
 Vite config:
+
 - React + PWA with InjectManifest SW
 - Static copy plugin for images
 - Dev server with mock API & proxy setup
 - Path aliases all mapped correctly
 
 Core entry (main.tsx):
+
 - ThemeProvider, Router, Suspense fallback, strict mode enabled
 
 Routing (AppRoutes):
+
 - Protected routes properly wrapped
 - Theme context passed down
 
 Pages:
+
 - SecretRoom & AdminPage clean, accessible, stateful
 - Theme toggle & user session handled
 
 File tree:
+
 - Modular, logical components structure
 - Separate admin, secret room, common UI & api layers
 
 Ready for dev or deployment.
 
 Ask next task or specific code/bug fix.
-📂 โครงสร้างทั้งหมดแนบไว้ใน Report นี้แล้ว
+📂 โครงสร้างทั้งหมดแนบไว้ใน Report นี้แล้ว  
 🧠 เข้าใจบริบทแล้ว พร้อมรับคำสั่งถัดไปได้เลย
 
-🕛 Last Checked: Wed Jul 23 14:26:28 +07 2025
-```
+🕛 Last Checked: Wed Jul 23 16:21:17 +07 2025
