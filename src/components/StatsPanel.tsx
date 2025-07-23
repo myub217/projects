@@ -47,7 +47,7 @@ const StatsPanel: React.FC = () => (
             role="group"
             tabIndex={0}
             aria-label={`${label} จำนวน ${value}`}
-            className="flex flex-col items-center justify-center space-y-3 rounded-xl bg-white p-6 shadow-lg outline-none transition-transform duration-300 ease-in-out hover:scale-105 focus:scale-105 focus:outline focus:outline-primary dark:bg-zinc-900"
+            className="flex flex-col items-center justify-center space-y-3 rounded-xl bg-white p-6 shadow-lg outline-none transition-transform duration-300 ease-in-out hover:scale-105 focus:scale-105 focus:outline focus:outline-2 focus:outline-primary dark:bg-zinc-900"
           >
             <div className="text-5xl">{icon}</div>
             <div className="select-text text-4xl font-extrabold text-primary">{value}</div>

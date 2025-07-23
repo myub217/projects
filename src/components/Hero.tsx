@@ -1,5 +1,5 @@
 // src/components/Hero.tsx
-// ✅ Modern, accessible Hero with smooth framer-motion animation & contact shortcuts
+// ✅ Modern, accessible Hero with framer-motion animation, CTA, and chat shortcuts
 
 import React from 'react'
 import { FaLock, FaDoorOpen, FaLine, FaFacebookMessenger } from 'react-icons/fa'
@@ -33,8 +33,10 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
         filter: 'brightness(1.05) contrast(1.15)',
       }}
     >
+      {/* Overlay Blur */}
       <div className="absolute inset-0 z-0 bg-black/40 backdrop-blur-sm" />
 
+      {/* Main Text */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -49,6 +51,7 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
           พร้อมทำจริง จบไว
         </p>
 
+        {/* CTA Button */}
         <motion.button
           onClick={handleLoginClick}
           type="button"
@@ -63,6 +66,7 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
         </motion.button>
       </motion.div>
 
+      {/* Chat Shortcuts */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

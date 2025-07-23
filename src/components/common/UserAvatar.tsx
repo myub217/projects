@@ -1,7 +1,7 @@
 // src/components/common/UserAvatar.tsx
 // User avatar component with fallback initials, accessible alt text, and customizable size
 
-import React from 'react'
+import React, { useState } from 'react'
 import clsx from 'clsx'
 
 interface UserAvatarProps {
@@ -20,8 +20,9 @@ const sizeClasses = {
 }
 
 const UserAvatar: React.FC<UserAvatarProps> = ({ src, alt, name, size = 'md', className = '' }) => {
-  // Extract initials from name fallback
-  const getInitials = (fullName: string | undefined) => {
+  const [imgError, setImgError] = useState(false)
+
+  const getInitials = (fullName?: string) => {
     if (!fullName) return '?'
     const names = fullName.trim().split(' ')
     if (names.length === 0) return '?'
@@ -29,19 +30,20 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ src, alt, name, size = 'md', cl
     return (names[0][0] + names[names.length - 1][0]).toUpperCase()
   }
 
-  return src ? (
-    <img
-      src={src}
-      alt={alt ?? `Avatar of ${name ?? 'user'}`}
-      className={clsx('rounded-full object-cover', sizeClasses[size], className)}
-      loading="lazy"
-      draggable={false}
-      onError={e => {
-        // fallback to initials by removing src on error
-        ;(e.currentTarget as HTMLImageElement).src = ''
-      }}
-    />
-  ) : (
+  if (src && !imgError) {
+    return (
+      <img
+        src={src}
+        alt={alt ?? `Avatar of ${name ?? 'user'}`}
+        className={clsx('rounded-full object-cover', sizeClasses[size], className)}
+        loading="lazy"
+        draggable={false}
+        onError={() => setImgError(true)}
+      />
+    )
+  }
+
+  return (
     <div
       role="img"
       aria-label={alt ?? `Avatar of ${name ?? 'user'}`}

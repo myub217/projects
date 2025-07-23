@@ -1,5 +1,5 @@
 // src/pages/SettingsPage.tsx
-// User settings page with theme toggle, profile update form, validation, and accessibility
+// ✅ User settings page with theme toggle, profile form, localStorage, validation, accessibility
 
 import React, { useState, useEffect, useCallback } from 'react'
 import MainLayout from '@components/Layout/MainLayout'
@@ -7,8 +7,8 @@ import { useTheme } from '@components/ThemeProvider'
 
 const SettingsPage: React.FC = () => {
   const { theme, toggleTheme } = useTheme()
-  const [username, setUsername] = useState<string>('')
-  const [email, setEmail] = useState<string>('')
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [statusMsg, setStatusMsg] = useState<string | null>(null)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
@@ -25,7 +25,8 @@ const SettingsPage: React.FC = () => {
       setErrorMsg('ชื่อผู้ใช้ไม่สามารถเว้นว่างได้')
       return
     }
-    if (email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
       setErrorMsg('รูปแบบอีเมลไม่ถูกต้อง')
       return
     }
@@ -39,7 +40,7 @@ const SettingsPage: React.FC = () => {
     <MainLayout className="flex min-h-screen flex-col items-center justify-center px-4 py-12">
       <section
         aria-label="ตั้งค่าผู้ใช้"
-        className="w-full max-w-md rounded-lg bg-base-100 p-6 shadow-md dark:bg-zinc-900"
+        className="w-full max-w-md rounded-xl bg-base-100 p-6 shadow-lg transition-colors duration-300"
       >
         <h1 className="mb-6 text-2xl font-bold text-primary">ตั้งค่าผู้ใช้</h1>
 
@@ -55,7 +56,8 @@ const SettingsPage: React.FC = () => {
           }
           noValidate
         >
-          <label htmlFor="username" className="font-semibold">
+          {/* Username Input */}
+          <label htmlFor="username" className="font-medium">
             ชื่อผู้ใช้{' '}
             <span aria-hidden="true" className="text-error">
               *
@@ -73,7 +75,8 @@ const SettingsPage: React.FC = () => {
             autoComplete="username"
           />
 
-          <label htmlFor="email" className="font-semibold">
+          {/* Email Input */}
+          <label htmlFor="email" className="font-medium">
             อีเมล
           </label>
           <input
@@ -86,21 +89,22 @@ const SettingsPage: React.FC = () => {
             aria-describedby={statusMsg && !errorMsg ? 'status-message' : undefined}
           />
 
-          <div className="mt-6 flex items-center justify-between">
-            <button type="submit" className="btn btn-primary" aria-label="บันทึกการตั้งค่า">
+          {/* Buttons */}
+          <div className="mt-6 flex items-center justify-between gap-2">
+            <button type="submit" className="btn btn-primary w-full" aria-label="บันทึกการตั้งค่า">
               บันทึก
             </button>
-
             <button
               type="button"
               onClick={toggleTheme}
-              className="btn btn-secondary"
+              className="btn btn-secondary w-full"
               aria-label={`สลับธีมเป็น ${theme === 'dark' ? 'สว่าง' : 'มืด'}`}
             >
               {theme === 'dark' ? 'ธีมสว่าง' : 'ธีมมืด'}
             </button>
           </div>
 
+          {/* Messages */}
           {errorMsg && (
             <p id="error-message" role="alert" className="mt-4 select-none text-sm text-error">
               {errorMsg}

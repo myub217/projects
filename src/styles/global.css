@@ -1,313 +1,116 @@
-/* ==================== 🔹 CSS VARIABLES ==================== */
+/* src/styles/global.css */
+/* Custom global styles and overrides */
+
 :root {
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-heading: 'Playfair Display', serif;
-
-  --color-bg: #ffffff;
-  --color-bg-dark: #1f2937;
-  --color-surface: #f9fafb;
-  --color-surface-dark: #111827;
-
-  --color-text: #1f2937;
-  --color-text-dark: #f3f4f6;
-  --color-muted: #6b7280;
   --color-primary: #2563eb;
-  --color-primary-light: #3b82f6;
-  --color-primary-dark: #1e3a8a;
-  --color-primary-contrast: #ffffff;
-  --color-accent: #f59e0b;
+  --color-secondary: #1e40af;
+  --color-background: #f9fafb;
+  --color-text: #1f2937;
+  --color-muted: #6b7280;
   --color-border: #e5e7eb;
-  --color-success: #10b981;
-  --color-warning: #fbbf24;
-  --color-error: #ef4444;
-  --color-info: #3b82f6;
-  --radius-default: 0.5rem;
-  --shadow-soft: 0 4px 12px rgba(59, 130, 246, 0.15);
-  --shadow-medium: 0 8px 24px rgba(59, 130, 246, 0.25);
-  --shadow-dark: 0 12px 32px rgba(17, 24, 39, 0.8);
+  --color-shadow: rgba(0, 0, 0, 0.1);
 }
 
-/* ==================== 🔹 TAILWIND DIRECTIVES ==================== */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 9999px;
+  border: 2px solid var(--color-background);
+  background-clip: content-box;
+}
 
-/* ==================== 🔹 BASE STYLES ==================== */
-body {
-  font-family: var(--font-body);
-  @apply m-0 bg-base-100 p-0 text-base text-foreground antialiased transition-colors duration-300;
-  background-color: var(--color-bg);
+/* Utility Classes */
+.hidden {
+  display: none !important;
+}
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Link focus styles */
+a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  outline-style: solid;
+  outline-color: var(--color-primary);
+}
+
+/* Buttons */
+button {
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+button:disabled,
+button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Dark mode overrides */
+[data-theme='dark'] {
+  --color-background: #1f2937;
+  --color-text: #f9fafb;
+  --color-muted: #9ca3af;
+  --color-border: #374151;
+  --color-shadow: rgba(0, 0, 0, 0.5);
+  background-color: var(--color-background);
   color: var(--color-text);
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 1.6;
 }
 
+[data-theme='dark'] a {
+  color: var(--color-primary);
+}
+
+/* Headings */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-heading);
-  @apply font-bold leading-snug tracking-tight;
   color: var(--color-text);
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  scroll-margin-top: 1.5rem;
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
-h1 {
-  font-size: 2.5rem;
-}
-h2 {
-  font-size: 2rem;
-}
-h3 {
-  font-size: 1.75rem;
-}
-h4 {
-  font-size: 1.5rem;
-}
-h5 {
-  font-size: 1.25rem;
-}
-h6 {
-  font-size: 1rem;
-}
-
+/* Paragraphs */
 p {
-  @apply text-base leading-relaxed text-gray-700 dark:text-gray-300;
-  margin-bottom: 1rem;
-}
-
-small {
-  @apply text-xs text-muted;
-}
-
-/* ==================== 🔹 INTERACTIVE ELEMENTS ==================== */
-a {
-  @apply text-primary transition-colors duration-200 hover:underline;
-  color: var(--color-primary);
-  cursor: pointer;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
-}
-
-button {
-  @apply rounded-lg px-5 py-2 font-medium shadow-sm transition duration-150 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
-  background-color: var(--color-primary);
-  color: var(--color-primary-contrast);
-  cursor: pointer;
-  border-radius: var(--radius-default);
-  box-shadow: var(--shadow-soft);
-  user-select: none;
-}
-
-button:hover:not(:disabled) {
-  background-color: var(--color-primary-light);
-  box-shadow: var(--shadow-medium);
-}
-
-/* ==================== 🔹 FORM ELEMENTS ==================== */
-input,
-select,
-textarea {
-  @apply w-full rounded-md border border-border bg-white px-4 py-2 text-sm text-foreground transition focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary dark:bg-base-100;
-  background-color: var(--color-surface);
   color: var(--color-text);
-  resize: vertical;
-  border-radius: var(--radius-default);
-  box-shadow: var(--shadow-soft);
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
 }
 
-input::placeholder,
-textarea::placeholder {
-  color: var(--color-muted);
-  opacity: 1;
+/* Responsive images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
-label {
-  @apply mb-1 block text-sm font-semibold text-gray-700 dark:text-gray-300;
-}
-
-/* ==================== 🔹 CARD ==================== */
-.card {
-  @apply rounded-2xl border border-base-300 bg-white p-6 shadow-lg transition-all duration-300 ease-in-out dark:bg-base-200;
-  background-color: var(--color-surface);
-  color: var(--color-text);
-  border-radius: var(--radius-default);
-  box-shadow: var(--shadow-soft);
-  border-color: var(--color-border);
-  user-select: none;
-  cursor: default;
-  will-change: box-shadow, border-color;
-  transition-property: box-shadow, border-color, background-color;
-}
-
-.card:hover {
-  @apply border-primary shadow-xl;
-  border-color: var(--color-primary);
-  box-shadow: var(--shadow-medium);
-}
-
-/* ==================== 🔹 CONTAINER / SECTION ==================== */
+/* Container max width for global use */
 .container {
-  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
-  width: 100%;
+  max-width: 1280px;
   margin-left: auto;
   margin-right: auto;
-}
-
-.section {
-  @apply py-16 md:py-24;
-}
-
-.section-sm {
-  @apply py-8 sm:py-12 md:py-16;
-}
-
-/* ==================== 🔹 GRID SYSTEM ==================== */
-.grid-3-col {
-  @apply grid gap-6 sm:grid-cols-2 md:grid-cols-3;
-}
-
-.grid-docs {
-  @apply grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4;
-}
-
-/* ==================== 🔹 TYPOGRAPHY UTILITIES ==================== */
-.text-responsive {
-  @apply text-base sm:text-lg md:text-xl;
-}
-
-.text-muted {
-  @apply text-gray-500 dark:text-gray-400;
-}
-
-.doc-title {
-  @apply truncate text-lg font-semibold text-primary;
-}
-
-.doc-description {
-  @apply text-sm leading-snug text-muted;
-}
-
-/* ==================== 🔹 DOC ACTIONS ==================== */
-.doc-actions {
-  @apply mt-3 flex items-center justify-between gap-2;
-}
-
-.doc-upload {
-  @apply mx-auto w-full max-w-md rounded-xl border border-base-300 bg-base-100 p-6 shadow-md;
-}
-
-/* ==================== 🔹 BUTTON VARIANTS ==================== */
-.btn-primary {
-  @apply bg-primary text-white transition-colors duration-200 hover:bg-primary/90;
-  background-color: var(--color-primary);
-  color: var(--color-primary-contrast);
-  cursor: pointer;
-  border-radius: var(--radius-default);
-  user-select: none;
-}
-
-.btn-outline {
-  @apply border border-primary text-primary transition-colors duration-200 hover:bg-primary hover:text-white;
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-  cursor: pointer;
-  border-radius: var(--radius-default);
-  user-select: none;
-}
-
-/* ==================== 🔹 ANIMATIONS ==================== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.6s ease-out forwards;
-}
-
-.animate-slideUp {
-  animation: slideUp 0.5s ease-out forwards;
-}
-
-/* ==================== 🔹 RESPONSIVE MEDIA ==================== */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 1.75rem;
-  }
-  h2 {
-    font-size: 1.5rem;
-  }
-  .card {
-    padding: 1rem;
-  }
-  .grid-docs {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-  }
-}
-
-/* ==================== 🔹 EXTRAS ==================== */
-.glow-border {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 12px rgba(59, 130, 246, 0.25);
-}
-
-.soft-glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
-  border-radius: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
-}
-
-/* ==================== 🔹 ADDITIONAL IMPROVEMENTS ==================== */
-/* Smooth transitions for color, background, border */
-body,
-input,
-select,
-textarea,
-button,
-a {
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease,
-    border-color 0.3s ease;
-}
-
-/* Focus-visible outlines for accessibility */
-:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-}
-
-/* Disabled states */
-button:disabled,
-input:disabled,
-select:disabled,
-textarea:disabled {
-  @apply cursor-not-allowed opacity-50;
-  pointer-events: none;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }

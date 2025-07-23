@@ -24,7 +24,6 @@ const Accordion: React.FC<AccordionProps> = ({ items, defaultOpenId, className =
     setOpenId(prev => (prev === id ? null : id))
   }, [])
 
-  // Keyboard handling for accessibility (Enter, Space)
   const onKeyDown = useCallback(
     (e: KeyboardEvent<HTMLButtonElement>, id: string) => {
       if (e.key === 'Enter' || e.key === ' ') {

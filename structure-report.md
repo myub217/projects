@@ -3,26 +3,23 @@
 📁 **Project Root Directory:** `/data/data/com.termux/files/home/projects`
 
 ## 📂 Required Directories
-
-| Directory         | Status   |
-| ----------------- | -------- |
-| `src/`            | ✅ Found |
-| `public/`         | ✅ Found |
-| `api/`            | ✅ Found |
+| Directory           | Status |
+|---------------------|--------|
+| `src/` | ✅ Found |
+| `public/` | ✅ Found |
+| `api/` | ✅ Found |
 | `src/components/` | ✅ Found |
-| `node_modules/`   | ✅ Found |
+| `node_modules/` | ✅ Found |
 
 ## 📄 Required Files
-
-| File             | Status     |
-| ---------------- | ---------- |
-| `package.json`   | ✅ Found   |
-| `vite.config.ts` | ✅ Found   |
-| `.env`           | ❌ Missing |
-| `README.md`      | ✅ Found   |
+| File               | Status |
+|--------------------|--------|
+| `package.json` | ✅ Found |
+| `vite.config.ts` | ✅ Found |
+| `.env` | ✅ Found |
+| `README.md` | ✅ Found |
 
 ## 🎨 tailwind.config.ts
-
 ```ts
 import type { Config } from 'tailwindcss'
 import typography from '@tailwindcss/typography'
@@ -194,7 +191,6 @@ export default config
 ```
 
 ## ⚙️ vite.config.ts
-
 ```ts
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -312,7 +308,6 @@ export default defineConfig({
 ```
 
 ## 🧩 .prettierrc
-
 ```json
 {
   "semi": false,
@@ -329,8 +324,8 @@ export default defineConfig({
 }
 ```
 
-## 🧩 src/main.tsx
 
+## 🧩 src/main.tsx
 ```tsx
 // src/main.tsx
 // ✅ Root app entry with ThemeProvider, Router, Suspense fallback, and strict mode
@@ -372,7 +367,6 @@ export default RootApp
 ```
 
 ## 🧩 src/routes/AppRoutes.tsx
-
 ```tsx
 // src/routes/AppRoutes.tsx
 // Centralized, scalable routing with theme props, protected nested routes, and lazy loading
@@ -420,7 +414,6 @@ export default AppRoutes
 ```
 
 ## 🧩 src/pages/SecretRoomPage.tsx
-
 ```tsx
 // src/pages/SecretRoomPage.tsx
 // Secure dashboard page with theme toggle, user greeting, full accessibility, and clean responsive layout
@@ -429,33 +422,24 @@ import React, { useEffect, useState, useCallback } from 'react'
 import Dashboard from '@components/SecretRoom/Dashboard'
 import ThemeToggleButton from '@components/SecretRoom/ThemeToggleButton'
 import UserProfileCard from '@components/SecretRoom/UserProfileCard'
+import { THEMES, getInitialTheme, applyTheme } from '@config/theme'
 
 const SecretRoomPage: React.FC = () => {
   const [username, setUsername] = useState('กำลังโหลด...')
-  const [theme, setTheme] = useState<'light' | 'dark'>(() =>
-    document.documentElement.classList.contains('dark') ? 'dark' : 'light'
-  )
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => getInitialTheme())
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser')?.trim()
     setUsername(storedUser || 'ไม่ทราบชื่อผู้ใช้')
 
-    // Sync theme from localStorage on mount
-    const storedTheme = localStorage.getItem('theme')
-    if (storedTheme === 'dark' || storedTheme === 'light') {
-      setTheme(storedTheme)
-      document.documentElement.classList.toggle('dark', storedTheme === 'dark')
-    }
+    applyTheme(theme)
   }, [])
 
   const toggleTheme = useCallback(() => {
-    const root = document.documentElement
-    const isDark = root.classList.contains('dark')
-    const newTheme = isDark ? 'light' : 'dark'
-    root.classList.toggle('dark', !isDark)
-    localStorage.setItem('theme', newTheme)
+    const newTheme = theme === THEMES.DARK ? THEMES.LIGHT : THEMES.DARK
+    applyTheme(newTheme)
     setTheme(newTheme)
-  }, [])
+  }, [theme])
 
   return (
     <main
@@ -518,7 +502,6 @@ export default SecretRoomPage
 ```
 
 ## 🧩 src/pages/AdminPage.tsx
-
 ```tsx
 // src/pages/AdminPage.tsx
 // แผงควบคุมผู้ดูแลระบบ พร้อมต้อนรับผู้ใช้และแสดงแดชบอร์ดอย่างมีประสิทธิภาพ
@@ -577,10 +560,9 @@ export default AdminPage
 ```
 
 ## 🗂️ Project Tree: Full
-
 ```
 /data/data/com.termux/files/home/projects
-├──
+├──  
 │   └── types
 │       └── connect-history-api-fallback.d.ts
 ├── Clean.sh
@@ -667,10 +649,10 @@ export default AdminPage
 │   ├── registerSW.js
 │   ├── sw.js
 │   └── sw.js.map
+├── foo.ts
 ├── index.html
 ├── index.ts
 ├── package.json
-├── plugin
 ├── pnpm-lock.yaml
 ├── pnpm-workspace.yaml
 ├── postcss.config.cjs
@@ -785,11 +767,13 @@ export default AdminPage
 │   │       ├── Input.tsx
 │   │       ├── Modal.tsx
 │   │       ├── Tabs.tsx
-│   │       └── Tooltip.tsx
+│   │       ├── Tooltip.tsx
+│   │       └── card.tsx
 │   ├── config
 │   │   ├── adminConfig.ts
 │   │   ├── contact.ts
-│   │   └── salaryCertificateConfig.ts
+│   │   ├── salaryCertificateConfig.ts
+│   │   └── theme.ts
 │   ├── data
 │   │   ├── approvedCustomers.ts
 │   │   ├── reviewsData.ts
@@ -825,15 +809,15 @@ export default AdminPage
 │       └── hashPassword.ts
 ├── structure-report.md
 ├── tailwind.config.ts
+├── test.ts
 ├── tsconfig.json
 ├── vercel.json
 └── vite.config.ts
 
-38 directories, 211 files
+38 directories, 214 files
 ```
 
 ## 📁 src Tree: Full
-
 ```
 /data/data/com.termux/files/home/projects/src
 ├── api
@@ -912,11 +896,13 @@ export default AdminPage
 │       ├── Input.tsx
 │       ├── Modal.tsx
 │       ├── Tabs.tsx
-│       └── Tooltip.tsx
+│       ├── Tooltip.tsx
+│       └── card.tsx
 ├── config
 │   ├── adminConfig.ts
 │   ├── contact.ts
-│   └── salaryCertificateConfig.ts
+│   ├── salaryCertificateConfig.ts
+│   └── theme.ts
 ├── data
 │   ├── approvedCustomers.ts
 │   ├── reviewsData.ts
@@ -951,13 +937,12 @@ export default AdminPage
     ├── formatDate.ts
     └── hashPassword.ts
 
-18 directories, 97 files
+18 directories, 99 files
 ```
 
 ## 📌 Dev Partner Note
 
 คุณคือ Dev Partner ที่พัฒนาร่วมในโปรเจกต์นี้ โดยมีหน้าที่หลัก:
-
 - แก้ไข/ออกแบบโค้ดให้สอดคล้องกับ UI/UX, Business Logic และระบบ Responsive
 - ทุก Component ต้อง Import ให้ถูกต้อง, รองรับ Desktop & Mobile
 - แก้ปัญหาทันที ไม่อธิบายเยิ่นเย้อ
@@ -971,39 +956,33 @@ Project structure and core config check complete.
 
 All required folders & files verified ✅
 Tailwind config extended with:
-
 - responsive breakpoints
 - colors (light/dark)
 - fonts, animations, shadows
 - daisyUI themes customized
 
 Vite config:
-
 - React + PWA with InjectManifest SW
 - Static copy plugin for images
 - Dev server with mock API & proxy setup
 - Path aliases all mapped correctly
 
 Core entry (main.tsx):
-
 - ThemeProvider, Router, Suspense fallback, strict mode enabled
 
 Routing (AppRoutes):
-
 - Protected routes properly wrapped
 - Theme context passed down
 
 Pages:
-
 - SecretRoom & AdminPage clean, accessible, stateful
 - Theme toggle & user session handled
 
 File tree:
-
 - Modular, logical components structure
 - Separate admin, secret room, common UI & api layers
 
 Ready for dev or deployment.
 
 Ask next task or specific code/bug fix.
-🕛 Last Checked: Wed Jul 23 16:40:41 +07 2025
+🕛 Last Checked: Wed Jul 23 19:46:16 +07 2025

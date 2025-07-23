@@ -13,30 +13,49 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   size = 32,
   colorClass = 'text-primary',
   label = 'กำลังโหลดข้อมูล',
-}) => (
-  <div
-    role="status"
-    aria-live="polite"
-    aria-label={label}
-    className="flex items-center justify-center p-4"
-  >
-    <svg
-      className={`animate-spin ${typeof size === 'number' ? `h-[${size}px] w-[${size}px]` : `h-${size} w-${size}`} ${colorClass}`}
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      focusable="false"
-      style={{
-        height: typeof size === 'number' ? size : undefined,
-        width: typeof size === 'number' ? size : undefined,
-      }}
+}) => {
+  const isNumberSize = typeof size === 'number'
+  const sizeStyle = isNumberSize ? { height: size, width: size } : {}
+
+  // For Tailwind classes, use fixed set; dynamic classes with [] won't work reliably
+  // So if size is string, pass className directly for common sizes ('sm', 'md', 'lg', 'xl')
+  const sizeClassMap: Record<string, string> = {
+    sm: 'h-6 w-6',
+    md: 'h-8 w-8',
+    lg: 'h-10 w-10',
+    xl: 'h-12 w-12',
+  }
+  const sizeClass = !isNumberSize && sizeClassMap[size] ? sizeClassMap[size] : ''
+
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      aria-label={label}
+      className="flex items-center justify-center p-4"
     >
-      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth={4} />
-      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
-    </svg>
-    <span className="sr-only">{label}</span>
-  </div>
-)
+      <svg
+        className={`animate-spin ${sizeClass} ${colorClass}`}
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        focusable="false"
+        style={sizeStyle}
+      >
+        <circle
+          className="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth={4}
+        />
+        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+      </svg>
+      <span className="sr-only">{label}</span>
+    </div>
+  )
+}
 
 export default LoadingSpinner

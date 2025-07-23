@@ -1,4 +1,5 @@
 // src/components/common/Icon.tsx
+// Reusable Icon component wrapping lucide-react icons with accessibility and size props
 
 import React from 'react'
 import { Phone, Facebook, Line, Menu, X, Check, Loader2 } from 'lucide-react'

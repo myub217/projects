@@ -1,14 +1,17 @@
 // src/components/common/LoadingFallback.tsx
+// Accessible loading fallback with alert role, busy state, and centered styling
+
 import React from 'react'
 
 const LoadingFallback: React.FC = () => (
-  <div
-    role="alert"
+  <main
+    role="status"
+    aria-live="polite"
     aria-busy="true"
-    className="flex h-full w-full items-center justify-center p-4 text-lg text-primary"
+    className="flex min-h-screen w-full items-center justify-center p-4 text-lg text-primary"
   >
-    กำลังโหลด...
-  </div>
+    <span className="animate-pulse">กำลังโหลด...</span>
+  </main>
 )
 
 export default LoadingFallback

@@ -5,33 +5,24 @@ import React, { useEffect, useState, useCallback } from 'react'
 import Dashboard from '@components/SecretRoom/Dashboard'
 import ThemeToggleButton from '@components/SecretRoom/ThemeToggleButton'
 import UserProfileCard from '@components/SecretRoom/UserProfileCard'
+import { THEMES, getInitialTheme, applyTheme } from '@config/theme'
 
 const SecretRoomPage: React.FC = () => {
   const [username, setUsername] = useState('กำลังโหลด...')
-  const [theme, setTheme] = useState<'light' | 'dark'>(() =>
-    document.documentElement.classList.contains('dark') ? 'dark' : 'light'
-  )
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => getInitialTheme())
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser')?.trim()
     setUsername(storedUser || 'ไม่ทราบชื่อผู้ใช้')
 
-    // Sync theme from localStorage on mount
-    const storedTheme = localStorage.getItem('theme')
-    if (storedTheme === 'dark' || storedTheme === 'light') {
-      setTheme(storedTheme)
-      document.documentElement.classList.toggle('dark', storedTheme === 'dark')
-    }
+    applyTheme(theme)
   }, [])
 
   const toggleTheme = useCallback(() => {
-    const root = document.documentElement
-    const isDark = root.classList.contains('dark')
-    const newTheme = isDark ? 'light' : 'dark'
-    root.classList.toggle('dark', !isDark)
-    localStorage.setItem('theme', newTheme)
+    const newTheme = theme === THEMES.DARK ? THEMES.LIGHT : THEMES.DARK
+    applyTheme(newTheme)
     setTheme(newTheme)
-  }, [])
+  }, [theme])
 
   return (
     <main

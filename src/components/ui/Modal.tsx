@@ -25,13 +25,17 @@ const Modal: React.FC<ModalProps> = ({
   const modalRef = useRef<HTMLDivElement>(null)
   const lastFocusedElement = useRef<HTMLElement | null>(null)
 
-  // Handle ESC key to close modal
+  // Handle ESC key to close modal & trap focus within modal
   useEffect(() => {
     if (!open) return
 
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-      // Trap Tab inside modal
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        onClose()
+        return
+      }
+
       if (e.key === 'Tab' && modalRef.current) {
         const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
           'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
@@ -42,6 +46,7 @@ const Modal: React.FC<ModalProps> = ({
         }
         const firstEl = focusableElements[0]
         const lastEl = focusableElements[focusableElements.length - 1]
+
         if (e.shiftKey) {
           if (document.activeElement === firstEl) {
             e.preventDefault()
@@ -60,11 +65,10 @@ const Modal: React.FC<ModalProps> = ({
     return () => window.removeEventListener('keydown', handleKey)
   }, [open, onClose])
 
-  // Save last focused element and focus modal on open
+  // Save last focused element, focus modal on open, restore on close, lock scroll
   useEffect(() => {
     if (open) {
-      lastFocusedElement.current = document.activeElement as HTMLElement
-      // Delay focus to modal content to ensure it's rendered
+      lastFocusedElement.current = document.activeElement as HTMLElement | null
       setTimeout(() => {
         modalRef.current?.focus()
       }, 0)
@@ -75,12 +79,10 @@ const Modal: React.FC<ModalProps> = ({
     }
   }, [open])
 
-  // Close modal if clicking on backdrop (outside modal content)
+  // Close modal on backdrop click
   const onBackdropClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
-      if (e.target === e.currentTarget) {
-        onClose()
-      }
+      if (e.target === e.currentTarget) onClose()
     },
     [onClose]
   )
@@ -114,6 +116,7 @@ const Modal: React.FC<ModalProps> = ({
         <button
           onClick={onClose}
           aria-label="ปิดหน้าต่าง"
+          type="button"
           className="absolute right-3 top-3 rounded-full text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-primary"
         >
           <X className="h-5 w-5" />

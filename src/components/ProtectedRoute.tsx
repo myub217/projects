@@ -1,5 +1,5 @@
 // src/components/ProtectedRoute.tsx
-// ✅ Clean route guard with role-based access and redirect on unauthorized
+// ✅ Secure route guard with role-based access, localStorage validation, and redirect handling
 
 import React from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
@@ -17,15 +17,15 @@ const ProtectedRoute: React.FC = () => {
     user = localStorage.getItem('loggedInUser')?.trim() || null
     role = localStorage.getItem('userRole')?.trim() || null
   } catch {
-    // Silent fail on localStorage access errors
+    user = null
+    role = null
   }
 
   const isAuthenticated = Boolean(user)
-  const isAuthorized = role !== null && allowedRoles.includes(role as AllowedRole)
+  const isAuthorized = role && allowedRoles.includes(role as AllowedRole)
 
   if (!isAuthenticated || !isAuthorized) {
-    // Preserve attempted location to redirect after login if needed
-    return <Navigate to="/login" replace state={{ from: location }} />
+    return <Navigate to="/login" replace state={{ from: location.pathname }} />
   }
 
   return <Outlet />

@@ -44,7 +44,6 @@ const Modal: React.FC<ModalProps> = ({
 
     previousActiveElement.current = document.activeElement as HTMLElement | null
 
-    // Focus initial element or modal container
     if (initialFocusRef?.current) {
       initialFocusRef.current.focus()
     } else {

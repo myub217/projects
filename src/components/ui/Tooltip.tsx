@@ -21,6 +21,7 @@ const Tooltip: React.FC<TooltipProps> = ({
   const idRef = useRef(`tooltip-${Math.random().toString(36).slice(2, 11)}`)
 
   const showTooltip = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
     timeoutRef.current = window.setTimeout(() => setVisible(true), delay)
   }
 
@@ -43,7 +44,7 @@ const Tooltip: React.FC<TooltipProps> = ({
     bottom: 'top-full mt-2 left-1/2 -translate-x-1/2',
     left: 'right-full mr-2 top-1/2 -translate-y-1/2',
     right: 'left-full ml-2 top-1/2 -translate-y-1/2',
-  }
+  } as const
 
   return (
     <div

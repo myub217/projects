@@ -1,4 +1,5 @@
 // src/components/common/FormGroup.tsx
+// Accessible form group with label, error display, and enhanced input aria attributes
 
 import React, { ReactElement } from 'react'
 
