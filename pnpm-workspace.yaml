@@ -1,6 +1,8 @@
 # pnpm-workspace.yaml
+# กำหนด workspace สำหรับ pnpm ให้รวมโฟลเดอร์ที่ใช้ในโปรเจกต์
+
 packages:
-  - 'packages/*'
-  - 'apps/*'
-  - 'libs/*'
-  - 'modular-onepage'
+  - 'apps/**'
+  - 'packages/**'
+  - 'libs/**'
+  - 'modular-onepage/**'

@@ -581,83 +581,6 @@ export default AdminPage
 ├── check-structure.sh
 ├── dev-dist
 │   └── registerSW.js
-├── dist
-│   ├── assets
-│   │   ├── 1hero.webp
-│   │   ├── 2hero.webp
-│   │   ├── AdminPage-DqsxFgSK.js
-│   │   ├── AdminPage-DqsxFgSK.js.map
-│   │   ├── CustomerAssessmentSummary-DC_jEQQJ.js
-│   │   ├── CustomerAssessmentSummary-DC_jEQQJ.js.map
-│   │   ├── Footer-D0Jv5MTI.js
-│   │   ├── Footer-D0Jv5MTI.js.map
-│   │   ├── Hhero.webp
-│   │   ├── IndexPage-BKYLTaOs.js
-│   │   ├── IndexPage-BKYLTaOs.js.map
-│   │   ├── LoginPage-BvFCVbR6.js
-│   │   ├── LoginPage-BvFCVbR6.js.map
-│   │   ├── NotFoundPage-Ckwkh9hz.js
-│   │   ├── NotFoundPage-Ckwkh9hz.js.map
-│   │   ├── SecretRoomPage-DBvFVgh5.js
-│   │   ├── SecretRoomPage-DBvFVgh5.js.map
-│   │   ├── about-IgS6mAQi.webp
-│   │   ├── about.webp
-│   │   ├── hero-BRaXPQvd.webp
-│   │   ├── hero.webp
-│   │   ├── index-BLq6bHe4.js
-│   │   ├── index-BLq6bHe4.js.map
-│   │   ├── index-Cw_WGeIg.css
-│   │   ├── jp-logo-CH0zBIqT.webp
-│   │   ├── jp-logo.webp
-│   │   ├── logo.svg
-│   │   ├── signature-BovtCThw.webp
-│   │   ├── signature.webp
-│   │   ├── vendor-tC7v4KOg.js
-│   │   └── vendor-tC7v4KOg.js.map
-│   ├── docs
-│   │   ├── certificate.pdf
-│   │   ├── contract.pdf
-│   │   └── registration.pdf
-│   ├── images
-│   │   ├── images
-│   │   │   ├── review
-│   │   │   │   └── review1.png
-│   │   │   └── services
-│   │   │       ├── service1.webp
-│   │   │       ├── service10.webp
-│   │   │       ├── service11.webp
-│   │   │       ├── service12.webp
-│   │   │       ├── service2.webp
-│   │   │       ├── service22.webp
-│   │   │       ├── service3.webp
-│   │   │       ├── service4.webp
-│   │   │       ├── service5.webp
-│   │   │       ├── service6.webp
-│   │   │       ├── service7.webp
-│   │   │       ├── service8.webp
-│   │   │       └── service9.webp
-│   │   ├── review
-│   │   │   └── review1.png
-│   │   └── services
-│   │       ├── service1.webp
-│   │       ├── service10.webp
-│   │       ├── service11.webp
-│   │       ├── service12.webp
-│   │       ├── service2.webp
-│   │       ├── service22.webp
-│   │       ├── service3.webp
-│   │       ├── service4.webp
-│   │       ├── service5.webp
-│   │       ├── service6.webp
-│   │       ├── service7.webp
-│   │       ├── service8.webp
-│   │       └── service9.webp
-│   ├── index.html
-│   ├── logo.svg
-│   ├── manifest.webmanifest
-│   ├── registerSW.js
-│   ├── sw.js
-│   └── sw.js.map
 ├── foo.ts
 ├── index.html
 ├── index.ts
@@ -823,7 +746,7 @@ export default AdminPage
 ├── vercel.json
 └── vite.config.ts
 
-38 directories, 214 files
+29 directories, 146 files
 ```
 
 ## 📁 src Tree: Full
@@ -1002,4 +925,4 @@ File tree:
 Ready for dev or deployment.
 
 Ask next task or specific code/bug fix.
-🕛 Last Checked: Wed Jul 23 20:06:56 +07 2025
+🕛 Last Checked: Wed Jul 23 20:27:06 +07 2025

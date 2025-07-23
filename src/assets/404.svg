@@ -1,6 +1,9 @@
+// src/pages/NotFoundPage.tsx
+// 404 Page with embedded SVG from src/assets/404.svg and navigation link
+
 import React from 'react'
 import { Link } from 'react-router-dom'
-import NotFoundImage from '@assets/404.svg' // ✅ default export URL
+import NotFoundSVG from '@assets/404.svg'
 
 const NotFoundPage: React.FC = () => {
   return (
@@ -10,8 +13,8 @@ const NotFoundPage: React.FC = () => {
       className="flex min-h-screen flex-col items-center justify-center bg-base-100 px-6 py-16 text-base-content transition-colors duration-300 dark:bg-gray-900"
     >
       <img
-        src={NotFoundImage}
-        alt="404 Not Found"
+        src={NotFoundSVG}
+        alt="404 Not Found Illustration"
         className="mb-8 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg"
       />
 

@@ -1,13 +1,13 @@
-{
-  "semi": false,
-  "singleQuote": true,
-  "trailingComma": "es5",
-  "printWidth": 100,
-  "tabWidth": 2,
-  "useTabs": false,
-  "bracketSpacing": true,
-  "arrowParens": "avoid",
-  "plugins": ["prettier-plugin-tailwindcss"],
-  "tailwindConfig": "./tailwind.config.ts",
-  "endOfLine": "lf"
-}
+# .prettierrc.yaml
+semi: false
+singleQuote: true
+trailingComma: es5
+printWidth: 100
+tabWidth: 2
+useTabs: false
+bracketSpacing: true
+arrowParens: avoid
+endOfLine: lf
+plugins:
+  - prettier-plugin-tailwindcss
+tailwindConfig: './tailwind.config.ts'
