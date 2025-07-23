@@ -1,5 +1,5 @@
 // src/routes/AppRoutes.tsx
-// ✅ Improved centralized routing with theme props and protected nested routes, concise and scalable
+// ✅ Centralized, scalable routing with theme props and protected nested routes
 
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
@@ -19,8 +19,9 @@ const AppRoutes: React.FC = () => {
 
   return (
     <Routes>
+      {/* Public Routes */}
       <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="login" element={<LoginPage />} />
 
       {/* Protected Routes Wrapper */}
       <Route element={<ProtectedRoute />}>
@@ -29,6 +30,7 @@ const AppRoutes: React.FC = () => {
         <Route path="customer-assessment-summary" element={<CustomerAssessmentSummary />} />
       </Route>
 
+      {/* Fallback */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )

@@ -1,4 +1,5 @@
 // src/data/users.ts
+// ✅ User data with hashed passwords and role typing, clean and scalable
 
 export interface User {
   passwordHash: string

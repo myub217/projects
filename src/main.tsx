@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 import '@/styles/tailwind-base.css'
 import '@/styles/tailwind.css'
+import '@/styles/global.css'
 
 import { ThemeProvider } from '@components/ThemeProvider'
 import AppRoutes from './routes/AppRoutes'
@@ -15,7 +16,7 @@ import LoadingFallback from './routes/LoadingFallback'
 const RootApp: React.FC = () => (
   <React.StrictMode>
     <ThemeProvider>
-      <BrowserRouter basename={import.meta.env.BASE_URL || '/'}>
+      <BrowserRouter basename={import.meta.env.BASE_URL ?? '/'}>
         <Suspense fallback={<LoadingFallback />}>
           <AppRoutes />
         </Suspense>
@@ -28,6 +29,7 @@ const rootElement = document.getElementById('root')
 
 if (!rootElement) {
   console.error('❌ <div id="root"> not found')
+  // Consider rendering fallback UI or logging/reporting here
 } else {
   ReactDOM.createRoot(rootElement).render(<RootApp />)
 }

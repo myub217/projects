@@ -6,20 +6,49 @@
 /* ==================== 🔹 CSS VARIABLES ==================== */
 @layer base {
   :root {
-    /* Fixed values to avoid theme() errors */
-    --font-body: 'Inter', sans-serif;
-    --font-heading: 'Playfair Display', serif;
+    /* Font families */
+    --font-body: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-heading: 'Playfair Display', Georgia, serif;
+
+    /* Color palette */
     --color-bg: #ffffff;
     --color-text: #1f2937;
     --color-primary: #3b82f6;
     --color-primary-light: #60a5fa;
     --color-primary-dark: #2563eb;
-    --color-primary-contrastText: #ffffff;
+    --color-primary-contrast-text: #ffffff; /* fixed variable name */
     --color-accent: #f97316;
     --color-accent-hover: #ea580c;
     --color-background: #ffffff;
     --color-foreground: #1f2937;
     --color-text-muted: #6b7280;
+
+    /* Elevation shadows */
+    --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    /* Border radius */
+    --radius-default: 0.375rem;
+
+    /* Dark mode base color scheme */
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-bg: #1f2937;
+      --color-text: #f3f4f6;
+      --color-background: #111827;
+      --color-foreground: #f3f4f6;
+      --color-text-muted: #9ca3af;
+      --color-primary: #2563eb;
+      --color-primary-light: #3b82f6;
+      --color-primary-dark: #1e40af;
+      --color-primary-contrast-text: #ffffff; /* fixed variable name */
+      --color-accent: #facc15;
+      --color-accent-hover: #ca8a04;
+      --shadow-soft: 0 1px 4px rgba(0, 0, 0, 0.3);
+      color-scheme: dark;
+    }
   }
 }
 
@@ -49,7 +78,7 @@
     line-height: 1.25;
     margin-top: 0;
     margin-bottom: 0.5rem;
-    scroll-margin-top: 1.5rem; /* offset anchor links */
+    scroll-margin-top: 1.5rem; /* offset for anchored headings */
   }
 
   p + p {
@@ -76,6 +105,7 @@
     height: auto;
     display: block;
     vertical-align: middle;
+    border-radius: var(--radius-default);
   }
 
   button:disabled,
@@ -98,11 +128,15 @@
 /* ==================== 🔹 COMPONENTS ==================== */
 @layer components {
   .btn {
-    @apply font-semibold py-2 px-4 rounded transition-colors duration-200 cursor-pointer select-none;
+    @apply font-semibold py-2 px-4 rounded transition-colors duration-200 cursor-pointer select-none disabled:cursor-not-allowed disabled:opacity-50;
+    border-radius: var(--radius-default);
+    box-shadow: var(--shadow-soft);
   }
 
+  /* fixed text-primary-contrast to text-primary-contrast-text and use custom property */
   .btn-primary {
-    @apply btn bg-primary text-primary-contrastText shadow-soft hover:bg-primary-light dark:hover:bg-primary-dark focus:ring-2 focus:ring-primary focus:ring-offset-2;
+    @apply btn bg-primary shadow-soft hover:bg-primary-light dark:hover:bg-primary-dark focus:ring-2 focus:ring-primary focus:ring-offset-2;
+    color: var(--color-primary-contrast-text);
   }
 
   .btn-secondary {
@@ -119,12 +153,24 @@
     -webkit-box-orient: vertical;
   }
 
-  /* Additional utilities */
   .text-muted {
     color: var(--color-text-muted);
   }
 
   .bg-surface {
     background-color: var(--color-background);
+  }
+
+  /* Accessibility helper */
+  .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
   }
 }

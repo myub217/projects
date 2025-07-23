@@ -1,5 +1,5 @@
 // src/components/ResponsiveNavbar.tsx
-// Responsive, accessible navbar with keyboard & screen reader support, smooth mobile menu animation
+// ✅ Responsive, accessible navbar with keyboard & screen reader support, smooth mobile menu animation
 
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
@@ -33,12 +33,12 @@ const ResponsiveNavbar: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [isOpen])
 
-  // Close mobile menu on route/location change
+  // Close mobile menu on route change
   useEffect(() => {
     setIsOpen(false)
   }, [location])
 
-  // Close mobile menu on Escape key press & Return focus to toggle button
+  // Close mobile menu on Escape key & return focus to toggle button
   useEffect(() => {
     if (!isOpen) {
       toggleButtonRef.current?.focus()

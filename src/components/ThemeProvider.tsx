@@ -1,5 +1,5 @@
 // src/components/ThemeProvider.tsx
-// Theme context provider with system preference detection, localStorage sync, and toggle
+// ✅ Theme context with system preference detection, localStorage sync, and toggle
 
 import React, {
   createContext,
@@ -28,13 +28,17 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
   // Initialize theme from localStorage or system preference on mount
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as Theme | null
-    const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches
-
-    if (savedTheme === 'light' || savedTheme === 'dark') {
-      setTheme(savedTheme)
-    } else {
-      setTheme(prefersDark ? 'dark' : 'light')
+    try {
+      const savedTheme = localStorage.getItem('theme') as Theme | null
+      const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        setTheme(savedTheme)
+      } else {
+        setTheme(prefersDark ? 'dark' : 'light')
+      }
+    } catch {
+      // Fail silently if localStorage or matchMedia is unavailable
+      setTheme('light')
     }
   }, [])
 
@@ -46,26 +50,23 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     } else {
       root.classList.remove('dark')
     }
-    localStorage.setItem('theme', theme)
+    try {
+      localStorage.setItem('theme', theme)
+    } catch {
+      // Fail silently on localStorage write error
+    }
   }, [theme])
 
-  // Toggle theme memoized to avoid unnecessary re-renders
   const toggleTheme = useCallback(() => {
     setTheme((curr) => (curr === 'light' ? 'dark' : 'light'))
   }, [])
 
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  )
+  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
 }
 
-// Custom hook to consume ThemeContext with error boundary
+// Hook to consume ThemeContext with error guard
 export const useTheme = (): ThemeContextValue => {
   const context = useContext(ThemeContext)
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider')
-  }
+  if (!context) throw new Error('useTheme must be used within ThemeProvider')
   return context
 }

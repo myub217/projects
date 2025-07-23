@@ -1,5 +1,5 @@
 // src/pages/IndexPage.tsx
-// ✅ Fully accessible homepage with smooth UX, focus management, theme toggle, and modular sections
+// ✅ Accessible homepage with smooth UX, focus management, theme toggle, modular sections, and ARIA best practices
 
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 
@@ -37,7 +37,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [selectedService])
 
-  // Manage scroll lock and focus trap on modal open/close
+  // Manage scroll lock and aria-hidden on modal open/close
   useEffect(() => {
     document.body.style.overflow = selectedService ? 'hidden' : ''
     if (selectedService) {
