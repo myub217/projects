@@ -33,4 +33,6 @@ button {
 /* Accessibility enhancements */
 :focus-visible {
   outline-offset: 2px;
+  outline: 2px solid var(--tw-ring-color, #2563eb); /* Add visible focus ring */
+  outline-offset: 2px;
 }

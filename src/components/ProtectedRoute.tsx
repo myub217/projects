@@ -22,7 +22,7 @@ const ProtectedRoute: React.FC = () => {
   }
 
   const isAuthenticated = Boolean(user)
-  const isAuthorized = role && allowedRoles.includes(role as AllowedRole)
+  const isAuthorized = role !== null && allowedRoles.includes(role as AllowedRole)
 
   if (!isAuthenticated || !isAuthorized) {
     return <Navigate to="/login" replace state={{ from: location.pathname }} />

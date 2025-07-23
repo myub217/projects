@@ -8,10 +8,18 @@ import signatureImage from '@/assets/signature.webp'
 
 const About: React.FC = () => {
   const contactLinks = [
-    { icon: <FaLine />, label: 'LINE', href: getContactHref('line') },
-    { icon: <FaFacebook />, label: 'Facebook', href: getContactHref('facebook') },
-    { icon: <FaFacebookMessenger />, label: 'Messenger', href: getContactHref('messenger') },
-    { icon: <FaEnvelope />, label: 'Email', href: getContactHref('email') },
+    { icon: <FaLine aria-hidden="true" />, label: 'LINE', href: getContactHref('line') },
+    {
+      icon: <FaFacebook aria-hidden="true" />,
+      label: 'Facebook',
+      href: getContactHref('facebook'),
+    },
+    {
+      icon: <FaFacebookMessenger aria-hidden="true" />,
+      label: 'Messenger',
+      href: getContactHref('messenger'),
+    },
+    { icon: <FaEnvelope aria-hidden="true" />, label: 'Email', href: getContactHref('email') },
   ]
 
   return (

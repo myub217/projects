@@ -17,11 +17,11 @@ const AdminPage: React.FC = () => {
       role="main"
       aria-label="แผงควบคุมผู้ดูแลระบบ"
       className="flex min-h-screen flex-col items-center bg-base-100 px-6 py-12 text-base-content transition-colors duration-300 dark:bg-gray-900"
+      tabIndex={-1}
     >
       {/* Header ต้อนรับผู้ใช้ */}
       <header
         className="mb-10 w-full max-w-xl select-text text-center"
-        tabIndex={-1}
         aria-live="polite"
         aria-atomic="true"
       >

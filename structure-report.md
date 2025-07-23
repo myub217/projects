@@ -363,7 +363,6 @@ const rootElement = document.getElementById('root')
 
 if (!rootElement) {
   console.error('❌ <div id="root"> not found')
-  // Consider rendering fallback UI or logging/reporting here
 } else {
   ReactDOM.createRoot(rootElement).render(<RootApp />)
 }
@@ -384,7 +383,7 @@ import ProtectedRoute from '@components/ProtectedRoute'
 import { useTheme } from '@components/ThemeProvider'
 import LoadingFallback from '@components/common/LoadingFallback'
 
-// Lazy load pages for improved performance and bundle size
+// Lazy load pages for better performance and smaller bundle
 const IndexPage = lazy(() => import('@pages/IndexPage'))
 const LoginPage = lazy(() => import('@pages/LoginPage'))
 const SecretRoomPage = lazy(() => import('@pages/SecretRoomPage'))
@@ -409,7 +408,7 @@ const AppRoutes: React.FC = () => {
           <Route path="customer-assessment-summary" element={<CustomerAssessmentSummary />} />
         </Route>
 
-        {/* Catch-all Fallback */}
+        {/* Fallback for unmatched routes */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Suspense>
@@ -440,10 +439,10 @@ const SecretRoomPage: React.FC = () => {
     setUsername(storedUser || 'ไม่ทราบชื่อผู้ใช้')
 
     applyTheme(theme)
-  }, [])
+  }, [theme])
 
   const toggleTheme = useCallback(() => {
-    const newTheme = theme === THEMES.DARK ? THEMES.LIGHT : THEMES.DARK
+    const newTheme = theme === 'dark' ? 'light' : 'dark'
     applyTheme(newTheme)
     setTheme(newTheme)
   }, [theme])
@@ -530,11 +529,11 @@ const AdminPage: React.FC = () => {
       role="main"
       aria-label="แผงควบคุมผู้ดูแลระบบ"
       className="flex min-h-screen flex-col items-center bg-base-100 px-6 py-12 text-base-content transition-colors duration-300 dark:bg-gray-900"
+      tabIndex={-1}
     >
       {/* Header ต้อนรับผู้ใช้ */}
       <header
         className="mb-10 w-full max-w-xl select-text text-center"
-        tabIndex={-1}
         aria-live="polite"
         aria-atomic="true"
       >
@@ -581,6 +580,81 @@ export default AdminPage
 ├── check-structure.sh
 ├── dev-dist
 │   └── registerSW.js
+├── dist
+│   ├── assets
+│   │   ├── 1hero.webp
+│   │   ├── 2hero.webp
+│   │   ├── AdminPage-D1KV4fpG.js
+│   │   ├── AdminPage-D1KV4fpG.js.map
+│   │   ├── CustomerAssessmentSummary-BdOVgZwd.js
+│   │   ├── CustomerAssessmentSummary-BdOVgZwd.js.map
+│   │   ├── Hhero.webp
+│   │   ├── IndexPage-BwI58qYs.js
+│   │   ├── IndexPage-BwI58qYs.js.map
+│   │   ├── LoginPage-BDSPTYxb.js
+│   │   ├── LoginPage-BDSPTYxb.js.map
+│   │   ├── NotFoundPage-apQR5Smh.js
+│   │   ├── NotFoundPage-apQR5Smh.js.map
+│   │   ├── SecretRoomPage-BOM36zZ0.js
+│   │   ├── SecretRoomPage-BOM36zZ0.js.map
+│   │   ├── about-IgS6mAQi.webp
+│   │   ├── about.webp
+│   │   ├── hero-BRaXPQvd.webp
+│   │   ├── hero.webp
+│   │   ├── index-0dmamzqw.css
+│   │   ├── index-YiVZ2IUk.js
+│   │   ├── index-YiVZ2IUk.js.map
+│   │   ├── jp-logo-CH0zBIqT.webp
+│   │   ├── jp-logo.webp
+│   │   ├── logo.svg
+│   │   ├── signature-BovtCThw.webp
+│   │   ├── signature.webp
+│   │   ├── vendor-BK35A2Ft.js
+│   │   └── vendor-BK35A2Ft.js.map
+│   ├── docs
+│   │   ├── certificate.pdf
+│   │   ├── contract.pdf
+│   │   └── registration.pdf
+│   ├── images
+│   │   ├── images
+│   │   │   ├── review
+│   │   │   │   └── review1.png
+│   │   │   └── services
+│   │   │       ├── service1.webp
+│   │   │       ├── service10.webp
+│   │   │       ├── service11.webp
+│   │   │       ├── service12.webp
+│   │   │       ├── service2.webp
+│   │   │       ├── service22.webp
+│   │   │       ├── service3.webp
+│   │   │       ├── service4.webp
+│   │   │       ├── service5.webp
+│   │   │       ├── service6.webp
+│   │   │       ├── service7.webp
+│   │   │       ├── service8.webp
+│   │   │       └── service9.webp
+│   │   ├── review
+│   │   │   └── review1.png
+│   │   └── services
+│   │       ├── service1.webp
+│   │       ├── service10.webp
+│   │       ├── service11.webp
+│   │       ├── service12.webp
+│   │       ├── service2.webp
+│   │       ├── service22.webp
+│   │       ├── service3.webp
+│   │       ├── service4.webp
+│   │       ├── service5.webp
+│   │       ├── service6.webp
+│   │       ├── service7.webp
+│   │       ├── service8.webp
+│   │       └── service9.webp
+│   ├── index.html
+│   ├── logo.svg
+│   ├── manifest.webmanifest
+│   ├── registerSW.js
+│   ├── sw.js
+│   └── sw.js.map
 ├── foo.ts
 ├── index.html
 ├── index.ts
@@ -628,6 +702,7 @@ export default AdminPage
 │   ├── assets
 │   │   ├── 1hero.webp
 │   │   ├── 2hero.webp
+│   │   ├── 404.svg
 │   │   ├── Hhero.webp
 │   │   ├── about.webp
 │   │   ├── hero.webp
@@ -712,6 +787,7 @@ export default AdminPage
 │   │   ├── servicesData.ts
 │   │   └── users.ts
 │   ├── hooks
+│   │   ├── useAuth.ts
 │   │   └── useOnlineStatus.ts
 │   ├── main.tsx
 │   ├── pages
@@ -746,7 +822,7 @@ export default AdminPage
 ├── vercel.json
 └── vite.config.ts
 
-29 directories, 146 files
+38 directories, 214 files
 ```
 
 ## 📁 src Tree: Full
@@ -758,6 +834,7 @@ export default AdminPage
 ├── assets
 │   ├── 1hero.webp
 │   ├── 2hero.webp
+│   ├── 404.svg
 │   ├── Hhero.webp
 │   ├── about.webp
 │   ├── hero.webp
@@ -842,6 +919,7 @@ export default AdminPage
 │   ├── servicesData.ts
 │   └── users.ts
 ├── hooks
+│   ├── useAuth.ts
 │   └── useOnlineStatus.ts
 ├── main.tsx
 ├── pages
@@ -870,7 +948,7 @@ export default AdminPage
     ├── formatDate.ts
     └── hashPassword.ts
 
-18 directories, 99 files
+18 directories, 101 files
 ```
 
 ## 📌 Dev Partner Note
@@ -925,4 +1003,4 @@ File tree:
 Ready for dev or deployment.
 
 Ask next task or specific code/bug fix.
-🕛 Last Checked: Wed Jul 23 20:27:06 +07 2025
+🕛 Last Checked: Wed Jul 23 22:15:39 +07 2025

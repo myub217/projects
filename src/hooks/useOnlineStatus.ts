@@ -4,7 +4,12 @@
 import { useState, useEffect } from 'react'
 
 export function useOnlineStatus(): boolean {
-  const [isOnline, setIsOnline] = useState<boolean>(() => navigator.onLine)
+  const [isOnline, setIsOnline] = useState<boolean>(() => {
+    if (typeof navigator !== 'undefined' && typeof navigator.onLine === 'boolean') {
+      return navigator.onLine
+    }
+    return true // default assume online if no info
+  })
 
   useEffect(() => {
     const updateOnlineStatus = () => setIsOnline(true)

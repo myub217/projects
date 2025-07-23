@@ -11,7 +11,8 @@
     "serve": "vite preview",
     "lint": "prettier --check .",
     "format": "prettier --write .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build:staging": "vite build --mode staging"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",

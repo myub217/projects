@@ -16,10 +16,10 @@ const SecretRoomPage: React.FC = () => {
     setUsername(storedUser || 'ไม่ทราบชื่อผู้ใช้')
 
     applyTheme(theme)
-  }, [])
+  }, [theme])
 
   const toggleTheme = useCallback(() => {
-    const newTheme = theme === THEMES.DARK ? THEMES.LIGHT : THEMES.DARK
+    const newTheme = theme === 'dark' ? 'light' : 'dark'
     applyTheme(newTheme)
     setTheme(newTheme)
   }, [theme])

@@ -29,7 +29,6 @@ const rootElement = document.getElementById('root')
 
 if (!rootElement) {
   console.error('❌ <div id="root"> not found')
-  // Consider rendering fallback UI or logging/reporting here
 } else {
   ReactDOM.createRoot(rootElement).render(<RootApp />)
 }

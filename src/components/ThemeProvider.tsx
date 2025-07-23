@@ -26,7 +26,7 @@ interface ThemeProviderProps {
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>('light')
 
-  // Initialize theme from localStorage or system preference on mount
+  // โหลดธีมจาก localStorage หรือ system preference ตอน mount
   useEffect(() => {
     try {
       const savedTheme = localStorage.getItem('theme') as Theme | null
@@ -37,12 +37,11 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         setTheme(prefersDark ? 'dark' : 'light')
       }
     } catch {
-      // Fail silently if localStorage or matchMedia is unavailable
       setTheme('light')
     }
   }, [])
 
-  // Update root html class and localStorage when theme changes
+  // อัพเดต class ใน root และบันทึก localStorage เมื่อ theme เปลี่ยน
   useEffect(() => {
     const root = document.documentElement
     if (theme === 'dark') {
@@ -53,10 +52,11 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     try {
       localStorage.setItem('theme', theme)
     } catch {
-      // Fail silently on localStorage write error
+      // ignore write error
     }
   }, [theme])
 
+  // toggle ธีมระหว่าง light กับ dark
   const toggleTheme = useCallback(() => {
     setTheme(curr => (curr === 'light' ? 'dark' : 'light'))
   }, [])
@@ -64,7 +64,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
 }
 
-// Hook to consume ThemeContext with error guard
+// Hook ใช้งาน ThemeContext พร้อมตรวจสอบการใช้งานนอก Provider
 export const useTheme = (): ThemeContextValue => {
   const context = useContext(ThemeContext)
   if (!context) throw new Error('useTheme must be used within ThemeProvider')

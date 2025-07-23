@@ -19,15 +19,15 @@ interface CustomerAssessmentSummaryProps {
 }
 
 const InfoRow: React.FC<{ label: string; value: string }> = ({ label, value }) => (
-  <p className="mb-2 text-gray-800">
+  <p className="mb-2 break-words text-gray-800">
     <strong className="text-gray-900">{label}:</strong> <span>{value?.trim() || '-'}</span>
   </p>
 )
 
 const MultiLineRow: React.FC<{ label: string; value: string }> = ({ label, value }) => (
-  <div className="mb-4">
+  <div className="mb-6">
     <p className="mb-1 font-semibold text-gray-900">{label}:</p>
-    <p className="whitespace-pre-wrap pl-5 text-gray-800">{value?.trim() || '-'}</p>
+    <p className="whitespace-pre-wrap break-words pl-5 text-gray-800">{value?.trim() || '-'}</p>
   </div>
 )
 
@@ -37,6 +37,7 @@ const CustomerAssessmentSummary: React.FC<CustomerAssessmentSummaryProps> = ({ d
       role="main"
       aria-label="สรุปข้อมูลประเมินลูกค้า"
       className="mx-auto max-w-3xl rounded-xl bg-white p-8 shadow-lg"
+      tabIndex={-1}
     >
       <h1 className="mb-10 text-center text-3xl font-bold text-gray-900">
         สรุปข้อมูลประเมินลูกค้า

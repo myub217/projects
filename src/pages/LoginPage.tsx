@@ -68,6 +68,7 @@ const LoginPage: React.FC = () => {
         onSubmit={handleLogin}
         aria-label="ฟอร์มเข้าสู่ระบบ"
         className="w-full max-w-sm space-y-6 rounded-xl bg-base-200 p-6 shadow-xl"
+        noValidate
       >
         <h1 className="select-none text-center text-3xl font-bold text-primary">เข้าสู่ระบบ</h1>
 
@@ -76,6 +77,7 @@ const LoginPage: React.FC = () => {
             role="alert"
             aria-live="assertive"
             className="text-center text-sm font-semibold text-error"
+            tabIndex={-1}
           >
             {error}
           </div>

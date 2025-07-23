@@ -25,7 +25,7 @@ const ReviewsSection: React.FC = () => (
       </p>
 
       {/* Desktop & Tablet Grid */}
-      <div className="hidden grid-cols-1 gap-10 sm:grid-cols-2 lg:grid lg:grid-cols-3">
+      <div className="hidden gap-10 sm:grid-cols-2 lg:grid lg:grid-cols-3">
         {reviewsData.map((review, idx) => (
           <article
             key={review.id ?? idx}

@@ -43,12 +43,16 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
   useEffect(() => {
     if (selectedService) {
       document.body.style.overflow = 'hidden'
-      mainContentRef.current?.setAttribute('aria-hidden', 'true')
-      mainContentRef.current?.blur()
+      if (mainContentRef.current) {
+        mainContentRef.current.setAttribute('aria-hidden', 'true')
+        mainContentRef.current.blur()
+      }
     } else {
       document.body.style.overflow = ''
-      mainContentRef.current?.removeAttribute('aria-hidden')
-      mainContentRef.current?.focus()
+      if (mainContentRef.current) {
+        mainContentRef.current.removeAttribute('aria-hidden')
+        mainContentRef.current.focus()
+      }
     }
   }, [selectedService])
 

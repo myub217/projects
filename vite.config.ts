@@ -40,7 +40,12 @@ export default defineConfig({
       },
     }),
     viteStaticCopy({
-      targets: [{ src: 'public/images', dest: 'images' }],
+      targets: [
+        {
+          src: 'public/images',
+          dest: 'images',
+        },
+      ],
     }),
     {
       name: 'mock-api',

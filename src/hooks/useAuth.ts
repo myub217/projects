@@ -21,6 +21,8 @@ export function useAuth(): {
   })
 
   useEffect(() => {
+    if (typeof window === 'undefined') return
+
     const storedUser = localStorage.getItem('loggedInUser')
     const storedRole = localStorage.getItem('userRole') as 'admin' | 'user' | null
 
@@ -28,12 +30,14 @@ export function useAuth(): {
       setAuth({
         isAuthenticated: true,
         username: storedUser,
-        role: storedRole || 'user',
+        role: storedRole === 'admin' || storedRole === 'user' ? storedRole : 'user',
       })
     }
   }, [])
 
   const login = useCallback((username: string, role: 'admin' | 'user' = 'user') => {
+    if (typeof window === 'undefined') return
+
     localStorage.setItem('loggedInUser', username)
     localStorage.setItem('userRole', role)
     setAuth({
@@ -44,6 +48,8 @@ export function useAuth(): {
   }, [])
 
   const logout = useCallback(() => {
+    if (typeof window === 'undefined') return
+
     localStorage.removeItem('loggedInUser')
     localStorage.removeItem('userRole')
     setAuth({

@@ -22,7 +22,7 @@ export function getInitialTheme(): Theme {
       return stored
     }
   } catch {
-    // ignore
+    // ignore error silently
   }
 
   const mql = window.matchMedia('(prefers-color-scheme: dark)')
@@ -39,15 +39,15 @@ export function applyTheme(theme: Theme): void {
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem(STORAGE_KEY, theme)
   } catch {
-    // ignore
+    // ignore error silently
   }
 }
 
 /**
- * Toggle ระหว่าง light/dark
+ * Toggle ระหว่าง light/dark พร้อม apply ทันที
  */
 export function toggleTheme(current: Theme): Theme {
-  const next = current === 'light' ? 'dark' : 'light'
+  const next: Theme = current === 'light' ? 'dark' : 'light'
   applyTheme(next)
   return next
 }

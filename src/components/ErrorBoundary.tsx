@@ -1,4 +1,6 @@
 // src/components/ErrorBoundary.tsx
+// ✅ Robust ErrorBoundary with fallback UI, reset on children change, and optional error logging
+
 import React, { ErrorInfo, ReactNode } from 'react'
 
 interface ErrorBoundaryProps {
@@ -9,7 +11,7 @@ interface ErrorBoundaryProps {
 
 interface ErrorBoundaryState {
   hasError: boolean
-  error?: Error | null
+  error: Error | null
 }
 
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
@@ -23,16 +25,13 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    // Log error to monitoring service if provided
     if (this.props.onError) {
       this.props.onError(error, info)
     }
-    // Always log to console as fallback
     console.error('❌ ErrorBoundary caught error:', error, info)
   }
 
   componentDidUpdate(prevProps: ErrorBoundaryProps) {
-    // Reset error state if children change to allow retry render
     if (this.state.hasError && prevProps.children !== this.props.children) {
       this.setState({ hasError: false, error: null })
     }

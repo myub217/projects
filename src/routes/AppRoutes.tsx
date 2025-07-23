@@ -8,7 +8,7 @@ import ProtectedRoute from '@components/ProtectedRoute'
 import { useTheme } from '@components/ThemeProvider'
 import LoadingFallback from '@components/common/LoadingFallback'
 
-// Lazy load pages for improved performance and bundle size
+// Lazy load pages for better performance and smaller bundle
 const IndexPage = lazy(() => import('@pages/IndexPage'))
 const LoginPage = lazy(() => import('@pages/LoginPage'))
 const SecretRoomPage = lazy(() => import('@pages/SecretRoomPage'))
@@ -33,7 +33,7 @@ const AppRoutes: React.FC = () => {
           <Route path="customer-assessment-summary" element={<CustomerAssessmentSummary />} />
         </Route>
 
-        {/* Catch-all Fallback */}
+        {/* Fallback for unmatched routes */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Suspense>

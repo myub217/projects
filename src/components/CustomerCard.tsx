@@ -68,7 +68,7 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ customer, loading = false }
       tabIndex={0}
     >
       <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <h3 className="truncate text-lg font-bold text-primary" title={customer.name}>
+        <h3 className="truncate text-lg font-bold text-primary" title={customer.name} tabIndex={-1}>
           {customer.name}
         </h3>
         <span

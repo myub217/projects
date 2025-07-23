@@ -24,7 +24,12 @@ const ResponsiveNavbar: React.FC = () => {
   useEffect(() => {
     if (!isOpen) return
     const handleClickOutside = (event: MouseEvent) => {
-      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+      if (
+        navRef.current &&
+        !navRef.current.contains(event.target as Node) &&
+        toggleButtonRef.current &&
+        !toggleButtonRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false)
       }
     }
@@ -32,19 +37,23 @@ const ResponsiveNavbar: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [isOpen])
 
-  // Close on route change
+  // Close on route change and return focus to toggle button
   useEffect(() => {
     setIsOpen(false)
+    toggleButtonRef.current?.focus()
   }, [location])
 
-  // Handle Esc key + return focus
+  // Handle Esc key to close menu and return focus to toggle button
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setIsOpen(false)
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false)
+        toggleButtonRef.current?.focus()
+      }
     }
     window.addEventListener('keydown', handleEsc)
     return () => window.removeEventListener('keydown', handleEsc)
-  }, [])
+  }, [isOpen])
 
   return (
     <nav
