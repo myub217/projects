@@ -1,5 +1,3 @@
-// src/components/SecretRoom/HelpSupport.tsx
-
 import React from 'react'
 import {
   LifeBuoyIcon,
@@ -14,7 +12,7 @@ const HelpSupport: React.FC = () => {
       className="bg-base-200 dark:bg-zinc-800 rounded-xl shadow-md p-6 sm:p-8 space-y-6 transition-all"
     >
       <header className="flex items-center gap-3 mb-4">
-        <LifeBuoyIcon className="w-6 h-6 text-primary shrink-0" aria-hidden="true" />
+        <LifeBuoyIcon className="w-6 h-6 text-primary shrink-0" aria-hidden />
         <h2 className="text-lg sm:text-xl font-bold text-base-content">
           ศูนย์ช่วยเหลือ & การสนับสนุน
         </h2>
@@ -22,7 +20,7 @@ const HelpSupport: React.FC = () => {
 
       <ul className="space-y-6 text-base-content/80 text-sm sm:text-base">
         <li className="flex items-start gap-3">
-          <MessageCircleIcon className="w-5 h-5 mt-1 text-blue-500 shrink-0" aria-hidden="true" />
+          <MessageCircleIcon className="w-5 h-5 mt-1 text-blue-500 shrink-0" aria-hidden />
           <div>
             <p className="font-medium text-base-content">สอบถามด่วนผ่าน LINE</p>
             <a
@@ -38,7 +36,7 @@ const HelpSupport: React.FC = () => {
         </li>
 
         <li className="flex items-start gap-3">
-          <MailIcon className="w-5 h-5 mt-1 text-emerald-500 shrink-0" aria-hidden="true" />
+          <MailIcon className="w-5 h-5 mt-1 text-emerald-500 shrink-0" aria-hidden />
           <div>
             <p className="font-medium text-base-content">ติดต่อทางอีเมล</p>
             <a

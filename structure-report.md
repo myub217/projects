@@ -195,8 +195,6 @@ export default config```
 
 ## ⚙️ vite.config.ts
 ```ts
-// vite.config.ts
-
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -211,7 +209,7 @@ export default defineConfig({
       strategies: 'injectManifest',
       srcDir: 'src',
       filename: 'sw.ts',
-      injectRegister: false,
+      injectRegister: 'auto', // หรือ false ถ้าจัดการ register เอง
       registerType: 'autoUpdate',
       manifest: {
         name: 'JP Visual & Docs',
@@ -221,8 +219,8 @@ export default defineConfig({
         background_color: '#ffffff',
         theme_color: '#2563eb',
         icons: [
-          { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+          { src: '/images/icon-192.png', sizes: '192x192', type: 'image/png' },
+          { src: '/images/icon-512.png', sizes: '512x512', type: 'image/png' },
         ],
       },
       devOptions: {
@@ -231,7 +229,9 @@ export default defineConfig({
       },
     }),
     viteStaticCopy({
-      targets: [{ src: 'public/images', dest: '' }],
+      targets: [
+        { src: 'public/images', dest: 'images' }
+      ],
     }),
     {
       name: 'mock-api',
@@ -268,7 +268,7 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
     open: true,
-    proxy: {
+    proxy: process.env.USE_MOCK === 'true' ? {} : {
       '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,
@@ -316,14 +316,18 @@ import NotFoundPage from '@pages/NotFoundPage'
 import ProtectedRoute from '@components/ProtectedRoute'
 import { ThemeProvider, useTheme } from '@components/ThemeProvider'
 
-// Fallback UI for Suspense during lazy loading
+// Loading fallback UI for Suspense lazy loading
 const LoadingFallback: React.FC = () => (
-  <div className="flex justify-center items-center min-h-screen text-gray-500 select-none" role="status" aria-live="polite">
+  <div
+    className="flex justify-center items-center min-h-screen text-gray-500 select-none"
+    role="status"
+    aria-live="polite"
+  >
     กำลังโหลด...
   </div>
 )
 
-// Routes with theme context and protected routes wrapped
+// Main App routes with theme context and protected routes
 const AppRoutes: React.FC = () => {
   const { theme, toggleTheme } = useTheme()
 
@@ -332,20 +336,20 @@ const AppRoutes: React.FC = () => {
       <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
       <Route path="/login" element={<LoginPage />} />
 
-      {/* Protected routes wrapped by ProtectedRoute */}
+      {/* Protected routes */}
       <Route element={<ProtectedRoute />}>
         <Route path="/secret" element={<SecretRoomPage />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/customer-assessment-summary" element={<CustomerAssessmentSummary />} />
       </Route>
 
-      {/* Catch-all 404 */}
+      {/* 404 fallback */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )
 }
 
-// Root App: ThemeProvider + Router + Suspense fallback
+// Root app component wrapping ThemeProvider, Router and Suspense
 const RootApp: React.FC = () => (
   <React.StrictMode>
     <ThemeProvider>
@@ -358,7 +362,7 @@ const RootApp: React.FC = () => (
   </React.StrictMode>
 )
 
-// Mount to #root
+// Mount React app on #root element
 const rootEl = document.getElementById('root')
 if (!rootEl) {
   console.error('❌ ไม่พบ <div id="root"> ใน index.html')
@@ -647,4 +651,4 @@ JP - VISUAL & DOCS
 📂 โครงสร้างทั้งหมด แนบไว้ใน Report นี้แล้ว  
 🧠 เข้าใจบริบทแล้ว พร้อมรับคำสั่งถัดไปได้เลย
 
-🕛 Last Checked: Wed Jul 23 09:16:13 +07 2025
+🕛 Last Checked: Wed Jul 23 09:30:15 +07 2025

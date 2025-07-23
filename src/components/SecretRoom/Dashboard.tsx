@@ -9,15 +9,22 @@ import PerformanceMetrics from './PerformanceMetrics'
 import FileUpload from './FileUpload'
 import AccessLogTable from './AccessLogTable'
 import HelpSupport from './HelpSupport'
-import GoldPriceGraph from './CustomerLoanProgressGraph.tsx'
+import CustomerLoanProgressGraph from './CustomerLoanProgressGraph'
 
 const Dashboard: React.FC = () => {
   const username = localStorage.getItem('loggedInUser')?.trim() || 'ไม่ทราบชื่อผู้ใช้'
 
-  const handleFileSelect = useCallback((file: File) => {
-    console.log('📁 ไฟล์ที่เลือก:', file)
-    // TODO: เชื่อมต่อ backend เพื่ออัปโหลด
-  }, [])
+  const handleFileSelect = useCallback(
+    (files: File | File[]) => {
+      if (Array.isArray(files)) {
+        console.log('📁 ไฟล์ที่เลือก:', files.map((f) => f.name).join(', '))
+      } else {
+        console.log('📁 ไฟล์ที่เลือก:', files.name)
+      }
+      // TODO: เชื่อมต่อ backend เพื่ออัปโหลดไฟล์
+    },
+    []
+  )
 
   return (
     <main
@@ -40,12 +47,12 @@ const Dashboard: React.FC = () => {
         <PerformanceMetrics />
       </section>
 
-      {/* กราฟราคาทองคำ */}
+      {/* กราฟสถานะสินเชื่อ */}
       <section
-        aria-label="ราคาทองคำเรียลไทม์"
-        className="rounded-xl bg-base-100 dark:bg-zinc-900 border border-base-300 dark:border-zinc-700 shadow-lg p-4"
+        aria-label="สถานะสินเชื่อ"
+        className="rounded-xl bg-base-100 dark:bg-zinc-900 border border-base-300 dark:border-zinc-700 shadow-lg p-6"
       >
-        <GoldPriceGraph />
+        <CustomerLoanProgressGraph />
       </section>
 
       {/* อัปโหลดเอกสาร */}
@@ -56,6 +63,7 @@ const Dashboard: React.FC = () => {
         <FileUpload
           onFileSelect={handleFileSelect}
           accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+          multiple={true}
         />
       </section>
 
@@ -67,10 +75,10 @@ const Dashboard: React.FC = () => {
         <AccessLogTable />
       </section>
 
-      {/* การช่วยเหลือ */}
+      {/* ศูนย์ช่วยเหลือและติดต่อ */}
       <section
-        aria-label="การช่วยเหลือและติดต่อ"
-        className="w-full bg-base-100 dark:bg-zinc-800 rounded-xl border border-base-300 dark:border-base-700 p-6 shadow-inner"
+        aria-label="ศูนย์ช่วยเหลือและการติดต่อ"
+        className="w-full bg-base-100 dark:bg-zinc-800 rounded-xl border border-base-300 dark:border-zinc-700 p-6 shadow-inner"
       >
         <HelpSupport />
       </section>

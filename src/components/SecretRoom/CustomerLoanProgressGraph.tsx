@@ -1,5 +1,3 @@
-// src/components/SecretRoom/CustomerLoanProgressGraph.tsx
-
 import React, { useEffect, useRef } from 'react'
 import Chart from 'chart.js/auto'
 
@@ -7,40 +5,23 @@ const CustomerLoanProgressGraph: React.FC = () => {
   const chartRef = useRef<HTMLCanvasElement>(null)
   const chartInstanceRef = useRef<Chart | null>(null)
 
-  // -------------------------------
-  // Loan Summary Configuration
-  // -------------------------------
+  // ---- Config ----
   const goal = 6_000_000
-  // UOB และ TMB ได้อนุมัติ 85% ของเป้าคนละ 85%
   const uobPercent = 85
   const tmbPercent = 85
 
   const uobApproved = Math.round(goal * (uobPercent / 100))
   const tmbApproved = Math.round(goal * (tmbPercent / 100))
   const totalApproved = uobApproved + tmbApproved
-  const remaining = Math.max(goal * 2 - totalApproved, 0) // สมมติเป้า 2 เท่ารวม
+  const remaining = Math.max(goal * 2 - totalApproved, 0)
 
   const banks = [
-    {
-      name: 'UOB',
-      amount: uobApproved,
-      color: '#0284c7',
-    },
-    {
-      name: 'TMB',
-      amount: tmbApproved,
-      color: '#16a34a',
-    },
-    {
-      name: 'KTB (รอผล)',
-      amount: remaining,
-      color: '#f59e0b',
-    },
+    { name: 'UOB', amount: uobApproved, color: '#0284c7' },
+    { name: 'TMB', amount: tmbApproved, color: '#16a34a' },
+    { name: 'KTB (รอผล)', amount: remaining, color: '#f59e0b' },
   ]
 
-  // -------------------------------
-  // Chart Rendering
-  // -------------------------------
+  // ---- Chart Render ----
   useEffect(() => {
     if (!chartRef.current) return
     const ctx = chartRef.current.getContext('2d')
@@ -78,7 +59,7 @@ const CustomerLoanProgressGraph: React.FC = () => {
           },
           subtitle: {
             display: true,
-            text: `เป้าหมาย: ${goal.toLocaleString()} บาท/ธนาคาร | ได้อนุมัติแล้ว: UOB ${uobApproved.toLocaleString()} บาท (${uobPercent}%), TMB ${tmbApproved.toLocaleString()} บาท (${tmbPercent}%)`,
+            text: `เป้าหมาย: ${goal.toLocaleString()} บาท/ธนาคาร | อนุมัติแล้ว: UOB ${uobApproved.toLocaleString()} (${uobPercent}%), TMB ${tmbApproved.toLocaleString()} (${tmbPercent}%)`,
             color: '#475569',
             font: { size: 14, style: 'italic' },
             padding: { bottom: 12 },
@@ -127,13 +108,11 @@ const CustomerLoanProgressGraph: React.FC = () => {
         },
       },
     })
-  }, [uobApproved, tmbApproved, goal])
+  }, [goal, uobApproved, tmbApproved])
 
-  // -------------------------------
-  // Render
-  // -------------------------------
+  // ---- Render ----
   return (
-    <div className="w-full max-w-3xl mx-auto bg-white shadow-xl rounded-2xl px-6 py-8 mt-10">
+    <div className="mt-10 w-full max-w-3xl mx-auto rounded-2xl bg-white px-6 py-8 shadow-xl">
       <canvas ref={chartRef} height={320} />
     </div>
   )

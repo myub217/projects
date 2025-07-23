@@ -1,5 +1,3 @@
-// src/components/SecretRoom/PerformanceMetrics.tsx
-
 import React from 'react'
 import {
   CpuIcon,
@@ -57,14 +55,13 @@ const PerformanceMetrics: React.FC = () => {
         <div
           key={id}
           className="bg-base-200 dark:bg-zinc-800 p-5 rounded-xl shadow transition-shadow hover:shadow-lg"
+          aria-label={`${label}: ${value}`}
         >
           <div className={`flex items-center gap-3 mb-2 ${color}`} aria-hidden="true">
             {icon}
             <span className="font-medium">{label}</span>
           </div>
-          <p className="text-xl font-bold text-base-content dark:text-white" aria-label={`${label}: ${value}`}>
-            {value}
-          </p>
+          <p className="text-xl font-bold text-base-content dark:text-white">{value}</p>
         </div>
       ))}
     </section>

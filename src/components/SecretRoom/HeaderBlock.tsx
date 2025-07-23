@@ -1,13 +1,11 @@
-// src/components/SecretRoom/HeaderBlock.tsx
-
 import React, { useEffect, useState } from 'react'
 
 const HeaderBlock: React.FC = () => {
   const [username, setUsername] = useState('ไม่ระบุชื่อ')
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('loggedInUser')?.trim()
-    setUsername(storedUser && storedUser.length > 0 ? storedUser : 'ไม่ระบุชื่อ')
+    const raw = localStorage.getItem('loggedInUser')?.trim()
+    setUsername(raw && raw !== '' ? raw : 'ไม่ระบุชื่อ')
   }, [])
 
   return (

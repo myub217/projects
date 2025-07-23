@@ -1,4 +1,4 @@
-// ✅ Final: src/pages/AdminPage.tsx
+// src/pages/AdminPage.tsx
 // แผงควบคุมผู้ดูแลระบบ พร้อมต้อนรับผู้ใช้ และแสดง Dashboard
 
 import React, { useEffect, useState } from 'react'
@@ -25,7 +25,10 @@ const AdminPage: React.FC = () => {
         aria-live="polite"
         aria-atomic="true"
       >
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-primary mb-3 tracking-tight">
+        <h1
+          className="text-3xl sm:text-4xl font-extrabold text-primary mb-3 tracking-tight"
+          tabIndex={0}
+        >
           แผงควบคุมผู้ดูแลระบบ
         </h1>
         <p className="text-lg sm:text-xl text-muted">
@@ -33,6 +36,7 @@ const AdminPage: React.FC = () => {
           <span
             className="font-semibold underline decoration-primary decoration-2"
             aria-label={`ชื่อผู้ใช้: ${username}`}
+            tabIndex={0}
           >
             {username}
           </span>
@@ -40,7 +44,11 @@ const AdminPage: React.FC = () => {
       </header>
 
       {/* 🔧 Admin Dashboard */}
-      <section className="w-full max-w-7xl" tabIndex={-1}>
+      <section
+        className="w-full max-w-7xl"
+        tabIndex={-1}
+        aria-label="แดชบอร์ดผู้ดูแลระบบ"
+      >
         <AdminDashboard />
       </section>
     </main>

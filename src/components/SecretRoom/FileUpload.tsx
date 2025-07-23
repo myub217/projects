@@ -1,9 +1,7 @@
-// src/components/SecretRoom/FileUpload.tsx
-
 import React, { useState } from 'react'
 
 interface FileUploadProps {
-  onFileSelect: (files: File[] | File) => void
+  onFileSelect: (files: File[] | File | null) => void
   accept?: string
   multiple?: boolean
 }
@@ -16,15 +14,16 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
-    if (files && files.length > 0) {
-      const filesArray = Array.from(files)
-      setSelectedFiles(filesArray)
-      onFileSelect(multiple ? filesArray : filesArray[0])
-    } else {
+    const fileList = e.target.files
+    if (!fileList || fileList.length === 0) {
       setSelectedFiles([])
-      onFileSelect(multiple ? [] : null as any)
+      onFileSelect(null)
+      return
     }
+
+    const filesArray = Array.from(fileList)
+    setSelectedFiles(filesArray)
+    onFileSelect(multiple ? filesArray : filesArray[0])
   }
 
   return (
@@ -38,6 +37,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       >
         เลือกไฟล์เอกสาร (PDF, DOCX, JPG, PNG ฯลฯ)
       </label>
+
       <input
         id="fileUpload"
         type="file"
@@ -48,12 +48,10 @@ const FileUpload: React.FC<FileUploadProps> = ({
         aria-describedby="fileHelp"
         aria-multiselectable={multiple}
       />
-      <p
-        id="fileHelp"
-        className="mt-2 text-sm text-base-content/70 truncate select-text"
-      >
+
+      <p id="fileHelp" className="mt-2 text-sm text-base-content/70 truncate select-text">
         {selectedFiles.length > 0
-          ? `ไฟล์ที่เลือก: ${selectedFiles.map((f) => f.name).join(', ')}`
+          ? `ไฟล์ที่เลือก: ${selectedFiles.map(f => f.name).join(', ')}`
           : 'ยังไม่ได้เลือกไฟล์'}
       </p>
     </section>

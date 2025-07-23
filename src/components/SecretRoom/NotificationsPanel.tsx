@@ -68,7 +68,7 @@ const NotificationsPanel: React.FC = () => {
             <li
               key={notif.id}
               className="flex items-start gap-3 bg-base-100 dark:bg-zinc-700 rounded-lg p-4 shadow-sm hover:shadow transition-all"
-              aria-label={`การแจ้งเตือนประเภท ${notif.type}`}
+              aria-label={`การแจ้งเตือนประเภท ${notif.type} - ${notif.message}`}
             >
               {iconMap[notif.type]}
               <div className="flex flex-col">

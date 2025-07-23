@@ -63,7 +63,7 @@ const SystemCheckCard: React.FC = () => {
   return (
     <section
       aria-label="สถานะการตรวจสอบระบบ"
-      className="bg-base-100 dark:bg-base-300 border border-base-300 dark:border-base-700 rounded-xl p-6 shadow-md space-y-6 transition-shadow"
+      className="bg-base-100 dark:bg-zinc-800 border border-base-300 dark:border-base-700 rounded-xl p-6 shadow-md space-y-6 transition-shadow"
     >
       <h3 className="text-xl font-bold text-primary select-none">สถานะระบบ</h3>
       <ul className="grid sm:grid-cols-2 gap-6">

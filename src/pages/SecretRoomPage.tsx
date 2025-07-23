@@ -1,4 +1,5 @@
-// src/pages/SecretRoomPage.tsx – Secure Authenticated Dashboard Page
+// src/pages/SecretRoomPage.tsx
+// หน้าแดชบอร์ดระบบรักษาความปลอดภัย พร้อมการสลับธีมและข้อมูลผู้ใช้งาน
 
 import React, { useEffect, useState, useCallback } from 'react'
 import Dashboard from '@components/SecretRoom/Dashboard'
@@ -13,7 +14,7 @@ const SecretRoomPage: React.FC = () => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser')?.trim()
-    setUsername(storedUser && storedUser.length > 0 ? storedUser : 'ไม่ทราบชื่อผู้ใช้')
+    setUsername(storedUser || 'ไม่ทราบชื่อผู้ใช้')
   }, [])
 
   const toggleTheme = useCallback(() => {
@@ -28,21 +29,24 @@ const SecretRoomPage: React.FC = () => {
     <main
       role="main"
       aria-label="แดชบอร์ดระบบรักษาความปลอดภัย"
-      className="relative min-h-screen bg-base-100 text-base-content px-4 py-16 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
+      className="relative min-h-screen px-4 py-16 bg-base-100 text-base-content transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
     >
       {/* ปุ่มสลับธีม */}
       <div className="fixed top-4 right-4 z-50">
         <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
       </div>
 
-      {/* ส่วนต้อนรับผู้ใช้ */}
+      {/* ข้อความต้อนรับ */}
       <section
         aria-label="ข้อความต้อนรับผู้ใช้งาน"
         tabIndex={0}
         aria-live="polite"
         className="max-w-2xl mx-auto text-center space-y-4"
       >
-        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-primary">
+        <h1
+          className="text-4xl sm:text-5xl font-extrabold tracking-tight text-primary"
+          tabIndex={0}
+        >
           ยินดีต้อนรับสู่ระบบ
         </h1>
         <p className="text-lg sm:text-xl text-base-content/80">
@@ -50,26 +54,29 @@ const SecretRoomPage: React.FC = () => {
           <span
             className="font-semibold text-secondary underline underline-offset-4 decoration-secondary/60"
             aria-label={`ชื่อผู้ใช้: ${username}`}
+            tabIndex={0}
           >
             {username}
           </span>{' '}
-          👋<br />
+          👋
+          <br />
           คุณเข้าสู่ระบบเรียบร้อยแล้ว
         </p>
       </section>
 
-      {/* การ์ดแสดงโปรไฟล์ */}
+      {/* สรุปข้อมูลผู้ใช้ */}
       <section
         aria-label="สรุปข้อมูลผู้ใช้งาน"
         className="mt-10 max-w-md mx-auto"
+        tabIndex={-1}
       >
         <UserProfileCard username={username} />
       </section>
 
-      {/* แดชบอร์ดข้อมูล */}
+      {/* แดชบอร์ดหลัก */}
       <section
         aria-label="แดชบอร์ดข้อมูลและระบบ"
-        className="mt-12 w-full max-w-7xl mx-auto rounded-2xl bg-base-200 dark:bg-zinc-800 shadow-xl p-6 sm:p-10 transition-shadow hover:shadow-2xl focus-within:shadow-2xl"
+        className="mt-12 w-full max-w-7xl mx-auto p-6 sm:p-10 bg-base-200 dark:bg-zinc-800 rounded-2xl shadow-xl transition-shadow hover:shadow-2xl focus-within:shadow-2xl"
         tabIndex={-1}
       >
         <Dashboard />
