@@ -1,5 +1,5 @@
 // src/components/ui/Tabs.tsx
-// ✅ Accessible tabs with keyboard navigation, ARIA roles, disabled support, and Tailwind styling
+// ✅ ระบบ Tabs พร้อม ARIA, ป้องกัน Tab ที่ disabled, รองรับคีย์บอร์ด (← → Home End), ใช้งานกับ Tailwind ได้เต็มที่
 
 import React, { useState, useId, ReactNode, KeyboardEvent, useEffect, useRef } from 'react'
 import clsx from 'clsx'
@@ -25,19 +25,18 @@ const Tabs: React.FC<TabsProps> = ({
   tabClassName = '',
   panelClassName = '',
 }) => {
-  const [activeIndex, setActiveIndex] = useState(() => {
-    if (tabs[defaultIndex]?.disabled) {
-      return tabs.findIndex(t => !t.disabled) ?? 0
-    }
-    return defaultIndex
-  })
-
   const idPrefix = useId()
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([])
 
-  const enabledTabs = tabs
-    .map((t, i) => (t.disabled ? null : i))
+  const enabledIndexes = tabs
+    .map((tab, i) => (!tab.disabled ? i : null))
     .filter((i): i is number => i !== null)
+
+  const getFirstEnabled = () => enabledIndexes[0] ?? 0
+
+  const [activeIndex, setActiveIndex] = useState(() => {
+    return tabs[defaultIndex]?.disabled ? getFirstEnabled() : defaultIndex
+  })
 
   const focusTab = (index: number) => {
     tabsRef.current[index]?.focus()
@@ -47,25 +46,23 @@ const Tabs: React.FC<TabsProps> = ({
     if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(e.key)) return
 
     e.preventDefault()
-    const currentIdx = enabledTabs.indexOf(activeIndex)
+    const currentPos = enabledIndexes.indexOf(activeIndex)
+    if (currentPos === -1) return
 
-    let nextIndex: number
-
+    let nextIndex = activeIndex
     switch (e.key) {
       case 'ArrowRight':
-        nextIndex = enabledTabs[(currentIdx + 1) % enabledTabs.length]
+        nextIndex = enabledIndexes[(currentPos + 1) % enabledIndexes.length]
         break
       case 'ArrowLeft':
-        nextIndex = enabledTabs[(currentIdx - 1 + enabledTabs.length) % enabledTabs.length]
+        nextIndex = enabledIndexes[(currentPos - 1 + enabledIndexes.length) % enabledIndexes.length]
         break
       case 'Home':
-        nextIndex = enabledTabs[0]
+        nextIndex = enabledIndexes[0]
         break
       case 'End':
-        nextIndex = enabledTabs[enabledTabs.length - 1]
+        nextIndex = enabledIndexes[enabledIndexes.length - 1]
         break
-      default:
-        return
     }
 
     setActiveIndex(nextIndex)
@@ -74,10 +71,7 @@ const Tabs: React.FC<TabsProps> = ({
 
   useEffect(() => {
     if (tabs[activeIndex]?.disabled) {
-      const firstEnabled = tabs.findIndex(t => !t.disabled)
-      if (firstEnabled !== -1 && firstEnabled !== activeIndex) {
-        setActiveIndex(firstEnabled)
-      }
+      setActiveIndex(getFirstEnabled())
     }
   }, [tabs, activeIndex])
 
@@ -86,40 +80,44 @@ const Tabs: React.FC<TabsProps> = ({
       <div
         role="tablist"
         aria-label="Tab navigation"
-        className="flex border-b border-gray-300 dark:border-gray-600"
+        className="flex border-b border-border"
         onKeyDown={handleKeyDown}
       >
-        {tabs.map((tab, index) => (
-          <button
-            key={tab.label}
-            ref={el => (tabsRef.current[index] = el)}
-            role="tab"
-            type="button"
-            id={`${idPrefix}-tab-${index}`}
-            aria-controls={`${idPrefix}-panel-${index}`}
-            aria-selected={index === activeIndex}
-            tabIndex={index === activeIndex ? 0 : -1}
-            disabled={tab.disabled}
-            className={clsx(
-              'border-b-2 px-4 py-2 text-sm font-medium transition focus:outline-none',
-              index === activeIndex
-                ? 'border-primary text-primary'
-                : 'border-transparent text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary',
-              tab.disabled && 'cursor-not-allowed opacity-50',
-              tabClassName
-            )}
-            onClick={() => !tab.disabled && setActiveIndex(index)}
-          >
-            {tab.label}
-          </button>
-        ))}
+        {tabs.map((tab, index) => {
+          const isActive = index === activeIndex
+          return (
+            <button
+              key={tab.label}
+              ref={el => (tabsRef.current[index] = el)}
+              role="tab"
+              type="button"
+              id={`${idPrefix}-tab-${index}`}
+              aria-controls={`${idPrefix}-panel-${index}`}
+              aria-selected={isActive}
+              tabIndex={isActive ? 0 : -1}
+              disabled={tab.disabled}
+              className={clsx(
+                'border-b-2 px-4 py-2 text-sm font-medium transition-all duration-150',
+                isActive
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-muted hover:text-primary',
+                tab.disabled && 'cursor-not-allowed opacity-50',
+                tabClassName
+              )}
+              onClick={() => !tab.disabled && setActiveIndex(index)}
+            >
+              {tab.label}
+            </button>
+          )
+        })}
       </div>
+
       <div
         id={`${idPrefix}-panel-${activeIndex}`}
         role="tabpanel"
         aria-labelledby={`${idPrefix}-tab-${activeIndex}`}
         tabIndex={0}
-        className={clsx('py-4 focus:outline-none', panelClassName)}
+        className={clsx('py-4', panelClassName)}
       >
         {tabs[activeIndex]?.content}
       </div>

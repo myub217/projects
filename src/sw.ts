@@ -14,11 +14,11 @@ registerRoute(
 )
 
 // Activate service worker immediately after installation
-self.addEventListener('install', () => {
+self.addEventListener('install', event => {
   self.skipWaiting()
 })
 
 // Take control of uncontrolled clients as soon as the service worker activates
-self.addEventListener('activate', () => {
+self.addEventListener('activate', event => {
   self.clients.claim()
 })

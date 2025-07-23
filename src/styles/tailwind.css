@@ -1,8 +1,11 @@
+/* tailwind.css */
+/* ✅ Global Tailwind + Custom Styles for Business-Themed Web App */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom global styles */
+/* 🌐 Custom Global Styles */
 body {
   @apply bg-base-100 font-sans text-base-content transition-colors duration-300;
 }
@@ -15,24 +18,25 @@ button {
   @apply cursor-pointer;
 }
 
-/* Scrollbar styling for modern browsers */
+/* ✅ Scrollbar Styling for Modern Browsers */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(37, 99, 235, 0.6);
+  background-color: rgba(37, 99, 235, 0.6); /* #2563eb */
   border-radius: 9999px;
   border: 2px solid transparent;
   background-clip: content-box;
 }
 
-/* Accessibility enhancements */
+/* ♿ Accessibility Enhancements */
 :focus-visible {
-  outline-offset: 2px;
-  outline: 2px solid var(--tw-ring-color, #2563eb); /* Add visible focus ring */
+  outline: 2px solid var(--tw-ring-color, #2563eb); /* fallback if Tailwind var is missing */
   outline-offset: 2px;
 }

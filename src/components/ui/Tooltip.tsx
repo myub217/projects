@@ -1,3 +1,6 @@
+// src/components/common/Tooltip.tsx
+// ✅ Tooltip พร้อมใช้งาน รองรับ hover / focus / touch + ตำแหน่งทิศทาง + animation + accessibility
+
 import React, { useState, useRef, useEffect, ReactNode } from 'react'
 import clsx from 'clsx'
 
@@ -48,11 +51,13 @@ const Tooltip: React.FC<TooltipProps> = ({
 
   return (
     <div
-      className="relative inline-block"
+      className="relative inline-block focus:outline-none"
       onMouseEnter={showTooltip}
       onMouseLeave={hideTooltip}
       onFocus={showTooltip}
       onBlur={hideTooltip}
+      onTouchStart={showTooltip}
+      onTouchEnd={hideTooltip}
       tabIndex={0}
       aria-describedby={idRef.current}
     >
@@ -63,8 +68,8 @@ const Tooltip: React.FC<TooltipProps> = ({
         aria-live="polite"
         aria-hidden={!visible}
         className={clsx(
-          'pointer-events-none absolute z-50 whitespace-nowrap rounded-md bg-gray-800 px-2 py-1 text-xs text-white shadow-md transition-opacity duration-200',
-          visible ? 'opacity-100' : 'opacity-0',
+          'pointer-events-none absolute z-50 scale-95 transform whitespace-nowrap rounded-md bg-gray-800 px-2 py-1 text-xs text-white shadow-md transition-all duration-200 ease-out',
+          visible ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
           positionStyles[position],
           className
         )}

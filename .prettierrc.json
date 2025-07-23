@@ -1,0 +1,14 @@
+{
+  "//": "✅ Prettier config สำหรับ Vite + React + TailwindCSS พร้อมใช้งานร่วมกับระบบ Dev team และ CI/CD",
+  "semi": false, // ❌ ปิด semicolon ท้ายบรรทัด
+  "singleQuote": true, // ✅ ใช้ single quote
+  "trailingComma": "es5", // ✅ ปิดท้าย array/object ตาม ES5
+  "printWidth": 100, // ✅ จำกัดความยาวบรรทัดให้อ่านง่าย
+  "tabWidth": 2, // ✅ ใช้ 2 space ต่อ tab
+  "useTabs": false, // ✅ ใช้ space แทน tab
+  "bracketSpacing": true, // ✅ เว้นวรรคใน object เช่น { foo: bar }
+  "arrowParens": "avoid", // ✅ ไม่ใส่วงเล็บถ้ามี argument เดียว (x => x)
+  "endOfLine": "lf", // ✅ ใช้ LF line ending สำหรับ cross-platform
+  "plugins": ["prettier-plugin-tailwindcss"], // ✅ จัดเรียง Tailwind classnames ให้อัตโนมัติ
+  "tailwindConfig": "./tailwind.config.ts" // ✅ ระบุ path ไปยัง tailwind config
+}

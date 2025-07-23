@@ -1,0 +1,22 @@
+# .editorconfig
+# ✅ กำหนดมาตรฐาน format ไฟล์สำหรับโปรเจกต์ Vite + React + TailwindCSS
+# เพื่อให้ทุกเครื่อง dev และ CI/CD pipeline มีรูปแบบเดียวกัน
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{json,yaml,yml}]
+indent_size = 2
+
+[*.{ts,tsx,js,jsx}]
+quote_type = single

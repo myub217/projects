@@ -1,5 +1,5 @@
 // src/components/ui/Modal.tsx
-// ✅ Accessible modal with ARIA, ESC-to-close, focus trap, backdrop click, and smooth Tailwind transitions
+// ✅ Modal ที่ครบ: ESC ปิด, focus trap, ARIA, backdrop คลิกปิด, Tailwind transition ลื่น
 
 import React, { useEffect, useRef, useCallback } from 'react'
 import { X } from 'lucide-react'
@@ -25,10 +25,11 @@ const Modal: React.FC<ModalProps> = ({
   const modalRef = useRef<HTMLDivElement>(null)
   const lastFocusedElement = useRef<HTMLElement | null>(null)
 
+  // Handle ESC + Focus Trap
   useEffect(() => {
     if (!open) return
 
-    const handleKey = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.preventDefault()
         onClose()
@@ -36,40 +37,38 @@ const Modal: React.FC<ModalProps> = ({
       }
 
       if (e.key === 'Tab' && modalRef.current) {
-        const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
+        const focusable = modalRef.current.querySelectorAll<HTMLElement>(
           'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
         )
-        if (focusableElements.length === 0) {
-          e.preventDefault()
-          return
-        }
-        const firstEl = focusableElements[0]
-        const lastEl = focusableElements[focusableElements.length - 1]
+
+        if (!focusable.length) return
+
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
 
         if (e.shiftKey) {
-          if (document.activeElement === firstEl) {
+          if (document.activeElement === first) {
             e.preventDefault()
-            lastEl.focus()
+            last.focus()
           }
         } else {
-          if (document.activeElement === lastEl) {
+          if (document.activeElement === last) {
             e.preventDefault()
-            firstEl.focus()
+            first.focus()
           }
         }
       }
     }
 
-    window.addEventListener('keydown', handleKey)
-    return () => window.removeEventListener('keydown', handleKey)
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
   }, [open, onClose])
 
+  // Save/restore last focused element + lock scroll
   useEffect(() => {
     if (open) {
-      lastFocusedElement.current = document.activeElement as HTMLElement | null
-      setTimeout(() => {
-        modalRef.current?.focus()
-      }, 0)
+      lastFocusedElement.current = document.activeElement as HTMLElement
+      setTimeout(() => modalRef.current?.focus(), 0)
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = ''
@@ -77,7 +76,7 @@ const Modal: React.FC<ModalProps> = ({
     }
   }, [open])
 
-  const onBackdropClick = useCallback(
+  const handleBackdropClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (e.target === e.currentTarget) onClose()
     },
@@ -95,13 +94,13 @@ const Modal: React.FC<ModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-labelledby={title ? 'modal-title' : undefined}
-      onClick={onBackdropClick}
+      onClick={handleBackdropClick}
     >
       <div
         ref={modalRef}
         tabIndex={-1}
         className={clsx(
-          'animate-in fade-in-80 relative w-full max-w-lg scale-100 transform rounded-xl bg-base-100 p-6 shadow-xl transition-transform',
+          'animate-in fade-in-80 slide-in-from-bottom-10 relative w-full max-w-lg rounded-xl bg-base-100 p-6 shadow-xl outline-none duration-200',
           className
         )}
       >
@@ -113,8 +112,7 @@ const Modal: React.FC<ModalProps> = ({
         <button
           onClick={onClose}
           aria-label="ปิดหน้าต่าง"
-          type="button"
-          className="absolute right-3 top-3 rounded-full text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-primary"
+          className="absolute right-3 top-3 rounded-full text-gray-400 hover:text-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         >
           <X className="h-5 w-5" />
         </button>

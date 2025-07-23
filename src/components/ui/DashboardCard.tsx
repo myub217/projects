@@ -1,5 +1,5 @@
 // src/components/ui/DashboardCard.tsx
-// Reusable Dashboard card with accessible region, responsive header, dark/light mode, and focus styles
+// ✅ Reusable Dashboard card with accessible region, responsive header, dark/light mode, and focus styles
 
 import React, { ReactNode } from 'react'
 import clsx from 'clsx'

@@ -13,7 +13,7 @@ import '@/styles/global.css'
 // Providers & Routes
 import { ThemeProvider } from '@components/ThemeProvider'
 import AppRoutes from './routes/AppRoutes'
-import LoadingFallback from './routes/LoadingFallback'
+import LoadingFallback from '@components/common/LoadingFallback'
 
 const RootApp: React.FC = () => (
   <React.StrictMode>

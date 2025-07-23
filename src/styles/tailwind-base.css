@@ -1,11 +1,12 @@
 /* tailwind-base.css */
-/* Base reset and normalization styles */
+/* ✅ Base Reset + Accessibility + Typography Standards for Business UI */
 
 @tailwind base;
 
-/* Custom base styles */
+/* 🌐 HTML Base */
 html {
   line-height: 1.5;
+  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   -moz-tab-size: 4;
   tab-size: 4;
@@ -23,9 +24,9 @@ html {
     'Segoe UI Emoji';
   background-color: #f9fafb; /* base-100 */
   color: #1f2937; /* base-900 */
-  scroll-behavior: smooth;
 }
 
+/* 🌐 Body Base */
 body {
   margin: 0;
   min-height: 100vh;
@@ -35,7 +36,7 @@ body {
   color: inherit;
 }
 
-/* Remove default margin for headings */
+/* 📏 Headings Reset */
 h1,
 h2,
 h3,
@@ -47,14 +48,14 @@ h6 {
   line-height: 1.2;
 }
 
-/* Remove default padding and margin for lists */
+/* 📋 List Reset */
 ul,
 ol {
   margin: 0;
   padding-left: 1.25rem;
 }
 
-/* Anchor default styles */
+/* 🔗 Anchor Styling */
 a {
   color: #2563eb; /* primary */
   text-decoration: none;
@@ -65,17 +66,17 @@ a:hover,
 a:focus {
   text-decoration: underline;
   outline: none;
-  color: #3b82f6; /* primary light */
+  color: #3b82f6; /* primary-light */
 }
 
-/* Images */
+/* 🖼️ Image Reset */
 img {
+  display: block;
   max-width: 100%;
   height: auto;
-  display: block;
 }
 
-/* Form elements */
+/* 🧾 Form Elements Reset + UX */
 button,
 input,
 select,
@@ -88,8 +89,8 @@ textarea {
   border: none;
   background: none;
   color: inherit;
-  outline-offset: 2px;
   transition: box-shadow 0.2s ease;
+  outline-offset: 2px;
 }
 
 button:focus-visible,
@@ -101,8 +102,8 @@ textarea:focus-visible {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.4);
 }
 
-/* Accessibility for focus */
+/* ♿ Global Focus Ring */
 :focus-visible {
-  outline: 2px solid #2563eb; /* primary */
+  outline: 2px solid #2563eb;
   outline-offset: 2px;
 }

@@ -1,5 +1,5 @@
 // src/routes/AppRoutes.tsx
-// ✅ Centralized, scalable routing with theme props, protected nested routes, and lazy loading
+// ✅ Centralized, scalable routing with theme props, protected nested routes, lazy loading, Tailwind + DaisyUI + A11y ready
 
 import React, { Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'

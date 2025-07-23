@@ -1,5 +1,5 @@
 /* src/styles/global.css */
-/* Custom global styles and overrides */
+/* ✅ Global Theme Variables, Scrollbar, Utilities, and Dark Mode Overrides */
 
 :root {
   --color-primary: #2563eb;
@@ -11,7 +11,7 @@
   --color-shadow: rgba(0, 0, 0, 0.1);
 }
 
-/* Scrollbar Styling */
+/* 🌐 Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -26,7 +26,7 @@
   background-clip: content-box;
 }
 
-/* Utility Classes */
+/* 🚫 Utility Classes */
 .hidden {
   display: none !important;
 }
@@ -42,15 +42,13 @@
   border: 0 !important;
 }
 
-/* Link focus styles */
+/* 🔗 Accessible Focus for Links */
 a:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
-  outline-style: solid;
-  outline-color: var(--color-primary);
 }
 
-/* Buttons */
+/* 🔘 Button UI */
 button {
   cursor: pointer;
   transition:
@@ -64,7 +62,7 @@ button[disabled] {
   opacity: 0.6;
 }
 
-/* Dark mode overrides */
+/* 🌙 Dark Mode Variables */
 [data-theme='dark'] {
   --color-background: #1f2937;
   --color-text: #f9fafb;
@@ -79,7 +77,7 @@ button[disabled] {
   color: var(--color-primary);
 }
 
-/* Headings */
+/* 📝 Typography */
 h1,
 h2,
 h3,
@@ -92,21 +90,20 @@ h6 {
   line-height: 1.2;
 }
 
-/* Paragraphs */
 p {
   color: var(--color-text);
   line-height: 1.6;
   margin: 0 0 1rem 0;
 }
 
-/* Responsive images */
+/* 🖼️ Responsive Media */
 img {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-/* Container max width for global use */
+/* 📦 Layout Container */
 .container {
   max-width: 1280px;
   margin-left: auto;

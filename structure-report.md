@@ -353,7 +353,7 @@ import '@/styles/global.css'
 // Providers & Routes
 import { ThemeProvider } from '@components/ThemeProvider'
 import AppRoutes from './routes/AppRoutes'
-import LoadingFallback from './routes/LoadingFallback'
+import LoadingFallback from '@components/common/LoadingFallback'
 
 const RootApp: React.FC = () => (
   <React.StrictMode>
@@ -382,7 +382,7 @@ export default RootApp
 
 ```tsx
 // src/routes/AppRoutes.tsx
-// ✅ Centralized, scalable routing with theme props, protected nested routes, and lazy loading
+// ✅ Centralized, scalable routing with theme props, protected nested routes, lazy loading, Tailwind + DaisyUI + A11y ready
 
 import React, { Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
@@ -430,84 +430,29 @@ export default AppRoutes
 
 ```tsx
 // src/pages/SecretRoomPage.tsx
-// Secure dashboard page with theme toggle, user greeting, full accessibility, and clean responsive layout
+// ✅ หน้า SecretRoom โหลดชื่อผู้ใช้จาก localStorage และแสดงแดชบอร์ดแบบแยกคอมโพเนนต์
 
-import React, { useEffect, useState, useCallback } from 'react'
-import Dashboard from '@components/SecretRoom/Dashboard'
-import ThemeToggleButton from '@components/SecretRoom/ThemeToggleButton'
-import UserProfileCard from '@components/SecretRoom/UserProfileCard'
-import { THEMES, getInitialTheme, applyTheme } from '@config/theme'
+import React, { useEffect, useState } from 'react'
+import SecretRoomDashboard from '@/components/SecretRoom/Dashboard'
 
 const SecretRoomPage: React.FC = () => {
-  const [username, setUsername] = useState('กำลังโหลด...')
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => getInitialTheme())
+  const [username, setUsername] = useState<string>('ไม่ระบุชื่อผู้ใช้งาน')
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser')?.trim()
-    setUsername(storedUser || 'ไม่ทราบชื่อผู้ใช้')
-
-    applyTheme(theme)
-  }, [theme])
-
-  const toggleTheme = useCallback(() => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark'
-    applyTheme(newTheme)
-    setTheme(newTheme)
-  }, [theme])
+    if (storedUser && storedUser !== '') {
+      setUsername(storedUser)
+    }
+  }, [])
 
   return (
     <main
       role="main"
-      aria-label="แดชบอร์ดระบบรักษาความปลอดภัย"
-      className="relative min-h-screen bg-base-100 px-4 py-16 text-base-content transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"
+      aria-label="หน้าหลักห้องลับ"
+      className="min-h-screen bg-base-100 px-4 py-10 sm:px-6 lg:px-8"
+      tabIndex={-1}
     >
-      {/* Theme Toggle Button */}
-      <div className="fixed right-4 top-4 z-50">
-        <ThemeToggleButton theme={theme} toggleTheme={toggleTheme} />
-      </div>
-
-      {/* Welcome Section */}
-      <section
-        aria-label="ข้อความต้อนรับผู้ใช้งาน"
-        tabIndex={0}
-        aria-live="polite"
-        aria-atomic="true"
-        className="mx-auto max-w-2xl space-y-4 text-center"
-      >
-        <h1
-          className="text-4xl font-extrabold tracking-tight text-primary sm:text-5xl"
-          tabIndex={0}
-        >
-          ยินดีต้อนรับสู่ระบบ
-        </h1>
-        <p className="text-lg leading-relaxed text-base-content/80 sm:text-xl">
-          สวัสดีคุณ{' '}
-          <span
-            className="font-semibold text-secondary underline decoration-secondary/60 underline-offset-4"
-            aria-label={`ชื่อผู้ใช้: ${username}`}
-            tabIndex={0}
-          >
-            {username}
-          </span>{' '}
-          👋
-          <br />
-          คุณเข้าสู่ระบบเรียบร้อยแล้ว
-        </p>
-      </section>
-
-      {/* User Profile Summary */}
-      <section aria-label="สรุปข้อมูลผู้ใช้งาน" className="mx-auto mt-10 max-w-md" tabIndex={-1}>
-        <UserProfileCard username={username} />
-      </section>
-
-      {/* Dashboard Section */}
-      <section
-        aria-label="แดชบอร์ดข้อมูลและระบบ"
-        className="mx-auto mt-12 w-full max-w-7xl rounded-2xl bg-base-200 p-6 shadow-xl outline-none transition-shadow duration-300 focus-within:shadow-2xl hover:shadow-2xl dark:bg-zinc-800 sm:p-10"
-        tabIndex={-1}
-      >
-        <Dashboard />
-      </section>
+      <SecretRoomDashboard username={username} />
     </main>
   )
 }
@@ -519,7 +464,7 @@ export default SecretRoomPage
 
 ```tsx
 // src/pages/AdminPage.tsx
-// แผงควบคุมผู้ดูแลระบบ พร้อมต้อนรับผู้ใช้และแสดงแดชบอร์ดอย่างมีประสิทธิภาพ
+// ✅ แผงควบคุมผู้ดูแลระบบ พร้อมต้อนรับและแสดงแดชบอร์ดอย่างเป็นระบบ
 
 import React, { useEffect, useState } from 'react'
 import AdminDashboard from '@components/AdminBoard/Dashboard'
@@ -539,22 +484,15 @@ const AdminPage: React.FC = () => {
       className="flex min-h-screen flex-col items-center bg-base-100 px-6 py-12 text-base-content transition-colors duration-300 dark:bg-gray-900"
       tabIndex={-1}
     >
-      {/* Header ต้อนรับผู้ใช้ */}
-      <header
-        className="mb-10 w-full max-w-xl select-text text-center"
-        aria-live="polite"
-        aria-atomic="true"
-      >
-        <h1
-          className="mb-3 text-3xl font-extrabold tracking-tight text-primary sm:text-4xl"
-          tabIndex={0}
-        >
+      {/* Header */}
+      <header className="mb-10 w-full max-w-xl text-center" aria-live="polite" aria-atomic="true">
+        <h1 className="mb-3 text-2xl font-bold text-primary sm:text-3xl md:text-4xl" tabIndex={0}>
           แผงควบคุมผู้ดูแลระบบ
         </h1>
-        <p className="text-lg text-muted sm:text-xl">
+        <p className="text-base text-muted sm:text-lg">
           ยินดีต้อนรับคุณ{' '}
           <span
-            className="font-semibold underline decoration-primary decoration-2"
+            className="font-semibold underline decoration-primary decoration-2 underline-offset-4"
             aria-label={`ชื่อผู้ใช้: ${username}`}
             tabIndex={0}
           >
@@ -563,7 +501,7 @@ const AdminPage: React.FC = () => {
         </p>
       </header>
 
-      {/* แดชบอร์ดผู้ดูแลระบบ */}
+      {/* Dashboard Section */}
       <section className="w-full max-w-7xl" tabIndex={-1} aria-label="แดชบอร์ดผู้ดูแลระบบ">
         <AdminDashboard />
       </section>
@@ -589,33 +527,34 @@ export default AdminPage
 │   ├── assets
 │   │   ├── 1hero.webp
 │   │   ├── 2hero.webp
-│   │   ├── AdminPage-DFp68Zig.js
-│   │   ├── AdminPage-DFp68Zig.js.map
-│   │   ├── CustomerAssessmentSummary-BdOVgZwd.js
-│   │   ├── CustomerAssessmentSummary-BdOVgZwd.js.map
+│   │   ├── AdminPage-DUp5W1q-.js
+│   │   ├── AdminPage-DUp5W1q-.js.map
+│   │   ├── CustomerAssessmentSummary-0JMa3-NI.js
+│   │   ├── CustomerAssessmentSummary-0JMa3-NI.js.map
 │   │   ├── Hhero.webp
-│   │   ├── IndexPage-BwI58qYs.js
-│   │   ├── IndexPage-BwI58qYs.js.map
-│   │   ├── LoginPage-BDSPTYxb.js
-│   │   ├── LoginPage-BDSPTYxb.js.map
-│   │   ├── NotFoundPage-apQR5Smh.js
-│   │   ├── NotFoundPage-apQR5Smh.js.map
-│   │   ├── SecretRoomPage-BOM36zZ0.js
-│   │   ├── SecretRoomPage-BOM36zZ0.js.map
+│   │   ├── IndexPage-C7NXcp5Q.js
+│   │   ├── IndexPage-C7NXcp5Q.js.map
+│   │   ├── LoginPage-CgZY00-e.js
+│   │   ├── LoginPage-CgZY00-e.js.map
+│   │   ├── NotFoundPage-CCfNB7ix.js
+│   │   ├── NotFoundPage-CCfNB7ix.js.map
+│   │   ├── SecretRoomPage-xHtPFFOQ.js
+│   │   ├── SecretRoomPage-xHtPFFOQ.js.map
 │   │   ├── about-IgS6mAQi.webp
 │   │   ├── about.webp
 │   │   ├── hero-BRaXPQvd.webp
 │   │   ├── hero.webp
-│   │   ├── index-B-JNwvOM.js
-│   │   ├── index-B-JNwvOM.js.map
-│   │   ├── index-BsFq5mWC.css
+│   │   ├── index-Ck4AytuD.js
+│   │   ├── index-Ck4AytuD.js.map
+│   │   ├── index-D81hfBqJ.css
 │   │   ├── jp-logo-CH0zBIqT.webp
 │   │   ├── jp-logo.webp
+│   │   ├── login-DUzPWDzB.webp
 │   │   ├── logo.svg
 │   │   ├── signature-BovtCThw.webp
 │   │   ├── signature.webp
-│   │   ├── vendor-BK35A2Ft.js
-│   │   └── vendor-BK35A2Ft.js.map
+│   │   ├── vendor-Ccc7z4H6.js
+│   │   └── vendor-Ccc7z4H6.js.map
 │   ├── docs
 │   │   ├── certificate.pdf
 │   │   ├── contract.pdf
@@ -712,6 +651,7 @@ export default AdminPage
 │   │   ├── about.webp
 │   │   ├── hero.webp
 │   │   ├── jp-logo.webp
+│   │   ├── login.webp
 │   │   ├── logo.svg
 │   │   └── signature.webp
 │   ├── components
@@ -719,12 +659,15 @@ export default AdminPage
 │   │   ├── AdminBoard
 │   │   │   ├── CustomerCard.tsx
 │   │   │   ├── Dashboard.tsx
+│   │   │   ├── FormFieldWrapper.tsx
 │   │   │   ├── SalaryCertificate.tsx
 │   │   │   ├── StatsPanel.tsx
 │   │   │   └── UserTable.tsx
 │   │   ├── CTASection.tsx
+│   │   ├── ConfirmationDialog.tsx
 │   │   ├── CustomerAssessmentForm.tsx
 │   │   ├── CustomerCard.tsx
+│   │   ├── DataTable.tsx
 │   │   ├── ErrorBoundary.tsx
 │   │   ├── Feature.tsx
 │   │   ├── Footer.tsx
@@ -732,7 +675,8 @@ export default AdminPage
 │   │   ├── Header.tsx
 │   │   ├── Hero.tsx
 │   │   ├── Layout
-│   │   │   └── MainLayout.tsx
+│   │   │   ├── MainLayout.tsx
+│   │   │   └── PageWrapper.tsx
 │   │   ├── LoadingSpinner.tsx
 │   │   ├── NotificationBanner.tsx
 │   │   ├── ProtectedRoute.tsx
@@ -778,9 +722,16 @@ export default AdminPage
 │   │   │   └── index.ts
 │   │   └── ui
 │   │       ├── Accordion.tsx
+│   │       ├── Alert.tsx
+│   │       ├── Badge.tsx
 │   │       ├── DashboardCard.tsx
+│   │       ├── DropdownMenu.tsx
 │   │       ├── Input.tsx
 │   │       ├── Modal.tsx
+│   │       ├── Section.tsx
+│   │       ├── Skeleton.tsx
+│   │       ├── Spinner.tsx
+│   │       ├── Stepper.tsx
 │   │       ├── Tabs.tsx
 │   │       ├── Tooltip.tsx
 │   │       └── card.tsx
@@ -832,7 +783,7 @@ export default AdminPage
 ├── vercel.json
 └── vite.config.ts
 
-36 directories, 218 files
+36 directories, 231 files
 ```
 
 ## 📁 src Tree: Full
@@ -849,6 +800,7 @@ export default AdminPage
 │   ├── about.webp
 │   ├── hero.webp
 │   ├── jp-logo.webp
+│   ├── login.webp
 │   ├── logo.svg
 │   └── signature.webp
 ├── components
@@ -856,12 +808,15 @@ export default AdminPage
 │   ├── AdminBoard
 │   │   ├── CustomerCard.tsx
 │   │   ├── Dashboard.tsx
+│   │   ├── FormFieldWrapper.tsx
 │   │   ├── SalaryCertificate.tsx
 │   │   ├── StatsPanel.tsx
 │   │   └── UserTable.tsx
 │   ├── CTASection.tsx
+│   ├── ConfirmationDialog.tsx
 │   ├── CustomerAssessmentForm.tsx
 │   ├── CustomerCard.tsx
+│   ├── DataTable.tsx
 │   ├── ErrorBoundary.tsx
 │   ├── Feature.tsx
 │   ├── Footer.tsx
@@ -869,7 +824,8 @@ export default AdminPage
 │   ├── Header.tsx
 │   ├── Hero.tsx
 │   ├── Layout
-│   │   └── MainLayout.tsx
+│   │   ├── MainLayout.tsx
+│   │   └── PageWrapper.tsx
 │   ├── LoadingSpinner.tsx
 │   ├── NotificationBanner.tsx
 │   ├── ProtectedRoute.tsx
@@ -915,9 +871,16 @@ export default AdminPage
 │   │   └── index.ts
 │   └── ui
 │       ├── Accordion.tsx
+│       ├── Alert.tsx
+│       ├── Badge.tsx
 │       ├── DashboardCard.tsx
+│       ├── DropdownMenu.tsx
 │       ├── Input.tsx
 │       ├── Modal.tsx
+│       ├── Section.tsx
+│       ├── Skeleton.tsx
+│       ├── Spinner.tsx
+│       ├── Stepper.tsx
 │       ├── Tabs.tsx
 │       ├── Tooltip.tsx
 │       └── card.tsx
@@ -963,7 +926,7 @@ export default AdminPage
     ├── formatDate.ts
     └── hashPassword.ts
 
-18 directories, 106 files
+18 directories, 118 files
 ```
 
 ## 📌 Dev Partner Note
@@ -1018,4 +981,4 @@ File tree:
 Ready for dev or deployment.
 
 Ask next task or specific code/bug fix.
-🕛 Last Checked: Thu Jul 24 01:03:18 +07 2025
+🕛 Last Checked: Thu Jul 24 03:39:18 +07 2025

@@ -1,5 +1,5 @@
 // src/components/ui/Accordion.tsx
-// ✅ Accessible Accordion with smooth toggle, keyboard nav, ARIA roles, and optimized transitions
+// ✅ Accessible Accordion พร้อม ARIA, keyboard toggle, animation และ smooth UX
 
 import React, { useState, useCallback, KeyboardEvent } from 'react'
 import { ChevronDown } from 'lucide-react'
@@ -62,7 +62,7 @@ const Accordion: React.FC<AccordionProps> = ({ items, defaultOpenId, className =
               role="region"
               aria-labelledby={`accordion-header-${id}`}
               className={clsx(
-                'mt-2 overflow-hidden px-4 text-sm text-base-content transition-[max-height,opacity] duration-300 ease-in-out',
+                'mt-2 overflow-hidden px-4 text-sm text-base-content transition-all duration-300 ease-in-out',
                 isOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
               )}
             >

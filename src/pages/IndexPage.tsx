@@ -1,5 +1,5 @@
 // src/pages/IndexPage.tsx
-// ✅ Accessible homepage with smooth UX, focus management, theme toggle, modular sections, and ARIA best practices
+// ✅ Accessible homepage with Tailwind + DaisyUI theme-aware + A11y, smooth UX, focus mgmt, modular sections, ARIA best practices
 
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 
@@ -14,7 +14,6 @@ import CTASection from '@components/CTASection'
 import Footer from '@components/Footer'
 import ServiceRequestModal from '@components/common/ServiceRequestModal'
 import NotificationBanner from '@components/NotificationBanner'
-import Button from '@components/common/Button'
 import { Check } from 'lucide-react'
 
 interface IndexPageProps {
@@ -27,20 +26,16 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
   const [showBanner, setShowBanner] = useState(true)
   const mainContentRef = useRef<HTMLElement>(null)
 
-  // Close modal on Escape key only when modal is open
   useEffect(() => {
     if (!selectedService) return
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setSelectedService(null)
-      }
+      if (e.key === 'Escape') setSelectedService(null)
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [selectedService])
 
-  // Manage scroll lock and aria-hidden on modal open/close
   useEffect(() => {
     if (selectedService) {
       document.body.style.overflow = 'hidden'
@@ -57,9 +52,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
     }
   }, [selectedService])
 
-  const onRequestService = useCallback((service: Service) => {
-    setSelectedService(service)
-  }, [])
+  const onRequestService = useCallback((service: Service) => setSelectedService(service), [])
 
   return (
     <div
@@ -67,7 +60,6 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
       className="flex min-h-screen flex-col bg-base-100 font-sans text-base-content transition-colors duration-300"
     >
       <div className="mx-auto flex w-full max-w-screen-xl flex-grow flex-col px-4 sm:px-6 lg:px-16">
-        {/* Notification Banner */}
         {showBanner && (
           <NotificationBanner
             message="อัปเดตสำเร็จ"
@@ -101,7 +93,6 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
         <Footer />
       </div>
 
-      {/* Floating Theme Toggle Button */}
       <button
         type="button"
         aria-label={`สลับเป็นโหมด ${theme === 'light' ? 'มืด' : 'สว่าง'}`}
@@ -134,7 +125,6 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
         )}
       </button>
 
-      {/* Service Request Modal */}
       <ServiceRequestModal service={selectedService} onClose={() => setSelectedService(null)} />
     </div>
   )
