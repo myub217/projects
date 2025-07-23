@@ -16,6 +16,7 @@ chmod +x .husky/pre-commit
 # แก้ไขไฟล์ hook ใน .husky/_/* ให้ใช้ shebang กับ path husky.sh แบบใหม่
 for file in .husky/_/*; do
   if [ -f "$file" ]; then
+    # แก้ไข shebang จาก deprecated เป็นแบบใหม่
     sed -i -e '1s|#!/usr/bin/env sh|#!/bin/sh|' \
            -e '2s|. "$(dirname -- "$0")/_/husky.sh"|. "$(dirname "$0")/_/husky.sh"|' "$file"
   fi
