@@ -1,4 +1,4 @@
-// vite.config.ts
+// ✅ Final: vite.config.ts
 
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -10,6 +10,8 @@ import fs from 'fs'
 export default defineConfig({
   plugins: [
     react(),
+
+    // ✅ Progressive Web App (PWA)
     VitePWA({
       strategies: 'injectManifest',
       srcDir: 'src',
@@ -33,9 +35,13 @@ export default defineConfig({
         type: 'module',
       },
     }),
+
+    // ✅ Static Asset Copy
     viteStaticCopy({
       targets: [{ src: 'public/images', dest: '' }],
     }),
+
+    // ✅ Mock API Endpoint
     {
       name: 'mock-api',
       configureServer(server) {
@@ -53,6 +59,8 @@ export default defineConfig({
       },
     },
   ],
+
+  // ✅ Path Aliases
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
@@ -67,6 +75,8 @@ export default defineConfig({
       '@config': path.resolve(__dirname, 'src/config'),
     },
   },
+
+  // ✅ Dev Server Config
   server: {
     host: '0.0.0.0',
     port: 5173,
@@ -79,21 +89,25 @@ export default defineConfig({
       },
     },
   },
+
+  // ✅ Build Optimization
   build: {
     outDir: 'dist',
     emptyOutDir: true,
     target: 'esnext',
     sourcemap: true,
-    chunkSizeWarningLimit: 700, // เพิ่ม limit เต็มที่ รับได้ใหญ่ขึ้น
+    chunkSizeWarningLimit: 700,
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules/react')) return 'react-vendor' // แยก react แยกเดี่ยว
-          if (id.includes('node_modules')) return 'vendor' // แยก libs อื่น
+          if (id.includes('node_modules/react')) return 'react-vendor'
+          if (id.includes('node_modules')) return 'vendor'
         },
       },
     },
   },
+
+  // ✅ Dependency Optimization
   optimizeDeps: {
     include: ['react', 'react-dom'],
   },
