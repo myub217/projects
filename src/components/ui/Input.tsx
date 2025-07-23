@@ -1,5 +1,5 @@
 // src/components/ui/Input.tsx
-// Reusable controlled input component with label, error, and accessibility
+// Reusable controlled input with label, error handling, accessibility, and customizable styling
 
 import React, { forwardRef, InputHTMLAttributes } from 'react'
 import clsx from 'clsx'
@@ -21,7 +21,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300 select-none"
+            className="mb-1 text-sm font-semibold text-gray-700 dark:text-gray-300 select-none"
           >
             {label}
           </label>
@@ -40,6 +40,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               : 'border-gray-300 dark:border-gray-600',
             'transition-colors duration-150',
             'disabled:opacity-50 disabled:cursor-not-allowed',
+            'shadow-sm',
           )}
           {...props}
         />

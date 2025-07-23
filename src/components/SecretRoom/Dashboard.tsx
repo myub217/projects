@@ -1,5 +1,5 @@
 // src/components/SecretRoom/Dashboard.tsx
-// Refined, fully accessible dashboard with semantic roles, responsive grid layout, consistent spacing, and optimized hooks
+// Accessible, responsive dashboard with optimized hooks, semantic roles, consistent styling, maintainability, and online status awareness
 
 import React, { useCallback, useMemo } from 'react'
 import HeaderBlock from './HeaderBlock'
@@ -11,19 +11,21 @@ import FileUpload from './FileUpload'
 import AccessLogTable from './AccessLogTable'
 import HelpSupport from './HelpSupport'
 import CustomerLoanProgressGraph from './CustomerLoanProgressGraph'
+import { useOnlineStatus } from '@/hooks/useOnlineStatus'
 
 const Dashboard: React.FC = () => {
-  const username = useMemo(
-    () => localStorage.getItem('loggedInUser')?.trim() || 'ไม่ทราบชื่อผู้ใช้',
-    []
-  )
+  const isOnline = useOnlineStatus()
+
+  const username = useMemo(() => {
+    const stored = localStorage.getItem('loggedInUser')
+    return stored?.trim() || 'ไม่ทราบชื่อผู้ใช้'
+  }, [])
 
   const handleFileSelect = useCallback((files: File | File[]) => {
-    if (Array.isArray(files)) {
-      console.log('📁 ไฟล์ที่เลือก:', files.map((f) => f.name).join(', '))
-    } else {
-      console.log('📁 ไฟล์ที่เลือก:', files.name)
-    }
+    const fileNames = Array.isArray(files)
+      ? files.map((file) => file.name).join(', ')
+      : files.name
+    console.log('📁 ไฟล์ที่เลือก:', fileNames)
     // TODO: Integrate backend upload API here
   }, [])
 
@@ -36,6 +38,20 @@ const Dashboard: React.FC = () => {
     >
       {/* Header */}
       <HeaderBlock />
+
+      {/* Online Status Indicator */}
+      <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className={`self-end px-3 py-1 rounded-full text-sm font-semibold select-none ${
+          isOnline
+            ? 'bg-success text-success-content'
+            : 'bg-error text-error-content'
+        }`}
+      >
+        {isOnline ? 'ออนไลน์' : 'ออฟไลน์'}
+      </div>
 
       {/* User Profile & Notifications */}
       <section
@@ -74,7 +90,14 @@ const Dashboard: React.FC = () => {
           onFileSelect={handleFileSelect}
           accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
           multiple
+          disabled={!isOnline}
+          aria-disabled={!isOnline}
         />
+        {!isOnline && (
+          <p className="mt-2 text-sm text-error select-none" role="alert">
+            ไม่สามารถอัปโหลดเอกสารได้ ขณะออฟไลน์
+          </p>
+        )}
       </section>
 
       {/* Access Log Table */}

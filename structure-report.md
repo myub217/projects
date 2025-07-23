@@ -232,7 +232,7 @@ export default defineConfig({
     }),
     viteStaticCopy({
       targets: [
-        { src: 'public/images', dest: 'images' }
+        { src: 'public/images', dest: 'images' },
       ],
     }),
     {
@@ -270,13 +270,16 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
     open: true,
-    proxy: process.env.USE_MOCK === 'true' ? {} : {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        secure: false,
-      },
-    },
+    proxy:
+      process.env.USE_MOCK === 'true'
+        ? {}
+        : {
+            '/api': {
+              target: 'http://localhost:3000',
+              changeOrigin: true,
+              secure: false,
+            },
+          },
   },
   build: {
     outDir: 'dist',
@@ -339,40 +342,44 @@ export default RootApp```
 ## 🧩 src/routes/AppRoutes.tsx
 ```tsx
 // src/routes/AppRoutes.tsx
-// ✅ Centralized, scalable routing with theme props and protected nested routes
+// Centralized, scalable routing with theme props, protected nested routes, and lazy loading
 
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
-
-import IndexPage from '@pages/IndexPage'
-import LoginPage from '@pages/LoginPage'
-import SecretRoomPage from '@pages/SecretRoomPage'
-import AdminPage from '@pages/AdminPage'
-import CustomerAssessmentSummary from '@pages/CustomerAssessmentSummary'
-import NotFoundPage from '@pages/NotFoundPage'
 
 import ProtectedRoute from '@components/ProtectedRoute'
 import { useTheme } from '@components/ThemeProvider'
+import LoadingFallback from '@components/common/LoadingFallback'
+
+// Lazy load pages for improved performance and bundle size
+const IndexPage = lazy(() => import('@pages/IndexPage'))
+const LoginPage = lazy(() => import('@pages/LoginPage'))
+const SecretRoomPage = lazy(() => import('@pages/SecretRoomPage'))
+const AdminPage = lazy(() => import('@pages/AdminPage'))
+const CustomerAssessmentSummary = lazy(() => import('@pages/CustomerAssessmentSummary'))
+const NotFoundPage = lazy(() => import('@pages/NotFoundPage'))
 
 const AppRoutes: React.FC = () => {
   const { theme, toggleTheme } = useTheme()
 
   return (
-    <Routes>
-      {/* Public Routes */}
-      <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
-      <Route path="login" element={<LoginPage />} />
+    <Suspense fallback={<LoadingFallback />}>
+      <Routes>
+        {/* Public Routes */}
+        <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
+        <Route path="login" element={<LoginPage />} />
 
-      {/* Protected Routes Wrapper */}
-      <Route element={<ProtectedRoute />}>
-        <Route path="secret" element={<SecretRoomPage />} />
-        <Route path="admin" element={<AdminPage />} />
-        <Route path="customer-assessment-summary" element={<CustomerAssessmentSummary />} />
-      </Route>
+        {/* Protected Routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="secret" element={<SecretRoomPage />} />
+          <Route path="admin" element={<AdminPage />} />
+          <Route path="customer-assessment-summary" element={<CustomerAssessmentSummary />} />
+        </Route>
 
-      {/* Fallback */}
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
+        {/* Catch-all Fallback */}
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </Suspense>
   )
 }
 
@@ -381,7 +388,7 @@ export default AppRoutes```
 ## 🧩 src/pages/SecretRoomPage.tsx
 ```tsx
 // src/pages/SecretRoomPage.tsx
-// ✅ Secure dashboard with theme toggle, user profile summary, accessibility, and clean structure
+// Secure dashboard page with theme toggle, user greeting, full accessibility, and clean responsive layout
 
 import React, { useEffect, useState, useCallback } from 'react'
 import Dashboard from '@components/SecretRoom/Dashboard'
@@ -397,13 +404,20 @@ const SecretRoomPage: React.FC = () => {
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser')?.trim()
     setUsername(storedUser || 'ไม่ทราบชื่อผู้ใช้')
+
+    // Sync theme from localStorage on mount
+    const storedTheme = localStorage.getItem('theme')
+    if (storedTheme === 'dark' || storedTheme === 'light') {
+      setTheme(storedTheme)
+      document.documentElement.classList.toggle('dark', storedTheme === 'dark')
+    }
   }, [])
 
   const toggleTheme = useCallback(() => {
     const root = document.documentElement
-    const isCurrentlyDark = root.classList.contains('dark')
-    const newTheme = isCurrentlyDark ? 'light' : 'dark'
-    root.classList.toggle('dark', !isCurrentlyDark)
+    const isDark = root.classList.contains('dark')
+    const newTheme = isDark ? 'light' : 'dark'
+    root.classList.toggle('dark', !isDark)
     localStorage.setItem('theme', newTheme)
     setTheme(newTheme)
   }, [])
@@ -424,6 +438,7 @@ const SecretRoomPage: React.FC = () => {
         aria-label="ข้อความต้อนรับผู้ใช้งาน"
         tabIndex={0}
         aria-live="polite"
+        aria-atomic="true"
         className="max-w-2xl mx-auto text-center space-y-4"
       >
         <h1
@@ -432,7 +447,7 @@ const SecretRoomPage: React.FC = () => {
         >
           ยินดีต้อนรับสู่ระบบ
         </h1>
-        <p className="text-lg sm:text-xl text-base-content/80">
+        <p className="text-lg sm:text-xl text-base-content/80 leading-relaxed">
           สวัสดีคุณ{' '}
           <span
             className="font-semibold text-secondary underline underline-offset-4 decoration-secondary/60"
@@ -458,7 +473,7 @@ const SecretRoomPage: React.FC = () => {
       {/* Dashboard Section */}
       <section
         aria-label="แดชบอร์ดข้อมูลและระบบ"
-        className="mt-12 w-full max-w-7xl mx-auto p-6 sm:p-10 bg-base-200 dark:bg-zinc-800 rounded-2xl shadow-xl transition-shadow hover:shadow-2xl focus-within:shadow-2xl"
+        className="mt-12 w-full max-w-7xl mx-auto p-6 sm:p-10 bg-base-200 dark:bg-zinc-800 rounded-2xl shadow-xl transition-shadow duration-300 hover:shadow-2xl focus-within:shadow-2xl outline-none"
         tabIndex={-1}
       >
         <Dashboard />
@@ -585,6 +600,7 @@ export default AdminPage```
 │   ├── CTASection.tsx
 │   ├── CustomerAssessmentForm.tsx
 │   ├── CustomerCard.tsx
+│   ├── ErrorBoundary.tsx
 │   ├── Feature.tsx
 │   ├── Footer.tsx
 │   ├── Header.tsx
@@ -600,9 +616,11 @@ export default AdminPage```
 │   │   ├── AccessLogTable.tsx
 │   │   ├── CustomerLoanProgressGraph.tsx
 │   │   ├── Dashboard.tsx
+│   │   ├── DashboardCard.tsx
 │   │   ├── FileUpload.tsx
 │   │   ├── HeaderBlock.tsx
 │   │   ├── HelpSupport.tsx
+│   │   ├── NotificationToast.tsx
 │   │   ├── NotificationsPanel.tsx
 │   │   ├── PerformanceMetrics.tsx
 │   │   ├── SystemCheckCard.tsx
@@ -615,13 +633,16 @@ export default AdminPage```
 │   ├── common
 │   │   ├── Badge.tsx
 │   │   ├── Button.tsx
+│   │   ├── DashboardCard.tsx
 │   │   ├── ErrorMessage.tsx
 │   │   ├── FormGroup.tsx
 │   │   ├── Icon.tsx
+│   │   ├── LoadingFallback.tsx
 │   │   ├── LoadingSpinner.tsx
 │   │   ├── Modal.tsx
 │   │   ├── SectionHeader.tsx
-│   │   └── ServiceRequestModal.tsx
+│   │   ├── ServiceRequestModal.tsx
+│   │   └── UserAvatar.tsx
 │   ├── contact
 │   │   ├── ContactCard.tsx
 │   │   ├── ContactIconButton.tsx
@@ -629,6 +650,8 @@ export default AdminPage```
 │   │   └── index.ts
 │   └── ui
 │       ├── Accordion.tsx
+│       ├── DashboardCard.tsx
+│       ├── Input.tsx
 │       ├── Modal.tsx
 │       ├── Tabs.tsx
 │       └── Tooltip.tsx
@@ -641,6 +664,8 @@ export default AdminPage```
 │   ├── reviewsData.ts
 │   ├── servicesData.ts
 │   └── users.ts
+├── hooks
+│   └── useOnlineStatus.ts
 ├── main.tsx
 ├── pages
 │   ├── AdminPage.tsx
@@ -648,7 +673,8 @@ export default AdminPage```
 │   ├── IndexPage.tsx
 │   ├── LoginPage.tsx
 │   ├── NotFoundPage.tsx
-│   └── SecretRoomPage.tsx
+│   ├── SecretRoomPage.tsx
+│   └── SettingsPage.tsx
 ├── routes
 │   ├── AppRoutes.tsx
 │   └── LoadingFallback.tsx
@@ -664,9 +690,10 @@ export default AdminPage```
 │   ├── user.ts
 │   └── vite-env.d.ts
 └── utils
+    ├── formatDate.ts
     └── hashPassword.ts
 
-17 directories, 86 files
+18 directories, 97 files
 ```
 
 ## 📌 Dev Partner Note
@@ -717,4 +744,4 @@ Ask next task or specific code/bug fix.
 📂 โครงสร้างทั้งหมดแนบไว้ใน Report นี้แล้ว  
 🧠 เข้าใจบริบทแล้ว พร้อมรับคำสั่งถัดไปได้เลย
 
-🕛 Last Checked: Wed Jul 23 12:57:21 +07 2025
+🕛 Last Checked: Wed Jul 23 14:15:52 +07 2025

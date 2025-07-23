@@ -1,5 +1,5 @@
 // src/pages/SecretRoomPage.tsx
-// Secure dashboard with theme toggle, user profile summary, full accessibility, and clean, responsive layout
+// Secure dashboard page with theme toggle, user greeting, full accessibility, and clean responsive layout
 
 import React, { useEffect, useState, useCallback } from 'react'
 import Dashboard from '@components/SecretRoom/Dashboard'
@@ -15,6 +15,13 @@ const SecretRoomPage: React.FC = () => {
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser')?.trim()
     setUsername(storedUser || 'ไม่ทราบชื่อผู้ใช้')
+
+    // Sync theme from localStorage on mount
+    const storedTheme = localStorage.getItem('theme')
+    if (storedTheme === 'dark' || storedTheme === 'light') {
+      setTheme(storedTheme)
+      document.documentElement.classList.toggle('dark', storedTheme === 'dark')
+    }
   }, [])
 
   const toggleTheme = useCallback(() => {
@@ -42,6 +49,7 @@ const SecretRoomPage: React.FC = () => {
         aria-label="ข้อความต้อนรับผู้ใช้งาน"
         tabIndex={0}
         aria-live="polite"
+        aria-atomic="true"
         className="max-w-2xl mx-auto text-center space-y-4"
       >
         <h1

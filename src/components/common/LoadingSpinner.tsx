@@ -1,22 +1,33 @@
 // src/components/common/LoadingSpinner.tsx
-// ✅ Optimized accessible spinner with TailwindCSS, clean SVG, and ARIA roles
+// Optimized, accessible spinner with TailwindCSS, clean SVG, ARIA roles, and customizable size & color
 
 import React from 'react'
 
-const LoadingSpinner: React.FC = () => (
+interface LoadingSpinnerProps {
+  size?: number | string
+  colorClass?: string
+  label?: string
+}
+
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
+  size = 32,
+  colorClass = 'text-primary',
+  label = 'กำลังโหลดข้อมูล',
+}) => (
   <div
     role="status"
     aria-live="polite"
-    aria-label="กำลังโหลดข้อมูล"
+    aria-label={label}
     className="flex justify-center items-center p-4"
   >
     <svg
-      className="animate-spin h-8 w-8 text-primary"
+      className={`animate-spin ${typeof size === 'number' ? `h-[${size}px] w-[${size}px]` : `h-${size} w-${size}`} ${colorClass}`}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
       aria-hidden="true"
       focusable="false"
+      style={{ height: typeof size === 'number' ? size : undefined, width: typeof size === 'number' ? size : undefined }}
     >
       <circle
         className="opacity-25"
@@ -32,7 +43,7 @@ const LoadingSpinner: React.FC = () => (
         d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
       />
     </svg>
-    <span className="sr-only">กำลังโหลดข้อมูล</span>
+    <span className="sr-only">{label}</span>
   </div>
 )
 

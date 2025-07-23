@@ -1,0 +1,63 @@
+// src/components/ErrorBoundary.tsx
+import React, { ErrorInfo, ReactNode } from 'react'
+
+interface ErrorBoundaryProps {
+  children: ReactNode
+  fallback?: ReactNode
+  onError?: (error: Error, info: ErrorInfo) => void
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean
+  error?: Error | null
+}
+
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props)
+    this.state = { hasError: false, error: null }
+  }
+
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error }
+  }
+
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    // Log error to monitoring service if provided
+    if (this.props.onError) {
+      this.props.onError(error, info)
+    }
+    // Always log to console as fallback
+    console.error('❌ ErrorBoundary caught error:', error, info)
+  }
+
+  componentDidUpdate(prevProps: ErrorBoundaryProps) {
+    // Reset error state if children change to allow retry render
+    if (this.state.hasError && prevProps.children !== this.props.children) {
+      this.setState({ hasError: false, error: null })
+    }
+  }
+
+  render() {
+    if (this.state.hasError) {
+      if (this.props.fallback) return this.props.fallback
+
+      return (
+        <section
+          role="alert"
+          aria-live="assertive"
+          className="p-6 bg-error text-error-content rounded-md shadow-md max-w-xl mx-auto mt-10"
+        >
+          <h2 className="text-xl font-semibold mb-2">เกิดข้อผิดพลาดในระบบ</h2>
+          <p className="text-sm">
+            {this.state.error?.message || 'เกิดข้อผิดพลาดบางอย่าง กรุณาลองใหม่อีกครั้ง'}
+          </p>
+        </section>
+      )
+    }
+
+    return this.props.children
+  }
+}
+
+export default ErrorBoundary

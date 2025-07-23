@@ -28,8 +28,10 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
 
   // Close modal on Escape key only when modal is open
   useEffect(() => {
+    if (!selectedService) return
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && selectedService) {
+      if (e.key === 'Escape') {
         setSelectedService(null)
       }
     }
@@ -39,11 +41,12 @@ const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
 
   // Manage scroll lock and aria-hidden on modal open/close
   useEffect(() => {
-    document.body.style.overflow = selectedService ? 'hidden' : ''
     if (selectedService) {
+      document.body.style.overflow = 'hidden'
       mainContentRef.current?.setAttribute('aria-hidden', 'true')
       mainContentRef.current?.blur()
     } else {
+      document.body.style.overflow = ''
       mainContentRef.current?.removeAttribute('aria-hidden')
       mainContentRef.current?.focus()
     }

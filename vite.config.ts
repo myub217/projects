@@ -33,7 +33,7 @@ export default defineConfig({
     }),
     viteStaticCopy({
       targets: [
-        { src: 'public/images', dest: 'images' }
+        { src: 'public/images', dest: 'images' },
       ],
     }),
     {
@@ -71,13 +71,16 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
     open: true,
-    proxy: process.env.USE_MOCK === 'true' ? {} : {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        secure: false,
-      },
-    },
+    proxy:
+      process.env.USE_MOCK === 'true'
+        ? {}
+        : {
+            '/api': {
+              target: 'http://localhost:3000',
+              changeOrigin: true,
+              secure: false,
+            },
+          },
   },
   build: {
     outDir: 'dist',

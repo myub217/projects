@@ -1,6 +1,3 @@
-// src/components/ui/Tooltip.tsx
-// ✅ Accessible Tooltip with smooth fade, delay, keyboard support, and flexible positioning
-
 import React, { useState, useRef, useEffect, ReactNode } from 'react'
 import clsx from 'clsx'
 
@@ -21,6 +18,7 @@ const Tooltip: React.FC<TooltipProps> = ({
 }) => {
   const [visible, setVisible] = useState(false)
   const timeoutRef = useRef<number | null>(null)
+  const idRef = useRef(`tooltip-${Math.random().toString(36).slice(2, 11)}`)
 
   const showTooltip = () => {
     timeoutRef.current = window.setTimeout(() => setVisible(true), delay)
@@ -36,9 +34,7 @@ const Tooltip: React.FC<TooltipProps> = ({
 
   useEffect(() => {
     return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current)
-      }
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
   }, [])
 
@@ -56,13 +52,14 @@ const Tooltip: React.FC<TooltipProps> = ({
       onMouseLeave={hideTooltip}
       onFocus={showTooltip}
       onBlur={hideTooltip}
-      tabIndex={0} // ensure focusable for keyboard users
-      aria-describedby="tooltip-content"
+      tabIndex={0}
+      aria-describedby={idRef.current}
     >
       {children}
       <div
-        id="tooltip-content"
+        id={idRef.current}
         role="tooltip"
+        aria-live="polite"
         className={clsx(
           'pointer-events-none absolute z-50 px-2 py-1 rounded-md bg-gray-800 text-white text-xs whitespace-nowrap shadow-md transition-opacity duration-200',
           visible ? 'opacity-100' : 'opacity-0',
