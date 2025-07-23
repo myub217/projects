@@ -1,49 +1,35 @@
-// ✅ api/contact.ts – API Endpoint สำหรับฟอร์มติดต่อ (Contact Form) พร้อมใช้งาน
+// api/contact.ts
+import type { VercelRequest, VercelResponse } from '@vercel/node'
+import nodemailer from 'nodemailer'
 
-import express from 'express';
-import nodemailer from 'nodemailer';
-import dotenv from 'dotenv';
-
-dotenv.config();
-
-const router = express.Router();
-
-router.post('/contact', async (req, res) => {
-  const { name, email, message } = req.body;
-
-  if (!name?.trim() || !email?.trim() || !message?.trim()) {
-    return res.status(400).json({ error: 'กรุณากรอกข้อมูลให้ครบถ้วน' });
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method Not Allowed' })
   }
+
+  const { message } = req.body || {}
+  if (!message) {
+    return res.status(400).json({ error: 'Missing message' })
+  }
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.MAIL_USER,
+      pass: process.env.MAIL_PASS,
+    },
+  })
 
   try {
-    const transporter = nodemailer.createTransport({
-      host: process.env.MAIL_HOST || 'smtp.gmail.com',
-      port: Number(process.env.MAIL_PORT) || 587,
-      secure: false,
-      auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
-      },
-    });
-
     await transporter.sendMail({
-      from: `"${name}" <${email}>`,
-      to: process.env.MAIL_TO,
-      subject: '📩 ข้อความใหม่จาก Contact Form',
-      html: `
-        <h2>คุณมีข้อความใหม่จากเว็บไซต์</h2>
-        <p><strong>ชื่อ:</strong> ${name}</p>
-        <p><strong>อีเมล:</strong> ${email}</p>
-        <p><strong>ข้อความ:</strong></p>
-        <p>${message.replace(/\n/g, '<br/>')}</p>
-      `,
-    });
+      from: process.env.MAIL_USER,
+      to: process.env.MAIL_RECEIVER,
+      subject: 'New Contact',
+      text: message,
+    })
 
-    return res.status(200).json({ success: true, message: 'ส่งข้อความสำเร็จแล้ว' });
+    res.status(200).json({ ok: true })
   } catch (error) {
-    console.error('❌ Error sending mail:', error);
-    return res.status(500).json({ error: 'ไม่สามารถส่งข้อความได้ในขณะนี้' });
+    res.status(500).json({ error: 'Failed to send email' })
   }
-});
-
-export default router;
+}
