@@ -1,2 +1,12 @@
+# /data/data/com.termux/files/home/projects1/pnpm-workspace.yaml
+
+# pnpm workspace config to specify built dependencies for optimization
 onlyBuiltDependencies:
   - esbuild
+
+# เพิ่มเติม: 
+# - กรณีเป็น mono-repo สามารถเพิ่ม packages: [] เพื่อระบุ workspace packages ได้
+# - ปรับแต่งตาม project structure เช่น
+# packages:
+#   - 'packages/*'
+#   - 'apps/*'
