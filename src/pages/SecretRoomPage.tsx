@@ -1,5 +1,5 @@
 // src/pages/SecretRoomPage.tsx
-// ✅ Secure dashboard with theme toggle, user profile summary, accessibility, and clean structure
+// Secure dashboard with theme toggle, user profile summary, full accessibility, and clean, responsive layout
 
 import React, { useEffect, useState, useCallback } from 'react'
 import Dashboard from '@components/SecretRoom/Dashboard'
@@ -19,9 +19,9 @@ const SecretRoomPage: React.FC = () => {
 
   const toggleTheme = useCallback(() => {
     const root = document.documentElement
-    const isCurrentlyDark = root.classList.contains('dark')
-    const newTheme = isCurrentlyDark ? 'light' : 'dark'
-    root.classList.toggle('dark', !isCurrentlyDark)
+    const isDark = root.classList.contains('dark')
+    const newTheme = isDark ? 'light' : 'dark'
+    root.classList.toggle('dark', !isDark)
     localStorage.setItem('theme', newTheme)
     setTheme(newTheme)
   }, [])
@@ -50,7 +50,7 @@ const SecretRoomPage: React.FC = () => {
         >
           ยินดีต้อนรับสู่ระบบ
         </h1>
-        <p className="text-lg sm:text-xl text-base-content/80">
+        <p className="text-lg sm:text-xl text-base-content/80 leading-relaxed">
           สวัสดีคุณ{' '}
           <span
             className="font-semibold text-secondary underline underline-offset-4 decoration-secondary/60"
@@ -76,7 +76,7 @@ const SecretRoomPage: React.FC = () => {
       {/* Dashboard Section */}
       <section
         aria-label="แดชบอร์ดข้อมูลและระบบ"
-        className="mt-12 w-full max-w-7xl mx-auto p-6 sm:p-10 bg-base-200 dark:bg-zinc-800 rounded-2xl shadow-xl transition-shadow hover:shadow-2xl focus-within:shadow-2xl"
+        className="mt-12 w-full max-w-7xl mx-auto p-6 sm:p-10 bg-base-200 dark:bg-zinc-800 rounded-2xl shadow-xl transition-shadow duration-300 hover:shadow-2xl focus-within:shadow-2xl outline-none"
         tabIndex={-1}
       >
         <Dashboard />

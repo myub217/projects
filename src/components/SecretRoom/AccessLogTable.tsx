@@ -1,3 +1,6 @@
+// src/components/SecretRoom/AccessLogTable.tsx
+// Accessible, styled access log table with responsive layout and live region for dynamic updates
+
 import React from 'react'
 
 interface LogEntry {
@@ -29,20 +32,33 @@ const AccessLogTable: React.FC = () => {
       </header>
 
       <div className="overflow-x-auto rounded-xl border border-base-300 dark:border-base-700 shadow-inner">
-        <table role="table" className="table w-full border-collapse text-sm sm:text-base">
-          <thead className="bg-primary text-primary-content">
+        <table
+          role="table"
+          className="table-auto w-full border-collapse text-sm sm:text-base"
+        >
+          <thead className="bg-primary text-primary-content select-none">
             <tr>
-              <th scope="col" className="whitespace-nowrap px-4 py-3 text-left">เวลา</th>
-              <th scope="col" className="whitespace-nowrap px-4 py-3 text-left">ผู้ใช้งาน</th>
-              <th scope="col" className="whitespace-nowrap px-4 py-3 text-left">กิจกรรม</th>
+              <th scope="col" className="whitespace-nowrap px-4 py-3 text-left font-semibold">
+                เวลา
+              </th>
+              <th scope="col" className="whitespace-nowrap px-4 py-3 text-left font-semibold">
+                ผู้ใช้งาน
+              </th>
+              <th scope="col" className="whitespace-nowrap px-4 py-3 text-left font-semibold">
+                กิจกรรม
+              </th>
             </tr>
           </thead>
-          <tbody aria-live="polite" aria-relevant="additions removals">
+          <tbody
+            aria-live="polite"
+            aria-relevant="additions removals"
+            className="select-text"
+          >
             {mockLogs.length === 0 ? (
               <tr>
                 <td
                   colSpan={3}
-                  className="py-6 text-center text-base-content/50"
+                  className="py-6 text-center text-base-content/50 italic"
                 >
                   ยังไม่มีบันทึกการเข้าใช้งาน
                 </td>
@@ -57,7 +73,7 @@ const AccessLogTable: React.FC = () => {
                       : 'bg-base-300/40 dark:bg-base-700/40'
                   }`}
                 >
-                  <td className="whitespace-nowrap px-4 py-3 text-base-content/90">
+                  <td className="whitespace-nowrap px-4 py-3 text-base-content/90 font-mono">
                     {timestamp}
                   </td>
                   <td className="whitespace-nowrap px-4 py-3 font-mono font-medium text-primary">

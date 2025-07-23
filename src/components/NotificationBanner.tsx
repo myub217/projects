@@ -1,7 +1,7 @@
 // src/components/NotificationBanner.tsx
-// ✅ Dismissable top alert banner with smooth animations, accessibility, and flexible styling
+// Dismissible top alert banner with smooth animation, accessibility, flexible styling, and optional auto-dismiss
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { X } from 'lucide-react'
 import clsx from 'clsx'
 
@@ -11,7 +11,7 @@ interface NotificationBannerProps {
   icon?: React.ReactNode
   dismissible?: boolean
   className?: string
-  duration?: number // optional auto-dismiss duration in ms
+  duration?: number // auto-dismiss timeout in milliseconds
 }
 
 const baseStyles =
@@ -33,12 +33,16 @@ const NotificationBanner: React.FC<NotificationBannerProps> = ({
 }) => {
   const [visible, setVisible] = useState(true)
 
+  // Auto-dismiss after duration if dismissible
   useEffect(() => {
     if (duration && dismissible) {
       const timer = setTimeout(() => setVisible(false), duration)
       return () => clearTimeout(timer)
     }
   }, [duration, dismissible])
+
+  // Memoized dismiss handler
+  const handleDismiss = useCallback(() => setVisible(false), [])
 
   if (!visible) return null
 
@@ -48,18 +52,18 @@ const NotificationBanner: React.FC<NotificationBannerProps> = ({
       aria-live="polite"
       className={clsx(baseStyles, typeStyles[type], className)}
     >
-      <div className="flex items-center gap-2 flex-grow">
+      <div className="flex items-center gap-2 flex-grow select-text">
         {icon && <span className="shrink-0">{icon}</span>}
         <span className="font-medium">{message}</span>
       </div>
       {dismissible && (
         <button
-          onClick={() => setVisible(false)}
-          className="text-inherit hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-primary rounded-sm"
-          aria-label="ปิดการแจ้งเตือน"
           type="button"
+          onClick={handleDismiss}
+          aria-label="ปิดการแจ้งเตือน"
+          className="text-inherit hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-primary rounded-sm"
         >
-          <X className="h-4 w-4" />
+          <X className="h-4 w-4" aria-hidden="true" />
         </button>
       )}
     </div>

@@ -33,7 +33,6 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     extend: {
-      // Responsive breakpoints
       screens: {
         xs: '360px',
         sm: '640px',
@@ -42,18 +41,15 @@ const config: Config = {
         xl: '1280px',
         '2xl': '1536px',
       },
-      // Custom spacing scale
       spacing: {
         128: '32rem',
         144: '36rem',
         160: '40rem',
       },
-      // Max width scale extension
       maxWidth: {
         '8xl': '90rem',
         '9xl': '110rem',
       },
-      // Extended z-index scale
       zIndex: {
         '-1': '-1',
         60: '60',
@@ -64,7 +60,6 @@ const config: Config = {
         110: '110',
         120: '120',
       },
-      // Color palette with light/dark variations
       colors: {
         background: {
           DEFAULT: '#ffffff',
@@ -106,18 +101,15 @@ const config: Config = {
           light: '#bfdbfe',
         },
       },
-      // Background gradients for branding
       backgroundImage: {
         'business-gradient': 'linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%)',
         'business-dark-gradient': 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
       },
-      // Font families
       fontFamily: {
         body: ['Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
         heading: ['Playfair Display', 'Georgia', 'serif'],
         code: ['Fira Code', 'Menlo', 'Monaco', 'monospace'],
       },
-      // Font sizes with line heights
       fontSize: {
         xs: ['0.75rem', { lineHeight: '1rem' }],
         sm: ['0.875rem', { lineHeight: '1.375rem' }],
@@ -129,25 +121,21 @@ const config: Config = {
         '4xl': ['2.25rem', { lineHeight: '2.75rem' }],
         '5xl': ['3rem', { lineHeight: '1' }],
       },
-      // Shadows for different UI depths
       boxShadow: {
         soft: '0 4px 12px rgba(59, 130, 246, 0.2)',
         medium: '0 8px 24px rgba(59, 130, 246, 0.25)',
         dark: '0 12px 32px rgba(17, 24, 39, 0.8)',
       },
-      // Custom transition properties
       transitionProperty: {
         colors: 'background-color, border-color, color, fill, stroke',
         shadow: 'box-shadow',
         transform: 'transform',
       },
-      // Animations for UI
       animation: {
         fadeIn: 'fadeIn 0.6s ease-in forwards',
         slideUp: 'slideUp 0.6s ease-out forwards',
         bounceSlow: 'bounce 2.5s infinite',
       },
-      // Keyframes for custom animations
       keyframes: {
         fadeIn: {
           from: { opacity: '0' },
@@ -319,6 +307,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 import '@/styles/tailwind-base.css'
 import '@/styles/tailwind.css'
+import '@/styles/global.css'
 
 import { ThemeProvider } from '@components/ThemeProvider'
 import AppRoutes from './routes/AppRoutes'
@@ -327,7 +316,7 @@ import LoadingFallback from './routes/LoadingFallback'
 const RootApp: React.FC = () => (
   <React.StrictMode>
     <ThemeProvider>
-      <BrowserRouter basename={import.meta.env.BASE_URL || '/'}>
+      <BrowserRouter basename={import.meta.env.BASE_URL ?? '/'}>
         <Suspense fallback={<LoadingFallback />}>
           <AppRoutes />
         </Suspense>
@@ -340,6 +329,7 @@ const rootElement = document.getElementById('root')
 
 if (!rootElement) {
   console.error('❌ <div id="root"> not found')
+  // Consider rendering fallback UI or logging/reporting here
 } else {
   ReactDOM.createRoot(rootElement).render(<RootApp />)
 }
@@ -349,7 +339,7 @@ export default RootApp```
 ## 🧩 src/routes/AppRoutes.tsx
 ```tsx
 // src/routes/AppRoutes.tsx
-// ✅ Improved centralized routing with theme props and protected nested routes, concise and scalable
+// ✅ Centralized, scalable routing with theme props and protected nested routes
 
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
@@ -369,8 +359,9 @@ const AppRoutes: React.FC = () => {
 
   return (
     <Routes>
+      {/* Public Routes */}
       <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="login" element={<LoginPage />} />
 
       {/* Protected Routes Wrapper */}
       <Route element={<ProtectedRoute />}>
@@ -379,6 +370,7 @@ const AppRoutes: React.FC = () => {
         <Route path="customer-assessment-summary" element={<CustomerAssessmentSummary />} />
       </Route>
 
+      {/* Fallback */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )
@@ -725,4 +717,4 @@ Ask next task or specific code/bug fix.
 📂 โครงสร้างทั้งหมดแนบไว้ใน Report นี้แล้ว  
 🧠 เข้าใจบริบทแล้ว พร้อมรับคำสั่งถัดไปได้เลย
 
-🕛 Last Checked: Wed Jul 23 12:30:46 +07 2025
+🕛 Last Checked: Wed Jul 23 12:57:21 +07 2025

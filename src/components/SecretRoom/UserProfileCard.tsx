@@ -1,4 +1,5 @@
 // src/components/SecretRoom/UserProfileCard.tsx
+// User profile card with accessible labels, responsive truncation, and clean styling
 
 import React from 'react'
 import { UserIcon } from 'lucide-react'
@@ -18,7 +19,7 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({ username }) => (
     >
       <UserIcon className="w-6 h-6" />
     </div>
-    <div className="flex flex-col overflow-hidden">
+    <div className="flex flex-col overflow-hidden min-w-0">
       <span
         className="text-sm text-base-content/60 dark:text-gray-400 truncate"
         aria-label="ป้ายชื่อ"

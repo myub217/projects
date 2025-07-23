@@ -1,4 +1,5 @@
 // src/components/SecretRoom/ThemeToggleButton.tsx
+// Accessible theme toggle button with SVG icons and keyboard focus styles
 
 import React from 'react'
 
@@ -20,7 +21,7 @@ const ThemeToggleButton: React.FC<ThemeToggleButtonProps> = ({
       aria-label={`สลับเป็นโหมด ${isLight ? 'มืด' : 'สว่าง'}`}
       aria-pressed={!isLight}
       title={`สลับเป็นโหมด ${isLight ? 'มืด' : 'สว่าง'}`}
-      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 rounded-full p-3 bg-base-200 text-base-content shadow-xl backdrop-blur-md hover:bg-base-300 dark:bg-neutral dark:text-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all"
+      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 rounded-full p-3 bg-base-200 text-base-content shadow-xl backdrop-blur-md hover:bg-base-300 dark:bg-neutral dark:text-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
     >
       {isLight ? (
         <svg
@@ -29,22 +30,20 @@ const ThemeToggleButton: React.FC<ThemeToggleButtonProps> = ({
           fill="none"
           stroke="currentColor"
           strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
           className="w-6 h-6"
           role="img"
           aria-hidden="true"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 3v1m0 16v1m8.66-11h-1M4.34 12h-1m15.07 6.07l-.7-.7M6.34 6.34l-.7-.7m12.02 12.02l-.7-.7M6.34 17.66l-.7-.7M12 7a5 5 0 000 10 5 5 0 000-10z"
-          />
+          <path d="M12 3v1m0 16v1m8.66-11h-1M4.34 12h-1m15.07 6.07l-.7-.7M6.34 6.34l-.7-.7m12.02 12.02l-.7-.7M6.34 17.66l-.7-.7M12 7a5 5 0 000 10 5 5 0 000-10z" />
         </svg>
       ) : (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="w-6 h-6"
           viewBox="0 0 24 24"
           fill="currentColor"
+          className="w-6 h-6"
           role="img"
           aria-hidden="true"
         >

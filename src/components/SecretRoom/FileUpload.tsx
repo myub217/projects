@@ -1,3 +1,6 @@
+// src/components/SecretRoom/FileUpload.tsx
+// Accessible file upload component with preview, flexible accept/multiple props, clear UX
+
 import React, { useState } from 'react'
 
 interface FileUploadProps {
@@ -8,20 +11,19 @@ interface FileUploadProps {
 
 const FileUpload: React.FC<FileUploadProps> = ({
   onFileSelect,
-  accept = '*',
+  accept = '*/*',
   multiple = false,
 }) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileList = e.target.files
-    if (!fileList || fileList.length === 0) {
+    const files = e.target.files
+    if (!files || files.length === 0) {
       setSelectedFiles([])
       onFileSelect(null)
       return
     }
-
-    const filesArray = Array.from(fileList)
+    const filesArray = Array.from(files)
     setSelectedFiles(filesArray)
     onFileSelect(multiple ? filesArray : filesArray[0])
   }
@@ -49,9 +51,14 @@ const FileUpload: React.FC<FileUploadProps> = ({
         aria-multiselectable={multiple}
       />
 
-      <p id="fileHelp" className="mt-2 text-sm text-base-content/70 truncate select-text">
+      <p
+        id="fileHelp"
+        className="mt-2 text-sm text-base-content/70 truncate select-text"
+        aria-live="polite"
+        aria-atomic="true"
+      >
         {selectedFiles.length > 0
-          ? `ไฟล์ที่เลือก: ${selectedFiles.map(f => f.name).join(', ')}`
+          ? `ไฟล์ที่เลือก: ${selectedFiles.map((f) => f.name).join(', ')}`
           : 'ยังไม่ได้เลือกไฟล์'}
       </p>
     </section>

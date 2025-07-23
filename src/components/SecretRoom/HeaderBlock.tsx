@@ -1,11 +1,14 @@
+// src/components/SecretRoom/HeaderBlock.tsx
+// Accessible header with user greeting, semantic roles, responsive styling, and smooth UX
+
 import React, { useEffect, useState } from 'react'
 
 const HeaderBlock: React.FC = () => {
   const [username, setUsername] = useState('ไม่ระบุชื่อ')
 
   useEffect(() => {
-    const raw = localStorage.getItem('loggedInUser')?.trim()
-    setUsername(raw && raw !== '' ? raw : 'ไม่ระบุชื่อ')
+    const storedUser = localStorage.getItem('loggedInUser')?.trim()
+    setUsername(storedUser && storedUser !== '' ? storedUser : 'ไม่ระบุชื่อ')
   }, [])
 
   return (
@@ -17,7 +20,7 @@ const HeaderBlock: React.FC = () => {
       <h2 className="text-2xl sm:text-3xl font-bold tracking-wide leading-tight">
         แดชบอร์ดของผู้ใช้งาน
       </h2>
-      <p className="mt-3 text-sm sm:text-base max-w-xl mx-auto">
+      <p className="mt-3 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
         คุณ{' '}
         <strong
           className="underline decoration-primary-content/50 decoration-2 underline-offset-4"

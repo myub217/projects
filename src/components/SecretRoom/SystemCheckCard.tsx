@@ -1,4 +1,5 @@
 // src/components/SecretRoom/SystemCheckCard.tsx
+// System health check with online status and LocalStorage availability, accessible and visually clear
 
 import React, { useEffect, useState } from 'react'
 import { FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa'
@@ -40,9 +41,19 @@ const SystemCheckCard: React.FC = () => {
       failLabel: 'ออฟไลน์',
       icon: (ok: boolean) =>
         ok ? (
-          <FaCheckCircle className="text-green-600 text-2xl" aria-label="ออนไลน์" />
+          <FaCheckCircle
+            className="text-green-600 text-2xl"
+            aria-label="ออนไลน์"
+            role="img"
+            aria-hidden={false}
+          />
         ) : (
-          <FaExclamationTriangle className="text-red-600 text-2xl" aria-label="ออฟไลน์" />
+          <FaExclamationTriangle
+            className="text-red-600 text-2xl"
+            aria-label="ออฟไลน์"
+            role="img"
+            aria-hidden={false}
+          />
         ),
     },
     {
@@ -53,9 +64,19 @@ const SystemCheckCard: React.FC = () => {
       failLabel: 'ไม่พร้อมใช้งาน',
       icon: (ok: boolean) =>
         ok ? (
-          <FaCheckCircle className="text-green-600 text-2xl" aria-label="LocalStorage พร้อมใช้งาน" />
+          <FaCheckCircle
+            className="text-green-600 text-2xl"
+            aria-label="LocalStorage พร้อมใช้งาน"
+            role="img"
+            aria-hidden={false}
+          />
         ) : (
-          <FaExclamationTriangle className="text-red-600 text-2xl" aria-label="LocalStorage ไม่พร้อมใช้งาน" />
+          <FaExclamationTriangle
+            className="text-red-600 text-2xl"
+            aria-label="LocalStorage ไม่พร้อมใช้งาน"
+            role="img"
+            aria-hidden={false}
+          />
         ),
     },
   ]
@@ -63,13 +84,21 @@ const SystemCheckCard: React.FC = () => {
   return (
     <section
       aria-label="สถานะการตรวจสอบระบบ"
-      className="bg-base-100 dark:bg-zinc-800 border border-base-300 dark:border-base-700 rounded-xl p-6 shadow-md space-y-6 transition-shadow"
+      className="bg-base-100 dark:bg-zinc-800 border border-base-300 dark:border-base-700 rounded-xl p-6 shadow-md space-y-6 transition-shadow duration-200 ease-in-out focus-within:shadow-lg"
+      tabIndex={-1}
+      role="region"
     >
       <h3 className="text-xl font-bold text-primary select-none">สถานะระบบ</h3>
-      <ul className="grid sm:grid-cols-2 gap-6">
+      <ul className="grid sm:grid-cols-2 gap-6" role="list">
         {systemItems.map(({ key, label, status, successLabel, failLabel, icon }) => (
-          <li key={key} className="flex items-center gap-4 select-text">
-            <span role="img" aria-label={`${label}: ${status ? successLabel : failLabel}`}>
+          <li
+            key={key}
+            className="flex items-center gap-4 select-text"
+            role="listitem"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <span aria-label={`${label}: ${status ? successLabel : failLabel}`} role="img">
               {icon(status)}
             </span>
             <div className="text-base-content font-medium">

@@ -1,5 +1,5 @@
 // src/layout/MainLayout.tsx
-// ✅ Clean, accessible layout with semantic roles, flexible styling, and max-width container
+// Clean, accessible layout with semantic roles, responsive container, and flexible styling
 
 import React, { ReactNode } from 'react'
 import Header from '@components/Header'
@@ -17,6 +17,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, className = '' }) => 
     'flex-col',
     'bg-base-100',
     'text-base-content',
+    'transition-colors',
+    'duration-300',
   ]
   const containerClasses = [
     'flex-grow',
