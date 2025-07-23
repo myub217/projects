@@ -1,4 +1,5 @@
 // vite.config.ts
+
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -9,13 +10,11 @@ import fs from 'fs'
 export default defineConfig({
   plugins: [
     react(),
-
-    // ✅ PWA
     VitePWA({
       strategies: 'injectManifest',
       srcDir: 'src',
       filename: 'sw.ts',
-      injectRegister: 'auto',
+      injectRegister: false,
       registerType: 'autoUpdate',
       manifest: {
         name: 'JP Visual & Docs',
@@ -34,13 +33,9 @@ export default defineConfig({
         type: 'module',
       },
     }),
-
-    // ✅ Static Copy
     viteStaticCopy({
       targets: [{ src: 'public/images', dest: '' }],
     }),
-
-    // ✅ Mock API
     {
       name: 'mock-api',
       configureServer(server) {
@@ -58,7 +53,6 @@ export default defineConfig({
       },
     },
   ],
-
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
@@ -73,7 +67,6 @@ export default defineConfig({
       '@config': path.resolve(__dirname, 'src/config'),
     },
   },
-
   server: {
     host: '0.0.0.0',
     port: 5173,
@@ -86,23 +79,19 @@ export default defineConfig({
       },
     },
   },
-
   build: {
     outDir: 'dist',
     emptyOutDir: true,
     target: 'esnext',
     sourcemap: true,
-    chunkSizeWarningLimit: 700,
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules/react')) return 'react-vendor'
           if (id.includes('node_modules')) return 'vendor'
         },
       },
     },
   },
-
   optimizeDeps: {
     include: ['react', 'react-dom'],
   },
