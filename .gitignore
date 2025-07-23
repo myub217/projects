@@ -63,6 +63,9 @@ coverage/
 test-output/
 jest-results/
 *.spec.ts.snap
+*.test.ts.snap
+*.test.js.snap
+*.spec.js.snap
 
 # ========================================
 # 🧠 AI Generated / LLM Cache
@@ -70,6 +73,8 @@ jest-results/
 openai_cache/
 gpt-response.json
 ai-response-*.json
+ai-output-*.md
+ai-notes/
 
 # ========================================
 # 📦 Node Modules & Build Output
@@ -82,12 +87,14 @@ build/
 out/
 .temp/
 .cache/
+.esbuild/
 tsconfig.tsbuildinfo
 
 # ========================================
 # 🧵 Tailwind / CSS Artifacts
 # ========================================
 .tailwind/
+*.css.d.ts
 
 # ========================================
 # 📱 Termux / Android / Mobile (optional)
@@ -107,3 +114,5 @@ termux-*
 *.zip
 *.tar
 *.tar.gz
+*.7z
+*.bak~
