@@ -1,3 +1,12 @@
+// ✅ vercel.json (สำหรับ React SPA ที่ใช้ BrowserRouter)
+
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
 }

@@ -1,5 +1,3 @@
-// ✅ Final: vite.config.ts
-
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -16,7 +14,7 @@ export default defineConfig({
       strategies: 'injectManifest',
       srcDir: 'src',
       filename: 'sw.ts',
-      injectRegister: false,
+      injectRegister: 'auto',
       registerType: 'autoUpdate',
       manifest: {
         name: 'JP Visual & Docs',
@@ -36,12 +34,12 @@ export default defineConfig({
       },
     }),
 
-    // ✅ Static Asset Copy
+    // ✅ Static Assets
     viteStaticCopy({
       targets: [{ src: 'public/images', dest: '' }],
     }),
 
-    // ✅ Mock API Endpoint
+    // ✅ Local Mock API (dev only)
     {
       name: 'mock-api',
       configureServer(server) {
@@ -60,7 +58,6 @@ export default defineConfig({
     },
   ],
 
-  // ✅ Path Aliases
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
@@ -76,7 +73,6 @@ export default defineConfig({
     },
   },
 
-  // ✅ Dev Server Config
   server: {
     host: '0.0.0.0',
     port: 5173,
@@ -90,7 +86,6 @@ export default defineConfig({
     },
   },
 
-  // ✅ Build Optimization
   build: {
     outDir: 'dist',
     emptyOutDir: true,
@@ -107,7 +102,6 @@ export default defineConfig({
     },
   },
 
-  // ✅ Dependency Optimization
   optimizeDeps: {
     include: ['react', 'react-dom'],
   },
