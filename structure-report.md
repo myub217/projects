@@ -24,6 +24,7 @@
 ## 🎨 tailwind.config.ts
 
 ```ts
+// tailwind.config.ts
 import type { Config } from 'tailwindcss'
 import typography from '@tailwindcss/typography'
 import daisyui from 'daisyui'
@@ -197,6 +198,7 @@ export default config
 
 ```ts
 // vite.config.ts
+
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -204,9 +206,11 @@ import { viteStaticCopy } from 'vite-plugin-static-copy'
 import path from 'node:path'
 import fs from 'fs'
 
+// ✅ แบบสมบูรณ์ ใช้งานกับ PWA, Mock API, Static Copy และ Path Alias
 export default defineConfig({
   plugins: [
     react(),
+
     VitePWA({
       strategies: 'injectManifest',
       srcDir: 'src',
@@ -238,6 +242,7 @@ export default defineConfig({
         ],
       },
     }),
+
     viteStaticCopy({
       targets: [
         {
@@ -246,6 +251,8 @@ export default defineConfig({
         },
       ],
     }),
+
+    // ✅ Mock API สำหรับ dev เท่านั้น
     {
       name: 'mock-api',
       configureServer(server) {
@@ -521,6 +528,7 @@ export default AdminPage
 ├── api
 │   └── contact.ts
 ├── check-structure.sh
+├── daisyui.config.ts
 ├── dev-dist
 │   └── registerSW.js
 ├── dist
@@ -532,8 +540,8 @@ export default AdminPage
 │   │   ├── CustomerAssessmentSummary-0JMa3-NI.js
 │   │   ├── CustomerAssessmentSummary-0JMa3-NI.js.map
 │   │   ├── Hhero.webp
-│   │   ├── IndexPage-C7NXcp5Q.js
-│   │   ├── IndexPage-C7NXcp5Q.js.map
+│   │   ├── IndexPage-sle04z3B.js
+│   │   ├── IndexPage-sle04z3B.js.map
 │   │   ├── LoginPage-CgZY00-e.js
 │   │   ├── LoginPage-CgZY00-e.js.map
 │   │   ├── NotFoundPage-CCfNB7ix.js
@@ -544,9 +552,9 @@ export default AdminPage
 │   │   ├── about.webp
 │   │   ├── hero-BRaXPQvd.webp
 │   │   ├── hero.webp
-│   │   ├── index-Ck4AytuD.js
-│   │   ├── index-Ck4AytuD.js.map
-│   │   ├── index-D81hfBqJ.css
+│   │   ├── index-B73XzNFU.css
+│   │   ├── index-D1x0fQs7.js
+│   │   ├── index-D1x0fQs7.js.map
 │   │   ├── jp-logo-CH0zBIqT.webp
 │   │   ├── jp-logo.webp
 │   │   ├── login-DUzPWDzB.webp
@@ -606,6 +614,53 @@ export default AdminPage
 ├── pnpm-lock.yaml
 ├── pnpm-workspace.yaml
 ├── postcss.config.cjs
+├── prettier
+│   ├── bin
+│   │   └── prettier.cjs
+│   ├── internal
+│   │   ├── experimental-cli-worker.mjs
+│   │   ├── experimental-cli.mjs
+│   │   └── legacy-cli.mjs
+│   └── plugins
+│       ├── acorn.d.ts
+│       ├── acorn.js
+│       ├── acorn.mjs
+│       ├── angular.d.ts
+│       ├── angular.js
+│       ├── angular.mjs
+│       ├── babel.d.ts
+│       ├── babel.js
+│       ├── babel.mjs
+│       ├── estree.d.ts
+│       ├── estree.js
+│       ├── estree.mjs
+│       ├── flow.d.ts
+│       ├── flow.js
+│       ├── flow.mjs
+│       ├── glimmer.d.ts
+│       ├── glimmer.js
+│       ├── glimmer.mjs
+│       ├── graphql.d.ts
+│       ├── graphql.js
+│       ├── graphql.mjs
+│       ├── html.d.ts
+│       ├── html.js
+│       ├── html.mjs
+│       ├── markdown.d.ts
+│       ├── markdown.js
+│       ├── markdown.mjs
+│       ├── meriyah.d.ts
+│       ├── meriyah.js
+│       ├── meriyah.mjs
+│       ├── postcss.d.ts
+│       ├── postcss.js
+│       ├── postcss.mjs
+│       ├── typescript.d.ts
+│       ├── typescript.js
+│       ├── typescript.mjs
+│       ├── yaml.d.ts
+│       ├── yaml.js
+│       └── yaml.mjs
 ├── public
 │   ├── assets
 │   │   ├── 1hero.webp
@@ -783,7 +838,7 @@ export default AdminPage
 ├── vercel.json
 └── vite.config.ts
 
-36 directories, 231 files
+40 directories, 275 files
 ```
 
 ## 📁 src Tree: Full
@@ -981,4 +1036,4 @@ File tree:
 Ready for dev or deployment.
 
 Ask next task or specific code/bug fix.
-🕛 Last Checked: Thu Jul 24 03:39:18 +07 2025
+🕛 Last Checked: Thu Jul 24 05:29:17 +07 2025

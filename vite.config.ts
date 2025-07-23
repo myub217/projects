@@ -1,4 +1,5 @@
 // vite.config.ts
+
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -6,9 +7,11 @@ import { viteStaticCopy } from 'vite-plugin-static-copy'
 import path from 'node:path'
 import fs from 'fs'
 
+// ✅ แบบสมบูรณ์ ใช้งานกับ PWA, Mock API, Static Copy และ Path Alias
 export default defineConfig({
   plugins: [
     react(),
+
     VitePWA({
       strategies: 'injectManifest',
       srcDir: 'src',
@@ -40,6 +43,7 @@ export default defineConfig({
         ],
       },
     }),
+
     viteStaticCopy({
       targets: [
         {
@@ -48,6 +52,8 @@ export default defineConfig({
         },
       ],
     }),
+
+    // ✅ Mock API สำหรับ dev เท่านั้น
     {
       name: 'mock-api',
       configureServer(server) {

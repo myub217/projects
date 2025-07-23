@@ -1,17 +1,18 @@
 # .prettierrc.yaml
-# ✅ Prettier config สำหรับโปรเจกต์ Vite + React + TailwindCSS พร้อมใช้งานกับทีม dev และระบบ CI/CD
+# ✅ Prettier config สำหรับโปรเจกต์ Vite + React + TailwindCSS
+# เหมาะสำหรับใช้ร่วมกับ Dev team + CI/CD pipeline
 
-semi: false # ❌ ไม่ใส่ semicolon ท้ายบรรทัด
+semi: false # ❌ ไม่ใส่ semicolon ปิดท้าย
 singleQuote: true # ✅ ใช้ single quote แทน double quote
 trailingComma: es5 # ✅ ใส่ comma เฉพาะใน object/array ตามมาตรฐาน ES5
-printWidth: 100 # ✅ จำกัดความยาว 1 บรรทัดไม่เกิน 100 ตัวอักษร
-tabWidth: 2 # ✅ ขยับ indent ทีละ 2 space
+printWidth: 100 # ✅ จำกัดความยาวบรรทัดไม่เกิน 100 ตัวอักษร
+tabWidth: 2 # ✅ ใช้ indent 2 spaces
 useTabs: false # ✅ ใช้ space แทน tab
-bracketSpacing: true # ✅ เว้นวรรคใน object literals เช่น { foo: bar }
-arrowParens: avoid # ✅ ไม่ใส่วงเล็บหากพารามีตัวเดียว เช่น x => x
-endOfLine: lf # ✅ ใช้ linefeed สำหรับความเข้ากันได้ข้าม platform
+bracketSpacing: true # ✅ มีเว้นวรรคใน object เช่น { foo: bar }
+arrowParens: avoid # ✅ ไม่ใส่วงเล็บหาก arrow function มี param เดียว เช่น x => x
+endOfLine: lf # ✅ ใช้ LF (linefeed) เพื่อ cross-platform compatibility
 
 plugins:
-  - prettier-plugin-tailwindcss # ✅ Plugin สำหรับจัดเรียง Tailwind classnames ให้อัตโนมัติ
+  - prettier-plugin-tailwindcss # ✅ จัดเรียง tailwind classnames อัตโนมัติ
 
-tailwindConfig: './tailwind.config.ts' # ✅ ชี้ path ของ tailwind config เพื่อใช้ร่วมกับ plugin
+tailwindConfig: './tailwind.config.ts' # ✅ ชี้ไฟล์ tailwind config ให้ plugin ใช้งานได้ถูกต้อง
