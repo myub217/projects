@@ -1,16 +1,16 @@
 // src/main.tsx
-// ✅ Root app entry with ThemeProvider, Router, Suspense fallback, and strict mode
+// ✅ Root app entry: wraps App with ThemeProvider, React Router, Suspense fallback, and global styles
 
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 
-// Global styles
+// 🧩 Global Styles
 import '@/styles/tailwind-base.css'
 import '@/styles/tailwind.css'
 import '@/styles/global.css'
 
-// Providers & Routes
+// 🔧 Providers & Routes
 import { ThemeProvider } from '@components/ThemeProvider'
 import AppRoutes from './routes/AppRoutes'
 import LoadingFallback from '@components/common/LoadingFallback'

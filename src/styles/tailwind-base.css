@@ -61,7 +61,6 @@ a {
   text-decoration: none;
   transition: color 0.3s ease;
 }
-
 a:hover,
 a:focus {
   text-decoration: underline;

@@ -1,5 +1,6 @@
 // src/components/ui/Badge.tsx
 // ✅ Lightweight, theme-aware Badge component with Tailwind + DaisyUI and accessibility support
+// ✨ ปรับปรุงให้รองรับการใช้งาน aria-label และกำหนด role ตามสถานการณ์
 
 import React from 'react'
 
@@ -31,7 +32,7 @@ const Badge: React.FC<BadgeProps> = ({
   return (
     <span
       className={`badge ${typeStyles[type]} ${rounded ? 'rounded-full' : 'rounded'} ${className}`}
-      role="status"
+      role={ariaLabel ? 'status' : undefined}
       aria-label={ariaLabel}
     >
       {text}

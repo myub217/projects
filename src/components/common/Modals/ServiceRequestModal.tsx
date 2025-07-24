@@ -1,6 +1,9 @@
-// src/components/common/ServiceRequestModal.tsx
+// src/components/Modals/ServiceRequestModal.tsx
+// ✅ Modal แสดงรายละเอียดบริการ รองรับ focus trap, ปิดด้วย ESC และ backdrop
+// ✅ ปิด scroll หน้า, คืน focus เดิม, และลิงก์ LINE พร้อมข้อความ preset
+
 import React, { useEffect, useRef, useCallback } from 'react'
-import type { Service } from '@components/ServicesSection'
+import type { Service } from '@types/service'
 
 interface ServiceRequestModalProps {
   service: Service | null
@@ -21,14 +24,15 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
         e.preventDefault()
         onClose()
       }
+
       if (e.key === 'Tab' && modalRef.current) {
-        const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
+        const focusableEls = modalRef.current.querySelectorAll<HTMLElement>(
           'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
         )
-        if (focusableElements.length === 0) return
+        const firstEl = focusableEls[0]
+        const lastEl = focusableEls[focusableEls.length - 1]
 
-        const firstEl = focusableElements[0]
-        const lastEl = focusableElements[focusableElements.length - 1]
+        if (!firstEl || !lastEl) return
 
         if (e.shiftKey) {
           if (document.activeElement === firstEl) {
@@ -54,17 +58,14 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
   useEffect(() => {
     if (service) {
       document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
     }
     return () => {
       document.body.style.overflow = ''
     }
   }, [service])
 
-  const onModalContentClick = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation()
-  }, [])
+  const handleBackdropClick = () => onClose()
+  const handleContentClick = useCallback((e: React.MouseEvent) => e.stopPropagation(), [])
 
   if (!service) return null
 
@@ -75,20 +76,20 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
       aria-labelledby="service-modal-title"
       aria-describedby="service-modal-desc"
       tabIndex={-1}
-      onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 py-6 backdrop-blur-sm transition-opacity duration-300 md:px-6"
+      onClick={handleBackdropClick}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-6 backdrop-blur-sm md:px-6"
     >
       <div
-        tabIndex={0}
         ref={modalRef}
-        onClick={onModalContentClick}
-        className="w-full max-w-lg transform space-y-5 rounded-2xl bg-base-100 p-6 shadow-2xl transition-transform duration-300 ease-out focus:outline-none dark:bg-gray-900"
+        tabIndex={0}
+        onClick={handleContentClick}
+        className="w-full max-w-lg space-y-5 rounded-2xl bg-base-100 p-6 shadow-xl outline-none transition-transform dark:bg-gray-900"
       >
-        <h3 id="service-modal-title" className="text-xl font-bold text-primary" tabIndex={-1}>
+        <h2 id="service-modal-title" className="text-xl font-semibold text-primary">
           ขอใช้บริการจาก JP Visual & Docs
-        </h3>
+        </h2>
 
-        <section
+        <div
           id="service-modal-desc"
           className="space-y-2 text-sm text-base-content/80 sm:text-base"
         >
@@ -99,26 +100,24 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
             <strong>รายละเอียด:</strong> {service.description}
           </p>
           <p>
-            <strong>ค่าบริการ:</strong> {service.price}
+            <strong>ค่าบริการ:</strong> {service.price.amount} {service.price.currency}
           </p>
-          <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-            ทีมงานสายทำจริง สไตล์มือโปร — เอกสาร ชัด เป๊ะ ขายงานผ่าน
+          <p className="pt-2 text-xs text-muted">
+            ทีมงานมือโปร สไตล์สายเทา — งานไว เอกสารเป๊ะ ผ่านฉลุย
           </p>
-        </section>
+        </div>
 
         <div className="mt-6 flex flex-col justify-end gap-3 sm:flex-row">
           <button
             type="button"
             onClick={onClose}
-            className="btn btn-sm rounded border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+            className="btn btn-sm rounded border border-base-300 bg-base-200 hover:bg-base-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
           >
             ปิด
           </button>
 
           <a
-            href={`https://line.me/ti/p/~jpdocs?text=${encodeURIComponent(
-              `สวัสดีครับ/ค่ะ สนใจใช้บริการ: ${service.title}`
-            )}`}
+            href={`https://line.me/ti/p/~jpdocs?text=${encodeURIComponent(`สวัสดีครับ/ค่ะ สนใจใช้บริการ: ${service.title}`)}`}
             target="_blank"
             rel="noopener noreferrer"
             onClick={onClose}

@@ -13,8 +13,8 @@ interface SectionProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 const bgColorMap = {
-  base: 'bg-base-100',
-  secondary: 'bg-base-200',
+  base: 'bg-base-100 dark:bg-base-900',
+  secondary: 'bg-base-200 dark:bg-base-800',
   primary: 'bg-primary',
   transparent: 'bg-transparent',
 }

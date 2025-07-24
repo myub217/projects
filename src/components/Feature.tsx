@@ -3,7 +3,7 @@
 
 import React, { useState, useMemo, useRef, useEffect } from 'react'
 import CustomerAssessmentForm from './CustomerAssessmentForm'
-import { approvedCustomers } from '../data/approvedCustomers'
+import { approvedCustomers } from '@/data/approvedCustomers'
 import CustomerCard from './CustomerCard'
 import { FaSortAmountDownAlt, FaListUl, FaFileSignature } from 'react-icons/fa'
 
@@ -36,10 +36,10 @@ const Feature: React.FC = () => {
     <section
       id="feature"
       aria-labelledby="feature-heading"
-      className="bg-gradient-to-br from-base-200 to-base-300 py-20 transition-colors duration-500 dark:from-zinc-900 dark:to-zinc-800"
       role="region"
       aria-live="polite"
       aria-atomic="true"
+      className="bg-gradient-to-br from-base-200 to-base-300 py-20 transition-colors duration-500 dark:from-zinc-900 dark:to-zinc-800"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <header className="mx-auto mb-12 max-w-2xl text-center">
@@ -56,8 +56,12 @@ const Feature: React.FC = () => {
 
         <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           {/* Info & Sort */}
-          <div className="flex flex-wrap items-center gap-4 text-sm text-zinc-600 dark:text-zinc-300">
-            <div className="flex items-center gap-2" aria-live="polite" aria-atomic="true">
+          <div
+            className="flex flex-wrap items-center gap-4 text-sm text-zinc-600 dark:text-zinc-300"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <div className="flex items-center gap-2">
               <FaListUl className="text-base text-zinc-500" aria-hidden="true" />
               <span>
                 ทั้งหมด <strong>{approvedCustomers.length}</strong> รายการ

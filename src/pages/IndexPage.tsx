@@ -1,132 +1,143 @@
-// src/pages/IndexPage.tsx
-// ✅ Accessible homepage with Tailwind + DaisyUI theme-aware + A11y, smooth UX, focus mgmt, modular sections, ARIA best practices
+// ✅ src/pages/IndexPage.tsx
+// ✅ Single Page Layout — Theme toggle, Modal focus trap, Backdrop close, Clean a11y
 
-import React, { useState, useEffect, useCallback, useRef } from 'react'
-
-import Header from '@components/Header'
-import Hero from '@components/Hero'
-import Feature from '@components/Feature'
-import StatsPanel from '@components/StatsPanel'
-import ServicesSection, { Service } from '@components/ServicesSection'
-import About from '@components/About'
-import ReviewsSection from '@components/ReviewsSection'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
+import HeroSection from '@components/Hero'
+import StatsSection from '@components/StatsSection'
+import ServicesSectionBlock from '@components/Services/ServicesSectionBlock'
+import TestimonialsSection from '@components/TestimonialsSection'
+import FAQSection from '@components/FAQSection'
 import CTASection from '@components/CTASection'
 import Footer from '@components/Footer'
-import ServiceRequestModal from '@components/common/ServiceRequestModal'
-import NotificationBanner from '@components/NotificationBanner'
-import { Check } from 'lucide-react'
+import AboutSection from '@components/AboutSection'
+import FeatureSection from '@components/FeatureSection'
+import ServiceRequestModal from '@components/Modals/ServiceRequestModal'
+import ThemeToggleButton from '@components/common/ThemeToggleButton'
 
-interface IndexPageProps {
-  theme: 'light' | 'dark'
-  toggleTheme: () => void
-}
+const IndexPage: React.FC = () => {
+  const [theme, setTheme] = useState<'light' | 'dark'>(() =>
+    typeof window !== 'undefined'
+      ? (localStorage.getItem('theme') as 'light' | 'dark') || 'light'
+      : 'light'
+  )
 
-const IndexPage: React.FC<IndexPageProps> = ({ theme, toggleTheme }) => {
-  const [selectedService, setSelectedService] = useState<Service | null>(null)
-  const [showBanner, setShowBanner] = useState(true)
-  const mainContentRef = useRef<HTMLElement>(null)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null)
+  const modalRef = useRef<HTMLDivElement | null>(null)
+  const mainRef = useRef<HTMLElement | null>(null)
+
+  const toggleTheme = useCallback(() => {
+    setTheme(prev => {
+      const next = prev === 'light' ? 'dark' : 'light'
+      document.documentElement.setAttribute('data-theme', next)
+      localStorage.setItem('theme', next)
+      return next
+    })
+  }, [])
+
+  const handleRequestService = useCallback((serviceId: number) => {
+    setSelectedServiceId(serviceId)
+    setModalOpen(true)
+  }, [])
+
+  const handleCloseModal = useCallback(() => {
+    setModalOpen(false)
+    setSelectedServiceId(null)
+    mainRef.current?.focus()
+  }, [])
 
   useEffect(() => {
-    if (!selectedService) return
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSelectedService(null)
-    }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedService])
+    document.documentElement.setAttribute('data-theme', theme)
+  }, [theme])
 
   useEffect(() => {
-    if (selectedService) {
-      document.body.style.overflow = 'hidden'
-      if (mainContentRef.current) {
-        mainContentRef.current.setAttribute('aria-hidden', 'true')
-        mainContentRef.current.blur()
-      }
-    } else {
-      document.body.style.overflow = ''
-      if (mainContentRef.current) {
-        mainContentRef.current.removeAttribute('aria-hidden')
-        mainContentRef.current.focus()
+    if (!modalOpen || !modalRef.current) return
+
+    const modalElement = modalRef.current
+    const focusables = modalElement.querySelectorAll<HTMLElement>(
+      'a[href], area[href], input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable]'
+    )
+
+    const elements = Array.from(focusables).filter(el => el.offsetParent !== null)
+
+    if (elements.length === 0) {
+      modalElement.focus()
+      return
+    }
+
+    const first = elements[0]
+    const last = elements[elements.length - 1]
+
+    const trapFocus = (e: KeyboardEvent) => {
+      if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        } else if (document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      } else if (e.key === 'Escape') {
+        e.preventDefault()
+        handleCloseModal()
       }
     }
-  }, [selectedService])
 
-  const onRequestService = useCallback((service: Service) => setSelectedService(service), [])
+    modalElement.addEventListener('keydown', trapFocus)
+    first.focus()
+
+    return () => {
+      modalElement.removeEventListener('keydown', trapFocus)
+    }
+  }, [modalOpen, handleCloseModal])
+
+  const handleBackdropClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (e.target === modalRef.current) {
+        handleCloseModal()
+      }
+    },
+    [handleCloseModal]
+  )
 
   return (
-    <div
-      data-theme={theme}
-      className="flex min-h-screen flex-col bg-base-100 font-sans text-base-content transition-colors duration-300"
+    <main
+      ref={mainRef}
+      tabIndex={-1}
+      role="main"
+      aria-hidden={modalOpen}
+      className="min-h-screen bg-base-100 text-base-content transition-colors duration-300"
     >
-      <div className="mx-auto flex w-full max-w-screen-xl flex-grow flex-col px-4 sm:px-6 lg:px-16">
-        {showBanner && (
-          <NotificationBanner
-            message="อัปเดตสำเร็จ"
-            type="success"
-            icon={<Check className="h-4 w-4" />}
-            dismissible
-            className="my-4"
-            onDismiss={() => setShowBanner(false)}
-          />
-        )}
+      <HeroSection onRequestService={handleRequestService} />
+      <FeatureSection />
+      <AboutSection />
+      <StatsSection />
+      <ServicesSectionBlock onRequestService={handleRequestService} />
+      <TestimonialsSection />
+      <FAQSection />
+      <CTASection />
+      <Footer />
 
-        <Header theme={theme} toggleTheme={toggleTheme} />
+      <ThemeToggleButton
+        theme={theme}
+        toggleTheme={toggleTheme}
+        aria-label={`สลับธีมเป็น ${theme === 'dark' ? 'สว่าง' : 'มืด'}`}
+      />
 
-        <main
-          id="main-content"
-          ref={mainContentRef}
-          role="main"
-          aria-label="เนื้อหาหลักของเว็บไซต์"
+      {modalOpen && (
+        <div
+          ref={modalRef}
           tabIndex={-1}
-          className="flex-grow space-y-16 py-10 outline-none sm:space-y-20 md:space-y-24"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="service-request-modal-title"
+          className="fixed inset-0 z-[999] flex items-center justify-center bg-black/50 backdrop-blur-sm"
+          onClick={handleBackdropClick}
         >
-          <Hero />
-          <Feature />
-          <StatsPanel />
-          <ServicesSection onRequest={onRequestService} />
-          <About />
-          <ReviewsSection />
-          <CTASection />
-        </main>
-
-        <Footer />
-      </div>
-
-      <button
-        type="button"
-        aria-label={`สลับเป็นโหมด ${theme === 'light' ? 'มืด' : 'สว่าง'}`}
-        title={`สลับเป็นโหมด ${theme === 'light' ? 'มืด' : 'สว่าง'}`}
-        onClick={toggleTheme}
-        className="fixed bottom-4 right-4 z-50 rounded-full bg-base-200 p-3 text-base-content shadow-xl backdrop-blur-md transition hover:bg-base-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:bg-neutral dark:text-gray-200 dark:hover:bg-gray-700"
-      >
-        {theme === 'light' ? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            viewBox="0 0 24 24"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M12 3v1m0 16v1m8.66-11h-1M4.34 12h-1m15.07 6.07l-.7-.7M6.34 6.34l-.7-.7m12.02 12.02l-.7-.7M6.34 17.66l-.7-.7M12 7a5 5 0 000 10 5 5 0 000-10z" />
-          </svg>
-        ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
-          </svg>
-        )}
-      </button>
-
-      <ServiceRequestModal service={selectedService} onClose={() => setSelectedService(null)} />
-    </div>
+          <ServiceRequestModal serviceId={selectedServiceId} onClose={handleCloseModal} />
+        </div>
+      )}
+    </main>
   )
 }
 

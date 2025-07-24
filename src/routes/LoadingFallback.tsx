@@ -9,6 +9,8 @@ const LoadingFallback: React.FC = () => {
       role="status"
       aria-live="polite"
       aria-busy="true"
+      tabIndex={-1}
+      aria-label="กำลังโหลดหน้า"
       className="flex min-h-screen items-center justify-center bg-base-100 text-base-content transition-colors duration-300"
     >
       <span className="animate-pulse rounded px-4 py-2 text-lg font-semibold tracking-wide text-gray-600 dark:text-gray-300">

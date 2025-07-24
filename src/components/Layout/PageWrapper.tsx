@@ -12,7 +12,7 @@ interface PageWrapperProps extends React.HTMLAttributes<HTMLDivElement> {
   maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full' // สำหรับคุมความกว้าง
 }
 
-const maxWidthMap: Record<string, string> = {
+const maxWidthMap: Record<PageWrapperProps['maxWidth'], string> = {
   sm: 'max-w-sm',
   md: 'max-w-md',
   lg: 'max-w-lg',

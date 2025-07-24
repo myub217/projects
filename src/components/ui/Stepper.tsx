@@ -1,7 +1,7 @@
 // src/components/ui/Stepper.tsx
 // ✅ Accessible Stepper component with keyboard navigation, Tailwind + DaisyUI styling, and responsive layout
 
-import React, { useState, KeyboardEvent } from 'react'
+import React, { KeyboardEvent } from 'react'
 import clsx from 'clsx'
 
 interface Step {

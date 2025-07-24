@@ -18,22 +18,22 @@ const sizeMap: Record<NonNullable<ButtonProps['size']>, string> = {
 }
 
 const variantMap: Record<NonNullable<ButtonProps['variant']>, string> = {
-  primary: 'bg-gray-900 text-white hover:bg-gray-700',
-  secondary: 'bg-gray-100 text-gray-900 hover:bg-gray-200',
-  outline: 'border border-gray-300 text-gray-900 hover:bg-gray-100',
-  ghost: 'bg-transparent text-gray-900 hover:bg-gray-100',
-  danger: 'bg-red-600 text-white hover:bg-red-500',
+  primary: 'bg-gray-900 text-white hover:bg-gray-700 focus:ring-gray-700',
+  secondary: 'bg-gray-100 text-gray-900 hover:bg-gray-200 focus:ring-gray-300',
+  outline: 'border border-gray-300 text-gray-900 hover:bg-gray-100 focus:ring-gray-300',
+  ghost: 'bg-transparent text-gray-900 hover:bg-gray-100 focus:ring-gray-300',
+  danger: 'bg-red-600 text-white hover:bg-red-500 focus:ring-red-500',
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       children,
-      className,
+      className = '',
       variant = 'primary',
       size = 'md',
       loading = false,
-      disabled,
+      disabled = false,
       iconLeft,
       iconRight,
       ...props

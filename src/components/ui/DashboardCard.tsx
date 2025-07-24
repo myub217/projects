@@ -1,5 +1,6 @@
 // src/components/ui/DashboardCard.tsx
 // ✅ Reusable Dashboard card with accessible region, responsive header, dark/light mode, and focus styles
+// ✨ เพิ่มรายละเอียดเพื่อรองรับ accessibility และ responsive utility class
 
 import React, { ReactNode } from 'react'
 import clsx from 'clsx'
@@ -30,7 +31,9 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
   >
     {title && (
       <header className="mb-4 flex select-text flex-wrap items-center justify-between gap-2">
-        <h3 className="truncate text-lg font-semibold text-primary">{title}</h3>
+        <h3 className="truncate text-lg font-semibold text-primary dark:text-primary-content">
+          {title}
+        </h3>
         {headerRight && <div className="ml-4 flex items-center">{headerRight}</div>}
       </header>
     )}

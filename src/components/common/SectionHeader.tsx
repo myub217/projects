@@ -1,5 +1,9 @@
 // src/components/common/SectionHeader.tsx
-// ✅ Reusable section header with optional subtext, center alignment, and accessible structure
+// ✅ Reusable SectionHeader with:
+//    - title & optional subtitle
+//    - alignment control (left | center)
+//    - accessible region role with aria-label
+//    - customizable className support
 
 import React from 'react'
 import clsx from 'clsx'

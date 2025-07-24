@@ -33,7 +33,6 @@ const NotificationBanner: React.FC<NotificationBannerProps> = ({
 }) => {
   const [visible, setVisible] = useState(true)
 
-  // Auto-dismiss after duration if dismissible
   useEffect(() => {
     if (duration && dismissible) {
       const timer = setTimeout(() => setVisible(false), duration)
@@ -41,7 +40,6 @@ const NotificationBanner: React.FC<NotificationBannerProps> = ({
     }
   }, [duration, dismissible])
 
-  // Memoized dismiss handler
   const handleDismiss = useCallback(() => setVisible(false), [])
 
   if (!visible) return null

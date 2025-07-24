@@ -40,6 +40,8 @@ const About: React.FC = () => {
           <img
             src={aboutImage}
             alt="ภาพเกี่ยวกับเรา"
+            role="img"
+            aria-label="ภาพเกี่ยวกับเรา JP Visual & Docs"
             loading="lazy"
             decoding="async"
             onError={e => (e.currentTarget.style.display = 'none')}
@@ -80,7 +82,7 @@ const About: React.FC = () => {
               key={label}
               href={href}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer nofollow"
               aria-label={`ติดต่อผ่าน ${label}`}
               className="rounded transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
@@ -93,6 +95,8 @@ const About: React.FC = () => {
           <img
             src={signatureImage}
             alt="ลายเซ็น"
+            role="img"
+            aria-label="ลายเซ็น JP Visual & Docs"
             loading="lazy"
             decoding="async"
             draggable={false}

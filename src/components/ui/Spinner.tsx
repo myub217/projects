@@ -15,7 +15,7 @@ const sizeMap = {
   md: 'h-6 w-6',
   lg: 'h-8 w-8',
   xl: 'h-12 w-12',
-}
+} as const
 
 const Spinner: React.FC<SpinnerProps> = ({
   size = 'md',
@@ -31,7 +31,13 @@ const Spinner: React.FC<SpinnerProps> = ({
       className={clsx('inline-block animate-spin text-primary', sizeMap[size], className)}
       {...props}
     >
-      <svg className="fill-current" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <svg
+        className="fill-current"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        focusable="false"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <circle
           className="opacity-25"
           cx="12"

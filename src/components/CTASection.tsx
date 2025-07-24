@@ -40,6 +40,7 @@ const CTASection: React.FC = () => (
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-xl border border-white px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 sm:text-base"
+          aria-label="ติดต่อผ่าน LINE @462fqrfc"
         >
           <FaLine className="text-lg" aria-hidden="true" />
           <span>LINE: @462fqrfc</span>
@@ -50,6 +51,7 @@ const CTASection: React.FC = () => (
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-xl border border-white px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 sm:text-base"
+          aria-label="ติดต่อผ่าน Facebook"
         >
           <FaFacebook className="text-lg" aria-hidden="true" />
           <span>Facebook</span>
@@ -60,6 +62,7 @@ const CTASection: React.FC = () => (
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-xl border border-white px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 sm:text-base"
+          aria-label="ติดต่อผ่าน Messenger"
         >
           <FaFacebookMessenger className="text-lg" aria-hidden="true" />
           <span>Messenger</span>

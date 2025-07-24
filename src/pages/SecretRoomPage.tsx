@@ -1,17 +1,12 @@
-// src/pages/SecretRoomPage.tsx
-// ✅ หน้า SecretRoom โหลดชื่อผู้ใช้จาก localStorage และแสดงแดชบอร์ดแบบแยกคอมโพเนนต์
-
 import React, { useEffect, useState } from 'react'
-import SecretRoomDashboard from '@/components/SecretRoom/Dashboard'
+import SecretRoomDashboard from '@components/SecretRoom/Dashboard'
 
 const SecretRoomPage: React.FC = () => {
-  const [username, setUsername] = useState<string>('ไม่ระบุชื่อผู้ใช้งาน')
+  const [username, setUsername] = useState('ไม่ระบุชื่อผู้ใช้งาน')
 
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedInUser')?.trim()
-    if (storedUser && storedUser !== '') {
-      setUsername(storedUser)
-    }
+    if (storedUser) setUsername(storedUser)
   }, [])
 
   return (

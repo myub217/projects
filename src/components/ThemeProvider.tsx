@@ -33,22 +33,22 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches
       if (savedTheme === 'light' || savedTheme === 'dark') {
         setTheme(savedTheme)
+        document.documentElement.setAttribute('data-theme', savedTheme)
       } else {
-        setTheme(prefersDark ? 'dark' : 'light')
+        const systemTheme = prefersDark ? 'dark' : 'light'
+        setTheme(systemTheme)
+        document.documentElement.setAttribute('data-theme', systemTheme)
       }
     } catch {
       setTheme('light')
+      document.documentElement.setAttribute('data-theme', 'light')
     }
   }, [])
 
-  // อัพเดต class ใน root และบันทึก localStorage เมื่อ theme เปลี่ยน
+  // อัพเดต data-theme attribute และบันทึก localStorage เมื่อ theme เปลี่ยน
   useEffect(() => {
     const root = document.documentElement
-    if (theme === 'dark') {
-      root.classList.add('dark')
-    } else {
-      root.classList.remove('dark')
-    }
+    root.setAttribute('data-theme', theme)
     try {
       localStorage.setItem('theme', theme)
     } catch {

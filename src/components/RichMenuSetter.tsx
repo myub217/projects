@@ -9,6 +9,7 @@ const RichMenuSetter: React.FC = () => {
   const [status, setStatus] = useState<string | null>(null)
 
   const handleSetRichMenu = async () => {
+    if (loading) return
     setLoading(true)
     setStatus(null)
     try {
@@ -26,13 +27,23 @@ const RichMenuSetter: React.FC = () => {
     <Card className="mx-auto w-full max-w-md shadow-lg">
       <CardContent className="space-y-4 p-6">
         <div className="flex items-center space-x-2 text-lg font-semibold">
-          <Sparkles className="h-5 w-5 text-gray-700" />
+          <Sparkles className="h-5 w-5 text-gray-700" aria-hidden="true" />
           <span>ตั้งค่า Rich Menu</span>
         </div>
-        <Button loading={loading} onClick={handleSetRichMenu} className="w-full">
+        <Button
+          loading={loading}
+          onClick={handleSetRichMenu}
+          className="w-full"
+          aria-live="polite"
+          aria-disabled={loading}
+        >
           ตั้งค่า Rich Menu
         </Button>
-        {status && <p className="text-sm text-gray-600">{status}</p>}
+        {status && (
+          <p className="text-sm text-gray-600" role="status">
+            {status}
+          </p>
+        )}
       </CardContent>
     </Card>
   )

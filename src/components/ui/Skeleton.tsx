@@ -66,14 +66,22 @@ const Skeleton: React.FC<SkeletonProps> = ({
 
 export default Skeleton
 
-/* Tailwind CSS animation (to be added in tailwind.config.js)
-  animation: {
-    skeleton: 'shimmer 1.5s infinite',
-  },
-  keyframes: {
-    shimmer: {
-      '0%': { transform: 'translateX(-100%)' },
-      '100%': { transform: 'translateX(100%)' },
+/* tailwind.config.js additions:
+
+module.exports = {
+  theme: {
+    extend: {
+      animation: {
+        skeleton: 'shimmer 1.5s infinite',
+      },
+      keyframes: {
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+      },
     },
   },
+}
+
 */

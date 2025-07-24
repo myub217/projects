@@ -25,13 +25,14 @@ const ReviewsSection: React.FC = () => (
       </p>
 
       {/* Desktop & Tablet Grid */}
-      <div className="hidden gap-10 sm:grid-cols-2 lg:grid lg:grid-cols-3">
+      <div className="hidden gap-10 sm:grid-cols-2 lg:grid lg:grid-cols-3" role="list">
         {reviewsData.map((review, idx) => (
           <article
             key={review.id ?? idx}
             className="group card flex flex-col justify-between rounded-3xl border border-gray-200 bg-white p-8 shadow-lg transition-shadow duration-300 ease-in-out hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:border-gray-700 dark:bg-gray-800"
             tabIndex={0}
             aria-label={`รีวิวจากคุณ ${review.name}`}
+            role="listitem"
           >
             <div className="mb-6 flex items-start gap-4">
               <FaQuoteLeft
@@ -51,13 +52,17 @@ const ReviewsSection: React.FC = () => (
       </div>
 
       {/* Mobile Carousel */}
-      <div className="scrollbar-hide mt-8 flex snap-x snap-mandatory space-x-5 overflow-x-auto px-2 lg:hidden">
+      <div
+        className="scrollbar-hide mt-8 flex snap-x snap-mandatory space-x-5 overflow-x-auto px-2 lg:hidden"
+        role="list"
+      >
         {reviewsData.map((review, idx) => (
           <article
             key={review.id ?? idx}
             className="min-w-[85%] max-w-sm shrink-0 snap-center rounded-3xl border border-gray-200 bg-white p-6 shadow-md transition-transform duration-200 hover:scale-[1.03] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:border-gray-700 dark:bg-gray-800"
             tabIndex={0}
             aria-label={`รีวิวจากคุณ ${review.name}`}
+            role="listitem"
           >
             <div className="mb-4 flex items-start gap-3">
               <FaQuoteLeft className="mt-1 text-xl text-primary" aria-hidden="true" />

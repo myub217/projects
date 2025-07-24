@@ -1,7 +1,8 @@
 // src/components/ui/Alert.tsx
 // ✅ Accessible alert component with Tailwind + DaisyUI theme-aware styles and ARIA support
+// ✨ เพิ่ม focus management และปรับปรุงรายละเอียด accessibility
 
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 
 interface AlertProps {
   type?: 'info' | 'success' | 'warning' | 'error'
@@ -27,19 +28,32 @@ const Alert: React.FC<AlertProps> = ({
   onDismiss,
   role = 'alert',
 }) => {
+  const dismissBtnRef = useRef<HTMLButtonElement | null>(null)
+
+  // Focus dismiss button on mount if dismissible, for keyboard users
+  useEffect(() => {
+    if (dismissible && dismissBtnRef.current) {
+      dismissBtnRef.current.focus()
+    }
+  }, [dismissible])
+
   return (
     <div
       role={role}
-      className={`alert ${typeStyles[type]} shadow-lg ${className} ${dismissible ? 'pr-12' : ''}`}
+      className={`alert ${typeStyles[type]} relative shadow-lg ${className} ${
+        dismissible ? 'pr-12' : ''
+      }`}
       aria-live="assertive"
+      aria-atomic="true"
     >
       <div>{message}</div>
       {dismissible && onDismiss && (
         <button
           type="button"
           onClick={onDismiss}
-          aria-label="Dismiss alert"
+          aria-label="ปิดข้อความแจ้งเตือน"
           className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2"
+          ref={dismissBtnRef}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

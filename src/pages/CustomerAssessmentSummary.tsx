@@ -1,7 +1,9 @@
 // src/pages/CustomerAssessmentSummary.tsx
-// ✅ Refined + accessible customer assessment summary with semantic grouping and print-ready layout
+// ✅ Refined + accessible + print-ready customer assessment summary
 
 import React from 'react'
+import Button from '@/components/ui/Button'
+import { PrinterIcon } from 'lucide-react'
 
 interface CustomerAssessmentSummaryProps {
   data: {
@@ -18,13 +20,13 @@ interface CustomerAssessmentSummaryProps {
   }
 }
 
-const InfoRow: React.FC<{ label: string; value: string }> = ({ label, value }) => (
+const InfoRow: React.FC<{ label: string; value?: string }> = ({ label, value }) => (
   <p className="mb-2 break-words text-sm text-gray-800 sm:text-base">
     <strong className="text-gray-900">{label}:</strong> <span>{value?.trim() || '-'}</span>
   </p>
 )
 
-const MultiLineRow: React.FC<{ label: string; value: string }> = ({ label, value }) => (
+const MultiLineRow: React.FC<{ label: string; value?: string }> = ({ label, value }) => (
   <div className="mb-6">
     <p className="mb-1 text-sm font-semibold text-gray-900 sm:text-base">{label}:</p>
     <p className="whitespace-pre-wrap break-words rounded-md bg-gray-50 px-4 py-2 text-sm text-gray-800 shadow-inner ring-1 ring-gray-200 sm:text-base">
@@ -34,16 +36,30 @@ const MultiLineRow: React.FC<{ label: string; value: string }> = ({ label, value
 )
 
 const CustomerAssessmentSummary: React.FC<CustomerAssessmentSummaryProps> = ({ data }) => {
+  const handlePrint = () => {
+    window.print()
+  }
+
   return (
     <main
       role="main"
       aria-label="สรุปข้อมูลประเมินลูกค้า"
-      className="mx-auto max-w-3xl rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-200 sm:p-8 print:bg-transparent print:shadow-none"
       tabIndex={-1}
+      className="mx-auto max-w-3xl rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-200 sm:p-8 print:bg-transparent print:shadow-none print:ring-0"
     >
-      <h1 className="mb-10 text-center text-2xl font-bold text-gray-900 sm:text-3xl">
-        สรุปข้อมูลประเมินลูกค้า
-      </h1>
+      <div className="mb-6 flex items-center justify-between print:hidden">
+        <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">สรุปข้อมูลประเมินลูกค้า</h1>
+        <Button
+          onClick={handlePrint}
+          className="gap-2"
+          variant="outline"
+          aria-label="พิมพ์เอกสาร"
+          type="button"
+        >
+          <PrinterIcon className="h-4 w-4" />
+          พิมพ์
+        </Button>
+      </div>
 
       {/* ข้อมูลส่วนตัว */}
       <section aria-labelledby="section-personal-info" className="mb-10">
@@ -53,7 +69,7 @@ const CustomerAssessmentSummary: React.FC<CustomerAssessmentSummaryProps> = ({ d
         >
           ข้อมูลส่วนตัว
         </h2>
-        <div className="space-y-2">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2">
           <InfoRow label="ชื่อ-นามสกุล" value={data.fullName} />
           <InfoRow label="เบอร์โทรศัพท์" value={data.phone} />
           <InfoRow label="อาชีพ" value={data.occupation} />

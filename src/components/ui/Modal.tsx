@@ -38,7 +38,7 @@ const Modal: React.FC<ModalProps> = ({
 
       if (e.key === 'Tab' && modalRef.current) {
         const focusable = modalRef.current.querySelectorAll<HTMLElement>(
-          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+          'a[href], button:not([disabled]):not([aria-hidden]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
         )
 
         if (!focusable.length) return

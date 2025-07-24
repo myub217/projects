@@ -1,5 +1,12 @@
 // src/components/common/Modal.tsx
-// Reusable Modal with configurable size, accessibility, scroll lock, ESC-close, focus trap, optional backdrop close, and transitions
+// ✅ Reusable Modal component with:
+//    - configurable size (sm, md, lg, xl)
+//    - accessibility support (aria-labelledby, aria-describedby)
+//    - focus trap with keyboard navigation (Tab/Shift+Tab)
+//    - ESC key to close
+//    - scroll lock on open
+//    - optional backdrop click to close
+//    - transition styles
 
 import React, { ReactNode, useEffect, useRef, useCallback } from 'react'
 
@@ -85,7 +92,7 @@ const Modal: React.FC<ModalProps> = ({
     }
   }, [isOpen, onClose, initialFocusRef])
 
-  // Scroll lock
+  // Scroll lock on open modal
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
@@ -97,7 +104,7 @@ const Modal: React.FC<ModalProps> = ({
     }
   }, [isOpen])
 
-  // Prevent click inside modal content from closing modal
+  // Prevent modal content click from closing modal
   const onModalContentClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation()
   }, [])

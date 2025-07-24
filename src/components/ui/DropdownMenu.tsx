@@ -1,5 +1,6 @@
 // src/components/ui/DropdownMenu.tsx
 // ✅ Accessible Dropdown Menu component with keyboard support, Tailwind & DaisyUI theme-aware styling
+// ✨ ปรับปรุง keyboard navigation, aria attributes, focus management, และ styling ให้ครบถ้วน
 
 import React, { useState, useRef, useEffect, KeyboardEvent } from 'react'
 import clsx from 'clsx'
@@ -44,10 +45,10 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ label, items, className, me
   // Keyboard navigation: open/close & arrow navigation
   const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement | HTMLUListElement>) => {
     if (e.currentTarget === buttonRef.current) {
-      if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+      if (['ArrowDown', 'Enter', ' '].includes(e.key)) {
         e.preventDefault()
         setOpen(true)
-        // Focus first menu item next tick
+        // Focus first menu item on next tick
         setTimeout(() => {
           menuRef.current?.querySelector('li[tabindex="0"]')?.focus()
         }, 0)

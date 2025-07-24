@@ -1,6 +1,3 @@
-// src/pages/SettingsPage.tsx
-// ✅ User settings page with theme toggle, profile form, localStorage, validation, accessibility
-
 import React, { useState, useEffect, useCallback } from 'react'
 import MainLayout from '@components/Layout/MainLayout'
 import { useTheme } from '@components/ThemeProvider'
@@ -40,7 +37,6 @@ const SettingsPage: React.FC = () => {
     localStorage.setItem('loggedInUser', username.trim())
     localStorage.setItem('userEmail', email.trim())
     setStatusMsg('บันทึกข้อมูลเรียบร้อยแล้ว')
-
     setInitialUsername(username.trim())
     setInitialEmail(email.trim())
   }, [username, email])
@@ -61,13 +57,9 @@ const SettingsPage: React.FC = () => {
             handleSave()
           }}
           className="flex flex-col gap-4"
-          aria-describedby={
-            `${errorMsg ? 'error-message' : ''} ${statusMsg && !errorMsg ? 'status-message' : ''}`.trim() ||
-            undefined
-          }
+          aria-describedby={errorMsg ? 'error-message' : statusMsg ? 'status-message' : undefined}
           noValidate
         >
-          {/* Username Input */}
           <label htmlFor="username" className="font-medium">
             ชื่อผู้ใช้{' '}
             <span aria-hidden="true" className="text-error">
@@ -87,7 +79,6 @@ const SettingsPage: React.FC = () => {
             spellCheck={false}
           />
 
-          {/* Email Input */}
           <label htmlFor="email" className="font-medium">
             อีเมล
           </label>
@@ -102,7 +93,6 @@ const SettingsPage: React.FC = () => {
             spellCheck={false}
           />
 
-          {/* Buttons */}
           <div className="mt-6 flex items-center justify-between gap-2">
             <button
               type="submit"
@@ -122,7 +112,6 @@ const SettingsPage: React.FC = () => {
             </button>
           </div>
 
-          {/* Messages */}
           {errorMsg && (
             <p id="error-message" role="alert" className="mt-4 select-none text-sm text-error">
               {errorMsg}
