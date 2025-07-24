@@ -4,17 +4,17 @@
 import React, { Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
-import ProtectedRoute from '@components/ProtectedRoute'
-import { useTheme } from '@components/ThemeProvider'
-import LoadingFallback from '@components/common/LoadingFallback'
+import ProtectedRoute from '@/components/ProtectedRoute'
+import { useTheme } from '@/components/ThemeProvider'
+import LoadingFallback from '@/components/common/LoadingFallback'
 
 // Lazy loaded pages
-const IndexPage = lazy(() => import('@pages/IndexPage'))
-const LoginPage = lazy(() => import('@pages/LoginPage'))
-const SecretRoomPage = lazy(() => import('@pages/SecretRoomPage'))
-const AdminPage = lazy(() => import('@pages/AdminPage'))
-const CustomerAssessmentSummary = lazy(() => import('@pages/CustomerAssessmentSummary'))
-const NotFoundPage = lazy(() => import('@pages/NotFoundPage'))
+const IndexPage = lazy(() => import('@/pages/IndexPage'))
+const LoginPage = lazy(() => import('@/pages/LoginPage'))
+const SecretRoomPage = lazy(() => import('@/pages/SecretRoomPage'))
+const AdminPage = lazy(() => import('@/pages/AdminPage'))
+const CustomerAssessmentSummary = lazy(() => import('@/pages/CustomerAssessmentSummary'))
+const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'))
 
 const AppRoutes: React.FC = () => {
   const { theme, toggleTheme } = useTheme()

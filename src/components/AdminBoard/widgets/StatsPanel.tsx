@@ -1,4 +1,5 @@
-// src/components/AdminBoard/StatsPanel.tsx
+// <src/components/AdminBoard/widgets/StatsPanel.tsx>
+// ✅ สรุปข้อมูลสถิติพร้อมไอคอน รองรับการเข้าถึง (Accessibility)
 
 import React from 'react'
 
@@ -83,7 +84,7 @@ const StatsPanel: React.FC = () => {
     <section
       role="region"
       aria-label="สถิติโดยรวม"
-      className="grid grid-cols-1 gap-6 sm:grid-cols-3"
+      className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
     >
       {statsData.map(({ id, title, value, icon, colorClass }) => (
         <article
@@ -99,7 +100,7 @@ const StatsPanel: React.FC = () => {
             <span id={`stat-title-${id}`} className="text-lg font-semibold">
               {title}
             </span>
-            <span id={`stat-value-${id}`} className="text-3xl font-bold">
+            <span id={`stat-value-${id}`} className="text-3xl font-bold leading-tight">
               {value}
             </span>
           </div>

@@ -1,106 +1,52 @@
 // src/components/AdminBoard/Dashboard.tsx
+// ✅ Dashboard รวม widget ต่าง ๆ ของ AdminBoard พร้อมส่ง props ถูกต้องและสวยงาม
 
 import React from 'react'
-import StatsPanel from './StatsPanel'
-import UserTable from './UserTable'
-import CustomerCard from './CustomerCard'
-import SalaryCertificate, { Employee } from './SalaryCertificate'
+import StatsPanel from './widgets/StatsPanel'
+import CustomerCard from './widgets/CustomerCard'
+import UserTable from './widgets/UserTable'
+import CertificatePreview from './widgets/CertificatePreview'
+import { CompanyInfo } from '@/config/salaryCertificateConfig'
 
-const AdminDashboard: React.FC = () => {
-  const sampleEmployee: Employee = {
-    fullName: 'นายสมชาย ใจดี',
-    position: 'วิศวกรซอฟต์แวร์',
-    department: 'ฝ่ายพัฒนาระบบ',
-    salaryAmount: 45000,
-    salaryMonth: 'กรกฎาคม 2568',
-    issueDate: new Date('2025-07-22'),
-  }
+const company: CompanyInfo = {
+  name: 'บริษัท เทคโนโลยีเพื่อธุรกิจ จำกัด',
+  logoUrl: '/images/logo.png', // ตรวจสอบให้แน่ใจว่าไฟล์นี้อยู่ใน public/
+  address: '88/8 อาคารเทคโนเซ็นเตอร์ ชั้น 9 ถนนเทคโนโลยี แขวงธุรกิจ เขตไอที กรุงเทพฯ 10200',
+  phone: '02-888-9999',
+  taxId: '0105546099999',
+  hrManager: {
+    fullName: 'นางสาว สุรีย์พร ทรัพย์เจริญ',
+  },
+}
 
+const Dashboard: React.FC = () => {
   return (
-    <main
-      role="main"
-      aria-label="แดชบอร์ดผู้ดูแลระบบ"
-      className="mx-auto min-h-screen max-w-7xl space-y-20 rounded-3xl bg-base-100 p-10 text-base-content shadow-xl print:bg-white print:shadow-none"
-    >
-      {/* Header */}
-      <header className="mb-10 text-center print:hidden">
-        <h1 className="text-5xl font-extrabold text-primary">แดชบอร์ดผู้ดูแลระบบ</h1>
-        <p className="mx-auto mt-4 max-w-4xl text-lg text-muted sm:text-xl">
-          จัดการข้อมูลและดูสถิติที่สำคัญแบบเรียลไทม์เพื่อเพิ่มประสิทธิภาพการทำงาน
-        </p>
-      </header>
+    <main className="container mx-auto space-y-8 p-6">
+      <h1 className="text-3xl font-bold text-primary">แดชบอร์ดผู้ดูแลระบบ</h1>
 
-      {/* Stats Section */}
-      <section
-        role="region"
-        aria-labelledby="stats-panel-heading"
-        className="space-y-10 print:hidden"
-      >
-        <h2 id="stats-panel-heading" className="sr-only">
-          สถิติโดยรวม
-        </h2>
+      <section aria-label="สถิติโดยรวม">
         <StatsPanel />
       </section>
 
-      {/* Customer Highlight Section */}
-      <section
-        role="region"
-        aria-labelledby="customer-card-heading"
-        className="space-y-8 print:hidden"
-      >
-        <h2 id="customer-card-heading" className="text-2xl font-bold text-primary">
-          ลูกค้าเด่นประจำวัน
-        </h2>
-        <CustomerCard
-          loading={false}
-          customer={{
-            id: 'featured-001',
-            name: 'บริษัท ลูกค้า VIP จำกัด',
-            status: 'เสร็จสมบูรณ์',
-            documentTitle: 'บริการตรวจสอบเอกสาร',
-            receivedDate: new Date().toISOString(),
-          }}
-        />
+      <section aria-label="ข้อมูลลูกค้าคนสำคัญ">
+        <CustomerCard />
       </section>
 
-      {/* User Table Section */}
-      <section
-        role="region"
-        aria-labelledby="user-table-heading"
-        className="space-y-8 print:hidden"
-      >
-        <h2 id="user-table-heading" className="text-2xl font-bold text-primary">
-          รายชื่อผู้ใช้งานในระบบ
-        </h2>
+      <section aria-label="รายชื่อผู้ใช้งานในระบบ">
         <UserTable />
       </section>
 
-      {/* Salary Certificate Section */}
-      <section
-        role="region"
-        aria-labelledby="salary-certificate-heading"
-        className="flex justify-center space-y-8 print:block"
-      >
-        <h2
-          id="salary-certificate-heading"
-          className="text-2xl font-bold text-primary print:hidden"
-        >
-          ใบรับรองเงินเดือนตัวอย่าง
-        </h2>
-        <div
-          className="w-full max-w-[210mm] rounded-md border border-gray-300 bg-white p-10 shadow-md print:rounded-none print:border-0 print:p-0 print:shadow-none"
-          style={{
-            minHeight: '297mm',
-            fontFamily: "'TH Sarabun New', serif",
-            color: '#1f2937',
-            boxSizing: 'border-box',
-          }}
-        >
-          <SalaryCertificate employee={sampleEmployee} />
-        </div>
+      <section aria-label="ตัวอย่างใบรับรองเงินเดือน" id="certificate-section">
+        <CertificatePreview
+          employeeName="สมชาย ใจดี"
+          position="วิศวกรซอฟต์แวร์"
+          salary={45000}
+          issueDate="24 กรกฎาคม 2568"
+          company={company}
+        />
       </section>
     </main>
   )
 }
 
-export default AdminDashboard
+export default Dashboard

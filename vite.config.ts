@@ -7,7 +7,6 @@ import { viteStaticCopy } from 'vite-plugin-static-copy'
 import path from 'node:path'
 import fs from 'fs'
 
-// ✅ แบบสมบูรณ์ ใช้งานกับ PWA, Mock API, Static Copy และ Path Alias
 export default defineConfig({
   plugins: [
     react(),
@@ -53,7 +52,6 @@ export default defineConfig({
       ],
     }),
 
-    // ✅ Mock API สำหรับ dev เท่านั้น
     {
       name: 'mock-api',
       configureServer(server) {

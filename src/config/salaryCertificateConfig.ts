@@ -1,9 +1,5 @@
-// src/config/salaryCertificateConfig.ts
-
-/**
- * ข้อมูลบริษัท สำหรับใช้งานในเอกสารราชการ เช่น ใบรับรองเงินเดือน
- * รูปแบบเรียบง่าย สีดำล้วน ใช้สำหรับเอกสารทางบัญชี/ราชการ
- */
+// <src/config/salaryCertificateConfig.ts>
+// ✅ config กลางของบริษัท ใช้สำหรับเอกสารใบรับรองเงินเดือน/ราชการ
 
 export interface CompanyInfo {
   name: string
@@ -13,24 +9,21 @@ export interface CompanyInfo {
   taxId: string
   hrManager: {
     fullName: string
-    position: string
-    email: string
+    email?: string
+    phone?: string
   }
 }
 
-export const companyInfo: CompanyInfo = {
-  name: 'บริษัท เจพี วิชวล จำกัด',
-  logoUrl: '/assets/logo.png', // ✅ เปลี่ยน path ตามที่จัดเก็บจริง (ใน public/)
-  address: [
-    '123/45 ถนนสุขุมวิท',
-    'แขวงคลองเตยเหนือ เขตวัฒนา',
-    'กรุงเทพมหานคร 10110 ประเทศไทย',
-  ].join('\n'),
-  phone: '02-123-4567',
-  taxId: '0105550123456',
+// ✅ ค่าเริ่มต้น mock สำหรับใช้งานแสดงผลจริง
+export const defaultCompanyInfo: CompanyInfo = {
+  name: 'บริษัท เทคโนโลยีเพื่อธุรกิจ จำกัด',
+  logoUrl: '/assets/images/company-logo.png',
+  address: `88/8 อาคารเทคโนเซ็นเตอร์ ชั้น 9\nถนนเทคโนโลยี แขวงธุรกิจ เขตไอที\nกรุงเทพมหานคร 10200`,
+  phone: '02-888-9999',
+  taxId: '0105546099999',
   hrManager: {
-    fullName: 'นางสาว สุภาพร แซ่ลิ้ม',
-    position: 'ผู้จัดการฝ่ายทรัพยากรบุคคล',
-    email: 'supaporn.s@jpvisual.co.th',
+    fullName: 'นางสาว สุรีย์พร ทรัพย์เจริญ',
+    email: 'hr@techbiz.co.th',
+    phone: '02-888-9988',
   },
 }

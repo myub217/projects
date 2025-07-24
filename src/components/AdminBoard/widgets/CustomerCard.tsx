@@ -1,5 +1,4 @@
-// src/components/AdminBoard/CustomerCard.tsx
-
+// <src/components/AdminBoard/widgets/CustomerCard.tsx>
 import React from 'react'
 
 interface Customer {
@@ -21,33 +20,35 @@ const featuredCustomer: Customer = {
 }
 
 const CustomerCard: React.FC = () => {
+  const { name, avatarUrl, email, lastOrderDate, totalSpent } = featuredCustomer
+
   return (
     <article
       role="region"
-      aria-label={`ข้อมูลลูกค้าเด่น: ${featuredCustomer.name}`}
+      aria-label={`ข้อมูลลูกค้าเด่น: ${name}`}
       className="dark:border-base-700 flex items-center gap-6 rounded-xl border border-base-300 bg-base-200 p-6 shadow-md"
       tabIndex={0}
     >
       <img
-        src={featuredCustomer.avatarUrl}
-        alt={`รูปโปรไฟล์ของลูกค้า ${featuredCustomer.name}`}
-        className="h-20 w-20 rounded-full border-2 border-primary object-cover"
+        src={avatarUrl}
+        alt={`รูปโปรไฟล์ของลูกค้า ${name}`}
+        className="h-20 w-20 flex-shrink-0 rounded-full border-2 border-primary object-cover"
         loading="lazy"
         width={80}
         height={80}
         decoding="async"
         fetchPriority="low"
       />
-      <div className="flex-1 space-y-1">
-        <h3 className="select-text text-2xl font-semibold text-primary">{featuredCustomer.name}</h3>
-        <p className="select-text text-sm text-muted">{featuredCustomer.email}</p>
+      <div className="flex-1 space-y-1 overflow-hidden">
+        <h3 className="select-text truncate text-2xl font-semibold text-primary">{name}</h3>
+        <p className="select-text truncate text-sm text-muted">{email}</p>
         <p className="text-sm">
           สั่งซื้อครั้งล่าสุด:{' '}
           <time
-            dateTime={featuredCustomer.lastOrderDate}
-            aria-label={`สั่งซื้อครั้งล่าสุดเมื่อวันที่ ${featuredCustomer.lastOrderDate}`}
+            dateTime={lastOrderDate}
+            aria-label={`สั่งซื้อครั้งล่าสุดเมื่อวันที่ ${lastOrderDate}`}
           >
-            {new Date(featuredCustomer.lastOrderDate).toLocaleDateString('th-TH', {
+            {new Date(lastOrderDate).toLocaleDateString('th-TH', {
               year: 'numeric',
               month: 'long',
               day: 'numeric',
@@ -57,7 +58,7 @@ const CustomerCard: React.FC = () => {
         <p className="mt-2 text-sm font-medium">
           ยอดรวมการใช้จ่าย:{' '}
           <span className="text-accent">
-            {featuredCustomer.totalSpent.toLocaleString('th-TH', {
+            {totalSpent.toLocaleString('th-TH', {
               style: 'currency',
               currency: 'THB',
               minimumFractionDigits: 0,
