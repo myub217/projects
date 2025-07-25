@@ -1,12 +1,14 @@
 // tools/update-tsconfig-paths.js
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const tsconfigPath = path.resolve(__dirname, '../tsconfig.json');
 const viteConfigPath = path.resolve(__dirname, '../vite.config.ts');
 
 const aliasPattern = /alias:\s*{([\s\S]*?)}/m;
-const entryPattern = /(\w+):\s*path\.resolve\(__dirname,\s*['"`](.*?)['"`]\)/g;
+const entryPattern =
+  /(['"`])([^'"`]+)\1\s*:\s*path\.resolve\(__dirname,\s*['"`](.*?)['"`]\)/g;
 
 function extractAliasFromVite() {
   const viteRaw = fs.readFileSync(viteConfigPath, 'utf-8');
@@ -22,12 +24,12 @@ function extractAliasFromVite() {
   let match;
 
   while ((match = entryPattern.exec(aliasSection)) !== null) {
-    // match[1] = alias key, match[2] = path value
-    let key = match[1];
-    let val = match[2];
+    // match[2] = alias key, match[3] = path value
+    let key = match[2];
+    let val = match[3];
 
     if (!key.startsWith('@')) key = '@' + key;
-    // normalize val to relative path with /* for TS paths
+    // Normalize val to relative path starting with ./src and trailing /*
     let relativePath = val.replace(/^src\//, './src/').replace(/\/$/, '');
     aliases[key + '/*'] = [relativePath + '/*'];
   }

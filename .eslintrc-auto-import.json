@@ -1,6 +1,5 @@
 {
   "globals": {
-    "undefined": "readonly",
     "Link": "readonly",
     "NavLink": "readonly",
     "Navigate": "readonly",

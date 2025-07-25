@@ -30,7 +30,7 @@ body {
   scroll-behavior: smooth;
 }
 
-/* Ensure consistent box-sizing */
+/* Consistent box-sizing across elements */
 *,
 *::before,
 *::after {
