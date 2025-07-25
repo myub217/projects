@@ -37,6 +37,7 @@ run_script() {
     fi
   else
     echo "⚠️ ไม่พบสคริปต์: $script_name ($script_path)"
+    exit 1
   fi
 }
 

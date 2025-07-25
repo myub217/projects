@@ -1,22 +1,19 @@
 // src/main.tsx
-// 🚀 Root app entry
-// - Wraps AppRoutes with ThemeProvider, BrowserRouter, Suspense fallback, and ErrorBoundary
-// - Loads global styles
+// ✅ ENTRY POINT สำหรับ JP Visual & Docs
+// ✅ โครงสร้าง Root ครอบทุก Provider, Router, ErrorBoundary, Suspense, GlobalStyle
 
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
-// 🧩 Global CSS (รวม tailwind-base, tailwind, global ไว้ใน global.css แล้ว)
+// 🌐 Global Styles (รวม base, Tailwind, custom)
 import '@/styles/global.css';
 
-// 🔧 App Core
-import { ThemeProvider } from '@components/ThemeProvider';
+// 📦 Core Components
 import AppRoutes from './routes/AppRoutes';
-
-// 📦 UI
-import LoadingFallback from '@components/common/LoadingFallback';
+import { ThemeProvider } from '@components/ThemeProvider';
 import ErrorBoundary from '@components/ErrorBoundary';
+import LoadingFallback from '@components/common/LoadingFallback';
 
 const RootApp: React.FC = () => (
   <React.StrictMode>

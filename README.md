@@ -1,155 +1,91 @@
-# 🧩 Modular OnePage – Fullstack Web Project
+# JP Visual & Docs - ภาพรวมโปรเจกต์
 
-## 📌 Overview
+## ที่อยู่โปรเจกต์
 
-Modular OnePage is a scalable, modern fullstack web application optimized for smooth UX and maintainability.
-
-- **Frontend:** React 18 + TypeScript + TailwindCSS + DaisyUI
-- **Routing:** React Router v6
-- **PDF Tools:** `react-pdf`, `react-dropzone`
-- **UI/UX:** Headless UI, Heroicons, Framer Motion animations
-- **PWA Support:** Vite Plugin PWA (Workbox) with offline caching
-- **Backend:** Express.js (Node.js) with Nodemailer for email handling
-- **Build Tools:** Vite, TypeScript, PostCSS
-- **DevOps:** Vercel deployment, Husky + lint-staged pre-commit hooks
+`/data/data/com.termux/files/home/projects`
 
 ---
 
-## 📂 Folder Structure
+## สรุปโปรเจกต์
 
-/projects1 ├── api/ # Express backend API routes & email logic ├── public/ # Static assets: favicon, robots.txt, manifest, images ├── src/ │ ├── components/ # Reusable UI components (buttons, cards, modals) │ ├── layout/ # Layout components (headers, footers, navbars) │ ├── pages/ # Page-level components (Index, Login, Admin, etc.) │ ├── styles/ # Tailwind config & global CSS overrides │ ├── routes/ # React Router route definitions │ └── main.tsx # React app entry point ├── .vercel.json # Vercel SPA fallback & routing config ├── tailwind.config.js # TailwindCSS configuration ├── postcss.config.js # PostCSS plugins and setup ├── tsconfig.json # TypeScript compiler config ├── vite.config.ts # Vite build & dev server config ├── package.json # NPM/Yarn/PNPM dependencies & scripts └── README.md # Project overview & instructions
+โปรเจกต์นี้เป็นเว็บแอปหน้าเดียว (SPA) ที่พัฒนาด้วย React + Vite + TailwindCSS สำหรับแบรนด์ JP Visual & Docs ซึ่งเน้นบริการด้านเอกสารและการตลาดในเชิงมืออาชีพ
 
 ---
 
-## 🚀 Getting Started
+## จุดเด่นของโปรเจกต์
+
+- ใช้ React 18 พร้อม Suspense และ lazy loading เพื่อประสิทธิภาพสูง
+- TailwindCSS ร่วมกับ DaisyUI สำหรับธีมโหมดสว่างและมืด
+- ตั้งค่า auto-import สำหรับ hooks, utils, API และ React Router
+- รองรับ PWA ด้วย `vite-plugin-pwa` ใช้กลยุทธ์ `injectManifest`
+- คัดลอกไฟล์ static assets อัตโนมัติผ่าน `vite-plugin-static-copy`
+- ระบบ routing เข้มงวด มีการป้องกันเส้นทางสำหรับ Admin และ Secret Area
+- ตั้งค่า TypeScript แบบเข้มงวด พร้อม path alias
+- ออกแบบให้รองรับการเข้าถึง (accessibility) และ responsive design ทุกหน้า
+
+---
+
+## โครงสร้างโปรเจกต์
+
+/src /assets # รูปภาพ ฟอนต์ ไอคอน /components # คอมโพเนนต์ UI ที่นำกลับมาใช้ใหม่ได้ /data # ข้อมูล static และข้อมูลผู้ใช้ /hooks # React hooks แบบกำหนดเอง /pages # หน้า route ต่าง ๆ (Index, Login, Admin, Secret, ฯลฯ) /routes # กำหนดเส้นทางและ wrapper /styles # ไฟล์ CSS รวมและ Tailwind /utils # ฟังก์ชันและ helper ทั่วไป sw.ts # Service Worker สำหรับ PWA auto-imports.d.ts # ไฟล์ TypeScript สำหรับ auto-import
+
+/public /images # รูปภาพ public ที่ถูกคัดลอกไป build folder
+
+---
+
+## ไฟล์คอนฟิกสำคัญ
+
+- **vite.config.ts** — กำหนด plugin, alias, proxy, และ config การ build
+- **tailwind.config.ts** — ปรับแต่งธีม Tailwind และ DaisyUI
+- **tsconfig.json** — ตั้งค่า TypeScript พร้อม path alias
+
+---
+
+## วิธีใช้งาน
 
 ```bash
-# Clone the repository
+# โคลนรีโพ
 git clone https://github.com/myub217/projects.git
 
-# Change directory
+# เข้าโฟลเดอร์โปรเจกต์
 cd projects
 
-# Install dependencies
+# ติดตั้ง dependencies
 pnpm install
 
-# Start development server with hot reload
+# เริ่มเซิร์ฟเวอร์สำหรับพัฒนา พร้อม hot reload
 pnpm dev
 
-# Build production assets
+# สร้างไฟล์สำหรับ production
 pnpm build
 
-# Preview production build locally
+# ทดสอบ build production ในเครื่อง
 pnpm preview
 
 
 ---
 
-🌐 Vercel Deployment
+หมายเหตุ
 
-Ensure .vercel.json is configured for SPA fallback routing:
+ตั้งค่าไฟล์ .env ให้มีตัวแปรจำเป็น เช่น USE_MOCK
 
-{
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
-}
+ดูแลไฟล์ .eslintrc-auto-import.json สำหรับ ESLint auto-import
 
-Deploy using Vercel CLI or GitHub integration:
-
-npx vercel deploy --prod
-
-
----
-
-🧪 Code Quality & Formatting
-
-Use Husky + lint-staged for pre-commit hooks to auto-format code:
-
-// package.json snippet
-"husky": {
-  "hooks": {
-    "pre-commit": "lint-staged"
-  }
-},
-"lint-staged": {
-  "*.{ts,tsx,js,jsx,json,css,md}": [
-    "prettier --write",
-    "git add"
-  ]
-}
-
-
----
-
-🗂️ .gitignore Key Entries
-
-# Logs
-*.log
-*.pid
-
-# Build outputs
-dist/
-build/
-.vite/
-node_modules/
-
-# Environment variables & secrets
-.env*
-.env.local
-.env.production.local
-
-# IDE & system files
-.vscode/
-.idea/
-.DS_Store
-Thumbs.db
-
-# AI / cache files
-gpt-response.json
-openai_cache/
-
-
----
-
-💡 Features & Highlights
-
-Full PWA support with offline mode & install prompt
-
-Responsive design optimized for desktop & mobile
-
-Modular architecture for fast feature extension
-
-Secure protected routes & authentication flows
-
-PDF upload, preview, and conversion tools
-
-Express backend with Nodemailer for contact forms
-
-Theming support with DaisyUI (light/dark mode)
+ปรับแต่ง sw.ts สำหรับ logic และกลยุทธ์การ cache ของ service worker
 
 
 
 ---
 
-📬 Contact
+ติดต่อ
 
-JP Dev Team
-Email: dev@jpvisual.com
-GitHub: github.com/myub217/projects
+หากมีปัญหาหรือข้อเสนอแนะ ติดต่อผู้ดูแลโปรเจกต์ได้โดยตรง
 
 
 ---
 
-📝 Notes
+จบรายงาน README
 
-Ensure .env contains all required variables before production deploy
 
-Use Vercel environment variables to handle secrets securely
 
-Follow commit message guidelines for smooth CI/CD integration
-
-Regularly run linting and tests before pushing code
 ```

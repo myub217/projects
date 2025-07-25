@@ -1,49 +1,53 @@
-// tools/update-tsconfig-paths.js
+// tools/update-tsconfig-paths.js (plain JS, no TS syntax)
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const tsconfigPath = path.resolve(__dirname, '../tsconfig.json');
 const viteConfigPath = path.resolve(__dirname, '../vite.config.ts');
 
-const aliasPattern = /alias:\s*{([\s\S]*?)}/m;
-const entryPattern =
-  /(['"`])([^'"`]+)\1\s*:\s*path\.resolve\(__dirname,\s*['"`](.*?)['"`]\)/g;
+const aliasObjectRegex = /alias:\s*{([\s\S]*?)}/m;
+const aliasEntryRegex =
+  /(['"`])([^'"`]+)\1\s*:\s*path\.resolve\(__dirname,\s*(['"`])([^'"`]+)\3\)/g;
 
-function extractAliasFromVite() {
+function extractAliasesFromVite() {
   const viteRaw = fs.readFileSync(viteConfigPath, 'utf-8');
-  const aliasMatch = aliasPattern.exec(viteRaw);
+  const match = aliasObjectRegex.exec(viteRaw);
 
-  if (!aliasMatch || aliasMatch.length < 2) {
-    console.warn('⚠️ ไม่พบ alias ใน vite.config.ts');
+  if (!match) {
+    console.warn('⚠️ ไม่พบ alias object ใน vite.config.ts');
     return {};
   }
 
-  const aliasSection = aliasMatch[1];
+  const aliasBlock = match[1];
   const aliases = {};
-  let match;
+  let matchEntry;
 
-  while ((match = entryPattern.exec(aliasSection)) !== null) {
-    // match[2] = alias key, match[3] = path value
-    let key = match[2];
-    let val = match[3];
+  while ((matchEntry = aliasEntryRegex.exec(aliasBlock)) !== null) {
+    const aliasKey = matchEntry[2];
+    const aliasPath = matchEntry[4];
 
-    if (!key.startsWith('@')) key = '@' + key;
-    // Normalize val to relative path starting with ./src and trailing /*
-    let relativePath = val.replace(/^src\//, './src/').replace(/\/$/, '');
-    aliases[key + '/*'] = [relativePath + '/*'];
+    const tsKey = aliasKey.endsWith('/*') ? aliasKey : `${aliasKey}/*`;
+    const tsPath = aliasPath.replace(/^\.\/?/, './').replace(/\/$/, '') + '/*';
+
+    aliases[tsKey] = [tsPath];
   }
 
   return aliases;
 }
 
 function updateTsconfigPaths() {
-  const tsconfigRaw = fs.readFileSync(tsconfigPath, 'utf-8');
-  const tsconfig = JSON.parse(tsconfigRaw);
-  const aliases = extractAliasFromVite();
+  const raw = fs.readFileSync(tsconfigPath, 'utf-8');
+  const tsconfig = JSON.parse(raw);
+
+  const aliases = extractAliasesFromVite();
 
   if (!tsconfig.compilerOptions) tsconfig.compilerOptions = {};
   if (!tsconfig.compilerOptions.paths) tsconfig.compilerOptions.paths = {};
+  tsconfig.compilerOptions.baseUrl = tsconfig.compilerOptions.baseUrl || '.';
 
   tsconfig.compilerOptions.paths = {
     ...tsconfig.compilerOptions.paths,
@@ -51,7 +55,7 @@ function updateTsconfigPaths() {
   };
 
   fs.writeFileSync(tsconfigPath, JSON.stringify(tsconfig, null, 2) + '\n', 'utf-8');
-  console.log('✅ tsconfig.json paths updated.');
+  console.log('✅ tsconfig.json paths synced with vite.config.ts aliases.');
 }
 
 updateTsconfigPaths();

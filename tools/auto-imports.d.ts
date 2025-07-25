@@ -13,7 +13,7 @@ declare global {
   const useLayoutEffect: (typeof import('react'))['useLayoutEffect'];
   const useId: (typeof import('react'))['useId'];
 
-  const cn: typeof import('@utils/cn').cn;
+  const cn: (typeof import('@/utils/cn'))['cn'];
 }
 
 export {};

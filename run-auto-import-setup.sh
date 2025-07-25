@@ -40,6 +40,7 @@ for script in "${!SCRIPTS[@]}"; do
 
   if [ -f "$script_path" ]; then
     echo -e "\n$label"
+    # ส่งค่า imports.json เป็น argument string
     if output=$(node "$script_path" "$(cat "$IMPORTS_FILE")" 2>&1); then
       echo "✅ สำเร็จ: $label"
     else
@@ -49,6 +50,7 @@ for script in "${!SCRIPTS[@]}"; do
     fi
   else
     echo "⚠️ ไม่พบสคริปต์: $script_path"
+    exit 1
   fi
 done
 

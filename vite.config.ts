@@ -1,7 +1,6 @@
 // vite.config.ts
-// ✅ Vite config for JP Visual & Docs
-// - React + Tailwind + AutoImport + PWA + StaticCopy
-// - Organized aliases, proxy toggle (USE_MOCK), proper build target
+// ✅ JP Visual & Docs :: Full Vite Config (Fixed)
+// React + Tailwind + AutoImport + PWA + StaticCopy + Aliases + DevProxy
 
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
@@ -9,12 +8,17 @@ import AutoImport from 'unplugin-auto-import/vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import path from 'node:path';
+import fs from 'node:fs';
+
+// ✅ Check asset files exist to prevent build errors
+const hasFavicon = fs.existsSync('public/favicon.ico');
+const hasImages = fs.existsSync('public/images');
 
 export default defineConfig({
   plugins: [
     react(),
 
-    // 🔁 Auto-import hooks, utils, api, react
+    // ⚙️ Auto-import React + Router + Custom Folders
     AutoImport({
       imports: ['react', 'react-router-dom'],
       dirs: ['src/hooks', 'src/utils', 'src/api'],
@@ -27,7 +31,7 @@ export default defineConfig({
       eslintrcRoot: true,
     }),
 
-    // 🔋 PWA: Custom service worker strategy
+    // ⚡ Add PWA support using InjectManifest strategy
     VitePWA({
       strategies: 'injectManifest',
       srcDir: 'src',
@@ -36,8 +40,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       injectManifest: {
         globDirectory: 'dist',
-        globPatterns: ['**/*.{js,css,html,wasm,webmanifest}'],
-        globIgnores: ['**/node_modules/**/*', 'sw.js', '**/sw.js.map'],
+        globPatterns: ['**/*.{js,css,html,webmanifest,woff2}'],
+        globIgnores: ['**/node_modules/**/*', '**/*.map'],
       },
       devOptions: {
         enabled: true,
@@ -57,25 +61,23 @@ export default defineConfig({
       },
     }),
 
-    // 🗂️ Static assets
+    // 📁 Copy only if asset folders/files exist
     viteStaticCopy({
       targets: [
-        {
-          src: 'public/images',
-          dest: 'images',
-        },
+        ...(hasImages ? [{ src: 'public/images', dest: 'images' }] : []),
+        ...(hasFavicon ? [{ src: 'public/favicon.ico', dest: '.' }] : []),
       ],
     }),
   ],
 
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, '/src'),
-      '@components': path.resolve(__dirname, '/src/components'),
-      '@data': path.resolve(__dirname, '/src/data'),
-      '@utils': path.resolve(__dirname, '/src/utils'),
-      '@assets': path.resolve(__dirname, '/src/assets'),
-      '@pages': path.resolve(__dirname, '/src/pages'),
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@data': path.resolve(__dirname, './src/data'),
+      '@utils': path.resolve(__dirname, './src/utils'),
+      '@assets': path.resolve(__dirname, './src/assets'),
+      '@pages': path.resolve(__dirname, './src/pages'),
     },
   },
 

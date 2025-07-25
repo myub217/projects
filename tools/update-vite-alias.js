@@ -4,7 +4,7 @@ const path = require('path');
 const tsconfigPath = path.resolve(__dirname, '../tsconfig.json');
 const viteConfigPath = path.resolve(__dirname, '../vite.config.ts');
 
-// อ่าน tsconfig.json paths
+// อ่าน tsconfig.json paths และแปลงเป็น array สำหรับ vite alias
 function getAliasesFromTsconfig() {
   const tsconfigRaw = fs.readFileSync(tsconfigPath, 'utf-8');
   const tsconfig = JSON.parse(tsconfigRaw);
@@ -14,7 +14,11 @@ function getAliasesFromTsconfig() {
   for (const key in paths) {
     const cleanKey = key.replace(/\/\*$/, '');
     const target = paths[key][0].replace(/\/\*$/, '');
-    aliases.push({ find: cleanKey, replacement: target });
+    aliases.push({
+      find: cleanKey,
+      replacement: `./src/${target}`.replace(/\/\.\//g, '/'),
+    });
+    // แก้เติม ./src/ หรือใช้ target ตรง ๆ ถ้า paths ตั้งค่าเป็นแบบ relative อยู่แล้ว
   }
   return aliases;
 }
@@ -24,7 +28,7 @@ function updateViteAlias() {
   let viteRaw = fs.readFileSync(viteConfigPath, 'utf-8');
   const aliases = getAliasesFromTsconfig();
 
-  // สร้าง block alias ใหม่ (TS/JS syntax)
+  // สร้าง block alias ใหม่ (array of objects syntax)
   const aliasBlock = `alias: [\n${aliases
     .map(
       (a) =>

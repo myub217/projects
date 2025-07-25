@@ -16,7 +16,8 @@ function scanFiles(dir) {
       }
     } else if (/\.(js|jsx|ts|tsx)$/.test(entry.name)) {
       const content = fs.readFileSync(fullPath, 'utf-8');
-      const regex = /import\s+.*?from\s+['"]([^'"]+)['"]/g;
+      // Match import ... from 'module' and import 'module'
+      const regex = /import\s+(?:.*?\s+from\s+)?['"]([^'"]+)['"]/g;
       let match;
       while ((match = regex.exec(content)) !== null) {
         imports.add(match[1]);

@@ -26,19 +26,11 @@
     "types": [
       "vite/client",
       "unplugin-auto-import",
-      "./auto-imports.d.ts",
-      "./../tools/auto-imports.d.ts",
+      "./src/auto-imports.d.ts",
       "./tools/auto-imports.d.ts"
     ],
     "typeRoots": ["./node_modules/@types", "./types"]
   },
-  "include": ["src", "src/auto-imports.d.ts", "src/sw.ts"],
-  "exclude": [
-    "dist",
-    "node_modules",
-    "public",
-    "coverage",
-    "**/*.test.ts",
-    "**/*.spec.ts"
-  ]
+  "include": ["src/**/*", "src/sw.ts", "src/auto-imports.d.ts"],
+  "exclude": ["dist", "node_modules", "public", "coverage"]
 }

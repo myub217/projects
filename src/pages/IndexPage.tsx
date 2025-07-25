@@ -1,31 +1,37 @@
-// ✅ src/pages/IndexPage.tsx
-// ✅ Single Page Layout — Theme toggle, Modal focus trap, Backdrop close, Clean a11y
+// src/pages/IndexPage.tsx
+// ✨ Single Page — Full Sections Layout with ThemeToggle, Modal (FocusTrap), Accessibility
 
 import React, { useEffect, useState, useCallback, useRef } from 'react';
+
 import HeroSection from '@components/Hero';
+import FeatureSection from '@components/FeatureSection';
+import AboutSection from '@components/AboutSection';
 import StatsSection from '@components/StatsSection';
 import ServicesSectionBlock from '@components/Services/ServicesSectionBlock';
+import IndustryInsightsSection from '@components/IndustryInsights/IndustryInsightsSection';
 import TestimonialsSection from '@components/TestimonialsSection';
 import FAQSection from '@components/FAQSection';
 import CTASection from '@components/CTASection';
 import Footer from '@components/Footer';
-import AboutSection from '@components/AboutSection';
-import FeatureSection from '@components/FeatureSection';
 import ServiceRequestModal from '@components/Modals/ServiceRequestModal';
 import ThemeToggleButton from '@components/common/ThemeToggleButton';
+import HomeContent from '@components/HomeContent';
 
 const IndexPage: React.FC = () => {
-  const [theme, setTheme] = useState<'light' | 'dark'>(() =>
-    typeof window !== 'undefined'
-      ? (localStorage.getItem('theme') as 'light' | 'dark') || 'light'
-      : 'light',
-  );
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('theme');
+      return saved === 'dark' || saved === 'light' ? saved : 'light';
+    }
+    return 'light';
+  });
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
-  const modalRef = useRef<HTMLDivElement | null>(null);
-  const mainRef = useRef<HTMLElement | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLElement>(null);
 
+  // Toggle theme and sync attribute + storage
   const toggleTheme = useCallback(() => {
     setTheme((prev) => {
       const next = prev === 'light' ? 'dark' : 'light';
@@ -35,69 +41,80 @@ const IndexPage: React.FC = () => {
     });
   }, []);
 
-  const handleRequestService = useCallback((serviceId: number) => {
+  // Open modal for a service
+  const openServiceModal = useCallback((serviceId: number) => {
     setSelectedServiceId(serviceId);
     setModalOpen(true);
   }, []);
 
-  const handleCloseModal = useCallback(() => {
+  // Close modal and restore focus
+  const closeServiceModal = useCallback(() => {
     setModalOpen(false);
     setSelectedServiceId(null);
     mainRef.current?.focus();
   }, []);
 
+  // Apply theme on mount & theme changes
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
+  // Focus trap for modal + ESC key closes modal
   useEffect(() => {
     if (!modalOpen || !modalRef.current) return;
 
-    const modalElement = modalRef.current;
-    const focusables = modalElement.querySelectorAll<HTMLElement>(
-      'a[href], area[href], input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable]',
-    );
+    const modal = modalRef.current;
+    const focusableSelectors = [
+      'a[href]',
+      'area[href]',
+      'input:not([disabled]):not([type="hidden"])',
+      'select:not([disabled])',
+      'textarea:not([disabled])',
+      'button:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])',
+      '[contenteditable]',
+    ];
+    const focusableElements = Array.from(
+      modal.querySelectorAll<HTMLElement>(focusableSelectors.join(',')),
+    ).filter((el) => el.offsetParent !== null);
 
-    const elements = Array.from(focusables).filter((el) => el.offsetParent !== null);
-
-    if (elements.length === 0) {
-      modalElement.focus();
+    if (focusableElements.length === 0) {
+      modal.focus();
       return;
     }
 
-    const first = elements[0];
-    const last = elements[elements.length - 1];
+    const first = focusableElements[0];
+    const last = focusableElements[focusableElements.length - 1];
 
-    const trapFocus = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Tab') {
         if (e.shiftKey && document.activeElement === first) {
           e.preventDefault();
           last.focus();
-        } else if (document.activeElement === last) {
+        } else if (!e.shiftKey && document.activeElement === last) {
           e.preventDefault();
           first.focus();
         }
       } else if (e.key === 'Escape') {
         e.preventDefault();
-        handleCloseModal();
+        closeServiceModal();
       }
     };
 
-    modalElement.addEventListener('keydown', trapFocus);
+    modal.addEventListener('keydown', handleKeyDown);
     first.focus();
 
-    return () => {
-      modalElement.removeEventListener('keydown', trapFocus);
-    };
-  }, [modalOpen, handleCloseModal]);
+    return () => modal.removeEventListener('keydown', handleKeyDown);
+  }, [modalOpen, closeServiceModal]);
 
+  // Click outside modal content closes modal
   const handleBackdropClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (e.target === modalRef.current) {
-        handleCloseModal();
+        closeServiceModal();
       }
     },
-    [handleCloseModal],
+    [closeServiceModal],
   );
 
   return (
@@ -108,22 +125,29 @@ const IndexPage: React.FC = () => {
       aria-hidden={modalOpen}
       className="min-h-screen bg-base-100 text-base-content transition-colors duration-300"
     >
-      <HeroSection onRequestService={handleRequestService} />
+      {/* Home Content Section (static intro and overview) */}
+      <HomeContent />
+
+      {/* Core Sections */}
+      <HeroSection onRequestService={openServiceModal} />
       <FeatureSection />
       <AboutSection />
       <StatsSection />
-      <ServicesSectionBlock onRequestService={handleRequestService} />
+      <ServicesSectionBlock onRequestService={openServiceModal} />
+      <IndustryInsightsSection />
       <TestimonialsSection />
       <FAQSection />
       <CTASection />
       <Footer />
 
+      {/* Theme Toggle Button */}
       <ThemeToggleButton
         theme={theme}
         toggleTheme={toggleTheme}
         aria-label={`สลับธีมเป็น ${theme === 'dark' ? 'สว่าง' : 'มืด'}`}
       />
 
+      {/* Service Request Modal */}
       {modalOpen && (
         <div
           ref={modalRef}
@@ -136,7 +160,7 @@ const IndexPage: React.FC = () => {
         >
           <ServiceRequestModal
             serviceId={selectedServiceId}
-            onClose={handleCloseModal}
+            onClose={closeServiceModal}
           />
         </div>
       )}
