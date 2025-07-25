@@ -1,4 +1,3 @@
-// .eslintrc.json
 {
   "root": true,
   "env": {
@@ -9,9 +8,9 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
     "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],
   "parser": "@typescript-eslint/parser",
@@ -22,14 +21,14 @@
       "jsx": true
     }
   },
-  "plugins": ["react", "@typescript-eslint", "jsx-a11y", "prettier"],
+  "plugins": ["react", "react-hooks", "@typescript-eslint", "jsx-a11y", "prettier"],
   "rules": {
     "prettier/prettier": ["error"],
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
     "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
     "react/prop-types": "off",
     "jsx-a11y/anchor-is-valid": "warn",
-    "no-console": ["warn", { "allow": ["warn", "error"] }]
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
   },
   "settings": {
     "react": {

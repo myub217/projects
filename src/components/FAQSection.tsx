@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const FAQSection: React.FC = () => (
   <section id="faq" className="mx-auto max-w-7xl p-6">
@@ -15,6 +15,6 @@ const FAQSection: React.FC = () => (
       {/* เพิ่มเติม FAQ ตามต้องการ */}
     </div>
   </section>
-)
+);
 
-export default FAQSection
+export default FAQSection;

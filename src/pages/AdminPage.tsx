@@ -1,8 +1,8 @@
 // src/pages/AdminPage.tsx
 // ✅ หน้าหลักของผู้ดูแลระบบ พร้อมโครงสร้างรองรับ accessibility และ responsive layout
 
-import React from 'react'
-import Dashboard from '@components/AdminBoard/Dashboard'
+import React from 'react';
+import Dashboard from '@components/AdminBoard/Dashboard';
 
 const AdminPage: React.FC = () => {
   return (
@@ -14,7 +14,7 @@ const AdminPage: React.FC = () => {
     >
       <Dashboard />
     </main>
-  )
-}
+  );
+};
 
-export default AdminPage
+export default AdminPage;

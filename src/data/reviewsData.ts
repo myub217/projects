@@ -2,10 +2,10 @@
 // Structured, typed, i18n-ready customer reviews data in Thai
 
 export interface Review {
-  id: number
-  name: string
-  feedback: string
-  date: string // Format: วัน เดือน ปี (ภาษาไทย)
+  id: number;
+  name: string;
+  feedback: string;
+  date: string; // Format: วัน เดือน ปี (ภาษาไทย)
 }
 
 export const reviewsData: Review[] = [
@@ -19,7 +19,8 @@ export const reviewsData: Review[] = [
   {
     id: 2,
     name: 'คุณไมค์ - ผู้ก่อตั้ง StartUp',
-    feedback: '“พวกเขามีความเป็นมืออาชีพสูงมาก ทุกงานเสร็จตรงเวลา และมีความเข้าใจเชิงธุรกิจจริง ๆ”',
+    feedback:
+      '“พวกเขามีความเป็นมืออาชีพสูงมาก ทุกงานเสร็จตรงเวลา และมีความเข้าใจเชิงธุรกิจจริง ๆ”',
     date: '8 พ.ค. 2025',
   },
   {
@@ -39,7 +40,8 @@ export const reviewsData: Review[] = [
   {
     id: 5,
     name: 'คุณบี - ผู้จัดการฝ่ายการตลาด',
-    feedback: '“ระบบเอกสารที่พวกเขาทำให้เราลดเวลาการทำงานได้เยอะมาก ข้อมูลทุกอย่างหาเจอไวสุด ๆ”',
+    feedback:
+      '“ระบบเอกสารที่พวกเขาทำให้เราลดเวลาการทำงานได้เยอะมาก ข้อมูลทุกอย่างหาเจอไวสุด ๆ”',
     date: '3 เม.ย. 2025',
   },
   {
@@ -59,7 +61,8 @@ export const reviewsData: Review[] = [
   {
     id: 8,
     name: 'คุณดาว - เจ้าของโรงแรมบูทีค',
-    feedback: '“พวกเขาออกแบบเอกสารแนะนำโรงแรมได้สวยมาก แขกต่างชาติก็ชมว่าดู professional สุด ๆ”',
+    feedback:
+      '“พวกเขาออกแบบเอกสารแนะนำโรงแรมได้สวยมาก แขกต่างชาติก็ชมว่าดู professional สุด ๆ”',
     date: '22 ก.พ. 2025',
   },
   {
@@ -86,7 +89,8 @@ export const reviewsData: Review[] = [
   {
     id: 12,
     name: 'คุณนิด - ผู้ประกอบการ SME',
-    feedback: '“จากที่เคยไม่มีระบบอะไรเลย ตอนนี้มี branding + เอกสารครบดูดี ใช้งานง่าย”',
+    feedback:
+      '“จากที่เคยไม่มีระบบอะไรเลย ตอนนี้มี branding + เอกสารครบดูดี ใช้งานง่าย”',
     date: '30 ธ.ค. 2024',
   },
   {
@@ -103,4 +107,4 @@ export const reviewsData: Review[] = [
       '“เอกสารหลักสูตรและคู่มือที่ JP ออกแบบให้ ใช้งานได้จริง และช่วยให้ดูน่าเชื่อถือขึ้นเยอะเลยค่ะ”',
     date: '9 ธ.ค. 2024',
   },
-]
+];

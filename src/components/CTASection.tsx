@@ -1,7 +1,8 @@
 // src/components/CTASection.tsx
+// ✅ Responsive CTA section with clear calls, accessible links, and clean styling
 
-import React from 'react'
-import { FaFacebook, FaFacebookMessenger, FaLine } from 'react-icons/fa'
+import React from 'react';
+import { FaFacebook, FaFacebookMessenger, FaLine } from 'react-icons/fa';
 
 const CTASection: React.FC = () => (
   <section
@@ -30,7 +31,7 @@ const CTASection: React.FC = () => (
       <div className="flex flex-wrap justify-center gap-4 pt-6">
         <a
           href="#contact"
-          className="hover:text-primary-focus inline-block rounded-xl bg-white px-6 py-3 text-sm font-semibold text-primary shadow transition hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 sm:text-base"
+          className="inline-block rounded-xl bg-white px-6 py-3 text-sm font-semibold text-primary shadow transition hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 sm:text-base"
         >
           ติดต่อเรา
         </a>
@@ -42,7 +43,7 @@ const CTASection: React.FC = () => (
           className="inline-flex items-center gap-2 rounded-xl border border-white px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 sm:text-base"
           aria-label="ติดต่อผ่าน LINE @462fqrfc"
         >
-          <FaLine className="text-lg" aria-hidden="true" />
+          <FaLine className="text-lg" aria-hidden="true" focusable="false" />
           <span>LINE: @462fqrfc</span>
         </a>
 
@@ -53,7 +54,7 @@ const CTASection: React.FC = () => (
           className="inline-flex items-center gap-2 rounded-xl border border-white px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 sm:text-base"
           aria-label="ติดต่อผ่าน Facebook"
         >
-          <FaFacebook className="text-lg" aria-hidden="true" />
+          <FaFacebook className="text-lg" aria-hidden="true" focusable="false" />
           <span>Facebook</span>
         </a>
 
@@ -64,12 +65,16 @@ const CTASection: React.FC = () => (
           className="inline-flex items-center gap-2 rounded-xl border border-white px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 sm:text-base"
           aria-label="ติดต่อผ่าน Messenger"
         >
-          <FaFacebookMessenger className="text-lg" aria-hidden="true" />
+          <FaFacebookMessenger
+            className="text-lg"
+            aria-hidden="true"
+            focusable="false"
+          />
           <span>Messenger</span>
         </a>
       </div>
     </div>
   </section>
-)
+);
 
-export default CTASection
+export default CTASection;

@@ -2,14 +2,14 @@
 // Structured & consistent service data with strong typing and i18n-ready text
 
 export interface Service {
-  id: number
-  title: string
-  description: string
-  price: string
-  image: string
-  altText: string
-  available: boolean
-  comingSoonNote?: string | null
+  id: number;
+  title: string;
+  description: string;
+  price: string;
+  image: string;
+  altText: string;
+  available: boolean;
+  comingSoonNote?: string | null;
 }
 
 export const services: Service[] = [
@@ -56,7 +56,8 @@ export const services: Service[] = [
   {
     id: 5,
     title: 'ชิ้นงานจริง บัตรแข็ง / อ่อน',
-    description: 'ผลิตบัตรจริงพร้อมลายน้ำและ QR ตรวจสอบ ส่งตรงถึงมือ พร้อมความปลอดภัยขั้นสูงสุด',
+    description:
+      'ผลิตบัตรจริงพร้อมลายน้ำและ QR ตรวจสอบ ส่งตรงถึงมือ พร้อมความปลอดภัยขั้นสูงสุด',
     price: 'เริ่มต้น 4,500 บาท',
     image: '/images/services/service5.webp',
     altText: 'ภาพประกอบบริการผลิตบัตรแข็งและบัตรอ่อน',
@@ -132,4 +133,4 @@ export const services: Service[] = [
     available: false,
     comingSoonNote: 'ติดตามเร็ว ๆ นี้',
   },
-]
+];

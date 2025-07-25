@@ -1,63 +1,63 @@
 // src/pages/LoginPage.tsx
 // ✅ Secure Login with password hashing, role-based routing, and improved accessibility & UX, with warning image
 
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { users } from '@data/users'
-import { hashPassword } from '@utils/hashPassword'
-import warningImage from '@/assets/login.webp'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { users } from '@data/users';
+import { hashPassword } from '@utils/hashPassword';
+import warningImage from '@/assets/login.webp';
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate()
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (loading) return
+    e.preventDefault();
+    if (loading) return;
 
-    setError('')
-    setLoading(true)
+    setError('');
+    setLoading(true);
 
-    const trimmedUsername = username.trim()
-    const trimmedPassword = password.trim()
+    const trimmedUsername = username.trim();
+    const trimmedPassword = password.trim();
 
     if (!trimmedUsername || !trimmedPassword) {
-      setError('กรุณากรอกข้อมูลให้ครบ')
-      setLoading(false)
-      return
+      setError('กรุณากรอกข้อมูลให้ครบ');
+      setLoading(false);
+      return;
     }
 
-    const user = users[trimmedUsername]
+    const user = users[trimmedUsername];
     if (!user) {
-      setError('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง')
-      setPassword('')
-      setLoading(false)
-      return
+      setError('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+      setPassword('');
+      setLoading(false);
+      return;
     }
 
     try {
-      const hashed = await hashPassword(trimmedPassword)
+      const hashed = await hashPassword(trimmedPassword);
       if (hashed !== user.passwordHash) {
-        setError('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง')
-        setPassword('')
-        setLoading(false)
-        return
+        setError('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+        setPassword('');
+        setLoading(false);
+        return;
       }
     } catch {
-      setError('เกิดข้อผิดพลาดในการตรวจสอบรหัสผ่าน')
-      setLoading(false)
-      return
+      setError('เกิดข้อผิดพลาดในการตรวจสอบรหัสผ่าน');
+      setLoading(false);
+      return;
     }
 
-    localStorage.setItem('loggedInUser', trimmedUsername)
-    localStorage.setItem('userRole', user.role)
-    setLoading(false)
+    localStorage.setItem('loggedInUser', trimmedUsername);
+    localStorage.setItem('userRole', user.role);
+    setLoading(false);
 
-    navigate(user.role === 'admin' ? '/admin' : '/secret', { replace: true })
-  }
+    navigate(user.role === 'admin' ? '/admin' : '/secret', { replace: true });
+  };
 
   return (
     <main
@@ -71,7 +71,9 @@ const LoginPage: React.FC = () => {
         className="w-full max-w-sm space-y-6 rounded-xl bg-base-200 p-6 shadow-xl"
         noValidate
       >
-        <h1 className="select-none text-center text-3xl font-bold text-primary">เข้าสู่ระบบ</h1>
+        <h1 className="select-none text-center text-3xl font-bold text-primary">
+          เข้าสู่ระบบ
+        </h1>
 
         {error && (
           <div
@@ -99,7 +101,7 @@ const LoginPage: React.FC = () => {
             type="text"
             className="input input-bordered"
             value={username}
-            onChange={e => setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
             autoComplete="username"
             required
             placeholder="กรอกชื่อผู้ใช้"
@@ -122,7 +124,7 @@ const LoginPage: React.FC = () => {
             type="password"
             className="input input-bordered"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
             required
             placeholder="กรอกรหัสผ่าน"
@@ -147,7 +149,7 @@ const LoginPage: React.FC = () => {
         </button>
       </form>
     </main>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;

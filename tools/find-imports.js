@@ -1,0 +1,28 @@
+// tools/find-imports.js
+import fs from 'fs';
+import path from 'path';
+
+const SRC_DIR = path.resolve(process.cwd(), 'src');
+
+function scanFiles(dir) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  let imports = new Set();
+
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      scanFiles(fullPath).forEach((i) => imports.add(i));
+    } else if (/\.(js|jsx|ts|tsx)$/.test(entry.name)) {
+      const content = fs.readFileSync(fullPath, 'utf-8');
+      const regex = /import\s+.*?from\s+['"]([^'"]+)['"]/g;
+      let match;
+      while ((match = regex.exec(content)) !== null) {
+        imports.add(match[1]);
+      }
+    }
+  }
+  return imports;
+}
+
+const result = Array.from(scanFiles(SRC_DIR));
+console.log(JSON.stringify(result, null, 2));

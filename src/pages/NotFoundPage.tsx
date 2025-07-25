@@ -1,6 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import NotFoundImage from '@assets/404.svg' // ✅ default export URL
+import React from 'react';
+import { Link } from 'react-router-dom';
+import NotFoundImage from '@assets/404.svg'; // ✅ default export URL
 
 const NotFoundPage: React.FC = () => {
   return (
@@ -35,7 +35,7 @@ const NotFoundPage: React.FC = () => {
         กลับหน้าหลัก
       </Link>
     </main>
-  )
-}
+  );
+};
 
-export default NotFoundPage
+export default NotFoundPage;

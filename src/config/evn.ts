@@ -7,4 +7,4 @@ export const env = {
   USE_MOCK: import.meta.env.USE_MOCK === 'true' || false,
   ANALYTICS_ENABLED: import.meta.env.VITE_ANALYTICS_ENABLED === 'true' || false,
   PWA_ENABLED: import.meta.env.VITE_PWA_ENABLED === 'true' || false,
-}
+};

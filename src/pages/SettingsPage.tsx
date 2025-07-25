@@ -1,47 +1,48 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import MainLayout from '@components/Layout/MainLayout'
-import { useTheme } from '@components/ThemeProvider'
+// src/pages/SettingsPage.tsx
+import React, { useState, useEffect, useCallback } from 'react';
+import MainLayout from '@components/Layout/MainLayout';
+import { useTheme } from '@components/ThemeProvider';
 
 const SettingsPage: React.FC = () => {
-  const { theme, toggleTheme } = useTheme()
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [statusMsg, setStatusMsg] = useState<string | null>(null)
-  const [errorMsg, setErrorMsg] = useState<string | null>(null)
-  const [initialUsername, setInitialUsername] = useState('')
-  const [initialEmail, setInitialEmail] = useState('')
+  const { theme, toggleTheme } = useTheme();
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [statusMsg, setStatusMsg] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [initialUsername, setInitialUsername] = useState('');
+  const [initialEmail, setInitialEmail] = useState('');
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('loggedInUser')?.trim() ?? ''
-    const storedEmail = localStorage.getItem('userEmail')?.trim() ?? ''
-    setUsername(storedUser)
-    setEmail(storedEmail)
-    setInitialUsername(storedUser)
-    setInitialEmail(storedEmail)
-  }, [])
+    const storedUser = localStorage.getItem('loggedInUser')?.trim() ?? '';
+    const storedEmail = localStorage.getItem('userEmail')?.trim() ?? '';
+    setUsername(storedUser);
+    setEmail(storedEmail);
+    setInitialUsername(storedUser);
+    setInitialEmail(storedEmail);
+  }, []);
 
   const handleSave = useCallback(() => {
-    setErrorMsg(null)
-    setStatusMsg(null)
+    setErrorMsg(null);
+    setStatusMsg(null);
 
     if (!username.trim()) {
-      setErrorMsg('ชื่อผู้ใช้ไม่สามารถเว้นว่างได้')
-      return
+      setErrorMsg('ชื่อผู้ใช้ไม่สามารถเว้นว่างได้');
+      return;
     }
 
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      setErrorMsg('รูปแบบอีเมลไม่ถูกต้อง')
-      return
+      setErrorMsg('รูปแบบอีเมลไม่ถูกต้อง');
+      return;
     }
 
-    localStorage.setItem('loggedInUser', username.trim())
-    localStorage.setItem('userEmail', email.trim())
-    setStatusMsg('บันทึกข้อมูลเรียบร้อยแล้ว')
-    setInitialUsername(username.trim())
-    setInitialEmail(email.trim())
-  }, [username, email])
+    localStorage.setItem('loggedInUser', username.trim());
+    localStorage.setItem('userEmail', email.trim());
+    setStatusMsg('บันทึกข้อมูลเรียบร้อยแล้ว');
+    setInitialUsername(username.trim());
+    setInitialEmail(email.trim());
+  }, [username, email]);
 
-  const isDirty = username.trim() !== initialUsername || email.trim() !== initialEmail
+  const isDirty = username.trim() !== initialUsername || email.trim() !== initialEmail;
 
   return (
     <MainLayout className="flex min-h-screen flex-col items-center justify-center px-4 py-12">
@@ -52,12 +53,14 @@ const SettingsPage: React.FC = () => {
         <h1 className="mb-6 text-2xl font-bold text-primary">ตั้งค่าผู้ใช้</h1>
 
         <form
-          onSubmit={e => {
-            e.preventDefault()
-            handleSave()
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSave();
           }}
           className="flex flex-col gap-4"
-          aria-describedby={errorMsg ? 'error-message' : statusMsg ? 'status-message' : undefined}
+          aria-describedby={
+            errorMsg ? 'error-message' : statusMsg ? 'status-message' : undefined
+          }
           noValidate
         >
           <label htmlFor="username" className="font-medium">
@@ -70,7 +73,7 @@ const SettingsPage: React.FC = () => {
             id="username"
             type="text"
             value={username}
-            onChange={e => setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
             className={`input input-bordered w-full ${errorMsg ? 'input-error' : ''}`}
             required
             aria-invalid={!!errorMsg}
@@ -86,7 +89,7 @@ const SettingsPage: React.FC = () => {
             id="email"
             type="email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             className="input input-bordered w-full"
             autoComplete="email"
             aria-describedby={statusMsg && !errorMsg ? 'status-message' : undefined}
@@ -113,20 +116,28 @@ const SettingsPage: React.FC = () => {
           </div>
 
           {errorMsg && (
-            <p id="error-message" role="alert" className="mt-4 select-none text-sm text-error">
+            <p
+              id="error-message"
+              role="alert"
+              className="mt-4 select-none text-sm text-error"
+            >
               {errorMsg}
             </p>
           )}
 
           {statusMsg && !errorMsg && (
-            <p id="status-message" role="status" className="mt-4 select-none text-sm text-success">
+            <p
+              id="status-message"
+              role="status"
+              className="mt-4 select-none text-sm text-success"
+            >
               {statusMsg}
             </p>
           )}
         </form>
       </section>
     </MainLayout>
-  )
-}
+  );
+};
 
-export default SettingsPage
+export default SettingsPage;

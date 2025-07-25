@@ -1,7 +1,4 @@
-// src/components/FeatureSection.tsx
-// Minimal FeatureSection placeholder to fix missing file error
-
-import React from 'react'
+import React from 'react';
 
 const FeatureSection: React.FC = () => {
   return (
@@ -27,6 +24,7 @@ const FeatureSection: React.FC = () => {
           <h3 className="mb-2 text-xl font-medium">รวดเร็วและแม่นยำ</h3>
           <p>บริการที่ส่งมอบงานไว พร้อมคุณภาพสูงตรงตามความต้องการ</p>
         </div>
+
         <div className="flex flex-col items-center text-center">
           <svg
             className="mb-4 h-12 w-12 text-green-600 dark:text-green-400"
@@ -41,6 +39,7 @@ const FeatureSection: React.FC = () => {
           <h3 className="mb-2 text-xl font-medium">มาตรฐานสูง</h3>
           <p>ทุกขั้นตอนดำเนินการตามระบบมาตรฐานมืออาชีพเพื่อความน่าเชื่อถือ</p>
         </div>
+
         <div className="flex flex-col items-center text-center">
           <svg
             className="mb-4 h-12 w-12 text-purple-600 dark:text-purple-400"
@@ -50,14 +49,18 @@ const FeatureSection: React.FC = () => {
             viewBox="0 0 24 24"
             aria-hidden="true"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 20l9-5-9-5-9 5 9 5z" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 20l9-5-9-5-9 5 9 5z"
+            />
           </svg>
           <h3 className="mb-2 text-xl font-medium">ปลอดภัยและเป็นความลับ</h3>
           <p>ข้อมูลของลูกค้าจะถูกเก็บรักษาอย่างปลอดภัยตามนโยบายความเป็นส่วนตัว</p>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default FeatureSection
+export default FeatureSection;

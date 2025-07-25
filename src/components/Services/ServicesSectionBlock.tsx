@@ -1,17 +1,19 @@
 // src/components/Services/ServicesSectionBlock.tsx
 // ✅ แสดงรายการบริการที่เปิดให้ใช้งาน พร้อมรองรับการเรียกใช้งานผ่าน onRequestService
 
-import React from 'react'
-import { services } from '@data/services'
-import { Service } from '@types/service'
-import ServiceCard from './ServiceCard'
+import React from 'react';
+import { services } from '@data/services';
+import { Service } from '@types/service';
+import ServiceCard from './ServiceCard';
 
 interface ServicesSectionBlockProps {
-  onRequestService: (serviceId: number) => void
+  onRequestService: (serviceId: number) => void;
 }
 
-const ServicesSectionBlock: React.FC<ServicesSectionBlockProps> = ({ onRequestService }) => {
-  const availableServices = services.filter((s: Service) => s.available)
+const ServicesSectionBlock: React.FC<ServicesSectionBlockProps> = ({
+  onRequestService,
+}) => {
+  const availableServices = services.filter((s: Service) => s.available);
 
   return (
     <section id="services" className="bg-base-100 py-20 text-base-content">
@@ -20,8 +22,12 @@ const ServicesSectionBlock: React.FC<ServicesSectionBlockProps> = ({ onRequestSe
 
         {availableServices.length > 0 ? (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {availableServices.map(service => (
-              <ServiceCard key={service.id} service={service} onRequestService={onRequestService} />
+            {availableServices.map((service) => (
+              <ServiceCard
+                key={service.id}
+                service={service}
+                onRequestService={onRequestService}
+              />
             ))}
           </div>
         ) : (
@@ -31,7 +37,7 @@ const ServicesSectionBlock: React.FC<ServicesSectionBlockProps> = ({ onRequestSe
         )}
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default ServicesSectionBlock
+export default ServicesSectionBlock;

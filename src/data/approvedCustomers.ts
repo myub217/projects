@@ -1,11 +1,11 @@
 // src/data/approvedCustomers.ts
 
 export interface CustomerApproval {
-  id: string
-  name: string
-  documentTitle: string
-  receivedDate: string // ISO 8601 with timezone, e.g. 2025-07-09T09:15:00+07:00
-  status: 'เสร็จสมบูรณ์' | 'กำลังดำเนินการ'
+  id: string;
+  name: string;
+  documentTitle: string;
+  receivedDate: string; // ISO 8601 with timezone, e.g. 2025-07-09T09:15:00+07:00
+  status: 'เสร็จสมบูรณ์' | 'กำลังดำเนินการ';
 }
 
 export const approvedCustomers: CustomerApproval[] = [
@@ -114,4 +114,4 @@ export const approvedCustomers: CustomerApproval[] = [
     receivedDate: '2025-06-25T09:45:00+07:00',
     status: 'เสร็จสมบูรณ์',
   },
-]
+];

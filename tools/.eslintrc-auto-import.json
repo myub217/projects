@@ -1,0 +1,15 @@
+{
+  "globals": {
+    "React": "readonly",
+    "useState": "readonly",
+    "useEffect": "readonly",
+    "useRef": "readonly",
+    "useMemo": "readonly",
+    "useCallback": "readonly",
+    "useContext": "readonly",
+    "useReducer": "readonly",
+    "useLayoutEffect": "readonly",
+    "useId": "readonly",
+    "cn": "readonly"
+  }
+}

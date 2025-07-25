@@ -7,15 +7,21 @@ import {
   FaEnvelope,
   FaPhoneAlt,
   FaGlobeAsia,
-} from 'react-icons/fa'
+} from 'react-icons/fa';
 
-export type ContactType = 'line' | 'facebook' | 'messenger' | 'email' | 'phone' | 'website'
+export type ContactType =
+  | 'line'
+  | 'facebook'
+  | 'messenger'
+  | 'email'
+  | 'phone'
+  | 'website';
 
 export interface ContactLink {
-  type: ContactType
-  label: string
-  icon: React.ComponentType<{ className?: string }>
-  description?: string
+  type: ContactType;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  description?: string;
 }
 
 export const contactLinks: ContactLink[] = [
@@ -55,7 +61,7 @@ export const contactLinks: ContactLink[] = [
     icon: FaGlobeAsia,
     description: 'เยี่ยมชมเว็บไซต์หลักของบริษัท',
   },
-]
+];
 
 const CONTACTS = {
   lineOAID: '@462fqtfc',
@@ -65,7 +71,7 @@ const CONTACTS = {
   emailAddress: 'contact@bannerdigital.co',
   phoneNumber: '+6621234567',
   websiteURL: 'https://www.bannerdigital.co',
-}
+};
 
 /**
  * สร้างลิงก์ตามประเภทการติดต่อ
@@ -78,18 +84,18 @@ export const getContactHref = (type: ContactType, message?: string): string => {
     case 'line':
       return message
         ? `https://line.me/R/oaMessage/${CONTACTS.lineOAID}/?text=${encodeURIComponent(message)}`
-        : CONTACTS.lineUrlDefault
+        : CONTACTS.lineUrlDefault;
     case 'facebook':
-      return `https://www.facebook.com/profile.php?id=${CONTACTS.facebookPageID}&mibextid=kFxxJD`
+      return `https://www.facebook.com/profile.php?id=${CONTACTS.facebookPageID}&mibextid=kFxxJD`;
     case 'messenger':
-      return `https://m.me/${CONTACTS.facebookPageID}?hash=${CONTACTS.messengerHash}&source=qr_link_share`
+      return `https://m.me/${CONTACTS.facebookPageID}?hash=${CONTACTS.messengerHash}&source=qr_link_share`;
     case 'email':
-      return `mailto:${CONTACTS.emailAddress}`
+      return `mailto:${CONTACTS.emailAddress}`;
     case 'phone':
-      return `tel:${CONTACTS.phoneNumber}`
+      return `tel:${CONTACTS.phoneNumber}`;
     case 'website':
-      return CONTACTS.websiteURL
+      return CONTACTS.websiteURL;
     default:
-      return '#'
+      return '#';
   }
-}
+};

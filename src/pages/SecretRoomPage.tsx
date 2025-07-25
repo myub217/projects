@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import SecretRoomDashboard from '@components/SecretRoom/Dashboard'
+import React, { useEffect, useState } from 'react';
+import SecretRoomDashboard from '@components/SecretRoom/Dashboard';
 
 const SecretRoomPage: React.FC = () => {
-  const [username, setUsername] = useState('ไม่ระบุชื่อผู้ใช้งาน')
+  const [username, setUsername] = useState('ไม่ระบุชื่อผู้ใช้งาน');
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('loggedInUser')?.trim()
-    if (storedUser) setUsername(storedUser)
-  }, [])
+    const storedUser = localStorage.getItem('loggedInUser')?.trim();
+    if (storedUser) setUsername(storedUser);
+  }, []);
 
   return (
     <main
@@ -18,7 +18,7 @@ const SecretRoomPage: React.FC = () => {
     >
       <SecretRoomDashboard username={username} />
     </main>
-  )
-}
+  );
+};
 
-export default SecretRoomPage
+export default SecretRoomPage;

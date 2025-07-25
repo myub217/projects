@@ -6,7 +6,7 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
-*.log
+*.log*
 *.pid
 *.seed
 *.tgz
@@ -117,3 +117,14 @@ termux-*
 *.7z
 *~
 *.bak
+
+# ========================================
+# Archive & Legacy Source Code (Ignore)
+# ========================================
+src/__archive__/
+__archive__/
+
+# ========================================
+# Ignore Archive (duplicate)
+# ========================================
+src/__archive__/

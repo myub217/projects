@@ -1,13 +1,13 @@
 // src/layout/MainLayout.tsx
 // Clean, accessible layout with semantic roles, responsive container, and flexible styling
 
-import React, { ReactNode } from 'react'
-import Header from '@components/Header'
-import Footer from '@components/Footer'
+import React, { ReactNode } from 'react';
+import Header from '@components/Header';
+import Footer from '@components/Footer';
 
 interface MainLayoutProps {
-  children: ReactNode
-  className?: string
+  children: ReactNode;
+  className?: string;
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children, className = '' }) => {
@@ -19,7 +19,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, className = '' }) => 
     'text-base-content',
     'transition-colors',
     'duration-300',
-  ]
+  ];
   const containerClasses = [
     'flex-grow',
     'w-full',
@@ -30,7 +30,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, className = '' }) => 
     'lg:px-8',
     'py-10',
     'outline-none',
-  ]
+  ];
 
   return (
     <div className={[...baseClasses, className].filter(Boolean).join(' ')}>
@@ -45,7 +45,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, className = '' }) => 
       </main>
       <Footer role="contentinfo" />
     </div>
-  )
-}
+  );
+};
 
-export default MainLayout
+export default MainLayout;

@@ -2,8 +2,8 @@
 // ✅ User data with hashed passwords and role typing, clean and scalable
 
 export interface User {
-  passwordHash: string
-  role: 'admin' | 'user'
+  passwordHash: string;
+  role: 'admin' | 'user';
 }
 
 export const users: Record<string, User> = {
@@ -56,7 +56,7 @@ export const users: Record<string, User> = {
     passwordHash: 'd5154a7beb5c6f9948a8dffdc9c6748e47ce9a40be9744e2296123d7e1347f88',
     role: 'user',
   },
-}
+};
 
 /* 
 🔐 LINE Official Account / LIFF Settings
@@ -71,4 +71,4 @@ export const envConfig = {
   LINE_LIFF_ID: import.meta.env.VITE_LINE_LIFF_ID ?? '',
   LINE_OA_URL: import.meta.env.VITE_LINE_OA_URL ?? '',
   LINE_MANAGER_INVITE: import.meta.env.VITE_LINE_MANAGER_INVITE ?? '',
-}
+};

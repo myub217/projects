@@ -1,104 +1,104 @@
 // ✅ src/pages/IndexPage.tsx
 // ✅ Single Page Layout — Theme toggle, Modal focus trap, Backdrop close, Clean a11y
 
-import React, { useEffect, useState, useCallback, useRef } from 'react'
-import HeroSection from '@components/Hero'
-import StatsSection from '@components/StatsSection'
-import ServicesSectionBlock from '@components/Services/ServicesSectionBlock'
-import TestimonialsSection from '@components/TestimonialsSection'
-import FAQSection from '@components/FAQSection'
-import CTASection from '@components/CTASection'
-import Footer from '@components/Footer'
-import AboutSection from '@components/AboutSection'
-import FeatureSection from '@components/FeatureSection'
-import ServiceRequestModal from '@components/Modals/ServiceRequestModal'
-import ThemeToggleButton from '@components/common/ThemeToggleButton'
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import HeroSection from '@components/Hero';
+import StatsSection from '@components/StatsSection';
+import ServicesSectionBlock from '@components/Services/ServicesSectionBlock';
+import TestimonialsSection from '@components/TestimonialsSection';
+import FAQSection from '@components/FAQSection';
+import CTASection from '@components/CTASection';
+import Footer from '@components/Footer';
+import AboutSection from '@components/AboutSection';
+import FeatureSection from '@components/FeatureSection';
+import ServiceRequestModal from '@components/Modals/ServiceRequestModal';
+import ThemeToggleButton from '@components/common/ThemeToggleButton';
 
 const IndexPage: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>(() =>
     typeof window !== 'undefined'
       ? (localStorage.getItem('theme') as 'light' | 'dark') || 'light'
-      : 'light'
-  )
+      : 'light',
+  );
 
-  const [modalOpen, setModalOpen] = useState(false)
-  const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null)
-  const modalRef = useRef<HTMLDivElement | null>(null)
-  const mainRef = useRef<HTMLElement | null>(null)
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  const mainRef = useRef<HTMLElement | null>(null);
 
   const toggleTheme = useCallback(() => {
-    setTheme(prev => {
-      const next = prev === 'light' ? 'dark' : 'light'
-      document.documentElement.setAttribute('data-theme', next)
-      localStorage.setItem('theme', next)
-      return next
-    })
-  }, [])
+    setTheme((prev) => {
+      const next = prev === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      return next;
+    });
+  }, []);
 
   const handleRequestService = useCallback((serviceId: number) => {
-    setSelectedServiceId(serviceId)
-    setModalOpen(true)
-  }, [])
+    setSelectedServiceId(serviceId);
+    setModalOpen(true);
+  }, []);
 
   const handleCloseModal = useCallback(() => {
-    setModalOpen(false)
-    setSelectedServiceId(null)
-    mainRef.current?.focus()
-  }, [])
+    setModalOpen(false);
+    setSelectedServiceId(null);
+    mainRef.current?.focus();
+  }, []);
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme)
-  }, [theme])
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   useEffect(() => {
-    if (!modalOpen || !modalRef.current) return
+    if (!modalOpen || !modalRef.current) return;
 
-    const modalElement = modalRef.current
+    const modalElement = modalRef.current;
     const focusables = modalElement.querySelectorAll<HTMLElement>(
-      'a[href], area[href], input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable]'
-    )
+      'a[href], area[href], input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable]',
+    );
 
-    const elements = Array.from(focusables).filter(el => el.offsetParent !== null)
+    const elements = Array.from(focusables).filter((el) => el.offsetParent !== null);
 
     if (elements.length === 0) {
-      modalElement.focus()
-      return
+      modalElement.focus();
+      return;
     }
 
-    const first = elements[0]
-    const last = elements[elements.length - 1]
+    const first = elements[0];
+    const last = elements[elements.length - 1];
 
     const trapFocus = (e: KeyboardEvent) => {
       if (e.key === 'Tab') {
         if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault()
-          last.focus()
+          e.preventDefault();
+          last.focus();
         } else if (document.activeElement === last) {
-          e.preventDefault()
-          first.focus()
+          e.preventDefault();
+          first.focus();
         }
       } else if (e.key === 'Escape') {
-        e.preventDefault()
-        handleCloseModal()
+        e.preventDefault();
+        handleCloseModal();
       }
-    }
+    };
 
-    modalElement.addEventListener('keydown', trapFocus)
-    first.focus()
+    modalElement.addEventListener('keydown', trapFocus);
+    first.focus();
 
     return () => {
-      modalElement.removeEventListener('keydown', trapFocus)
-    }
-  }, [modalOpen, handleCloseModal])
+      modalElement.removeEventListener('keydown', trapFocus);
+    };
+  }, [modalOpen, handleCloseModal]);
 
   const handleBackdropClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (e.target === modalRef.current) {
-        handleCloseModal()
+        handleCloseModal();
       }
     },
-    [handleCloseModal]
-  )
+    [handleCloseModal],
+  );
 
   return (
     <main
@@ -134,11 +134,14 @@ const IndexPage: React.FC = () => {
           className="fixed inset-0 z-[999] flex items-center justify-center bg-black/50 backdrop-blur-sm"
           onClick={handleBackdropClick}
         >
-          <ServiceRequestModal serviceId={selectedServiceId} onClose={handleCloseModal} />
+          <ServiceRequestModal
+            serviceId={selectedServiceId}
+            onClose={handleCloseModal}
+          />
         </div>
       )}
     </main>
-  )
-}
+  );
+};
 
-export default IndexPage
+export default IndexPage;

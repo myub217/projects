@@ -1,7 +1,7 @@
 // src/routes/LoadingFallback.tsx
 // ✅ Accessible loading fallback with ARIA, animation, and themed color support
 
-import React from 'react'
+import React from 'react';
 
 const LoadingFallback: React.FC = () => {
   return (
@@ -17,7 +17,7 @@ const LoadingFallback: React.FC = () => {
         กำลังโหลด...
       </span>
     </main>
-  )
-}
+  );
+};
 
-export default LoadingFallback
+export default LoadingFallback;

@@ -1,23 +1,20 @@
-// src/components/Hero.tsx
-// ✅ Modern, accessible Hero with framer-motion animation, CTA, and chat shortcuts
+import React from 'react';
+import { FaLock, FaDoorOpen, FaLine, FaFacebookMessenger } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import heroBg from '@/assets/hero.webp';
 
-import React from 'react'
-import { FaLock, FaDoorOpen, FaLine, FaFacebookMessenger } from 'react-icons/fa'
-import { motion } from 'framer-motion'
-import heroBg from '@/assets/hero.webp'
-
-const LINE_URL = 'https://lin.ee/BSkkcTR'
-const MESSENGER_URL = 'https://m.me/JPVisualDocs'
+const LINE_URL = 'https://lin.ee/BSkkcTR';
+const MESSENGER_URL = 'https://m.me/JPVisualDocs';
 
 type HeroProps = {
-  buttonText?: string
-}
+  buttonText?: string;
+};
 
 const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระบบลับ' }) => {
   const handleLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    window.location.href = '/login'
-  }
+    e.preventDefault();
+    window.location.href = '/login';
+  };
 
   return (
     <section
@@ -47,8 +44,8 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
           JP Visual & Docs
         </h1>
         <p className="mx-auto mt-4 max-w-xl select-text text-base text-white/85 sm:text-lg lg:text-xl">
-          บริการช่วยจัดการเบื้องหลังทุกเรื่องที่คุณไม่อยากวุ่น — เอกสาร ธุรกิจ และการตลาด
-          พร้อมทำจริง จบไว
+          บริการช่วยจัดการเบื้องหลังทุกเรื่องที่คุณไม่อยากวุ่น — เอกสาร ธุรกิจ
+          และการตลาด พร้อมทำจริง จบไว
         </p>
 
         {/* CTA Button */}
@@ -100,7 +97,7 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
         </motion.a>
       </motion.div>
     </section>
-  )
-}
+  );
+};
 
-export default Hero
+export default Hero;

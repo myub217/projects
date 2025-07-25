@@ -1,50 +1,51 @@
-// src/components/Header.tsx
-// Responsive Header with accessible keyboard nav, smooth scroll, contact links, and clean state handling
-
-import React, { useState, useEffect, useRef } from 'react'
-import { Link } from 'react-scroll'
-import { FaFacebookMessenger, FaLine, FaPhoneAlt, FaBars, FaTimes } from 'react-icons/fa'
-import { getContactHref } from '@/config/contact'
+import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-scroll';
+import {
+  FaFacebookMessenger,
+  FaLine,
+  FaPhoneAlt,
+  FaBars,
+  FaTimes,
+} from 'react-icons/fa';
+import { getContactHref } from '@/config/contact';
 
 const navItems = [
   { label: 'บริการของเรา', to: 'services' },
   { label: 'ตัวอย่างงาน', to: 'feature' },
-]
+];
 
 const Header: React.FC = () => {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const menuRef = useRef<HTMLDivElement>(null)
-  const toggleButtonRef = useRef<HTMLButtonElement>(null)
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Close menu on outside click or Escape key
   useEffect(() => {
-    if (!menuOpen) return
+    if (!menuOpen) return;
 
     const onClickOutside = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setMenuOpen(false)
+        setMenuOpen(false);
       }
-    }
+    };
     const onEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setMenuOpen(false)
-    }
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
 
-    document.addEventListener('mousedown', onClickOutside)
-    document.addEventListener('keydown', onEsc)
+    document.addEventListener('mousedown', onClickOutside);
+    document.addEventListener('keydown', onEsc);
     return () => {
-      document.removeEventListener('mousedown', onClickOutside)
-      document.removeEventListener('keydown', onEsc)
-    }
-  }, [menuOpen])
+      document.removeEventListener('mousedown', onClickOutside);
+      document.removeEventListener('keydown', onEsc);
+    };
+  }, [menuOpen]);
 
-  // Return focus to toggle button when menu closes
   useEffect(() => {
     if (!menuOpen) {
-      toggleButtonRef.current?.focus()
+      toggleButtonRef.current?.focus();
     }
-  }, [menuOpen])
+  }, [menuOpen]);
 
-  const toggleMenu = () => setMenuOpen(prev => !prev)
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
 
   return (
     <header
@@ -97,7 +98,11 @@ const Header: React.FC = () => {
         </nav>
 
         {/* Desktop Contact */}
-        <div className="hidden items-center gap-3 sm:flex" role="region" aria-label="ช่องทางติดต่อ">
+        <div
+          className="hidden items-center gap-3 sm:flex"
+          role="region"
+          aria-label="ช่องทางติดต่อ"
+        >
           <a
             href={getContactHref('line')}
             target="_blank"
@@ -211,7 +216,7 @@ const Header: React.FC = () => {
         </nav>
       )}
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

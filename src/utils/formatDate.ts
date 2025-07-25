@@ -12,18 +12,18 @@
 export function formatDate(
   input: Date | string | number,
   options?: Intl.DateTimeFormatOptions,
-  locale = 'th-TH'
+  locale = 'th-TH',
 ): string {
-  const date = input instanceof Date ? input : new Date(input)
+  const date = input instanceof Date ? input : new Date(input);
 
-  if (isNaN(date.getTime())) return 'วันที่ไม่ถูกต้อง'
+  if (isNaN(date.getTime())) return 'วันที่ไม่ถูกต้อง';
 
   const defaultOptions: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
     ...options,
-  }
+  };
 
-  return date.toLocaleDateString(locale, defaultOptions)
+  return date.toLocaleDateString(locale, defaultOptions);
 }

@@ -1,15 +1,15 @@
 // daisyui.config.ts
 
-import type plugin from 'tailwindcss/plugin'
-import type { PluginCreator } from 'tailwindcss/types/config'
+import type plugin from 'tailwindcss/plugin';
+import type { PluginCreator } from 'tailwindcss/types/config';
 
 // กำหนด daisyui เป็น plugin ของ Tailwind
-declare const daisyui: ReturnType<typeof plugin> & PluginCreator
+declare const daisyui: ReturnType<typeof plugin> & PluginCreator;
 
-export default daisyui
+export default daisyui;
 
 // กำหนดรูปแบบ custom theme เช่น { mytheme: { primary: "#000", ... } }
-type CustomTheme = Record<string, Record<string, string>>
+type CustomTheme = Record<string, Record<string, string>>;
 
 // รายชื่อธีมที่ daisyUI รองรับโดย default
 type Theme =
@@ -44,43 +44,43 @@ type Theme =
   | 'winter'
   | 'dim'
   | 'nord'
-  | 'sunset'
+  | 'sunset';
 
 // กำหนด config ของ daisyUI แบบ type-safe
 interface DaisyUIConfig {
   /**
    * true = ทุกธีม, false = light/dark เท่านั้น, array = เลือกเฉพาะธีม
    */
-  themes?: boolean | (Theme | CustomTheme)[]
+  themes?: boolean | (Theme | CustomTheme)[];
   /**
    * ตั้งค่า default dark theme ที่ใช้เวลาเครื่องอยู่ใน dark mode
    */
-  darkTheme?: string
+  darkTheme?: string;
   /**
    * เปิด/ปิด base style (body, html, font)
    */
-  base?: boolean
+  base?: boolean;
   /**
    * เปิด/ปิด styled component
    */
-  styled?: boolean
+  styled?: boolean;
   /**
    * เปิด/ปิด utility class ที่ daisyUI เพิ่มมา
    */
-  utils?: boolean
+  utils?: boolean;
   /**
    * รองรับ RTL layout (ใส่ dir="rtl" บน <html>)
    */
-  rtl?: boolean
+  rtl?: boolean;
   /**
    * เพิ่ม prefix เช่น daisy-btn เพื่อหลีกเลี่ยงการชนกับ class อื่น
    */
-  prefix?: string
+  prefix?: string;
   /**
    * แสดง log ตอน build
    */
-  logs?: boolean
+  logs?: boolean;
 }
 
 // export type ทั้งหมด
-export type { DaisyUIConfig as Config, Theme, CustomTheme }
+export type { DaisyUIConfig as Config, Theme, CustomTheme };

@@ -2,16 +2,16 @@
 // ✅ config กลางของบริษัท ใช้สำหรับเอกสารใบรับรองเงินเดือน/ราชการ
 
 export interface CompanyInfo {
-  name: string
-  logoUrl?: string
-  address: string
-  phone: string
-  taxId: string
+  name: string;
+  logoUrl?: string;
+  address: string;
+  phone: string;
+  taxId: string;
   hrManager: {
-    fullName: string
-    email?: string
-    phone?: string
-  }
+    fullName: string;
+    email?: string;
+    phone?: string;
+  };
 }
 
 // ✅ ค่าเริ่มต้น mock สำหรับใช้งานแสดงผลจริง
@@ -26,4 +26,4 @@ export const defaultCompanyInfo: CompanyInfo = {
     email: 'hr@techbiz.co.th',
     phone: '02-888-9988',
   },
-}
+};

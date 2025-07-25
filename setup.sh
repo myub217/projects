@@ -1,22 +1,29 @@
-#!/bin/bash
-# setup.sh - Fix environment, dependencies, and cache for stable Vite + PWA + DaisyUI build
+# 4. Husky + lint-staged Setup
 
-set -euo pipefail
+# 1) ติดตั้ง dependencies
+pnpm install -D husky lint-staged
 
-echo "🛠️ Cleaning node_modules, lock files, and dist folder"
-rm -rf node_modules pnpm-lock.yaml package-lock.json yarn.lock dist
+# 2) สร้าง git hook
+npx husky install
 
-echo "📦 Installing dependencies (including latest vite-plugin-pwa)"
-pnpm add -D vite-plugin-pwa@latest
-pnpm install
+# 3) เพิ่มคำสั่งใน package.json
+# package.json
+{
+  ...
+  "scripts": {
+    "prepare": "husky install",
+    ...
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,css,scss,md}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  }
+}
 
-echo "🧹 Clearing Vite cache and forcing fresh build"
-pnpm vite --clearScreen false --force || true
+# 4) สร้าง pre-commit hook เพื่อรัน lint-staged
+npx husky add .husky/pre-commit "npx lint-staged"
 
-echo "✅ Setup complete. Run 'pnpm run build' to build your project."
-
-# Optional: Install husky git hooks if present
-if [ -d .husky ]; then
-  echo "🔧 Installing Husky git hooks"
-  pnpm exec husky install
-fi
+# 5) เรียกใช้งานคำสั่ง prepare ทุกครั้งหลังติดตั้ง dependencies
+pnpm run prepare

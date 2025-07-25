@@ -2,71 +2,77 @@
 // ✅ Modal แสดงรายละเอียดบริการ รองรับ focus trap, ปิดด้วย ESC และ backdrop
 // ✅ ปิด scroll หน้า, คืน focus เดิม, และลิงก์ LINE พร้อมข้อความ preset
 
-import React, { useEffect, useRef, useCallback } from 'react'
-import type { Service } from '@types/service'
+import React, { useEffect, useRef, useCallback } from 'react';
+import type { Service } from '@types/service';
 
 interface ServiceRequestModalProps {
-  service: Service | null
-  onClose: () => void
+  service: Service | null;
+  onClose: () => void;
 }
 
-const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onClose }) => {
-  const modalRef = useRef<HTMLDivElement>(null)
+const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
+  service,
+  onClose,
+}) => {
+  const modalRef = useRef<HTMLDivElement>(null);
 
   // 🔁 Focus trap + ESC + คืน focus เดิม
   useEffect(() => {
-    if (!service) return
+    if (!service) return;
 
-    const previousActiveElement = document.activeElement as HTMLElement | null
-    modalRef.current?.focus()
+    const previousActiveElement = document.activeElement as HTMLElement | null;
+    modalRef.current?.focus();
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        e.preventDefault()
-        onClose()
+        e.preventDefault();
+        onClose();
       }
 
       if (e.key === 'Tab' && modalRef.current) {
         const focusableEls = modalRef.current.querySelectorAll<HTMLElement>(
-          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
-        )
-        const firstEl = focusableEls[0]
-        const lastEl = focusableEls[focusableEls.length - 1]
-        if (!firstEl || !lastEl) return
+          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])',
+        );
+        const firstEl = focusableEls[0];
+        const lastEl = focusableEls[focusableEls.length - 1];
+        if (!firstEl || !lastEl) return;
 
         if (e.shiftKey) {
           if (document.activeElement === firstEl) {
-            e.preventDefault()
-            lastEl.focus()
+            e.preventDefault();
+            lastEl.focus();
           }
         } else {
           if (document.activeElement === lastEl) {
-            e.preventDefault()
-            firstEl.focus()
+            e.preventDefault();
+            firstEl.focus();
           }
         }
       }
-    }
+    };
 
-    document.addEventListener('keydown', handleKeyDown)
+    document.addEventListener('keydown', handleKeyDown);
     return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-      previousActiveElement?.focus()
-    }
-  }, [service, onClose])
+      document.removeEventListener('keydown', handleKeyDown);
+      previousActiveElement?.focus();
+    };
+  }, [service, onClose]);
 
   // 🔒 ปิด scroll background เมื่อเปิด modal
   useEffect(() => {
-    if (service) document.body.style.overflow = 'hidden'
+    if (service) document.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = ''
-    }
-  }, [service])
+      document.body.style.overflow = '';
+    };
+  }, [service]);
 
-  const handleBackdropClick = () => onClose()
-  const handleContentClick = useCallback((e: React.MouseEvent) => e.stopPropagation(), [])
+  const handleBackdropClick = () => onClose();
+  const handleContentClick = useCallback(
+    (e: React.MouseEvent) => e.stopPropagation(),
+    [],
+  );
 
-  if (!service) return null
+  if (!service) return null;
 
   return (
     <div
@@ -127,7 +133,7 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({ service, onCl
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ServiceRequestModal
+export default ServiceRequestModal;

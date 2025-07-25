@@ -1,5 +1,5 @@
 // src/data/services.ts
-import type { Service } from '@types/service'
+import type { Service } from '@types/service';
 
 export const services: Service[] = [
   {
@@ -45,7 +45,8 @@ export const services: Service[] = [
   {
     id: 5,
     title: 'ชิ้นงานจริง บัตรแข็ง / อ่อน',
-    description: 'ผลิตบัตรจริงพร้อมลายน้ำและ QR ตรวจสอบ ส่งตรงถึงมือ พร้อมความปลอดภัยขั้นสูงสุด',
+    description:
+      'ผลิตบัตรจริงพร้อมลายน้ำและ QR ตรวจสอบ ส่งตรงถึงมือ พร้อมความปลอดภัยขั้นสูงสุด',
     price: 'เริ่มต้น 4,500 บาท',
     image: '/images/services/service5.webp',
     altText: 'ภาพประกอบบริการผลิตบัตรแข็งและบัตรอ่อน',
@@ -121,6 +122,6 @@ export const services: Service[] = [
     available: false,
     comingSoonNote: 'ติดตามเร็ว ๆ นี้',
   },
-]
+];
 
-export default services
+export default services;
