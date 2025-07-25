@@ -1,3 +1,7 @@
+// tsconfig.json (Final Format)
+// ✅ รองรับ TypeScript + React + Vite + AutoImport + WebWorker
+// ✅ มี alias ครบทุกกลุ่ม + รองรับ SCSS, SW, และไฟล์เฉพาะ
+
 {
   "compilerOptions": {
     "target": "ESNext",
@@ -15,6 +19,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+
+    // ✅ Path Aliases
     "baseUrl": "./src",
     "paths": {
       "@/*": ["*"],
@@ -23,9 +29,15 @@
       "@utils/*": ["utils/*"],
       "@assets/*": ["assets/*"]
     },
+
+    // ✅ Type Declarations for Vite, AutoImport, Custom
     "types": ["vite/client", "unplugin-auto-import", "./tools/auto-imports.d.ts"],
     "typeRoots": ["./node_modules/@types", "./types"]
   },
+
+  // ✅ Files to Include
   "include": ["src/**/*", "src/sw.ts", "src/auto-imports.d.ts"],
+
+  // ✅ Exclude non-source directories
   "exclude": ["dist", "node_modules", "public", "coverage"]
 }

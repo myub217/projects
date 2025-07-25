@@ -3,43 +3,47 @@
 set -euo pipefail
 
 # =============================================
-# JP Visual & Docs :: Auto Import Scanner & Config Updater
+# 🔁 JP Visual & Docs :: Auto Import Scanner & Config Updater
 # =============================================
-# ขั้นตอน:
-# 1. สแกน import ทั่วทั้งโปรเจกต์
-# 2. อัปเดต: vite.config.ts, auto-imports.d.ts, ESLint, tsconfig.json
-# รองรับระบบ alias, types, linter, auto-complete
+# เวอร์ชัน: 2025.07
+# อัปเดต import ทั้งโปรเจกต์ให้อัตโนมัติ
+# ครอบคลุม: vite.config.ts, auto-imports.d.ts, .eslintrc, tsconfig.json
+# รองรับระบบ alias, IntelliSense, auto-complete, TypeScript types
 
-# === Config ===
-TOOLS_DIR="./tools"
-TEMP_DIR="./temp"
+# === CONFIG ===
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TOOLS_DIR="$ROOT_DIR/tools"
+TEMP_DIR="$ROOT_DIR/temp"
 IMPORTS_FILE="$TEMP_DIR/imports.json"
 
 declare -A SCRIPTS=(
-  ["update-vite-config.js"]="อัปเดต vite.config.ts"
-  ["update-auto-imports-dts.js"]="อัปเดต auto-imports.d.ts"
-  ["update-eslint-auto-import.js"]="อัปเดต eslintrc-auto-import.json"
-  ["update-tsconfig-types.js"]="อัปเดต tsconfig.json"
+  ["update-vite-config.js"]="🧩 อัปเดต vite.config.ts"
+  ["update-auto-imports-dts.js"]="📄 อัปเดต auto-imports.d.ts"
+  ["update-eslint-auto-import.js"]="📏 อัปเดต .eslintrc-auto-import.json"
+  ["update-tsconfig-types.js"]="🧠 อัปเดต tsconfig.json > compilerOptions.types"
 )
 
-# === Step 1: เตรียม temp และสแกน import
-echo "📦 เตรียมโฟลเดอร์ temp..."
+# === STEP 1: เตรียม temp และ export import ทั้งโปรเจกต์
+echo "📦 เตรียม temp directory..."
 mkdir -p "$TEMP_DIR"
 
-echo "🧠 สแกน import ทั้งโปรเจกต์..."
-node "$TOOLS_DIR/find-imports.js" > "$IMPORTS_FILE"
+echo "🔍 สแกน import ทั้งระบบ..."
+if ! node "$TOOLS_DIR/find-imports.js" > "$IMPORTS_FILE"; then
+  echo "❌ ไม่สามารถสแกน import ได้"
+  exit 1
+fi
 
-# === Step 2: รันแต่ละสคริปต์โดยส่ง input json
+# === STEP 2: อัปเดต config ต่างๆ ด้วยสคริปต์
 for script in "${!SCRIPTS[@]}"; do
   script_path="$TOOLS_DIR/$script"
-  description="${SCRIPTS[$script]}"
+  label="${SCRIPTS[$script]}"
 
   if [ -f "$script_path" ]; then
-    echo -e "\n🛠️ $description"
+    echo -e "\n$label"
     if output=$(node "$script_path" "$(cat "$IMPORTS_FILE")" 2>&1); then
-      echo "✅ สำเร็จ: $description"
+      echo "✅ สำเร็จ: $label"
     else
-      echo "❌ ล้มเหลว: $description"
+      echo "❌ ล้มเหลว: $label"
       echo "$output"
       exit 1
     fi
@@ -48,4 +52,5 @@ for script in "${!SCRIPTS[@]}"; do
   fi
 done
 
-echo -e "\n✅ เสร็จสิ้น AutoImport System Updated!"
+# === STEP 3: จบงาน
+echo -e "\n✅ เสร็จสิ้น :: ระบบ AutoImport อัปเดตเรียบร้อยแล้ว!"

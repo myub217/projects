@@ -6,12 +6,14 @@ const SRC_DIR = path.resolve(process.cwd(), 'src');
 
 function scanFiles(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
-  let imports = new Set();
+  const imports = new Set();
 
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      scanFiles(fullPath).forEach((i) => imports.add(i));
+      for (const imp of scanFiles(fullPath)) {
+        imports.add(imp);
+      }
     } else if (/\.(js|jsx|ts|tsx)$/.test(entry.name)) {
       const content = fs.readFileSync(fullPath, 'utf-8');
       const regex = /import\s+.*?from\s+['"]([^'"]+)['"]/g;

@@ -12,7 +12,14 @@ if (!input) {
   process.exit(1);
 }
 
-const imports = JSON.parse(input);
+let imports;
+try {
+  imports = JSON.parse(input);
+} catch (err) {
+  console.error('❌ ไม่สามารถแปลง JSON ได้:', err.message);
+  process.exit(1);
+}
+
 const dtsPath = path.resolve(__dirname, '../src/auto-imports.d.ts');
 
 // เขียน header และประกาศ global
@@ -24,11 +31,21 @@ const lines = [
 ];
 
 for (const entry of imports) {
-  lines.push(`  const ${entry.name}: typeof import("${entry.from}").${entry.name}`);
+  // ป้องกัน entry ที่ไม่ถูกต้อง
+  if (entry.name && entry.from) {
+    lines.push(
+      `  const ${entry.name}: typeof import("${entry.from}")["${entry.name}"];`,
+    );
+  }
 }
 
-lines.push(`}\n\nexport {}`);
+lines.push(`}\n\nexport {};`);
 
 // เขียนไฟล์
-await writeFile(dtsPath, lines.join('\n'), 'utf-8');
-console.log(`✅ สร้าง auto-imports.d.ts (${imports.length} รายการ)`);
+try {
+  await writeFile(dtsPath, lines.join('\n'), 'utf-8');
+  console.log(`✅ สร้าง auto-imports.d.ts (${imports.length} รายการ)`);
+} catch (err) {
+  console.error('❌ เกิดข้อผิดพลาดขณะเขียนไฟล์:', err.message);
+  process.exit(1);
+}

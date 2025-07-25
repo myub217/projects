@@ -1,0 +1,28 @@
+// src/styles/index.scss
+// 🎨 GLOBAL STYLE ENTRY POINT (SCSS)
+// รวม SCSS ทุกกลุ่ม (base, layout, components, utilities) เพื่อให้ import ได้จากไฟล์เดียว
+// แนะนำให้ใช้ใน main.tsx เป็น '@/styles/index.scss'
+
+/* === BASE === */
+@use './base/variables' as *;
+@use './base/mixins' as *;
+@use './base/typography';
+@use './base/buttons';
+
+/* === LAYOUT === */
+@use './layout/container';
+
+/* === COMPONENTS === */
+// @use './components/card';     // ใช้เมื่อมี component SCSS
+// @use './components/modal';    // เพิ่มตามที่มีจริง
+
+/* === UTILITIES === */
+// @use './utilities/spacing';   // Optional
+// @use './utilities/helpers';   // Optional
+
+/* === TAILWIND BASE (Layered Support) === */
+@use './tailwind-base.scss';
+@use './tailwind.scss';
+
+/* === GLOBAL CUSTOM === */
+@use './global.scss';

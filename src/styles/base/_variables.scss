@@ -1,0 +1,78 @@
+// src/styles/base/_variables.scss
+// 🎨 Global SCSS Variables for JP Visual & Docs
+
+// Colors
+$color-primary: #2563eb !default;
+$color-primary-focus: #1e40af !default;
+$color-primary-contrast: #ffffff !default;
+
+$color-secondary: #1e40af !default;
+$color-secondary-focus: #1b3a94 !default;
+
+$color-background: #f9fafb !default;
+$color-background-dark: #1f2937 !default;
+
+$color-text: #1f2937 !default;
+$color-text-muted: #6b7280 !default;
+$color-text-muted-dark: #9ca3af !default;
+
+$color-border: #e5e7eb !default;
+$color-border-dark: #374151 !default;
+
+$color-shadow-light: rgba(0, 0, 0, 0.1) !default;
+$color-shadow-dark: rgba(0, 0, 0, 0.5) !default;
+
+// Spacing scale (rem)
+$spacing-xs: 0.25rem !default; // 4px
+$spacing-sm: 0.5rem !default; // 8px
+$spacing-md: 1rem !default; // 16px
+$spacing-lg: 1.5rem !default; // 24px
+$spacing-xl: 2rem !default; // 32px
+
+// Border radius
+$border-radius-sm: 0.25rem !default; // 4px
+$border-radius-md: 0.375rem !default; // 6px
+$border-radius-lg: 0.5rem !default; // 8px
+$border-radius-full: 9999px !default; // full circle
+
+// Font families
+$font-family-body:
+  'Inter',
+  system-ui,
+  -apple-system,
+  BlinkMacSystemFont,
+  'Segoe UI',
+  Roboto,
+  Helvetica,
+  Arial,
+  sans-serif !default;
+$font-family-heading: 'Playfair Display', Georgia, serif !default;
+$font-family-code: 'Fira Code', Menlo, Monaco, monospace !default;
+
+// Font sizes and line heights
+$font-size-xs: 0.75rem !default; // 12px
+$font-size-sm: 0.875rem !default; // 14px
+$font-size-base: 1rem !default; // 16px
+$font-size-lg: 1.125rem !default; // 18px
+$font-size-xl: 1.25rem !default; // 20px
+$font-size-2xl: 1.5rem !default; // 24px
+$font-size-3xl: 1.875rem !default; // 30px
+$font-size-4xl: 2.25rem !default; // 36px
+$font-size-5xl: 3rem !default; // 48px
+
+$line-height-tight: 1.2 !default;
+$line-height-base: 1.6 !default;
+$line-height-relaxed: 1.75 !default;
+
+// Shadows
+$shadow-soft: 0 4px 12px rgba(59, 130, 246, 0.2) !default;
+$shadow-medium: 0 8px 24px rgba(59, 130, 246, 0.25) !default;
+$shadow-dark: 0 12px 32px rgba(17, 24, 39, 0.8) !default;
+
+// Z-index layers
+$z-index-negative: -1 !default;
+$z-index-base: 10 !default;
+$z-index-dropdown: 50 !default;
+$z-index-modal: 100 !default;
+$z-index-popover: 110 !default;
+$z-index-tooltip: 120 !default;

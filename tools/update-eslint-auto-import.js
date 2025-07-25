@@ -11,17 +11,31 @@ if (!input) {
   process.exit(1);
 }
 
-const imports = JSON.parse(input);
+let imports;
+try {
+  imports = JSON.parse(input);
+} catch (err) {
+  console.error('❌ ไม่สามารถแปลง JSON ได้:', err.message);
+  process.exit(1);
+}
+
 const eslintConfigPath = path.resolve(__dirname, '../.eslintrc-auto-import.json');
 
 const globals = {};
 for (const entry of imports) {
-  globals[entry.name] = 'readonly';
+  if (entry.name) {
+    globals[entry.name] = 'readonly';
+  }
 }
 
 const output = {
   globals,
 };
 
-await writeFile(eslintConfigPath, JSON.stringify(output, null, 2) + '\n', 'utf-8');
-console.log(`🔧 อัปเดต eslintrc-auto-import.json (${imports.length} รายการ)`);
+try {
+  await writeFile(eslintConfigPath, JSON.stringify(output, null, 2) + '\n', 'utf-8');
+  console.log(`🔧 อัปเดต eslintrc-auto-import.json (${imports.length} รายการ)`);
+} catch (err) {
+  console.error('❌ เกิดข้อผิดพลาดขณะเขียนไฟล์:', err.message);
+  process.exit(1);
+}

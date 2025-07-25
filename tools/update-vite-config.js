@@ -23,20 +23,19 @@ function updateViteConfig(imports) {
     '@pages': '/src/pages', // เพิ่มเติม
   };
 
-  // สร้าง alias block string ใหม่
+  // สร้าง alias block string ใหม่ (แบบ object literal)
   const aliasString = Object.entries(aliases)
     .map(([key, val]) => `      '${key}': path.resolve(__dirname, '${val}')`)
     .join(',\n');
 
   const newAliasBlock = `alias: {\n${aliasString}\n    }`;
 
-  // แทนที่ alias block เดิมใน vite.config.ts
+  // แทนที่ alias block เดิมใน vite.config.ts ด้วย regex แบบ multiline
   const aliasRegex = /alias:\s*\{[^}]*\}/m;
   if (aliasRegex.test(content)) {
     content = content.replace(aliasRegex, newAliasBlock);
   } else {
-    // กรณีไม่พบ alias block ให้แจ้งเตือน
-    console.warn('⚠️ ไม่พบ alias block ใน vite.config.ts');
+    console.warn('⚠️ ไม่พบ alias block ใน vite.config.ts, ไม่ได้เพิ่มใหม่อัตโนมัติ');
   }
 
   fs.writeFileSync(VITE_CONFIG_PATH, content, 'utf-8');
@@ -44,5 +43,7 @@ function updateViteConfig(imports) {
   console.log('✅ vite.config.ts อัปเดต alias เรียบร้อย');
 }
 
+// รับ args JSON string หรือ default เป็น array ว่าง
 const importList = JSON.parse(process.argv[2] || '[]');
+
 updateViteConfig(importList);

@@ -22,7 +22,6 @@ declare global {
   const login: (typeof import('./api/auth'))['login'];
   const memo: (typeof import('react'))['memo'];
   const startTransition: (typeof import('react'))['startTransition'];
-  const undefined: typeof import('undefined').undefined;
   const useAuth: (typeof import('./hooks/useAuth'))['useAuth'];
   const useCallback: (typeof import('react'))['useCallback'];
   const useContext: (typeof import('react'))['useContext'];

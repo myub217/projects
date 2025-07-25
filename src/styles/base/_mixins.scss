@@ -1,0 +1,67 @@
+// src/styles/base/_mixins.scss
+// 🔧 Reusable SCSS mixins for JP Visual & Docs
+
+// Flex center helper
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Flex space-between helper
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// Responsive container max-widths
+@mixin container-max-width {
+  max-width: 100%;
+  margin-inline: auto;
+  padding-inline: 1rem;
+
+  @media (min-width: 640px) {
+    max-width: 640px;
+  }
+  @media (min-width: 768px) {
+    max-width: 768px;
+  }
+  @media (min-width: 1024px) {
+    max-width: 1024px;
+  }
+  @media (min-width: 1280px) {
+    max-width: 1280px;
+  }
+  @media (min-width: 1536px) {
+    max-width: 1536px;
+  }
+}
+
+// Truncate text with ellipsis
+@mixin text-truncate($lines: 1) {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+}
+
+// Transition helper
+@mixin transition($properties...) {
+  transition-property: #{join($properties, ', ')};
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+
+// Box shadow helper for consistent shadows
+@mixin box-shadow-soft {
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+@mixin box-shadow-medium {
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.25);
+}
+
+@mixin box-shadow-dark {
+  box-shadow: 0 12px 32px rgba(17, 24, 39, 0.8);
+}

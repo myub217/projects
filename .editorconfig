@@ -1,22 +1,33 @@
-# .editorconfig
+# =============================================
+# 📁 .editorconfig :: Format Standard for JP Visual & Docs
+# =============================================
 # ✅ กำหนดมาตรฐาน format ไฟล์สำหรับโปรเจกต์ Vite + React + TailwindCSS
-# เพื่อให้ทุกเครื่อง dev และ CI/CD pipeline มีรูปแบบเดียวกัน
+# 🔒 บังคับใช้กับทุกเครื่อง Dev และ CI/CD Pipeline ให้มีรูปแบบเดียวกัน
+# 🔧 รองรับไฟล์ .ts, .tsx, .js, .jsx, .json, .yml, .md, .css, .scss ฯลฯ
 
 root = true
 
+# --- Default Rules ---
 [*]
 charset = utf-8
 end_of_line = lf
 insert_final_newline = true
+trim_trailing_whitespace = true
 indent_style = space
 indent_size = 2
-trim_trailing_whitespace = true
 
+# --- Markdown: อนุญาตช่องว่างท้ายบรรทัด (เช่นเพื่อขึ้นบรรทัดใหม่) ---
 [*.md]
 trim_trailing_whitespace = false
 
-[*.{json,yaml,yml}]
+# --- JSON / YAML: ใช้ indent 2 ---
+[*.{json,yml,yaml}]
 indent_size = 2
 
+# --- JavaScript / TypeScript: ใช้ indent 2 ---
 [*.{ts,tsx,js,jsx}]
+indent_size = 2
+
+# --- CSS / SCSS / Tailwind / HTML ---
+[*.{css,scss,html}]
 indent_size = 2

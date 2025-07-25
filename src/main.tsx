@@ -1,19 +1,20 @@
 // src/main.tsx
-// Root app entry: wraps App with ThemeProvider, React Router, Suspense fallback, and global styles
-// เพิ่ม ErrorBoundary รอบ <AppRoutes /> เพื่อกันกรณี error
+// 🚀 Root app entry
+// - Wraps AppRoutes with ThemeProvider, BrowserRouter, Suspense fallback, and ErrorBoundary
+// - Loads global styles
 
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
-// 🧩 Global Styles
-import '@/styles/tailwind-base.css';
-import '@/styles/tailwind.css';
+// 🧩 Global CSS (รวม tailwind-base, tailwind, global ไว้ใน global.css แล้ว)
 import '@/styles/global.css';
 
-// 🔧 Providers & Routes
+// 🔧 App Core
 import { ThemeProvider } from '@components/ThemeProvider';
 import AppRoutes from './routes/AppRoutes';
+
+// 📦 UI
 import LoadingFallback from '@components/common/LoadingFallback';
 import ErrorBoundary from '@components/ErrorBoundary';
 

@@ -1,6 +1,16 @@
+// =============================================
+// 📁 settings.json :: VS Code Workspace Settings
+// =============================================
+// ✅ ใช้ร่วมกับ Prettier + TypeScript + TailwindCSS
+// 🔒 Lock format บนทุกเครื่อง Dev และป้องกัน config leak
+// 📦 รองรับระบบ auto save, auto format, และ include ภาษา TailwindCSS
+
 {
+  // --- Editor Settings ---
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // --- Files ---
   "files.exclude": {
     "**/.git": true,
     "**/node_modules": true,
@@ -8,9 +18,15 @@
     "**/.DS_Store": true
   },
   "files.autoSave": "onFocusChange",
+
+  // --- TypeScript ---
   "typescript.tsdk": "node_modules/typescript/lib",
+
+  // --- Prettier ---
   "prettier.enableDebugLogs": false,
   "prettier.requireConfig": true,
+
+  // --- Tailwind CSS IntelliSense ---
   "tailwindCSS.includeLanguages": {
     "typescript": "javascript",
     "typescriptreact": "html"

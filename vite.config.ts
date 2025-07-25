@@ -1,3 +1,8 @@
+// vite.config.ts
+// ✅ Vite config for JP Visual & Docs
+// - React + Tailwind + AutoImport + PWA + StaticCopy
+// - Organized aliases, proxy toggle (USE_MOCK), proper build target
+
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import AutoImport from 'unplugin-auto-import/vite';
@@ -8,10 +13,12 @@ import path from 'node:path';
 export default defineConfig({
   plugins: [
     react(),
+
+    // 🔁 Auto-import hooks, utils, api, react
     AutoImport({
       imports: ['react', 'react-router-dom'],
-      dts: 'src/auto-imports.d.ts',
       dirs: ['src/hooks', 'src/utils', 'src/api'],
+      dts: 'src/auto-imports.d.ts',
       eslintrc: {
         enabled: true,
         filepath: './.eslintrc-auto-import.json',
@@ -19,6 +26,8 @@ export default defineConfig({
       },
       eslintrcRoot: true,
     }),
+
+    // 🔋 PWA: Custom service worker strategy
     VitePWA({
       strategies: 'injectManifest',
       srcDir: 'src',
@@ -47,6 +56,8 @@ export default defineConfig({
         ],
       },
     }),
+
+    // 🗂️ Static assets
     viteStaticCopy({
       targets: [
         {
@@ -56,16 +67,18 @@ export default defineConfig({
       ],
     }),
   ],
+
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
+      '@assets': path.resolve(__dirname, 'src/assets'),
       '@components': path.resolve(__dirname, 'src/components'),
+      '@pages': path.resolve(__dirname, 'src/pages'),
       '@data': path.resolve(__dirname, 'src/data'),
       '@utils': path.resolve(__dirname, 'src/utils'),
-      '@assets': path.resolve(__dirname, 'src/assets'),
-      '@pages': path.resolve(__dirname, 'src/pages'), // เพิ่ม alias @pages ให้ครบ
     },
   },
+
   server: {
     host: '0.0.0.0',
     port: 5173,
@@ -81,6 +94,7 @@ export default defineConfig({
             },
           },
   },
+
   build: {
     outDir: 'dist',
     emptyOutDir: true,
@@ -94,6 +108,7 @@ export default defineConfig({
       },
     },
   },
+
   optimizeDeps: {
     include: ['react', 'react-dom'],
     esbuildOptions: {

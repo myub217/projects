@@ -21,7 +21,7 @@ TMP_FILE="$(mktemp)"
 AUTO_DELETE=false
 
 # Check arg
-if [[ "$1" == "--auto-delete" ]]; then
+if [[ "${1:-}" == "--auto-delete" ]]; then
   AUTO_DELETE=true
 fi
 

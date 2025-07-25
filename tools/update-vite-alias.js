@@ -32,14 +32,14 @@ function updateViteAlias() {
     )
     .join(',\n')}\n  ]`;
 
-  // regex หา alias block เดิมใน vite.config.ts (ประมาณ)
+  // regex หา alias block เดิมใน vite.config.ts (แบบ multi-line)
   const aliasRegex = /alias:\s*\[[\s\S]*?\]/m;
 
   if (aliasRegex.test(viteRaw)) {
     viteRaw = viteRaw.replace(aliasRegex, aliasBlock);
     console.log('✅ อัปเดต alias ใน vite.config.ts สำเร็จ');
   } else {
-    // ถ้าไม่มี alias block ให้เพิ่มตรงที่เหมาะสม (simplify: แทรกก่อน export default)
+    // ถ้าไม่มี alias block ให้แทรกก่อน export default (ง่ายสุด)
     viteRaw = viteRaw.replace(/export default/, `${aliasBlock},\n\nexport default`);
     console.log('⚠️ ไม่พบ alias block เดิมใน vite.config.ts, แทรก alias ใหม่แทน');
   }

@@ -1,18 +1,19 @@
-// daisyui.config.ts
+// /daisyui.config.ts
+// ✅ DaisyUI Plugin Type-safe Configuration
 
 import type plugin from 'tailwindcss/plugin';
 import type { PluginCreator } from 'tailwindcss/types/config';
 
-// กำหนด daisyui เป็น plugin ของ Tailwind
+// ✅ ตัวแปร daisyui: ใช้ทั้งเป็น Tailwind Plugin และ PluginCreator
 declare const daisyui: ReturnType<typeof plugin> & PluginCreator;
 
 export default daisyui;
 
-// กำหนดรูปแบบ custom theme เช่น { mytheme: { primary: "#000", ... } }
-type CustomTheme = Record<string, Record<string, string>>;
+// ✅ รูปแบบ Custom Theme: { mytheme: { primary: "#000", ... } }
+export type CustomTheme = Record<string, Record<string, string>>;
 
-// รายชื่อธีมที่ daisyUI รองรับโดย default
-type Theme =
+// ✅ รายชื่อธีมเริ่มต้นที่ DaisyUI รองรับ
+export type Theme =
   | 'light'
   | 'dark'
   | 'cupcake'
@@ -46,41 +47,45 @@ type Theme =
   | 'nord'
   | 'sunset';
 
-// กำหนด config ของ daisyUI แบบ type-safe
-interface DaisyUIConfig {
+// ✅ DaisyUI Configuration Interface
+export interface Config {
   /**
-   * true = ทุกธีม, false = light/dark เท่านั้น, array = เลือกเฉพาะธีม
+   * ใช้ธีมทั้งหมด (true), ใช้เฉพาะ light/dark (false), หรือเลือก array
    */
   themes?: boolean | (Theme | CustomTheme)[];
+
   /**
-   * ตั้งค่า default dark theme ที่ใช้เวลาเครื่องอยู่ใน dark mode
+   * ตั้งค่า default dark theme เมื่อระบบอยู่ใน dark mode
    */
   darkTheme?: string;
+
   /**
-   * เปิด/ปิด base style (body, html, font)
+   * เปิด/ปิด base style เช่น body, html, font
    */
   base?: boolean;
+
   /**
-   * เปิด/ปิด styled component
+   * เปิด/ปิด styled component ที่ DaisyUI ให้มา
    */
   styled?: boolean;
+
   /**
-   * เปิด/ปิด utility class ที่ daisyUI เพิ่มมา
+   * เปิด/ปิด utility class เพิ่มเติมของ DaisyUI
    */
   utils?: boolean;
+
   /**
-   * รองรับ RTL layout (ใส่ dir="rtl" บน <html>)
+   * รองรับการแสดงผล RTL (ขวาไปซ้าย)
    */
   rtl?: boolean;
+
   /**
-   * เพิ่ม prefix เช่น daisy-btn เพื่อหลีกเลี่ยงการชนกับ class อื่น
+   * เพิ่ม prefix ให้ class ทั้งหมด เช่น daisy-btn
    */
   prefix?: string;
+
   /**
-   * แสดง log ตอน build
+   * เปิดแสดง log ตอน build เพื่อ debug
    */
   logs?: boolean;
 }
-
-// export type ทั้งหมด
-export type { DaisyUIConfig as Config, Theme, CustomTheme };

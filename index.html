@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#2563eb" />
+
+    <!-- SEO Meta -->
     <meta
       name="description"
       content="JPDocs ระบบแสดงผลใบรับรอง เอกสารสำคัญ และจัดการข้อมูลแบบ PWA บนมือถือและเดสก์ท็อป"
@@ -15,38 +17,39 @@
     <meta name="author" content="JP Team" />
     <meta name="robots" content="noindex, nofollow" />
 
+    <!-- Title -->
     <title>JP Visual & Docs</title>
 
-    <!-- PWA Manifest -->
+    <!-- Web App Manifest -->
     <link rel="manifest" href="/manifest.webmanifest" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="apple-mobile-web-app-title" content="JPDocs" />
 
-    <!-- Favicon & App Icon -->
-    <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+    <!-- Apple PWA Support -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="JPDocs" />
     <link rel="apple-touch-icon" href="/images/icon-192.png" />
+
+    <!-- Icons -->
+    <link rel="icon" href="/logo.svg" type="image/svg+xml" />
     <link rel="shortcut icon" href="/logo.svg" type="image/svg+xml" />
 
-    <!-- CSS (Dev mode: Vite injects dynamically) -->
-    <!-- In dev mode, no need to link /assets/index.css manually -->
-
-    <!-- JS Entry (Vite Dev Mode) -->
+    <!-- Entry Point (Vite Dev: injected) -->
     <script type="module" src="/src/main.tsx"></script>
 
-    <!-- App Splash Background Color for iOS -->
+    <!-- iOS Splash background -->
     <style>
       body {
-        background-color: #ffffff;
         margin: 0;
+        background-color: #fff;
       }
     </style>
   </head>
+
   <body>
     <noscript>กรุณาเปิดใช้งาน JavaScript เพื่อใช้งานระบบ JPDocs</noscript>
     <div id="root"></div>
 
-    <!-- Register Service Worker -->
+    <!-- PWA Service Worker -->
     <script type="module" src="/registerSW.js" defer></script>
   </body>
 </html>

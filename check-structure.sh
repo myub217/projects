@@ -71,41 +71,37 @@ done
 echo -e "\n## 🧭 Router Mapping" >> "$REPORT_FILE"
 
 if [[ -f "$ROUTER" ]]; then
-  # Declare associative array for imports
   declare -A imports=()
 
-  # Read import lines and fill associative array safely
   while IFS= read -r line; do
     if [[ $line =~ ^import[[:space:]]+([A-Za-z0-9_]+)[[:space:]]+from[[:space:]]+[\'\"](.+)[\'\"] ]]; then
       imports["${BASH_REMATCH[1]}"]="${BASH_REMATCH[2]}"
     fi
   done < "$ROUTER"
 
-  # Parse Routes block to extract path and component
   awk '
     /<Routes>/,/<\/Routes>/ {
       if ($0 ~ /<Route /) {
-        path = ""
-        component = ""
+        path = "";
+        component = "";
         for (i=1; i<=NF; i++) {
           if ($i ~ /^path=/) {
-            gsub(/path=|"|'\''/, "", $i)
-            path = $i
+            gsub(/path=|"|'\''/, "", $i);
+            path = $i;
           }
           if ($i ~ /^element=</) {
-            match($i, /element={<([^ >]+)/, arr)
+            match($i, /element={<([^ >]+)/, arr);
             if (arr[1] != "") {
-              component = arr[1]
+              component = arr[1];
             }
           }
         }
-        print path, component
+        print path, component;
       }
     }
   ' "$ROUTER" | while IFS= read -r route comp; do
     echo "### 🔸 Route: /$route" >> "$REPORT_FILE"
     echo "- Component: \`$comp\`" >> "$REPORT_FILE"
-    # Check if component is in imports; handle empty or missing comp safely
     if [[ -n "$comp" && -n "${imports[$comp]}" ]]; then
       echo "- Import Path: \`${imports[$comp]}\`" >> "$REPORT_FILE"
     else
@@ -121,7 +117,7 @@ echo -e "\n## 🗂️ โครงสร้างโปรเจกต์ (3 ช
 if command -v tree >/dev/null 2>&1; then
   tree -L 3 -I 'node_modules|.git|dist|build' "$BASE_DIR" >> "$REPORT_FILE"
 else
-  echo "[⚠️] ไม่พบคำสั่ง tree — ติดตั้งด้วย \`pkg install tree\`" >> "$REPORT_FILE"
+  echo "[⚠️] ไม่พบคำสั่ง tree — ติดตั้งด้วย \`pkg install tree\` หรือ \`brew install tree\`" >> "$REPORT_FILE"
 fi
 echo -e "\n\`\`\`" >> "$REPORT_FILE"
 

@@ -1,0 +1,107 @@
+// src/styles/base/_typography.scss
+// 📝 Typography styles for JP Visual & Docs
+
+@use './variables' as vars;
+
+html {
+  font-family: vars.$font-family-body;
+  font-size: vars.$font-size-base;
+  line-height: vars.$line-height-base;
+  color: vars.$color-text;
+  background-color: vars.$color-background;
+}
+
+body {
+  margin: 0;
+  font-family: vars.$font-family-body;
+  font-size: vars.$font-size-base;
+  line-height: vars.$line-height-base;
+  color: vars.$color-text;
+  background-color: vars.$color-background;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Headings
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: vars.$font-family-heading;
+  font-weight: 700;
+  line-height: vars.$line-height-tight;
+  color: vars.$color-text;
+  margin: 0 0 vars.$spacing-md 0;
+}
+
+h1 {
+  font-size: vars.$font-size-5xl;
+}
+
+h2 {
+  font-size: vars.$font-size-4xl;
+}
+
+h3 {
+  font-size: vars.$font-size-3xl;
+}
+
+h4 {
+  font-size: vars.$font-size-2xl;
+}
+
+h5 {
+  font-size: vars.$font-size-xl;
+}
+
+h6 {
+  font-size: vars.$font-size-lg;
+}
+
+// Paragraphs
+p {
+  margin: 0 0 vars.$spacing-md 0;
+  color: vars.$color-text;
+  line-height: vars.$line-height-relaxed;
+}
+
+// Links
+a {
+  color: vars.$color-primary;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  &:hover,
+  &:focus {
+    color: vars.$color-primary-focus;
+    text-decoration: underline;
+    outline: none;
+  }
+}
+
+// Code font
+code,
+pre {
+  font-family: vars.$font-family-code;
+  font-size: 0.875rem;
+  background-color: lighten(vars.$color-background, 10%);
+  padding: 0.125rem 0.25rem;
+  border-radius: vars.$border-radius-sm;
+}
+
+// Lists
+ul,
+ol {
+  margin: 0 0 vars.$spacing-md 1.25rem;
+  padding: 0;
+}
+
+// Blockquotes
+blockquote {
+  margin: 0 0 vars.$spacing-md 0;
+  padding-left: vars.$spacing-md;
+  border-left: 4px solid vars.$color-primary;
+  color: vars.$color-muted;
+  font-style: italic;
+}
