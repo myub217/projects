@@ -1,29 +1,12 @@
-# 4. Husky + lint-staged Setup
+# 1. สร้างโฟลเดอร์ Sections ถ้ายังไม่มี (มีแล้วข้าม)
+mkdir -p src/components/Sections
 
-# 1) ติดตั้ง dependencies
-pnpm install -D husky lint-staged
-
-# 2) สร้าง git hook
-npx husky install
-
-# 3) เพิ่มคำสั่งใน package.json
-# package.json
-{
-  ...
-  "scripts": {
-    "prepare": "husky install",
-    ...
-  },
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx,json,css,scss,md}": [
-      "prettier --write",
-      "eslint --fix"
-    ]
-  }
-}
-
-# 4) สร้าง pre-commit hook เพื่อรัน lint-staged
-npx husky add .husky/pre-commit "npx lint-staged"
-
-# 5) เรียกใช้งานคำสั่ง prepare ทุกครั้งหลังติดตั้ง dependencies
-pnpm run prepare
+# 2. ย้ายไฟล์หน้าแรกทั้งหมดเข้า Sections
+mv src/components/Hero.tsx src/components/Sections/HeroSection.tsx
+mv src/components/StatsSection.tsx src/components/Sections/StatsSection.tsx
+mv src/components/Services/ServicesSectionBlock.tsx src/components/Sections/ServicesSectionBlock.tsx
+mv src/components/TestimonialsSection.tsx src/components/Sections/TestimonialsSection.tsx
+mv src/components/FAQSection.tsx src/components/Sections/FAQSection.tsx
+mv src/components/CTASection.tsx src/components/Sections/CTASection.tsx
+mv src/components/AboutSection.tsx src/components/Sections/AboutSection.tsx
+mv src/components/FeatureSection.tsx src/components/Sections/FeatureSection.tsx

@@ -21,14 +21,15 @@
       "@components/*": ["components/*"],
       "@data/*": ["data/*"],
       "@utils/*": ["utils/*"],
-      "@assets/*": ["assets/*"]
+      "@assets/*": ["assets/*"],
+      "@pages/*": ["pages/*"]
     },
     "types": [
       "vite/client",
       "unplugin-auto-import",
       "./auto-imports.d.ts",
-      "./../tools/auto-imports.d.ts",
-      "./tools/auto-imports.d.ts"
+      "./tools/auto-imports.d.ts",
+      "../tools/auto-imports.d.ts"
     ],
     "typeRoots": ["./node_modules/@types", "./types"]
   },

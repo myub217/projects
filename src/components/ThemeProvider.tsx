@@ -1,70 +1,69 @@
+// src/components/ThemeProvider.tsx
+
 import React, {
   createContext,
-  useState,
-  useEffect,
   useContext,
-  type ReactNode,
-  useCallback,
+  useEffect,
+  useState,
+  ReactNode,
 } from 'react';
 
-type Theme = 'light' | 'dark';
+type Theme = 'light' | 'dark' | 'system';
 
-interface ThemeContextValue {
+interface JPThemeContextType {
   theme: Theme;
-  toggleTheme: () => void;
+  setTheme: (theme: Theme) => void;
 }
 
-const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
+const JPThemeContext = createContext<JPThemeContextType | undefined>(undefined);
+
+export const useJPTheme = (): JPThemeContextType => {
+  const context = useContext(JPThemeContext);
+  if (!context) {
+    throw new Error('useJPTheme must be used within a ThemeProvider');
+  }
+  return context;
+};
+
+// Export useTheme alias to match imports elsewhere
+export const useTheme = useJPTheme;
 
 interface ThemeProviderProps {
   children: ReactNode;
 }
 
-export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>('light');
+export const ThemeProvider = ({ children }: ThemeProviderProps) => {
+  const [theme, setTheme] = useState<Theme>('system');
 
+  // Detect system theme preference
+  const getSystemTheme = (): Theme => {
+    if (typeof window === 'undefined') return 'light';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  };
+
+  // Initialize theme from localStorage or system
   useEffect(() => {
-    try {
-      const savedTheme = localStorage.getItem('theme') as Theme | null;
-      const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-
-      if (savedTheme === 'light' || savedTheme === 'dark') {
-        setTheme(savedTheme);
-        document.documentElement.setAttribute('data-theme', savedTheme);
-      } else {
-        const systemTheme = prefersDark ? 'dark' : 'light';
-        setTheme(systemTheme);
-        document.documentElement.setAttribute('data-theme', systemTheme);
-      }
-    } catch {
-      setTheme('light');
-      document.documentElement.setAttribute('data-theme', 'light');
+    const saved = localStorage.getItem('theme') as Theme | null;
+    if (saved === 'light' || saved === 'dark') {
+      setTheme(saved);
+    } else {
+      setTheme('system');
     }
   }, []);
 
+  // Sync theme to document and localStorage
   useEffect(() => {
-    const root = document.documentElement;
-    root.setAttribute('data-theme', theme);
-    try {
-      localStorage.setItem('theme', theme);
-    } catch {
-      // ignore
+    let appliedTheme = theme;
+    if (theme === 'system') {
+      appliedTheme = getSystemTheme();
     }
+    document.documentElement.setAttribute('data-theme', appliedTheme);
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
-  const toggleTheme = useCallback(() => {
-    setTheme((curr) => (curr === 'light' ? 'dark' : 'light'));
-  }, []);
-
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <JPThemeContext.Provider value={{ theme, setTheme }}>
       {children}
-    </ThemeContext.Provider>
+    </JPThemeContext.Provider>
   );
-};
-
-export const useTheme = (): ThemeContextValue => {
-  const context = useContext(ThemeContext);
-  if (!context) throw new Error('useTheme must be used within ThemeProvider');
-  return context;
 };

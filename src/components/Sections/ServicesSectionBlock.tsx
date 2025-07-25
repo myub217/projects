@@ -1,10 +1,10 @@
-// src/components/Services/ServicesSectionBlock.tsx
+// src/components/Sections/ServicesSectionBlock.tsx
 // ✅ แสดงรายการบริการที่เปิดให้ใช้งาน พร้อมรองรับการเรียกใช้งานผ่าน onRequestService
 
 import React from 'react';
 import { services } from '@data/services';
 import { Service } from '@types/service';
-import ServiceCard from './ServiceCard';
+import ServiceCard from '@components/Services/ServiceCard';
 
 interface ServicesSectionBlockProps {
   onRequestService: (serviceId: number) => void;
@@ -31,7 +31,7 @@ const ServicesSectionBlock: React.FC<ServicesSectionBlockProps> = ({
             ))}
           </div>
         ) : (
-          <div className="mt-12 text-center text-gray-500">
+          <div className="mt-12 text-center text-gray-500 dark:text-gray-400">
             ขออภัย ยังไม่มีบริการที่เปิดให้ใช้งานในขณะนี้
           </div>
         )}

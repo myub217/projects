@@ -122,7 +122,9 @@ const ServiceRequestModal: React.FC<ServiceRequestModalProps> = ({
           </button>
 
           <a
-            href={`https://line.me/ti/p/~jpdocs?text=${encodeURIComponent(`สวัสดีครับ/ค่ะ สนใจใช้บริการ: ${service.title}`)}`}
+            href={`https://line.me/ti/p/~jpdocs?text=${encodeURIComponent(
+              `สวัสดีครับ/ค่ะ สนใจใช้บริการ: ${service.title}`,
+            )}`}
             target="_blank"
             rel="noopener noreferrer"
             onClick={onClose}

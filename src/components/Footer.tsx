@@ -1,81 +1,49 @@
+// src/components/Footer.tsx
+
 import React from 'react';
-import jpLogo from '@/assets/jp-logo.webp';
-import { FaLine, FaFacebookMessenger } from 'react-icons/fa';
 
-const Footer: React.FC = () => (
-  <footer
-    role="contentinfo"
-    className="select-text border-t border-base-300 bg-base-200 text-gray-700 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-300"
-  >
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <div className="flex flex-col items-center justify-between gap-6 sm:flex-row sm:gap-0">
-        {/* Brand & Logo */}
-        <div
-          className="flex items-center gap-3"
-          aria-label="แบรนด์ JP Visual & Docs"
-          tabIndex={-1}
-        >
-          <img
-            src={jpLogo}
-            alt="โลโก้ JP Visual & Docs"
-            className="h-10 w-auto select-none"
-            loading="lazy"
-            decoding="async"
-            fetchPriority="low"
-            draggable={false}
-          />
-          <span className="select-text text-base font-semibold tracking-tight text-primary">
-            JP - Visual & Docs
-          </span>
-        </div>
+const Footer: React.FC = () => {
+  const currentYear = new Date().getFullYear();
 
-        {/* Social Links */}
-        <nav
-          aria-label="ช่องทางติดต่อโซเชียลมีเดีย"
-          className="flex gap-6 text-xl text-primary"
-        >
+  return (
+    <footer className="bg-base-200 text-muted py-6 mt-16 border-t border-base-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p className="text-sm select-none">
+          &copy; {currentYear} JP Visual & Docs. All rights reserved.
+        </p>
+        <nav className="flex space-x-6 text-sm">
           <a
-            href="https://line.me/R/ti/p/@462fqrfc"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="ติดต่อเรา ผ่าน LINE"
-            className="hover:text-primary-focus rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            href="#services"
+            className="hover:text-primary transition-colors"
+            aria-label="บริการ"
           >
-            <FaLine aria-hidden="true" />
+            บริการ
           </a>
           <a
-            href="https://m.me/yourpage"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="ติดต่อเรา ผ่าน Facebook Messenger"
-            className="hover:text-primary-focus rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            href="#portfolio"
+            className="hover:text-primary transition-colors"
+            aria-label="ตัวอย่างงาน"
           >
-            <FaFacebookMessenger aria-hidden="true" />
+            ตัวอย่างงาน
+          </a>
+          <a
+            href="#faq"
+            className="hover:text-primary transition-colors"
+            aria-label="คำถามที่พบบ่อย"
+          >
+            คำถามที่พบบ่อย
+          </a>
+          <a
+            href="#contact"
+            className="hover:text-primary transition-colors"
+            aria-label="ติดต่อเรา"
+          >
+            ติดต่อเรา
           </a>
         </nav>
-
-        {/* Copyright */}
-        <div className="select-text text-center text-sm leading-relaxed sm:text-right">
-          <p>© 2025 JP - Visual & Docs</p>
-          <p className="opacity-70">สงวนลิขสิทธิ์ทั้งหมด | All rights reserved</p>
-        </div>
       </div>
-
-      {/* Business Description */}
-      <p
-        className="mx-auto mt-6 max-w-xl select-text text-center text-sm leading-relaxed text-gray-600 dark:text-gray-400 sm:mx-0 sm:max-w-none sm:text-left"
-        aria-label="คำอธิบายธุรกิจ"
-      >
-        <span className="block sm:inline">
-          ผู้ช่วยด้านภาพลักษณ์และเอกสารธุรกิจแบบมืออาชีพ
-        </span>
-        <br className="sm:hidden" />
-        <span className="block sm:inline">
-          เสริมความน่าเชื่อถือให้ธุรกิจของคุณดูโดดเด่นยิ่งขึ้น
-        </span>
-      </p>
-    </div>
-  </footer>
-);
+    </footer>
+  );
+};
 
 export default Footer;

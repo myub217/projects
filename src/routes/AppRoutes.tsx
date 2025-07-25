@@ -1,13 +1,14 @@
 // src/routes/AppRoutes.tsx
-// ✅ จัดการ Routing หลัก พร้อม Suspense + Theme + Protected Routes (พื้นฐาน)
+// ✅ จัดการ Routing หลัก พร้อม Suspense + Theme + Protected Routes เบื้องต้น
+// รองรับ Public / Protected routes และ fallback page
 
 import React, { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
-import { useTheme } from '@components/ThemeProvider';
+import { useJPTheme } from '@components/ThemeProvider';
 import LoadingFallback from '@components/common/LoadingFallback';
 
-// 🧭 Lazy Pages
+// Lazy load pages
 const IndexPage = lazy(() => import('@pages/IndexPage'));
 const LoginPage = lazy(() => import('@pages/LoginPage'));
 const SecretRoomPage = lazy(() => import('@pages/SecretRoomPage'));
@@ -17,26 +18,72 @@ const CustomerAssessmentSummary = lazy(
 );
 const NotFoundPage = lazy(() => import('@pages/NotFoundPage'));
 
+// Simple auth helper (replace with real auth context or logic)
+const isLoggedIn = () => !!localStorage.getItem('loggedInUser');
+const getUserRole = () => localStorage.getItem('userRole') || '';
+
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+  roles?: string[]; // allowed roles
+  redirectPath?: string;
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  children,
+  roles = [],
+  redirectPath = '/login',
+}) => {
+  if (!isLoggedIn()) return <Navigate to={redirectPath} replace />;
+
+  if (roles.length > 0 && !roles.includes(getUserRole())) {
+    // Unauthorized role, redirect to login
+    return <Navigate to={redirectPath} replace />;
+  }
+
+  return <>{children}</>;
+};
+
 const AppRoutes: React.FC = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useJPTheme();
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
 
   return (
     <Suspense fallback={<LoadingFallback />}>
       <Routes>
-        {/* 🔓 Public Routes */}
+        {/* Public Routes */}
         <Route index element={<IndexPage theme={theme} toggleTheme={toggleTheme} />} />
         <Route path="/login" element={<LoginPage />} />
 
-        {/* 🔐 Protected Routes */}
-        {/* TODO: เพิ่ม ProtectedRoute wrapper ถ้าต้องการล็อกอินก่อนเข้าถึง */}
-        <Route path="/secret" element={<SecretRoomPage />} />
-        <Route path="/admin" element={<AdminPage />} />
+        {/* Protected Routes */}
+        <Route
+          path="/secret"
+          element={
+            <ProtectedRoute roles={['user', 'admin']}>
+              <SecretRoomPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute roles={['admin']}>
+              <AdminPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/customer-assessment-summary"
-          element={<CustomerAssessmentSummary />}
+          element={
+            <ProtectedRoute roles={['admin', 'user']}>
+              <CustomerAssessmentSummary />
+            </ProtectedRoute>
+          }
         />
 
-        {/* 🚫 Fallback */}
+        {/* Catch-all fallback */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Suspense>

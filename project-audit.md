@@ -1,13 +1,11 @@
 # 🧾 รายงานตรวจสอบโปรเจกต์
-
 - 📍 ที่อยู่: `/data/data/com.termux/files/home/projects`
-- 🕒 เวลา: Fri Jul 25 16:44:48 +07 2025
+- 🕒 เวลา: Fri Jul 25 20:00:56 +07 2025
 - 📘 โหมด: Dev Audit
 
 ---
 
 ## ✅ ไฟล์และโฟลเดอร์ที่ควรมี
-
 - [✅] `src`
 - [✅] `src/components`
 - [✅] `src/pages`
@@ -19,7 +17,6 @@
 - [✅] `.env`
 
 ## 📄 Tailwind Config (`/data/data/com.termux/files/home/projects/tailwind.config.ts`)
-
 ```ts
 // tailwind.config.ts
 import type { Config } from 'tailwindcss';
@@ -189,15 +186,15 @@ const config: Config = {
 };
 
 export default config;
+
 ```
 
 ## 📄 Vite Config (`/data/data/com.termux/files/home/projects/vite.config.ts`)
-
 ```ts
 // vite.config.ts
-// ✅ Vite config for JP Visual & Docs
-// - React + Tailwind + AutoImport + PWA + StaticCopy
-// - Organized aliases, proxy toggle (USE_MOCK), proper build target
+// ✅ JP Visual & Docs :: Full Vite Config (Fixed)
+// Stack: React + Tailwind + AutoImport + PWA + Static Assets
+// Aliases, Proxy toggle (USE_MOCK), Optimized build, ESLint support
 
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
@@ -205,12 +202,32 @@ import AutoImport from 'unplugin-auto-import/vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import path from 'node:path';
+import fs from 'node:fs';
+
+// 🛠️ Auto-check + fallback for missing assets
+const publicDir = path.resolve(__dirname, 'public');
+const missing: string[] = [];
+
+const requiredFiles = ['images/icon-192.png', 'images/icon-512.png', 'favicon.ico'];
+
+for (const file of requiredFiles) {
+  if (!fs.existsSync(path.resolve(publicDir, file))) {
+    missing.push(`public/${file}`);
+  }
+}
+
+if (missing.length) {
+  console.warn(
+    '\n⚠️  Missing public assets:',
+    missing.map((f) => `\n - ${f}`).join(''),
+  );
+  console.warn('👉 Please ensure all required files exist in /public.\n');
+}
 
 export default defineConfig({
   plugins: [
     react(),
 
-    // 🔁 Auto-import hooks, utils, api, react-router-dom
     AutoImport({
       imports: ['react', 'react-router-dom'],
       dirs: ['src/hooks', 'src/utils', 'src/api'],
@@ -223,7 +240,6 @@ export default defineConfig({
       eslintrcRoot: true,
     }),
 
-    // 🔋 PWA with injectManifest strategy
     VitePWA({
       strategies: 'injectManifest',
       srcDir: 'src',
@@ -232,8 +248,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       injectManifest: {
         globDirectory: 'dist',
-        globPatterns: ['**/*.{js,css,html,wasm,webmanifest}'],
-        globIgnores: ['**/node_modules/**/*', 'sw.js', '**/sw.js.map'],
+        globPatterns: ['**/*.{js,css,html,webmanifest,woff2}'],
+        globIgnores: ['**/node_modules/**/*', 'sw.js', '**/*.map'],
       },
       devOptions: {
         enabled: true,
@@ -247,31 +263,42 @@ export default defineConfig({
         background_color: '#ffffff',
         theme_color: '#2563eb',
         icons: [
-          { src: '/images/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/images/icon-512.png', sizes: '512x512', type: 'image/png' },
+          {
+            src: '/images/icon-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: '/images/icon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
         ],
       },
     }),
 
-    // 🗂️ Static assets copy
     viteStaticCopy({
       targets: [
-        {
-          src: 'public/images',
+        fs.existsSync(path.resolve(publicDir, 'images')) && {
+          src: path.resolve(publicDir, 'images'),
           dest: 'images',
         },
-      ],
+        fs.existsSync(path.resolve(publicDir, 'favicon.ico')) && {
+          src: path.resolve(publicDir, 'favicon.ico'),
+          dest: '.',
+        },
+      ].filter(Boolean),
     }),
   ],
 
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),
-      '@components': path.resolve(__dirname, 'src/components'),
-      '@data': path.resolve(__dirname, 'src/data'),
-      '@utils': path.resolve(__dirname, 'src/utils'),
-      '@assets': path.resolve(__dirname, 'src/assets'),
-      '@pages': path.resolve(__dirname, 'src/pages'),
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@data': path.resolve(__dirname, './src/data'),
+      '@utils': path.resolve(__dirname, './src/utils'),
+      '@assets': path.resolve(__dirname, './src/assets'),
+      '@pages': path.resolve(__dirname, './src/pages'),
     },
   },
 
@@ -312,10 +339,10 @@ export default defineConfig({
     },
   },
 });
+
 ```
 
 ## 📄 TS Config (`/data/data/com.termux/files/home/projects/tsconfig.json`)
-
 ```ts
 {
   "compilerOptions": {
@@ -341,43 +368,48 @@ export default defineConfig({
       "@data/*": ["data/*"],
       "@utils/*": ["utils/*"],
       "@assets/*": ["assets/*"],
-      "@pages/*": ["pages/*"] /* เพิ่มเติม @pages alias ให้ตรงกับ vite.config.ts */
+      "@pages/*": ["pages/*"]
     },
     "types": [
       "vite/client",
       "unplugin-auto-import",
-      "./src/auto-imports.d.ts" /* ปรับ path ให้ถูกต้อง */
+      "./auto-imports.d.ts",
+      "./tools/auto-imports.d.ts",
+      "../tools/auto-imports.d.ts"
     ],
     "typeRoots": ["./node_modules/@types", "./types"]
   },
-  "include": ["src/**/*", "src/sw.ts", "src/auto-imports.d.ts"],
-  "exclude": ["dist", "node_modules", "public", "coverage"]
+  "include": ["src", "src/auto-imports.d.ts", "src/sw.ts"],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "public",
+    "coverage",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ]
 }
 
 ```
 
 ## 📄 Main Entry (`/data/data/com.termux/files/home/projects/src/main.tsx`)
-
 ```ts
 // src/main.tsx
-// 🚀 Root app entry
-// - Wraps AppRoutes with ThemeProvider, BrowserRouter, Suspense fallback, and ErrorBoundary
-// - Loads global styles
+// ✅ ENTRY POINT สำหรับ JP Visual & Docs
+// ✅ โครงสร้าง Root ครอบทุก Provider, Router, ErrorBoundary, Suspense, GlobalStyle
 
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
-// 🧩 Global CSS (รวม tailwind-base, tailwind, global ไว้ใน global.css แล้ว)
+// 🌐 Global Styles (base, Tailwind, custom)
 import '@/styles/global.css';
 
-// 🔧 App Core
-import { ThemeProvider } from '@components/ThemeProvider';
+// 📦 Core Components
 import AppRoutes from './routes/AppRoutes';
-
-// 📦 UI
-import LoadingFallback from '@components/common/LoadingFallback';
+import { ThemeProvider } from '@components/ThemeProvider';
 import ErrorBoundary from '@components/ErrorBoundary';
+import LoadingFallback from '@components/common/LoadingFallback';
 
 const RootApp: React.FC = () => (
   <React.StrictMode>
@@ -406,18 +438,18 @@ export default RootApp;
 ```
 
 ## 📄 AppRoutes (`/data/data/com.termux/files/home/projects/src/routes/AppRoutes.tsx`)
-
 ```ts
 // src/routes/AppRoutes.tsx
-// Routes setup with Suspense fallback, lazy-loaded pages, theme support, and protected routes
+// ✅ จัดการ Routing หลัก พร้อม Suspense + Theme + Protected Routes เบื้องต้น
+// รองรับ Public / Protected routes และ fallback page
 
 import React, { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
-import { useTheme } from '@components/ThemeProvider';
+import { useJPTheme } from '@components/ThemeProvider';
 import LoadingFallback from '@components/common/LoadingFallback';
 
-// Lazy-loaded pages
+// Lazy load pages
 const IndexPage = lazy(() => import('@pages/IndexPage'));
 const LoginPage = lazy(() => import('@pages/LoginPage'));
 const SecretRoomPage = lazy(() => import('@pages/SecretRoomPage'));
@@ -427,8 +459,37 @@ const CustomerAssessmentSummary = lazy(
 );
 const NotFoundPage = lazy(() => import('@pages/NotFoundPage'));
 
+// Simple auth helper (replace with real auth context or logic)
+const isLoggedIn = () => !!localStorage.getItem('loggedInUser');
+const getUserRole = () => localStorage.getItem('userRole') || '';
+
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+  roles?: string[]; // allowed roles
+  redirectPath?: string;
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  children,
+  roles = [],
+  redirectPath = '/login',
+}) => {
+  if (!isLoggedIn()) return <Navigate to={redirectPath} replace />;
+
+  if (roles.length > 0 && !roles.includes(getUserRole())) {
+    // Unauthorized role, redirect to login
+    return <Navigate to={redirectPath} replace />;
+  }
+
+  return <>{children}</>;
+};
+
 const AppRoutes: React.FC = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useJPTheme();
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
 
   return (
     <Suspense fallback={<LoadingFallback />}>
@@ -438,14 +499,32 @@ const AppRoutes: React.FC = () => {
         <Route path="/login" element={<LoginPage />} />
 
         {/* Protected Routes */}
-        <Route path="/secret" element={<SecretRoomPage />} />
-        <Route path="/admin" element={<AdminPage />} />
+        <Route
+          path="/secret"
+          element={
+            <ProtectedRoute roles={['user', 'admin']}>
+              <SecretRoomPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute roles={['admin']}>
+              <AdminPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/customer-assessment-summary"
-          element={<CustomerAssessmentSummary />}
+          element={
+            <ProtectedRoute roles={['admin', 'user']}>
+              <CustomerAssessmentSummary />
+            </ProtectedRoute>
+          }
         />
 
-        {/* Fallback 404 */}
+        {/* Catch-all fallback */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Suspense>
@@ -457,7 +536,6 @@ export default AppRoutes;
 ```
 
 ## 📄 AdminPage.tsx (`/data/data/com.termux/files/home/projects/src/pages/AdminPage.tsx`)
-
 ```ts
 // src/pages/AdminPage.tsx
 // ✅ หน้าหลักของผู้ดูแลระบบ พร้อมโครงสร้างรองรับ accessibility และ responsive layout
@@ -483,7 +561,6 @@ export default AdminPage;
 ```
 
 ## 📄 SecretRoomPage.tsx (`/data/data/com.termux/files/home/projects/src/pages/SecretRoomPage.tsx`)
-
 ```ts
 import React, { useEffect, useState } from 'react';
 import SecretRoomDashboard from '@components/SecretRoom/Dashboard';
@@ -513,7 +590,6 @@ export default SecretRoomPage;
 ```
 
 ## 📄 LoginPage.tsx (`/data/data/com.termux/files/home/projects/src/pages/LoginPage.tsx`)
-
 ```ts
 // src/pages/LoginPage.tsx
 // ✅ Secure Login with password hashing, role-based routing, and improved accessibility & UX, with warning image
@@ -674,7 +750,6 @@ export default LoginPage;
 ```
 
 ## 📄 CustomerAssessmentSummary.tsx (`/data/data/com.termux/files/home/projects/src/pages/CustomerAssessmentSummary.tsx`)
-
 ```ts
 // src/pages/CustomerAssessmentSummary.tsx
 // ✅ Refined + accessible + print-ready customer assessment summary
@@ -806,7 +881,6 @@ export default CustomerAssessmentSummary;
 ```
 
 ## 📄 NotFoundPage.tsx (`/data/data/com.termux/files/home/projects/src/pages/NotFoundPage.tsx`)
-
 ```ts
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -853,13 +927,12 @@ export default NotFoundPage;
 ```
 
 ## 📄 configureServer.ts (`/data/data/com.termux/files/home/projects/src/config/configureServer.ts`)
-
 ```ts
 // ❌ ไม่พบไฟล์นี้
+
 ```
 
 ## 📄 .prettierrc.json (`/data/data/com.termux/files/home/projects/.prettierrc.json`)
-
 ```ts
 {
   "printWidth": 88,
@@ -881,122 +954,26 @@ export default NotFoundPage;
 ```
 
 ## 🧭 Router Mapping
-
-### 🔸 Route: /
-
+### 🔸 Route: / 
 - Component: ``
 - Import Path: ❌ ไม่พบใน import
 
-### 🔸 Route: //login
-
+### 🔸 Route: //login 
 - Component: ``
 - Import Path: ❌ ไม่พบใน import
 
-### 🔸 Route: //secret
-
+### 🔸 Route: /* 
 - Component: ``
 - Import Path: ❌ ไม่พบใน import
 
-### 🔸 Route: //admin
-
-- Component: ``
-- Import Path: ❌ ไม่พบใน import
-
-### 🔸 Route: /\*
-
-- Component: ``
-- Import Path: ❌ ไม่พบใน import
 
 ## 🗂️ โครงสร้างโปรเจกต์ (3 ชั้น)
-
 ```
 /data/data/com.termux/files/home/projects
 ├── Clean.sh
 ├── README.md
-├── ZzZzZ__archive__ZzZz
-│   ├── ConfirmationDialog.tsx
-│   ├── CustomerCard.tsx
-│   ├── Feature.tsx
-│   ├── GetFollowers.tsx
-│   ├── LoadingSpinner.tsx
-│   ├── NotificationBanner.tsx
-│   ├── SendMessage.tsx
-│   ├── ServiceCard.tsx
-│   ├── Services
-│   │   ├── ServiceCard.tsx
-│   │   ├── ServiceListRenderer.tsx
-│   │   └── ServicesSection.tsx
-│   ├── StatsPanel.tsx
-│   ├── admin-widgets
-│   │   ├── CertificatePreview.tsx
-│   │   ├── CertificateTemplate.tsx
-│   │   ├── CustomerCard.tsx
-│   │   ├── FormFieldWrapper.tsx
-│   │   ├── SalaryCertificate.tsx
-│   │   ├── StatsPanel.tsx
-│   │   └── UserTable.tsx
-│   ├── auto-archive-unused.sh
-│   ├── auto-check-unused-styles.sh
-│   ├── check-routes.sh
-│   ├── check-unused-components.sh
-│   ├── clean-static-folders.sh
-│   ├── contact
-│   │   ├── ContactCard.tsx
-│   │   ├── ContactIconButton.tsx
-│   │   └── ContactList.tsx
-│   ├── merge-service-image-folders.sh
-│   ├── misc
-│   │   ├── About.tsx
-│   │   ├── CustomerAssessmentForm.tsx
-│   │   ├── DataTable.tsx
-│   │   ├── PageWrapper.tsx
-│   │   ├── ResponsiveNavbar.tsx
-│   │   ├── ReviewsSection.tsx
-│   │   └── RichMenuSetter.tsx
-│   ├── scan-unused-icons.js
-│   ├── script
-│   ├── secret-room
-│   │   ├── AccessLogTable.tsx
-│   │   ├── CustomerLoanProgressGraph.tsx
-│   │   ├── Dashboard.tsx
-│   │   ├── DashboardCard.tsx
-│   │   ├── FileUpload.tsx
-│   │   ├── HeaderBlock.tsx
-│   │   ├── HelpSupport.tsx
-│   │   ├── NotificationToast.tsx
-│   │   ├── NotificationsPanel.tsx
-│   │   ├── PerformanceMetrics.tsx
-│   │   ├── SystemCheckCard.tsx
-│   │   ├── ThemeToggleButton.tsx
-│   │   └── UserProfileCard.tsx
-│   ├── ui
-│   │   └── Button.tsx
-│   ├── ui-unused
-│   │   ├── Accordion.tsx
-│   │   ├── Alert.tsx
-│   │   ├── Badge.tsx
-│   │   ├── DashboardCard.tsx
-│   │   ├── DropdownMenu.tsx
-│   │   ├── Input.tsx
-│   │   ├── Modal.tsx
-│   │   ├── Section.tsx
-│   │   ├── Skeleton.tsx
-│   │   ├── Spinner.tsx
-│   │   ├── Stepper.tsx
-│   │   ├── Tabs.tsx
-│   │   ├── Tooltip.tsx
-│   │   ├── button.tsx
-│   │   └── card.tsx
-│   ├── unused
-│   │   ├── CertificateExporter.tsx
-│   │   ├── CertificateTemplate.tsx
-│   │   ├── DashboardCard.tsx
-│   │   ├── FormFieldWrapper.tsx
-│   │   └── SalaryCertificate.tsx
-│   └── {admin-widgets,secret-room,ui-unused,misc-old}
 ├── api
 │   └── contact.ts
-├── auto-imports.d.ts
 ├── check-alias-usage.sh
 ├── check-structure.sh
 ├── daisyui.config.ts
@@ -1022,7 +999,10 @@ export default NotFoundPage;
 │   │   ├── certificate.pdf
 │   │   ├── contract.pdf
 │   │   └── registration.pdf
+│   ├── favicon.ico
 │   ├── images
+│   │   ├── icon-192.png
+│   │   ├── icon-512.png
 │   │   ├── images
 │   │   ├── review
 │   │   └── services
@@ -1043,30 +1023,25 @@ export default NotFoundPage;
 │   ├── assets
 │   │   ├── 404.svg
 │   │   ├── about.webp
-│   │   ├── assets
 │   │   ├── hero.webp
 │   │   ├── jp-logo.webp
 │   │   ├── login.webp
 │   │   └── logo.svg
 │   ├── auto-imports.d.ts
 │   ├── components
-│   │   ├── AboutSection.tsx
 │   │   ├── AdminBoard
-│   │   ├── CTASection.tsx
 │   │   ├── ErrorBoundary.tsx
-│   │   ├── FAQSection.tsx
-│   │   ├── FeatureSection.tsx
 │   │   ├── Footer.tsx
 │   │   ├── Header.tsx
 │   │   ├── Hero.tsx
+│   │   ├── HomeContent.tsx
+│   │   ├── IndustryInsights
 │   │   ├── Layout
 │   │   ├── Modals
 │   │   ├── SecretRoom
+│   │   ├── Sections
 │   │   ├── Services
-│   │   ├── StatsSection.tsx
-│   │   ├── TestimonialsSection.tsx
 │   │   ├── ThemeProvider.tsx
-│   │   ├── ThemeToggleButton.tsx
 │   │   ├── common
 │   │   ├── contact
 │   │   └── ui
@@ -1135,31 +1110,29 @@ export default NotFoundPage;
 │   ├── update-tsconfig-types.js
 │   ├── update-vite-alias.js
 │   └── update-vite-config.js
+├── tree.txt
 ├── ts-prune.log
 ├── tsconfig.json
-├── tsconfig.json.bak.1753425892
-├── tsconfig.json.bak.1753426398
-├── tsconfig.json.bak.1753426847
-├── tsconfig.json.bak.1753431298
 ├── vercel.json
 ├── vite-audit-clean.sh
-└── vite.config.ts
+├── vite.config.ts
+└── บันทึกทั่วไป
 
-52 directories, 182 files
+42 directories, 106 files
 
 ```
 
 ## 🧹 ts-prune (exports ที่ไม่ได้ใช้งาน)
 
 ```ts
-src/main.tsx:43 - default
+src/main.tsx:40 - default
 src/api/auth.ts:9 - login (used in module)
 src/api/auth.ts:25 - getCurrentUser (used in module)
 src/api/auth.ts:41 - default
-src/components/ThemeToggleButton.tsx:55 - default
 src/config/contact.ts:12 - ContactType (used in module)
 src/config/contact.ts:20 - ContactLink (used in module)
 src/config/contact.ts:27 - contactLinks
+src/config/contact.ts:82 - getContactHref
 src/config/evn.ts:4 - env (used in module)
 src/config/salaryCertificateConfig.ts:18 - defaultCompanyInfo
 src/config/theme.ts:16 - getInitialTheme
@@ -1171,7 +1144,6 @@ src/data/approvedCustomers.ts:3 - CustomerApproval (used in module)
 src/data/approvedCustomers.ts:11 - approvedCustomers
 src/data/reviewsData.ts:4 - Review (used in module)
 src/data/reviewsData.ts:11 - reviewsData
-src/data/services.ts:127 - default
 src/data/servicesData.ts:4 - Service (used in module)
 src/data/servicesData.ts:15 - services
 src/data/users.ts:4 - User (used in module)
@@ -1190,7 +1162,9 @@ src/utils/formatDate.ts:12 - formatDate
 src/components/contact/index.ts:3 - ContactList
 src/components/contact/index.ts:4 - ContactCard
 src/components/contact/index.ts:5 - ContactIconButton
-src/components/SecretRoom/ThemeToggleButton.tsx:54 - default
+src/components/IndustryInsights/ArticleCard.tsx:5 - ArticleCardProps (used in module)
+src/components/IndustryInsights/data.ts:3 - InsightArticle (used in module)
+src/components/SecretRoom/ThemeToggleButton.tsx:55 - default
 src/components/ui/index.ts:4 - Button
 src/components/ui/index.ts:5 - PrimaryButton
 src/components/ui/Button/index.tsx:6 - Button
@@ -1211,40 +1185,225 @@ src/components/ui/Button/index.tsx:6 - Button
 
 ---
 
+# การแสดงผลหน้าเว็ปไซค์ปัจจุบัน JP - VISUAL & DOCS
+
+**JP Visual & Docs**  
+บริการช่วยจัดการเบื้องหลังทุกเรื่องที่คุณไม่อยากวุ่น — เอกสาร ธุรกิจ และการตลาด พร้อมทำจริง จบไว
+
+---
+
+## 🔐 เข้าสู่ระบบลับ  
+📁 **งานที่เราได้ดูแลให้ลูกค้าแล้ว**  
+> เราช่วยวางแผน ตรวจเอกสาร และประสานงานกับหน่วยงานต่าง ๆ ให้ลูกค้าตั้งแต่ต้นจนจบ
+
+**ทั้งหมด 15 รายการ**  
+**อัปเดตล่าสุด:** กรกฎาคม 2568
+
+**ตัวอย่างรายการล่าสุด:**
+- **ศรัณย์ พิทักษ์ชาญชัย** — จัดเตรียมเอกสารจำนองที่ดิน *(9 ก.ค.)*
+- **อรินทรา ทองเจริญ** — ขอหนังสือรับรองบริษัทและงบดุล *(8 ก.ค.)*
+- **ณัฐวัฒน์ ชัยวรรณ** — ตรวจสอบโฉนดที่ดินพร้อมแบบบ้าน *(7 ก.ค.)*
+- *(อื่น ๆ รวม 15 รายการ)*
+
+📤 [ส่งคำขอให้เราช่วยดูแล](#)
+
+---
+
+## 📊 สถิติที่สร้างความมั่นใจ  
+- 👥 **2,450+** ลูกค้าที่ไว้วางใจ  
+- 📁 **1,200+** โปรเจกต์ที่ส่งมอบสำเร็จ  
+- 🌟 **4.9 / 5.0** คะแนนรีวิวเฉลี่ย  
+
+---
+
+## 💼 บริการของเรา  
+บริการหลากหลายที่ออกแบบเพื่อเสริมศักยภาพธุรกิจคุณอย่างมั่นคงและยั่งยืน 🚀
+
+### 🏦 ที่ปรึกษายื่นกู้สินเชื่อ  
+วิเคราะห์เงื่อนไข จัดเอกสาร ยื่นเรื่อง เพิ่มโอกาสอนุมัติจริง  
+→ [อ่านเพิ่มเติม](#)
+
+### 🛂 รับดูแลเอกสารยื่นวีซ่า  
+ตรวจสอบ + ปรับเอกสารให้ตรงข้อกำหนด  
+→ [อ่านเพิ่มเติม](#)
+
+### 🧾 แก้ไข / สร้างใหม่ สลิป / เอกสาร  
+แก้ไขหรือสร้างใหม่เหมือนจริง ใช้ฟอนต์และพื้นหลังล่าสุด  
+→ [อ่านเพิ่มเติม](#)
+
+### 📄 แก้ไข - สร้างใหม่ - จัดหาเอกสารเฉพาะทาง  
+แม่นยำ + รวดเร็ว เหมาะกับงานพิเศษ  
+→ [อ่านเพิ่มเติม](#)
+
+### 🪪 บัตรแข็ง / อ่อน  
+ผลิตพร้อมลายน้ำ QR ตรวจสอบ  
+→ [อ่านเพิ่มเติม](#)
+
+### 📢 การตลาดครบวงจร  
+วางกลยุทธ์ สร้างคอนเทนต์ ยิงแอด พร้อมรีพอร์ต  
+→ [อ่านเพิ่มเติม](#)
+
+### 🎨 ออกแบบโลโก้ / แบนเนอร์ / ทีม  
+สื่อแบรนด์คุณภาพสูง พร้อมไฟล์ต้นฉบับ  
+→ [อ่านเพิ่มเติม](#)
+
+### 🧠 ระบบหลังบ้านธุรกิจ  
+ตั้งค่า Line OA, Telegram, บอท  
+→ [อ่านเพิ่มเติม](#)
+
+### 🤖 ระบบดูแลลูกค้าภายใน  
+จัดกลุ่มปิด, ดึงลูกค้า, AI ดูแลลูกค้า  
+→ [อ่านเพิ่มเติม](#)
+
+### 🔁 สร้างภาพลักษณ์ / ทำลายภาพลักษณ์  
+รีแบรนด์อย่างมืออาชีพ *(ไม่ละเมิดกฎหมาย)*  
+→ [อ่านเพิ่มเติม](#)
+
+---
+
+## 🚧 บริการใหม่ Coming Soon  
+กำลังอัปเดตบริการใหม่ โปรดติดตามเร็ว ๆ นี้  
+→ [ติดต่อเรา](#)
+
+---
+
+## 🧑‍💼 JP - Visual & Docs  
+ธุรกิจสีเทาที่ออกแบบมาให้ได้มาตรฐานเท่าที่สามารถแสดงได้  
+เราพร้อมร่วมงานกับทุกสายอาชีพ ทุกวงการ  
+> โปร่งใส ไม่ขายฝัน  
+> ให้คำปรึกษาจริง พร้อมบอกเปอร์เซ็นต์ความเสี่ยง
+
+📩 สนใจคุยตรงกับทีมงานหรือแอดมิน → LINE: `@462fqrfc`
+
+---
+
+## 🗣 รีวิวจากลูกค้าของเรา  
+
+> “JP ช่วยจัดระบบเอกสารและทำแบรนด์ให้ดูน่าเชื่อถือมากขึ้น ลูกค้าตัดสินใจเร็วขึ้นกว่าเดิมเยอะเลยค่ะ”  
+– คุณแพรว, เจ้าของธุรกิจออนไลน์ *(12 มิ.ย. 2025)*
+
+> “พวกเขามีความเป็นมืออาชีพสูงมาก ทุกงานเสร็จตรงเวลา และมีความเข้าใจเชิงธุรกิจจริง ๆ”  
+– คุณไมค์, ผู้ก่อตั้ง StartUp *(8 พ.ค. 2025)*
+
+> “ระบบเอกสารที่พวกเขาทำให้เราลดเวลาการทำงานได้เยอะมาก ข้อมูลทุกอย่างหาเจอไวสุด ๆ”  
+– คุณบี, ฝ่ายการตลาด *(3 เม.ย. 2025)*
+
+*(อื่น ๆ รวม 15 รีวิว)*
+
+---
+
+## 📞 พร้อมเริ่มใช้งานหรือยัง?  
+**ติดต่อเราวันนี้** เพื่อรับคำปรึกษาฟรีและข้อเสนอสุดพิเศษจากทีมงานมืออาชีพของเรา
+
+- LINE: [@462fqrfc](https://line.me/R/ti/p/@462fqrfc)  
+- Facebook / Messenger  
+- © 2025 JP - Visual & Docs
+
+> *ข้อมูลทั้งหมดเป็นความจริงตามสถานการณ์ปัจจุบัน และไม่มีการเก็บข้อมูลใด ๆ โดยไม่ได้รับอนุญาต*
+
+
+# 🔐 แดชบอร์ดของผู้ใช้งานการแเสงผลในSecretRoomPage
+
+## 👤 ผู้ใช้งาน: `JPKYETONKEY300`  
+# ✅ ได้รับสิทธิเข้าถึง **ห้องลับ** แล้ว
+
+---
+
+## 🕒 การแจ้งเตือนระบบ
+
+- 🔧 ระบบจะมีการปรับปรุงใน **วันเสาร์ เวลา 23:00 น.**
+
+---
+
+## 📅 ประวัติการแจ้งเตือน
+
+| วันที่            | รายการ                                   |
+|------------------|-------------------------------------------|
+| 2025-07-21 10:45 | ✅ อัปเดตข้อมูลผู้ใช้สำเร็จแล้ว          |
+| 2025-07-20 16:30 | ❌ ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้   |
+| 2025-07-19 08:15 | 🌐 การเชื่อมต่ออินเทอร์เน็ต: ออนไลน์<br/>💾 LocalStorage: พร้อมใช้งาน |
+
+---
+
+## 📊 สถานะระบบ
+
+- 🧠 **การใช้ CPU:** `32%`  
+- 🧠 **การใช้ RAM:** `68%`  
+- 💽 **พื้นที่ใช้งาน:** `140GB / 250GB`  
+- ⏱ **ระยะเวลาทำงาน:** `3 วัน 4 ชม.`
+
+---
+
+## 📁 ไฟล์ที่เลือก
+
+> ⚠️ ยังไม่ได้เลือกไฟล์  
+> _ไม่ได้เลือกไฟล์ใด_
+
+---
+
+## 📘 บันทึกการเข้าใช้งานระบบ  
+_กิจกรรมล่าสุดใน Secret Room_
+
+| เวลา                    | ผู้ใช้            | กิจกรรม              |
+|------------------------|------------------|----------------------|
+| 2025-07-22 10:30:00    | JPKYETONKEY201   | เข้าสู่ระบบ         |
+| 2025-07-22 10:32:12    | JPKYETONKEY233   | ดาวน์โหลดเอกสาร     |
+| 2025-07-22 10:35:45    | JPKYETONKEY299   | ออกจากระบบ          |
+
+---
+
+## 💬 ศูนย์ช่วยเหลือ & การสนับสนุน
+
+- 📱 **สอบถามด่วนผ่าน LINE:**  
+  👉 [คลิกที่นี่เพื่อแชทกับทีมงาน](#)
+- 📧 **ติดต่อทางอีเมล:**  
+  `support@jpvisualdocs.com`  
+  ⏱ ทีมงานตอบกลับภายใน 1–3 ชั่วโมง (ในเวลาทำการ)
+
+---
+
+## ⚠️ คำเตือนด้านความปลอดภัย
+
+- 🔐 รหัสที่คุณได้รับคือ **กุญแจเข้าระบบทั้งหมด**  
+  _ใช้เฉพาะคุณเท่านั้น ห้ามเปิดเผย_
+
+- ❌ ห้ามแชร์:
+  - User
+  - Password
+  - IP
+  - Token
+
+- ⚠️ หากมีการเข้าระบบจากเครื่องที่ไม่ใช่เครื่องประจำ  
+  → **บัญชีจะถูกปิดทัน
 ## 📌 สรุปขั้นตอน Dev Audit
 
 ### Phase 0: เตรียมความพร้อม
-
 - ตรวจสอบโครงสร้างไฟล์หลัก (src, components, pages, routes, config, public)
 - ตรวจสอบ config ต่างๆ (tailwind.config.ts, vite.config.ts, tsconfig.json)
 
 ### Phase 1: ตรวจสอบการใช้งานไฟล์
-
 - ตรวจหาไฟล์ที่ไม่ถูก import หรือใช้งานจริง
 - ตรวจสอบ import path ใน Router ให้ถูกต้อง
 - ตรวจสอบ Component ที่ซ้ำซ้อน
 
 ### Phase 2: ปรับปรุงโครงสร้างไฟล์
-
 - แยกไฟล์และโฟลเดอร์ตามหน้าที่
 - ย้ายหรือรวมไฟล์ตามความเหมาะสม
 
 ### Phase 3: ล้างโค้ดซ้ำซ้อนและปรับปรุง
-
 - รวม utils หรือ constants ที่ซ้ำกัน
 - ใช้ Tailwind ให้เต็มประสิทธิภาพ
 
 ### Phase 4: ตรวจสอบ Style และ Token
-
 - ตรวจสอบ class ซ้ำซ้อน หรือตัวแปรที่ไม่ได้ใช้
 - แยกตัวแปร spacing, colors, zIndex ให้ชัดเจน
 
 ### Phase 5: สรุปและ Cleanup
-
 - เตรียมคำสั่งลบไฟล์เก่า
 - สร้าง structure ใหม่ที่สะอาดและเป็นมาตรฐาน
 - แจ้งปัญหา import หรือ config ที่ผิดพลาดทันที
 
 ---
 
-📣 _พบปัญหาเช่น import ผิด หรือ config ขาด แจ้ง Dev Partner ทันที_
+📣 *พบปัญหาเช่น import ผิด หรือ config ขาด แจ้ง Dev Partner ทันที*
+

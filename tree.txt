@@ -1,0 +1,327 @@
+.
+├── .editorconfig
+├── .env
+├── .env.example
+├── .env.local
+├── .env.production
+├── .envrc
+├── .eslintignore
+├── .eslintrc-auto-import.json
+├── .eslintrc.config.js
+├── .gitignore
+├── .husky
+│   ├── .bin
+│   │   └── husky
+│   ├── _
+│   │   ├── .gitignore
+│   │   └── husky.sh
+│   └── pre-commit
+├── .pnpmrc
+├── .prettier
+│   ├── prettier
+│   └── prettier.cjs
+├── .prettierrc.json
+├── .trash
+│   └── ZzZzZ__archive__ZzZz
+│       ├── ConfirmationDialog.tsx
+│       ├── CustomerCard.tsx
+│       ├── Feature.tsx
+│       ├── GetFollowers.tsx
+│       ├── LoadingSpinner.tsx
+│       ├── NotificationBanner.tsx
+│       ├── SendMessage.tsx
+│       ├── ServiceCard.tsx
+│       ├── Services
+│       │   ├── ServiceCard.tsx
+│       │   ├── ServiceListRenderer.tsx
+│       │   └── ServicesSection.tsx
+│       ├── StatsPanel.tsx
+│       ├── admin-widgets
+│       │   ├── CertificatePreview.tsx
+│       │   ├── CertificateTemplate.tsx
+│       │   ├── CustomerCard.tsx
+│       │   ├── FormFieldWrapper.tsx
+│       │   ├── SalaryCertificate.tsx
+│       │   ├── StatsPanel.tsx
+│       │   └── UserTable.tsx
+│       ├── auto-archive-unused.sh
+│       ├── auto-check-unused-styles.sh
+│       ├── check-routes.sh
+│       ├── check-unused-components.sh
+│       ├── clean-static-folders.sh
+│       ├── contact
+│       │   ├── ContactCard.tsx
+│       │   ├── ContactIconButton.tsx
+│       │   └── ContactList.tsx
+│       ├── merge-service-image-folders.sh
+│       ├── misc
+│       │   ├── About.tsx
+│       │   ├── CustomerAssessmentForm.tsx
+│       │   ├── DataTable.tsx
+│       │   ├── PageWrapper.tsx
+│       │   ├── ResponsiveNavbar.tsx
+│       │   ├── ReviewsSection.tsx
+│       │   └── RichMenuSetter.tsx
+│       ├── scan-unused-icons.js
+│       ├── script
+│       ├── secret-room
+│       │   ├── AccessLogTable.tsx
+│       │   ├── CustomerLoanProgressGraph.tsx
+│       │   ├── Dashboard.tsx
+│       │   ├── DashboardCard.tsx
+│       │   ├── FileUpload.tsx
+│       │   ├── HeaderBlock.tsx
+│       │   ├── HelpSupport.tsx
+│       │   ├── NotificationToast.tsx
+│       │   ├── NotificationsPanel.tsx
+│       │   ├── PerformanceMetrics.tsx
+│       │   ├── SystemCheckCard.tsx
+│       │   ├── ThemeToggleButton.tsx
+│       │   └── UserProfileCard.tsx
+│       ├── ui
+│       │   └── Button.tsx
+│       ├── ui-unused
+│       │   ├── Accordion.tsx
+│       │   ├── Alert.tsx
+│       │   ├── Badge.tsx
+│       │   ├── DashboardCard.tsx
+│       │   ├── DropdownMenu.tsx
+│       │   ├── Input.tsx
+│       │   ├── Modal.tsx
+│       │   ├── Section.tsx
+│       │   ├── Skeleton.tsx
+│       │   ├── Spinner.tsx
+│       │   ├── Stepper.tsx
+│       │   ├── Tabs.tsx
+│       │   ├── Tooltip.tsx
+│       │   ├── button.tsx
+│       │   └── card.tsx
+│       ├── unused
+│       │   ├── CertificateExporter.tsx
+│       │   ├── CertificateTemplate.tsx
+│       │   ├── DashboardCard.tsx
+│       │   ├── FormFieldWrapper.tsx
+│       │   └── SalaryCertificate.tsx
+│       └── {admin-widgets,secret-room,ui-unused,misc-old}
+├── Clean.sh
+├── README.md
+├── api
+│   └── contact.ts
+├── check-alias-usage.sh
+├── check-structure.sh
+├── daisyui.config.ts
+├── dev-dist
+│   └── registerSW.js
+├── eslint.config.ts
+├── index.html
+├── index.ts
+├── package.json
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+├── postcss.config.cjs
+├── project-audit.md
+├── public
+│   ├── assets
+│   │   ├── about.webp
+│   │   ├── hero.webp
+│   │   ├── jp-logo.webp
+│   │   └── logo.svg
+│   ├── bg
+│   │   └── cta-pattern.svg
+│   ├── docs
+│   │   ├── .keep
+│   │   ├── certificate.pdf
+│   │   ├── contract.pdf
+│   │   └── registration.pdf
+│   ├── favicon.ico
+│   ├── images
+│   │   ├── icon-192.png
+│   │   ├── icon-512.png
+│   │   ├── images
+│   │   │   └── services
+│   │   │       ├── service1.webp
+│   │   │       ├── service10.webp
+│   │   │       ├── service11.webp
+│   │   │       ├── service12.webp
+│   │   │       ├── service2.webp
+│   │   │       ├── service3.webp
+│   │   │       ├── service4.webp
+│   │   │       ├── service5.webp
+│   │   │       ├── service6.webp
+│   │   │       ├── service7.webp
+│   │   │       ├── service8.webp
+│   │   │       └── service9.webp
+│   │   ├── review
+│   │   └── services
+│   │       ├── service1.webp
+│   │       ├── service10.webp
+│   │       ├── service11.webp
+│   │       ├── service12.webp
+│   │       ├── service2.webp
+│   │       ├── service3.webp
+│   │       ├── service4.webp
+│   │       ├── service5.webp
+│   │       ├── service6.webp
+│   │       ├── service7.webp
+│   │       ├── service8.webp
+│   │       └── service9.webp
+│   ├── index.html
+│   ├── logo.svg
+│   ├── manifest.webmanifest
+│   ├── registerSW.js
+│   ├── sw.js
+│   └── sw.js.map
+├── run-auto-import-setup.sh
+├── settings.json
+├── setup.sh
+├── src
+│   ├── __archive__
+│   │   └── unused
+│   ├── api
+│   │   └── auth.ts
+│   ├── assets
+│   │   ├── 404.svg
+│   │   ├── about.webp
+│   │   ├── hero.webp
+│   │   ├── jp-logo.webp
+│   │   ├── login.webp
+│   │   └── logo.svg
+│   ├── auto-imports.d.ts
+│   ├── components
+│   │   ├── AdminBoard
+│   │   │   ├── Dashboard.tsx
+│   │   │   └── widgets
+│   │   │       ├── CertificatePreview.tsx
+│   │   │       ├── CustomerCard.tsx
+│   │   │       ├── StatsPanel.tsx
+│   │   │       └── UserTable.tsx
+│   │   ├── ErrorBoundary.tsx
+│   │   ├── Footer.tsx
+│   │   ├── Header.tsx
+│   │   ├── HomeContent.tsx
+│   │   ├── IndustryInsights
+│   │   │   ├── ArticleCard.tsx
+│   │   │   ├── IndustryInsightsSection.tsx
+│   │   │   └── data.ts
+│   │   ├── Layout
+│   │   │   └── MainLayout.tsx
+│   │   ├── Modals
+│   │   │   └── ServiceRequestModal.tsx
+│   │   ├── SecretRoom
+│   │   │   ├── AccessLogTable.tsx
+│   │   │   ├── CustomerLoanProgressGraph.tsx
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── FileUpload.tsx
+│   │   │   ├── HeaderBlock.tsx
+│   │   │   ├── HelpSupport.tsx
+│   │   │   ├── NotificationsPanel.tsx
+│   │   │   ├── PerformanceMetrics.tsx
+│   │   │   ├── SystemCheckCard.tsx
+│   │   │   ├── ThemeToggleButton.tsx
+│   │   │   └── UserProfileCard.tsx
+│   │   ├── Sections
+│   │   │   ├── AboutSection.tsx
+│   │   │   ├── CTASection.tsx
+│   │   │   ├── FAQSection.tsx
+│   │   │   ├── FeatureSection.tsx
+│   │   │   ├── HeroSection.tsx
+│   │   │   ├── ServicesSectionBlock.tsx
+│   │   │   ├── StatsSection.tsx
+│   │   │   └── TestimonialsSection.tsx
+│   │   ├── Services
+│   │   │   └── ServiceCard.tsx
+│   │   ├── ThemeProvider.tsx
+│   │   ├── common
+│   │   │   ├── LoadingFallback.tsx
+│   │   │   └── ThemeToggleButton.tsx
+│   │   ├── contact
+│   │   │   └── index.ts
+│   │   ├── hero.tsx
+│   │   └── ui
+│   │       ├── Button
+│   │       │   └── index.tsx
+│   │       ├── Button.tsx
+│   │       ├── PrimaryButton.tsx
+│   │       └── index.ts
+│   ├── config
+│   │   ├── contact.ts
+│   │   ├── evn.ts
+│   │   ├── salaryCertificateConfig.ts
+│   │   └── theme.ts
+│   ├── data
+│   │   ├── approvedCustomers.ts
+│   │   ├── reviewsData.ts
+│   │   ├── services.ts
+│   │   ├── servicesData.ts
+│   │   ├── testimonials.ts
+│   │   └── users.ts
+│   ├── hooks
+│   │   ├── useAuth.ts
+│   │   ├── useLineAuth.ts
+│   │   └── useOnlineStatus.ts
+│   ├── lib
+│   ├── main.tsx
+│   ├── pages
+│   │   ├── AdminPage.tsx
+│   │   ├── CustomerAssessmentSummary.tsx
+│   │   ├── IndexPage.tsx
+│   │   ├── LoginPage.tsx
+│   │   ├── NotFoundPage.tsx
+│   │   ├── SecretRoomPage.tsx
+│   │   └── SettingsPage.tsx
+│   ├── routes
+│   │   ├── AppRoutes.tsx
+│   │   └── LoadingFallback.tsx
+│   ├── styles
+│   │   ├── base
+│   │   │   ├── _mixins.scss
+│   │   │   ├── _typography.scss
+│   │   │   └── _variables.scss
+│   │   ├── components
+│   │   │   └── _buttons.scss
+│   │   ├── global.css
+│   │   ├── global.scss
+│   │   ├── index.scss
+│   │   ├── layout
+│   │   │   └── _container.scss
+│   │   ├── tailwind-base.scss
+│   │   ├── tailwind.scss
+│   │   └── utilities
+│   ├── sw.ts
+│   ├── types
+│   │   ├── assets.d.ts
+│   │   ├── connect-history-api-fallback.d.ts
+│   │   ├── index.d.ts
+│   │   ├── user.ts
+│   │   └── vite-env.d.ts
+│   └── utils
+│       ├── cn.ts
+│       ├── formatDate.ts
+│       └── hashPassword.ts
+├── tailwind.config.ts
+├── temp
+│   ├── imports.json
+│   └── imports.txt
+├── tools
+│   ├── .eslintrc-auto-import.json
+│   ├── auto-imports.d.ts
+│   ├── find-imports.js
+│   ├── generate-auto-imports.js
+│   ├── run-auto-import-setup.sh
+│   ├── update-auto-imports-dts.js
+│   ├── update-eslint-auto-import.js
+│   ├── update-tsconfig-paths.js
+│   ├── update-tsconfig-types.js
+│   ├── update-vite-alias.js
+│   └── update-vite-config.js
+├── tree.txt
+├── ts-prune.log
+├── tsconfig.json
+├── tsconfig.json.bak.1753446007
+├── tsconfig.json.bak.1753446109
+├── vercel.json
+├── vite-audit-clean.sh
+├── vite.config.ts
+└── บันทึกทั่วไป
+
+61 directories, 264 files

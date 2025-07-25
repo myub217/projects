@@ -1,3 +1,5 @@
+// src/components/Hero.tsx
+
 import React from 'react';
 import { FaLock, FaDoorOpen, FaLine, FaFacebookMessenger } from 'react-icons/fa';
 import { motion } from 'framer-motion';
@@ -8,12 +10,20 @@ const MESSENGER_URL = 'https://m.me/JPVisualDocs';
 
 type HeroProps = {
   buttonText?: string;
+  onRequestService?: (serviceId?: number) => void;
 };
 
-const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระบบลับ' }) => {
-  const handleLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+const Hero: React.FC<HeroProps> = ({
+  buttonText = 'เข้าสู่ระบบลับ',
+  onRequestService,
+}) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    window.location.href = '/login';
+    if (onRequestService) {
+      onRequestService(1); // ส่งค่า serviceId = 1 (หรือจะปรับตาม context ได้)
+    } else {
+      window.location.href = '/login';
+    }
   };
 
   return (
@@ -30,10 +40,8 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
         filter: 'brightness(1.05) contrast(1.15)',
       }}
     >
-      {/* Overlay Blur */}
       <div className="absolute inset-0 z-0 bg-black/40 backdrop-blur-sm" />
 
-      {/* Main Text */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -48,14 +56,13 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
           และการตลาด พร้อมทำจริง จบไว
         </p>
 
-        {/* CTA Button */}
         <motion.button
-          onClick={handleLoginClick}
+          onClick={handleClick}
           type="button"
           className="mt-8 inline-flex items-center justify-center gap-3 rounded-full bg-white/90 px-6 py-3 font-semibold text-gray-900 shadow-xl backdrop-blur-lg transition-all duration-300 hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-gray-300 sm:px-8 sm:py-4"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
-          aria-label="เข้าสู่ระบบ"
+          aria-label="ดำเนินการ"
         >
           <FaLock className="text-xl sm:text-2xl" aria-hidden="true" />
           <span className="text-base sm:text-lg">{buttonText}</span>
@@ -63,7 +70,6 @@ const Hero: React.FC<HeroProps> = ({ buttonText = 'เข้าสู่ระ�
         </motion.button>
       </motion.div>
 
-      {/* Chat Shortcuts */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

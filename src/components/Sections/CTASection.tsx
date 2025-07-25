@@ -1,4 +1,4 @@
-// src/components/CTASection.tsx
+// src/components/Sections/CTASection.tsx
 // ✅ Responsive CTA section with clear calls, accessible links, and clean styling
 
 import React from 'react';
@@ -43,7 +43,7 @@ const CTASection: React.FC = () => (
           className="inline-flex items-center gap-2 rounded-xl border border-white px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 sm:text-base"
           aria-label="ติดต่อผ่าน LINE @462fqrfc"
         >
-          <FaLine className="text-lg" aria-hidden="true" focusable="false" />
+          <FaLine className="text-lg" aria-hidden="true" focusable={false} />
           <span>LINE: @462fqrfc</span>
         </a>
 
@@ -54,7 +54,7 @@ const CTASection: React.FC = () => (
           className="inline-flex items-center gap-2 rounded-xl border border-white px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 sm:text-base"
           aria-label="ติดต่อผ่าน Facebook"
         >
-          <FaFacebook className="text-lg" aria-hidden="true" focusable="false" />
+          <FaFacebook className="text-lg" aria-hidden="true" focusable={false} />
           <span>Facebook</span>
         </a>
 
@@ -68,7 +68,7 @@ const CTASection: React.FC = () => (
           <FaFacebookMessenger
             className="text-lg"
             aria-hidden="true"
-            focusable="false"
+            focusable={false}
           />
           <span>Messenger</span>
         </a>

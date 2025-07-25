@@ -3,19 +3,22 @@
 
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 
-import HeroSection from '@components/Hero';
-import FeatureSection from '@components/FeatureSection';
-import AboutSection from '@components/AboutSection';
-import StatsSection from '@components/StatsSection';
-import ServicesSectionBlock from '@components/Services/ServicesSectionBlock';
+import HeroSection from '@components/Sections/HeroSection';
+import FeatureSection from '@components/Sections/FeatureSection';
+import AboutSection from '@components/Sections/AboutSection';
+import StatsSection from '@components/Sections/StatsSection';
+import ServicesSectionBlock from '@components/Sections/ServicesSectionBlock';
 import IndustryInsightsSection from '@components/IndustryInsights/IndustryInsightsSection';
-import TestimonialsSection from '@components/TestimonialsSection';
-import FAQSection from '@components/FAQSection';
-import CTASection from '@components/CTASection';
+import TestimonialsSection from '@components/Sections/TestimonialsSection';
+import FAQSection from '@components/Sections/FAQSection';
+import CTASection from '@components/Sections/CTASection';
 import Footer from '@components/Footer';
 import ServiceRequestModal from '@components/Modals/ServiceRequestModal';
 import ThemeToggleButton from '@components/common/ThemeToggleButton';
 import HomeContent from '@components/HomeContent';
+
+import type { Service } from '@types/service';
+import servicesData from '@data/services';
 
 const IndexPage: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -117,6 +120,12 @@ const IndexPage: React.FC = () => {
     [closeServiceModal],
   );
 
+  // Find selected service by id
+  const selectedService =
+    selectedServiceId !== null
+      ? servicesData.find((s: Service) => s.id === selectedServiceId) || null
+      : null;
+
   return (
     <main
       ref={mainRef}
@@ -148,7 +157,7 @@ const IndexPage: React.FC = () => {
       />
 
       {/* Service Request Modal */}
-      {modalOpen && (
+      {modalOpen && selectedService && (
         <div
           ref={modalRef}
           tabIndex={-1}
@@ -158,10 +167,7 @@ const IndexPage: React.FC = () => {
           className="fixed inset-0 z-[999] flex items-center justify-center bg-black/50 backdrop-blur-sm"
           onClick={handleBackdropClick}
         >
-          <ServiceRequestModal
-            serviceId={selectedServiceId}
-            onClose={closeServiceModal}
-          />
+          <ServiceRequestModal service={selectedService} onClose={closeServiceModal} />
         </div>
       )}
     </main>

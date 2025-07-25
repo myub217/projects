@@ -1,4 +1,4 @@
-// src/components/AboutSection.tsx
+// src/components/Sections/AboutSection.tsx
 // ✅ About section component: responsive, professional style, Tailwind + React TS
 
 import React from 'react';

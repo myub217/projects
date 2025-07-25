@@ -1,5 +1,5 @@
-// src/layout/MainLayout.tsx
-// Clean, accessible layout with semantic roles, responsive container, and flexible styling
+// src/components/Layout/MainLayout.tsx
+// ✅ Layout คุมโครงสร้างหลักของหน้าเว็บ พร้อม header, footer และ slot content
 
 import React, { ReactNode } from 'react';
 import Header from '@components/Header';
@@ -7,44 +7,17 @@ import Footer from '@components/Footer';
 
 interface MainLayoutProps {
   children: ReactNode;
-  className?: string;
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children, className = '' }) => {
-  const baseClasses = [
-    'min-h-screen',
-    'flex',
-    'flex-col',
-    'bg-base-100',
-    'text-base-content',
-    'transition-colors',
-    'duration-300',
-  ];
-  const containerClasses = [
-    'flex-grow',
-    'w-full',
-    'max-w-6xl',
-    'mx-auto',
-    'px-4',
-    'sm:px-6',
-    'lg:px-8',
-    'py-10',
-    'outline-none',
-  ];
-
+const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
-    <div className={[...baseClasses, className].filter(Boolean).join(' ')}>
-      <Header role="banner" />
-      <main
-        role="main"
-        aria-label="เนื้อหาหลักของหน้า"
-        tabIndex={-1}
-        className={containerClasses.join(' ')}
-      >
+    <>
+      <Header />
+      <main className="min-h-[calc(100vh-64px)] bg-base-100 text-base-content transition-colors duration-300">
         {children}
       </main>
-      <Footer role="contentinfo" />
-    </div>
+      <Footer />
+    </>
   );
 };
 

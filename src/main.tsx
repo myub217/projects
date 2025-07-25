@@ -6,7 +6,7 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
-// 🌐 Global Styles (รวม base, Tailwind, custom)
+// 🌐 Global Styles (base, Tailwind, custom)
 import '@/styles/global.css';
 
 // 📦 Core Components

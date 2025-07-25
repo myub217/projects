@@ -1,6 +1,7 @@
 // vite.config.ts
 // ✅ JP Visual & Docs :: Full Vite Config (Fixed)
-// React + Tailwind + AutoImport + PWA + StaticCopy + Aliases + DevProxy
+// Stack: React + Tailwind + AutoImport + PWA + Static Assets
+// Aliases, Proxy toggle (USE_MOCK), Optimized build, ESLint support
 
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
@@ -10,15 +11,30 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 import path from 'node:path';
 import fs from 'node:fs';
 
-// ✅ Check asset files exist to prevent build errors
-const hasFavicon = fs.existsSync('public/favicon.ico');
-const hasImages = fs.existsSync('public/images');
+// 🛠️ Auto-check + fallback for missing assets
+const publicDir = path.resolve(__dirname, 'public');
+const missing: string[] = [];
+
+const requiredFiles = ['images/icon-192.png', 'images/icon-512.png', 'favicon.ico'];
+
+for (const file of requiredFiles) {
+  if (!fs.existsSync(path.resolve(publicDir, file))) {
+    missing.push(`public/${file}`);
+  }
+}
+
+if (missing.length) {
+  console.warn(
+    '\n⚠️  Missing public assets:',
+    missing.map((f) => `\n - ${f}`).join(''),
+  );
+  console.warn('👉 Please ensure all required files exist in /public.\n');
+}
 
 export default defineConfig({
   plugins: [
     react(),
 
-    // ⚙️ Auto-import React + Router + Custom Folders
     AutoImport({
       imports: ['react', 'react-router-dom'],
       dirs: ['src/hooks', 'src/utils', 'src/api'],
@@ -31,7 +47,6 @@ export default defineConfig({
       eslintrcRoot: true,
     }),
 
-    // ⚡ Add PWA support using InjectManifest strategy
     VitePWA({
       strategies: 'injectManifest',
       srcDir: 'src',
@@ -41,7 +56,7 @@ export default defineConfig({
       injectManifest: {
         globDirectory: 'dist',
         globPatterns: ['**/*.{js,css,html,webmanifest,woff2}'],
-        globIgnores: ['**/node_modules/**/*', '**/*.map'],
+        globIgnores: ['**/node_modules/**/*', 'sw.js', '**/*.map'],
       },
       devOptions: {
         enabled: true,
@@ -55,18 +70,31 @@ export default defineConfig({
         background_color: '#ffffff',
         theme_color: '#2563eb',
         icons: [
-          { src: '/images/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/images/icon-512.png', sizes: '512x512', type: 'image/png' },
+          {
+            src: '/images/icon-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: '/images/icon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
         ],
       },
     }),
 
-    // 📁 Copy only if asset folders/files exist
     viteStaticCopy({
       targets: [
-        ...(hasImages ? [{ src: 'public/images', dest: 'images' }] : []),
-        ...(hasFavicon ? [{ src: 'public/favicon.ico', dest: '.' }] : []),
-      ],
+        fs.existsSync(path.resolve(publicDir, 'images')) && {
+          src: path.resolve(publicDir, 'images'),
+          dest: 'images',
+        },
+        fs.existsSync(path.resolve(publicDir, 'favicon.ico')) && {
+          src: path.resolve(publicDir, 'favicon.ico'),
+          dest: '.',
+        },
+      ].filter(Boolean),
     }),
   ],
 
