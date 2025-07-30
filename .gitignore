@@ -1,0 +1,56 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+dev-dist/
+temp/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Vite cache and output
+.vite/
+.vscode/
+.vscode-test/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# IDEs and editors
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Husky
+.husky/_
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Lock files
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Coverage directory
+coverage/
+
+# Misc
+*.log
+*.cache
