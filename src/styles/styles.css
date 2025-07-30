@@ -1,0 +1,40 @@
+/* src/styles/styles.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* ===== Body & HTML Reset ===== */
+  html, body {
+    @apply h-full scroll-smooth;
+  }
+
+  body {
+    @apply bg-base-100 text-base-content font-sans antialiased;
+  }
+
+  /* ===== Links ===== */
+  a {
+    @apply text-primary no-underline;
+    transition: color 0.3s ease;
+  }
+
+  a:hover {
+    color: hsl(var(--pf)); /* ✅ ใช้ DaisyUI token ตรงสำหรับ hover */
+  }
+
+  /* ===== Selection ===== */
+  ::selection {
+    background-color: hsl(var(--p));
+    color: hsl(var(--pc));
+  }
+}
+
+@layer components {
+  /* 🧩 ใส่ component level style ที่ custom ได้ที่นี่ */
+}
+
+@layer utilities {
+  /* 🛠 เพิ่ม utility custom ได้ที่นี่ ถ้าจำเป็น */
+}

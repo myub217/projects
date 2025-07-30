@@ -2,6 +2,7 @@
 // 📌 This file declares global auto-imports for TS/TSX
 
 declare global {
+<<<<<<< HEAD
   const React: typeof import('react');
   const useState: (typeof import('react'))['useState'];
   const useEffect: (typeof import('react'))['useEffect'];
@@ -14,6 +15,20 @@ declare global {
   const useId: (typeof import('react'))['useId'];
 
   const cn: (typeof import('@/utils/cn'))['cn'];
+=======
+  const React: typeof import("react");
+  const useState: (typeof import("react"))["useState"];
+  const useEffect: (typeof import("react"))["useEffect"];
+  const useRef: (typeof import("react"))["useRef"];
+  const useMemo: (typeof import("react"))["useMemo"];
+  const useCallback: (typeof import("react"))["useCallback"];
+  const useContext: (typeof import("react"))["useContext"];
+  const useReducer: (typeof import("react"))["useReducer"];
+  const useLayoutEffect: (typeof import("react"))["useLayoutEffect"];
+  const useId: (typeof import("react"))["useId"];
+
+  const cn: (typeof import("@/utils/cn"))["cn"];
+>>>>>>> bbe22dc9 (update)
 }
 
 export {};

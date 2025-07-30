@@ -1,8 +1,18 @@
 {
   "compilerOptions": {
     "target": "ESNext",
+<<<<<<< HEAD
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext", "WebWorker"],
+=======
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": [
+      "vite/client",
+      "vite-plugin-pwa/client",
+      "node",
+      "./src/types/vite-env.d.ts"
+    ],
+>>>>>>> bbe22dc9 (update)
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -15,6 +25,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+<<<<<<< HEAD
     "baseUrl": "./src",
     "paths": {
       "@/*": ["*"],
@@ -43,3 +54,24 @@
     "**/*.spec.ts"
   ]
 }
+=======
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["src/components/*"],
+      "@/pages/*": ["src/pages/*"],
+      "@/hooks/*": ["src/hooks/*"],
+      "@/assets/*": ["src/assets/*"],
+      "@/api/*": ["src/api/*"],
+      "@/styles/*": ["src/styles/*"],
+      "@/routes/*": ["src/routes/*"],
+      "@/contexts/*": ["src/contexts/*"],
+      "@/utils/*": ["src/utils/*"],
+      "@/config/*": ["src/config/*"],
+      "@/data/*": ["src/data/*"],
+      "@/types/*": ["src/types/*"]
+    }
+  },
+  "include": ["src", "tools", "src/types", "scripts"],
+  "exclude": ["node_modules", "dist", "dev-dist", "temp"]
+}
+>>>>>>> bbe22dc9 (update)

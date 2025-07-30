@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // ✅ src/types/connect-history-api-fallback.d.ts – เวอร์ชันสมบูรณ์ พร้อมใช้งานจริง
 
 declare module 'connect-history-api-fallback' {
@@ -17,6 +18,29 @@ declare module 'connect-history-api-fallback' {
   }
 
   function historyApiFallback(options?: HistoryApiFallbackOptions): NextHandleFunction;
+=======
+// src/types/connect-history-api-fallback.d.ts
+
+declare module "connect-history-api-fallback" {
+  import { RequestHandler } from "express";
+
+  interface HistoryApiFallbackOptions {
+    readonly verbose?: boolean;
+    readonly disableDotRule?: boolean;
+    readonly htmlAcceptHeaders?: string[];
+    readonly rewrites?: Array<{
+      from: RegExp;
+      to:
+        | string
+        | ((context: { parsedUrl: URL; match: RegExpMatchArray }) => string);
+    }>;
+    readonly index?: string | ((req: Request) => string);
+  }
+
+  const historyApiFallback: (
+    options?: HistoryApiFallbackOptions,
+  ) => RequestHandler;
+>>>>>>> bbe22dc9 (update)
 
   export = historyApiFallback;
 }

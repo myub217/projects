@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # .husky/pre-commit
 # ✅ Git hook สำหรับรัน lint และ format อัตโนมัติก่อน commit
 
@@ -6,3 +7,22 @@
 
 pnpm lint
 pnpm exec lint-stagedpnpm lint
+=======
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Run lint and format checks before committing
+pnpm lint
+pnpm format --check
+
+# Optionally run tests here (uncomment if tests are set up)
+# pnpm test
+
+# Prevent commit if lint or format fails
+if [ $? -ne 0 ]; then
+  echo "Lint or format check failed. Commit aborted."
+  exit 1
+fi
+
+exit 0
+>>>>>>> bbe22dc9 (update)

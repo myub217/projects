@@ -1,4 +1,5 @@
 .
+<<<<<<< HEAD
 ├── .editorconfig
 ├── .env
 ├── .env.example
@@ -8,6 +9,10 @@
 ├── .eslintignore
 ├── .eslintrc-auto-import.json
 ├── .eslintrc.config.js
+=======
+├── .eslintrc.config.js
+├── .eslintrc.js
+>>>>>>> bbe22dc9 (update)
 ├── .gitignore
 ├── .husky
 │   ├── .bin
@@ -16,6 +21,7 @@
 │   │   ├── .gitignore
 │   │   └── husky.sh
 │   └── pre-commit
+<<<<<<< HEAD
 ├── .pnpmrc
 ├── .prettier
 │   ├── prettier
@@ -137,6 +143,20 @@
 │   ├── images
 │   │   ├── icon-192.png
 │   │   ├── icon-512.png
+=======
+├── Clean.sh
+├── README.md
+├── dev-dist
+│   └── registerSW.js
+├── index.html
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.cjs
+├── public
+│   ├── apple-touch-icon.png
+│   ├── assets
+│   │   ├── hero.webp
+>>>>>>> bbe22dc9 (update)
 │   │   ├── images
 │   │   │   └── services
 │   │   │       ├── service1.webp
@@ -151,6 +171,7 @@
 │   │   │       ├── service7.webp
 │   │   │       ├── service8.webp
 │   │   │       └── service9.webp
+<<<<<<< HEAD
 │   │   ├── review
 │   │   └── services
 │   │       ├── service1.webp
@@ -288,6 +309,110 @@
 │   │   ├── tailwind.scss
 │   │   └── utilities
 │   ├── sw.ts
+=======
+│   │   ├── jp-logo.webp
+│   │   └── signature.webp
+│   ├── bg
+│   │   └── cta-pattern.svg
+│   ├── docs
+│   │   ├── .keep
+│   │   ├── certificate.pdf
+│   │   ├── contract.pdf
+│   │   └── registration.pdf
+│   ├── favicon.ico
+│   ├── index.html
+│   └── manifest.json
+├── scripts
+│   └── hashPassword.ts
+├── src
+│   ├── App.tsx
+│   ├── Index.css
+│   ├── Layout
+│   │   └── Layout.tsx
+│   ├── api
+│   │   └── auth.ts
+│   ├── assets
+│   │   ├── hero.webp
+│   │   └── jp-logo.webp
+│   ├── auto-imports.d.ts
+│   ├── components
+│   │   ├── About
+│   │   │   ├── About.tsx
+│   │   │   └── ui
+│   │   ├── Error
+│   │   │   └── Error.tsx
+│   │   ├── Featurer
+│   │   │   ├── Featurer.tsx
+│   │   │   ├── components
+│   │   │   │   ├── Awards.tsx
+│   │   │   │   ├── FAQ.tsx
+│   │   │   │   ├── FeatureCards.tsx
+│   │   │   │   ├── HowItWorks.tsx
+│   │   │   │   ├── Stats.tsx
+│   │   │   │   ├── types
+│   │   │   │   │   └── index.ts
+│   │   │   │   └── utils
+│   │   │   │       ├── helpers.ts
+│   │   │   │       └── iconResolver.tsx
+│   │   │   ├── data
+│   │   │   │   ├── awards.config.ts
+│   │   │   │   ├── faqs.config.ts
+│   │   │   │   ├── feature-cards.config.ts
+│   │   │   │   ├── how-it-works.ts
+│   │   │   │   ├── howItWorksSteps.ts
+│   │   │   │   └── stats.config.ts
+│   │   │   └── index.ts
+│   │   ├── Footer
+│   │   │   └── Footer.tsx
+│   │   ├── Header
+│   │   │   ├── Header.tsx
+│   │   │   └── ui
+│   │   │       ├── MobileMenu.tsx
+│   │   │       ├── NavLinks.tsx
+│   │   │       └── Navbar.tsx
+│   │   ├── Hero
+│   │   │   └── Hero.tsx
+│   │   ├── Services
+│   │   │   ├── Services.tsx
+│   │   │   ├── data.ts
+│   │   │   └── ui
+│   │   │       └── ServiceCard.tsx
+│   │   └── common
+│   │       ├── Button.tsx
+│   │       ├── Error.tsx
+│   │       ├── LoadingFallback.tsx
+│   │       ├── ScrollToTop.tsx
+│   │       ├── ThemeSwitcher.tsx
+│   │       └── ThemeToggleButton.tsx
+│   ├── config
+│   │   └── theme.ts
+│   ├── contexts
+│   │   ├── AuthContext.tsx
+│   │   └── ThemeContext.tsx
+│   ├── data
+│   │   └── users.ts
+│   ├── hooks
+│   │   ├── AuthProvider.ts
+│   │   └── useAuth.tsx
+│   ├── main.tsx
+│   ├── pages
+│   │   ├── 404.tsx
+│   │   ├── AdminDashboard
+│   │   │   └── AdminDashboard.tsx
+│   │   ├── Home.tsx
+│   │   ├── Login
+│   │   │   └── Login.tsx
+│   │   └── Secret
+│   │       └── Secret.tsx
+│   ├── routes
+│   │   ├── AdminRoute.tsx
+│   │   ├── PrivateRoute.tsx
+│   │   ├── ProtectedRoutes.tsx
+│   │   └── Routes.tsx
+│   ├── styles
+│   │   ├── global.css
+│   │   └── styles.css
+>>>>>>> bbe22dc9 (update)
 │   ├── types
 │   │   ├── assets.d.ts
 │   │   ├── connect-history-api-fallback.d.ts
@@ -296,7 +421,11 @@
 │   │   └── vite-env.d.ts
 │   └── utils
 │       ├── cn.ts
+<<<<<<< HEAD
 │       ├── formatDate.ts
+=======
+│       ├── crypto.ts
+>>>>>>> bbe22dc9 (update)
 │       └── hashPassword.ts
 ├── tailwind.config.ts
 ├── temp
@@ -315,6 +444,7 @@
 │   ├── update-vite-alias.js
 │   └── update-vite-config.js
 ├── tree.txt
+<<<<<<< HEAD
 ├── ts-prune.log
 ├── tsconfig.json
 ├── tsconfig.json.bak.1753446007
@@ -325,3 +455,10 @@
 └── บันทึกทั่วไป
 
 61 directories, 264 files
+=======
+├── tsconfig.json
+├── vercel.json
+└── vite.config.ts
+
+46 directories, 123 files
+>>>>>>> bbe22dc9 (update)

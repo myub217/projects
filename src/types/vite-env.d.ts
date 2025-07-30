@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // ✅ src/types/vite-env.d.ts – เวอร์ชันสมบูรณ์ พร้อมใช้งานจริง
 
 /// <reference types="vite/client" />
@@ -14,8 +15,20 @@ interface ImportMetaEnv {
   readonly VITE_APP_ENV?: 'development' | 'production' | 'staging'; // ระบุสภาพแวดล้อม
   readonly VITE_ENABLE_PWA?: 'true' | 'false'; // เปิดใช้งาน PWA หรือไม่
   readonly VITE_ANALYTICS_ID?: string; // เช่น Google Analytics ID
+=======
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_API_BASE_URL: string;
+  // เพิ่ม environment variables ที่ใช้ในโปรเจกต์ที่นี่ เช่น
+  // readonly VITE_SOME_KEY: string;
+>>>>>>> bbe22dc9 (update)
 }
 
 interface ImportMeta {
   readonly env: ImportMetaEnv;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> bbe22dc9 (update)

@@ -1,3 +1,23 @@
 {
+<<<<<<< HEAD
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+=======
+  "version": 2,
+  "builds": [
+    {
+      "src": "vite.config.ts",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+>>>>>>> bbe22dc9 (update)
 }

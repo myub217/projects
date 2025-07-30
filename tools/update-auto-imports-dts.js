@@ -1,14 +1,24 @@
 // update-auto-imports-dts.js :: ESM style
+<<<<<<< HEAD
 import { writeFile } from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
+=======
+import { writeFile } from "fs/promises";
+import path from "path";
+import { fileURLToPath } from "url";
+>>>>>>> bbe22dc9 (update)
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // รับ input เป็น JSON string
 const input = process.argv[2];
 if (!input) {
+<<<<<<< HEAD
   console.error('❌ ไม่พบ input json');
+=======
+  console.error("❌ ไม่พบ input json");
+>>>>>>> bbe22dc9 (update)
   process.exit(1);
 }
 
@@ -16,11 +26,19 @@ let imports;
 try {
   imports = JSON.parse(input);
 } catch (err) {
+<<<<<<< HEAD
   console.error('❌ ไม่สามารถแปลง JSON ได้:', err.message);
   process.exit(1);
 }
 
 const dtsPath = path.resolve(__dirname, '../src/auto-imports.d.ts');
+=======
+  console.error("❌ ไม่สามารถแปลง JSON ได้:", err.message);
+  process.exit(1);
+}
+
+const dtsPath = path.resolve(__dirname, "../src/auto-imports.d.ts");
+>>>>>>> bbe22dc9 (update)
 
 // เขียน header และประกาศ global
 const lines = [
@@ -43,9 +61,16 @@ lines.push(`}\n\nexport {};`);
 
 // เขียนไฟล์
 try {
+<<<<<<< HEAD
   await writeFile(dtsPath, lines.join('\n'), 'utf-8');
   console.log(`✅ สร้าง auto-imports.d.ts (${imports.length} รายการ)`);
 } catch (err) {
   console.error('❌ เกิดข้อผิดพลาดขณะเขียนไฟล์:', err.message);
+=======
+  await writeFile(dtsPath, lines.join("\n"), "utf-8");
+  console.log(`✅ สร้าง auto-imports.d.ts (${imports.length} รายการ)`);
+} catch (err) {
+  console.error("❌ เกิดข้อผิดพลาดขณะเขียนไฟล์:", err.message);
+>>>>>>> bbe22dc9 (update)
   process.exit(1);
 }

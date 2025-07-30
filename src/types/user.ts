@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // ✅ src/types/user.ts – เวอร์ชันสมบูรณ์ พร้อมใช้งานจริง
 
 // 🔹 Role ของผู้ใช้งานในระบบ JP - Visual & Docs
@@ -48,3 +49,16 @@ export const mockAuthUser: AuthUser = {
     updatedAt: '2025-07-01T12:00:00Z',
   },
 };
+=======
+// src/types/user.ts
+
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  role: "admin" | "user" | "guest";
+  avatarUrl?: string;
+  createdAt: string; // ISO date string
+  updatedAt?: string; // ISO date string, optional
+}
+>>>>>>> bbe22dc9 (update)
