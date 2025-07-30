@@ -1,7 +1,4 @@
 {
-<<<<<<< HEAD
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
-=======
   "version": 2,
   "builds": [
     {
@@ -19,5 +16,4 @@
       "dest": "/index.html"
     }
   ]
->>>>>>> bbe22dc9 (update)
 }
